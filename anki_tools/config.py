@@ -4,10 +4,6 @@
 # ⚠️ Từ phiên bản VPS: mọi giá trị BÍ MẬT (API key, bot token...) KHÔNG còn
 # nằm trong file này nữa mà đọc từ file .env ở thư mục gốc project
 # (xem .env.example). Nhờ vậy code có thể đưa lên GitHub an toàn.
-#
-# Các placeholder __CLAUDE_API_URL__, __CLAUDE_MODEL__, __CLAUDE_API_KEY__,
-# __ANKI_MOBILE_URL__, __ANKI_LOCAL_URL__ trong templates/back_template.html
-# vẫn được thay tự động khi setup_anki_environment() chạy như trước.
 # ==============================================================================
 import os
 from pathlib import Path
@@ -21,8 +17,8 @@ load_dotenv(_PROJECT_ROOT / ".env")
 ANKI_CONNECT_URL = os.environ.get("ANKI_CONNECT_URL", "http://127.0.0.1:8765")
 
 # --- Cấu hình AI (Gemini qua endpoint OpenAI-compatible) ---
-# ⚠️ API key sẽ được NHÚNG vào JS của thẻ Anki (nút AI Refine trong webview).
-# Ai được share thẻ sẽ xem được key. Rủi ro đã được chấp nhận từ trước.
+# Key chỉ dùng phía Python (bot/CLI trên server). Từ khi gỡ nút AI Refine
+# khỏi thẻ, key KHÔNG còn bị nhúng vào thẻ Anki nữa.
 CLAUDE_API_URL = os.environ.get(
     "CLAUDE_API_URL",
     "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
@@ -37,9 +33,3 @@ DEFAULT_DECK = os.environ.get("DEFAULT_DECK", "Russian")
 
 OPENRUSSIAN_AUDIO_TEMPLATE = "https://api.openrussian.org/read/ru/{word}"
 MODEL_NAME = "Russian_Premium_OLED_Type_v25"
-
-# Dùng riêng cho JavaScript nhúng trong thẻ Anki (back_template.html).
-# Từ khi chuyển sang sửa thẻ qua bot Telegram, phần lưu-qua-AnkiConnect của nút
-# AI Refine chỉ còn hoạt động khi học trên chính máy đang chạy Anki (localhost).
-ANKI_CONNECT_LOCAL_URL = os.environ.get("ANKI_CONNECT_LOCAL_URL", "http://127.0.0.1:8765/")
-ANKI_CONNECT_MOBILE_URL = os.environ.get("ANKI_CONNECT_MOBILE_URL", "http://127.0.0.1:8765/")

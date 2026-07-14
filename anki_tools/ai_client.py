@@ -1,12 +1,8 @@
 # ==============================================================================
-# --- GIAO TIẾP VỚI AI (Claude qua proxy OpenAI-compatible) ---
-# ⚠️ QUAN TRỌNG: _CORE_SYSTEM_PROMPT ở đây là "NGUỒN CHÂN LÝ DUY NHẤT" cho toàn
-# bộ phong cách viết câu ví dụ của AI. Đoạn JavaScript nhúng trong thẻ Anki
-# (templates/back_template.html) KHÔNG tự viết lại prompt này nữa — nó dùng
-# placeholder __SYSTEM_PROMPT_JSON__ và được setup_anki_environment() tự động
-# tiêm giá trị của _CORE_SYSTEM_PROMPT vào lúc chạy. Vì vậy:
-#   -> Nếu bạn muốn đổi văn phong / cách AI viết câu, CHỈ CẦN SỬA Ở ĐÂY.
-#   -> Không cần và không nên sửa tay trong file back_template.html nữa.
+# --- GIAO TIẾP VỚI AI (Gemini qua endpoint OpenAI-compatible) ---
+# _CORE_SYSTEM_PROMPT là "NGUỒN CHÂN LÝ DUY NHẤT" cho phong cách viết câu ví dụ.
+# Từ khi gỡ nút AI Refine khỏi thẻ Anki (chuyển sang /sua của bot Telegram),
+# prompt CHỈ tồn tại ở file này — muốn đổi văn phong AI, sửa ở đây là đủ.
 # ==============================================================================
 import json
 import requests
@@ -65,11 +61,6 @@ _CORE_SYSTEM_PROMPT = (
     '{"vietnamese_meaning": "...", "simplified_examples": '
     '[{"ru": "...","en": "...","vi": "..."},{"ru": "...","en": "...","vi": "..."},{"ru": "...","en": "...","vi": "..."}]}'
 )
-
-
-def get_core_system_prompt():
-    """Trả về system prompt hiện hành, dùng để tiêm vào JS trong back_template.html."""
-    return _CORE_SYSTEM_PROMPT
 
 
 def _parse_ai_response(raw_response):

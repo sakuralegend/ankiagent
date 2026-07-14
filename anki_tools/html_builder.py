@@ -1,11 +1,8 @@
 # ==============================================================================
 # --- XÂY DỰNG EXAMPLES HTML (nhánh AI + nhánh fallback) ---
-# ⚠️ ĐỒNG BỘ VỚI JS: hàm _build_example_block() ở đây tương ứng với đoạn
-# JavaScript build "examplesHtml" trong templates/back_template.html (phần
-# xử lý nút AI Refine ngay trong thẻ Anki). Nếu bạn đổi cấu trúc HTML/CSS
-# của khối ví dụ (ví dụ đổi class "example-toggle", "ex-ru"...) ở ĐÂY, PHẢI
-# sửa lại đúng y hệt bên trong back_template.html, nếu không 2 nơi tạo thẻ
-# (lúc thêm mới bằng Python và lúc bấm nút sửa AI bằng JS) sẽ hiển thị khác nhau.
+# Từ khi gỡ nút AI Refine khỏi thẻ, đây là NƠI DUY NHẤT dựng HTML khối ví dụ
+# (cả lúc thêm thẻ mới lẫn lúc sửa thẻ qua /sua của bot đều đi qua đây).
+# Đổi cấu trúc HTML/class CSS chỉ cần sửa ở file này (+ card.css nếu đổi class).
 # ==============================================================================
 from .utils import log_warn, apply_hl
 from .ai_client import call_claude_ai, call_claude_ai_freestyle

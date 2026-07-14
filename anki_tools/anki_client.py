@@ -12,14 +12,9 @@ from datetime import datetime, timedelta
 import requests
 
 
-from .config import (
-    ANKI_CONNECT_URL, MODEL_NAME, OPENRUSSIAN_AUDIO_TEMPLATE,
-    CLAUDE_API_URL, CLAUDE_API_KEY, CLAUDE_MODEL,
-    ANKI_CONNECT_LOCAL_URL, ANKI_CONNECT_MOBILE_URL,
-)
+from .config import ANKI_CONNECT_URL, MODEL_NAME, OPENRUSSIAN_AUDIO_TEMPLATE
 from .utils import log_warn, log_fail, strip_accents_perfectly, hl_to_bracket
 from .html_builder import build_examples_html
-from .ai_client import get_core_system_prompt
 
 _TEMPLATES_DIR = os.path.join(os.path.dirname(__file__), "templates")
 
@@ -178,25 +173,12 @@ def _read_template(filename):
         return f.read()
 
 
-def _build_back_template():
-    """Đọc back_template.html và thay các placeholder bằng giá trị thật từ
-    config.py và ai_client._CORE_SYSTEM_PROMPT, để JS trong thẻ Anki không
-    phải hard-code lại các giá trị này lần thứ 2."""
-    raw = _read_template("back_template.html")
-    system_prompt_json = json.dumps(get_core_system_prompt())
-    raw = raw.replace("__SYSTEM_PROMPT_JSON__", system_prompt_json)
-    raw = raw.replace("__CLAUDE_API_URL__", CLAUDE_API_URL)
-    raw = raw.replace("__CLAUDE_API_KEY__", CLAUDE_API_KEY)
-    raw = raw.replace("__CLAUDE_MODEL__", CLAUDE_MODEL)
-    raw = raw.replace("__ANKI_LOCAL_URL__", ANKI_CONNECT_LOCAL_URL)
-    raw = raw.replace("__ANKI_MOBILE_URL__", ANKI_CONNECT_MOBILE_URL)
-    return raw
-
-
 def setup_anki_environment():
+    # Từ khi gỡ nút AI Refine khỏi thẻ, back_template.html là HTML tĩnh thuần,
+    # không còn placeholder nào cần tiêm (API key không còn bị nhúng vào thẻ).
     shared_css = _read_template("card.css")
     front_template = _read_template("front_template.html")
-    back_template = _build_back_template()
+    back_template = _read_template("back_template.html")
 
     print("--- ⚙️ Thiết lập môi trường Anki...", end=" ", flush=True)
     try:
