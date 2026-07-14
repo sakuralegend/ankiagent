@@ -1,0 +1,19 @@
+# Secrets - TUYỆT ĐỐI không đưa lên git
+.env
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# Dữ liệu Anki của container trên VPS (nếu lỡ chạy compose ngay trong repo)
+anki-data/
+
+# Cấu hình cục bộ của Claude Code
+.claude/
+
+# Tạp
+*.log
+.DS_Store
+Thumbs.db

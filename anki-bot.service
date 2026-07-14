@@ -1,0 +1,17 @@
+# systemd service cho bot Telegram - tự khởi động cùng VPS, tự restart nếu crash.
+# Cài: cp anki-bot.service /etc/systemd/system/ && systemctl daemon-reload && systemctl enable --now anki-bot
+[Unit]
+Description=Anki Telegram Bot (ankiagent)
+After=network-online.target docker.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/root/ankiagent
+ExecStart=/root/ankiagent/venv/bin/python bot.py
+Restart=always
+RestartSec=10
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target

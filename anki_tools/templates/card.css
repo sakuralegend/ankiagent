@@ -1,0 +1,38 @@
+/* --- ĐỒNG BỘ PHÔNG NỀN VÀ HỆ PHÔNG CHỮ PHẲNG CAO CẤP CHUẨN OLED --- */
+.card { background-color: #0d1117; color: #c9d1d9; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif !important; -webkit-font-smoothing: antialiased; }
+.card-container { background-color: #0d1117; max-width: 500px; margin: 10px auto; padding: 20px; border-radius: 16px; border: 1px solid #21262d; text-align: left; }
+.section-title { font-size: 11px; text-transform: uppercase; color: #8b949e; letter-spacing: 1px; margin-bottom: 8px; font-weight: 700; font-family: inherit; }
+.meaning-box { background-color: #161b22; padding: 14px 16px; border-radius: 8px; border-left: 4px solid #388bfd; margin-bottom: 20px; font-family: inherit; }
+.vietnamese-box { margin-top: -10px; padding: 12px 16px; background-color: #161b22; border-bottom: 1px solid #21262d; border-left: 4px solid #3fb950; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; margin-bottom: 20px; font-family: inherit; }
+.vi-label { font-size: 10px; color: #3fb950; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; font-weight: bold; font-family: inherit; }
+.vi-content { font-size: 16px; color: #a5d6a7; font-style: normal; font-weight: 500; font-family: inherit; }
+.word-title { font-size: 38px; font-weight: 800; color: #58a6ff; text-align: center; margin-bottom: 4px; font-family: inherit; text-rendering: optimizeLegibility; line-height: 1.2; }
+.cursive-word { font-style: italic !important; font-size: 18px; color: #8b949e; text-align: center; margin-bottom: 15px; font-family: inherit; }
+.audio-box { text-align: center; margin-bottom: 20px; font-family: inherit; }
+.audio-box a, .replay-button, .anki-audio-button { background-color: #1f242c !important; border: 1px solid #30363d !important; padding: 8px 18px !important; border-radius: 20px !important; color: #58a6ff !important; text-decoration: none !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; gap: 6px !important; font-size: 13px !important; font-weight: 600 !important; font-family: inherit; }
+.audio-box a::after { content: " Phát lại âm thanh" !important; color: #58a6ff !important; }
+.badge-container { display: flex; gap: 6px; justify-content: center; margin-bottom: 20px; font-family: inherit; }
+.badge { background-color: #21262d; color: #8b949e; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; text-transform: uppercase; border: 1px solid #30363d; font-family: inherit; }
+.badge.masculine { background-color: rgba(56, 139, 253, 0.15); color: #58a6ff; border: 1px solid rgba(56, 139, 253, 0.4); }
+.badge.feminine { background-color: rgba(244, 143, 177, 0.15); color: #f48fbb; border: 1px solid rgba(244, 143, 177, 0.4); }
+.badge.neuter { background-color: rgba(210, 168, 255, 0.15); color: #d2a8ff; border: 1px solid rgba(210, 168, 255, 0.4); }
+.badge.plural { background-color: rgba(52, 211, 153, 0.15); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.4); }
+.meaning-list { margin: 0; padding-left: 22px; font-size: 17px; color: #ffffff; font-family: inherit; }
+.meaning-list li { margin-bottom: 8px; font-weight: 500; line-height: 1.4; font-family: inherit; }
+.meaning-list li::marker { color: #58a6ff; font-weight: 800; font-size: 16px; }
+.example-toggle { background-color: #161b22; border: 1px solid #21262d; border-radius: 10px; margin-bottom: 12px; overflow: hidden; font-family: inherit; }
+.example-summary { padding: 12px 15px; font-size: 13px; color: #8b949e; font-weight: 600; cursor: pointer; outline: none; background-color: #1f242c; font-family: inherit; list-style: none; }
+.example-summary::-webkit-details-marker { display: none; } 
+.example-summary:hover { background-color: #262c36; }
+.example-content { padding: 14px 16px; border-top: 1px solid #21262d; font-family: inherit; display: flex; flex-direction: column; gap: 6px; }
+.ex-ru { font-size: 18px; color: #f0f6fc; font-weight: 600; line-height: 1.4; font-family: inherit; }
+.ex-en { font-size: 14px; color: #8b949e; font-style: normal; line-height: 1.4; font-family: inherit; }
+.ex-vi { font-size: 14px; color: #8b949e; font-family: inherit; display: flex; align-items: flex-start; gap: 6px; line-height: 1.4; }
+.ex-vi .arrow { color: #3fb950; font-weight: bold; flex-shrink: 0; user-select: none; }
+.ex-vi .vi-text { color: #a5d6a7; font-weight: 500; }
+.hl { color: #58a6ff !important; font-weight: 700 !important; font-style: normal !important; } 
+input#typeans { background-color: #161b22 !important; color: #ffffff !important; border: 2px solid #30363d !important; border-radius: 8px !important; padding: 12px 15px !important; font-size: 22px !important; width: 100% !important; text-align: center !important; margin-top: 15px; font-family: inherit; }
+#typeans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important; font-size: 18px !important; background-color: #161b22 !important; padding: 12px !important; border-radius: 8px !important; border: 1px solid #30363d !important; display: block !important; text-align: center !important; margin-bottom: 15px !important; }
+.typeGood { background-color: rgba(46, 160, 67, 0.25) !important; color: #3fb950 !important; padding: 2px 6px !important; border-radius: 4px !important; font-weight: bold !important; }
+.typeBad { background-color: rgba(248, 81, 73, 0.25) !important; color: #f85149; text-decoration: line-through !important; padding: 2px 6px !important; border-radius: 4px !important; font-weight: bold !important; }
+.typeMissed { color: #8b949e !important; font-weight: bold !important; }

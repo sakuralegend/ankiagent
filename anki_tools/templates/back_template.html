@@ -1,0 +1,271 @@
+<div class="card-container">
+    <div class="section-title" style="text-align: center;">Your Answer Check</div>
+    {{type:WordClean}} 
+    <hr style="border: none; border-top: 1px solid #21262d; margin: 20px 0;">
+    
+    <div class="section-title" style="text-align: center;">Correct Word</div>
+    <div class="word-title">{{Word}}</div>
+    <div class="cursive-word">{{Word}}</div>
+    <div class="audio-box">{{Audio}}</div>
+    
+    <div class="badge-container">
+        <div class="badge accent">{{PoSFull}}</div>
+        {{#GenderBadge}}{{GenderBadge}}{{/GenderBadge}}
+    </div>
+    
+    <div class="section-title">Meaning</div>
+    <div class="meaning-box" style="border-bottom-left-radius: 0; border-bottom-right-radius: 0;">{{Meaning}}</div>
+    
+    {{#Vietnamese}}
+    <div class="vietnamese-box">
+        <div class="vi-label">Tiếng Việt</div>
+        <div class="vi-content" id="live-vi-content">{{Vietnamese}}</div>
+    </div>
+    {{/Vietnamese}}
+    
+    {{#ExamplesHTML}}
+    <div class="section-title">Context Examples</div>
+    <div id="live-examples-box">{{ExamplesHTML}}</div>
+    {{/ExamplesHTML}}
+
+    <div id="raw-examples-data" style="display:none;">{{RawExamples}}</div>
+
+    <div class="ai-refine-box" style="margin-top: 25px; border-top: 1px dashed #30363d; padding-top: 15px;">
+        <div class="section-title" style="color: #58a6ff; font-weight: bold;">🤖 Trợ lý AI Refine</div>
+        <div style="display: flex; gap: 8px; margin-top: 5px; flex-wrap: wrap;">
+            <button type="button" onclick="triggerAiLiveRefine('easy')" 
+                    style="background: #1f6feb; color: #ffffff; border: none; padding: 8px 12px; border-radius: 6px; font-weight: 600; font-size: 12px; cursor: pointer; white-space: nowrap;">📗 Easier</button>
+            <button type="button" onclick="triggerAiLiveRefine('hard')" 
+                    style="background: #da3633; color: #ffffff; border: none; padding: 8px 12px; border-radius: 6px; font-weight: 600; font-size: 12px; cursor: pointer; white-space: nowrap;">📕 Harder</button>
+            <button type="button" onclick="triggerAiLiveRefine('alt')" 
+                    style="background: #9c6ade; color: #ffffff; border: none; padding: 8px 12px; border-radius: 6px; font-weight: 600; font-size: 12px; cursor: pointer; white-space: nowrap;">🔄 Alt Context</button>
+            <input id="ai-instruction" type="text" placeholder="Hoặc nhập lệnh tùy chỉnh..." 
+                   style="flex-grow: 1; min-width: 150px; background: #161b22; border: 1px solid #30363d; color: #ffffff; padding: 8px 12px; border-radius: 6px; font-size: 13px; outline: none;">
+            <button type="button" id="ai-refine-btn" onclick="triggerAiLiveRefine('custom')" 
+                    style="background: #238636; color: #ffffff; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; white-space: nowrap;">Sửa thẻ</button>
+        </div>
+        <div id="ai-status" style="font-size: 12px; color: #8b949e; margin-top: 6px; display: none; font-style: italic; white-space: pre-wrap;"></div>
+    </div>
+</div>
+
+<script>
+/*
+ * ⚠️ GHI CHÚ QUAN TRỌNG (đọc trước khi sửa file này):
+ *
+ * File JS này chạy TRỰC TIẾP TRONG TRÌNH DUYỆT của thẻ Anki (không có Python
+ * ở đó để hỗ trợ), nên nó buộc phải tự gọi fetch() đến LM Studio và
+ * AnkiConnect, tự build lại HTML ví dụ... KHÔNG THỂ tách rời khỏi 1 file
+ * độc lập như thế này được — đây là giới hạn kỹ thuật, không phải lỗi thiết kế.
+ *
+ * Để tránh trùng lặp / lệch logic với phía Python:
+ *   - __SYSTEM_PROMPT_JSON__   sẽ được anki_client.setup_anki_environment()
+ *     tự động thay thế bằng JSON của ai_client._CORE_SYSTEM_PROMPT khi chạy.
+ *     -> Muốn đổi văn phong AI, SỬA Ở ai_client.py, KHÔNG sửa tay ở đây.
+ *   - __CLAUDE_API_URL__, __CLAUDE_API_KEY__, __CLAUDE_MODEL__,
+ *     __ANKI_LOCAL_URL__, __ANKI_MOBILE_URL__ cũng được thay bằng giá trị
+ *     tương ứng trong config.py, để không phải hard-code IP/key/tên model
+ *     2 lần.
+ *   - ⚠️ __CLAUDE_API_KEY__ sẽ bị nhúng THẲNG vào mã nguồn thẻ Anki (rủi ro
+ *     đã được chấp nhận). Không share deck này công khai nếu không muốn lộ key.
+ *
+
+ * Đoạn build "examplesHtml" bên dưới (dòng có "example-toggle", "ex-ru"...)
+ * TƯƠNG ỨNG 1-1 với hàm _build_example_block() trong html_builder.py.
+ * Nếu đổi cấu trúc HTML/class CSS của khối ví dụ, PHẢI sửa cả 2 nơi.
+ */
+function show(m) {
+    var d = document.getElementById('ai-status');
+    if (d) { d.style.display = 'block'; d.style.color = '#8b949e'; d.innerText = d.innerText + '\n' + m; }
+}
+async function triggerAiLiveRefine(mode) {
+    var d = document.getElementById('ai-status');
+    if (d) { d.style.display = 'block'; d.innerText = ''; }
+    try {
+        show('onclick OK mode=' + mode);
+        
+        var instruction = '';
+        if (mode === 'easy') {
+            instruction = 'Create 3 shorter, more visual, everyday-life examples. Keep <hl> tags for the target word in all 3 languages.';
+        } else if (mode === 'hard') {
+            instruction = 'Create 3 longer, more academically-oriented examples with more inflected word forms. Keep <hl> tags for the target word in all 3 languages.';
+        } else if (mode === 'alt') {
+            instruction = 'Create 3 completely different examples with entirely new contexts and scenarios. Keep the same difficulty and length as the current ones. Keep <hl> tags for the target word in all 3 languages.';
+        } else {
+            var inp = document.getElementById('ai-instruction');
+            if (!inp) { show('ERR: input NULL'); return; }
+            instruction = inp.value.trim();
+            if (!instruction) { show('Chua nhap lenh sua'); return; }
+        }
+        show('instruction=' + instruction);
+        
+        var btn = document.getElementById('ai-refine-btn');
+        if (btn) { btn.disabled = true; btn.style.background = '#21262d'; }
+        var easyBtn = document.querySelector('button[onclick*="easy"]');
+        var hardBtn = document.querySelector('button[onclick*="hard"]');
+        var altBtn = document.querySelector('button[onclick*="alt"]');
+        if (easyBtn) easyBtn.disabled = true;
+        if (hardBtn) hardBtn.disabled = true;
+        if (altBtn) altBtn.disabled = true;
+        
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        // Claude API là cloud, gọi được từ mọi nơi có internet -> không cần phân biệt mobile/local.
+        var urlAI = '__CLAUDE_API_URL__';
+        var claudeApiKey = '__CLAUDE_API_KEY__';
+        var urlAnki = isMobile ? '__ANKI_MOBILE_URL__' : '__ANKI_LOCAL_URL__';
+        show('STEP3: urlAI=' + urlAI);
+        
+        show('STEP4: wordClean=' + "{{WordClean}}");
+        
+        var viContentEl = document.getElementById('live-vi-content');
+        var currentVi = viContentEl ? viContentEl.innerText : '';
+        show('STEP5: currentVi=' + currentVi.substring(0, 50));
+        
+        var currentExText = "";
+        var exBox = document.getElementById('live-examples-box');
+        show('STEP6: exBox=' + (exBox ? 'found' : 'NULL'));
+        if (exBox) {
+            var exContents = exBox.querySelectorAll('.example-content');
+            show('STEP7: exContents count=' + exContents.length);
+            exContents.forEach(function(ex, idx) {
+                var ruEl = ex.querySelector('.ex-ru');
+                var enEl = ex.querySelector('.ex-en');
+                var viEl = ex.querySelector('.ex-vi .vi-text');
+                var ru = ruEl ? ruEl.innerText : "";
+                var en = enEl ? enEl.innerText : "";
+                var vi = viEl ? viEl.innerText : "";
+                currentExText += '[Ex' + (idx+1) + '] RU:' + ru + ' | EN:' + en + ' | VI:' + vi + ' --- ';
+            });
+        }
+        
+        // Lấy nguyên bản system prompt từ ai_client._CORE_SYSTEM_PROMPT (Python),
+        // được tiêm vào đây lúc setup_anki_environment() chạy — KHÔNG viết tay ở đây.
+        var systemPrompt = __SYSTEM_PROMPT_JSON__;
+        
+        var rawExText = '';
+        try {
+            var rawExDiv = document.getElementById('raw-examples-data');
+            if (rawExDiv) {
+                var rawExJson = JSON.parse(rawExDiv.innerText);
+                if (Array.isArray(rawExJson)) {
+                    rawExJson.forEach(function(ex, i) {
+                        rawExText += '[RawEx' + (i+1) + '] RU:' + (ex.ru||'') + ' | EN:' + (ex.en||'') + ' --- ';
+                    });
+                }
+            }
+        } catch (e) { show('WARN: parse rawEx err: ' + e.message); }
+        show('STEP7b: rawEx count=' + (rawExText ? 'found' : 'none'));
+
+        var userPrompt = 'Target word: [' + "{{WordClean}}" + ']. ' +
+            'CURRENT CARD -> Meaning: [' + currentVi + ']. CurrentExamples: ' + currentExText + ' ' +
+            'FULL DICTIONARY EXAMPLES (from OpenRussian, for reference): ' + rawExText + ' ' +
+            'USER INSTRUCTION: [' + instruction + ']. ' +
+            'Wrap the target word [' + "{{WordClean}}" + '] and its inflected forms in <hl>...</hl> tags in ALL THREE languages: Russian (ru), English (en), AND Vietnamese (vi). ' +
+            'Generate EXACT JSON schema: {"vietnamese_meaning": "...", "simplified_examples": [{"ru": "...","en": "...","vi": "..."},{"ru": "...","en": "...","vi": "..."},{"ru": "...","en": "...","vi": "..."}]}';
+
+        show('=== SYSTEM PROMPT ===');
+        show(systemPrompt);
+        show('=== USER PROMPT ===');
+        show(userPrompt);
+        show('=== END PROMPT ===');
+        show('STEP8: fetching Claude AI...');
+        var t0 = Date.now();
+        var resLM = await fetch(urlAI, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + claudeApiKey
+            },
+            body: JSON.stringify({
+                model: '__CLAUDE_MODEL__',
+                messages: [
+                    { role: 'system', content: systemPrompt },
+                    { role: 'user', content: userPrompt }
+                ],
+                temperature: 0.7,
+                max_tokens: 900,
+                reasoning_effort: 'minimal'
+            })
+        });
+        show('STEP9: Claude status=' + resLM.status + ' time=' + (Date.now()-t0) + 'ms');
+        
+        var textLM = await resLM.text();
+        show('STEP10: response length=' + textLM.length);
+        var dataLM = JSON.parse(textLM);
+        if (!dataLM.choices || !dataLM.choices.length) { show('ERR: empty choices'); return; }
+        
+        var rawText = dataLM.choices[0].message.content.trim();
+        if (rawText.indexOf('```json') === 0) rawText = rawText.substring(7);
+        if (rawText.indexOf('```') === 0) rawText = rawText.substring(3);
+        if (rawText.lastIndexOf('```') === rawText.length - 3) rawText = rawText.slice(0, -3);
+        
+        var content = JSON.parse(rawText.trim());
+        show('STEP11: AI OK vi=' + content.vietnamese_meaning + ' ex=' + content.simplified_examples.length);
+        
+        show('STEP12: finding note...');
+        var actualNoteId = null;
+        try {
+            var resGui = await fetch(urlAnki, {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'guiCurrentCard', version: 6 })
+            });
+            var dataGui = await resGui.json();
+            if (dataGui.result && dataGui.result.noteId) actualNoteId = dataGui.result.noteId;
+        } catch (e) {}
+        
+        if (!actualNoteId) {
+            var resAnkiFind = await fetch(urlAnki, {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'findNotes', version: 6, params: { query: 'WordClean:"' + "{{WordClean}}" + '"' } })
+            });
+            var dataAnkiFind = await resAnkiFind.json();
+            if (dataAnkiFind.error) { show('ERR: ' + dataAnkiFind.error); return; }
+            var noteIds = dataAnkiFind.result;
+            if (!noteIds || !noteIds.length) { show('ERR: note not found'); return; }
+            actualNoteId = Math.max.apply(null, noteIds);
+        }
+        show('STEP13: noteId=' + actualNoteId);
+        
+        var examplesHtml = '';
+        content.simplified_examples.forEach(function(ex, i) {
+            var open = i === 0 ? ' open' : '';
+            var ru = ex.ru.split('<hl>').join('<span class="hl">').split('</hl>').join('</span>');
+            var en = ex.en.split('<hl>').join('<span class="hl">').split('</hl>').join('</span>');
+            var viText = ex.vi || ex.vietnamese || '';
+            var vi = viText.split('<hl>').join('<span class="hl">').split('</hl>').join('</span>');
+            examplesHtml += '<details class="example-toggle"' + open + '>' +
+                '<summary class="example-summary">💡 Example ' + (i+1) + (i===0 ? ' (Xem ngay)' : ' (Bấm để mở rộng)') + '</summary>' +
+                '<div class="example-content"><div class="ex-ru">' + ru + '</div><div class="ex-en">' + en + '</div><div class="ex-vi"><span class="arrow">➔</span><span class="vi-text">' + vi + '</span></div></div></details>';
+        });
+        
+        show('STEP14: updating...');
+        var resAnkiUpdate = await fetch(urlAnki, {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                action: 'updateNoteFields', version: 6,
+                params: { note: { id: actualNoteId, fields: { "Vietnamese": content.vietnamese_meaning, "ExamplesHTML": examplesHtml } } }
+            })
+        });
+        var dataAnkiUpdate = await resAnkiUpdate.json();
+        if (dataAnkiUpdate.error) { show('ERR update: ' + dataAnkiUpdate.error); btn.disabled = false; btn.style.background = '#238636'; return; }
+        
+        try { await fetch(urlAnki, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'sync', version: 6 }) }); } catch (e) {}
+        
+        if(document.getElementById('live-vi-content')) document.getElementById('live-vi-content').innerText = content.vietnamese_meaning;
+        if(document.getElementById('live-examples-box')) document.getElementById('live-examples-box').innerHTML = examplesHtml;
+        
+        show('SUCCESS!');
+        var st = document.getElementById('ai-status');
+        if (st) st.style.color = '#3fb950';
+        if (btn) { btn.disabled = false; btn.style.background = '#238636'; }
+        if (easyBtn) easyBtn.disabled = false;
+        if (hardBtn) hardBtn.disabled = false;
+        if (altBtn) altBtn.disabled = false;
+        var inp2 = document.getElementById('ai-instruction');
+        if (inp2) inp2.value = '';
+        
+    } catch (err) {
+        show('ERROR: ' + err.message);
+        document.querySelectorAll('button').forEach(function(b) { b.disabled = false; b.style.background = ''; });
+    }
+}
+</script>

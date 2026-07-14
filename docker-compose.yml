@@ -1,0 +1,16 @@
+# Container Anki desktop chạy headless (Xvfb/VNC) + addon AnkiConnect cài sẵn.
+# Chạy trên VPS: docker compose up -d
+#
+# ⚠️ BẢO MẬT: cả 2 port đều bind vào 127.0.0.1 (chỉ nội bộ VPS).
+# - 8765 (AnkiConnect): không có mật khẩu -> TUYỆT ĐỐI không mở ra internet.
+# - 5900 (VNC): chỉ dùng 1 lần để đăng nhập AnkiWeb, truy cập qua SSH tunnel.
+services:
+  anki:
+    image: thisisnttheway/headless-anki:latest
+    container_name: anki
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8765:8765"
+      - "127.0.0.1:5900:5900"
+    volumes:
+      - ./anki-data:/data
