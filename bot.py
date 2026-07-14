@@ -145,10 +145,19 @@ def format_card_summary(card_info, elapsed):
 
     for i, ex in enumerate(card_info.get("simplified_examples", [])[:3]):
         ru = hl_to_bracket(ex.get("ru", ""))
+        en = hl_to_bracket(ex.get("en", ""))
         vi = hl_to_bracket(ex.get("vi") or ex.get("vietnamese") or "")
         lines.append(f"💡 {i + 1}. {ru}")
+        if en:
+            lines.append(f"     🇬🇧 {en}")
         if vi:
-            lines.append(f"     ➔ {vi}")
+            lines.append(f"     🇻🇳 {vi}")
+
+    if card_info.get("ai_degraded"):
+        lines.append(
+            "⚠️ AI không tạo được ví dụ/nghĩa Việt lần này — thẻ vẫn được thêm nhưng THIẾU nội dung."
+        )
+        lines.append(f"👉 Gõ /sua {card_info.get('clean_word', '')} để AI làm lại thẻ này.")
 
     lines.append(f"📦 {card_info['deck']} | ⏱ {elapsed:.1f}s")
     if card_info.get("synced") is False:
@@ -182,9 +191,12 @@ async def _do_sua(status_msg, word, instruction):
     lines = [f"✏️ ĐÃ SỬA THẺ: {hl_to_bracket(result['word'])}", f"🇻🇳 {result['vi']}"]
     for i, ex in enumerate(result["examples"][:3]):
         lines.append(f"💡 {i + 1}. {hl_to_bracket(ex.get('ru', ''))}")
+        en = hl_to_bracket(ex.get("en", ""))
         vi = hl_to_bracket(ex.get("vi") or ex.get("vietnamese") or "")
+        if en:
+            lines.append(f"     🇬🇧 {en}")
         if vi:
-            lines.append(f"     ➔ {vi}")
+            lines.append(f"     🇻🇳 {vi}")
     lines.append(f"⏱ {time.time() - t0:.1f}s")
     if result.get("synced") is False:
         lines.append(SYNC_FAIL_TEXT)

@@ -72,10 +72,14 @@ def build_examples_html(word_clean, raw_examples, english_meanings):
         if ai_result:
             return _build_from_ai_result(ai_result)
 
-    # Raw examples rỗng hoặc AI rewrite thất bại -> thử AI freestyle
-    ai_freestyle = call_claude_ai_freestyle(word_clean, english_meanings)
-    if ai_freestyle:
-        return _build_from_ai_result(ai_freestyle)
+    # Raw examples rỗng hoặc AI rewrite thất bại -> thử AI freestyle (tối đa 2 lần,
+    # vì freestyle là phao cuối cùng có AI - trượt là thẻ mất hẳn ví dụ + nghĩa Việt)
+    for attempt in range(2):
+        if attempt == 1:
+            log_warn("AI freestyle thất bại lần 1 -> thử lại lần 2...")
+        ai_freestyle = call_claude_ai_freestyle(word_clean, english_meanings)
+        if ai_freestyle:
+            return _build_from_ai_result(ai_freestyle)
 
     # Cả hai đều thất bại, nếu còn raw examples thì dùng tạm
     if raw_examples:

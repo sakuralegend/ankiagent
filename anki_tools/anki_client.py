@@ -268,6 +268,12 @@ def push_to_anki(word, data, deck_name, is_forced=False):
         }
     }
 
+    # Thẻ "khuyết": AI thất bại hoàn toàn -> không có ví dụ, hoặc chỉ còn ví dụ
+    # thô không có tiếng Việt. Bot dựa vào cờ này để CẢNH BÁO thay vì im lặng.
+    ai_degraded = (not simplified_examples) or not any(
+        (ex.get("vi") or ex.get("vietnamese") or "").strip() for ex in simplified_examples
+    )
+
     card_info = {
         "word": data["word"],
         "clean_word": clean_word,
@@ -278,6 +284,7 @@ def push_to_anki(word, data, deck_name, is_forced=False):
         "deck": deck_name,
         "is_forced": is_forced,
         "simplified_examples": simplified_examples,
+        "ai_degraded": ai_degraded,
     }
 
     try:
@@ -379,6 +386,9 @@ def print_card_summary(card_info, elapsed):
             print(f"     EN: {en_ex}")
             if vi_ex:
                 print(f"     VI: {vi_ex}")
+
+    if card_info.get("ai_degraded"):
+        print(f"  ⚠️  AI không tạo được ví dụ/nghĩa Việt - thẻ THIẾU nội dung, nên sửa lại sau.")
 
     print(f"  ─────────────────────────────────────")
     print(f"  📦 Bộ bài: {deck} │ ⏱️ {elapsed:.1f}s\n")
