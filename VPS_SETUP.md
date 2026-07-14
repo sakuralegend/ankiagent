@@ -71,11 +71,14 @@ Anki trong container cần đăng nhập AnkiWeb để sync. Làm như sau:
 **5b.** [PC] Mở PowerShell, tạo "đường hầm" tới VPS (cửa sổ này phải để mở suốt lúc dùng VNC):
 
 ```powershell
-ssh -L 5900:127.0.0.1:5900 root@161.248.146.56
+ssh -L 15900:127.0.0.1:5900 root@161.248.146.56
 ```
 
-**5c.** [PC] Mở TightVNC Viewer → Remote Host gõ: `localhost::5900` → Connect.
-   → Hiện ra cửa sổ Anki đang chạy trên VPS.
+(dùng cổng 15900 phía PC vì cổng 5900 trên Windows thường bị hệ thống giữ,
+sẽ báo `bind ... Permission denied` — nếu 15900 cũng bị, đổi số khác, vd 25900)
+
+**5c.** [PC] Mở TightVNC Viewer → Remote Host gõ: `localhost::15900` → Connect.
+   (chú ý 2 dấu hai chấm) → Hiện ra cửa sổ Anki đang chạy trên VPS.
 
 **5d.** Trong cửa sổ Anki đó:
 1. Bấm nút **Sync** (biểu tượng vòng tròn 2 mũi tên, góc trên phải)
@@ -118,6 +121,18 @@ Sửa code bằng Claude Code như bình thường, xong chạy:
 ```
 
 (tự động: push GitHub → VPS kéo code → restart bot, ~10 giây)
+
+# Lỗi thường gặp
+
+**Anki báo "could not create its data folder" (trong VNC):** thư mục `anki-data`
+bị sai quyền. Sửa trên VPS:
+
+```bash
+cd /root/ankiagent
+docker compose down && chmod -R 777 anki-data && docker compose up -d
+```
+
+rồi chờ ~20 giây và kết nối lại VNC.
 
 # Lệnh cứu hộ (khi có sự cố)
 

@@ -26,6 +26,10 @@ fi
 
 echo "===== [3/5] Khởi động container Anki headless ====="
 cd "$(dirname "$0")"
+# Tạo sẵn thư mục dữ liệu với quyền mở, nếu không Anki trong container
+# (chạy bằng user thường) sẽ báo "could not create its data folder"
+mkdir -p anki-data
+chmod 777 anki-data
 docker compose up -d
 echo "-> Container anki đang chạy (docker ps để kiểm tra)."
 
