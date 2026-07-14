@@ -109,7 +109,8 @@ Bot trả về thẻ mới + tự sync. Mở app Anki trên iPhone → bấm syn
 |---|---|
 | Bắt đầu phiên | nhắn gì đó → bấm nút chọn deck (📂 có sẵn — liệt kê hết / ➕ tạo mới) |
 | Thêm từ | gõ thẳng từ đó, vd `хороший` |
-| Đổi deck | gõ `c` → bảng chọn deck (hoặc `/deck Tên Deck` đi tắt) |
+| Đổi deck | gõ `c` hoặc `/deck` → bảng chọn deck (hoặc `/deck Tên Deck` đi tắt 1 bước) |
+| Thẻ AI bị khuyết (thiếu ví dụ) | bot cảnh báo kèm 2 nút: 🔧 Tự sửa (đổi ví dụ) / ⏭ Bỏ qua |
 | Sửa thẻ đã có | `/sua хороший` → chọn nút 1 Ngắn hơn / 2 Đổi ví dụ / 3 Dài hơn / Tự viết |
 | Sửa theo ý mình | `/sua хороший ví dụ về chủ đề ăn uống` |
 | Menu nút bấm | `/menu` |
@@ -119,13 +120,11 @@ Nghỉ >3 phút: bot tự reset phiên (quên deck) và gửi 1 tin menu nút b�
 
 # Khi sửa code / thêm tính năng (trên PC)
 
-Sửa code bằng Claude Code như bình thường, xong chạy:
+Sửa code bằng Claude Code như bình thường, xong **double-click file `deploy.bat`**
+(hoặc chạy `.\deploy.ps1` trong PowerShell — như nhau).
 
-```powershell
-.\deploy.ps1
-```
-
-(tự động: push GitHub → VPS kéo code → restart bot, ~10 giây)
+(tự động: push GitHub → VPS kéo code → restart bot, ~10 giây; không hỏi mật khẩu
+vì PC đã cài SSH key lên VPS)
 
 # Lỗi thường gặp
 

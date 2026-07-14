@@ -40,6 +40,7 @@ docker-compose.yml   # Container Anki headless trên VPS
 setup_vps.sh         # Cài VPS lần đầu (Docker, swap, addon AnkiConnect, venv, systemd)
 anki-bot.service     # systemd unit: bot tự chạy khi VPS khởi động, tự restart khi crash
 deploy.ps1           # Deploy từ PC: push GitHub → VPS pull → restart bot (1 lệnh)
+deploy.bat           # Vỏ bọc deploy.ps1 — double-click là deploy, khỏi mở PowerShell
 VPS_SETUP.md         # Hướng dẫn cài VPS từng bước + xử lý lỗi thường gặp
 ```
 
@@ -64,7 +65,8 @@ Tạo từ mẫu: copy `.env.example` → `.env` rồi điền. `config.py` ch�
 | Bắt đầu phiên | Nhắn gì đó → bấm nút chọn deck: 📂 deck có sẵn (liệt kê hết) / ➕ tạo mới |
 | Thêm từ | Gõ thẳng từ tiếng Nga, vd `хороший` |
 | Từ bị trùng | Bot hiện nút: Hủy / Chuyển deck / Xóa cũ + thêm mới / Vẫn thêm trùng |
-| Đổi deck | Gõ `c` → bảng chọn deck (hoặc `/deck <tên>` đi tắt) |
+| Thẻ AI bị khuyết (thiếu ví dụ) | Bot cảnh báo kèm 2 nút: 🔧 Tự sửa (chạy preset đổi ví dụ) / ⏭ Bỏ qua |
+| Đổi deck | Gõ `c` hoặc `/deck` → bảng chọn deck (hoặc `/deck <tên>` đi tắt 1 bước) |
 | Sửa thẻ | `/sua <từ>` → chọn nút **1** Ngắn hơn / **2** Đổi ví dụ / **3** Dài hơn / Tự viết |
 | Sửa theo ý mình | `/sua <từ> <yêu cầu tự do>` |
 | Menu nút bấm | `/menu` (hoặc chờ — nghỉ >3 phút bot tự reset phiên và gửi menu) |
@@ -85,9 +87,11 @@ Ghi chú: nghỉ >3 phút → bot **quên deck đang chọn** (chống thêm nh�
 ## 🔁 Quy trình phát triển
 
 ```
-PC:  sửa code (Claude Code) → test → .\deploy.ps1
+PC:  sửa code (Claude Code) → test → double-click deploy.bat (hoặc .\deploy.ps1)
      (tự động: git push → VPS git pull → pip install nếu cần → restart bot, ~10 giây)
 ```
+
+Không bị hỏi mật khẩu VPS: PC đã cài SSH key (`~/.ssh/id_ed25519`) chép lên VPS.
 
 Container Anki không bị đụng tới khi deploy — không downtime.
 
