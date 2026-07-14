@@ -239,9 +239,10 @@ def push_to_anki(word, data, deck_name, is_forced=False):
     for m in data["english_meanings"]: meaning_html += f"<li>{m}</li>"
     meaning_html += "</ol>"
 
+    # Th\u00eam tr\u00f9ng (force): d\u00f9ng option allowDuplicate ch\u00ednh th\u1ed1ng c\u1ee7a AnkiConnect.
+    # (M\u00e1nh c\u0169 g\u1eafn k\u00fd t\u1ef1 v\u00f4 h\u00ecnh \u200b v\u00e0o Word \u0111\u00e3 b\u1ecb Anki >= 25.x t\u1ef1 x\u00f3a khi
+    # l\u01b0u note -> v\u1eabn b\u1ecb ch\u1eb7n tr\u00f9ng, n\u00ean b\u1ecf.)
     word_field_value = data["word"]
-    if is_forced:
-        word_field_value += "\u200b"
 
     examples_html, vi_meaning, simplified_examples = build_examples_html(
         clean_word,
@@ -260,6 +261,7 @@ def push_to_anki(word, data, deck_name, is_forced=False):
                     "GenderBadge": gender_badge_html, "ExamplesHTML": examples_html, "Image": "",
                     "RawExamples": json.dumps(data.get("raw_dictionary_examples", []), ensure_ascii=False)
                 },
+                "options": {"allowDuplicate": is_forced},
                 "tags": ["OpenRussian_AI_OLED_v25"],
                 "audio": [{"url": audio_url, "filename": audio_filename, "fields": ["Audio"]}]
             }
