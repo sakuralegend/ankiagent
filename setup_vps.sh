@@ -31,6 +31,25 @@ cd "$(dirname "$0")"
 mkdir -p anki-data
 chmod 777 anki-data
 docker compose up -d
+
+# ⚠️ Image gắn addon AnkiConnect vào /data bằng symlink lúc build, nhưng khi
+# ta mount thư mục anki-data (trống) đè lên /data thì symlink bị che mất
+# -> phải chép addon thật vào volume + mở webBindAddress cho docker port map.
+echo "-> Chờ container khởi tạo dữ liệu lần đầu..."
+sleep 20
+if [ ! -e anki-data/addons21/AnkiConnectDev/config.json ]; then
+    echo "-> Cài addon AnkiConnect vào volume..."
+    docker exec anki cp -r /app/anki-connect/plugin /data/addons21/AnkiConnectDev
+    python3 - <<'PYEOF'
+import json
+p = 'anki-data/addons21/AnkiConnectDev/config.json'
+cfg = json.load(open(p))
+cfg['webBindAddress'] = '0.0.0.0'
+json.dump(cfg, open(p, 'w'), indent=2)
+print('-> Da bat webBindAddress=0.0.0.0')
+PYEOF
+    docker restart anki
+fi
 echo "-> Container anki đang chạy (docker ps để kiểm tra)."
 
 echo "===== [4/5] Tạo môi trường Python cho bot ====="

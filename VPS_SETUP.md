@@ -134,6 +134,19 @@ docker compose down && chmod -R 777 anki-data && docker compose up -d
 
 rồi chờ ~20 giây và kết nối lại VNC.
 
+**Bot chờ mãi "⏳ Chờ AnkiConnect..." / `curl 127.0.0.1:8765` trả KQ=56:**
+addon AnkiConnect trong container bị volume che mất (symlink lúc build image).
+Sửa trên VPS:
+
+```bash
+cd /root/ankiagent
+docker exec anki cp -r /app/anki-connect/plugin /data/addons21/AnkiConnectDev
+python3 -c "import json; p='anki-data/addons21/AnkiConnectDev/config.json'; c=json.load(open(p)); c['webBindAddress']='0.0.0.0'; json.dump(c, open(p,'w'), indent=2); print('OK')"
+docker restart anki
+```
+
+(setup_vps.sh bản mới đã tự làm việc này.)
+
 # Lệnh cứu hộ (khi có sự cố)
 
 ```bash
