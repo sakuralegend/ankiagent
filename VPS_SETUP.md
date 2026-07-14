@@ -129,6 +129,11 @@ Sửa code bằng Claude Code như bình thường, xong chạy:
 
 # Lỗi thường gặp
 
+**⚠️ QUAN TRỌNG — app Anki trên điện thoại hiện bảng "Upload to AnkiWeb / Download from AnkiWeb":**
+LUÔN chọn **Download from AnkiWeb**. Vì bot trên VPS sync lên AnkiWeb ngay sau MỌI thao tác,
+AnkiWeb luôn là bản mới nhất — chọn Upload sẽ lấy bản cũ trên điện thoại ĐÈ MẤT thẻ mới
+(đã từng làm mất deck + thẻ ngày 14/07/2026).
+
 **Anki báo "could not create its data folder" (trong VNC):** thư mục `anki-data`
 bị sai quyền. Sửa trên VPS:
 

@@ -60,12 +60,23 @@ HELP_TEXT = (
 )
 
 
+SYNC_OK_TEXT = "☁️ Đã sync AnkiWeb."
+SYNC_FAIL_TEXT = "⚠️ SYNC ANKIWEB THẤT BẠI — thay đổi mới chỉ nằm trên VPS! Thử /sync hoặc xem log."
+
+
 # ---------------------------------------------------------------------------
 # Trạng thái phiên + tiện ích
 # ---------------------------------------------------------------------------
 
 def _current_deck(context):
     return context.bot_data.get("deck")
+
+
+async def _sync_report_line():
+    """Sync AnkiWeb ngay (chính sách: MỌI hành động sửa đổi đều sync liền)
+    và trả về dòng text kết quả để nối vào tin nhắn trả lời."""
+    ok = await asyncio.to_thread(trigger_sync)
+    return SYNC_OK_TEXT if ok else SYNC_FAIL_TEXT
 
 
 def _menu_keyboard():
@@ -140,7 +151,10 @@ def format_card_summary(card_info, elapsed):
             lines.append(f"     ➔ {vi}")
 
     lines.append(f"📦 {card_info['deck']} | ⏱ {elapsed:.1f}s")
-    lines.append("☁️ Đã sync AnkiWeb — mở app Anki bấm sync để thấy thẻ.")
+    if card_info.get("synced") is False:
+        lines.append(SYNC_FAIL_TEXT)
+    else:
+        lines.append("☁️ Đã sync AnkiWeb — mở app Anki bấm sync để thấy thẻ.")
     return "\n".join(lines)
 
 
@@ -172,7 +186,10 @@ async def _do_sua(status_msg, word, instruction):
         if vi:
             lines.append(f"     ➔ {vi}")
     lines.append(f"⏱ {time.time() - t0:.1f}s")
-    lines.append("☁️ Đã sync AnkiWeb — mở app Anki bấm sync để thấy thẻ mới.")
+    if result.get("synced") is False:
+        lines.append(SYNC_FAIL_TEXT)
+    else:
+        lines.append("☁️ Đã sync AnkiWeb — mở app Anki bấm sync để thấy thẻ mới.")
     await status_msg.edit_text("\n".join(lines))
 
 
@@ -244,7 +261,8 @@ async def cmd_deck(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if ok:
         context.bot_data["deck"] = deck_name
         context.bot_data["awaiting_deck"] = False
-        await update.message.reply_text(f"📦 Đã chuyển sang deck: {deck_name}")
+        sync_line = await _sync_report_line()  # deck mới tạo phải lên AnkiWeb ngay
+        await update.message.reply_text(f"📦 Đã chuyển sang deck: {deck_name}\n{sync_line}")
     else:
         await update.message.reply_text("❌ Không tạo/kiểm tra được deck (AnkiConnect lỗi?).")
 
@@ -301,8 +319,9 @@ async def on_word(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if ok:
             context.bot_data["deck"] = deck_name
             context.bot_data["awaiting_deck"] = False
+            sync_line = await _sync_report_line()  # deck mới tạo phải lên AnkiWeb ngay
             await update.message.reply_text(
-                f"📦 Deck: {deck_name} — giờ gõ từ tiếng Nga để thêm thẻ."
+                f"📦 Deck: {deck_name} — giờ gõ từ tiếng Nga để thêm thẻ.\n{sync_line}"
             )
         else:
             await update.message.reply_text("❌ Không tạo được deck. Nhập tên khác thử:")
@@ -402,9 +421,9 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif data == "act:chuyen":
         ok = await asyncio.to_thread(change_note_deck, selected["card_ids"], deck_name)
         if ok:
-            await asyncio.to_thread(trigger_sync)
+            sync_line = await _sync_report_line()
             await query.edit_message_text(
-                f"✅ Đã chuyển note '{selected['word']}' sang deck '{deck_name}'.\n☁️ Đã sync AnkiWeb."
+                f"✅ Đã chuyển note '{selected['word']}' sang deck '{deck_name}'.\n{sync_line}"
             )
         else:
             await query.edit_message_text("❌ Chuyển deck thất bại.")
@@ -414,6 +433,9 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if not ok:
             await query.edit_message_text("❌ Xóa note cũ thất bại. Đã hủy.")
             return
+        # Sync ngay sau khi xóa (phòng trường hợp bước thêm mới bên dưới thất bại
+        # thì việc xóa vẫn đã được đẩy lên AnkiWeb, không bị lệch 2 bên)
+        await asyncio.to_thread(trigger_sync)
         await _do_add(query.message, word, deck_name, is_forced=False)
 
     elif data == "act:trung":
@@ -465,6 +487,12 @@ def main():
         print("⚠️ AI chưa phản hồi - bot vẫn chạy, sẽ thử lại khi có yêu cầu.")
 
     setup_anki_environment()
+    # Sync ngay sau khi cập nhật môi trường (template/CSS): đẩy mọi thay đổi lên
+    # AnkiWeb liền để các thiết bị khác luôn thấy bản mới nhất, tránh lệch pha.
+    if trigger_sync():
+        print("☁️ Sync khởi động: OK.")
+    else:
+        print("⚠️ Sync khởi động thất bại - sẽ sync lại ở thao tác đầu tiên.")
 
     app = Application.builder().token(TELEGRAM_BOT_TOKEN).post_init(_post_init).build()
     only_me = filters.User(user_id=TELEGRAM_USER_ID)

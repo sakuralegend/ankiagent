@@ -46,7 +46,9 @@ def process_word(word, deck_name, is_forced=False, do_sync=False):
         return False, card_info, f"AnkiConnect từ chối thêm note: {err or 'không rõ nguyên nhân'}"
 
     if do_sync:
-        trigger_sync()
+        # Ghi lại kết quả sync để giao diện (bot) BÁO RÕ khi thất bại,
+        # tránh tình trạng thẻ chỉ nằm trên VPS mà người dùng không biết.
+        card_info["synced"] = trigger_sync()
 
     return True, card_info, None
 
@@ -96,7 +98,8 @@ def refine_note(word, instruction, do_sync=True):
     if not update_note_refined(note_id, vi_meaning, examples_html):
         return False, None, "Ghi thẻ mới vào Anki thất bại."
 
+    result = {"word": fields.get("Word", word), "vi": vi_meaning, "examples": simplified}
     if do_sync:
-        trigger_sync()
+        result["synced"] = trigger_sync()
 
-    return True, {"word": fields.get("Word", word), "vi": vi_meaning, "examples": simplified}, None
+    return True, result, None
