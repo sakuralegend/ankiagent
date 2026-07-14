@@ -116,6 +116,19 @@ async def _show_deck_list(query, context):
     await query.edit_message_text("📂 Chọn deck:", reply_markup=InlineKeyboardMarkup(rows))
 
 
+def _degraded_fix_keyboard(word):
+    """2 nút cho thẻ AI tạo bị thiếu nội dung: tự sửa (preset 2 - đổi ví dụ,
+    giống bấm nút 2 ở /sua) hoặc bỏ qua. Trả về None nếu từ quá dài so với
+    giới hạn 64 byte của callback_data (khi đó tin nhắn vẫn còn dòng gợi ý /sua)."""
+    data = f"fix:{word}"
+    if not word or len(data.encode("utf-8")) > 64:
+        return None
+    return InlineKeyboardMarkup([[
+        InlineKeyboardButton("🔧 Tự sửa (đổi ví dụ)", callback_data=data),
+        InlineKeyboardButton("⏭ Bỏ qua", callback_data="fix:"),
+    ]])
+
+
 def _menu_keyboard():
     return InlineKeyboardMarkup([
         [
@@ -196,7 +209,9 @@ def format_card_summary(card_info, elapsed):
         lines.append(
             "⚠️ AI không tạo được ví dụ/nghĩa Việt lần này — thẻ vẫn được thêm nhưng THIẾU nội dung."
         )
-        lines.append(f"👉 Gõ /sua {card_info.get('clean_word', '')} để AI làm lại thẻ này.")
+        lines.append(
+            f"👉 Bấm nút bên dưới, hoặc gõ /sua {card_info.get('clean_word', '')} để AI làm lại."
+        )
 
     lines.append(f"📦 {card_info['deck']} | ⏱ {elapsed:.1f}s")
     if card_info.get("synced") is False:
@@ -214,7 +229,12 @@ async def _do_add(status_msg, word, deck_name, is_forced):
         process_word, word, deck_name, is_forced, True  # do_sync=True trên VPS
     )
     if success:
-        await status_msg.edit_text(format_card_summary(card_info, time.time() - t0))
+        markup = None
+        if card_info.get("ai_degraded"):
+            markup = _degraded_fix_keyboard(card_info.get("clean_word", ""))
+        await status_msg.edit_text(
+            format_card_summary(card_info, time.time() - t0), reply_markup=markup
+        )
     else:
         await status_msg.edit_text(f"❌ {error_msg}")
 
@@ -304,9 +324,12 @@ async def cmd_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def cmd_deck(update: Update, context: ContextTypes.DEFAULT_TYPE):
     _reset_idle_timer(context, update.effective_chat.id)
     if not context.args:
+        # Không có tham số -> hiện 2 tùy chọn (deck có sẵn / tạo mới) như menu khởi đầu
         deck = _current_deck(context)
         current = f"📦 Deck hiện tại: {deck}" if deck else "📦 Chưa chọn deck."
-        await update.message.reply_text(f"{current}\nĐổi deck: gõ c (hoặc /deck <tên>)")
+        await update.message.reply_text(
+            f"{current}\n📚 Chọn deck:", reply_markup=_deck_choose_keyboard()
+        )
         return
     deck_name = " ".join(context.args).strip()
     ok = await asyncio.to_thread(ensure_deck_exists, deck_name)
@@ -455,6 +478,18 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await query.edit_message_text("☁️ Đã sync AnkiWeb." if ok else "❌ Sync thất bại.")
         elif action == "help":
             await query.edit_message_text(HELP_TEXT)
+        return
+
+    # --- Nút trên thẻ AI tạo thiếu nội dung: tự sửa (preset 2) / bỏ qua ---
+    if data.startswith("fix:"):
+        word = data.split(":", 1)[1]
+        if not word:  # "fix:" rỗng = Bỏ qua -> chỉ gỡ nút, giữ nguyên tin nhắn thẻ
+            try:
+                await query.edit_message_reply_markup(None)
+            except Exception:
+                pass
+            return
+        await _do_sua(query.message, word, "2")  # "2" = preset đổi ví dụ, như /sua
         return
 
     # --- Nút chọn kiểu sửa thẻ ---
