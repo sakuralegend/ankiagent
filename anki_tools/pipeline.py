@@ -9,7 +9,7 @@ import re
 
 from .scraper import process_pure_next_data
 from .utils import strip_accents_perfectly
-from .ai_client import call_claude_refine
+from .ai_client import call_claude_refine, REFINE_PRESETS
 from .html_builder import build_html_from_ai_result
 from .anki_client import (
     push_to_anki,
@@ -60,7 +60,11 @@ def refine_note(word, instruction, do_sync=True):
 
     Trả về (success: bool, result: dict | None, error_msg: str | None).
     result = {"word", "vi", "examples"} để hiển thị tóm tắt.
+
+    instruction có thể là "1"/"2"/"3" (lệnh sửa nhanh - xem REFINE_PRESETS
+    trong ai_client.py: ngắn hơn / đổi ví dụ khác / dài hơn) hoặc yêu cầu tự do.
     """
+    instruction = REFINE_PRESETS.get(instruction.strip(), instruction.strip())
     clean_word = strip_accents_perfectly(word)
     dups = find_duplicate_notes(clean_word)
     if not dups:
@@ -85,7 +89,7 @@ def refine_note(word, instruction, do_sync=True):
 
     ai_result = call_claude_refine(clean_word, current_vi, current_ex_text, raw_examples, instruction)
     if not ai_result:
-        return False, None, "AI không trả về kết quả hợp lệ. Thử lại lần nữa nhé."
+        return False, None, "AI trả thiếu dữ liệu 2 lần liên tiếp — thẻ KHÔNG bị thay đổi. Thử lại nhé."
 
     examples_html, vi_meaning, simplified = build_html_from_ai_result(ai_result)
 

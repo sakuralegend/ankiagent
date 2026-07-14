@@ -1,21 +1,27 @@
 # ==============================================================================
 # --- BOT TELEGRAM: thêm từ + sửa thẻ Anki từ xa (chạy 24/7 trên VPS) ---
-# Cách dùng trong Telegram (chỉ user có TELEGRAM_USER_ID mới được dùng):
+# Luồng dùng (chỉ user có TELEGRAM_USER_ID được phép, giống CLI main.py):
+#   (bắt đầu phiên)           -> bot hỏi tên bộ bài trước, nhập xong mới thêm từ
 #   <gõ 1 từ tiếng Nga>       -> thêm thẻ mới vào deck hiện tại
-#   /deck <tên deck>          -> đổi deck hiện tại
-#   /sua <từ> <yêu cầu>       -> sửa lại thẻ đã có theo yêu cầu (AI refine)
+#   c                         -> đổi bộ bài (như gõ 'c' trong CLI)
+#   /deck <tên>               -> đổi bộ bài 1 bước
+#   /sua <từ>                 -> hiện 4 nút: 1 Ngắn hơn / 2 Đổi ví dụ / 3 Dài hơn / Tự viết
+#   /sua <từ> 1|2|3           -> chạy thẳng lệnh sửa nhanh tương ứng
+#   /sua <từ> <yêu cầu>       -> sửa theo yêu cầu tự do
+#   /menu                     -> menu nút bấm
 #   /sync                     -> ép đồng bộ AnkiWeb ngay
-#   /start hoặc /help         -> hướng dẫn
 #
-# Kiến trúc: bot dùng long-polling (không cần mở port/domain/SSL).
-# Mọi thao tác nặng (cào web, gọi AI, gọi AnkiConnect) là blocking-requests
-# nên được đẩy vào thread qua asyncio.to_thread để không nghẽn bot.
+# Nghỉ >3 phút -> tự reset phiên (quên deck + trạng thái dở dang) và gửi 1 tin
+# menu nút bấm để lần sau thao tác nhanh.
+#
+# Kiến trúc: long-polling (không cần mở port/domain/SSL). Mọi thao tác nặng
+# (cào web, gọi AI, AnkiConnect) chạy qua asyncio.to_thread để không nghẽn bot.
 # Logic thêm/sửa từ nằm ở anki_tools/pipeline.py - DÙNG CHUNG với main.py (CLI).
 # ==============================================================================
 import asyncio
 import time
 
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, BotCommand
 from telegram.ext import (
     Application,
     CommandHandler,
@@ -25,7 +31,7 @@ from telegram.ext import (
     filters,
 )
 
-from anki_tools.config import TELEGRAM_BOT_TOKEN, TELEGRAM_USER_ID, DEFAULT_DECK
+from anki_tools.config import TELEGRAM_BOT_TOKEN, TELEGRAM_USER_ID
 from anki_tools.utils import strip_accents_perfectly, hl_to_bracket
 from anki_tools.ai_client import check_claude_ready
 from anki_tools.pipeline import process_word, refine_note
@@ -39,24 +45,77 @@ from anki_tools.anki_client import (
     trigger_sync,
 )
 
+IDLE_RESET_SECONDS = 180  # nghỉ 3 phút -> reset phiên + gửi menu
+
 HELP_TEXT = (
     "🇷🇺 Bot Anki tiếng Nga\n"
     "───────────────────\n"
+    "• Bắt đầu: bot hỏi tên bộ bài trước, nhập xong mới gõ từ\n"
     "• Gõ 1 từ tiếng Nga → thêm thẻ mới\n"
-    "• /deck <tên> → đổi bộ bài hiện tại\n"
-    "• /sua <từ> <yêu cầu> → sửa thẻ đã có\n"
-    "   vd: /sua хороший ví dụ ngắn hơn, đời thường hơn\n"
+    "• c → đổi bộ bài (như trong CLI)\n"
+    "• /sua <từ> → sửa thẻ: chọn 1 Ngắn hơn / 2 Đổi ví dụ / 3 Dài hơn / Tự viết\n"
+    "• /menu → menu nút bấm\n"
     "• /sync → đồng bộ AnkiWeb ngay\n"
-    "• /help → xem lại hướng dẫn này"
+    "• Nghỉ >3 phút → bot tự reset phiên (hỏi lại deck)"
 )
 
 
 # ---------------------------------------------------------------------------
-# Tiện ích
+# Trạng thái phiên + tiện ích
 # ---------------------------------------------------------------------------
 
 def _current_deck(context):
-    return context.bot_data.get("deck", DEFAULT_DECK)
+    return context.bot_data.get("deck")
+
+
+def _menu_keyboard():
+    return InlineKeyboardMarkup([
+        [
+            InlineKeyboardButton("📚 Chọn deck", callback_data="menu:deck"),
+            InlineKeyboardButton("✏️ Sửa thẻ", callback_data="menu:sua"),
+        ],
+        [
+            InlineKeyboardButton("☁️ Sync", callback_data="menu:sync"),
+            InlineKeyboardButton("❓ Hướng dẫn", callback_data="menu:help"),
+        ],
+    ])
+
+
+def _menu_text(context):
+    deck = _current_deck(context)
+    deck_line = f"📦 Deck hiện tại: {deck}" if deck else "📦 Chưa chọn deck"
+    return f"🎛 MENU\n{deck_line}\nBấm nút hoặc gõ từ để thao tác:"
+
+
+async def _idle_reset_job(context, chat_id):
+    """Chạy sau IDLE_RESET_SECONDS im lặng: reset phiên (quên deck + trạng thái
+    dở dang) rồi gửi ĐÚNG 1 tin menu. Bị hủy nếu user tương tác lại."""
+    try:
+        await asyncio.sleep(IDLE_RESET_SECONDS)
+    except asyncio.CancelledError:
+        return
+    context.bot_data["deck"] = None
+    context.bot_data["awaiting_deck"] = False
+    user_data = context.application.user_data.get(TELEGRAM_USER_ID)
+    if user_data:
+        user_data.pop("pending", None)
+        user_data.pop("sua_word", None)
+    try:
+        await context.bot.send_message(
+            chat_id,
+            "⏸ Đã reset phiên (nghỉ >3 phút). Deck đã xóa — bấm nút hoặc gõ tiếp:",
+            reply_markup=_menu_keyboard(),
+        )
+    except Exception:
+        pass
+
+
+def _reset_idle_timer(context, chat_id):
+    """Mỗi tương tác gọi hàm này 1 lần: hủy đồng hồ cũ, đặt đồng hồ 3 phút mới."""
+    old_task = context.bot_data.get("idle_task")
+    if old_task and not old_task.done():
+        old_task.cancel()
+    context.bot_data["idle_task"] = asyncio.create_task(_idle_reset_job(context, chat_id))
 
 
 def format_card_summary(card_info, elapsed):
@@ -98,6 +157,25 @@ async def _do_add(status_msg, word, deck_name, is_forced):
         await status_msg.edit_text(f"❌ {error_msg}")
 
 
+async def _do_sua(status_msg, word, instruction):
+    """Chạy pipeline sửa thẻ (trong thread) rồi cập nhật tin nhắn trạng thái."""
+    t0 = time.time()
+    await status_msg.edit_text(f"⏳ Đang sửa thẻ '{word}'...")
+    success, result, error_msg = await asyncio.to_thread(refine_note, word, instruction, True)
+    if not success:
+        await status_msg.edit_text(f"❌ {error_msg}")
+        return
+    lines = [f"✏️ ĐÃ SỬA THẺ: {hl_to_bracket(result['word'])}", f"🇻🇳 {result['vi']}"]
+    for i, ex in enumerate(result["examples"][:3]):
+        lines.append(f"💡 {i + 1}. {hl_to_bracket(ex.get('ru', ''))}")
+        vi = hl_to_bracket(ex.get("vi") or ex.get("vietnamese") or "")
+        if vi:
+            lines.append(f"     ➔ {vi}")
+    lines.append(f"⏱ {time.time() - t0:.1f}s")
+    lines.append("☁️ Đã sync AnkiWeb — mở app Anki bấm sync để thấy thẻ mới.")
+    await status_msg.edit_text("\n".join(lines))
+
+
 def _duplicate_text_and_keyboard(pending):
     """Dựng nội dung tin nhắn + bàn phím nút bấm cho tình huống từ bị trùng."""
     dups = pending["dups"]
@@ -124,68 +202,121 @@ def _duplicate_text_and_keyboard(pending):
     return "\n".join(lines), InlineKeyboardMarkup(rows)
 
 
+def _sua_keyboard():
+    return InlineKeyboardMarkup([
+        [
+            InlineKeyboardButton("1️⃣ Ngắn hơn", callback_data="sua:1"),
+            InlineKeyboardButton("2️⃣ Đổi ví dụ", callback_data="sua:2"),
+            InlineKeyboardButton("3️⃣ Dài hơn", callback_data="sua:3"),
+        ],
+        [InlineKeyboardButton("✏️ Tự viết yêu cầu", callback_data="sua:custom")],
+    ])
+
+
 # ---------------------------------------------------------------------------
 # Handlers
 # ---------------------------------------------------------------------------
 
 async def cmd_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text(f"{HELP_TEXT}\n\n📦 Deck hiện tại: {_current_deck(context)}")
+    _reset_idle_timer(context, update.effective_chat.id)
+    deck = _current_deck(context)
+    if deck:
+        await update.message.reply_text(f"{HELP_TEXT}\n\n📦 Deck hiện tại: {deck}")
+    else:
+        context.bot_data["awaiting_deck"] = True
+        await update.message.reply_text(f"{HELP_TEXT}\n\n📚 Nhập tên bộ bài để bắt đầu:")
+
+
+async def cmd_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    _reset_idle_timer(context, update.effective_chat.id)
+    await update.message.reply_text(_menu_text(context), reply_markup=_menu_keyboard())
 
 
 async def cmd_deck(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    _reset_idle_timer(context, update.effective_chat.id)
     if not context.args:
-        await update.message.reply_text(
-            f"📦 Deck hiện tại: {_current_deck(context)}\nĐổi deck: /deck <tên deck>"
-        )
+        deck = _current_deck(context)
+        current = f"📦 Deck hiện tại: {deck}" if deck else "📦 Chưa chọn deck."
+        await update.message.reply_text(f"{current}\nĐổi deck: gõ c (hoặc /deck <tên>)")
         return
     deck_name = " ".join(context.args).strip()
     ok = await asyncio.to_thread(ensure_deck_exists, deck_name)
     if ok:
         context.bot_data["deck"] = deck_name
+        context.bot_data["awaiting_deck"] = False
         await update.message.reply_text(f"📦 Đã chuyển sang deck: {deck_name}")
     else:
         await update.message.reply_text("❌ Không tạo/kiểm tra được deck (AnkiConnect lỗi?).")
 
 
 async def cmd_sync(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    _reset_idle_timer(context, update.effective_chat.id)
     msg = await update.message.reply_text("⏳ Đang sync AnkiWeb...")
     ok = await asyncio.to_thread(trigger_sync)
     await msg.edit_text("☁️ Đã sync AnkiWeb." if ok else "❌ Sync thất bại (xem log trên VPS).")
 
 
 async def cmd_sua(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    _reset_idle_timer(context, update.effective_chat.id)
     if not context.args:
         await update.message.reply_text(
-            "Cách dùng: /sua <từ> <yêu cầu>\nvd: /sua хороший ví dụ ngắn hơn, đời thường hơn"
+            "Cách dùng:\n"
+            "• /sua <từ> → chọn nút 1 Ngắn hơn / 2 Đổi ví dụ / 3 Dài hơn / Tự viết\n"
+            "• /sua <từ> 1 (hoặc 2, 3) → chạy thẳng lệnh sửa nhanh\n"
+            "• /sua <từ> <yêu cầu tự do>\n"
+            "vd: /sua хороший ví dụ về chủ đề ăn uống"
         )
         return
     word = context.args[0]
-    instruction = " ".join(context.args[1:]).strip() or "Viết lại 3 ví dụ mới tự nhiên, đời thường hơn."
+    instruction = " ".join(context.args[1:]).strip()
 
-    msg = await update.message.reply_text(f"⏳ Đang sửa thẻ '{word}' theo yêu cầu...")
-    t0 = time.time()
-    success, result, error_msg = await asyncio.to_thread(refine_note, word, instruction, True)
-    if not success:
-        await msg.edit_text(f"❌ {error_msg}")
+    if not instruction:
+        # Chưa có yêu cầu -> hiện 4 nút chọn kiểu sửa
+        context.user_data["sua_word"] = word
+        await update.message.reply_text(
+            f"✏️ Sửa thẻ '{word}' — chọn kiểu:", reply_markup=_sua_keyboard()
+        )
         return
 
-    lines = [f"✏️ ĐÃ SỬA THẺ: {hl_to_bracket(result['word'])}", f"🇻🇳 {result['vi']}"]
-    for i, ex in enumerate(result["examples"][:3]):
-        lines.append(f"💡 {i + 1}. {hl_to_bracket(ex.get('ru', ''))}")
-        vi = hl_to_bracket(ex.get("vi") or ex.get("vietnamese") or "")
-        if vi:
-            lines.append(f"     ➔ {vi}")
-    lines.append(f"⏱ {time.time() - t0:.1f}s")
-    lines.append("☁️ Đã sync AnkiWeb — mở app Anki bấm sync để thấy thẻ mới.")
-    await msg.edit_text("\n".join(lines))
+    msg = await update.message.reply_text("⏳ Chuẩn bị sửa thẻ...")
+    await _do_sua(msg, word, instruction)
 
 
 async def on_word(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Tin nhắn text thường = 1 từ cần thêm thẻ."""
-    word = update.message.text.strip()
-    if not word:
+    """Tin nhắn text thường: tên deck (nếu đang chờ) / 'c' đổi deck / từ cần thêm."""
+    text = update.message.text.strip()
+    if not text:
+        return
+    _reset_idle_timer(context, update.effective_chat.id)
+
+    # --- Chưa có deck: bắt nhập tên deck trước (giống CLI) ---
+    if _current_deck(context) is None:
+        if not context.bot_data.get("awaiting_deck"):
+            context.bot_data["awaiting_deck"] = True
+            await update.message.reply_text("📚 Nhập tên bộ bài trước đã:")
+            return
+        # Tin nhắn này chính là tên deck
+        deck_name = text
+        ok = await asyncio.to_thread(ensure_deck_exists, deck_name)
+        if ok:
+            context.bot_data["deck"] = deck_name
+            context.bot_data["awaiting_deck"] = False
+            await update.message.reply_text(
+                f"📦 Deck: {deck_name} — giờ gõ từ tiếng Nga để thêm thẻ."
+            )
+        else:
+            await update.message.reply_text("❌ Không tạo được deck. Nhập tên khác thử:")
         return
 
+    # --- 'c' = đổi deck, giống CLI ---
+    if text.lower() == "c":
+        context.bot_data["deck"] = None
+        context.bot_data["awaiting_deck"] = True
+        await update.message.reply_text("📚 Nhập tên bộ bài mới:")
+        return
+
+    # --- Còn lại: text là từ cần thêm ---
+    word = text
     deck_name = _current_deck(context)
     status = await update.message.reply_text(f"🔍 Đang kiểm tra '{word}'...")
 
@@ -194,33 +325,71 @@ async def on_word(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     if duplicates:
         context.user_data["pending"] = {"word": word, "dups": duplicates, "sel": 0}
-        text, keyboard = _duplicate_text_and_keyboard(context.user_data["pending"])
-        await status.edit_text(text, reply_markup=keyboard)
+        dup_text, keyboard = _duplicate_text_and_keyboard(context.user_data["pending"])
+        await status.edit_text(dup_text, reply_markup=keyboard)
         return
 
     await _do_add(status, word, deck_name, is_forced=False)
 
 
 async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Xử lý nút bấm inline (luồng từ bị trùng)."""
+    """Xử lý mọi nút bấm inline: menu:*, sua:*, và luồng từ trùng (sel:/act:)."""
     query = update.callback_query
     if query.from_user.id != TELEGRAM_USER_ID:
         await query.answer("Bạn không có quyền dùng bot này.")
         return
     await query.answer()
+    _reset_idle_timer(context, query.message.chat_id)
+    data = query.data
 
+    # --- Nút menu ---
+    if data.startswith("menu:"):
+        action = data.split(":", 1)[1]
+        if action == "deck":
+            context.bot_data["deck"] = None
+            context.bot_data["awaiting_deck"] = True
+            await query.edit_message_text("📚 Nhập tên bộ bài mới:")
+        elif action == "sua":
+            await query.edit_message_text(
+                "✏️ Gõ: /sua <từ> rồi chọn nút kiểu sửa.\nvd: /sua хороший"
+            )
+        elif action == "sync":
+            await query.edit_message_text("⏳ Đang sync AnkiWeb...")
+            ok = await asyncio.to_thread(trigger_sync)
+            await query.edit_message_text("☁️ Đã sync AnkiWeb." if ok else "❌ Sync thất bại.")
+        elif action == "help":
+            await query.edit_message_text(HELP_TEXT)
+        return
+
+    # --- Nút chọn kiểu sửa thẻ ---
+    if data.startswith("sua:"):
+        choice = data.split(":", 1)[1]
+        word = context.user_data.get("sua_word")
+        if not word:
+            await query.edit_message_text("⌛ Phiên sửa đã hết hạn, gọi lại /sua <từ> nhé.")
+            return
+        if choice == "custom":
+            await query.edit_message_text(
+                f"✏️ Gõ: /sua {word} <yêu cầu của bạn>\n"
+                f"vd: /sua {word} ví dụ về chủ đề công việc"
+            )
+            return
+        context.user_data.pop("sua_word", None)
+        await _do_sua(query.message, word, choice)  # choice = "1"/"2"/"3", pipeline tự resolve
+        return
+
+    # --- Luồng từ trùng (sel:/act:) ---
     pending = context.user_data.get("pending")
     if not pending:
         await query.edit_message_text("⌛ Phiên xử lý đã hết hạn, gõ lại từ nhé.")
         return
 
-    data = query.data
     deck_name = _current_deck(context)
 
     if data.startswith("sel:"):
         pending["sel"] = int(data.split(":", 1)[1])
-        text, keyboard = _duplicate_text_and_keyboard(pending)
-        await query.edit_message_text(text, reply_markup=keyboard)
+        dup_text, keyboard = _duplicate_text_and_keyboard(pending)
+        await query.edit_message_text(dup_text, reply_markup=keyboard)
         return
 
     selected = pending["dups"][pending["sel"]]
@@ -267,6 +436,17 @@ def wait_for_anki(max_wait_seconds=180):
     return False
 
 
+async def _post_init(app):
+    """Đăng ký menu lệnh gốc của Telegram (nút '/' cạnh ô gõ chữ)."""
+    await app.bot.set_my_commands([
+        BotCommand("menu", "Menu nút bấm"),
+        BotCommand("deck", "Đổi bộ bài: /deck <tên> (hoặc gõ c)"),
+        BotCommand("sua", "Sửa thẻ: /sua <từ>"),
+        BotCommand("sync", "Đồng bộ AnkiWeb ngay"),
+        BotCommand("help", "Hướng dẫn"),
+    ])
+
+
 def main():
     if not TELEGRAM_BOT_TOKEN or not TELEGRAM_USER_ID:
         print("❌ Thiếu TELEGRAM_BOT_TOKEN hoặc TELEGRAM_USER_ID trong .env")
@@ -285,19 +465,19 @@ def main():
         print("⚠️ AI chưa phản hồi - bot vẫn chạy, sẽ thử lại khi có yêu cầu.")
 
     setup_anki_environment()
-    ensure_deck_exists(DEFAULT_DECK)
 
-    app = Application.builder().token(TELEGRAM_BOT_TOKEN).build()
+    app = Application.builder().token(TELEGRAM_BOT_TOKEN).post_init(_post_init).build()
     only_me = filters.User(user_id=TELEGRAM_USER_ID)
 
     app.add_handler(CommandHandler(["start", "help"], cmd_start, filters=only_me))
+    app.add_handler(CommandHandler("menu", cmd_menu, filters=only_me))
     app.add_handler(CommandHandler("deck", cmd_deck, filters=only_me))
     app.add_handler(CommandHandler("sync", cmd_sync, filters=only_me))
     app.add_handler(CommandHandler("sua", cmd_sua, filters=only_me))
     app.add_handler(CallbackQueryHandler(on_callback))
     app.add_handler(MessageHandler(only_me & filters.TEXT & ~filters.COMMAND, on_word))
 
-    print(f"🚀 Bot đang chạy (long polling). Deck mặc định: {DEFAULT_DECK}")
+    print("🚀 Bot đang chạy (long polling). Sẽ hỏi tên deck khi bạn nhắn tin.")
     app.run_polling(allowed_updates=Update.ALL_TYPES)
 
 

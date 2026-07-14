@@ -37,7 +37,7 @@ CLAUDE_FALLBACK_MODELS = [
 # --- Telegram Bot ---
 TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
 TELEGRAM_USER_ID = int(os.environ.get("TELEGRAM_USER_ID", "0"))
-DEFAULT_DECK = os.environ.get("DEFAULT_DECK", "Russian")
+# (Không còn deck mặc định: bot hỏi tên deck khi bắt đầu phiên, giống CLI main.py)
 
 OPENRUSSIAN_AUDIO_TEMPLATE = "https://api.openrussian.org/read/ru/{word}"
 MODEL_NAME = "Russian_Premium_OLED_Type_v25"

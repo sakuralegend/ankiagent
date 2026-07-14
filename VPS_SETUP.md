@@ -107,10 +107,15 @@ Bot trả về thẻ mới + tự sync. Mở app Anki trên iPhone → bấm syn
 
 | Muốn làm gì | Gõ trong Telegram |
 |---|---|
+| Bắt đầu phiên | nhắn gì đó → bot hỏi tên bộ bài → nhập tên deck |
 | Thêm từ | gõ thẳng từ đó, vd `хороший` |
-| Đổi deck | `/deck Tên Deck` |
-| Sửa thẻ đã có | `/sua хороший ví dụ ngắn hơn, đời thường hơn` |
+| Đổi deck | gõ `c` (hoặc `/deck Tên Deck`) |
+| Sửa thẻ đã có | `/sua хороший` → chọn nút 1 Ngắn hơn / 2 Đổi ví dụ / 3 Dài hơn / Tự viết |
+| Sửa theo ý mình | `/sua хороший ví dụ về chủ đề ăn uống` |
+| Menu nút bấm | `/menu` |
 | Ép sync ngay | `/sync` |
+
+Nghỉ >3 phút: bot tự reset phiên (quên deck) và gửi 1 tin menu nút bấm.
 
 # Khi sửa code / thêm tính năng (trên PC)
 

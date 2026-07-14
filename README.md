@@ -1,98 +1,107 @@
-# 🇷🇺 OpenRussian → Anki Flashcard Builder
+# 🇷🇺 Anki Agent — OpenRussian → Anki, điều khiển bằng Telegram, chạy 24/7 trên VPS
 
-Công cụ tự động cào dữ liệu từ [OpenRussian](https://en.openrussian.org/), dùng AI (Claude, qua
-1 proxy OpenAI-compatible) để dịch nghĩa + viết ví dụ tự nhiên, rồi đẩy thẻ lên Anki qua
-[AnkiConnect](https://ankiweb.net/shared/info/2055492159).
+Hệ thống tự động xây thẻ Anki tiếng Nga: cào dữ liệu từ [OpenRussian](https://en.openrussian.org/),
+dùng AI (Gemini, qua endpoint OpenAI-compatible) dịch nghĩa + viết ví dụ 3 thứ tiếng (Nga–Anh–Việt),
+đẩy thẻ vào Anki qua [AnkiConnect](https://git.sr.ht/~foosoft/anki-connect), rồi tự sync lên AnkiWeb
+để điện thoại kéo về. Toàn bộ thao tác hằng ngày làm qua **bot Telegram** — không cần mở máy tính.
+
+## 🏗 Kiến trúc
+
+```
+iPhone (Telegram) ──> bot.py ──> pipeline.py ──> scraper (OpenRussian)
+   │                (VPS, systemd)    │      └──> ai_client (Gemini + fallback model)
+   │                                  └──> anki_client ──> AnkiConnect :8765 (nội bộ)
+   │                                                          │
+   │                                              Anki desktop headless (Docker
+   │                                              thisisnttheway/headless-anki)
+   │                                                          │ sync
+   └───────── app Anki (bấm sync) <──────── AnkiWeb <─────────┘
+```
+
+- AnkiConnect (8765) và VNC (5900) chỉ bind `127.0.0.1` trên VPS — **không mở ra internet**.
+- Bot dùng long-polling + whitelist đúng 1 Telegram user ID → không cần domain/SSL/port.
+- Sau mỗi lần thêm/sửa thẻ, bot gọi sync → AnkiWeb → iPhone chỉ việc bấm sync trong app Anki.
 
 ## 📁 Cấu trúc project
 
 ```
-main.py                          # Vòng lặp chính: nhập từ, cào dữ liệu, đẩy lên Anki
+bot.py               # Bot Telegram (giao diện chính hằng ngày, chạy 24/7 trên VPS)
+main.py              # CLI trên PC (vẫn dùng được y hệt trước: python main.py)
 anki_tools/
-  config.py                      # ⚙️ TOÀN BỘ cấu hình (URL, API key, tên model...)
-  utils.py                       # Hàm tiện ích nhỏ (log, xử lý chữ, bỏ dấu...)
-  ai_client.py                   # Giao tiếp AI (Claude) - system prompt, few-shot, gọi API
-  scraper.py                     # Cào dữ liệu từ trang OpenRussian
-  html_builder.py                # Dựng HTML khối ví dụ (nhánh AI + nhánh fallback)
-  anki_client.py                 # Giao tiếp AnkiConnect (tạo deck/model, đẩy note, in tóm tắt)
-  templates/
-    card.css                     # CSS chung cho thẻ
-    front_template.html          # Mặt trước thẻ
-    back_template.html           # Mặt sau thẻ (có nút "AI Refine" chạy JS ngay trong Anki)
+  config.py          # Đọc cấu hình từ .env (KHÔNG còn secret nào nằm trong code)
+  pipeline.py        # Logic dùng chung: process_word() thêm từ, refine_note() sửa thẻ
+  ai_client.py       # Gọi AI: system prompt, OUTPUT CONTRACT khi sửa thẻ, preset 1/2/3,
+                     #   validate kết quả, chuỗi model dự phòng khi hết quota (429)
+  scraper.py         # Cào dữ liệu OpenRussian
+  html_builder.py    # NƠI DUY NHẤT dựng HTML khối ví dụ (thêm mới + sửa thẻ đều qua đây)
+  anki_client.py     # Giao tiếp AnkiConnect (deck/model/note/sync)
+  templates/         # CSS + HTML thẻ (tĩnh thuần — không còn JS gọi AI trong thẻ)
+docker-compose.yml   # Container Anki headless trên VPS
+setup_vps.sh         # Cài VPS lần đầu (Docker, swap, addon AnkiConnect, venv, systemd)
+anki-bot.service     # systemd unit: bot tự chạy khi VPS khởi động, tự restart khi crash
+deploy.ps1           # Deploy từ PC: push GitHub → VPS pull → restart bot (1 lệnh)
+VPS_SETUP.md         # Hướng dẫn cài VPS từng bước + xử lý lỗi thường gặp
 ```
 
-## ⚙️ Cấu hình (`anki_tools/config.py`)
+## ⚙️ Cấu hình — file `.env` (không đưa lên git)
 
-Đây là **nơi duy nhất** cần sửa khi muốn đổi endpoint AI, model, API key, hoặc địa chỉ AnkiConnect:
+Tạo từ mẫu: copy `.env.example` → `.env` rồi điền. `config.py` chỉ đọc, không chứa secret.
 
-| Hằng số | Ý nghĩa |
+| Biến | Ý nghĩa |
 |---|---|
-| `ANKI_CONNECT_URL` | Địa chỉ AnkiConnect dùng bởi Python (mặc định `http://127.0.0.1:8765`) |
-| `CLAUDE_API_URL` | Endpoint chat completions (OpenAI-compatible). Hiện trỏ tới lớp tương thích OpenAI của Gemini (`.../v1beta/openai/chat/completions`), có thể đổi lại sang proxy Claude hoặc endpoint OpenAI-compatible khác |
-| `CLAUDE_API_KEY` | API key để gọi endpoint AI ở trên (hiện cần API key từ [Google AI Studio](https://aistudio.google.com/apikey) vì đang dùng Gemini) |
-| `CLAUDE_MODEL` | Tên model AI dùng qua endpoint trên (hiện đang dùng `gemini-3.5-flash`, free tier; có thể đổi sang `gemini-2.5-flash`, `claude-haiku-4-5` qua proxy Claude, `gpt-4o-mini`, v.v.) |
-| `OPENRUSSIAN_AUDIO_TEMPLATE` | Template URL lấy file audio phát âm từ OpenRussian |
-| `MODEL_NAME` | Tên Note Type (model) sẽ tạo/cập nhật trong Anki |
-| `ANKI_CONNECT_LOCAL_URL` / `ANKI_CONNECT_MOBILE_URL` | Địa chỉ AnkiConnect dùng bởi JS **chạy trong thẻ Anki** (khi bấm nút AI Refine) |
+| `CLAUDE_API_URL` | Endpoint chat completions OpenAI-compatible (đang dùng lớp OpenAI của Gemini) |
+| `CLAUDE_API_KEY` | API key ([Google AI Studio](https://aistudio.google.com/apikey)) |
+| `CLAUDE_MODEL` | Model chính (đang dùng `gemini-3.1-flash-lite` — 500 lượt free/ngày) |
+| `CLAUDE_FALLBACK_MODELS` | Model dự phòng, tự chuyển khi model chính hết quota (lỗi 429) |
+| `ANKI_CONNECT_URL` | Địa chỉ AnkiConnect (mặc định `http://127.0.0.1:8765`) |
+| `TELEGRAM_BOT_TOKEN` | Token bot từ @BotFather |
+| `TELEGRAM_USER_ID` | Telegram user ID duy nhất được phép dùng bot |
 
-> Muốn đổi sang model Claude khác hoặc đổi proxy: chỉ cần sửa `CLAUDE_API_URL` /
-> `CLAUDE_API_KEY` / `CLAUDE_MODEL` trong file này, KHÔNG cần sửa gì thêm — các giá trị này sẽ
-> tự động được tiêm vào cả code Python và code JS trong thẻ khi bạn chạy lại `python main.py`
-> (hàm `setup_anki_environment()` sẽ cập nhật lại template trong Anki).
+## 📱 Dùng hằng ngày (trong Telegram)
 
-## ▶️ Cách chạy
+| Muốn làm gì | Thao tác |
+|---|---|
+| Bắt đầu phiên | Nhắn gì đó → bot hỏi tên bộ bài → nhập tên deck |
+| Thêm từ | Gõ thẳng từ tiếng Nga, vd `хороший` |
+| Từ bị trùng | Bot hiện nút: Hủy / Chuyển deck / Xóa cũ + thêm mới / Vẫn thêm trùng |
+| Đổi deck | Gõ `c` (hoặc `/deck <tên>`) |
+| Sửa thẻ | `/sua <từ>` → chọn nút **1** Ngắn hơn / **2** Đổi ví dụ / **3** Dài hơn / Tự viết |
+| Sửa theo ý mình | `/sua <từ> <yêu cầu tự do>` |
+| Menu nút bấm | `/menu` (hoặc chờ — nghỉ >3 phút bot tự reset phiên và gửi menu) |
+| Ép sync ngay | `/sync` |
 
-1. Mở Anki, đảm bảo add-on **AnkiConnect** đã cài và đang chạy.
-2. Cài dependency: `pip install requests`
-3. Chạy: `python main.py`
-4. Nhập tên bộ bài (deck), sau đó nhập từng từ tiếng Nga muốn thêm. Gõ `exit`/`quit`/`thoát` để dừng,
-   gõ `c` để đổi deck khác giữa chừng.
+Ghi chú: nghỉ >3 phút → bot **quên deck đang chọn** (chống thêm nhầm deck) và gửi 1 tin menu.
 
-## 🤖 Luồng xử lý AI — 2 nơi cần đồng bộ khi update
+## 🤖 Luồng AI
 
-Có **2 nơi hoàn toàn độc lập** cùng gọi AI, và bạn **PHẢI cập nhật cả 2** nếu đổi cách AI viết câu
-hoặc đổi cấu trúc HTML của khối ví dụ:
+- **Một nguồn chân lý duy nhất**: system prompt ở `_CORE_SYSTEM_PROMPT` (`ai_client.py`),
+  HTML khối ví dụ ở `html_builder.py`. Không còn nơi thứ 2 phải đồng bộ.
+- **Sửa thẻ (`/sua`) có OUTPUT CONTRACT cứng**: yêu cầu kiểu "ngắn đi" không thể khiến AI trả
+  thiếu ví dụ — luôn phải đủ nghĩa tiếng Việt + đúng 3 ví dụ đủ ru/en/vi có `<hl>` highlight.
+  Kết quả được validate phía Python, sai thì retry 1 lần, vẫn sai thì **không ghi đè thẻ**.
+- **Hết quota không chết**: model chính 429 → tự thử lần lượt các model trong
+  `CLAUDE_FALLBACK_MODELS`; tất cả đều hỏng mới rơi về ví dụ thô từ từ điển.
 
-1. **Lúc thêm thẻ mới** (Python, `anki_tools/ai_client.py` + `html_builder.py`):
-   - `main.py` gọi `push_to_anki()` → `build_examples_html()` → `call_claude_ai()` /
-     `call_claude_ai_freestyle()` → dựng HTML bằng `_build_example_block()`.
-2. **Lúc bấm nút "🤖 Trợ lý AI Refine" ngay trong thẻ Anki** (JavaScript,
-   `anki_tools/templates/back_template.html`):
-   - Vì đây chạy trong webview của Anki (không có Python hỗ trợ), JS phải tự gọi `fetch()` đến
-     Claude proxy và đến AnkiConnect, tự build lại HTML ví dụ bằng tay.
+## 🔁 Quy trình phát triển
 
-Để tránh 2 nơi này lệch nhau:
-- **System prompt** (văn phong AI) chỉ viết ở `_CORE_SYSTEM_PROMPT` trong `ai_client.py`. Nó được
-  tự động tiêm vào JS qua placeholder `__SYSTEM_PROMPT_JSON__` khi `setup_anki_environment()` chạy.
-  → Muốn đổi văn phong, **chỉ sửa `ai_client.py`**, không sửa tay trong `back_template.html`.
-- **Cấu trúc HTML khối ví dụ** (`class="example-toggle"`, `ex-ru`, `ex-en`, `ex-vi`...) được định
-  nghĩa ở `_build_example_block()` trong `html_builder.py`, và được **lặp lại thủ công** trong đoạn
-  JS build `examplesHtml` ở `back_template.html`. Nếu đổi cấu trúc/class CSS này, phải sửa **cả 2
-  nơi** để card không hiển thị khác nhau tùy theo cách nó được tạo/sửa.
-- **URL/API key/model AI** chỉ định nghĩa ở `config.py`, được tiêm vào JS qua các placeholder
-  `__CLAUDE_API_URL__`, `__CLAUDE_API_KEY__`, `__CLAUDE_MODEL__` (xem `_build_back_template()`
-  trong `anki_client.py`).
+```
+PC:  sửa code (Claude Code) → test → .\deploy.ps1
+     (tự động: git push → VPS git pull → pip install nếu cần → restart bot, ~10 giây)
+```
 
-## ⚠️ Cảnh báo bảo mật (API key)
+Container Anki không bị đụng tới khi deploy — không downtime.
 
-Nút "AI Refine" chạy trực tiếp trong webview Anki, không có Python đứng giữa. Vì vậy
-`CLAUDE_API_KEY` (đọc từ `config.py`) sẽ được **nhúng thẳng vào mã nguồn của Note Type** (mặt sau
-thẻ). Điều này có nghĩa:
+Cài VPS lần đầu: xem [VPS_SETUP.md](VPS_SETUP.md) (7 bước + mục "Lỗi thường gặp").
 
-- Bất kỳ ai xem "Card Info" / export deck / mở file `.apkg` của bạn đều có thể lấy được API key.
-- Đây là rủi ro đã được cân nhắc và chấp nhận để đơn giản hóa kiến trúc (không cần chạy thêm 1
-  server proxy Python nền chỉ để giữ key an toàn).
-- **Không share deck này công khai** (ví dụ AnkiWeb, forum...) nếu không muốn lộ API key. Nếu cần
-  share, hãy đổi key trong `config.py`, chạy lại `python main.py` để refresh template với key mới,
-  rồi thu hồi (revoke) key cũ.
+## 🔐 Bảo mật
 
-## 🔁 Nếu muốn đổi lại AI khác trong tương lai
+- Secrets chỉ nằm trong `.env` (bị `.gitignore` chặn) — code trên GitHub sạch key.
+- API key **không còn bị nhúng vào thẻ Anki** (nút AI Refine trong thẻ đã gỡ — sửa thẻ qua bot).
+- AnkiConnect không có mật khẩu → tuyệt đối không mở port 8765/5900 ra internet;
+  bot là cổng duy nhất, whitelist đúng 1 user ID.
 
-Chỉ cần sửa:
-1. `anki_tools/config.py` — đổi 3 hằng `CLAUDE_*`.
-2. `anki_tools/ai_client.py` — hàm `_send_ai_request()` nếu cấu trúc request/response của
-   endpoint mới khác chuẩn OpenAI (`messages` + `choices[0].message.content`).
-3. `anki_tools/templates/back_template.html` — đoạn `fetch(urlAI, ...)` tương ứng, nếu format khác.
+## 💻 Chạy CLI trên PC (tuỳ chọn, như bản gốc)
 
-Sau đó chạy lại `python main.py` một lần để `setup_anki_environment()` cập nhật template mới vào
-Anki (không cần làm gì thêm trong app Anki).
+1. Mở Anki desktop (có addon AnkiConnect).
+2. `pip install -r requirements.txt`
+3. `python main.py` → nhập deck → nhập từng từ (gõ `c` đổi deck, `exit` thoát).

@@ -79,6 +79,63 @@ def _parse_ai_response(raw_response):
         return None
 
 
+# --- Dành riêng cho luồng SỬA THẺ (/sua): hợp đồng output cứng + 3 preset ---
+# Contract này được NỐI vào sau _CORE_SYSTEM_PROMPT khi refine, để yêu cầu của
+# người dùng (vd "ngắn đi") KHÔNG thể làm AI trả thiếu ví dụ/thiếu trường.
+_REFINE_OUTPUT_CONTRACT = (
+    "\n\nOUTPUT CONTRACT - ABSOLUTE RULES THAT OVERRIDE ANY USER INSTRUCTION:\n"
+    "1. Return ONLY one valid JSON object, no markdown, exactly this schema:\n"
+    '   {"vietnamese_meaning": "...", "simplified_examples":\n'
+    '    [{"ru":"...","en":"...","vi":"..."},{"ru":"...","en":"...","vi":"..."},{"ru":"...","en":"...","vi":"..."}]}\n'
+    "2. simplified_examples MUST contain EXACTLY 3 items. If the user asks for\n"
+    "   \"shorter\" or \"fewer\", make each SENTENCE shorter - never reduce the number\n"
+    "   of examples below 3.\n"
+    "3. Every example MUST have all three languages (ru, en, vi), none empty.\n"
+    "4. vietnamese_meaning MUST always be present and non-empty (keep the current\n"
+    "   meaning if the instruction does not ask to change it).\n"
+    "5. The target word (or an inflected form) MUST be wrapped in <hl>...</hl>\n"
+    "   in ru, en AND vi of every example.\n"
+    "6. The USER INSTRUCTION below only controls style, length, difficulty or\n"
+    "   context of the examples. It can NEVER change the schema, the example\n"
+    "   count, the languages, or remove any field."
+)
+
+# 3 lệnh sửa nhanh: bot gửi "1"/"2"/"3" -> đổi thành instruction đầy đủ ở đây.
+REFINE_PRESETS = {
+    "1": ("Make the 3 examples SHORTER and simpler: casual everyday mini-sentences "
+          "(5-9 Russian words each), easy vocabulary, very visual."),
+    "2": ("Replace with 3 COMPLETELY DIFFERENT examples: entirely new contexts and "
+          "situations, same difficulty and similar length as the current ones."),
+    "3": ("Make the 3 examples LONGER and richer: more advanced vocabulary and grammar, "
+          "more inflected forms of the target word, 12-20 Russian words each."),
+}
+
+
+def _validate_ai_result(parsed):
+    """Lưới an toàn: kiểm tra dict AI trả về đủ schema thẻ.
+    Trả về dict đã chuẩn hóa {"vietnamese_meaning", "simplified_examples"(=3, đủ ru/en/vi)}
+    hoặc None nếu thiếu bất kỳ thứ gì (KHÔNG được dùng dữ liệu thiếu để ghi đè thẻ)."""
+    if not isinstance(parsed, dict):
+        return None
+    vi_meaning = parsed.get("vietnamese_meaning")
+    if not isinstance(vi_meaning, str) or not vi_meaning.strip():
+        return None
+    examples = parsed.get("simplified_examples")
+    if not isinstance(examples, list) or len(examples) < 3:
+        return None
+    cleaned = []
+    for ex in examples[:3]:
+        if not isinstance(ex, dict):
+            return None
+        ru = (ex.get("ru") or "").strip()
+        en = (ex.get("en") or "").strip()
+        vi = (ex.get("vi") or ex.get("vietnamese") or "").strip()
+        if not ru or not en or not vi:
+            return None
+        cleaned.append({"ru": ru, "en": en, "vi": vi})
+    return {"vietnamese_meaning": vi_meaning.strip(), "simplified_examples": cleaned}
+
+
 def _model_chain():
     """Danh sách model theo thứ tự ưu tiên: model chính -> các model dự phòng."""
     chain = [CLAUDE_MODEL]
@@ -182,12 +239,11 @@ def call_claude_ai(word_clean, raw_examples, english_meanings):
         log_fail("AI trả về JSON không hợp lệ, thử lại với chế độ tự sinh...")
         return None
 
-    vi_meaning = parsed.get("vietnamese_meaning", "")
-    examples = parsed.get("simplified_examples", [])
-    if not examples:
-        log_fail("AI trả về danh sách simplified_examples rỗng.")
+    valid = _validate_ai_result(parsed)
+    if not valid:
+        log_fail("AI trả về thiếu dữ liệu (không đủ 3 ví dụ hoặc thiếu ngôn ngữ).")
         return None
-    return {"vietnamese_meaning": vi_meaning, "simplified_examples": examples}
+    return valid
 
 
 def call_claude_ai_freestyle(word_clean, english_meanings):
@@ -214,48 +270,58 @@ def call_claude_ai_freestyle(word_clean, english_meanings):
         log_fail("AI freestyle cũng trả về JSON không hợp lệ.")
         return None
 
-    vi_meaning = parsed.get("vietnamese_meaning", "")
-    examples = parsed.get("simplified_examples", [])
-    if not examples:
-        log_fail("AI freestyle trả về danh sách simplified_examples rỗng.")
+    valid = _validate_ai_result(parsed)
+    if not valid:
+        log_fail("AI freestyle trả về thiếu dữ liệu (không đủ 3 ví dụ hoặc thiếu ngôn ngữ).")
         return None
-    return {"vietnamese_meaning": vi_meaning, "simplified_examples": examples}
+    return valid
 
 
 def call_claude_refine(word_clean, current_vi, current_examples_text, raw_examples, instruction):
     """Sửa/làm lại thẻ theo yêu cầu người dùng (luồng /sua của bot Telegram).
-    Đây là bản Python của đúng prompt mà nút "AI Refine" trong thẻ đang dùng
-    (back_template.html) — giữ 2 nơi cùng văn phong.
-    Trả về dict {"vietnamese_meaning", "simplified_examples"} hoặc None."""
+    System prompt = văn phong chung + OUTPUT CONTRACT cứng, để yêu cầu kiểu
+    "ngắn đi" không thể khiến AI trả thiếu ví dụ/thiếu trường.
+    Validate kết quả; nếu thiếu -> tự retry đúng 1 lần với lời nhắc mạnh hơn.
+    Trả về dict {"vietnamese_meaning", "simplified_examples"} (đã chuẩn hóa) hoặc None."""
     raw_text = ""
     for i, ex in enumerate(raw_examples or []):
         raw_text += f"[RawEx{i + 1}] RU:{ex.get('ru', '')} | EN:{ex.get('en', '')} --- "
 
-    user_prompt = (
+    system_prompt = _CORE_SYSTEM_PROMPT + _REFINE_OUTPUT_CONTRACT
+
+    base_user_prompt = (
         f"Target word: [{word_clean}]. "
         f"CURRENT CARD -> Meaning: [{current_vi}]. CurrentExamples: {current_examples_text} "
         f"FULL DICTIONARY EXAMPLES (from OpenRussian, for reference): {raw_text} "
         f"USER INSTRUCTION: [{instruction}]. "
-        f"Wrap the target word [{word_clean}] and its inflected forms in <hl>...</hl> tags "
-        "in ALL THREE languages: Russian (ru), English (en), AND Vietnamese (vi). "
         "Return ONLY the JSON."
     )
 
-    raw_response = _send_ai_request(_CORE_SYSTEM_PROMPT, user_prompt)
-    if not raw_response:
-        return None
+    for attempt in range(2):
+        user_prompt = base_user_prompt
+        if attempt == 1:
+            user_prompt += (
+                " REMINDER: your previous answer violated the OUTPUT CONTRACT. "
+                "Return EXACTLY 3 examples, each with non-empty ru, en AND vi, "
+                "plus a non-empty vietnamese_meaning."
+            )
+            log_warn("AI refine trả thiếu dữ liệu -> thử lại lần 2 với lời nhắc mạnh hơn...")
 
-    parsed = _parse_ai_response(raw_response)
-    if not parsed:
-        log_fail("AI refine trả về JSON không hợp lệ.")
-        return None
+        raw_response = _send_ai_request(system_prompt, user_prompt)
+        if not raw_response:
+            return None
 
-    vi_meaning = parsed.get("vietnamese_meaning", "")
-    examples = parsed.get("simplified_examples", [])
-    if not examples:
-        log_fail("AI refine trả về danh sách simplified_examples rỗng.")
-        return None
-    return {"vietnamese_meaning": vi_meaning, "simplified_examples": examples}
+        parsed = _parse_ai_response(raw_response)
+        if not parsed:
+            log_fail("AI refine trả về JSON không hợp lệ.")
+            continue
+
+        valid = _validate_ai_result(parsed)
+        if valid:
+            return valid
+
+    log_fail("AI refine trả thiếu dữ liệu cả 2 lần - KHÔNG ghi đè thẻ.")
+    return None
 
 
 def check_claude_ready():
