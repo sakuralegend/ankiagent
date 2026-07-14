@@ -107,9 +107,9 @@ Bot trả về thẻ mới + tự sync. Mở app Anki trên iPhone → bấm syn
 
 | Muốn làm gì | Gõ trong Telegram |
 |---|---|
-| Bắt đầu phiên | nhắn gì đó → bot hỏi tên bộ bài → nhập tên deck |
+| Bắt đầu phiên | nhắn gì đó → bấm nút chọn deck (📂 có sẵn — liệt kê hết / ➕ tạo mới) |
 | Thêm từ | gõ thẳng từ đó, vd `хороший` |
-| Đổi deck | gõ `c` (hoặc `/deck Tên Deck`) |
+| Đổi deck | gõ `c` → bảng chọn deck (hoặc `/deck Tên Deck` đi tắt) |
 | Sửa thẻ đã có | `/sua хороший` → chọn nút 1 Ngắn hơn / 2 Đổi ví dụ / 3 Dài hơn / Tự viết |
 | Sửa theo ý mình | `/sua хороший ví dụ về chủ đề ăn uống` |
 | Menu nút bấm | `/menu` |

@@ -41,6 +41,7 @@ from anki_tools.anki_client import (
     change_note_deck,
     delete_notes,
     ensure_deck_exists,
+    get_deck_names,
     setup_anki_environment,
     trigger_sync,
 )
@@ -50,13 +51,13 @@ IDLE_RESET_SECONDS = 180  # nghỉ 3 phút -> reset phiên + gửi menu
 HELP_TEXT = (
     "🇷🇺 Bot Anki tiếng Nga\n"
     "───────────────────\n"
-    "• Bắt đầu: bot hỏi tên bộ bài trước, nhập xong mới gõ từ\n"
+    "• Bắt đầu: chọn deck bằng nút (deck có sẵn / tạo mới) rồi gõ từ\n"
     "• Gõ 1 từ tiếng Nga → thêm thẻ mới\n"
-    "• c → đổi bộ bài (như trong CLI)\n"
+    "• c → đổi bộ bài (mở bảng chọn deck)\n"
     "• /sua <từ> → sửa thẻ: chọn 1 Ngắn hơn / 2 Đổi ví dụ / 3 Dài hơn / Tự viết\n"
     "• /menu → menu nút bấm\n"
     "• /sync → đồng bộ AnkiWeb ngay\n"
-    "• Nghỉ >3 phút → bot tự reset phiên (hỏi lại deck)"
+    "• Nghỉ >3 phút → bot tự reset phiên (chọn lại deck)"
 )
 
 
@@ -77,6 +78,42 @@ async def _sync_report_line():
     và trả về dòng text kết quả để nối vào tin nhắn trả lời."""
     ok = await asyncio.to_thread(trigger_sync)
     return SYNC_OK_TEXT if ok else SYNC_FAIL_TEXT
+
+
+def _deck_choose_keyboard():
+    """Bảng chọn cách lấy deck: dùng deck có sẵn hay tạo mới."""
+    return InlineKeyboardMarkup([
+        [
+            InlineKeyboardButton("📂 Deck có sẵn", callback_data="deck:list"),
+            InlineKeyboardButton("➕ Tạo deck mới", callback_data="deck:new"),
+        ],
+    ])
+
+
+MAX_DECK_BUTTONS = 24  # tránh bảng nút quá dài nếu collection có rất nhiều deck
+
+
+async def _show_deck_list(query, context):
+    """Liệt kê toàn bộ deck trong Anki thành nút bấm để chọn."""
+    names = await asyncio.to_thread(get_deck_names)
+    if not names:
+        context.bot_data["awaiting_deck"] = True
+        await query.edit_message_text("📂 Chưa có deck nào trong Anki. Gõ tên deck mới để tạo:")
+        return
+    names = names[:MAX_DECK_BUTTONS]
+    # Tên deck (Cyrillic) có thể vượt giới hạn 64 byte của callback_data
+    # -> lưu danh sách vào user_data, nút chỉ mang chỉ số.
+    context.user_data["deck_choices"] = names
+    rows, row = [], []
+    for i, name in enumerate(names):
+        row.append(InlineKeyboardButton(name, callback_data=f"deckpick:{i}"))
+        if len(row) == 2:
+            rows.append(row)
+            row = []
+    if row:
+        rows.append(row)
+    rows.append([InlineKeyboardButton("➕ Tạo deck mới", callback_data="deck:new")])
+    await query.edit_message_text("📂 Chọn deck:", reply_markup=InlineKeyboardMarkup(rows))
 
 
 def _menu_keyboard():
@@ -105,12 +142,14 @@ async def _idle_reset_job(context, chat_id):
         await asyncio.sleep(IDLE_RESET_SECONDS)
     except asyncio.CancelledError:
         return
+    # Về trạng thái "không làm gì": quên deck + mọi thao tác dở dang
     context.bot_data["deck"] = None
     context.bot_data["awaiting_deck"] = False
     user_data = context.application.user_data.get(TELEGRAM_USER_ID)
     if user_data:
         user_data.pop("pending", None)
         user_data.pop("sua_word", None)
+        user_data.pop("deck_choices", None)
     try:
         await context.bot.send_message(
             chat_id,
@@ -252,8 +291,9 @@ async def cmd_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if deck:
         await update.message.reply_text(f"{HELP_TEXT}\n\n📦 Deck hiện tại: {deck}")
     else:
-        context.bot_data["awaiting_deck"] = True
-        await update.message.reply_text(f"{HELP_TEXT}\n\n📚 Nhập tên bộ bài để bắt đầu:")
+        await update.message.reply_text(
+            f"{HELP_TEXT}\n\n📚 Chọn deck để bắt đầu:", reply_markup=_deck_choose_keyboard()
+        )
 
 
 async def cmd_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -319,13 +359,8 @@ async def on_word(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
     _reset_idle_timer(context, update.effective_chat.id)
 
-    # --- Chưa có deck: bắt nhập tên deck trước (giống CLI) ---
-    if _current_deck(context) is None:
-        if not context.bot_data.get("awaiting_deck"):
-            context.bot_data["awaiting_deck"] = True
-            await update.message.reply_text("📚 Nhập tên bộ bài trước đã:")
-            return
-        # Tin nhắn này chính là tên deck
+    # --- Đang chờ tên deck mới (sau khi bấm nút "Tạo deck mới") ---
+    if context.bot_data.get("awaiting_deck"):
         deck_name = text
         ok = await asyncio.to_thread(ensure_deck_exists, deck_name)
         if ok:
@@ -339,11 +374,19 @@ async def on_word(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await update.message.reply_text("❌ Không tạo được deck. Nhập tên khác thử:")
         return
 
-    # --- 'c' = đổi deck, giống CLI ---
+    # --- Chưa chọn deck: hiện bảng chọn (deck có sẵn / tạo mới) ---
+    if _current_deck(context) is None:
+        await update.message.reply_text(
+            "📚 Chưa chọn deck — chọn trước đã:", reply_markup=_deck_choose_keyboard()
+        )
+        return
+
+    # --- 'c' = đổi deck (mở bảng chọn; deck cũ giữ nguyên đến khi chọn xong) ---
     if text.lower() == "c":
-        context.bot_data["deck"] = None
-        context.bot_data["awaiting_deck"] = True
-        await update.message.reply_text("📚 Nhập tên bộ bài mới:")
+        await update.message.reply_text(
+            f"📚 Đổi deck (đang ở: {_current_deck(context)}):",
+            reply_markup=_deck_choose_keyboard(),
+        )
         return
 
     # --- Còn lại: text là từ cần thêm ---
@@ -373,13 +416,35 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     _reset_idle_timer(context, query.message.chat_id)
     data = query.data
 
+    # --- Chọn deck: 2 tùy chọn / liệt kê deck có sẵn / tạo mới ---
+    if data == "deck:list":
+        await _show_deck_list(query, context)
+        return
+    if data == "deck:new":
+        context.bot_data["awaiting_deck"] = True
+        await query.edit_message_text("➕ Gõ tên deck mới:")
+        return
+    if data.startswith("deckpick:"):
+        idx = int(data.split(":", 1)[1])
+        choices = context.user_data.get("deck_choices") or []
+        if idx >= len(choices):
+            await query.edit_message_text("⌛ Danh sách đã cũ, bấm lại nút Chọn deck nhé.")
+            return
+        deck_name = choices[idx]
+        context.bot_data["deck"] = deck_name
+        context.bot_data["awaiting_deck"] = False
+        context.user_data.pop("deck_choices", None)
+        # Chọn deck có sẵn không sửa đổi collection -> không cần sync
+        await query.edit_message_text(f"📦 Deck: {deck_name} — gõ từ tiếng Nga để thêm thẻ.")
+        return
+
     # --- Nút menu ---
     if data.startswith("menu:"):
         action = data.split(":", 1)[1]
         if action == "deck":
-            context.bot_data["deck"] = None
-            context.bot_data["awaiting_deck"] = True
-            await query.edit_message_text("📚 Nhập tên bộ bài mới:")
+            await query.edit_message_text(
+                "📚 Chọn deck:", reply_markup=_deck_choose_keyboard()
+            )
         elif action == "sua":
             await query.edit_message_text(
                 "✏️ Gõ: /sua <từ> rồi chọn nút kiểu sửa.\nvd: /sua хороший"

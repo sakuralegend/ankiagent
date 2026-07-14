@@ -61,10 +61,10 @@ Tạo từ mẫu: copy `.env.example` → `.env` rồi điền. `config.py` ch�
 
 | Muốn làm gì | Thao tác |
 |---|---|
-| Bắt đầu phiên | Nhắn gì đó → bot hỏi tên bộ bài → nhập tên deck |
+| Bắt đầu phiên | Nhắn gì đó → bấm nút chọn deck: 📂 deck có sẵn (liệt kê hết) / ➕ tạo mới |
 | Thêm từ | Gõ thẳng từ tiếng Nga, vd `хороший` |
 | Từ bị trùng | Bot hiện nút: Hủy / Chuyển deck / Xóa cũ + thêm mới / Vẫn thêm trùng |
-| Đổi deck | Gõ `c` (hoặc `/deck <tên>`) |
+| Đổi deck | Gõ `c` → bảng chọn deck (hoặc `/deck <tên>` đi tắt) |
 | Sửa thẻ | `/sua <từ>` → chọn nút **1** Ngắn hơn / **2** Đổi ví dụ / **3** Dài hơn / Tự viết |
 | Sửa theo ý mình | `/sua <từ> <yêu cầu tự do>` |
 | Menu nút bấm | `/menu` (hoặc chờ — nghỉ >3 phút bot tự reset phiên và gửi menu) |

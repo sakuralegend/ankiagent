@@ -149,6 +149,16 @@ def delete_notes(note_ids):
 
 
 
+def get_deck_names():
+    """Lấy danh sách tên toàn bộ deck trong collection (cho bảng chọn deck của bot)."""
+    try:
+        res = requests.post(ANKI_CONNECT_URL, json={"action": "deckNames", "version": 6}, timeout=5)
+        return res.json().get("result", []) or []
+    except Exception as e:
+        log_warn(f"Không lấy được danh sách deck: {e}")
+        return []
+
+
 def ensure_deck_exists(deck_name):
     """Kiểm tra deck đã tồn tại chưa, tạo mới nếu chưa có. Trả về True nếu OK."""
     try:
