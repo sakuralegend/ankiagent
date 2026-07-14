@@ -283,10 +283,12 @@ def push_to_anki(word, data, deck_name, is_forced=False):
         result = res.json()
         if result.get("error"):
             log_fail(f"AnkiConnect từ chối thêm note: {result.get('error')}")
+            card_info["error"] = str(result.get("error"))
             return False, card_info
         return True, card_info
     except Exception as e:
         log_fail(f"Không kết nối được AnkiConnect: {e}")
+        card_info["error"] = str(e)
         return False, card_info
 
 

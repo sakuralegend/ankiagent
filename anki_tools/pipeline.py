@@ -36,7 +36,14 @@ def process_word(word, deck_name, is_forced=False, do_sync=False):
 
     success, card_info = push_to_anki(word, extracted_data, deck_name, is_forced=is_forced)
     if not success:
-        return False, card_info, "AnkiConnect từ chối thêm note (xem log để biết chi tiết)."
+        err = (card_info or {}).get("error", "")
+        if "duplicate" in err.lower():
+            return False, card_info, (
+                "Anki báo thẻ này ĐÃ TỒN TẠI (trùng mặt trước) dù bước dò trùng không thấy "
+                "— thường do thẻ cũ được tạo từ phiên bản trước, thiếu ô WordClean.\n"
+                "Cách xử lý: sửa thẻ cũ bằng /sua <từ> <yêu cầu>, hoặc xóa thẻ cũ trong app Anki rồi thêm lại."
+            )
+        return False, card_info, f"AnkiConnect từ chối thêm note: {err or 'không rõ nguyên nhân'}"
 
     if do_sync:
         trigger_sync()

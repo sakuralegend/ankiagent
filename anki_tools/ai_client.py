@@ -213,8 +213,12 @@ def check_claude_ready():
         }, json={
             "model": CLAUDE_MODEL,
             "messages": [{"role": "user", "content": "ping"}],
-            "max_tokens": 5,
-        }, timeout=15)
+            # max_tokens phải đủ lớn vì gemini "thinking" tốn token cho suy nghĩ ẩn
+            # trước khi trả lời; 5 token là hết sạch vào thinking -> choices rỗng
+            # -> báo "AI chưa phản hồi" giả. reasoning_effort minimal để ping rẻ.
+            "max_tokens": 100,
+            "reasoning_effort": "minimal",
+        }, timeout=20)
         if res.status_code == 200:
             data = res.json()
             if data.get("choices"):
