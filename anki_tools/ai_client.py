@@ -7,7 +7,7 @@
 import json
 import requests
 
-from .config import CLAUDE_API_URL, CLAUDE_API_KEY, CLAUDE_MODEL
+from .config import CLAUDE_API_URL, CLAUDE_API_KEY, CLAUDE_MODEL, CLAUDE_FALLBACK_MODELS
 from .utils import log_fail, log_warn
 
 _FEWSHOT_EXAMPLES = [
@@ -79,27 +79,81 @@ def _parse_ai_response(raw_response):
         return None
 
 
-def _send_ai_request(system_prompt, user_prompt):
-    """Gửi request đến Claude (qua proxy OpenAI-compatible), trả về raw text response hoặc None."""
+def _model_chain():
+    """Danh sách model theo thứ tự ưu tiên: model chính -> các model dự phòng."""
+    chain = [CLAUDE_MODEL]
+    for m in CLAUDE_FALLBACK_MODELS:
+        if m not in chain:
+            chain.append(m)
+    return chain
+
+
+def _call_model_once(model, system_prompt, user_prompt, use_reasoning=True):
+    """Gọi 1 model đúng 1 lần. Trả về (content | None, nên_thử_model_khác: bool)."""
+    payload = {
+        "model": model,
+        "messages": [{"role": "system", "content": system_prompt}, {"role": "user", "content": user_prompt}],
+        "temperature": 0.7,
+        "max_tokens": 900,
+    }
+    if use_reasoning:
+        # Model "thinking" (vd gemini-3.5-flash) mặc định ngốn max_tokens vào suy nghĩ ẩn
+        # -> reasoning_effort minimal để dồn token cho câu trả lời JSON.
+        payload["reasoning_effort"] = "minimal"
+
     try:
         res = requests.post(CLAUDE_API_URL, headers={
             "Authorization": f"Bearer {CLAUDE_API_KEY}",
             "Content-Type": "application/json",
-        }, json={
-            "model": CLAUDE_MODEL,
-            "messages": [{"role": "system", "content": system_prompt}, {"role": "user", "content": user_prompt}],
-            "temperature": 0.7,
-            "max_tokens": 900,
-            # gemini-3.5-flash là "thinking" model, mặc định tốn phần lớn ngân sách max_tokens cho
-            # reasoning ẩn (không hiện trong content) trước khi trả JSON, dễ bị cắt cụt output.
-            # reasoning_effort="minimal" giảm tối đa phần thinking đó. ⚠️ Nếu đổi CLAUDE_MODEL sang
-            # provider khác (OpenAI, Claude qua proxy) và gặp lỗi 400 "unsupported parameter", xoá field này.
-            "reasoning_effort": "minimal"
-        }, timeout=60)
-        return res.json()['choices'][0]['message']['content'].strip()
+        }, json=payload, timeout=60)
     except Exception as e:
-        log_fail(f"Claude AI lỗi: {e}")
-        return None
+        log_fail(f"AI lỗi mạng: {e}")
+        return None, False  # mạng đứt thì model khác cũng vô ích
+
+    try:
+        data = res.json()
+    except ValueError:
+        log_fail(f"AI ({model}) trả về không phải JSON (status {res.status_code}).")
+        return None, True
+
+    # Google đôi khi bọc lỗi trong list: [{"error": {...}}]
+    if isinstance(data, list):
+        data = data[0] if data and isinstance(data[0], dict) else {}
+
+    if res.status_code == 429:
+        log_warn(f"Model '{model}' hết hạn mức miễn phí (429) -> thử model dự phòng...")
+        return None, True
+
+    if res.status_code == 400 and use_reasoning:
+        # Model có thể không hỗ trợ reasoning_effort -> thử lại chính model đó, bỏ field này
+        return _call_model_once(model, system_prompt, user_prompt, use_reasoning=False)
+
+    if res.status_code != 200 or not data.get("choices"):
+        err_msg = ""
+        if isinstance(data.get("error"), dict):
+            err_msg = data["error"].get("message", "")
+        log_fail(f"AI ({model}) lỗi {res.status_code}: {err_msg[:200]}")
+        return None, True
+
+    content = (data["choices"][0].get("message") or {}).get("content") or ""
+    content = content.strip()
+    if not content:
+        log_warn(f"AI ({model}) trả về nội dung rỗng.")
+        return None, True
+    return content, False
+
+
+def _send_ai_request(system_prompt, user_prompt):
+    """Gửi request AI, tự động chuyển model dự phòng khi hết quota/lỗi.
+    Trả về raw text response hoặc None."""
+    for model in _model_chain():
+        content, try_next = _call_model_once(model, system_prompt, user_prompt)
+        if content:
+            return content
+        if not try_next:
+            return None
+    log_fail("Tất cả model AI đều thất bại (hết quota hoặc lỗi).")
+    return None
 
 
 def call_claude_ai(word_clean, raw_examples, english_meanings):
@@ -205,24 +259,14 @@ def call_claude_refine(word_clean, current_vi, current_examples_text, raw_exampl
 
 
 def check_claude_ready():
-    """Kiểm tra Claude proxy đã sẵn sàng chưa (gửi 1 request nhẹ để verify key + model)."""
+    """Kiểm tra API key hợp lệ bằng endpoint liệt kê model.
+    ⚠️ Cố tình KHÔNG gửi request sinh nội dung: gói free chỉ có vài chục
+    lượt/ngày, ping kiểu cũ đốt 1 lượt mỗi lần bot khởi động lại."""
     try:
-        res = requests.post(CLAUDE_API_URL, headers={
+        base_url = CLAUDE_API_URL.split("/chat/completions")[0]
+        res = requests.get(f"{base_url}/models", headers={
             "Authorization": f"Bearer {CLAUDE_API_KEY}",
-            "Content-Type": "application/json",
-        }, json={
-            "model": CLAUDE_MODEL,
-            "messages": [{"role": "user", "content": "ping"}],
-            # max_tokens phải đủ lớn vì gemini "thinking" tốn token cho suy nghĩ ẩn
-            # trước khi trả lời; 5 token là hết sạch vào thinking -> choices rỗng
-            # -> báo "AI chưa phản hồi" giả. reasoning_effort minimal để ping rẻ.
-            "max_tokens": 100,
-            "reasoning_effort": "minimal",
-        }, timeout=20)
-        if res.status_code == 200:
-            data = res.json()
-            if data.get("choices"):
-                return True
-        return False
+        }, timeout=15)
+        return res.status_code == 200
     except Exception:
         return False
