@@ -6,6 +6,15 @@
 
 ## 15/07/2026
 
+- **Vá lỗi RPM cho /suadeck + tính năng Sửa tiếp** — đợt sửa deck Матрёшка (309 thẻ)
+  bị 44 lỗi vì model lite trả lời nhanh → vòng lặp bắn >15 lượt/phút (trần RPM
+  free là 15); code cũ coi mọi 429 là hết quota ngày nên nhảy sang model dự phòng
+  (quota bé) rồi chết. Fix: (1) 429 KHÔNG có chữ "PerDay" = giới hạn mỗi phút →
+  chờ đúng retryDelay Google gợi ý (tối đa 2 lần) rồi thử lại CHÍNH model đó;
+  (2) batch nghỉ 3s giữa 2 thẻ (~10 lượt/phút < 15); (3) batch dừng/lỗi → lưu
+  danh sách thẻ còn dở vào `suadeck_resume.json` (gitignore) → /suadeck lần sau
+  hỏi "▶️ Sửa tiếp N thẻ". Đợt Матрёшка được cứu bằng script quét mod-time trên
+  VPS: xác nhận đúng 200 thẻ đã sửa, 109 thẻ dở đã vào danh sách Sửa tiếp.
 - **/suadeck — sửa TOÀN BỘ thẻ trong 1 deck** (tính năng ít dùng nên là lệnh riêng
   trong danh sách "/", KHÔNG chiếm chỗ menu chính). Luồng toàn nút: chọn deck →
   kiểu sửa (1/2/3/tự viết) → màn xác nhận (số thẻ, ước tính thời gian, cảnh báo
