@@ -20,6 +20,8 @@
 # Logic thêm/sửa từ nằm ở anki_tools/pipeline.py - DÙNG CHUNG với main.py (CLI).
 # ==============================================================================
 import asyncio
+import json
+import os
 import time
 
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, BotCommand
@@ -359,8 +361,44 @@ def _duplicate_text_and_keyboard(pending):
 # ---------------------------------------------------------------------------
 
 SUADECK_QUOTA_WARN = 450  # gần trần 500 lượt Gemini free/ngày thì cảnh báo đậm
+SUADECK_DELAY_SECONDS = 3  # nghỉ giữa 2 thẻ để không dồn dập chạm giới hạn RPM
 
 _SD_LABELS = {"1": "1️⃣ Ngắn hơn", "2": "2️⃣ Đổi ví dụ", "3": "3️⃣ Dài hơn"}
+
+# File lưu danh sách thẻ CHƯA sửa xong của đợt /suadeck gần nhất (bị Dừng /
+# lỗi giữa chừng / bot restart). /suadeck lần sau sẽ hỏi "Sửa tiếp?" từ file này.
+SUADECK_RESUME_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "suadeck_resume.json")
+
+
+def _sd_load_resume():
+    """Đọc đợt sửa deck dở (nếu có). Trả về dict {"deck", "note_ids", ...} hoặc None."""
+    try:
+        with open(SUADECK_RESUME_FILE, encoding="utf-8") as f:
+            state = json.load(f)
+        if state.get("deck") and state.get("note_ids"):
+            return state
+    except Exception:
+        pass
+    return None
+
+
+def _sd_save_resume(deck, note_ids):
+    try:
+        with open(SUADECK_RESUME_FILE, "w", encoding="utf-8") as f:
+            json.dump({
+                "deck": deck,
+                "note_ids": note_ids,
+                "saved_at": time.strftime("%Y-%m-%d %H:%M:%S"),
+            }, f, ensure_ascii=False)
+    except Exception:
+        pass
+
+
+def _sd_delete_resume():
+    try:
+        os.remove(SUADECK_RESUME_FILE)
+    except OSError:
+        pass
 
 
 def _sd_clear(user_data):
@@ -374,7 +412,7 @@ def _sd_confirm_text_keyboard(context):
     deck = context.user_data["sd_deck"]
     total = len(context.user_data["sd_note_ids"])
     label = context.user_data.get("sd_label", "")
-    minutes = max(1, round(total * 8 / 60))
+    minutes = max(1, round(total * 11 / 60))  # ~8s AI + 3s nghỉ chống RPM mỗi thẻ
     lines = [
         "🛠 XÁC NHẬN SỬA TOÀN BỘ DECK",
         f"📦 Deck: {deck}",
@@ -403,7 +441,8 @@ async def _run_suadeck(context, chat_id, msg, deck, note_ids, instruction):
     context.bot_data["sd_running"] = True
     context.bot_data["sd_stop"] = False
     total = len(note_ids)
-    done, failed_words = 0, []
+    done, failed_words, failed_ids = 0, [], []
+    attempted = 0
     stop_kb = InlineKeyboardMarkup([[InlineKeyboardButton("⏹ Dừng", callback_data="sdstop")]])
     stopped = False
 
@@ -418,15 +457,16 @@ async def _run_suadeck(context, chat_id, msg, deck, note_ids, instruction):
             success, result, error_msg = await asyncio.to_thread(
                 refine_note_id, note_id, instruction, False
             )
+            attempted = i + 1
             word = hl_to_bracket((result or {}).get("word", "")) or f"note {note_id}"
             if success:
                 done += 1
             else:
                 failed_words.append(word)
+                failed_ids.append(note_id)
 
-            next_i = i + 1
             progress = (
-                f"🔄 Sửa deck '{deck}': thẻ {next_i}/{total}\n"
+                f"🔄 Sửa deck '{deck}': thẻ {attempted}/{total}\n"
                 f"📝 Vừa xong: {word} {'✅' if success else '❌'}\n"
                 f"✅ xong {done} │ ❌ lỗi {len(failed_words)}"
             )
@@ -434,9 +474,20 @@ async def _run_suadeck(context, chat_id, msg, deck, note_ids, instruction):
                 await msg.edit_text(progress, reply_markup=stop_kb)
             except Exception:
                 pass  # nội dung trùng / mạng chớp — bỏ qua, vòng sau edit tiếp
+
+            # Nghỉ ngắn giữa 2 thẻ: tránh dồn dập chạm giới hạn mỗi-phút (RPM)
+            if attempted < total and not context.bot_data.get("sd_stop"):
+                await asyncio.sleep(SUADECK_DELAY_SECONDS)
     finally:
         context.bot_data["sd_running"] = False
         context.bot_data["sd_stop"] = False
+
+    # Danh sách thẻ CHƯA xong (lỗi + chưa chạy tới) -> lưu để /suadeck hỏi "Sửa tiếp"
+    leftover_ids = failed_ids + list(note_ids[attempted:])
+    if leftover_ids:
+        _sd_save_resume(deck, leftover_ids)
+    else:
+        _sd_delete_resume()
 
     # Sync 1 lần cho cả đợt (chính sách: mọi sửa đổi đều lên AnkiWeb ngay)
     synced = await asyncio.to_thread(trigger_sync)
@@ -448,7 +499,11 @@ async def _run_suadeck(context, chat_id, msg, deck, note_ids, instruction):
     if failed_words:
         shown = ", ".join(failed_words[:10])
         more = f" (+{len(failed_words) - 10} từ nữa)" if len(failed_words) > 10 else ""
-        lines.append(f"❌ Từ bị lỗi (thẻ giữ nguyên, sửa lẻ bằng /sua): {shown}{more}")
+        lines.append(f"❌ Từ bị lỗi (thẻ giữ nguyên): {shown}{more}")
+    if leftover_ids:
+        lines.append(
+            f"💾 Đã lưu {len(leftover_ids)} thẻ còn dở — gọi /suadeck sẽ có nút ▶️ Sửa tiếp."
+        )
     lines.append(SYNC_OK_TEXT if synced else SYNC_FAIL_TEXT)
     try:
         await msg.edit_text("\n".join(lines))
@@ -538,28 +593,67 @@ async def cmd_sua(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await _do_sua(msg, word, instruction)
 
 
+def _sd_kind_keyboard():
+    """Bàn phím chọn kiểu sửa áp dụng cho cả deck."""
+    return InlineKeyboardMarkup([
+        [
+            InlineKeyboardButton("1️⃣ Ngắn hơn", callback_data="sdsua:1"),
+            InlineKeyboardButton("2️⃣ Đổi ví dụ", callback_data="sdsua:2"),
+            InlineKeyboardButton("3️⃣ Dài hơn", callback_data="sdsua:3"),
+        ],
+        [InlineKeyboardButton("✏️ Tự viết yêu cầu", callback_data="sdsua:custom")],
+        [InlineKeyboardButton("🚫 Hủy", callback_data="sdcancel")],
+    ])
+
+
+async def _sd_deck_list_markup(context):
+    """Dựng (text, keyboard) danh sách deck cho /suadeck. Trả về (None, None) nếu trống."""
+    names = await asyncio.to_thread(get_deck_names)
+    if not names:
+        return None, None
+    names = names[:MAX_DECK_BUTTONS]
+    _sd_clear(context.user_data)
+    context.user_data["sd_deck_choices"] = names
+    rows = _deck_buttons_rows(names, "sd")
+    rows.append([InlineKeyboardButton("🚫 Hủy", callback_data="sdcancel")])
+    text = (
+        "🛠 SỬA TOÀN BỘ DECK — AI làm lại nghĩa + ví dụ của MỌI thẻ trong deck.\n"
+        "Chọn deck cần sửa:"
+    )
+    return text, InlineKeyboardMarkup(rows)
+
+
 async def cmd_suadeck(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Sửa TOÀN BỘ thẻ trong 1 deck: chọn deck bằng nút -> kiểu sửa -> xác nhận."""
+    """Sửa TOÀN BỘ thẻ trong 1 deck: chọn deck bằng nút -> kiểu sửa -> xác nhận.
+    Nếu có đợt sửa dở (bị Dừng / lỗi giữa chừng) thì hỏi Sửa tiếp trước."""
     _reset_idle_timer(context, update.effective_chat.id)
     if context.bot_data.get("sd_running"):
         await update.message.reply_text(
             "⏳ Đang có một đợt sửa deck chạy dở — chờ xong hoặc bấm ⏹ Dừng ở tin tiến độ đã nhé."
         )
         return
-    names = await asyncio.to_thread(get_deck_names)
-    if not names:
+
+    state = _sd_load_resume()
+    if state:
+        kb = InlineKeyboardMarkup([
+            [InlineKeyboardButton(
+                f"▶️ Sửa tiếp {len(state['note_ids'])} thẻ", callback_data="sdresume"
+            )],
+            [InlineKeyboardButton("📂 Chọn deck khác (bỏ đợt dở)", callback_data="sdfresh")],
+            [InlineKeyboardButton("🚫 Hủy", callback_data="sdcancel")],
+        ])
+        await update.message.reply_text(
+            f"🔁 Có đợt sửa dở: deck '{state['deck']}' còn {len(state['note_ids'])} thẻ "
+            f"chưa sửa (lưu lúc {state.get('saved_at', '?')}).",
+            reply_markup=kb,
+        )
+        return
+
+    text, kb = await _sd_deck_list_markup(context)
+    if not text:
         await update.message.reply_text("📂 Chưa có deck nào trong Anki.")
         return
-    names = names[:MAX_DECK_BUTTONS]
-    _sd_clear(context.user_data)
-    context.user_data["sd_deck_choices"] = names
-    rows = _deck_buttons_rows(names, "sd")
-    rows.append([InlineKeyboardButton("🚫 Hủy", callback_data="sdcancel")])
-    await update.message.reply_text(
-        "🛠 SỬA TOÀN BỘ DECK — AI làm lại nghĩa + ví dụ của MỌI thẻ trong deck.\n"
-        "Chọn deck cần sửa:",
-        reply_markup=InlineKeyboardMarkup(rows),
-    )
+    await update.message.reply_text(text, reply_markup=kb)
 
 
 async def on_word(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -706,20 +800,32 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             return
         context.user_data["sd_deck"] = deck_name
         context.user_data["sd_note_ids"] = note_ids
-        kb = InlineKeyboardMarkup([
-            [
-                InlineKeyboardButton("1️⃣ Ngắn hơn", callback_data="sdsua:1"),
-                InlineKeyboardButton("2️⃣ Đổi ví dụ", callback_data="sdsua:2"),
-                InlineKeyboardButton("3️⃣ Dài hơn", callback_data="sdsua:3"),
-            ],
-            [InlineKeyboardButton("✏️ Tự viết yêu cầu", callback_data="sdsua:custom")],
-            [InlineKeyboardButton("🚫 Hủy", callback_data="sdcancel")],
-        ])
         await query.edit_message_text(
             f"🛠 Deck '{deck_name}' có {len(note_ids)} thẻ.\n"
             "Chọn kiểu sửa áp dụng cho TẤT CẢ:",
-            reply_markup=kb,
+            reply_markup=_sd_kind_keyboard(),
         )
+        return
+    if data == "sdresume":
+        state = _sd_load_resume()
+        if not state:
+            await query.edit_message_text("⌛ Không còn đợt sửa dở nào, gọi lại /suadeck nhé.")
+            return
+        context.user_data["sd_deck"] = state["deck"]
+        context.user_data["sd_note_ids"] = state["note_ids"]
+        await query.edit_message_text(
+            f"🔁 Sửa tiếp deck '{state['deck']}' — còn {len(state['note_ids'])} thẻ.\n"
+            "Chọn kiểu sửa (nên chọn ĐÚNG kiểu đã dùng lần trước cho đồng bộ):",
+            reply_markup=_sd_kind_keyboard(),
+        )
+        return
+    if data == "sdfresh":
+        _sd_delete_resume()
+        text, kb = await _sd_deck_list_markup(context)
+        if not text:
+            await query.edit_message_text("📂 Chưa có deck nào trong Anki.")
+            return
+        await query.edit_message_text(text, reply_markup=kb)
         return
     if data.startswith("sdsua:"):
         choice = data.split(":", 1)[1]

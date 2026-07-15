@@ -5,6 +5,8 @@
 # prompt CHỈ tồn tại ở file này — muốn đổi văn phong AI, sửa ở đây là đủ.
 # ==============================================================================
 import json
+import re
+import time
 import requests
 
 from .config import CLAUDE_API_URL, CLAUDE_API_KEY, CLAUDE_MODEL, CLAUDE_FALLBACK_MODELS
@@ -145,8 +147,13 @@ def _model_chain():
     return chain
 
 
-def _call_model_once(model, system_prompt, user_prompt, use_reasoning=True):
-    """Gọi 1 model đúng 1 lần. Trả về (content | None, nên_thử_model_khác: bool)."""
+def _call_model_once(model, system_prompt, user_prompt, use_reasoning=True, rpm_waits=2):
+    """Gọi 1 model đúng 1 lần. Trả về (content | None, nên_thử_model_khác: bool).
+
+    rpm_waits: số lần được phép CHỜ khi dính 429 loại "giới hạn mỗi phút" (RPM).
+    RPM chỉ là tạm thời (sửa deck hàng loạt bắn request nhanh quá) — chờ rồi thử
+    lại CHÍNH model đó tốt hơn nhiều so với nhảy sang model dự phòng vốn có quota
+    ngày rất thấp. Chỉ 429 loại hết quota NGÀY (PerDay) mới chuyển model."""
     payload = {
         "model": model,
         "messages": [{"role": "system", "content": system_prompt}, {"role": "user", "content": user_prompt}],
@@ -178,7 +185,15 @@ def _call_model_once(model, system_prompt, user_prompt, use_reasoning=True):
         data = data[0] if data and isinstance(data[0], dict) else {}
 
     if res.status_code == 429:
-        log_warn(f"Model '{model}' hết hạn mức miễn phí (429) -> thử model dự phòng...")
+        err_text = json.dumps(data, ensure_ascii=False)
+        if "PerDay" not in err_text and rpm_waits > 0:
+            # 429 mỗi phút (hoặc không rõ loại): chờ theo retryDelay Google gợi ý
+            m = re.search(r'retryDelay"?\s*:?\s*"?(\d+)', err_text)
+            delay = min(int(m.group(1)) + 2, 65) if m else 30
+            log_warn(f"Model '{model}' chạm giới hạn MỖI PHÚT (RPM) -> chờ {delay}s rồi thử lại...")
+            time.sleep(delay)
+            return _call_model_once(model, system_prompt, user_prompt, use_reasoning, rpm_waits - 1)
+        log_warn(f"Model '{model}' hết hạn mức miễn phí trong NGÀY (429) -> thử model dự phòng...")
         return None, True
 
     if res.status_code == 400 and use_reasoning:
