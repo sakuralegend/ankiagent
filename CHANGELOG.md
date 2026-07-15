@@ -6,6 +6,14 @@
 
 ## 15/07/2026
 
+- **vnc.bat** — double-click là xem màn hình Anki trên VPS: tự mở đường hầm SSH
+  (cổng 15900, không hỏi pass nhờ SSH key) rồi bật TightVNC Viewer
+  (`C:\Program Files\TightVNC\tvnviewer.exe`). Đóng cửa sổ SSH thu nhỏ = ngắt VNC.
+- **Quyết định: KHÔNG cập nhật Anki trên VPS** dù có thông báo bản mới — hệ đang
+  chạy ổn, addon AnkiConnect từng phải vá tay, bản trong Docker image chỉ đổi khi
+  chủ động `docker compose pull`. Chỉ cập nhật khi AnkiWeb từ chối sync vì
+  "client quá cũ" (lúc đó làm cùng Claude để có đường lùi).
+
 - **Reset 3 phút gọn hơn + menu liền** — tin nhắn reset giờ chỉ báo "đã reset phiên"
   (nói rõ chỉ quên deck đang chọn, thẻ trong Anki không mất gì) và kèm luôn menu nút bấm
   y hệt `/menu` trong cùng 1 tin, để lần vào tới bấm chọn ngay.
