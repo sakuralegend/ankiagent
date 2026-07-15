@@ -32,7 +32,11 @@ def process_word(word, deck_name, is_forced=False, do_sync=False):
     """
     extracted_data = process_pure_next_data(word)
     if not extracted_data:
-        return False, None, "Không cào được dữ liệu từ OpenRussian (từ không tồn tại hoặc trang lỗi)."
+        # card_info mang cờ not_found để giao diện (bot) nhận ra tình huống
+        # "từ không có trên OpenRussian" và kích hoạt luồng AI đoán từ nguyên mẫu.
+        return False, {"not_found": True}, (
+            "Không tìm thấy từ trên OpenRussian (sai chính tả, hoặc là dạng biến cách?)."
+        )
 
     success, card_info = push_to_anki(word, extracted_data, deck_name, is_forced=is_forced)
     if not success:

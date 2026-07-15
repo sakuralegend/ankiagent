@@ -42,6 +42,7 @@ anki-bot.service     # systemd unit: bot tự chạy khi VPS khởi động, t�
 deploy.ps1           # Deploy từ PC: push GitHub → VPS pull → restart bot (1 lệnh)
 deploy.bat           # Vỏ bọc deploy.ps1 — double-click là deploy, khỏi mở PowerShell
 VPS_SETUP.md         # Hướng dẫn cài VPS từng bước + xử lý lỗi thường gặp
+CHANGELOG.md         # Nhật ký thay đổi (mỗi lần sửa gì đều ghi vào đây)
 ```
 
 ## ⚙️ Cấu hình — file `.env` (không đưa lên git)
@@ -64,6 +65,7 @@ Tạo từ mẫu: copy `.env.example` → `.env` rồi điền. `config.py` ch�
 |---|---|
 | Bắt đầu phiên | Nhắn gì đó → bấm nút chọn deck: 📂 deck có sẵn (liệt kê hết) / ➕ tạo mới |
 | Thêm từ | Gõ thẳng từ tiếng Nga, vd `хороший` |
+| Từ không có trên OpenRussian | AI đoán từ nguyên mẫu (biến cách/sai chính tả) → bấm nút ✅ xác nhận hoặc 🚫 Hủy |
 | Từ bị trùng | Bot hiện nút: Hủy / Chuyển deck / Xóa cũ + thêm mới / Vẫn thêm trùng |
 | Thẻ AI bị khuyết (thiếu ví dụ) | Bot cảnh báo kèm 2 nút: 🔧 Tự sửa (chạy preset đổi ví dụ) / ⏭ Bỏ qua |
 | Đổi deck | Gõ `c` hoặc `/deck` → bảng chọn deck (hoặc `/deck <tên>` đi tắt 1 bước) |
@@ -72,7 +74,8 @@ Tạo từ mẫu: copy `.env.example` → `.env` rồi điền. `config.py` ch�
 | Menu nút bấm | `/menu` (hoặc chờ — nghỉ >3 phút bot tự reset phiên và gửi menu) |
 | Ép sync ngay | `/sync` |
 
-Ghi chú: nghỉ >3 phút → bot **quên deck đang chọn** (chống thêm nhầm deck) và gửi 1 tin menu.
+Ghi chú: nghỉ >3 phút → bot **quên deck đang chọn** (chống thêm nhầm deck — thẻ trong
+Anki không mất gì) và gửi đúng 1 tin: báo đã reset + menu nút bấm y hệt `/menu`.
 
 ## 🤖 Luồng AI
 

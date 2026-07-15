@@ -109,6 +109,7 @@ Bot trả về thẻ mới + tự sync. Mở app Anki trên iPhone → bấm syn
 |---|---|
 | Bắt đầu phiên | nhắn gì đó → bấm nút chọn deck (📂 có sẵn — liệt kê hết / ➕ tạo mới) |
 | Thêm từ | gõ thẳng từ đó, vd `хороший` |
+| Từ không có trên OpenRussian | AI đoán từ nguyên mẫu → bấm nút ✅ xác nhận / 🚫 Hủy |
 | Đổi deck | gõ `c` hoặc `/deck` → bảng chọn deck (hoặc `/deck Tên Deck` đi tắt 1 bước) |
 | Thẻ AI bị khuyết (thiếu ví dụ) | bot cảnh báo kèm 2 nút: 🔧 Tự sửa (đổi ví dụ) / ⏭ Bỏ qua |
 | Sửa thẻ đã có | `/sua хороший` → chọn nút 1 Ngắn hơn / 2 Đổi ví dụ / 3 Dài hơn / Tự viết |
@@ -116,7 +117,8 @@ Bot trả về thẻ mới + tự sync. Mở app Anki trên iPhone → bấm syn
 | Menu nút bấm | `/menu` |
 | Ép sync ngay | `/sync` |
 
-Nghỉ >3 phút: bot tự reset phiên (quên deck) và gửi 1 tin menu nút bấm.
+Nghỉ >3 phút: bot tự reset phiên (chỉ quên deck đang chọn, thẻ không mất gì)
+và gửi đúng 1 tin: báo đã reset + menu nút bấm.
 
 # Khi sửa code / thêm tính năng (trên PC)
 

@@ -324,6 +324,48 @@ def call_claude_refine(word_clean, current_vi, current_examples_text, raw_exampl
     return None
 
 
+def call_claude_lemma(word):
+    """Từ không có trên OpenRussian (sai chính tả hoặc là dạng biến cách):
+    nhờ AI đoán DẠNG TỪ ĐIỂN (lemma) để cào lại. Bot sẽ hỏi user xác nhận
+    trước khi dùng — hàm này chỉ đoán, không tự quyết.
+    Trả về {"lemma": str, "reason_vi": str, "alternatives": [str, ...]} hoặc None."""
+    system_prompt = (
+        "You are a Russian morphology expert. The user typed a Russian word that was NOT found "
+        "in the dictionary. Two possible causes: (a) it is an INFLECTED form (conjugated verb, "
+        "declined noun/adjective, plural, comparative, participle, short form...), or (b) it "
+        "contains a TYPO.\n"
+        "Find the most likely DICTIONARY FORM (lemma): nominative singular for nouns, "
+        "infinitive for verbs, masculine nominative singular for adjectives.\n"
+        "Return ONLY one valid JSON object, no markdown:\n"
+        '{"lemma": "...", "reason_vi": "...", "alternatives": ["..."]}\n'
+        "- lemma: the single most likely dictionary form (Russian, no stress marks)\n"
+        "- reason_vi: ONE short Vietnamese sentence explaining the guess "
+        "(e.g. 'дома là dạng số nhiều của дом' or 'có thể gõ nhầm từ хорошо')\n"
+        "- alternatives: 0-2 OTHER plausible lemmas if ambiguous, else []"
+    )
+    user_prompt = f"Word as typed: [{word}]. Return ONLY the JSON."
+
+    raw_response = _send_ai_request(system_prompt, user_prompt)
+    if not raw_response:
+        return None
+    parsed = _parse_ai_response(raw_response)
+    if not isinstance(parsed, dict):
+        log_fail("AI đoán lemma trả về JSON không hợp lệ.")
+        return None
+    lemma = (parsed.get("lemma") or "").strip()
+    if not lemma:
+        return None
+    alts = []
+    for a in parsed.get("alternatives") or []:
+        if isinstance(a, str) and a.strip() and a.strip() != lemma:
+            alts.append(a.strip())
+    return {
+        "lemma": lemma,
+        "reason_vi": (parsed.get("reason_vi") or "").strip(),
+        "alternatives": alts[:2],
+    }
+
+
 def check_claude_ready():
     """Kiểm tra API key hợp lệ bằng endpoint liệt kê model.
     ⚠️ Cố tình KHÔNG gửi request sinh nội dung: gói free chỉ có vài chục

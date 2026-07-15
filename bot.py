@@ -3,6 +3,7 @@
 # Luồng dùng (chỉ user có TELEGRAM_USER_ID được phép, giống CLI main.py):
 #   (bắt đầu phiên)           -> bot hỏi tên bộ bài trước, nhập xong mới thêm từ
 #   <gõ 1 từ tiếng Nga>       -> thêm thẻ mới vào deck hiện tại
+#     (từ không có trên OpenRussian -> AI đoán từ nguyên mẫu, user bấm nút xác nhận)
 #   c                         -> đổi bộ bài (như gõ 'c' trong CLI)
 #   /deck <tên>               -> đổi bộ bài 1 bước
 #   /sua <từ>                 -> hiện 4 nút: 1 Ngắn hơn / 2 Đổi ví dụ / 3 Dài hơn / Tự viết
@@ -33,7 +34,7 @@ from telegram.ext import (
 
 from anki_tools.config import TELEGRAM_BOT_TOKEN, TELEGRAM_USER_ID
 from anki_tools.utils import strip_accents_perfectly, hl_to_bracket
-from anki_tools.ai_client import check_claude_ready
+from anki_tools.ai_client import check_claude_ready, call_claude_lemma
 from anki_tools.pipeline import process_word, refine_note
 from anki_tools.anki_client import (
     check_anki_ready,
@@ -53,6 +54,7 @@ HELP_TEXT = (
     "───────────────────\n"
     "• Bắt đầu: chọn deck bằng nút (deck có sẵn / tạo mới) rồi gõ từ\n"
     "• Gõ 1 từ tiếng Nga → thêm thẻ mới\n"
+    "• Từ không có trên OpenRussian (biến cách/sai chính tả) → AI đoán từ nguyên mẫu, bấm nút xác nhận\n"
     "• c → đổi bộ bài (mở bảng chọn deck)\n"
     "• /sua <từ> → sửa thẻ: chọn 1 Ngắn hơn / 2 Đổi ví dụ / 3 Dài hơn / Tự viết\n"
     "• /menu → menu nút bấm\n"
@@ -163,10 +165,12 @@ async def _idle_reset_job(context, chat_id):
         user_data.pop("pending", None)
         user_data.pop("sua_word", None)
         user_data.pop("deck_choices", None)
+        user_data.pop("lemma_choices", None)
     try:
+        # 1 tin duy nhất: báo đã reset + menu y hệt /menu để lần vào tới bấm luôn
         await context.bot.send_message(
             chat_id,
-            "⏸ Đã reset phiên (nghỉ >3 phút). Deck đã xóa — bấm nút hoặc gõ tiếp:",
+            f"⏸ Nghỉ >3 phút — đã reset phiên (chỉ quên deck đang chọn, thẻ trong Anki không mất gì).\n\n{_menu_text(context)}",
             reply_markup=_menu_keyboard(),
         )
     except Exception:
@@ -221,7 +225,7 @@ def format_card_summary(card_info, elapsed):
     return "\n".join(lines)
 
 
-async def _do_add(status_msg, word, deck_name, is_forced):
+async def _do_add(status_msg, word, deck_name, is_forced, context=None):
     """Chạy pipeline thêm từ (trong thread) rồi cập nhật tin nhắn trạng thái."""
     t0 = time.time()
     await status_msg.edit_text(f"⏳ Đang xử lý '{word}' (cào OpenRussian → AI → Anki)...")
@@ -235,8 +239,54 @@ async def _do_add(status_msg, word, deck_name, is_forced):
         await status_msg.edit_text(
             format_card_summary(card_info, time.time() - t0), reply_markup=markup
         )
+    elif (card_info or {}).get("not_found") and context is not None:
+        # Từ không có trên OpenRussian: có thể sai chính tả hoặc là dạng biến cách
+        # -> nhờ AI đoán từ nguyên mẫu rồi hỏi user xác nhận trước khi cào lại.
+        await _suggest_lemma(status_msg, word, context)
     else:
         await status_msg.edit_text(f"❌ {error_msg}")
+
+
+async def _suggest_lemma(status_msg, word, context):
+    """Hỏi AI từ nguyên mẫu của 1 từ không tìm thấy, rồi hiện nút để user xác nhận."""
+    await status_msg.edit_text(
+        f"🔍 Không thấy '{word}' trên OpenRussian — đang hỏi AI từ nguyên mẫu..."
+    )
+    guess = await asyncio.to_thread(call_claude_lemma, word)
+    if not guess:
+        await status_msg.edit_text(
+            f"❌ Không tìm thấy '{word}' trên OpenRussian, và AI cũng không đoán được "
+            "từ nguyên mẫu. Kiểm tra lại chính tả rồi gõ lại nhé."
+        )
+        return
+    candidates = [guess["lemma"]] + guess["alternatives"]
+    # Tên từ (Cyrillic) có thể vượt 64 byte callback_data -> nút chỉ mang chỉ số
+    context.user_data["lemma_choices"] = candidates
+    lines = [
+        f"⚠️ Không tìm thấy '{word}' trên OpenRussian.",
+        f"🤖 AI đoán từ nguyên mẫu: {guess['lemma']}",
+    ]
+    if guess["reason_vi"]:
+        lines.append(f"💬 {guess['reason_vi']}")
+    lines.append("Bấm từ đúng để thêm thẻ, hoặc hủy:")
+    rows = [
+        [InlineKeyboardButton(f"✅ Thêm '{c}'", callback_data=f"lemma:{i}")]
+        for i, c in enumerate(candidates)
+    ]
+    rows.append([InlineKeyboardButton("🚫 Hủy", callback_data="lemma:cancel")])
+    await status_msg.edit_text("\n".join(lines), reply_markup=InlineKeyboardMarkup(rows))
+
+
+async def _add_with_dup_check(status_msg, word, context):
+    """Dò trùng rồi thêm từ — luồng chung cho tin nhắn gõ từ và nút xác nhận lemma."""
+    clean_word = strip_accents_perfectly(word)
+    duplicates = await asyncio.to_thread(find_duplicate_notes, clean_word)
+    if duplicates:
+        context.user_data["pending"] = {"word": word, "dups": duplicates, "sel": 0}
+        dup_text, keyboard = _duplicate_text_and_keyboard(context.user_data["pending"])
+        await status_msg.edit_text(dup_text, reply_markup=keyboard)
+        return
+    await _do_add(status_msg, word, _current_deck(context), is_forced=False, context=context)
 
 
 async def _do_sua(status_msg, word, instruction):
@@ -414,19 +464,8 @@ async def on_word(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     # --- Còn lại: text là từ cần thêm ---
     word = text
-    deck_name = _current_deck(context)
     status = await update.message.reply_text(f"🔍 Đang kiểm tra '{word}'...")
-
-    clean_word = strip_accents_perfectly(word)
-    duplicates = await asyncio.to_thread(find_duplicate_notes, clean_word)
-
-    if duplicates:
-        context.user_data["pending"] = {"word": word, "dups": duplicates, "sel": 0}
-        dup_text, keyboard = _duplicate_text_and_keyboard(context.user_data["pending"])
-        await status.edit_text(dup_text, reply_markup=keyboard)
-        return
-
-    await _do_add(status, word, deck_name, is_forced=False)
+    await _add_with_dup_check(status, word, context)
 
 
 async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -478,6 +517,29 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await query.edit_message_text("☁️ Đã sync AnkiWeb." if ok else "❌ Sync thất bại.")
         elif action == "help":
             await query.edit_message_text(HELP_TEXT)
+        return
+
+    # --- Nút xác nhận từ nguyên mẫu (từ gõ vào không có trên OpenRussian) ---
+    if data.startswith("lemma:"):
+        arg = data.split(":", 1)[1]
+        if arg == "cancel":
+            context.user_data.pop("lemma_choices", None)
+            await query.edit_message_text("⏭️ Đã hủy.")
+            return
+        choices = context.user_data.get("lemma_choices") or []
+        idx = int(arg)
+        if idx >= len(choices):
+            await query.edit_message_text("⌛ Phiên đã hết hạn, gõ lại từ nhé.")
+            return
+        word = choices[idx]
+        context.user_data.pop("lemma_choices", None)
+        if _current_deck(context) is None:
+            await query.edit_message_text(
+                "📚 Chưa chọn deck — chọn trước đã:", reply_markup=_deck_choose_keyboard()
+            )
+            return
+        await query.edit_message_text(f"🔍 Đang kiểm tra '{word}'...")
+        await _add_with_dup_check(query.message, word, context)
         return
 
     # --- Nút trên thẻ AI tạo thiếu nội dung: tự sửa (preset 2) / bỏ qua ---
@@ -548,10 +610,10 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         # Sync ngay sau khi xóa (phòng trường hợp bước thêm mới bên dưới thất bại
         # thì việc xóa vẫn đã được đẩy lên AnkiWeb, không bị lệch 2 bên)
         await asyncio.to_thread(trigger_sync)
-        await _do_add(query.message, word, deck_name, is_forced=False)
+        await _do_add(query.message, word, deck_name, is_forced=False, context=context)
 
     elif data == "act:trung":
-        await _do_add(query.message, word, deck_name, is_forced=True)
+        await _do_add(query.message, word, deck_name, is_forced=True, context=context)
 
 
 # ---------------------------------------------------------------------------
