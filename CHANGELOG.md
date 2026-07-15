@@ -6,6 +6,12 @@
 
 ## 15/07/2026
 
+- **Đổi phông viết tay sang Propisi Regular** (theo yêu cầu user sau khi dùng thử
+  Marck Script) — Propisi (ParaGraph 1997) là font làm ĐÚNG theo mẫu chữ vở tập
+  viết trường Nga, chuẩn hơn Marck Script. `_propisi.ttf` (41KB, đủ bảng chữ
+  Cyrillic hoa+thường, đã kiểm bằng fontTools) nạp vào collection.media;
+  `.cursive-word` dùng "Propisi" với "MarckScript" làm dự phòng, cỡ 34px.
+  Nguồn font: wfonts.com/font/propisi (free).
 - **Phông chữ viết tay Nga trên thẻ (Marck Script)** — dòng chữ nghiêng ở mặt sau
   thẻ vốn để luyện đọc chữ viết tay Nga nhưng phông hệ thống nghiêng không ra dạng
   viết tay. Đổi sang Marck Script (giống chữ vở tập viết пропись: т→m, д→g), user
