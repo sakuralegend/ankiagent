@@ -35,7 +35,7 @@ from telegram.ext import (
 from anki_tools.config import TELEGRAM_BOT_TOKEN, TELEGRAM_USER_ID
 from anki_tools.utils import strip_accents_perfectly, hl_to_bracket
 from anki_tools.ai_client import check_claude_ready, call_claude_lemma
-from anki_tools.pipeline import process_word, refine_note
+from anki_tools.pipeline import process_word, refine_note, refine_note_id
 from anki_tools.anki_client import (
     check_anki_ready,
     find_duplicate_notes,
@@ -43,6 +43,7 @@ from anki_tools.anki_client import (
     delete_notes,
     ensure_deck_exists,
     get_deck_names,
+    get_deck_note_ids,
     setup_anki_environment,
     trigger_sync,
 )
@@ -57,6 +58,7 @@ HELP_TEXT = (
     "• Từ không có trên OpenRussian (biến cách/sai chính tả) → AI đoán từ nguyên mẫu, bấm nút xác nhận\n"
     "• /deck → bảng chọn deck bằng nút\n"
     "• /sua → bot hỏi từ cần sửa, gõ từ xong chọn kiểu sửa bằng nút\n"
+    "• /suadeck → sửa TOÀN BỘ thẻ trong 1 deck (ít dùng — có xác nhận + nút Dừng)\n"
     "• /menu → menu nút bấm\n"
     "• /sync → đồng bộ AnkiWeb ngay\n"
     "• Nghỉ >3 phút → bot tự reset phiên (chọn lại deck)"
@@ -95,6 +97,21 @@ def _deck_choose_keyboard():
 MAX_DECK_BUTTONS = 24  # tránh bảng nút quá dài nếu collection có rất nhiều deck
 
 
+def _deck_buttons_rows(names, prefix):
+    """Xếp danh sách tên deck thành các hàng nút (2 nút/hàng), callback = prefix:i.
+    Tên deck (Cyrillic) có thể vượt 64 byte callback_data -> nút chỉ mang chỉ số,
+    danh sách tên phải được lưu vào user_data ở phía gọi."""
+    rows, row = [], []
+    for i, name in enumerate(names):
+        row.append(InlineKeyboardButton(name, callback_data=f"{prefix}:{i}"))
+        if len(row) == 2:
+            rows.append(row)
+            row = []
+    if row:
+        rows.append(row)
+    return rows
+
+
 async def _show_deck_list(query, context):
     """Liệt kê toàn bộ deck trong Anki thành nút bấm để chọn."""
     names = await asyncio.to_thread(get_deck_names)
@@ -103,17 +120,8 @@ async def _show_deck_list(query, context):
         await query.edit_message_text("📂 Chưa có deck nào trong Anki. Gõ tên deck mới để tạo:")
         return
     names = names[:MAX_DECK_BUTTONS]
-    # Tên deck (Cyrillic) có thể vượt giới hạn 64 byte của callback_data
-    # -> lưu danh sách vào user_data, nút chỉ mang chỉ số.
     context.user_data["deck_choices"] = names
-    rows, row = [], []
-    for i, name in enumerate(names):
-        row.append(InlineKeyboardButton(name, callback_data=f"deckpick:{i}"))
-        if len(row) == 2:
-            rows.append(row)
-            row = []
-    if row:
-        rows.append(row)
+    rows = _deck_buttons_rows(names, "deckpick")
     rows.append([InlineKeyboardButton("➕ Tạo deck mới", callback_data="deck:new")])
     await query.edit_message_text("📂 Chọn deck:", reply_markup=InlineKeyboardMarkup(rows))
 
@@ -167,6 +175,10 @@ async def _idle_reset_job(context, chat_id):
         user_data.pop("awaiting", None)
         user_data.pop("deck_choices", None)
         user_data.pop("lemma_choices", None)
+        # Trạng thái CHỌN dở của /suadeck (batch đang CHẠY không bị ảnh hưởng:
+        # _run_suadeck tự đẩy đồng hồ idle mỗi thẻ nên không rơi vào đây)
+        for k in ("sd_deck_choices", "sd_deck", "sd_note_ids", "sd_instruction", "sd_label"):
+            user_data.pop(k, None)
     try:
         # 1 tin duy nhất: báo đã reset + menu y hệt /menu để lần vào tới bấm luôn
         await context.bot.send_message(
@@ -341,6 +353,109 @@ def _duplicate_text_and_keyboard(pending):
     return "\n".join(lines), InlineKeyboardMarkup(rows)
 
 
+# ---------------------------------------------------------------------------
+# /suadeck — sửa TOÀN BỘ thẻ trong 1 deck (ít dùng; ghi đè hàng loạt nên có
+# màn xác nhận trước khi chạy + nút Dừng giữa chừng)
+# ---------------------------------------------------------------------------
+
+SUADECK_QUOTA_WARN = 450  # gần trần 500 lượt Gemini free/ngày thì cảnh báo đậm
+
+_SD_LABELS = {"1": "1️⃣ Ngắn hơn", "2": "2️⃣ Đổi ví dụ", "3": "3️⃣ Dài hơn"}
+
+
+def _sd_clear(user_data):
+    """Dọn toàn bộ trạng thái chọn dở của /suadeck."""
+    for k in ("sd_deck_choices", "sd_deck", "sd_note_ids", "sd_instruction", "sd_label"):
+        user_data.pop(k, None)
+
+
+def _sd_confirm_text_keyboard(context):
+    """Màn xác nhận cuối trước khi chạy batch: deck, số thẻ, kiểu sửa, ước tính."""
+    deck = context.user_data["sd_deck"]
+    total = len(context.user_data["sd_note_ids"])
+    label = context.user_data.get("sd_label", "")
+    minutes = max(1, round(total * 8 / 60))
+    lines = [
+        "🛠 XÁC NHẬN SỬA TOÀN BỘ DECK",
+        f"📦 Deck: {deck}",
+        f"🃏 Số thẻ sẽ bị GHI ĐÈ nghĩa + ví dụ: {total}",
+        f"✏️ Kiểu sửa: {label}",
+        f"⏱ Ước tính: ~{minutes} phút (mỗi thẻ 1 lượt AI)",
+    ]
+    if total > SUADECK_QUOTA_WARN:
+        lines.append(
+            f"🚨 {total} thẻ VƯỢT gần hết hạn mức AI miễn phí (~500 lượt/ngày) — "
+            "nên chia nhỏ deck hoặc chạy sang 2 ngày."
+        )
+    lines.append("Chạy chứ?")
+    kb = InlineKeyboardMarkup([[
+        InlineKeyboardButton("🚀 Bắt đầu", callback_data="sdgo"),
+        InlineKeyboardButton("🚫 Hủy", callback_data="sdcancel"),
+    ]])
+    return "\n".join(lines), kb
+
+
+async def _run_suadeck(context, chat_id, msg, deck, note_ids, instruction):
+    """Task chạy nền sửa cả deck. PHẢI chạy bằng asyncio.create_task: PTB xử lý
+    update tuần tự, nếu chạy ngay trong handler thì nút ⏹ Dừng không bao giờ
+    được xử lý. Tiến độ hiển thị trong ĐÚNG 1 tin nhắn edit tại chỗ:
+    xong từ nào nội dung từ đó tự biến mất, chỗ đó hiện từ đang sửa tiếp theo."""
+    context.bot_data["sd_running"] = True
+    context.bot_data["sd_stop"] = False
+    total = len(note_ids)
+    done, failed_words = 0, []
+    stop_kb = InlineKeyboardMarkup([[InlineKeyboardButton("⏹ Dừng", callback_data="sdstop")]])
+    stopped = False
+
+    try:
+        for i, note_id in enumerate(note_ids):
+            if context.bot_data.get("sd_stop"):
+                stopped = True
+                break
+            # Đẩy đồng hồ idle mỗi thẻ để menu reset 3 phút không chen giữa batch
+            _reset_idle_timer(context, chat_id)
+
+            success, result, error_msg = await asyncio.to_thread(
+                refine_note_id, note_id, instruction, False
+            )
+            word = hl_to_bracket((result or {}).get("word", "")) or f"note {note_id}"
+            if success:
+                done += 1
+            else:
+                failed_words.append(word)
+
+            next_i = i + 1
+            progress = (
+                f"🔄 Sửa deck '{deck}': thẻ {next_i}/{total}\n"
+                f"📝 Vừa xong: {word} {'✅' if success else '❌'}\n"
+                f"✅ xong {done} │ ❌ lỗi {len(failed_words)}"
+            )
+            try:
+                await msg.edit_text(progress, reply_markup=stop_kb)
+            except Exception:
+                pass  # nội dung trùng / mạng chớp — bỏ qua, vòng sau edit tiếp
+    finally:
+        context.bot_data["sd_running"] = False
+        context.bot_data["sd_stop"] = False
+
+    # Sync 1 lần cho cả đợt (chính sách: mọi sửa đổi đều lên AnkiWeb ngay)
+    synced = await asyncio.to_thread(trigger_sync)
+
+    title = "⏹ ĐÃ DỪNG sửa deck" if stopped else "🏁 XONG sửa deck"
+    lines = [
+        f"{title} '{deck}': ✅ {done} thẻ │ ❌ {len(failed_words)} lỗi │ tổng {total}",
+    ]
+    if failed_words:
+        shown = ", ".join(failed_words[:10])
+        more = f" (+{len(failed_words) - 10} từ nữa)" if len(failed_words) > 10 else ""
+        lines.append(f"❌ Từ bị lỗi (thẻ giữ nguyên, sửa lẻ bằng /sua): {shown}{more}")
+    lines.append(SYNC_OK_TEXT if synced else SYNC_FAIL_TEXT)
+    try:
+        await msg.edit_text("\n".join(lines))
+    except Exception:
+        pass
+
+
 def _sua_keyboard():
     return InlineKeyboardMarkup([
         [
@@ -423,6 +538,30 @@ async def cmd_sua(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await _do_sua(msg, word, instruction)
 
 
+async def cmd_suadeck(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Sửa TOÀN BỘ thẻ trong 1 deck: chọn deck bằng nút -> kiểu sửa -> xác nhận."""
+    _reset_idle_timer(context, update.effective_chat.id)
+    if context.bot_data.get("sd_running"):
+        await update.message.reply_text(
+            "⏳ Đang có một đợt sửa deck chạy dở — chờ xong hoặc bấm ⏹ Dừng ở tin tiến độ đã nhé."
+        )
+        return
+    names = await asyncio.to_thread(get_deck_names)
+    if not names:
+        await update.message.reply_text("📂 Chưa có deck nào trong Anki.")
+        return
+    names = names[:MAX_DECK_BUTTONS]
+    _sd_clear(context.user_data)
+    context.user_data["sd_deck_choices"] = names
+    rows = _deck_buttons_rows(names, "sd")
+    rows.append([InlineKeyboardButton("🚫 Hủy", callback_data="sdcancel")])
+    await update.message.reply_text(
+        "🛠 SỬA TOÀN BỘ DECK — AI làm lại nghĩa + ví dụ của MỌI thẻ trong deck.\n"
+        "Chọn deck cần sửa:",
+        reply_markup=InlineKeyboardMarkup(rows),
+    )
+
+
 async def on_word(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Tin nhắn text thường. Ưu tiên theo trạng thái đang chờ: tên deck mới /
     từ cần sửa / yêu cầu sửa tự viết; không chờ gì thì text = từ cần thêm thẻ."""
@@ -453,6 +592,18 @@ async def on_word(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(
             f"✏️ Sửa thẻ '{text}' — chọn kiểu:", reply_markup=_sua_keyboard()
         )
+        return
+
+    # --- Đang chờ YÊU CẦU tự viết cho cả deck (/suadeck -> Tự viết) ---
+    if context.user_data.get("awaiting") == "sdeck_custom":
+        context.user_data.pop("awaiting", None)
+        if not context.user_data.get("sd_deck"):
+            await update.message.reply_text("⌛ Phiên sửa deck đã hết hạn, gọi lại /suadeck nhé.")
+            return
+        context.user_data["sd_instruction"] = text
+        context.user_data["sd_label"] = f"✏️ {text[:80]}"
+        confirm_text, kb = _sd_confirm_text_keyboard(context)
+        await update.message.reply_text(confirm_text, reply_markup=kb)
         return
 
     # --- Đang chờ YÊU CẦU tự viết (sau khi bấm nút "Tự viết yêu cầu") ---
@@ -527,6 +678,82 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await query.edit_message_text("☁️ Đã sync AnkiWeb." if ok else "❌ Sync thất bại.")
         elif action == "help":
             await query.edit_message_text(HELP_TEXT)
+        return
+
+    # --- Luồng /suadeck: chọn deck -> kiểu sửa -> xác nhận -> chạy/dừng ---
+    if data == "sdcancel":
+        _sd_clear(context.user_data)
+        await query.edit_message_text("⏭️ Đã hủy sửa deck.")
+        return
+    if data == "sdstop":
+        if context.bot_data.get("sd_running"):
+            context.bot_data["sd_stop"] = True
+            # Tin tiến độ sẽ tự chuyển thành tổng kết ở vòng lặp kế tiếp
+        return
+    if data.startswith("sd:"):
+        idx = int(data.split(":", 1)[1])
+        choices = context.user_data.get("sd_deck_choices") or []
+        if idx >= len(choices):
+            await query.edit_message_text("⌛ Danh sách đã cũ, gọi lại /suadeck nhé.")
+            return
+        deck_name = choices[idx]
+        note_ids = await asyncio.to_thread(get_deck_note_ids, deck_name)
+        if not note_ids:
+            _sd_clear(context.user_data)
+            await query.edit_message_text(
+                f"📂 Deck '{deck_name}' không có thẻ nào (của bot) để sửa."
+            )
+            return
+        context.user_data["sd_deck"] = deck_name
+        context.user_data["sd_note_ids"] = note_ids
+        kb = InlineKeyboardMarkup([
+            [
+                InlineKeyboardButton("1️⃣ Ngắn hơn", callback_data="sdsua:1"),
+                InlineKeyboardButton("2️⃣ Đổi ví dụ", callback_data="sdsua:2"),
+                InlineKeyboardButton("3️⃣ Dài hơn", callback_data="sdsua:3"),
+            ],
+            [InlineKeyboardButton("✏️ Tự viết yêu cầu", callback_data="sdsua:custom")],
+            [InlineKeyboardButton("🚫 Hủy", callback_data="sdcancel")],
+        ])
+        await query.edit_message_text(
+            f"🛠 Deck '{deck_name}' có {len(note_ids)} thẻ.\n"
+            "Chọn kiểu sửa áp dụng cho TẤT CẢ:",
+            reply_markup=kb,
+        )
+        return
+    if data.startswith("sdsua:"):
+        choice = data.split(":", 1)[1]
+        if not context.user_data.get("sd_deck"):
+            await query.edit_message_text("⌛ Phiên sửa deck đã hết hạn, gọi lại /suadeck nhé.")
+            return
+        if choice == "custom":
+            context.user_data["awaiting"] = "sdeck_custom"
+            await query.edit_message_text(
+                f"✏️ Gõ yêu cầu sửa áp dụng cho TẤT CẢ thẻ trong deck "
+                f"'{context.user_data['sd_deck']}':"
+            )
+            return
+        context.user_data["sd_instruction"] = choice
+        context.user_data["sd_label"] = _SD_LABELS.get(choice, choice)
+        confirm_text, kb = _sd_confirm_text_keyboard(context)
+        await query.edit_message_text(confirm_text, reply_markup=kb)
+        return
+    if data == "sdgo":
+        deck = context.user_data.get("sd_deck")
+        note_ids = context.user_data.get("sd_note_ids")
+        instruction = context.user_data.get("sd_instruction")
+        if not deck or not note_ids or instruction is None:
+            await query.edit_message_text("⌛ Phiên sửa deck đã hết hạn, gọi lại /suadeck nhé.")
+            return
+        if context.bot_data.get("sd_running"):
+            await query.edit_message_text("⏳ Đang có một đợt sửa deck khác chạy dở.")
+            return
+        _sd_clear(context.user_data)
+        await query.edit_message_text(f"🔄 Bắt đầu sửa deck '{deck}' ({len(note_ids)} thẻ)...")
+        # Task riêng để bot vẫn nhận update (đặc biệt là nút ⏹ Dừng) trong lúc chạy
+        asyncio.create_task(
+            _run_suadeck(context, query.message.chat_id, query.message, deck, note_ids, instruction)
+        )
         return
 
     # --- Nút xác nhận từ nguyên mẫu (từ gõ vào không có trên OpenRussian) ---
@@ -649,6 +876,7 @@ async def _post_init(app):
         BotCommand("menu", "Menu nút bấm"),
         BotCommand("deck", "Đổi bộ bài (bảng chọn nút)"),
         BotCommand("sua", "Sửa thẻ (bot sẽ hỏi từ)"),
+        BotCommand("suadeck", "Sửa TOÀN BỘ thẻ trong 1 deck (ít dùng, tốn AI)"),
         BotCommand("sync", "Đồng bộ AnkiWeb ngay"),
         BotCommand("help", "Hướng dẫn"),
     ])
@@ -687,6 +915,7 @@ def main():
     app.add_handler(CommandHandler("deck", cmd_deck, filters=only_me))
     app.add_handler(CommandHandler("sync", cmd_sync, filters=only_me))
     app.add_handler(CommandHandler("sua", cmd_sua, filters=only_me))
+    app.add_handler(CommandHandler("suadeck", cmd_suadeck, filters=only_me))
     app.add_handler(CallbackQueryHandler(on_callback))
     app.add_handler(MessageHandler(only_me & filters.TEXT & ~filters.COMMAND, on_word))
 

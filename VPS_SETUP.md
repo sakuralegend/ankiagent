@@ -114,6 +114,7 @@ Bot trả về thẻ mới + tự sync. Mở app Anki trên iPhone → bấm syn
 | Thẻ AI bị khuyết (thiếu ví dụ) | bot cảnh báo kèm 2 nút: 🔧 Tự sửa (đổi ví dụ) / ⏭ Bỏ qua |
 | Sửa thẻ đã có | `/sua` (hoặc nút ✏️) → bot hỏi từ → gõ từ → chọn nút 1 Ngắn hơn / 2 Đổi ví dụ / 3 Dài hơn / Tự viết |
 | Sửa theo ý mình | trong bảng kiểu sửa bấm "Tự viết yêu cầu" → gõ thẳng yêu cầu |
+| Sửa TOÀN BỘ deck (ít dùng) | `/suadeck` → chọn deck → kiểu sửa → xác nhận → tiến độ tự cập nhật, có nút ⏹ Dừng |
 | Menu nút bấm | `/menu` |
 | Ép sync ngay | `/sync` |
 

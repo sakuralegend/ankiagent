@@ -57,31 +57,25 @@ def process_word(word, deck_name, is_forced=False, do_sync=False):
     return True, card_info, None
 
 
-def refine_note(word, instruction, do_sync=True):
-    """Sửa/làm lại 1 thẻ đã có theo yêu cầu người dùng (luồng /sua của bot).
-
-    Đây là bản server-side của nút "AI Refine" trên thẻ: tìm note theo từ,
-    lấy nội dung hiện tại + ví dụ thô, gọi AI với yêu cầu của người dùng,
-    ghi đè thẻ rồi sync lên AnkiWeb.
+def refine_note_id(note_id, instruction, do_sync=False):
+    """Lõi sửa 1 note theo note_id — dùng chung cho /sua (1 thẻ) và /suadeck (cả deck).
 
     Trả về (success: bool, result: dict | None, error_msg: str | None).
-    result = {"word", "vi", "examples"} để hiển thị tóm tắt.
+    - success=True  -> result = {"word", "vi", "examples"} (+ "synced" nếu do_sync).
+    - success=False -> result vẫn cố mang {"word": ...} nếu đã đọc được thẻ,
+      để giao diện batch báo được TỪ NÀO bị lỗi.
 
     instruction có thể là "1"/"2"/"3" (lệnh sửa nhanh - xem REFINE_PRESETS
-    trong ai_client.py: ngắn hơn / đổi ví dụ khác / dài hơn) hoặc yêu cầu tự do.
+    trong ai_client.py) hoặc yêu cầu tự do.
     """
     instruction = REFINE_PRESETS.get(instruction.strip(), instruction.strip())
-    clean_word = strip_accents_perfectly(word)
-    dups = find_duplicate_notes(clean_word)
-    if not dups:
-        return False, None, f"Không tìm thấy thẻ nào cho từ '{word}'."
-
-    # Nếu có nhiều note trùng, chọn note mới nhất (note_id lớn nhất) - giống JS trên thẻ
-    note_id = max(d["note_id"] for d in dups)
 
     fields = get_note_fields(note_id)
     if fields is None:
         return False, None, "Không đọc được nội dung thẻ từ Anki."
+
+    word_info = {"word": fields.get("Word", "")}
+    clean_word = fields.get("WordClean") or strip_accents_perfectly(fields.get("Word", ""))
 
     current_vi = fields.get("Vietnamese", "")
     # Bóc text thô từ HTML ví dụ hiện tại để AI biết thẻ đang có gì
@@ -95,15 +89,30 @@ def refine_note(word, instruction, do_sync=True):
 
     ai_result = call_claude_refine(clean_word, current_vi, current_ex_text, raw_examples, instruction)
     if not ai_result:
-        return False, None, "AI trả thiếu dữ liệu 2 lần liên tiếp — thẻ KHÔNG bị thay đổi. Thử lại nhé."
+        return False, word_info, "AI trả thiếu dữ liệu 2 lần liên tiếp — thẻ KHÔNG bị thay đổi. Thử lại nhé."
 
     examples_html, vi_meaning, simplified = build_html_from_ai_result(ai_result)
 
     if not update_note_refined(note_id, vi_meaning, examples_html):
-        return False, None, "Ghi thẻ mới vào Anki thất bại."
+        return False, word_info, "Ghi thẻ mới vào Anki thất bại."
 
-    result = {"word": fields.get("Word", word), "vi": vi_meaning, "examples": simplified}
+    result = {"word": word_info["word"], "vi": vi_meaning, "examples": simplified}
     if do_sync:
         result["synced"] = trigger_sync()
 
     return True, result, None
+
+
+def refine_note(word, instruction, do_sync=True):
+    """Sửa/làm lại 1 thẻ đã có theo yêu cầu người dùng (luồng /sua của bot).
+    Tìm note theo từ (nhiều note trùng -> chọn note mới nhất) rồi gọi refine_note_id."""
+    clean_word = strip_accents_perfectly(word)
+    dups = find_duplicate_notes(clean_word)
+    if not dups:
+        return False, None, f"Không tìm thấy thẻ nào cho từ '{word}'."
+
+    note_id = max(d["note_id"] for d in dups)
+    success, result, error_msg = refine_note_id(note_id, instruction, do_sync=do_sync)
+    if success and not result.get("word"):
+        result["word"] = word
+    return success, result, error_msg

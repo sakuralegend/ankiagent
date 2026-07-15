@@ -6,6 +6,16 @@
 
 ## 15/07/2026
 
+- **/suadeck — sửa TOÀN BỘ thẻ trong 1 deck** (tính năng ít dùng nên là lệnh riêng
+  trong danh sách "/", KHÔNG chiếm chỗ menu chính). Luồng toàn nút: chọn deck →
+  kiểu sửa (1/2/3/tự viết) → màn xác nhận (số thẻ, ước tính thời gian, cảnh báo
+  nếu >450 thẻ vì quota Gemini 500/ngày) → chạy nền. Tiến độ = ĐÚNG 1 tin nhắn
+  tự cập nhật tại chỗ (thẻ i/N, vừa xong từ nào ✅/❌, đếm xong/lỗi) + nút ⏹ Dừng.
+  Xong/dừng: sync AnkiWeb 1 lần, tổng kết liệt kê ≤10 từ lỗi (thẻ lỗi giữ nguyên
+  nhờ OUTPUT CONTRACT + validate). Kỹ thuật: `get_deck_note_ids()` (anki_client),
+  tách lõi `refine_note_id()` từ `refine_note()` (pipeline), batch chạy
+  `asyncio.create_task` vì PTB xử lý update tuần tự (không thì nút Dừng chết),
+  guard `sd_running` chống chạy 2 đợt, idle timer được đẩy mỗi thẻ.
 - **Giao diện "bấm trước, gõ sau" (đỡ đổi bàn phím Nga↔Latin)** — user dùng bàn phím
   tiếng Nga liên tục nên gõ lệnh kiểu `/sua <từ>` rất bất tiện. Đổi logic:
   `/sua` (hoặc nút ✏️ Sửa thẻ) → bot hỏi "gõ từ cần sửa" → gõ từ → nút chọn kiểu sửa;

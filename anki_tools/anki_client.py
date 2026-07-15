@@ -159,6 +159,26 @@ def get_deck_names():
         return []
 
 
+def get_deck_note_ids(deck_name):
+    """Lấy note_id của TOÀN BỘ note (model của bot) trong 1 deck, gồm cả subdeck.
+    Dùng cho luồng /suadeck (sửa hàng loạt). Trả về list note_ids ([] nếu lỗi/trống)."""
+    try:
+        safe_deck = deck_name.replace('"', '\\"')
+        query = f'deck:"{safe_deck}" note:"{MODEL_NAME}"'
+        res = requests.post(ANKI_CONNECT_URL, json={
+            "action": "findNotes", "version": 6,
+            "params": {"query": query}
+        }, timeout=10)
+        result = res.json()
+        if result.get("error"):
+            log_warn(f"AnkiConnect lỗi khi liệt kê thẻ deck '{deck_name}': {result.get('error')}")
+            return []
+        return result.get("result", []) or []
+    except Exception as e:
+        log_warn(f"Không liệt kê được thẻ của deck '{deck_name}': {e}")
+        return []
+
+
 def ensure_deck_exists(deck_name):
     """Kiểm tra deck đã tồn tại chưa, tạo mới nếu chưa có. Trả về True nếu OK."""
     try:

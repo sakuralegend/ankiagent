@@ -71,6 +71,7 @@ Tạo từ mẫu: copy `.env.example` → `.env` rồi điền. `config.py` ch�
 | Đổi deck | `/deck` (hoặc nút 📚 trong menu) → bảng chọn deck bằng nút |
 | Sửa thẻ | `/sua` (hoặc nút ✏️) → bot hỏi từ → gõ từ → chọn nút **1** Ngắn hơn / **2** Đổi ví dụ / **3** Dài hơn / Tự viết |
 | Sửa theo ý mình | Trong bảng kiểu sửa bấm **Tự viết yêu cầu** → gõ thẳng yêu cầu |
+| Sửa TOÀN BỘ deck (ít dùng) | `/suadeck` → chọn deck → kiểu sửa → màn xác nhận → chạy nền có tin tiến độ tự cập nhật + nút ⏹ Dừng |
 | Menu nút bấm | `/menu` (hoặc chờ — nghỉ >3 phút bot tự reset phiên và gửi menu) |
 | Ép sync ngay | `/sync` |
 
