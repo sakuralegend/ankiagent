@@ -1,16 +1,16 @@
 # ==============================================================================
 # --- BOT TELEGRAM: thêm từ + sửa thẻ Anki từ xa (chạy 24/7 trên VPS) ---
-# Luồng dùng (chỉ user có TELEGRAM_USER_ID được phép, giống CLI main.py):
-#   (bắt đầu phiên)           -> bot hỏi tên bộ bài trước, nhập xong mới thêm từ
+# Luồng dùng (chỉ user có TELEGRAM_USER_ID được phép):
+# NGUYÊN TẮC: bấm chức năng TRƯỚC, bot hỏi, rồi mới gõ từ/tên — để user dùng
+# bàn phím tiếng Nga liên tục, không phải đổi bàn phím gõ lệnh Latin giữa chừng.
+#   (bắt đầu phiên)           -> bot hiện nút chọn deck, chọn xong mới thêm từ
 #   <gõ 1 từ tiếng Nga>       -> thêm thẻ mới vào deck hiện tại
 #     (từ không có trên OpenRussian -> AI đoán từ nguyên mẫu, user bấm nút xác nhận)
-#   c                         -> đổi bộ bài (như gõ 'c' trong CLI)
-#   /deck <tên>               -> đổi bộ bài 1 bước
-#   /sua <từ>                 -> hiện 4 nút: 1 Ngắn hơn / 2 Đổi ví dụ / 3 Dài hơn / Tự viết
-#   /sua <từ> 1|2|3           -> chạy thẳng lệnh sửa nhanh tương ứng
-#   /sua <từ> <yêu cầu>       -> sửa theo yêu cầu tự do
+#   /deck (hoặc nút 📚)       -> bảng chọn deck bằng nút
+#   /sua (hoặc nút ✏️)        -> bot hỏi từ cần sửa -> gõ từ -> chọn kiểu sửa bằng nút
 #   /menu                     -> menu nút bấm
 #   /sync                     -> ép đồng bộ AnkiWeb ngay
+#   (/deck <tên>, /sua <từ> [yêu cầu] vẫn chạy — đường tắt cho ai thích gõ 1 dòng)
 #
 # Nghỉ >3 phút -> tự reset phiên (quên deck + trạng thái dở dang) và gửi 1 tin
 # menu nút bấm để lần sau thao tác nhanh.
@@ -55,8 +55,8 @@ HELP_TEXT = (
     "• Bắt đầu: chọn deck bằng nút (deck có sẵn / tạo mới) rồi gõ từ\n"
     "• Gõ 1 từ tiếng Nga → thêm thẻ mới\n"
     "• Từ không có trên OpenRussian (biến cách/sai chính tả) → AI đoán từ nguyên mẫu, bấm nút xác nhận\n"
-    "• c → đổi bộ bài (mở bảng chọn deck)\n"
-    "• /sua <từ> → sửa thẻ: chọn 1 Ngắn hơn / 2 Đổi ví dụ / 3 Dài hơn / Tự viết\n"
+    "• /deck → bảng chọn deck bằng nút\n"
+    "• /sua → bot hỏi từ cần sửa, gõ từ xong chọn kiểu sửa bằng nút\n"
     "• /menu → menu nút bấm\n"
     "• /sync → đồng bộ AnkiWeb ngay\n"
     "• Nghỉ >3 phút → bot tự reset phiên (chọn lại deck)"
@@ -164,6 +164,7 @@ async def _idle_reset_job(context, chat_id):
     if user_data:
         user_data.pop("pending", None)
         user_data.pop("sua_word", None)
+        user_data.pop("awaiting", None)
         user_data.pop("deck_choices", None)
         user_data.pop("lemma_choices", None)
     try:
@@ -402,13 +403,10 @@ async def cmd_sync(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def cmd_sua(update: Update, context: ContextTypes.DEFAULT_TYPE):
     _reset_idle_timer(context, update.effective_chat.id)
     if not context.args:
-        await update.message.reply_text(
-            "Cách dùng:\n"
-            "• /sua <từ> → chọn nút 1 Ngắn hơn / 2 Đổi ví dụ / 3 Dài hơn / Tự viết\n"
-            "• /sua <từ> 1 (hoặc 2, 3) → chạy thẳng lệnh sửa nhanh\n"
-            "• /sua <từ> <yêu cầu tự do>\n"
-            "vd: /sua хороший ví dụ về chủ đề ăn uống"
-        )
+        # Luồng chính: bot hỏi từ trước -> user chỉ cần gõ từ bằng bàn phím Nga,
+        # không phải đổi bàn phím để gõ lệnh Latin.
+        context.user_data["awaiting"] = "sua_word"
+        await update.message.reply_text("✏️ Gõ từ cần sửa (chỉ cần gõ từ):")
         return
     word = context.args[0]
     instruction = " ".join(context.args[1:]).strip()
@@ -426,7 +424,8 @@ async def cmd_sua(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def on_word(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Tin nhắn text thường: tên deck (nếu đang chờ) / 'c' đổi deck / từ cần thêm."""
+    """Tin nhắn text thường. Ưu tiên theo trạng thái đang chờ: tên deck mới /
+    từ cần sửa / yêu cầu sửa tự viết; không chờ gì thì text = từ cần thêm thẻ."""
     text = update.message.text.strip()
     if not text:
         return
@@ -447,18 +446,30 @@ async def on_word(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await update.message.reply_text("❌ Không tạo được deck. Nhập tên khác thử:")
         return
 
+    # --- Đang chờ TỪ cần sửa (sau khi bấm /sua hoặc nút ✏️ Sửa thẻ) ---
+    if context.user_data.get("awaiting") == "sua_word":
+        context.user_data.pop("awaiting", None)
+        context.user_data["sua_word"] = text
+        await update.message.reply_text(
+            f"✏️ Sửa thẻ '{text}' — chọn kiểu:", reply_markup=_sua_keyboard()
+        )
+        return
+
+    # --- Đang chờ YÊU CẦU tự viết (sau khi bấm nút "Tự viết yêu cầu") ---
+    if context.user_data.get("awaiting") == "sua_custom":
+        context.user_data.pop("awaiting", None)
+        word = context.user_data.pop("sua_word", None)
+        if not word:
+            await update.message.reply_text("⌛ Phiên sửa đã hết hạn, gọi lại /sua nhé.")
+            return
+        msg = await update.message.reply_text("⏳ Chuẩn bị sửa thẻ...")
+        await _do_sua(msg, word, text)
+        return
+
     # --- Chưa chọn deck: hiện bảng chọn (deck có sẵn / tạo mới) ---
     if _current_deck(context) is None:
         await update.message.reply_text(
             "📚 Chưa chọn deck — chọn trước đã:", reply_markup=_deck_choose_keyboard()
-        )
-        return
-
-    # --- 'c' = đổi deck (mở bảng chọn; deck cũ giữ nguyên đến khi chọn xong) ---
-    if text.lower() == "c":
-        await update.message.reply_text(
-            f"📚 Đổi deck (đang ở: {_current_deck(context)}):",
-            reply_markup=_deck_choose_keyboard(),
         )
         return
 
@@ -508,9 +519,8 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 "📚 Chọn deck:", reply_markup=_deck_choose_keyboard()
             )
         elif action == "sua":
-            await query.edit_message_text(
-                "✏️ Gõ: /sua <từ> rồi chọn nút kiểu sửa.\nvd: /sua хороший"
-            )
+            context.user_data["awaiting"] = "sua_word"
+            await query.edit_message_text("✏️ Gõ từ cần sửa (chỉ cần gõ từ):")
         elif action == "sync":
             await query.edit_message_text("⏳ Đang sync AnkiWeb...")
             ok = await asyncio.to_thread(trigger_sync)
@@ -562,9 +572,10 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await query.edit_message_text("⌛ Phiên sửa đã hết hạn, gọi lại /sua <từ> nhé.")
             return
         if choice == "custom":
+            # Giữ sua_word, chờ user gõ thẳng yêu cầu (không cần gõ lại lệnh/từ)
+            context.user_data["awaiting"] = "sua_custom"
             await query.edit_message_text(
-                f"✏️ Gõ: /sua {word} <yêu cầu của bạn>\n"
-                f"vd: /sua {word} ví dụ về chủ đề công việc"
+                f"✏️ Gõ yêu cầu sửa cho '{word}':\nvd: ví dụ về chủ đề công việc"
             )
             return
         context.user_data.pop("sua_word", None)
@@ -636,8 +647,8 @@ async def _post_init(app):
     """Đăng ký menu lệnh gốc của Telegram (nút '/' cạnh ô gõ chữ)."""
     await app.bot.set_my_commands([
         BotCommand("menu", "Menu nút bấm"),
-        BotCommand("deck", "Đổi bộ bài: /deck <tên> (hoặc gõ c)"),
-        BotCommand("sua", "Sửa thẻ: /sua <từ>"),
+        BotCommand("deck", "Đổi bộ bài (bảng chọn nút)"),
+        BotCommand("sua", "Sửa thẻ (bot sẽ hỏi từ)"),
         BotCommand("sync", "Đồng bộ AnkiWeb ngay"),
         BotCommand("help", "Hướng dẫn"),
     ])

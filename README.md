@@ -68,14 +68,18 @@ Tạo từ mẫu: copy `.env.example` → `.env` rồi điền. `config.py` ch�
 | Từ không có trên OpenRussian | AI đoán từ nguyên mẫu (biến cách/sai chính tả) → bấm nút ✅ xác nhận hoặc 🚫 Hủy |
 | Từ bị trùng | Bot hiện nút: Hủy / Chuyển deck / Xóa cũ + thêm mới / Vẫn thêm trùng |
 | Thẻ AI bị khuyết (thiếu ví dụ) | Bot cảnh báo kèm 2 nút: 🔧 Tự sửa (chạy preset đổi ví dụ) / ⏭ Bỏ qua |
-| Đổi deck | Gõ `c` hoặc `/deck` → bảng chọn deck (hoặc `/deck <tên>` đi tắt 1 bước) |
-| Sửa thẻ | `/sua <từ>` → chọn nút **1** Ngắn hơn / **2** Đổi ví dụ / **3** Dài hơn / Tự viết |
-| Sửa theo ý mình | `/sua <từ> <yêu cầu tự do>` |
+| Đổi deck | `/deck` (hoặc nút 📚 trong menu) → bảng chọn deck bằng nút |
+| Sửa thẻ | `/sua` (hoặc nút ✏️) → bot hỏi từ → gõ từ → chọn nút **1** Ngắn hơn / **2** Đổi ví dụ / **3** Dài hơn / Tự viết |
+| Sửa theo ý mình | Trong bảng kiểu sửa bấm **Tự viết yêu cầu** → gõ thẳng yêu cầu |
 | Menu nút bấm | `/menu` (hoặc chờ — nghỉ >3 phút bot tự reset phiên và gửi menu) |
 | Ép sync ngay | `/sync` |
 
 Ghi chú: nghỉ >3 phút → bot **quên deck đang chọn** (chống thêm nhầm deck — thẻ trong
 Anki không mất gì) và gửi đúng 1 tin: báo đã reset + menu nút bấm y hệt `/menu`.
+
+Triết lý giao diện: **bấm chức năng trước, bot hỏi, rồi mới gõ từ** — nhờ vậy chỉ cần
+để bàn phím tiếng Nga suốt phiên, không phải đổi bàn phím gõ lệnh Latin.
+(`/deck <tên>`, `/sua <từ> [yêu cầu]` vẫn chạy như đường tắt cho ai thích gõ 1 dòng.)
 
 ## 🤖 Luồng AI
 

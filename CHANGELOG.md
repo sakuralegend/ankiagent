@@ -6,6 +6,13 @@
 
 ## 15/07/2026
 
+- **Giao diện "bấm trước, gõ sau" (đỡ đổi bàn phím Nga↔Latin)** — user dùng bàn phím
+  tiếng Nga liên tục nên gõ lệnh kiểu `/sua <từ>` rất bất tiện. Đổi logic:
+  `/sua` (hoặc nút ✏️ Sửa thẻ) → bot hỏi "gõ từ cần sửa" → gõ từ → nút chọn kiểu sửa;
+  nút "Tự viết yêu cầu" → bot hỏi → gõ thẳng yêu cầu (không cần gõ lại lệnh/từ).
+  **Xóa lệnh `c` đổi deck** — đổi deck chỉ qua `/deck` hoặc nút 📚.
+  Kỹ thuật: trạng thái chờ `user_data["awaiting"]` = `sua_word` / `sua_custom`,
+  idle reset có dọn. Đường tắt `/deck <tên>`, `/sua <từ> [yêu cầu]` vẫn chạy ngầm.
 - **vnc.bat** — double-click là xem màn hình Anki trên VPS: tự mở đường hầm SSH
   (cổng 15900, không hỏi pass nhờ SSH key) rồi bật TightVNC Viewer
   (`C:\Program Files\TightVNC\tvnviewer.exe`). Đóng cửa sổ SSH thu nhỏ = ngắt VNC.
