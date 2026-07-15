@@ -6,6 +6,14 @@
 
 ## 15/07/2026
 
+- **Phông chữ viết tay Nga trên thẻ (Marck Script)** — dòng chữ nghiêng ở mặt sau
+  thẻ vốn để luyện đọc chữ viết tay Nga nhưng phông hệ thống nghiêng không ra dạng
+  viết tay. Đổi sang Marck Script (giống chữ vở tập viết пропись: т→m, д→g), user
+  chọn qua trang preview 3 phông (Marck/Bad Script/Caveat). Font nhúng vào Anki:
+  file `_marckscript.ttf` trong collection.media (storeMediaFile) → tự sync mọi
+  thiết bị, offline OK. Dòng viết tay đổi từ {{Word}} → {{WordClean}} (bỏ dấu
+  trọng âm — Marck Script không có ký tự dấu ghép ◌́ nên bị vỡ phông), cỡ chữ
+  18→32px, bỏ font-style italic.
 - **Vá lỗi RPM cho /suadeck + tính năng Sửa tiếp** — đợt sửa deck Матрёшка (309 thẻ)
   bị 44 lỗi vì model lite trả lời nhanh → vòng lặp bắn >15 lượt/phút (trần RPM
   free là 15); code cũ coi mọi 429 là hết quota ngày nên nhảy sang model dự phòng

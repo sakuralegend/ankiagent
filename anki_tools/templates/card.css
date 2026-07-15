@@ -1,4 +1,7 @@
 /* --- ĐỒNG BỘ PHÔNG NỀN VÀ HỆ PHÔNG CHỮ PHẲNG CAO CẤP CHUẨN OLED --- */
+/* Phông viết tay Nga (Marck Script) cho dòng luyện đọc chữ viết tay.
+   File _marckscript.ttf nằm trong collection.media - tự sync sang mọi thiết bị. */
+@font-face { font-family: "MarckScript"; src: url("_marckscript.ttf"); }
 .card { background-color: #0d1117; color: #c9d1d9; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif !important; -webkit-font-smoothing: antialiased; }
 .card-container { background-color: #0d1117; max-width: 500px; margin: 10px auto; padding: 20px; border-radius: 16px; border: 1px solid #21262d; text-align: left; }
 .section-title { font-size: 11px; text-transform: uppercase; color: #8b949e; letter-spacing: 1px; margin-bottom: 8px; font-weight: 700; font-family: inherit; }
@@ -7,7 +10,7 @@
 .vi-label { font-size: 10px; color: #3fb950; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; font-weight: bold; font-family: inherit; }
 .vi-content { font-size: 16px; color: #a5d6a7; font-style: normal; font-weight: 500; font-family: inherit; }
 .word-title { font-size: 38px; font-weight: 800; color: #58a6ff; text-align: center; margin-bottom: 4px; font-family: inherit; text-rendering: optimizeLegibility; line-height: 1.2; }
-.cursive-word { font-style: italic !important; font-size: 18px; color: #8b949e; text-align: center; margin-bottom: 15px; font-family: inherit; }
+.cursive-word { font-family: "MarckScript", "Times New Roman", serif !important; font-style: normal; font-size: 32px; color: #8b949e; text-align: center; margin-bottom: 15px; line-height: 1.25; }
 .audio-box { text-align: center; margin-bottom: 20px; font-family: inherit; }
 .audio-box a, .replay-button, .anki-audio-button { background-color: #1f242c !important; border: 1px solid #30363d !important; padding: 8px 18px !important; border-radius: 20px !important; color: #58a6ff !important; text-decoration: none !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; gap: 6px !important; font-size: 13px !important; font-weight: 600 !important; font-family: inherit; }
 .audio-box a::after { content: " Phát lại âm thanh" !important; color: #58a6ff !important; }

@@ -5,7 +5,9 @@
 
     <div class="section-title" style="text-align: center;">Correct Word</div>
     <div class="word-title">{{Word}}</div>
-    <div class="cursive-word">{{Word}}</div>
+    <!-- Dòng luyện đọc chữ viết tay: dùng WordClean (KHÔNG dấu trọng âm) vì
+         font Marck Script không có ký tự dấu ghép -> Word có dấu sẽ vỡ phông -->
+    <div class="cursive-word">{{WordClean}}</div>
     <div class="audio-box">{{Audio}}</div>
 
     <div class="badge-container">
