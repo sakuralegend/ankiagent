@@ -13,6 +13,7 @@ import requests
 
 
 from .config import ANKI_CONNECT_URL, MODEL_NAME, OPENRUSSIAN_AUDIO_TEMPLATE
+from .topics import topic_tag
 from .utils import log_warn, log_fail, strip_accents_perfectly, hl_to_bracket
 from .html_builder import build_examples_html
 
@@ -274,11 +275,18 @@ def push_to_anki(word, data, deck_name, is_forced=False):
     # l\u01b0u note -> v\u1eabn b\u1ecb ch\u1eb7n tr\u00f9ng, n\u00ean b\u1ecf.)
     word_field_value = data["word"]
 
-    examples_html, vi_meaning, simplified_examples = build_examples_html(
+    examples_html, vi_meaning, simplified_examples, topic_slug = build_examples_html(
         clean_word,
         data.get("raw_dictionary_examples", []),
         data.get("english_meanings", [])
     )
+
+    # Tag chủ đề (topic::food, topic::animals...) do AI chọn trong CÙNG request
+    # sinh ví dụ. Nhánh fallback không AI -> không có topic, gắn bù sau bằng
+    # `python tag_topics.py --missing`.
+    # (Tag kỹ thuật OpenRussian_*_v25 cũ đã bỏ 16/07/2026: không code nào tra
+    # theo nó — nhận diện thẻ của bot luôn đi qua model name.)
+    note_tags = [topic_tag(topic_slug)] if topic_slug else []
 
     payload = {
         "action": "addNote", "version": 6,
@@ -292,7 +300,7 @@ def push_to_anki(word, data, deck_name, is_forced=False):
                     "RawExamples": json.dumps(data.get("raw_dictionary_examples", []), ensure_ascii=False)
                 },
                 "options": {"allowDuplicate": is_forced},
-                "tags": ["OpenRussian_AI_OLED_v25"],
+                "tags": note_tags,
                 "audio": [{"url": audio_url, "filename": audio_filename, "fields": ["Audio"]}]
             }
         }
@@ -315,6 +323,7 @@ def push_to_anki(word, data, deck_name, is_forced=False):
         "is_forced": is_forced,
         "simplified_examples": simplified_examples,
         "ai_degraded": ai_degraded,
+        "topic": topic_tag(topic_slug) if topic_slug else "",
     }
 
     try:
@@ -403,6 +412,8 @@ def print_card_summary(card_info, elapsed):
         print(f"  🏷️  Từ loại:    {pos} ({gender})")
     else:
         print(f"  🏷️  Từ loại:    {pos}")
+    if card_info.get("topic"):
+        print(f"  📂 Chủ đề:     {card_info['topic']}")
     print(f"  🔊 Audio:      [đã đính kèm]")
 
     if examples:

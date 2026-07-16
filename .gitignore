@@ -18,3 +18,4 @@ anki-data/
 .DS_Store
 Thumbs.db
 suadeck_resume.json
+last_deck.json

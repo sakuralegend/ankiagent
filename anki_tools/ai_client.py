@@ -10,6 +10,7 @@ import time
 import requests
 
 from .config import CLAUDE_API_URL, CLAUDE_API_KEY, CLAUDE_MODEL, CLAUDE_FALLBACK_MODELS
+from .topics import TOPICS, normalize_topic, topics_prompt_block
 from .utils import log_fail, log_warn
 
 _FEWSHOT_EXAMPLES = [
@@ -18,7 +19,7 @@ _FEWSHOT_EXAMPLES = [
     (
         "adjective",
         "хороший",
-        '{"vietnamese_meaning": "tốt, ngon, hay", "simplified_examples": ['
+        '{"vietnamese_meaning": "tốt, ngon, hay", "topic": "qualities", "simplified_examples": ['
         '{"ru": "У нас <hl>хорошая</hl> погода, пойдём гулять?", "en": "The weather\'s <hl>nice</hl>, wanna go for a walk?", "vi": "Trời <hl>đẹp</hl> quá, đi dạo không?"},'
         '{"ru": "Ты молодец, получилось <hl>лучше</hl>, чем в прошлый раз.", "en": "Nice job, that turned out <hl>better</hl> than last time.", "vi": "Giỏi lắm, lần này làm <hl>tốt hơn</hl> lần trước đó."}'
         ']}'
@@ -26,7 +27,7 @@ _FEWSHOT_EXAMPLES = [
     (
         "verb",
         "говорить",
-        '{"vietnamese_meaning": "nói, trò chuyện", "simplified_examples": ['
+        '{"vietnamese_meaning": "nói, trò chuyện", "topic": "actions", "simplified_examples": ['
         '{"ru": "Она <hl>говорит</hl> по-английски свободно.", "en": "She <hl>speaks</hl> English fluently.", "vi": "Cô ấy <hl>nói</hl> tiếng Anh lưu loát lắm."},'
         '{"ru": "Прости, я не то <hl>сказал</hl>, не обижайся.", "en": "Sorry, I didn\'t mean what I <hl>said</hl>, don\'t be mad.", "vi": "Xin lỗi, tại tớ lỡ lời, đừng giận nha."}'
         ']}'
@@ -49,7 +50,11 @@ _CORE_SYSTEM_PROMPT = (
     "TASK: 1) Give a short, natural Vietnamese meaning of the target word. "
     "2) Write 3 short Russian example sentences, each in a DIFFERENT everyday situation "
     "(food, weather, work, friends, family, phone calls, etc — don't repeat contexts). "
-    "3) Translate each sentence naturally (meaning-for-meaning, not word-for-word) into English and Vietnamese.\n\n"
+    "3) Translate each sentence naturally (meaning-for-meaning, not word-for-word) into English and Vietnamese. "
+    "4) Classify the target word into EXACTLY ONE topic slug from the TOPIC LIST below "
+    "(based on the word's most common meaning; if nothing fits, use \"other\").\n\n"
+    "TOPIC LIST:\n"
+    f"{topics_prompt_block()}\n\n"
     "HIGHLIGHT RULE: wrap the target word AND any of its grammatical forms (conjugated, declined, plural, "
     "comparative, short form, etc.) with <hl>...</hl> in the ru, en, AND vi sentence — only the word itself, "
     "never the whole sentence. Every sentence MUST have a highlighted word in ALL THREE languages: if a fully "
@@ -60,7 +65,7 @@ _CORE_SYSTEM_PROMPT = (
     "exactly 3 sentences in simplified_examples:\n\n"
     f"{_build_fewshot_block()}\n\n"
     "Return ONLY a valid JSON object, no markdown, no commentary, matching this schema:\n"
-    '{"vietnamese_meaning": "...", "simplified_examples": '
+    '{"vietnamese_meaning": "...", "topic": "...", "simplified_examples": '
     '[{"ru": "...","en": "...","vi": "..."},{"ru": "...","en": "...","vi": "..."},{"ru": "...","en": "...","vi": "..."}]}'
 )
 
@@ -135,7 +140,13 @@ def _validate_ai_result(parsed):
         if not ru or not en or not vi:
             return None
         cleaned.append({"ru": ru, "en": en, "vi": vi})
-    return {"vietnamese_meaning": vi_meaning.strip(), "simplified_examples": cleaned}
+    # topic là trường PHỤ: sai/thiếu chỉ bị ép về "other", KHÔNG làm hỏng cả kết quả
+    # (luồng refine /sua không dùng topic nên cũng vô hại).
+    return {
+        "vietnamese_meaning": vi_meaning.strip(),
+        "simplified_examples": cleaned,
+        "topic": normalize_topic(parsed.get("topic")),
+    }
 
 
 def _model_chain():
@@ -379,6 +390,29 @@ def call_claude_lemma(word):
         "reason_vi": (parsed.get("reason_vi") or "").strip(),
         "alternatives": alts[:2],
     }
+
+
+def call_claude_topic(word, english_meanings):
+    """Phân loại CHỦ ĐỀ cho 1 từ (không sinh ví dụ) — dùng cho script tag_topics.py
+    khi gặp thẻ chưa có tag topic:: (vd thẻ tạo lúc AI hỏng nên thiếu topic).
+    Trả về slug hợp lệ trong TOPICS, hoặc None nếu AI không trả lời được."""
+    en_str = ", ".join(english_meanings) if english_meanings else "N/A"
+    system_prompt = (
+        "You classify a Russian vocabulary word into EXACTLY ONE topic slug from this list "
+        "(based on the word's most common meaning; if nothing fits, use \"other\"):\n"
+        f"{topics_prompt_block()}\n\n"
+        'Return ONLY a valid JSON object, no markdown: {"topic": "..."}'
+    )
+    user_prompt = f"Word: [{word}]. English meanings: [{en_str}]. Return ONLY the JSON."
+
+    raw_response = _send_ai_request(system_prompt, user_prompt)
+    if not raw_response:
+        return None
+    parsed = _parse_ai_response(raw_response)
+    if not isinstance(parsed, dict):
+        return None
+    slug = normalize_topic(parsed.get("topic"))
+    return slug
 
 
 def check_claude_ready():

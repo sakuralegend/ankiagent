@@ -55,7 +55,7 @@ IDLE_RESET_SECONDS = 180  # nghỉ 3 phút -> reset phiên + gửi menu
 HELP_TEXT = (
     "🇷🇺 Bot Anki tiếng Nga\n"
     "───────────────────\n"
-    "• Bắt đầu: chọn deck bằng nút (deck có sẵn / tạo mới) rồi gõ từ\n"
+    "• Bắt đầu: chọn deck bằng nút (🕘 deck gần nhất / có sẵn / tạo mới) rồi gõ từ\n"
     "• Gõ 1 từ tiếng Nga → thêm thẻ mới\n"
     "• Từ không có trên OpenRussian (biến cách/sai chính tả) → AI đoán từ nguyên mẫu, bấm nút xác nhận\n"
     "• /deck → bảng chọn deck bằng nút\n"
@@ -79,6 +79,41 @@ def _current_deck(context):
     return context.bot_data.get("deck")
 
 
+# File nhớ deck dùng gần nhất — để nút "🕘 Deck gần nhất" sống sót cả khi
+# phiên bị reset (nghỉ >3 phút) LẪN khi bot restart trên VPS. Gitignore.
+LAST_DECK_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "last_deck.json")
+
+
+def _load_last_deck():
+    """Đọc tên deck dùng gần nhất. Trả về str hoặc None."""
+    try:
+        with open(LAST_DECK_FILE, encoding="utf-8") as f:
+            return (json.load(f).get("deck") or "").strip() or None
+    except Exception:
+        return None
+
+
+def _save_last_deck(deck_name):
+    """Ghi nhớ deck vừa chọn (deck_name=None -> quên luôn, vd deck đã bị xóa)."""
+    try:
+        if not deck_name:
+            if os.path.exists(LAST_DECK_FILE):
+                os.remove(LAST_DECK_FILE)
+            return
+        with open(LAST_DECK_FILE, "w", encoding="utf-8") as f:
+            json.dump({"deck": deck_name}, f, ensure_ascii=False)
+    except Exception:
+        pass  # nhớ deck chỉ là tiện ích, lỗi ghi file không được làm gãy luồng chính
+
+
+def _set_deck(context, deck_name):
+    """Điểm DUY NHẤT đặt deck hiện tại cho phiên (mọi luồng chọn deck gọi vào đây
+    để chắc chắn deck nào cũng được ghi nhớ cho nút 🕘 Deck gần nhất)."""
+    context.bot_data["deck"] = deck_name
+    context.bot_data["awaiting_deck"] = False
+    _save_last_deck(deck_name)
+
+
 async def _sync_report_line():
     """Sync AnkiWeb ngay (chính sách: MỌI hành động sửa đổi đều sync liền)
     và trả về dòng text kết quả để nối vào tin nhắn trả lời."""
@@ -87,13 +122,18 @@ async def _sync_report_line():
 
 
 def _deck_choose_keyboard():
-    """Bảng chọn cách lấy deck: dùng deck có sẵn hay tạo mới."""
-    return InlineKeyboardMarkup([
-        [
-            InlineKeyboardButton("📂 Deck có sẵn", callback_data="deck:list"),
-            InlineKeyboardButton("➕ Tạo deck mới", callback_data="deck:new"),
-        ],
+    """Bảng chọn cách lấy deck: deck gần nhất (nếu nhớ) / deck có sẵn / tạo mới.
+    Nút deck gần nhất mang callback cố định 'deck:last' (tên deck Cyrillic có thể
+    vượt 64 byte callback_data nên không nhét tên vào callback)."""
+    rows = []
+    last = _load_last_deck()
+    if last:
+        rows.append([InlineKeyboardButton(f"🕘 Deck gần nhất: {last}", callback_data="deck:last")])
+    rows.append([
+        InlineKeyboardButton("📂 Deck có sẵn", callback_data="deck:list"),
+        InlineKeyboardButton("➕ Tạo deck mới", callback_data="deck:new"),
     ])
+    return InlineKeyboardMarkup(rows)
 
 
 MAX_DECK_BUTTONS = 24  # tránh bảng nút quá dài nếu collection có rất nhiều deck
@@ -213,6 +253,8 @@ def format_card_summary(card_info, elapsed):
         lines.append(f"🏷️ {card_info['pos']} ({card_info['gender']})")
     else:
         lines.append(f"🏷️ {card_info['pos']}")
+    if card_info.get("topic"):
+        lines.append(f"📂 {card_info['topic']}")
 
     for i, ex in enumerate(card_info.get("simplified_examples", [])[:3]):
         ru = hl_to_bracket(ex.get("ru", ""))
@@ -555,8 +597,7 @@ async def cmd_deck(update: Update, context: ContextTypes.DEFAULT_TYPE):
     deck_name = " ".join(context.args).strip()
     ok = await asyncio.to_thread(ensure_deck_exists, deck_name)
     if ok:
-        context.bot_data["deck"] = deck_name
-        context.bot_data["awaiting_deck"] = False
+        _set_deck(context, deck_name)
         sync_line = await _sync_report_line()  # deck mới tạo phải lên AnkiWeb ngay
         await update.message.reply_text(f"📦 Đã chuyển sang deck: {deck_name}\n{sync_line}")
     else:
@@ -669,8 +710,7 @@ async def on_word(update: Update, context: ContextTypes.DEFAULT_TYPE):
         deck_name = text
         ok = await asyncio.to_thread(ensure_deck_exists, deck_name)
         if ok:
-            context.bot_data["deck"] = deck_name
-            context.bot_data["awaiting_deck"] = False
+            _set_deck(context, deck_name)
             sync_line = await _sync_report_line()  # deck mới tạo phải lên AnkiWeb ngay
             await update.message.reply_text(
                 f"📦 Deck: {deck_name} — giờ gõ từ tiếng Nga để thêm thẻ.\n{sync_line}"
@@ -734,7 +774,28 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     _reset_idle_timer(context, query.message.chat_id)
     data = query.data
 
-    # --- Chọn deck: 2 tùy chọn / liệt kê deck có sẵn / tạo mới ---
+    # --- Chọn deck: deck gần nhất / liệt kê deck có sẵn / tạo mới ---
+    if data == "deck:last":
+        deck_name = _load_last_deck()
+        if not deck_name:
+            await query.edit_message_text(
+                "⌛ Bot không còn nhớ deck gần nhất — chọn lại nhé:",
+                reply_markup=_deck_choose_keyboard(),
+            )
+            return
+        # Kiểm tra deck còn tồn tại (KHÔNG dùng ensure_deck_exists để khỏi
+        # vô tình tạo lại deck user đã xóa/đổi tên trong Anki)
+        names = await asyncio.to_thread(get_deck_names)
+        if deck_name not in names:
+            _save_last_deck(None)  # quên deck đã chết để nút không hiện nữa
+            await query.edit_message_text(
+                f"⚠️ Deck '{deck_name}' không còn trong Anki — chọn deck khác nhé:",
+                reply_markup=_deck_choose_keyboard(),
+            )
+            return
+        _set_deck(context, deck_name)
+        await query.edit_message_text(f"📦 Deck: {deck_name} — gõ từ tiếng Nga để thêm thẻ.")
+        return
     if data == "deck:list":
         await _show_deck_list(query, context)
         return
@@ -749,8 +810,7 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await query.edit_message_text("⌛ Danh sách đã cũ, bấm lại nút Chọn deck nhé.")
             return
         deck_name = choices[idx]
-        context.bot_data["deck"] = deck_name
-        context.bot_data["awaiting_deck"] = False
+        _set_deck(context, deck_name)
         context.user_data.pop("deck_choices", None)
         # Chọn deck có sẵn không sửa đổi collection -> không cần sync
         await query.edit_message_text(f"📦 Deck: {deck_name} — gõ từ tiếng Nga để thêm thẻ.")

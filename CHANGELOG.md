@@ -4,6 +4,39 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 16/07/2026
+
+- **Nút "🕘 Deck gần nhất" trong bảng chọn deck của bot** — đỡ phải bấm
+  Deck có sẵn → chọn lại sau mỗi lần phiên reset (nghỉ >3 phút). Deck vừa chọn
+  (mọi ngả: nút danh sách, /deck <tên>, gõ tên deck mới) đều đi qua hàm chung
+  `_set_deck()` → ghi `last_deck.json` (gitignore) nên nhớ được cả khi bot
+  restart trên VPS. Bấm nút: kiểm tra deck còn tồn tại (KHÔNG dùng
+  ensure_deck_exists để khỏi tự tạo lại deck user đã xóa; deck chết → quên file
+  + mời chọn lại). Callback cố định `deck:last` vì tên deck Cyrillic có thể
+  vượt 64 byte callback_data.
+- **Bỏ tag kỹ thuật OpenRussian_*_v25** — user chê rác. Không code nào tra thẻ
+  theo 2 tag này (nhận diện thẻ của bot luôn qua model name
+  `Russian_Premium_OLED_Type_v25`), nên: gỡ khỏi 610 thẻ (removeTags: 229 thẻ
+  AI_OLED + 381 thẻ Pure) + clearUnusedTags; `push_to_anki` không gắn nữa —
+  thẻ mới giờ CHỈ có tag `topic::...`.
+- **Tag chủ đề cho toàn bộ từ vựng (topic::...)** — 17 chủ đề (people-family,
+  professions, body, food, home-objects, clothing, animals, nature-plants,
+  weather, time, numbers, colors, places-city, education, actions, qualities
+  [CHỈ tính từ+trạng từ], other [không nhét được vào đâu]), user chốt qua thảo
+  luận. Danh sách chủ đề định nghĩa MỘT nơi: `anki_tools/topics.py`.
+  (1) 610 thẻ có sẵn: gắn bằng `tag_topics.py` (bảng tra thủ công, addTags —
+  không đụng nội dung/tiến độ học; idempotent: thẻ đã có topic:: thì bỏ qua;
+  dry-run mặc định, `--apply` mới gắn thật). Đã chạy, đủ 610/610.
+  (2) Từ mới: AI chọn topic trong CÙNG request sinh ví dụ (thêm trường "topic"
+  vào JSON schema + few-shot của `_CORE_SYSTEM_PROMPT`; validate ép về "other"
+  nếu sai/thiếu — KHÔNG làm hỏng kết quả; nhánh fallback không AI → không gắn
+  tag, gắn bù bằng `python tag_topics.py --missing` [AI phân loại từng thẻ lẻ,
+  hàm `call_claude_topic`]). Chuỗi truyền: build_examples_html trả thêm
+  topic_slug → push_to_anki gắn tags + đưa vào card_info["topic"] → CLI và bot
+  Telegram hiện dòng "📂 topic::...". Quy tắc phân loại: mỗi từ đúng 1 tag,
+  theo nghĩa phổ biến nhất (mùa→time, động từ ăn uống→food, tính từ thời
+  tiết→weather, màu→colors).
+
 ## 15/07/2026
 
 - **Đổi phông viết tay sang Propisi Regular** (theo yêu cầu user sau khi dùng thử
