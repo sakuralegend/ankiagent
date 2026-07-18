@@ -4,6 +4,23 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 18/07/2026 (đợt 3)
+
+- **Chuyển cây phẳng 19 chủ đề -> CÂY 2 TẦNG, 10 GỐC CỐ ĐỊNH** — user chỉ ra
+  lỗi thiết kế: tách kiểu đợt 2 (thêm chủ đề vào tầng gốc) làm gốc phình vô hạn.
+  Chốt: tầng gốc = 10 miền BẤT BIẾN (people, life, nature, places, language,
+  time, numbers, actions, qualities, concepts), mỗi tầng ≤10 mục, từ nay chỉ
+  thêm NHÁNH CON (vd actions::motion). Slug lồng cấp bằng :: (tag topic::life::food
+  = MỘT tag, Anki hiện lồng dưới topic::life; lọc theo tag cha vẫn bắt được con).
+  Kỹ thuật: topics.py thêm FALLBACK_TOPIC (concepts::misc) + LEGACY_ALIASES
+  (bảng dịch slug cũ->mới, dùng cho mọi lần đổi tên sau); tag_topics --fix giờ
+  dịch được cả tag của từ AI phân loại (không có trong bảng tra) qua alias;
+  build_subdecks + get_topic_stats viết lại đọc tag TỪNG note phía Python
+  (query tag:"cha" của Anki khớp cả tag con -> đếm đúp/chuyển sai khi lồng cấp),
+  build_subdecks tự xóa cả deck RUSSIAN::* mồ côi sau đổi cấu trúc. Đã chạy:
+  397 thẻ đổi tag, 609 thẻ về đúng 19 deck lá dưới 10 gốc, 15 deck phẳng cũ đã
+  xóa, misc 5%, không deck nào ≥100. /thongke đọc FALLBACK_TOPIC thay 'other'.
+
 ## 18/07/2026 (đợt 2)
 
 - **Tách 'other' thành function-words + abstract (17 -> 19 chủ đề)** — /thongke

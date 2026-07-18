@@ -357,21 +357,31 @@ def push_to_anki(word, data, deck_name, is_forced=False):
 
 def get_topic_stats():
     """Đếm thẻ theo từng chủ đề topic:: (cho lệnh /thongke của bot).
+    Đọc tag của TỪNG note rồi đếm phía Python — KHÔNG query tag:"topic::X" từng
+    chủ đề, vì Anki coi tag cha khớp cả tag con (cây lồng cấp sẽ bị đếm đúp).
+    Tag tên cũ (LEGACY_ALIASES) được quy về slug mới.
     Trả về (stats: dict slug->số thẻ, untagged: số note chưa có tag topic::)
     hoặc (None, 0) nếu AnkiConnect lỗi."""
     try:
-        stats = {}
-        for slug in TOPICS:
-            res = requests.post(ANKI_CONNECT_URL, json={
-                "action": "findCards", "version": 6,
-                "params": {"query": f'note:"{MODEL_NAME}" tag:"{topic_tag(slug)}"'}
-            }, timeout=10)
-            stats[slug] = len(res.json().get("result") or [])
-        res_u = requests.post(ANKI_CONNECT_URL, json={
+        res = requests.post(ANKI_CONNECT_URL, json={
             "action": "findNotes", "version": 6,
-            "params": {"query": f'note:"{MODEL_NAME}" -tag:topic::*'}
-        }, timeout=10)
-        untagged = len(res_u.json().get("result") or [])
+            "params": {"query": f'note:"{MODEL_NAME}"'}
+        }, timeout=15)
+        note_ids = res.json().get("result") or []
+        res_info = requests.post(ANKI_CONNECT_URL, json={
+            "action": "notesInfo", "version": 6, "params": {"notes": note_ids}
+        }, timeout=60)
+        notes = res_info.json().get("result") or []
+
+        stats = {slug: 0 for slug in TOPICS}
+        untagged = 0
+        for n in notes:
+            tags = [t for t in n.get("tags", []) if t.startswith("topic::")]
+            if not tags:
+                untagged += 1
+                continue
+            slug = normalize_topic(tags[0])
+            stats[slug] = stats.get(slug, 0) + len(n.get("cards", []))
         return stats, untagged
     except Exception as e:
         log_warn(f"Không đếm được thống kê chủ đề: {e}")

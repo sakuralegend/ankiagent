@@ -35,6 +35,7 @@ from telegram.ext import (
 )
 
 from anki_tools.config import TELEGRAM_BOT_TOKEN, TELEGRAM_USER_ID, TOPIC_DECK_PARENT
+from anki_tools.topics import FALLBACK_TOPIC
 from anki_tools.utils import strip_accents_perfectly, hl_to_bracket
 from anki_tools.ai_client import check_claude_ready, call_claude_lemma
 from anki_tools.pipeline import process_word, refine_note, refine_note_id
@@ -640,10 +641,10 @@ async def cmd_thongke(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if n >= TOPIC_DECK_WARN:
             warns.append(f"⚠️ '{slug}' đã {n} thẻ (≥{TOPIC_DECK_WARN}) — nên tách chủ đề con "
                          f"(thêm slug dạng '{slug}::nhanh-con' vào topics.py).")
-    other_pct = (stats.get("other", 0) * 100 // total) if total else 0
+    other_pct = (stats.get(FALLBACK_TOPIC, 0) * 100 // total) if total else 0
     if other_pct > OTHER_WARN_PCT:
-        warns.append(f"⚠️ 'other' chiếm {other_pct}% kho (>{OTHER_WARN_PCT}%) — trong đó chắc đã có "
-                     "cụm từ đủ lớn để thành chủ đề riêng.")
+        warns.append(f"⚠️ '{FALLBACK_TOPIC}' chiếm {other_pct}% kho (>{OTHER_WARN_PCT}%) — trong đó chắc "
+                     "đã có cụm từ đủ lớn để thành chủ đề riêng.")
     if untagged:
         warns.append(f"⚠️ {untagged} thẻ CHƯA có tag chủ đề — chạy `python tag_topics.py --missing` trên PC.")
 
@@ -651,7 +652,7 @@ async def cmd_thongke(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if warns:
         lines.extend(warns)
     else:
-        lines.append(f"✅ Chưa chạm ngưỡng tách deck ({TOPIC_DECK_WARN} thẻ/chủ đề, other ≤{OTHER_WARN_PCT}%).")
+        lines.append(f"✅ Chưa chạm ngưỡng tách deck ({TOPIC_DECK_WARN} thẻ/chủ đề, {FALLBACK_TOPIC} ≤{OTHER_WARN_PCT}%).")
     await msg.edit_text("\n".join(lines))
 
 
