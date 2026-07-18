@@ -4,6 +4,17 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 19/07/2026
+
+- **Dọn 15 tag mồ côi sau tái cấu trúc** — sau đợt đổi cây 2 tầng, 15 tag tên
+  cũ (topic::food, topic::other, topic::colors...) vẫn nằm trong danh sách tag
+  của Anki dù không còn note nào dùng. Chạy clearUnusedTags (chỉ xóa tag 0 note,
+  không đụng thẻ) + sync. Còn lại đúng 19 tag topic:: mới + Irregular_Plural_v5
+  (+ 3 mục tổ tiên topic/concepts/language Anki tự giữ làm nút cây). Cùng phiên:
+  xác nhận "colors 0 thẻ" là hiểu nhầm — số cạnh deck là thẻ ĐẾN HẠN hôm nay,
+  không phải tổng; deck colors vẫn đủ 12 thẻ, kiểm bằng Browse
+  `deck:RUSSIAN::qualities::colors`.
+
 ## 18/07/2026 (đợt 3)
 
 - **Chuyển cây phẳng 19 chủ đề -> CÂY 2 TẦNG, 10 GỐC CỐ ĐỊNH** — user chỉ ra
