@@ -34,7 +34,7 @@ from telegram.ext import (
     filters,
 )
 
-from anki_tools.config import TELEGRAM_BOT_TOKEN, TELEGRAM_USER_ID
+from anki_tools.config import TELEGRAM_BOT_TOKEN, TELEGRAM_USER_ID, TOPIC_DECK_PARENT
 from anki_tools.utils import strip_accents_perfectly, hl_to_bracket
 from anki_tools.ai_client import check_claude_ready, call_claude_lemma
 from anki_tools.pipeline import process_word, refine_note, refine_note_id
@@ -55,15 +55,16 @@ IDLE_RESET_SECONDS = 180  # nghỉ 3 phút -> reset phiên + gửi menu
 HELP_TEXT = (
     "🇷🇺 Bot Anki tiếng Nga\n"
     "───────────────────\n"
-    "• Bắt đầu: chọn deck bằng nút (🕘 deck gần nhất / có sẵn / tạo mới) rồi gõ từ\n"
-    "• Gõ 1 từ tiếng Nga → thêm thẻ mới\n"
+    "• Gõ 1 từ tiếng Nga → thêm thẻ mới. Mặc định 🤖 TỰ ĐỘNG: AI chọn chủ đề,\n"
+    "  thẻ vào thẳng deck con tương ứng (vd RUSSIAN::food)\n"
+    "• Muốn deck cố định: /deck → nút (🤖 tự động / 🕘 gần nhất / 📂 có sẵn / ➕ mới)\n"
     "• Từ không có trên OpenRussian (biến cách/sai chính tả) → AI đoán từ nguyên mẫu, bấm nút xác nhận\n"
     "• /deck → bảng chọn deck bằng nút\n"
     "• /sua → bot hỏi từ cần sửa, gõ từ xong chọn kiểu sửa bằng nút\n"
     "• /suadeck → sửa TOÀN BỘ thẻ trong 1 deck (ít dùng — có xác nhận + nút Dừng)\n"
     "• /menu → menu nút bấm\n"
     "• /sync → đồng bộ AnkiWeb ngay\n"
-    "• Nghỉ >3 phút → bot tự reset phiên (chọn lại deck)"
+    "• Nghỉ >3 phút → bot tự reset phiên (về chế độ 🤖 tự động)"
 )
 
 
@@ -108,10 +109,12 @@ def _save_last_deck(deck_name):
 
 def _set_deck(context, deck_name):
     """Điểm DUY NHẤT đặt deck hiện tại cho phiên (mọi luồng chọn deck gọi vào đây
-    để chắc chắn deck nào cũng được ghi nhớ cho nút 🕘 Deck gần nhất)."""
+    để chắc chắn deck nào cũng được ghi nhớ cho nút 🕘 Deck gần nhất).
+    deck_name=None = chế độ TỰ ĐỘNG theo chủ đề (không ghi đè deck gần nhất)."""
     context.bot_data["deck"] = deck_name
     context.bot_data["awaiting_deck"] = False
-    _save_last_deck(deck_name)
+    if deck_name:
+        _save_last_deck(deck_name)
 
 
 async def _sync_report_line():
@@ -125,7 +128,7 @@ def _deck_choose_keyboard():
     """Bảng chọn cách lấy deck: deck gần nhất (nếu nhớ) / deck có sẵn / tạo mới.
     Nút deck gần nhất mang callback cố định 'deck:last' (tên deck Cyrillic có thể
     vượt 64 byte callback_data nên không nhét tên vào callback)."""
-    rows = []
+    rows = [[InlineKeyboardButton("🤖 Tự động theo chủ đề (AI)", callback_data="deck:auto")]]
     last = _load_last_deck()
     if last:
         rows.append([InlineKeyboardButton(f"🕘 Deck gần nhất: {last}", callback_data="deck:last")])
@@ -196,7 +199,8 @@ def _menu_keyboard():
 
 def _menu_text(context):
     deck = _current_deck(context)
-    deck_line = f"📦 Deck hiện tại: {deck}" if deck else "📦 Chưa chọn deck"
+    deck_line = (f"📦 Deck hiện tại: {deck}" if deck
+                 else f"📦 Deck: 🤖 tự động theo chủ đề ({TOPIC_DECK_PARENT}::<topic>)")
     return f"🎛 MENU\n{deck_line}\nBấm nút hoặc gõ từ để thao tác:"
 
 
@@ -225,7 +229,7 @@ async def _idle_reset_job(context, chat_id):
         # 1 tin duy nhất: báo đã reset + menu y hệt /menu để lần vào tới bấm luôn
         await context.bot.send_message(
             chat_id,
-            f"⏸ Nghỉ >3 phút — đã reset phiên (chỉ quên deck đang chọn, thẻ trong Anki không mất gì).\n\n{_menu_text(context)}",
+            f"⏸ Nghỉ >3 phút — đã reset phiên, về chế độ 🤖 tự động theo chủ đề (thẻ trong Anki không mất gì).\n\n{_menu_text(context)}",
             reply_markup=_menu_keyboard(),
         )
     except Exception:
@@ -575,7 +579,9 @@ async def cmd_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(f"{HELP_TEXT}\n\n📦 Deck hiện tại: {deck}")
     else:
         await update.message.reply_text(
-            f"{HELP_TEXT}\n\n📚 Chọn deck để bắt đầu:", reply_markup=_deck_choose_keyboard()
+            f"{HELP_TEXT}\n\n🤖 Đang ở chế độ tự động ({TOPIC_DECK_PARENT}::<chủ đề>) "
+            "— gõ từ luôn, hoặc chọn deck cố định:",
+            reply_markup=_deck_choose_keyboard(),
         )
 
 
@@ -589,7 +595,8 @@ async def cmd_deck(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not context.args:
         # Không có tham số -> hiện 2 tùy chọn (deck có sẵn / tạo mới) như menu khởi đầu
         deck = _current_deck(context)
-        current = f"📦 Deck hiện tại: {deck}" if deck else "📦 Chưa chọn deck."
+        current = (f"📦 Deck hiện tại: {deck}" if deck
+                   else f"📦 Deck: 🤖 tự động theo chủ đề ({TOPIC_DECK_PARENT}::<topic>).")
         await update.message.reply_text(
             f"{current}\n📚 Chọn deck:", reply_markup=_deck_choose_keyboard()
         )
@@ -751,12 +758,8 @@ async def on_word(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await _do_sua(msg, word, text)
         return
 
-    # --- Chưa chọn deck: hiện bảng chọn (deck có sẵn / tạo mới) ---
-    if _current_deck(context) is None:
-        await update.message.reply_text(
-            "📚 Chưa chọn deck — chọn trước đã:", reply_markup=_deck_choose_keyboard()
-        )
-        return
+    # --- Không chọn deck = chế độ TỰ ĐỘNG (AI bỏ thẻ vào deck con theo chủ đề),
+    # nên KHÔNG chặn nữa; muốn deck cố định thì /deck hoặc nút 📚 trong menu ---
 
     # --- Còn lại: text là từ cần thêm ---
     word = text
@@ -774,7 +777,14 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     _reset_idle_timer(context, query.message.chat_id)
     data = query.data
 
-    # --- Chọn deck: deck gần nhất / liệt kê deck có sẵn / tạo mới ---
+    # --- Chọn deck: tự động theo chủ đề / deck gần nhất / có sẵn / tạo mới ---
+    if data == "deck:auto":
+        _set_deck(context, None)
+        await query.edit_message_text(
+            f"🤖 Chế độ TỰ ĐỘNG: thẻ mới vào {TOPIC_DECK_PARENT}::<chủ đề> do AI chọn "
+            "(vd ::food, ::animals).\nGõ từ tiếng Nga để thêm thẻ."
+        )
+        return
     if data == "deck:last":
         deck_name = _load_last_deck()
         if not deck_name:
@@ -936,11 +946,7 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             return
         word = choices[idx]
         context.user_data.pop("lemma_choices", None)
-        if _current_deck(context) is None:
-            await query.edit_message_text(
-                "📚 Chưa chọn deck — chọn trước đã:", reply_markup=_deck_choose_keyboard()
-            )
-            return
+        # (deck None = chế độ tự động theo chủ đề -> không cần chặn chọn deck)
         await query.edit_message_text(f"🔍 Đang kiểm tra '{word}'...")
         await _add_with_dup_check(query.message, word, context)
         return
@@ -997,6 +1003,13 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await query.edit_message_text("⏭️ Đã hủy.")
 
     elif data == "act:chuyen":
+        if not deck_name:
+            # Chế độ tự động không có "deck hiện tại" để chuyển note cũ sang
+            await query.edit_message_text(
+                "🤖 Đang ở chế độ tự động (không có deck cố định). "
+                "Dùng /deck chọn deck trước rồi gõ lại từ để chuyển."
+            )
+            return
         ok = await asyncio.to_thread(change_note_deck, selected["card_ids"], deck_name)
         if ok:
             sync_line = await _sync_report_line()
@@ -1085,7 +1098,7 @@ def main():
     app.add_handler(CallbackQueryHandler(on_callback))
     app.add_handler(MessageHandler(only_me & filters.TEXT & ~filters.COMMAND, on_word))
 
-    print("🚀 Bot đang chạy (long polling). Sẽ hỏi tên deck khi bạn nhắn tin.")
+    print("🚀 Bot đang chạy (long polling). Mặc định 🤖 tự động: thẻ vào deck con theo chủ đề AI chọn.")
     app.run_polling(allowed_updates=Update.ALL_TYPES)
 
 

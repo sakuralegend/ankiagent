@@ -41,3 +41,9 @@ TELEGRAM_USER_ID = int(os.environ.get("TELEGRAM_USER_ID", "0"))
 
 OPENRUSSIAN_AUDIO_TEMPLATE = "https://api.openrussian.org/read/ru/{word}"
 MODEL_NAME = "Russian_Premium_OLED_Type_v25"
+
+# --- Deck tổng (kho) chứa các deck con theo chủ đề: <kho>::<topic slug> ---
+# Chế độ TỰ ĐỘNG: không chọn deck khi thêm từ -> thẻ vào thẳng deck con theo
+# chủ đề AI chọn (vd RUSSIAN::food). Xem build_subdecks.py về cấu trúc cây.
+# (Tên tiếng Anh theo yêu cầu user: dễ gõ khi tìm kiếm/gõ tên deck hơn Cyrillic.)
+TOPIC_DECK_PARENT = os.environ.get("TOPIC_DECK_PARENT", "RUSSIAN")

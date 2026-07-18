@@ -55,20 +55,22 @@ def main():
         return
 
     setup_anki_environment()
-    deck_name = input("\nNhập tên bộ bài: ").strip()
-    ensure_deck_exists(deck_name)
+    deck_name = input("\nNhập tên bộ bài (Enter = 🤖 tự động theo chủ đề): ").strip() or None
+    if deck_name:
+        ensure_deck_exists(deck_name)
 
     while True:
         try:
-            user_input = input(f"\n[{deck_name}] Nhập từ: ").strip()
+            user_input = input(f"\n[{deck_name or '🤖 tự động'}] Nhập từ: ").strip()
             if user_input.lower() in ["exit", "quit", "thoát"]:
                 print("👋 Tạm biệt!")
                 break
             if user_input == "":
                 continue
             if user_input.lower() == "c":
-                deck_name = input("Nhập tên bộ bài mới: ").strip()
-                ensure_deck_exists(deck_name)
+                deck_name = input("Nhập tên bộ bài mới (Enter = 🤖 tự động): ").strip() or None
+                if deck_name:
+                    ensure_deck_exists(deck_name)
                 continue
 
             t_start = time.time()
@@ -95,6 +97,9 @@ def main():
                 ).strip()
 
                 if action == "2":
+                    if not deck_name:
+                        print("   🤖 Đang ở chế độ tự động (không có deck hiện tại) — chọn deck bằng lệnh 'c' trước.")
+                        continue
                     if change_note_deck(selected["card_ids"], deck_name):
                         print(f"   ✅ Đã chuyển note '{selected['word']}' sang deck '{deck_name}'.")
                     else:

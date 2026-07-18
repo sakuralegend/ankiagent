@@ -4,6 +4,27 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 16/07/2026 (đợt 2)
+
+- **Cây deck kho RUSSIAN::<topic> + chế độ thêm từ TỰ ĐỘNG** — user muốn deck
+  tổng làm kho, học theo deck con chủ đề, tiến độ cộng dồn lên kho (KHÔNG dùng
+  Filtered Deck vì học xong thẻ biến mất). Tên kho tiếng Anh "RUSSIAN" theo yêu
+  cầu user (dễ gõ hơn Cyrillic), đổi được qua env TOPIC_DECK_PARENT (config.py).
+  (1) `build_subdecks.py`: tạo RUSSIAN + 17 deck con, chuyển 609 thẻ về đúng
+  deck con theo tag topic:: (changeDeck không ảnh hưởng lịch ôn — đã kiểm tra
+  interval giữ nguyên), xóa 10 deck cũ đã trống, GIỮ deck Irregular (26 thẻ
+  không thuộc model bot), sync. Dry-run mặc định, --apply làm thật, chạy lại
+  vô hại. Lưu ý: 610 note -> 609 vì 1 note hỏng (không có card, deck "?") đã
+  biến mất trước đó.
+  (2) Chế độ TỰ ĐỘNG: deck_name=None xuyên suốt pipeline -> push_to_anki tự
+  đặt thẻ vào RUSSIAN::<topic AI chọn> (không có topic -> ::other), createDeck
+  idempotent trước khi add. Bot: không bắt chọn deck nữa (None = tự động, là
+  mặc định + sau idle reset); bảng chọn deck thêm nút "🤖 Tự động theo chủ đề";
+  chặn "📦 Chuyển deck" trong luồng từ trùng khi đang tự động (không có deck
+  hiện tại). CLI main.py: Enter bỏ trống tên deck = tự động.
+  Giới hạn bài/ngày KHÔNG cần chỉnh 9999 như các hướng dẫn cũ: Anki >= 23.10
+  dùng v3 scheduler, bấm thẳng deck con thì giới hạn của deck mẹ được BỎ QUA.
+
 ## 16/07/2026
 
 - **Nút "🕘 Deck gần nhất" trong bảng chọn deck của bot** — đỡ phải bấm

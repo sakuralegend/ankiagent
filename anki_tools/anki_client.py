@@ -12,8 +12,8 @@ from datetime import datetime, timedelta
 import requests
 
 
-from .config import ANKI_CONNECT_URL, MODEL_NAME, OPENRUSSIAN_AUDIO_TEMPLATE
-from .topics import topic_tag
+from .config import ANKI_CONNECT_URL, MODEL_NAME, OPENRUSSIAN_AUDIO_TEMPLATE, TOPIC_DECK_PARENT
+from .topics import topic_tag, normalize_topic
 from .utils import log_warn, log_fail, strip_accents_perfectly, hl_to_bracket
 from .html_builder import build_examples_html
 
@@ -248,7 +248,11 @@ def setup_anki_environment():
 
 
 def push_to_anki(word, data, deck_name, is_forced=False):
-    """Đẩy note lên Anki. Trả về (success, card_info_dict) để hiển thị tóm tắt."""
+    """Đẩy note lên Anki. Trả về (success, card_info_dict) để hiển thị tóm tắt.
+
+    deck_name=None -> chế độ TỰ ĐỘNG: thẻ vào deck con theo chủ đề AI chọn
+    (TOPIC_DECK_PARENT::<topic>, vd Русский::food; AI không chọn được -> ::other).
+    """
     clean_word = strip_accents_perfectly(word)
     audio_url = OPENRUSSIAN_AUDIO_TEMPLATE.format(word=urllib.parse.quote(clean_word))
     audio_filename = f"ru_audio_{clean_word}.mp3"
@@ -287,6 +291,17 @@ def push_to_anki(word, data, deck_name, is_forced=False):
     # (Tag kỹ thuật OpenRussian_*_v25 cũ đã bỏ 16/07/2026: không code nào tra
     # theo nó — nhận diện thẻ của bot luôn đi qua model name.)
     note_tags = [topic_tag(topic_slug)] if topic_slug else []
+
+    # Chế độ tự động: deck đích chỉ biết được SAU khi AI chọn topic -> tính ở đây.
+    # createDeck idempotent (deck có rồi thì thôi), gọi thẳng để không in log mỗi thẻ.
+    if not deck_name:
+        deck_name = f"{TOPIC_DECK_PARENT}::{normalize_topic(topic_slug)}"
+        try:
+            requests.post(ANKI_CONNECT_URL, json={
+                "action": "createDeck", "version": 6, "params": {"deck": deck_name}
+            }, timeout=5)
+        except Exception as e:
+            log_warn(f"Không tạo/kiểm tra được deck '{deck_name}': {e}")
 
     payload = {
         "action": "addNote", "version": 6,

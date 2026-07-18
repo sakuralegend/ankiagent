@@ -23,6 +23,9 @@ from .anki_client import (
 def process_word(word, deck_name, is_forced=False, do_sync=False):
     """Xử lý trọn vẹn 1 từ: cào OpenRussian -> AI dịch/tạo ví dụ -> đẩy lên Anki.
 
+    deck_name=None -> chế độ TỰ ĐỘNG: thẻ vào deck con theo chủ đề AI chọn
+    (xem push_to_anki). card_info["deck"] luôn là deck THẬT thẻ được thêm vào.
+
     Trả về (success: bool, card_info: dict | None, error_msg: str | None).
     - success=True  -> card_info có đủ dữ liệu để hiển thị tóm tắt.
     - success=False -> error_msg mô tả lỗi ngắn gọn (để in ra CLI hoặc gửi Telegram).
