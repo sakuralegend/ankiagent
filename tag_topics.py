@@ -113,11 +113,24 @@ TOPIC_WORDS = {
         "физика", "химия", "бумага", "открытка", "мел",
         "читать", "писать", "учиться", "повторять",
     ],
+    # Tách khỏi other 18/07/2026 khi other chạm ngưỡng 15% (xem CHANGELOG)
+    "function-words": [
+        "да", "нет", "он", "она", "ты", "мы", "вы", "кто", "что", "чей",
+        "наш", "ваш", "их", "мой", "твой", "сам", "это", "есть", "там", "тут",
+        "здесь", "вот", "вон", "как", "тоже", "куда", "хотя", "всё", "или",
+        "только", "ничего", "нельзя", "можно", "вперёд", "назад",
+    ],
+    "abstract": [
+        "правда", "дружба", "счастье", "любовь", "помощь", "защита", "обида",
+        "вина", "дело", "работа", "игра", "охота", "мир", "род", "начало",
+        "порядок", "очередь", "связь", "факт", "чудо", "шутка", "пощада",
+        "быль", "плач", "звук", "запах", "привет",
+    ],
     # actions / qualities / other: chủ yếu để fallback theo từ loại lo (xem dưới),
     # chỉ liệt kê từ cần ép riêng.
     "actions": [],
     "qualities": [],
-    "other": ["можно", "карта", "угол"],
+    "other": ["карта", "угол"],
 }
 
 WORD_TOPIC = {}
@@ -155,6 +168,10 @@ def main():
     ap.add_argument("--apply", action="store_true", help="gắn tag thật (mặc định: dry-run)")
     ap.add_argument("--missing", action="store_true",
                     help="dùng AI phân loại thẻ không có trong bảng tra (tốn quota)")
+    ap.add_argument("--fix", action="store_true",
+                    help="đổi lại tag topic:: của thẻ ĐÃ có tag cho khớp bảng tra "
+                         "(vd sau khi tách chủ đề mới; chỉ đụng từ CÓ trong bảng, "
+                         "từ do AI phân loại được giữ nguyên)")
     args = ap.parse_args()
 
     note_ids = call("findNotes", query=f'note:"{MODEL_NAME}"')
@@ -163,15 +180,23 @@ def main():
 
     plan = {}          # topic_slug -> [note_ids]
     fallback_words = []  # từ phải đoán theo PoS (để soát mắt)
+    fixes = []           # (note_id, [tag cũ], slug mới, word) — chỉ khi --fix
     skipped = 0
     for n in notes:
-        if any(t.startswith(TOPIC_TAG_PREFIX) for t in n.get("tags", [])):
-            skipped += 1
-            continue
         f = n["fields"]
         word = f.get("WordClean", {}).get("value", "") or strip_accents_perfectly(
             f.get("Word", {}).get("value", ""))
         pos = f.get("PoS", {}).get("value", "")
+
+        current_topics = [t for t in n.get("tags", []) if t.startswith(TOPIC_TAG_PREFIX)]
+        if current_topics:
+            if args.fix:
+                w = word.strip().lower()
+                if w in WORD_TOPIC and current_topics != [topic_tag(WORD_TOPIC[w])]:
+                    fixes.append((n["noteId"], current_topics, WORD_TOPIC[w], word))
+                    continue
+            skipped += 1
+            continue
 
         if args.missing and word.strip().lower() not in WORD_TOPIC:
             from anki_tools.ai_client import call_claude_topic
@@ -203,6 +228,11 @@ def main():
         for line in fallback_words:
             print("  ", line)
 
+    if fixes:
+        print(f"\nĐổi tag theo bảng tra (--fix, {len(fixes)} thẻ):")
+        for _nid, olds, slug, w in fixes:
+            print(f"   {w}: {', '.join(olds)} -> {topic_tag(slug)}")
+
     if not args.apply:
         print("\n(DRY-RUN — chưa gắn gì. Chạy lại với --apply để gắn thật.)")
         return
@@ -210,6 +240,19 @@ def main():
     for slug, ids in plan.items():
         call("addTags", notes=ids, tags=topic_tag(slug))
         print(f"✅ Đã gắn {topic_tag(slug)} cho {len(ids)} thẻ")
+
+    if fixes:
+        remove_map, add_map = {}, {}
+        for nid, olds, slug, _w in fixes:
+            for old in olds:
+                remove_map.setdefault(old, []).append(nid)
+            add_map.setdefault(slug, []).append(nid)
+        for old, ids in remove_map.items():
+            call("removeTags", notes=ids, tags=old)
+        for slug, ids in add_map.items():
+            call("addTags", notes=ids, tags=topic_tag(slug))
+            print(f"🔁 Đã đổi {len(ids)} thẻ sang {topic_tag(slug)}")
+
     print("\nXong. Kiểm tra lại trong Anki Browser (cây Tags bên trái).")
 
 

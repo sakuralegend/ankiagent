@@ -4,6 +4,19 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 18/07/2026 (đợt 2)
+
+- **Tách 'other' thành function-words + abstract (17 -> 19 chủ đề)** — /thongke
+  báo other 16% (>15%) ngay lần đầu, user hỏi cách sửa. Tách TẦNG GỐC (không
+  lồng dưới other vì other là "vườn ươm": cụm nào đủ lớn thì bứng ra):
+  `function-words` (35 thẻ: đại từ, trợ từ, liên từ, câu hỏi, можно/нельзя) +
+  `abstract` (27 thẻ: правда, счастье, работа...). other còn 36 thẻ (5%) — hết
+  cảnh báo. Kỹ thuật: tag_topics.py thêm chế độ `--fix` (đổi tag thẻ ĐÃ có tag
+  cho khớp bảng tra; CHỈ đụng từ có trong bảng, từ AI phân loại giữ nguyên —
+  dùng lại được cho mọi lần tách chủ đề sau) -> build_subdecks.py --apply tạo
+  2 deck con mới + dọn thẻ + sync. AI prompt tự nhận 19 chủ đề qua
+  topics_prompt_block(), không phải sửa prompt.
+
 ## 18/07/2026
 
 - **Lệnh /thongke + quy tắc phát hiện khi nào cần tách deck** — user hỏi 17 chủ

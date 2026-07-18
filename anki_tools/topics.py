@@ -27,7 +27,9 @@ TOPICS = {
     "education": "education & written word: school supplies, books, press, reading/writing/studying verbs (книга, урок, читать, газета)",
     "actions": "general action verbs not covered by other topics (делать, жить, идти)",
     "qualities": "descriptive ADJECTIVES and ADVERBS only, not covered by other topics (новый, быстрый, хорошо)",
-    "other": "fallback when nothing above fits: pronouns, particles, function words, abstract nouns, misc (да, тут, правда, деньги)",
+    "function-words": "grammar/function words: pronouns, particles, conjunctions, prepositions, question words, modal predicatives (я, кто, да, или, можно, здесь)",
+    "abstract": "abstract nouns: feelings, concepts, events, relations (правда, счастье, работа, помощь)",
+    "other": "fallback when nothing above fits: misc concrete nouns, money, sports, media (деньги, спорт, фото)",
 }
 
 
