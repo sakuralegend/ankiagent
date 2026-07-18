@@ -4,6 +4,21 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 19/07/2026 (đợt 2)
+
+- **Dọn note type: xóa 4 model chết + đổi tên ngắn gọn** — user thấy còn dấu
+  vết nhiều lần sửa: 4 model Russian_Irregular_Plural_OLED v1→v4 (0 note) và
+  2 tên dài lê thê. AnkiConnect KHÔNG có lệnh xóa/đổi tên model, nên làm bằng
+  thư viện `pip anki==26.5` (khớp đúng bản desktop, tránh lệch schema): đóng
+  Anki (guiExitAnki bị ngó lơ -> CloseMainWindow), backup collection.anki2
+  (collection-backup-truoc-don-model-19-07.anki2 trong Anki2/User 1), xóa 4
+  model chết, đổi `Russian_Premium_OLED_Type_v25`->**RU_Word** (610 note),
+  `Russian_Irregular_Plural_OLED_v5`->**RU_Plural** (26 note). Gỡ luôn tag
+  `Irregular_Plural_v5` (26 thẻ — lọc bằng note:"RU_Plural" là đủ). Sửa
+  MODEL_NAME trong config.py. ⚠️ Xóa model = đổi schema -> Anki đòi FULL SYNC:
+  PC chọn **Upload**, VPS (vnc.bat) chọn **Download**; bot dừng trong lúc
+  migrate để không tự tạo lại model.
+
 ## 19/07/2026
 
 - **Dọn 15 tag mồ côi sau tái cấu trúc** — sau đợt đổi cây 2 tầng, 15 tag tên

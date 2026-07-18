@@ -40,7 +40,9 @@ TELEGRAM_USER_ID = int(os.environ.get("TELEGRAM_USER_ID", "0"))
 # (Không còn deck mặc định: bot hỏi tên deck khi bắt đầu phiên, giống CLI main.py)
 
 OPENRUSSIAN_AUDIO_TEMPLATE = "https://api.openrussian.org/read/ru/{word}"
-MODEL_NAME = "Russian_Premium_OLED_Type_v25"
+# Đổi tên 19/07/2026 (tên cũ Russian_Premium_OLED_Type_v25) — đổi trong Anki
+# thì phải đổi cả đây, và ngược lại. Model 26 thẻ Irregular tên RU_Plural.
+MODEL_NAME = "RU_Word"
 
 # --- Deck tổng (kho) chứa các deck con theo chủ đề: <kho>::<topic slug> ---
 # Chế độ TỰ ĐỘNG: không chọn deck khi thêm từ -> thẻ vào thẳng deck con theo
