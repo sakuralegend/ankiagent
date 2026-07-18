@@ -13,7 +13,7 @@ import requests
 
 
 from .config import ANKI_CONNECT_URL, MODEL_NAME, OPENRUSSIAN_AUDIO_TEMPLATE, TOPIC_DECK_PARENT
-from .topics import topic_tag, normalize_topic
+from .topics import TOPICS, topic_tag, normalize_topic
 from .utils import log_warn, log_fail, strip_accents_perfectly, hl_to_bracket
 from .html_builder import build_examples_html
 
@@ -353,6 +353,29 @@ def push_to_anki(word, data, deck_name, is_forced=False):
         log_fail(f"Không kết nối được AnkiConnect: {e}")
         card_info["error"] = str(e)
         return False, card_info
+
+
+def get_topic_stats():
+    """Đếm thẻ theo từng chủ đề topic:: (cho lệnh /thongke của bot).
+    Trả về (stats: dict slug->số thẻ, untagged: số note chưa có tag topic::)
+    hoặc (None, 0) nếu AnkiConnect lỗi."""
+    try:
+        stats = {}
+        for slug in TOPICS:
+            res = requests.post(ANKI_CONNECT_URL, json={
+                "action": "findCards", "version": 6,
+                "params": {"query": f'note:"{MODEL_NAME}" tag:"{topic_tag(slug)}"'}
+            }, timeout=10)
+            stats[slug] = len(res.json().get("result") or [])
+        res_u = requests.post(ANKI_CONNECT_URL, json={
+            "action": "findNotes", "version": 6,
+            "params": {"query": f'note:"{MODEL_NAME}" -tag:topic::*'}
+        }, timeout=10)
+        untagged = len(res_u.json().get("result") or [])
+        return stats, untagged
+    except Exception as e:
+        log_warn(f"Không đếm được thống kê chủ đề: {e}")
+        return None, 0
 
 
 def trigger_sync():

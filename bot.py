@@ -46,6 +46,7 @@ from anki_tools.anki_client import (
     ensure_deck_exists,
     get_deck_names,
     get_deck_note_ids,
+    get_topic_stats,
     setup_anki_environment,
     trigger_sync,
 )
@@ -63,6 +64,7 @@ HELP_TEXT = (
     "• /sua → bot hỏi từ cần sửa, gõ từ xong chọn kiểu sửa bằng nút\n"
     "• /suadeck → sửa TOÀN BỘ thẻ trong 1 deck (ít dùng — có xác nhận + nút Dừng)\n"
     "• /menu → menu nút bấm\n"
+    "• /thongke → phân bố thẻ theo chủ đề, cảnh báo khi cần tách deck\n"
     "• /sync → đồng bộ AnkiWeb ngay\n"
     "• Nghỉ >3 phút → bot tự reset phiên (về chế độ 🤖 tự động)"
 )
@@ -611,6 +613,48 @@ async def cmd_deck(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("❌ Không tạo/kiểm tra được deck (AnkiConnect lỗi?).")
 
 
+# Ngưỡng "đèn báo" cần tách chủ đề (xem CHANGELOG 18/07/2026: quy tắc 100 thẻ / 15% other)
+TOPIC_DECK_WARN = 100     # deck con vượt mức này -> nên tách chủ đề con
+OTHER_WARN_PCT = 15       # other chiếm quá % này của kho -> phân loại đang "rò rỉ"
+
+
+async def cmd_thongke(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Phân bố thẻ theo chủ đề + cảnh báo khi chạm ngưỡng cần tách deck."""
+    _reset_idle_timer(context, update.effective_chat.id)
+    msg = await update.message.reply_text("⏳ Đang đếm thẻ theo chủ đề...")
+    stats, untagged = await asyncio.to_thread(get_topic_stats)
+    if stats is None:
+        await msg.edit_text("❌ Không đếm được (AnkiConnect trên VPS lỗi?).")
+        return
+
+    total = sum(stats.values())
+    lines = [f"📊 KHO {TOPIC_DECK_PARENT}: {total} thẻ", "─" * 22]
+    for slug, n in sorted(stats.items(), key=lambda x: -x[1]):
+        if n == 0:
+            continue
+        mark = " ⚠️" if n >= TOPIC_DECK_WARN else ""
+        lines.append(f"{n:>4} │ {slug}{mark}")
+
+    warns = []
+    for slug, n in stats.items():
+        if n >= TOPIC_DECK_WARN:
+            warns.append(f"⚠️ '{slug}' đã {n} thẻ (≥{TOPIC_DECK_WARN}) — nên tách chủ đề con "
+                         f"(thêm slug dạng '{slug}::nhanh-con' vào topics.py).")
+    other_pct = (stats.get("other", 0) * 100 // total) if total else 0
+    if other_pct > OTHER_WARN_PCT:
+        warns.append(f"⚠️ 'other' chiếm {other_pct}% kho (>{OTHER_WARN_PCT}%) — trong đó chắc đã có "
+                     "cụm từ đủ lớn để thành chủ đề riêng.")
+    if untagged:
+        warns.append(f"⚠️ {untagged} thẻ CHƯA có tag chủ đề — chạy `python tag_topics.py --missing` trên PC.")
+
+    lines.append("─" * 22)
+    if warns:
+        lines.extend(warns)
+    else:
+        lines.append(f"✅ Chưa chạm ngưỡng tách deck ({TOPIC_DECK_WARN} thẻ/chủ đề, other ≤{OTHER_WARN_PCT}%).")
+    await msg.edit_text("\n".join(lines))
+
+
 async def cmd_sync(update: Update, context: ContextTypes.DEFAULT_TYPE):
     _reset_idle_timer(context, update.effective_chat.id)
     msg = await update.message.reply_text("⏳ Đang sync AnkiWeb...")
@@ -1056,6 +1100,7 @@ async def _post_init(app):
         BotCommand("deck", "Đổi bộ bài (bảng chọn nút)"),
         BotCommand("sua", "Sửa thẻ (bot sẽ hỏi từ)"),
         BotCommand("suadeck", "Sửa TOÀN BỘ thẻ trong 1 deck (ít dùng, tốn AI)"),
+        BotCommand("thongke", "Thống kê thẻ theo chủ đề + cảnh báo tách deck"),
         BotCommand("sync", "Đồng bộ AnkiWeb ngay"),
         BotCommand("help", "Hướng dẫn"),
     ])
@@ -1092,6 +1137,7 @@ def main():
     app.add_handler(CommandHandler(["start", "help"], cmd_start, filters=only_me))
     app.add_handler(CommandHandler("menu", cmd_menu, filters=only_me))
     app.add_handler(CommandHandler("deck", cmd_deck, filters=only_me))
+    app.add_handler(CommandHandler("thongke", cmd_thongke, filters=only_me))
     app.add_handler(CommandHandler("sync", cmd_sync, filters=only_me))
     app.add_handler(CommandHandler("sua", cmd_sua, filters=only_me))
     app.add_handler(CommandHandler("suadeck", cmd_suadeck, filters=only_me))

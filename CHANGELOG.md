@@ -4,6 +4,19 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 18/07/2026
+
+- **Lệnh /thongke + quy tắc phát hiện khi nào cần tách deck** — user hỏi 17 chủ
+  đề có bao trọn tiếng Nga lâu dài không (hiện A1, lo lên A2/B1). Kết luận đã
+  bàn: 17 chủ đề bao trọn về NGỮ NGHĨA (other hứng phần dư) nhưng sẽ phình khi
+  lên cấp; quy tắc đèn báo = deck con ≥100 thẻ HOẶC other >15% kho thì tách.
+  Tách = thêm slug LỒNG CẤP dạng `actions::motion-verbs` vào topics.py (tag và
+  deck Anki đều phân cấp bằng :: nên cây tự rẽ nhánh, không sửa code) + retag
+  cụm từ cũ + chạy build_subdecks.py --apply. /thongke: đếm thẻ theo chủ đề
+  (get_topic_stats trong anki_client.py), hiện bảng xếp hạng + cảnh báo 3 loại
+  (deck chạm 100 / other quá 15% / thẻ chưa có tag). Ghi chú hiện trạng: other
+  đang 16% (98/609) — ứng viên tách đầu tiên là function-words (đại từ, trợ từ).
+
 ## 16/07/2026 (đợt 2)
 
 - **Cây deck kho RUSSIAN::<topic> + chế độ thêm từ TỰ ĐỘNG** — user muốn deck
