@@ -85,7 +85,21 @@ def main():
     else:
         print("⚠️ Sync khởi động thất bại - sẽ sync lại ở thao tác đầu tiên.")
 
-    app = Application.builder().token(TELEGRAM_BOT_TOKEN).post_init(_post_init).build()
+    # Trần chờ HTTP nới hẳn so với mặc định 5s: VPS (VN) tới api.telegram.org
+    # ~230ms RTT, mạng chững một nhịp là dính telegram.error.TimedOut (đã gặp
+    # 19/07/2026: gửi tin trạng thái quét ảnh chết ở 5s). media_write_timeout
+    # cao nhất vì tải ảnh chụp trang sách là request nặng nhất.
+    app = (
+        Application.builder()
+        .token(TELEGRAM_BOT_TOKEN)
+        .connect_timeout(15)
+        .read_timeout(30)
+        .write_timeout(30)
+        .media_write_timeout(60)
+        .pool_timeout(15)
+        .post_init(_post_init)
+        .build()
+    )
     only_me = filters.User(user_id=TELEGRAM_USER_ID)
 
     app.add_handler(CommandHandler(["start", "help"], cmd_start, filters=only_me))

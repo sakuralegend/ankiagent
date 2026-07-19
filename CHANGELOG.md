@@ -4,7 +4,17 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
-## 19/07/2026 (đợt 5)
+## 19/07/2026 (đợt 6)
+
+- **Fix kẹt "Đang tải ảnh về": nới trần chờ HTTP Telegram + retry tải ảnh** —
+  user gửi ảnh bị kẹt 3 phút. Log VPS: telegram.error.TimedOut ngay ở
+  reply_text đầu tiên của on_photo (handler chết trước khi quét). Nguyên nhân:
+  VPS (VN) -> api.telegram.org ~230ms RTT, trần chờ mặc định của PTB chỉ 5s,
+  mạng chững một nhịp là gãy. Sửa: (a) app.py nới toàn cục connect 15s / read
+  30s / write 30s / media_write 60s / pool 15s; (b) on_photo bọc TimedOut cho
+  tin trạng thái đầu (thử lại 1 lần) + vòng tải ảnh retry 1 lần (nghỉ 3s).
+  Bài học: bot chạy VPS xa server Telegram thì MỌI handler gửi tin đều có thể
+  dính TimedOut — trần 5s mặc định quá mỏng.
 
 - **Tách bot.py (~1.400 dòng) thành gói tgbot/ theo luồng** — user hỏi file dài
   có sao không: chạy thì không sao, nhưng khó bảo trì (6 luồng chen 1 file).

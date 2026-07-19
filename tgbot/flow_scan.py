@@ -8,6 +8,7 @@ import asyncio
 import re
 
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram.error import TimedOut
 from telegram.ext import ContextTypes
 
 from anki_tools.config import INBOX_DECK
@@ -53,13 +54,29 @@ def _scan_list_text_keyboard(words, scanned_total=None):
 async def on_photo(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Nhận ảnh trang sách: quét từ mới rồi CHỜ user duyệt (không tự thêm)."""
     _reset_idle_timer(context, update.effective_chat.id)
-    status = await update.message.reply_text("📷 Đang tải ảnh về...")
     try:
-        tg_file = await update.message.photo[-1].get_file()
-        image_bytes = bytes(await tg_file.download_as_bytearray())
-    except Exception:
-        await status.edit_text("❌ Không tải được ảnh từ Telegram, gửi lại thử nhé.")
-        return
+        status = await update.message.reply_text("📷 Đang tải ảnh về...")
+    except TimedOut:
+        # Mạng VPS<->Telegram chững một nhịp (19/07/2026: từng chết ở đây với
+        # trần 5s cũ, user kẹt ở "Đang tải ảnh"). Tin đầu có thể ĐÃ tới user dù
+        # client báo lỗi -> thử lại 1 lần rồi đi tiếp; lỗi nữa thì bó tay thật.
+        status = await update.message.reply_text("📷 Đang tải ảnh về... (mạng chậm)")
+
+    image_bytes = None
+    for attempt in (1, 2):
+        try:
+            tg_file = await update.message.photo[-1].get_file()
+            image_bytes = bytes(await tg_file.download_as_bytearray())
+            break
+        except TimedOut:
+            if attempt == 1:
+                await asyncio.sleep(3)  # mạng chững thoáng qua -> thử lại 1 lần
+                continue
+            await status.edit_text("❌ Mạng Telegram đang chậm, tải ảnh thất bại — gửi lại ảnh thử nhé.")
+            return
+        except Exception:
+            await status.edit_text("❌ Không tải được ảnh từ Telegram, gửi lại thử nhé.")
+            return
 
     await status.edit_text("🔍 AI đang quét từ tiếng Nga trong ảnh (1 lượt AI)...")
     words = await asyncio.to_thread(call_claude_scan_words, image_bytes)
