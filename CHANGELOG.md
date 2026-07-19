@@ -4,7 +4,21 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
-## 19/07/2026 (đợt 4)
+## 19/07/2026 (đợt 5)
+
+- **Tách bot.py (~1.400 dòng) thành gói tgbot/ theo luồng** — user hỏi file dài
+  có sao không: chạy thì không sao, nhưng khó bảo trì (6 luồng chen 1 file).
+  bot.py giờ CHỈ là điểm vào ~10 dòng (systemd `python bot.py` giữ nguyên,
+  không phải sửa service). Gói tgbot/: core (phiên/deck/menu/idle/format),
+  commands (/start /menu /deck /thongke /don /sync + job 3h sáng), flow_add
+  (thêm từ + dò trùng + đoán lemma), flow_edit (/sua + /suadeck), flow_scan
+  (📷 quét ảnh), dispatch (on_word + on_callback — chỉ chia việc, không nghiệp
+  vụ), app (lắp handler + khởi động). Import một chiều core <- flows <-
+  dispatch <- app, không vòng. Đường dẫn last_deck.json / suadeck_resume.json
+  vẫn ở gốc repo (_PROJECT_ROOT trong core.py). Kiểm bằng AST: 48/49 hàm giống
+  HỆT bản cũ; hàm duy nhất khác là _idle_reset_job (chủ đích: reset phiên giờ
+  dọn thêm scan_words/scan_msg của luồng quét ảnh). Các file khác đều <500
+  dòng, chưa cần tách.
 
 - **📷 Quét ảnh trang sách qua bot: OCR từ tiếng Nga -> duyệt -> thêm loạt vào inbox**
   — user chụp trang sách gửi bot, muốn gom từ mới hàng loạt thay vì gõ tay từng
