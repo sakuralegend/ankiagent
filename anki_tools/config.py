@@ -45,7 +45,12 @@ OPENRUSSIAN_AUDIO_TEMPLATE = "https://api.openrussian.org/read/ru/{word}"
 MODEL_NAME = "RU_Word"
 
 # --- Deck tổng (kho) chứa các deck con theo chủ đề: <kho>::<topic slug> ---
-# Chế độ TỰ ĐỘNG: không chọn deck khi thêm từ -> thẻ vào thẳng deck con theo
-# chủ đề AI chọn (vd RUSSIAN::food). Xem build_subdecks.py về cấu trúc cây.
 # (Tên tiếng Anh theo yêu cầu user: dễ gõ khi tìm kiếm/gõ tên deck hơn Cyrillic.)
 TOPIC_DECK_PARENT = os.environ.get("TOPIC_DECK_PARENT", "RUSSIAN")
+
+# --- Deck hứng từ mới (19/07/2026): chế độ TỰ ĐỘNG không đưa thẻ vào thẳng
+# deck chủ đề nữa mà vào inbox để học gom một chỗ (ưu tiên từ mới thêm trước).
+# Tag topic:: vẫn được AI gắn từ đầu — là "địa chỉ nhà" của thẻ. Thẻ TỐT NGHIỆP
+# learning (thành thẻ review) thì job đêm của bot / lệnh /don chuyển về
+# <kho>::<topic slug> theo tag. Tên "0-" để deck luôn đứng đầu danh sách.
+INBOX_DECK = f"{TOPIC_DECK_PARENT}::0-inbox"

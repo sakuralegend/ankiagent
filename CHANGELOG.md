@@ -4,6 +4,23 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 19/07/2026 (đợt 3)
+
+- **Deck hứng RUSSIAN::0-inbox: học từ mới một chỗ, tốt nghiệp tự về deck chủ đề**
+  — user tồn ~200 từ chưa học + 40-50 từ mới/ngày cần ưu tiên, muốn học gom một
+  chỗ rồi thẻ thuộc rồi mới về deck chủ đề để ôn. Thiết kế: tag topic:: (AI gắn
+  từ đầu) là "địa chỉ nhà", deck chỉ là chỗ ở tạm. (a) config.py thêm INBOX_DECK;
+  chế độ tự động của push_to_anki đưa thẻ mới vào inbox thay vì deck chủ đề.
+  (b) anki_client.move_graduated_from_inbox(): thẻ inbox đạt is:review (tốt
+  nghiệp learning) -> changeDeck về RUSSIAN::<slug tag>, lịch ôn giữ nguyên.
+  (c) bot: lệnh /don chạy tay + job nền 3h sáng (asyncio, không cần PTB
+  job-queue), đêm có chuyển thẻ mới nhắn Telegram. (d) build_subdecks.py chừa
+  thẻ inbox ra (không bốc thẻ chưa học đi). (e) setup_inbox.py (idempotent):
+  ép preset Default luật user chốt "ôn HẾT thẻ cũ (hạn cũ nhất trước) rồi mới
+  hiện thẻ mới" (newMix=1, reviewOrder=0 — vốn đã đúng sẵn), preset riêng
+  'inbox' (newGatherPriority=2: từ THÊM GẦN NHẤT học trước để ưu tiên từ trong
+  ngày, 50 từ mới/ngày), gom 187 thẻ is:new rải rác về inbox. Đã chạy + sync.
+
 ## 19/07/2026 (đợt 2)
 
 - **Dọn note type: xóa 4 model chết + đổi tên ngắn gọn** — user thấy còn dấu

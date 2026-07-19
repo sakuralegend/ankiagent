@@ -20,6 +20,7 @@
 # Logic thêm/sửa từ nằm ở anki_tools/pipeline.py - DÙNG CHUNG với main.py (CLI).
 # ==============================================================================
 import asyncio
+import datetime
 import json
 import os
 import time
@@ -34,7 +35,7 @@ from telegram.ext import (
     filters,
 )
 
-from anki_tools.config import TELEGRAM_BOT_TOKEN, TELEGRAM_USER_ID, TOPIC_DECK_PARENT
+from anki_tools.config import INBOX_DECK, TELEGRAM_BOT_TOKEN, TELEGRAM_USER_ID, TOPIC_DECK_PARENT
 from anki_tools.topics import FALLBACK_TOPIC
 from anki_tools.utils import strip_accents_perfectly, hl_to_bracket
 from anki_tools.ai_client import check_claude_ready, call_claude_lemma
@@ -48,6 +49,7 @@ from anki_tools.anki_client import (
     get_deck_names,
     get_deck_note_ids,
     get_topic_stats,
+    move_graduated_from_inbox,
     setup_anki_environment,
     trigger_sync,
 )
@@ -57,8 +59,10 @@ IDLE_RESET_SECONDS = 180  # nghỉ 3 phút -> reset phiên + gửi menu
 HELP_TEXT = (
     "🇷🇺 Bot Anki tiếng Nga\n"
     "───────────────────\n"
-    "• Gõ 1 từ tiếng Nga → thêm thẻ mới. Mặc định 🤖 TỰ ĐỘNG: AI chọn chủ đề,\n"
-    "  thẻ vào thẳng deck con tương ứng (vd RUSSIAN::food)\n"
+    "• Gõ 1 từ tiếng Nga → thêm thẻ mới. Mặc định 🤖 TỰ ĐỘNG: AI chọn chủ đề\n"
+    "  (gắn tag), thẻ vào 📥 RUSSIAN::0-inbox để học gom một chỗ trước\n"
+    "• Thẻ học xong vòng đầu (tốt nghiệp learning) → 3h sáng bot tự chuyển về\n"
+    "  deck chủ đề theo tag (vd RUSSIAN::life::food) để ôn; /don = chuyển ngay\n"
     "• Muốn deck cố định: /deck → nút (🤖 tự động / 🕘 gần nhất / 📂 có sẵn / ➕ mới)\n"
     "• Từ không có trên OpenRussian (biến cách/sai chính tả) → AI đoán từ nguyên mẫu, bấm nút xác nhận\n"
     "• /deck → bảng chọn deck bằng nút\n"
@@ -66,6 +70,7 @@ HELP_TEXT = (
     "• /suadeck → sửa TOÀN BỘ thẻ trong 1 deck (ít dùng — có xác nhận + nút Dừng)\n"
     "• /menu → menu nút bấm\n"
     "• /thongke → phân bố thẻ theo chủ đề, cảnh báo khi cần tách deck\n"
+    "• /don → chuyển ngay thẻ tốt nghiệp từ inbox về deck chủ đề\n"
     "• /sync → đồng bộ AnkiWeb ngay\n"
     "• Nghỉ >3 phút → bot tự reset phiên (về chế độ 🤖 tự động)"
 )
@@ -656,6 +661,46 @@ async def cmd_thongke(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await msg.edit_text("\n".join(lines))
 
 
+def _don_report(moved, total):
+    """Format kết quả move_graduated_from_inbox thành tin nhắn."""
+    if moved is None:
+        return "❌ Không dọn được inbox (AnkiConnect lỗi? xem log trên VPS)."
+    if total == 0:
+        return "📥 Inbox chưa có thẻ nào tốt nghiệp — không có gì để chuyển."
+    lines = [f"📦 Đã chuyển {total} thẻ tốt nghiệp từ inbox về deck chủ đề:"]
+    for slug, n in sorted(moved.items(), key=lambda x: -x[1]):
+        lines.append(f"  {n:>3} → {TOPIC_DECK_PARENT}::{slug}")
+    return "\n".join(lines)
+
+
+async def cmd_don(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Chuyển ngay thẻ đã tốt nghiệp learning từ inbox về deck chủ đề theo tag."""
+    _reset_idle_timer(context, update.effective_chat.id)
+    msg = await update.message.reply_text("⏳ Đang dọn inbox...")
+    moved, total = await asyncio.to_thread(move_graduated_from_inbox)
+    if total:
+        await asyncio.to_thread(trigger_sync)
+    await msg.edit_text(_don_report(moved, total))
+
+
+async def _nightly_don(app):
+    """Job nền: 3h sáng mỗi ngày tự dọn inbox (giờ VPS = giờ VN). Chỉ nhắn
+    Telegram khi có thẻ được chuyển — đêm không có gì thì im lặng."""
+    while True:
+        now = datetime.datetime.now()
+        target = now.replace(hour=3, minute=0, second=0, microsecond=0)
+        if target <= now:
+            target += datetime.timedelta(days=1)
+        await asyncio.sleep((target - now).total_seconds())
+        moved, total = await asyncio.to_thread(move_graduated_from_inbox)
+        if moved and total:
+            await asyncio.to_thread(trigger_sync)
+            try:
+                await app.bot.send_message(TELEGRAM_USER_ID, "🌙 " + _don_report(moved, total))
+            except Exception as e:
+                print(f"⚠️ Không gửi được báo cáo dọn inbox: {e}")
+
+
 async def cmd_sync(update: Update, context: ContextTypes.DEFAULT_TYPE):
     _reset_idle_timer(context, update.effective_chat.id)
     msg = await update.message.reply_text("⏳ Đang sync AnkiWeb...")
@@ -1096,12 +1141,14 @@ def wait_for_anki(max_wait_seconds=180):
 
 async def _post_init(app):
     """Đăng ký menu lệnh gốc của Telegram (nút '/' cạnh ô gõ chữ)."""
+    app.create_task(_nightly_don(app))
     await app.bot.set_my_commands([
         BotCommand("menu", "Menu nút bấm"),
         BotCommand("deck", "Đổi bộ bài (bảng chọn nút)"),
         BotCommand("sua", "Sửa thẻ (bot sẽ hỏi từ)"),
         BotCommand("suadeck", "Sửa TOÀN BỘ thẻ trong 1 deck (ít dùng, tốn AI)"),
         BotCommand("thongke", "Thống kê thẻ theo chủ đề + cảnh báo tách deck"),
+        BotCommand("don", "Chuyển thẻ tốt nghiệp từ inbox về deck chủ đề"),
         BotCommand("sync", "Đồng bộ AnkiWeb ngay"),
         BotCommand("help", "Hướng dẫn"),
     ])
@@ -1139,6 +1186,7 @@ def main():
     app.add_handler(CommandHandler("menu", cmd_menu, filters=only_me))
     app.add_handler(CommandHandler("deck", cmd_deck, filters=only_me))
     app.add_handler(CommandHandler("thongke", cmd_thongke, filters=only_me))
+    app.add_handler(CommandHandler("don", cmd_don, filters=only_me))
     app.add_handler(CommandHandler("sync", cmd_sync, filters=only_me))
     app.add_handler(CommandHandler("sua", cmd_sua, filters=only_me))
     app.add_handler(CommandHandler("suadeck", cmd_suadeck, filters=only_me))

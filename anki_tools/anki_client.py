@@ -12,7 +12,7 @@ from datetime import datetime, timedelta
 import requests
 
 
-from .config import ANKI_CONNECT_URL, MODEL_NAME, OPENRUSSIAN_AUDIO_TEMPLATE, TOPIC_DECK_PARENT
+from .config import ANKI_CONNECT_URL, INBOX_DECK, MODEL_NAME, OPENRUSSIAN_AUDIO_TEMPLATE, TOPIC_DECK_PARENT
 from .topics import TOPICS, topic_tag, normalize_topic
 from .utils import log_warn, log_fail, strip_accents_perfectly, hl_to_bracket
 from .html_builder import build_examples_html
@@ -250,8 +250,9 @@ def setup_anki_environment():
 def push_to_anki(word, data, deck_name, is_forced=False):
     """Đẩy note lên Anki. Trả về (success, card_info_dict) để hiển thị tóm tắt.
 
-    deck_name=None -> chế độ TỰ ĐỘNG: thẻ vào deck con theo chủ đề AI chọn
-    (TOPIC_DECK_PARENT::<topic>, vd Русский::food; AI không chọn được -> ::other).
+    deck_name=None -> chế độ TỰ ĐỘNG: thẻ vào INBOX_DECK để học gom một chỗ;
+    tag topic:: (AI chọn) ghi sẵn deck chủ đề đích — thẻ tốt nghiệp learning
+    thì move_graduated_from_inbox() chuyển về TOPIC_DECK_PARENT::<topic>.
     """
     clean_word = strip_accents_perfectly(word)
     audio_url = OPENRUSSIAN_AUDIO_TEMPLATE.format(word=urllib.parse.quote(clean_word))
@@ -292,10 +293,10 @@ def push_to_anki(word, data, deck_name, is_forced=False):
     # theo nó — nhận diện thẻ của bot luôn đi qua model name.)
     note_tags = [topic_tag(topic_slug)] if topic_slug else []
 
-    # Chế độ tự động: deck đích chỉ biết được SAU khi AI chọn topic -> tính ở đây.
+    # Chế độ tự động: thẻ mới vào inbox học trước; tag topic:: đã ghi deck đích.
     # createDeck idempotent (deck có rồi thì thôi), gọi thẳng để không in log mỗi thẻ.
     if not deck_name:
-        deck_name = f"{TOPIC_DECK_PARENT}::{normalize_topic(topic_slug)}"
+        deck_name = INBOX_DECK
         try:
             requests.post(ANKI_CONNECT_URL, json={
                 "action": "createDeck", "version": 6, "params": {"deck": deck_name}
@@ -353,6 +354,50 @@ def push_to_anki(word, data, deck_name, is_forced=False):
         log_fail(f"Không kết nối được AnkiConnect: {e}")
         card_info["error"] = str(e)
         return False, card_info
+
+
+def move_graduated_from_inbox():
+    """Chuyển thẻ trong INBOX_DECK đã TỐT NGHIỆP learning (thành thẻ review,
+    is:review — gồm cả thẻ lỡ lapse) về deck chủ đề theo tag topic:: của note.
+    changeDeck không đụng scheduling nên lịch ôn giữ nguyên tuyệt đối.
+    Trả về (moved: dict slug->số thẻ đã chuyển, tổng số) hoặc (None, 0) nếu lỗi.
+    Chạy bởi job đêm của bot + lệnh /don. Idempotent: inbox sạch thì trả ({}, 0)."""
+    def _call(action, **params):
+        res = requests.post(ANKI_CONNECT_URL, json={
+            "action": action, "version": 6, "params": params
+        }, timeout=60)
+        out = res.json()
+        if out.get("error"):
+            raise RuntimeError(f"{action}: {out['error']}")
+        return out["result"]
+
+    try:
+        card_ids = _call("findCards", query=f'deck:"{INBOX_DECK}" is:review')
+        if not card_ids:
+            return {}, 0
+        cards = _call("cardsInfo", cards=card_ids)
+        note_ids = sorted({c["note"] for c in cards if isinstance(c, dict) and c.get("note")})
+        notes = _call("notesInfo", notes=note_ids)
+        note_slug = {}
+        for n in notes:
+            topic_tags = [t for t in n.get("tags", []) if t.startswith("topic::")]
+            if topic_tags:
+                note_slug[n["noteId"]] = normalize_topic(topic_tags[0])
+        plan = {}  # slug -> [card_ids] (thẻ không có tag topic:: thì để yên trong inbox)
+        for c in cards:
+            slug = note_slug.get(c.get("note"))
+            if slug:
+                plan.setdefault(slug, []).append(c["cardId"])
+        moved = {}
+        for slug, cids in sorted(plan.items()):
+            deck = f"{TOPIC_DECK_PARENT}::{slug}"
+            _call("createDeck", deck=deck)
+            _call("changeDeck", cards=cids, deck=deck)
+            moved[slug] = len(cids)
+        return moved, sum(moved.values())
+    except Exception as e:
+        log_warn(f"Không dọn được inbox: {e}")
+        return None, 0
 
 
 def get_topic_stats():
