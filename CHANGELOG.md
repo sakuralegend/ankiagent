@@ -4,7 +4,24 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
-## 19/07/2026 (đợt 3)
+## 19/07/2026 (đợt 4)
+
+- **📷 Quét ảnh trang sách qua bot: OCR từ tiếng Nga -> duyệt -> thêm loạt vào inbox**
+  — user chụp trang sách gửi bot, muốn gom từ mới hàng loạt thay vì gõ tay từng
+  từ. NGUYÊN TẮC user chốt: bot CHỈ xử lý thô, thêm hay không LUÔN phải qua nút
+  ✅ xác nhận, không tự ý. Luồng: (a) ai_client.call_claude_scan_words(): 1 request
+  Gemini duy nhất/trang (ảnh base64 qua endpoint OpenAI-compatible sẵn có,
+  max_tokens=3000) — OCR + đưa mọi từ về lemma, loại tên riêng, validate chỉ
+  nhận Cyrillic; _send_ai_request/_call_model_once thêm tham số max_tokens.
+  (b) anki_client.get_known_words(): set WordClean toàn kho để lọc từ đã có
+  (None = lỗi ≠ set rỗng, tránh đề nghị thêm trùng cả kho). (c) bot.py: handler
+  ảnh on_photo (filters.PHOTO) -> danh sách từ MỚI đánh số + nút "✅ Thêm cả N
+  từ"/"🚫 Hủy", nhắn 'bỏ 3 7 12' để loại từ trước khi thêm; _run_scan_add chạy
+  nền như /suadeck (nghỉ 3s/từ chống RPM, nút ⏹ Dừng, dò trùng lại từng từ
+  trước khi thêm, sync 1 lần cuối đợt); thẻ vào RUSSIAN::0-inbox theo chế độ
+  tự động. Test thật với ảnh chữ Nga tự tạo: OCR + lemma + loại tên riêng OK
+  (lưu ý: lemma thi thoảng lệch kiểu цветы->цвет thay vì цветок — user duyệt
+  tay là lưới an toàn).
 
 - **Deck hứng RUSSIAN::0-inbox: học từ mới một chỗ, tốt nghiệp tự về deck chủ đề**
   — user tồn ~200 từ chưa học + 40-50 từ mới/ngày cần ưu tiên, muốn học gom một

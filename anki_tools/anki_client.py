@@ -115,6 +115,35 @@ def find_duplicate_notes(clean_word):
         return []
 
 
+def get_known_words():
+    """Tập hợp WordClean (chữ thường) của MỌI note model bot — luồng quét ảnh
+    dùng để lọc từ đã có thẻ trước khi hỏi user.
+    Trả về set[str] (có thể rỗng), hoặc None nếu AnkiConnect lỗi (None ≠ rỗng:
+    lỗi thì KHÔNG được coi là 'chưa có từ nào' kẻo đề nghị thêm trùng cả kho)."""
+    try:
+        res = requests.post(ANKI_CONNECT_URL, json={
+            "action": "findNotes", "version": 6,
+            "params": {"query": f'note:"{MODEL_NAME}"'}
+        }, timeout=15)
+        note_ids = res.json().get("result") or []
+        if not note_ids:
+            return set()
+        res = requests.post(ANKI_CONNECT_URL, json={
+            "action": "notesInfo", "version": 6,
+            "params": {"notes": note_ids}
+        }, timeout=60)
+        notes = res.json().get("result") or []
+        words = {
+            (n.get("fields", {}).get("WordClean", {}).get("value") or "").strip().lower()
+            for n in notes
+        }
+        words.discard("")
+        return words
+    except Exception as e:
+        log_warn(f"Không lấy được danh sách từ đã có: {e}")
+        return None
+
+
 def change_note_deck(card_ids, deck_name):
     """Chuyển các card_ids sang deck_name. Trả về True nếu thành công."""
     try:

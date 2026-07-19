@@ -4,9 +4,11 @@
 # Từ khi gỡ nút AI Refine khỏi thẻ Anki (chuyển sang /sua của bot Telegram),
 # prompt CHỈ tồn tại ở file này — muốn đổi văn phong AI, sửa ở đây là đủ.
 # ==============================================================================
+import base64
 import json
 import re
 import time
+import unicodedata
 import requests
 
 from .config import CLAUDE_API_URL, CLAUDE_API_KEY, CLAUDE_MODEL, CLAUDE_FALLBACK_MODELS
@@ -158,8 +160,10 @@ def _model_chain():
     return chain
 
 
-def _call_model_once(model, system_prompt, user_prompt, use_reasoning=True, rpm_waits=2):
+def _call_model_once(model, system_prompt, user_prompt, use_reasoning=True, rpm_waits=2, max_tokens=900):
     """Gọi 1 model đúng 1 lần. Trả về (content | None, nên_thử_model_khác: bool).
+
+    user_prompt: str, hoặc list content parts kiểu OpenAI (để gửi kèm ảnh).
 
     rpm_waits: số lần được phép CHỜ khi dính 429 loại "giới hạn mỗi phút" (RPM).
     RPM chỉ là tạm thời (sửa deck hàng loạt bắn request nhanh quá) — chờ rồi thử
@@ -169,7 +173,7 @@ def _call_model_once(model, system_prompt, user_prompt, use_reasoning=True, rpm_
         "model": model,
         "messages": [{"role": "system", "content": system_prompt}, {"role": "user", "content": user_prompt}],
         "temperature": 0.7,
-        "max_tokens": 900,
+        "max_tokens": max_tokens,
     }
     if use_reasoning:
         # Model "thinking" (vd gemini-3.5-flash) mặc định ngốn max_tokens vào suy nghĩ ẩn
@@ -203,13 +207,13 @@ def _call_model_once(model, system_prompt, user_prompt, use_reasoning=True, rpm_
             delay = min(int(m.group(1)) + 2, 65) if m else 30
             log_warn(f"Model '{model}' chạm giới hạn MỖI PHÚT (RPM) -> chờ {delay}s rồi thử lại...")
             time.sleep(delay)
-            return _call_model_once(model, system_prompt, user_prompt, use_reasoning, rpm_waits - 1)
+            return _call_model_once(model, system_prompt, user_prompt, use_reasoning, rpm_waits - 1, max_tokens)
         log_warn(f"Model '{model}' hết hạn mức miễn phí trong NGÀY (429) -> thử model dự phòng...")
         return None, True
 
     if res.status_code == 400 and use_reasoning:
         # Model có thể không hỗ trợ reasoning_effort -> thử lại chính model đó, bỏ field này
-        return _call_model_once(model, system_prompt, user_prompt, use_reasoning=False)
+        return _call_model_once(model, system_prompt, user_prompt, use_reasoning=False, max_tokens=max_tokens)
 
     if res.status_code != 200 or not data.get("choices"):
         err_msg = ""
@@ -226,11 +230,11 @@ def _call_model_once(model, system_prompt, user_prompt, use_reasoning=True, rpm_
     return content, False
 
 
-def _send_ai_request(system_prompt, user_prompt):
+def _send_ai_request(system_prompt, user_prompt, max_tokens=900):
     """Gửi request AI, tự động chuyển model dự phòng khi hết quota/lỗi.
     Trả về raw text response hoặc None."""
     for model in _model_chain():
-        content, try_next = _call_model_once(model, system_prompt, user_prompt)
+        content, try_next = _call_model_once(model, system_prompt, user_prompt, max_tokens=max_tokens)
         if content:
             return content
         if not try_next:
@@ -413,6 +417,56 @@ def call_claude_topic(word, english_meanings):
         return None
     slug = normalize_topic(parsed.get("topic"))
     return slug
+
+
+_SCAN_SYSTEM_PROMPT = (
+    "You are a Russian OCR + morphology assistant. The user sends a PHOTO of a book/textbook page.\n"
+    "TASK:\n"
+    "1) Read ALL Russian words visible in the photo (ignore any non-Russian text).\n"
+    "2) Convert EVERY word to its DICTIONARY FORM (lemma): nouns -> nominative singular, "
+    "verbs -> infinitive (imperfective if both aspects appear), adjectives -> masculine "
+    "nominative singular.\n"
+    "3) Deduplicate the list.\n"
+    "4) EXCLUDE: proper names of people (Анна, Иван...), single letters, abbreviations, "
+    "numbers, and anything that is not a real Russian word. KEEP everything else, "
+    "including prepositions, pronouns and conjunctions.\n"
+    "Return ONLY a valid JSON object, no markdown, no commentary:\n"
+    '{"words": ["слово", "говорить", "хороший"]}\n'
+    "- lowercase, no stress marks, Cyrillic only\n"
+    "- order: as the words appear in the photo (first appearance)"
+)
+
+
+def call_claude_scan_words(image_bytes):
+    """Quét ẢNH trang sách: OCR mọi từ tiếng Nga + đưa về dạng từ điển (lemma).
+    1 request duy nhất cho cả trang (gửi ảnh base64 qua endpoint OpenAI-compatible).
+    Trả về list[str] lemma (thứ tự xuất hiện, đã dedupe, chỉ Cyrillic) hoặc None.
+    ⚠️ Hàm CHỈ quét thô — việc lọc từ đã có thẻ và quyết định thêm là của bot/user."""
+    b64 = base64.b64encode(image_bytes).decode("ascii")
+    user_content = [
+        {"type": "text", "text": "Extract and lemmatize all Russian words from this photo. Return ONLY the JSON."},
+        {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{b64}"}},
+    ]
+    # max_tokens cao hơn mặc định: 1 trang sách có thể ra hàng trăm lemma
+    raw_response = _send_ai_request(_SCAN_SYSTEM_PROMPT, user_content, max_tokens=3000)
+    if not raw_response:
+        return None
+    parsed = _parse_ai_response(raw_response)
+    if not isinstance(parsed, dict) or not isinstance(parsed.get("words"), list):
+        log_fail("AI quét ảnh trả về JSON không hợp lệ.")
+        return None
+    seen, words = set(), []
+    for w in parsed["words"]:
+        if not isinstance(w, str):
+            continue
+        w = unicodedata.normalize("NFC", w.strip().lower())  # ё dạng tổ hợp -> 1 ký tự
+        # Chỉ nhận từ Cyrillic thuần (cho phép dấu gạch nối kiểu "кто-то")
+        if not re.fullmatch(r"[а-яё]+(-[а-яё]+)*", w):
+            continue
+        if w not in seen:
+            seen.add(w)
+            words.append(w)
+    return words or None
 
 
 def check_claude_ready():

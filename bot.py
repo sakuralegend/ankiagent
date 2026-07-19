@@ -23,6 +23,7 @@ import asyncio
 import datetime
 import json
 import os
+import re
 import time
 
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, BotCommand
@@ -38,7 +39,7 @@ from telegram.ext import (
 from anki_tools.config import INBOX_DECK, TELEGRAM_BOT_TOKEN, TELEGRAM_USER_ID, TOPIC_DECK_PARENT
 from anki_tools.topics import FALLBACK_TOPIC
 from anki_tools.utils import strip_accents_perfectly, hl_to_bracket
-from anki_tools.ai_client import check_claude_ready, call_claude_lemma
+from anki_tools.ai_client import check_claude_ready, call_claude_lemma, call_claude_scan_words
 from anki_tools.pipeline import process_word, refine_note, refine_note_id
 from anki_tools.anki_client import (
     check_anki_ready,
@@ -48,6 +49,7 @@ from anki_tools.anki_client import (
     ensure_deck_exists,
     get_deck_names,
     get_deck_note_ids,
+    get_known_words,
     get_topic_stats,
     move_graduated_from_inbox,
     setup_anki_environment,
@@ -65,6 +67,8 @@ HELP_TEXT = (
     "  deck chủ đề theo tag (vd RUSSIAN::life::food) để ôn; /don = chuyển ngay\n"
     "• Muốn deck cố định: /deck → nút (🤖 tự động / 🕘 gần nhất / 📂 có sẵn / ➕ mới)\n"
     "• Từ không có trên OpenRussian (biến cách/sai chính tả) → AI đoán từ nguyên mẫu, bấm nút xác nhận\n"
+    "• Gửi 📷 ẢNH trang sách (dạng photo, không phải file) → AI quét từ tiếng Nga,\n"
+    "  đưa về nguyên thể, lọc từ đã có thẻ — bạn DUYỆT danh sách rồi bot mới thêm\n"
     "• /deck → bảng chọn deck bằng nút\n"
     "• /sua → bot hỏi từ cần sửa, gõ từ xong chọn kiểu sửa bằng nút\n"
     "• /suadeck → sửa TOÀN BỘ thẻ trong 1 deck (ít dùng — có xác nhận + nút Dừng)\n"
@@ -565,6 +569,177 @@ async def _run_suadeck(context, chat_id, msg, deck, note_ids, instruction):
         pass
 
 
+# ---------------------------------------------------------------------------
+# 📷 Quét ảnh trang sách: OCR từ tiếng Nga -> lemma -> lọc từ đã có ->
+# user DUYỆT danh sách (bắt buộc) -> bot mới thêm hàng loạt vào inbox.
+# NGUYÊN TẮC user chốt 19/07/2026: bot CHỈ xử lý thô, KHÔNG BAO GIỜ tự thêm —
+# mọi lần thêm đều phải qua nút ✅ xác nhận.
+# ---------------------------------------------------------------------------
+
+def _scan_clear(user_data):
+    user_data.pop("scan_words", None)
+    user_data.pop("scan_msg", None)
+
+
+def _join_words(words, limit=30):
+    shown = ", ".join(words[:limit])
+    more = f" (+{len(words) - limit} từ nữa)" if len(words) > limit else ""
+    return shown + more
+
+
+def _scan_list_text_keyboard(words, scanned_total=None):
+    """Danh sách từ mới chờ user duyệt + nút xác nhận. Đây là CHỐT AN TOÀN:
+    không bấm ✅ thì không có gì được thêm vào Anki."""
+    minutes = max(1, round(len(words) * 11 / 60))  # ~8s AI + 3s nghỉ mỗi từ
+    header = f"📷 {len(words)} từ MỚI chưa có thẻ"
+    if scanned_total is not None and scanned_total > len(words):
+        header += f" (quét được {scanned_total}, đã lọc {scanned_total - len(words)} từ có thẻ rồi)"
+    lines = [header + ":"]
+    lines += [f"{i}. {w}" for i, w in enumerate(words, 1)]
+    lines.append("")
+    lines.append(f"⏱ Thêm hết tốn ~{minutes} phút, {len(words)} lượt AI.")
+    lines.append("Muốn loại từ nào: nhắn 'bỏ 3 7 12'. Chưa bấm ✅ thì chưa thêm gì.")
+    kb = InlineKeyboardMarkup([[
+        InlineKeyboardButton(f"✅ Thêm cả {len(words)} từ", callback_data="scanadd"),
+        InlineKeyboardButton("🚫 Hủy", callback_data="scancancel"),
+    ]])
+    return "\n".join(lines), kb
+
+
+async def on_photo(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Nhận ảnh trang sách: quét từ mới rồi CHỜ user duyệt (không tự thêm)."""
+    _reset_idle_timer(context, update.effective_chat.id)
+    status = await update.message.reply_text("📷 Đang tải ảnh về...")
+    try:
+        tg_file = await update.message.photo[-1].get_file()
+        image_bytes = bytes(await tg_file.download_as_bytearray())
+    except Exception:
+        await status.edit_text("❌ Không tải được ảnh từ Telegram, gửi lại thử nhé.")
+        return
+
+    await status.edit_text("🔍 AI đang quét từ tiếng Nga trong ảnh (1 lượt AI)...")
+    words = await asyncio.to_thread(call_claude_scan_words, image_bytes)
+    if not words:
+        await status.edit_text(
+            "❌ AI không đọc được từ tiếng Nga nào trong ảnh.\n"
+            "Thử chụp gần hơn / rõ nét hơn, và gửi dạng ẢNH (photo) chứ không phải file."
+        )
+        return
+
+    known = await asyncio.to_thread(get_known_words)
+    if known is None:
+        await status.edit_text("❌ Không đọc được danh sách từ đã có từ Anki — thử gửi lại ảnh sau nhé.")
+        return
+    new_words = [w for w in words if strip_accents_perfectly(w).lower() not in known]
+    if not new_words:
+        await status.edit_text(f"✅ Cả {len(words)} từ quét được đều ĐÃ có thẻ — không có từ mới.")
+        return
+
+    context.user_data["scan_words"] = new_words
+    context.user_data["scan_msg"] = status
+    text, kb = _scan_list_text_keyboard(new_words, scanned_total=len(words))
+    await status.edit_text(text, reply_markup=kb)
+
+
+async def _scan_exclude(update, context, text):
+    """Xử lý tin nhắn 'bỏ 3 7 12': loại từ khỏi danh sách quét rồi vẽ lại."""
+    idxs = {int(x) for x in re.findall(r"\d+", text)}
+    words = context.user_data["scan_words"]
+    kept = [w for i, w in enumerate(words, 1) if i not in idxs]
+    if not kept:
+        _scan_clear(context.user_data)
+        await update.message.reply_text("🚫 Đã loại hết từ — hủy đợt quét này.")
+        return
+    context.user_data["scan_words"] = kept
+    list_text, kb = _scan_list_text_keyboard(kept)
+    old_msg = context.user_data.get("scan_msg")
+    try:
+        # Vẽ lại danh sách ngay trên tin nhắn cũ (gỡ luôn nút cũ cho khỏi bấm nhầm)
+        await old_msg.edit_text(list_text, reply_markup=kb)
+        await update.message.reply_text(f"✂️ Đã loại {len(words) - len(kept)} từ (danh sách ở tin trên).")
+    except Exception:
+        # Tin cũ quá xa/lỗi edit -> gửi danh sách thành tin mới
+        new_msg = await update.message.reply_text(list_text, reply_markup=kb)
+        context.user_data["scan_msg"] = new_msg
+
+
+async def _run_scan_add(context, chat_id, msg, words):
+    """Task nền thêm loạt từ user ĐÃ DUYỆT từ ảnh. Mỗi từ đi qua đúng pipeline
+    thêm từ thường (cào OpenRussian -> AI -> Anki; deck None = tự động -> inbox),
+    nghỉ giữa 2 từ chống chạm giới hạn mỗi-phút. Chạy bằng create_task để nút
+    ⏹ Dừng vẫn được xử lý (PTB xử lý update tuần tự — giống /suadeck)."""
+    context.bot_data["scan_running"] = True
+    context.bot_data["scan_stop"] = False
+    total = len(words)
+    added, skipped_dup, failed = [], [], []
+    stop_kb = InlineKeyboardMarkup([[InlineKeyboardButton("⏹ Dừng", callback_data="scanstop")]])
+    stopped = False
+    attempted = 0
+
+    try:
+        for i, word in enumerate(words):
+            if context.bot_data.get("scan_stop"):
+                stopped = True
+                break
+            _reset_idle_timer(context, chat_id)
+            attempted = i + 1
+
+            # Dò trùng lần cuối ngay trước khi thêm (rẻ, không tốn AI) — phòng
+            # trường hợp từ vừa được thêm tay giữa lúc quét và lúc bấm ✅
+            dups = await asyncio.to_thread(find_duplicate_notes, strip_accents_perfectly(word))
+            if dups:
+                skipped_dup.append(word)
+                mark = "⏭ đã có"
+            else:
+                success, card_info, error_msg = await asyncio.to_thread(
+                    process_word, word, None, False, False  # sync 1 lần cuối đợt
+                )
+                if success:
+                    added.append(word)
+                    mark = "✅"
+                else:
+                    failed.append(word)
+                    mark = "❌"
+                # Nghỉ chống RPM — chỉ cần sau lượt có gọi AI thật
+                if attempted < total and not context.bot_data.get("scan_stop"):
+                    await asyncio.sleep(SUADECK_DELAY_SECONDS)
+
+            progress = (
+                f"🔄 Thêm từ quét ảnh: {attempted}/{total}\n"
+                f"📝 Vừa xong: {word} {mark}\n"
+                f"✅ thêm {len(added)} │ ⏭ trùng {len(skipped_dup)} │ ❌ lỗi {len(failed)}"
+            )
+            try:
+                await msg.edit_text(progress, reply_markup=stop_kb)
+            except Exception:
+                pass  # nội dung trùng / mạng chớp — vòng sau edit tiếp
+    finally:
+        context.bot_data["scan_running"] = False
+        context.bot_data["scan_stop"] = False
+
+    synced = await asyncio.to_thread(trigger_sync) if added else True
+
+    title = "⏹ ĐÃ DỪNG thêm từ quét ảnh" if stopped else "🏁 XONG thêm từ quét ảnh"
+    lines = [f"{title}: ✅ {len(added)} │ ⏭ trùng {len(skipped_dup)} │ ❌ lỗi {len(failed)} │ tổng {total}"]
+    if added:
+        lines.append(f"📥 Đã vào {INBOX_DECK}: {_join_words(added)}")
+    if skipped_dup:
+        lines.append(f"⏭ Đã có thẻ từ trước: {_join_words(skipped_dup)}")
+    if failed:
+        lines.append(f"❌ Chưa tạo được thẻ: {_join_words(failed)}")
+        lines.append("   → gõ tay từng từ lỗi: bot sẽ dò OpenRussian + đoán từ nguyên mẫu như thường.")
+    if stopped and attempted < total:
+        lines.append(
+            f"💤 Còn {total - attempted} từ chưa chạy tới — gửi lại ảnh để quét lại "
+            "(từ đã thêm sẽ tự bị lọc)."
+        )
+    lines.append(SYNC_OK_TEXT if synced else SYNC_FAIL_TEXT)
+    try:
+        await msg.edit_text("\n".join(lines))
+    except Exception:
+        pass
+
+
 def _sua_keyboard():
     return InlineKeyboardMarkup([
         [
@@ -848,6 +1023,11 @@ async def on_word(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await _do_sua(msg, word, text)
         return
 
+    # --- Đang có danh sách quét ảnh chờ duyệt: nhắn 'bỏ 3 7 12' để loại từ ---
+    if context.user_data.get("scan_words") and re.fullmatch(r"(bỏ|bo)[\s,.\d]+", text.lower()):
+        await _scan_exclude(update, context, text)
+        return
+
     # --- Không chọn deck = chế độ TỰ ĐỘNG (AI bỏ thẻ vào deck con theo chủ đề),
     # nên KHÔNG chặn nữa; muốn deck cố định thì /deck hoặc nút 📚 trong menu ---
 
@@ -1022,6 +1202,31 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
         return
 
+    # --- Luồng quét ảnh (scan*): hủy / dừng / xác nhận thêm loạt ---
+    if data == "scancancel":
+        _scan_clear(context.user_data)
+        await query.edit_message_text("⏭️ Đã hủy — không thêm từ nào.")
+        return
+    if data == "scanstop":
+        if context.bot_data.get("scan_running"):
+            context.bot_data["scan_stop"] = True
+            # Tin tiến độ sẽ tự chuyển thành tổng kết ở vòng lặp kế tiếp
+        return
+    if data == "scanadd":
+        words = context.user_data.get("scan_words")
+        if not words:
+            await query.edit_message_text("⌛ Danh sách quét đã hết hạn, gửi lại ảnh nhé.")
+            return
+        if context.bot_data.get("scan_running") or context.bot_data.get("sd_running"):
+            # Trả lời bằng tin mới để GIỮ danh sách + nút (bấm lại sau được)
+            await query.message.reply_text("⏳ Đang có một đợt chạy hàng loạt khác — chờ xong rồi bấm lại nhé.")
+            return
+        _scan_clear(context.user_data)
+        await query.edit_message_text(f"🔄 Bắt đầu thêm {len(words)} từ đã duyệt...")
+        # Task riêng để bot vẫn nhận update (đặc biệt nút ⏹ Dừng) trong lúc chạy
+        asyncio.create_task(_run_scan_add(context, query.message.chat_id, query.message, words))
+        return
+
     # --- Nút xác nhận từ nguyên mẫu (từ gõ vào không có trên OpenRussian) ---
     if data.startswith("lemma:"):
         arg = data.split(":", 1)[1]
@@ -1191,6 +1396,7 @@ def main():
     app.add_handler(CommandHandler("sua", cmd_sua, filters=only_me))
     app.add_handler(CommandHandler("suadeck", cmd_suadeck, filters=only_me))
     app.add_handler(CallbackQueryHandler(on_callback))
+    app.add_handler(MessageHandler(only_me & filters.PHOTO, on_photo))
     app.add_handler(MessageHandler(only_me & filters.TEXT & ~filters.COMMAND, on_word))
 
     print("🚀 Bot đang chạy (long polling). Mặc định 🤖 tự động: thẻ vào deck con theo chủ đề AI chọn.")
