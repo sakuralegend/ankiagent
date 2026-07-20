@@ -1,0 +1,35 @@
+<div class="card-container">
+    <div class="section-title" style="text-align: center;">Đáp án của bạn</div>
+    {{type:PluralClean}}
+    <hr style="border: none; border-top: 1px solid #21262d; margin: 20px 0;">
+
+    <div class="section-title" style="text-align: center;">Số nhiều</div>
+    <div class="plural-word">{{Plural}}</div>
+    <!-- Dòng chữ viết tay dùng bản KHÔNG dấu nhấn: font Propisi không có ký tự
+         dấu ghép nên bản có dấu sẽ vỡ phông (giống thẻ từ vựng) -->
+    <div class="cursive-word">{{PluralClean}}</div>
+    <div class="audio-box">{{PluralAudio}}</div>
+
+    {{#KindLabel}}
+    <div class="badge-container"><div class="badge kind">{{KindLabel}}</div></div>
+    {{/KindLabel}}
+
+    <div class="from-singular">
+        <span class="fs-label">từ số ít</span>
+        <span class="fs-word">{{Word}}</span>
+    </div>
+
+    <div class="section-title">Nghĩa</div>
+    <div class="meaning-box" style="border-bottom-left-radius: 0; border-bottom-right-radius: 0;">{{Meaning}}</div>
+    {{#Vietnamese}}
+    <div class="vietnamese-box">
+        <div class="vi-label">Tiếng Việt</div>
+        <div class="vi-content">{{Vietnamese}}</div>
+    </div>
+    {{/Vietnamese}}
+
+    {{#ExamplesHTML}}
+    <div class="section-title">Ví dụ dùng dạng số nhiều</div>
+    <div>{{ExamplesHTML}}</div>
+    {{/ExamplesHTML}}
+</div>

@@ -4,11 +4,13 @@
 # ==============================================================================
 import asyncio
 import datetime
+import os
 
 from telegram import Update
 from telegram.ext import ContextTypes
 
 from anki_tools.config import TELEGRAM_USER_ID, TOPIC_DECK_PARENT
+from anki_tools.backup import human_size, list_backups, run_backup
 from anki_tools.topics import FALLBACK_TOPIC
 from anki_tools.anki_client import (
     ensure_deck_exists,
@@ -73,14 +75,12 @@ TOPIC_DECK_WARN = 100     # deck con vượt mức này -> nên tách chủ đ�
 OTHER_WARN_PCT = 15       # other chiếm quá % này của kho -> phân loại đang "rò rỉ"
 
 
-async def cmd_thongke(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Phân bố thẻ theo chủ đề + cảnh báo khi chạm ngưỡng cần tách deck."""
-    _reset_idle_timer(context, update.effective_chat.id)
-    msg = await update.message.reply_text("⏳ Đang đếm thẻ theo chủ đề...")
+async def thongke_report():
+    """Dựng text báo cáo thống kê chủ đề. Tách riêng để cả lệnh /thongke lẫn nút
+    📊 trong menu 🛠 đều dùng chung một logic."""
     stats, untagged = await asyncio.to_thread(get_topic_stats)
     if stats is None:
-        await msg.edit_text("❌ Không đếm được (AnkiConnect trên VPS lỗi?).")
-        return
+        return "❌ Không đếm được (AnkiConnect trên VPS lỗi?)."
 
     total = sum(stats.values())
     lines = [f"📊 KHO {TOPIC_DECK_PARENT}: {total} thẻ", "─" * 22]
@@ -107,7 +107,14 @@ async def cmd_thongke(update: Update, context: ContextTypes.DEFAULT_TYPE):
         lines.extend(warns)
     else:
         lines.append(f"✅ Chưa chạm ngưỡng tách deck ({TOPIC_DECK_WARN} thẻ/chủ đề, {FALLBACK_TOPIC} ≤{OTHER_WARN_PCT}%).")
-    await msg.edit_text("\n".join(lines))
+    return "\n".join(lines)
+
+
+async def cmd_thongke(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Phân bố thẻ theo chủ đề + cảnh báo khi chạm ngưỡng cần tách deck."""
+    _reset_idle_timer(context, update.effective_chat.id)
+    msg = await update.message.reply_text("⏳ Đang đếm thẻ theo chủ đề...")
+    await msg.edit_text(await thongke_report())
 
 
 def _don_report(moved, total):
@@ -148,6 +155,81 @@ async def _nightly_don(app):
                 await app.bot.send_message(TELEGRAM_USER_ID, "🌙 " + _don_report(moved, total))
             except Exception as e:
                 print(f"⚠️ Không gửi được báo cáo dọn inbox: {e}")
+
+
+# --- Sync định kỳ + backup đêm (user chốt 20/07/2026) -------------------------
+# Bối cảnh: user lo "quên sync trên điện thoại là mất". Đã giải thích rằng ép VPS
+# tải-về-một-chiều KHÔNG cứu được (dữ liệu ôn tập nằm trong điện thoại, AnkiWeb
+# cũng chưa có) và còn nguy hiểm (Download from AnkiWeb = GHI ĐÈ collection VPS,
+# xóa luôn thẻ bot vừa thêm). Hai việc AN TOÀN làm thay:
+#   1. sync ĐỊNH KỲ HAI CHIỀU: không ghi đè bên nào, chỉ giữ VPS <-> AnkiWeb
+#      không lệch xa, để lúc có sự cố còn dễ gỡ.
+#   2. backup theo ngày: đây mới là thứ cứu được khi full sync chọn nhầm chiều.
+PERIODIC_SYNC_MINUTES = 30
+BACKUP_HOUR = 3          # 3h30 sáng, chạy sau job dọn inbox lúc 3h00
+BACKUP_MINUTE = 30
+
+
+async def _periodic_sync():
+    """Sync hai chiều mỗi PERIODIC_SYNC_MINUTES phút. Im lặng khi thành công —
+    chỉ log lúc lỗi để không spam Telegram."""
+    while True:
+        await asyncio.sleep(PERIODIC_SYNC_MINUTES * 60)
+        try:
+            if not await asyncio.to_thread(trigger_sync):
+                print("⚠️ Sync định kỳ thất bại (sẽ thử lại ở nhịp sau).")
+        except Exception as e:
+            print(f"⚠️ Sync định kỳ lỗi: {e}")
+
+
+async def _nightly_backup(app):
+    """Backup collection mỗi đêm + dọn bản cũ. Chỉ nhắn Telegram khi THẤT BẠI
+    (backup thành công là chuyện thường ngày, không cần làm phiền)."""
+    while True:
+        now = datetime.datetime.now()
+        target = now.replace(hour=BACKUP_HOUR, minute=BACKUP_MINUTE,
+                             second=0, microsecond=0)
+        if target <= now:
+            target += datetime.timedelta(days=1)
+        await asyncio.sleep((target - now).total_seconds())
+        try:
+            result, removed = await asyncio.to_thread(run_backup)
+        except Exception as e:
+            result, removed = {"path": "", "errors": [str(e)]}, 0
+        if result.get("path"):
+            print(f"💾 Backup đêm: {human_size(result['bytes'])} -> {result['path']} "
+                  f"(xóa {removed} bản cũ)")
+            continue
+        try:
+            await app.bot.send_message(
+                TELEGRAM_USER_ID,
+                "⚠️ BACKUP ĐÊM THẤT BẠI — kho Anki đang KHÔNG có bản sao lưu mới.\n"
+                + "; ".join(result.get("errors", []))[:300]
+            )
+        except Exception as e:
+            print(f"⚠️ Không gửi được cảnh báo backup: {e}")
+
+
+async def cmd_backup(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """/backup — tạo bản sao lưu ngay (dùng trước khi làm gì mạo hiểm)."""
+    _reset_idle_timer(context, update.effective_chat.id)
+    msg = await update.message.reply_text("⏳ Đang sao lưu (xuất từng deck, hơi lâu)...")
+    result, removed = await asyncio.to_thread(run_backup)
+    if not result.get("path"):
+        await msg.edit_text("❌ Backup thất bại:\n" + "; ".join(result.get("errors", []))[:300])
+        return
+    lines = [f"💾 Đã sao lưu {len(result['decks'])} deck — {human_size(result['bytes'])}"]
+    for d in result["decks"]:
+        lines.append(f"   {d['deck']}: {human_size(d['bytes'])}")
+    lines.append(f"📁 {os.path.basename(result['path'])}")
+    existing = await asyncio.to_thread(list_backups)
+    lines.append(f"🗂 Đang giữ {len(existing)} bản "
+                 f"(tổng {human_size(sum(s for _, s in existing))}).")
+    if removed:
+        lines.append(f"🧹 Đã xóa {removed} bản cũ nhất.")
+    if result["errors"]:
+        lines.append("⚠️ " + "; ".join(result["errors"])[:200])
+    await msg.edit_text("\n".join(lines))
 
 
 async def cmd_sync(update: Update, context: ContextTypes.DEFAULT_TYPE):

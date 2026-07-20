@@ -1,0 +1,19 @@
+<div class="card-container">
+    <div class="section-title" style="text-align: center;">Đổi sang số nhiều</div>
+
+    <div class="word-title">{{Word}}</div>
+    <div class="audio-box">{{Audio}}</div>
+
+    <div class="meaning-box" style="border-bottom-left-radius: 0; border-bottom-right-radius: 0;">{{Meaning}}</div>
+    {{#Vietnamese}}
+    <div class="vietnamese-box">
+        <div class="vi-label">Tiếng Việt</div>
+        <div class="vi-content">{{Vietnamese}}</div>
+    </div>
+    {{/Vietnamese}}
+
+    <!-- Cố ý KHÔNG có ví dụ ở mặt trước: ví dụ đều chứa sẵn dạng số nhiều,
+         thấy trước là lộ đáp án. -->
+    <div class="prompt-hint">Gõ dạng SỐ NHIỀU (không cần dấu nhấn)</div>
+    {{type:PluralClean}}
+</div>

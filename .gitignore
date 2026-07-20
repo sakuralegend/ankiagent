@@ -19,3 +19,10 @@ anki-data/
 Thumbs.db
 suadeck_resume.json
 last_deck.json
+
+# Bản sao lưu collection (mỗi bản ~36MB) — dữ liệu, không phải mã nguồn
+backups/
+
+# Dump từ điển gốc (~8MB) — tải lại bằng: python -m grammar_forms.irregular_plurals
+data/nouns.csv
+data/openrussian_cache.json

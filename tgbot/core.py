@@ -17,23 +17,28 @@ IDLE_RESET_SECONDS = 180  # nghỉ 3 phút -> reset phiên + gửi menu
 
 HELP_TEXT = (
     "🇷🇺 Bot Anki tiếng Nga\n"
-    "───────────────────\n"
-    "• Gõ 1 từ tiếng Nga → thêm thẻ mới. Mặc định 🤖 TỰ ĐỘNG: AI chọn chủ đề\n"
-    "  (gắn tag), thẻ vào 📥 RUSSIAN::0-inbox để học gom một chỗ trước\n"
-    "• Thẻ học xong vòng đầu (tốt nghiệp learning) → 3h sáng bot tự chuyển về\n"
-    "  deck chủ đề theo tag (vd RUSSIAN::life::food) để ôn; /don = chuyển ngay\n"
-    "• Muốn deck cố định: /deck → nút (🤖 tự động / 🕘 gần nhất / 📂 có sẵn / ➕ mới)\n"
-    "• Từ không có trên OpenRussian (biến cách/sai chính tả) → AI đoán từ nguyên mẫu, bấm nút xác nhận\n"
-    "• Gửi 📷 ẢNH trang sách (dạng photo, không phải file) → AI quét từ tiếng Nga,\n"
-    "  đưa về nguyên thể, lọc từ đã có thẻ — bạn DUYỆT danh sách rồi bot mới thêm\n"
-    "• /deck → bảng chọn deck bằng nút\n"
-    "• /sua → làm lại thẻ (cào lại + AI + audio), GIỮ nguyên tiến trình học\n"
-    "• /suadeck → làm lại TOÀN BỘ thẻ trong 1 deck (có xác nhận + nút Dừng)\n"
-    "• /menu → menu nút bấm\n"
-    "• /thongke → phân bố thẻ theo chủ đề, cảnh báo khi cần tách deck\n"
-    "• /don → chuyển ngay thẻ tốt nghiệp từ inbox về deck chủ đề\n"
-    "• /sync → đồng bộ AnkiWeb ngay\n"
-    "• Nghỉ >3 phút → bot tự reset phiên (về chế độ 🤖 tự động)"
+    "═══ DÙNG HẰNG NGÀY ═══\n"
+    "• Gõ 1 từ tiếng Nga → xong. AI chọn chủ đề (gắn tag), thẻ vào\n"
+    "  📥 RUSSIAN::0-inbox để học gom một chỗ trước\n"
+    "• Thẻ học xong vòng đầu → 3h sáng bot tự chuyển về deck chủ đề theo tag\n"
+    "• Gửi 📷 ẢNH trang sách (dạng photo) → AI quét từ, lọc từ đã có thẻ,\n"
+    "  bạn DUYỆT danh sách rồi bot mới thêm\n"
+    "• Gõ nhầm / gõ dạng biến cách → AI đoán từ nguyên mẫu, bấm nút xác nhận\n"
+    "• ⭐ /dacbiet → thẻ NGỮ PHÁP (số nhiều bất quy tắc), deck GRAMMAR:: riêng.\n"
+    "  Một từ có CẢ thẻ từ vựng lẫn thẻ ngữ pháp là bình thường, không phải trùng\n"
+    "\n"
+    "═══ KHI CẦN SỬA (nút 🛠 trong /menu) ═══\n"
+    "• 🔄 /sua → làm lại 1 thẻ TỪ VỰNG (cào lại + AI + audio), giữ tiến trình học\n"
+    "  (thẻ ngữ pháp thì sửa trong /dacbiet)\n"
+    "• 📚 /suadeck → làm lại toàn bộ thẻ 1 deck (có xác nhận + nút Dừng)\n"
+    "• 📊 /thongke → phân bố thẻ theo chủ đề, cảnh báo khi cần tách deck\n"
+    "• 🧹 /don → chuyển ngay thẻ tốt nghiệp từ inbox về deck chủ đề\n"
+    "• ☁️ /sync → đồng bộ AnkiWeb ngay\n"
+    "• 💾 /backup → sao lưu ngay (nên bấm TRƯỚC khi làm gì mạo hiểm)\n"
+    "• 📚 /deck → đổi deck cố định (mặc định là 🤖 tự động theo chủ đề)\n"
+    "\n"
+    "🛡 Tự động: sync 2 chiều mỗi 30 phút, sao lưu 3h30 sáng (giữ 7 bản gần nhất).\n"
+    "Nghỉ >3 phút → bot tự reset phiên (về chế độ 🤖 tự động)."
 )
 
 
@@ -153,24 +158,55 @@ def _degraded_fix_keyboard(word):
     ]])
 
 
+# --- MENU 2 TẦNG (user chốt 20/07/2026) ---------------------------------------
+# Việc dùng hằng ngày (gõ từ -> thẻ vào inbox + AI gắn nhãn) KHÔNG cần nút nào,
+# nên mặt tiền phải nhường đường cho nó: chỉ 3 nút. Mọi công cụ sửa chữa (dùng
+# lúc có sự cố) gom sau nút 🛠 để không gây nhiễu.
 def _menu_keyboard():
+    """Tầng 1: chỉ những thứ dùng thường xuyên."""
     return InlineKeyboardMarkup([
         [
-            InlineKeyboardButton("📚 Chọn deck", callback_data="menu:deck"),
-            InlineKeyboardButton("🔄 Làm lại thẻ", callback_data="menu:sua"),
+            InlineKeyboardButton("📚 Đổi deck", callback_data="menu:deck"),
+            InlineKeyboardButton("⭐ Ngữ pháp", callback_data="sp:menu"),
+        ],
+        [InlineKeyboardButton("🛠 Sửa chữa & công cụ", callback_data="menu:tools")],
+    ])
+
+
+def _tools_keyboard():
+    """Tầng 2: công cụ ít dùng, chủ yếu khi cần sửa lỗi."""
+    return InlineKeyboardMarkup([
+        [
+            InlineKeyboardButton("🔄 Làm lại 1 thẻ", callback_data="menu:sua"),
+            InlineKeyboardButton("📚 Cả deck", callback_data="menu:suadeck"),
+        ],
+        [
+            InlineKeyboardButton("📊 Thống kê", callback_data="menu:thongke"),
+            InlineKeyboardButton("🧹 Dọn inbox", callback_data="menu:don"),
         ],
         [
             InlineKeyboardButton("☁️ Sync", callback_data="menu:sync"),
+            InlineKeyboardButton("💾 Sao lưu ngay", callback_data="menu:backup"),
+        ],
+        [
             InlineKeyboardButton("❓ Hướng dẫn", callback_data="menu:help"),
+            InlineKeyboardButton("◀️ Quay lại", callback_data="menu:back"),
         ],
     ])
+
+
+TOOLS_TEXT = (
+    "🛠 SỬA CHỮA & CÔNG CỤ\n"
+    "Mấy thứ này chỉ cần khi có sự cố — dùng hằng ngày thì chỉ việc gõ từ."
+)
 
 
 def _menu_text(context):
     deck = _current_deck(context)
     deck_line = (f"📦 Deck hiện tại: {deck}" if deck
                  else f"📦 Deck: 🤖 tự động theo chủ đề ({TOPIC_DECK_PARENT}::<topic>)")
-    return f"🎛 MENU\n{deck_line}\nBấm nút hoặc gõ từ để thao tác:"
+    return (f"🎛 MENU\n{deck_line}\n"
+            "👉 Gõ từ tiếng Nga là xong — không cần bấm gì.")
 
 
 async def _idle_reset_job(context, chat_id):
@@ -191,7 +227,8 @@ async def _idle_reset_job(context, chat_id):
         user_data.pop("lemma_choices", None)
         # Trạng thái CHỌN dở của /suadeck và quét ảnh (batch đang CHẠY không bị
         # ảnh hưởng: _run_suadeck/_run_scan_add tự đẩy đồng hồ idle mỗi thẻ)
-        for k in ("sd_deck_choices", "sd_deck", "sd_note_ids", "scan_words", "scan_msg"):
+        for k in ("sd_deck_choices", "sd_deck", "sd_note_ids", "scan_words", "scan_msg",
+                  "sp_rows"):
             user_data.pop(k, None)
     try:
         # 1 tin duy nhất: báo đã reset + menu y hệt /menu để lần vào tới bấm luôn

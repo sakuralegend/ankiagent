@@ -4,6 +4,103 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 21/07/2026
+
+- **Sao lưu tự động + sync định kỳ trên VPS** — user hỏi "có nên đặt VPS luôn
+  sync theo chiều DOWNLOAD về từ AnkiWeb không, phòng khi quên sync điện thoại".
+  ĐÃ TỪ CHỐI phương án đó, lý do:
+  (1) Nó không cứu được thứ user đang lo. Quên sync điện thoại thì thứ mất là
+  TIẾN TRÌNH ÔN nằm trong điện thoại — AnkiWeb cũng chưa có, nên VPS tải về bao
+  nhiêu lần cũng không kéo được. Máy đang không sync là điện thoại, không phải VPS.
+  (2) Nó tạo rủi ro MỚI: "Download from AnkiWeb" không phải tải thêm mà GHI ĐÈ
+  sạch collection VPS — chạy tự động định kỳ là tự đặt bom, mất thẻ bot vừa thêm
+  chưa kịp đẩy lên. (AnkiConnect cũng chỉ có mỗi lệnh `sync` hai chiều, không có
+  lệnh tải-về-một-chiều; muốn ép phải vào VNC bấm tay.)
+  LÀM THAY: (a) `_periodic_sync()` — sync HAI CHIỀU mỗi 30 phút, không ghi đè bên
+  nào, giữ VPS <-> AnkiWeb không lệch xa. (b) `anki_tools/backup.py` +
+  `_nightly_backup()` 3h30 sáng + lệnh `/backup` + nút 💾: xuất từng deck GỐC ra
+  .apkg kèm includeSched (giữ lịch ôn), giữ 7 bản gần nhất (~36MB/bản -> ~250MB),
+  tự xóa bản cũ. Backup thành công thì im lặng, THẤT BẠI mới nhắn Telegram.
+  ⚠️ exportPackage KHÔNG nhận deck rỗng để xuất cả collection (đã thử: trả False)
+  nên phải liệt kê deck gốc xuất từng cái. CỐ Ý đi qua HTTP thay vì copy thẳng
+  collection.anki2: bot chạy trên host còn Anki trong container, đường dẫn khác nhau.
+  Lý do sâu xa cần backup: cái nguy hiểm nhất với Anki không phải quên sync, mà
+  là một lần full sync chọn nhầm chiều — nó ghi đè cả bản AnkiWeb, không lùi được.
+
+## 20/07/2026 (đợt 2)
+
+- **Mảng THẺ NGỮ PHÁP tách riêng: `grammar_forms/` + deck `GRAMMAR::plural-irregular`
+  + lối tắt bot `/dacbiet`** — user muốn học danh từ có số nhiều BẤT QUY TẮC, và
+  yêu cầu làm sao "ít ảnh hưởng đến deck RUSSIAN đang chạy ngon, tách bạch để sau
+  dễ bảo trì" (còn định thêm các loại biến cách khác).
+  (A) DANH SÁCH TỪ (`grammar_forms/irregular_plurals.py` -> `data/irregular_plurals.tsv`,
+  125 từ): KHÔNG chép từ giáo trình mà SUY RA từ dữ liệu OpenRussian — dự đoán số
+  nhiều chuẩn theo quy tắc rồi so với số nhiều thật, lệch = bất quy tắc. Thân từ
+  suy từ GENITIVE số ít nên nguyên âm chạy (отец/отцы) không bị coi nhầm. Nguồn:
+  dump `Badestrand/russian-dictionary` (27k danh từ, gitignore vì ~8MB), xét 2500
+  từ thông dụng nhất, đối chiếu chéo với web OpenRussian để loại dòng dump cũ/sai
+  (год→лета, дядя→дядья, воронко), lọc tính từ danh từ hóa (лёгкое, остальное).
+  ⚠️ ĐÃ THỬ VÀ PHẢI BỎ cách lọc theo tag level của OpenRussian: паспорт/яблоко/
+  сахар/юг bị gắn C1, село/повар C2 — lọc kiểu đó mất 63/133 từ toàn từ lõi.
+  Thứ hạng tần suất mới đáng tin; cột level vẫn ghi ra TSV để tham khảo.
+  (B) KIẾN TRÚC TÁCH BẠCH: package `grammar_forms/` (config/scraper/ai/cards/
+  pipeline/templates/setup/backfill) phụ thuộc MỘT CHIỀU vào anki_tools (chỉ mượn
+  utils, audio.fetch_audio_bytes, store_media_file, hạ tầng gọi AI). KHÔNG sửa
+  một dòng nào trong scraper.py/pipeline.py/ai_client.py/html_builder.py — xóa cả
+  thư mục grammar_forms đi thì deck từ vựng vẫn chạy nguyên vẹn.
+  (C) THẺ: model `RU_Plural` thêm 3 ô `ExamplesHTML`/`KindLabel`/`RawExamples`
+  (modelFieldAdd — thẻ cũ chỉ nhận ô rỗng, không mất tiến trình học). Mặt trước:
+  số ít + nghĩa EN/VI + audio, gõ đáp án `type:PluralClean`, CỐ Ý không có ví dụ
+  (ví dụ chứa sẵn dạng số nhiều = lộ đáp án). Mặt sau: số nhiều (xanh lá) + audio
+  + nhãn KIỂU bất quy tắc + 3 ví dụ. Prompt riêng ép AI dùng ĐÚNG nominative số
+  nhiều, có HẬU KIỂM regex bắt làm lại (AI hay trả "много друзей" = genitive).
+  (D) Deck cũ `Irregular` -> `GRAMMAR::plural-irregular`: AnkiConnect không có
+  lệnh đổi tên nên createDeck + changeDeck (không đụng lịch ôn) + deleteDecks vỏ
+  rỗng. 26 thẻ cũ được vá đủ ví dụ + PluralAudio (trước đó RỖNG cả 26) qua
+  `python -m grammar_forms.backfill fix`, giữ nguyên note_id. Gắn tag
+  `grammar::plural-irregular` cho toàn bộ.
+  (E) BOT: `/dacbiet` + nút ⭐ trong /menu -> flow_special.py (thêm 1 từ / thêm
+  loạt từ danh sách / vá thẻ cũ, có duyệt trước + nút ⏹ Dừng). Chỗ sửa ở tgbot cũ
+  gói gọn 1-2 dòng mỗi file (dispatch, app, core).
+  ⚠️ Thêm field = ĐỔI SCHEMA -> AnkiWeb đòi FULL SYNC một lần (sync thường báo
+  "Sync status 2"). Phải mở Anki desktop bấm Sync rồi chọn **Upload to AnkiWeb**.
+  (F) SỬA NGAY SAU KHI USER MỞ THỬ THẺ: (1) nghĩa tiếng Anh hiện "N/A" ở MỌI thẻ
+  — `grammar_forms/scraper.py` đọc nhầm khóa `translations[].tl`, đúng phải là
+  `tls` (một LIST nghĩa). (2) `.hl` trong ví dụ đang tô xanh lá, user muốn giữ
+  nguyên thiết kế của thẻ từ vựng -> trả về xanh dương #58a6ff như card.css.
+  `backfill._needs_fix()` nhận thêm dấu hiệu "Meaning chứa N/A" để vá lại được
+  27 thẻ đã lỡ tạo bằng bản lỗi.
+  (G) TRÙNG TỪ GIỮA HAI MẢNG (user báo): `find_duplicate_notes()` dò theo
+  `WordClean:"..."` KHÔNG lọc model — mà RU_Plural cũng có ô WordClean, nên thêm
+  từ vựng `дом` sẽ bị báo "đã có thẻ" nhầm với thẻ ngữ pháp. Sửa: query thêm
+  `note:"{MODEL_NAME}"`. Một từ có CẢ hai loại thẻ là chuyện bình thường, không
+  phải trùng. (Các hàm khác — get_known_words, get_topic_stats, get_deck_note_ids
+  — vốn đã lọc model nên không dính.)
+  (H) LÀM LẠI THẺ NGỮ PHÁP: `grammar_forms.pipeline.redo_word()` + nút 🔄 trong
+  /dacbiet (logic giống /sua: dựng lại từ đầu, ghi đè cùng note_id nên tiến trình
+  học giữ nguyên). CỐ Ý tách khỏi /sua thay vì gộp: một từ có thể có cả hai loại
+  thẻ, gộp chung thì không biết user muốn sửa thẻ nào.
+
+- **Menu bot gọn lại còn 2 tầng** — user thấy "nhiều chức năng nên nhìn hơi rối",
+  và cho biết dùng nhiều nhất vẫn là gõ từ vào inbox + AI gắn nhãn, phần còn lại
+  chỉ đụng lúc fix lỗi. Nguyên tắc áp dụng: việc dùng hằng ngày KHÔNG cần nút nào
+  cả, nên mặt tiền phải nhường đường cho nó thay vì trưng thêm nút.
+  Tầng 1 (/menu) còn 3 nút: 📚 Đổi deck │ ⭐ Ngữ pháp │ 🛠 Sửa chữa & công cụ.
+  Tầng 2 (sau 🛠): 🔄 Làm lại 1 thẻ │ 📚 Cả deck │ 📊 Thống kê │ 🧹 Dọn inbox │
+  ☁️ Sync │ ❓ Hướng dẫn │ ◀️ Quay lại. Danh sách lệnh "/" rút từ 9 xuống 4
+  (/menu /dacbiet /deck /help) — các lệnh kia vẫn chạy khi gõ tay, chỉ không
+  chiếm chỗ bảng gợi ý. HELP_TEXT chia đôi: "DÙNG HẰNG NGÀY" / "KHI CẦN SỬA".
+  Tách `commands.thongke_report()` khỏi `cmd_thongke` để nút 📊 và lệnh /thongke
+  dùng chung một logic.
+
+- **Đã thêm đủ 124 thẻ số nhiều bất quy tắc.** Chạy `backfill add` cho 98 từ còn
+  lại: 97 ✅, 1 ❌ (`сахар`). Hóa ra `сахар` là danh từ KHÔNG ĐẾM ĐƯỢC — web
+  OpenRussian không có dạng số nhiều, chỉ dump cũ mới ghi bừa `сахара'`. Bổ sung
+  luật vào `irregular_plurals.enrich_levels()`: web cào được mà ô plural RỖNG thì
+  loại khỏi danh sách (meta rỗng hẳn = cào lỗi mạng thì vẫn giữ). Danh sách còn
+  124 từ, khớp đúng số thẻ. Toàn deck đã kiểm: 0 thẻ thiếu ví dụ / thiếu audio /
+  nghĩa N/A / thiếu nhãn kiểu.
+
 ## 20/07/2026
 
 - **Audio dự phòng Google Cloud TTS + /sua = "làm lại thẻ" (bỏ preset 1/2/3)** —

@@ -57,10 +57,15 @@ def _card_status_text(card):
 
 
 def find_duplicate_notes(clean_word):
-    """Quét toàn bộ collection Anki xem từ đã tồn tại chưa.
-    Trả về list[dict]: mỗi dict có note_id, word, deck, status_text, card_ids."""
+    """Xem từ đã có thẻ TỪ VỰNG chưa. Trả về list[dict]: note_id, word, deck,
+    status_text, card_ids.
+
+    ⚠️ BẮT BUỘC lọc note:"{MODEL_NAME}". Mảng thẻ ngữ pháp (model RU_Plural, deck
+    GRAMMAR::) cũng có ô WordClean, và trùng từ với kho từ vựng là chuyện BÌNH
+    THƯỜNG — дом vừa là thẻ từ vựng vừa là thẻ số nhiều bất quy tắc. Không lọc
+    thì bot báo "đã có thẻ" rồi từ chối thêm từ vựng (user chốt 20/07/2026)."""
     try:
-        query = f'WordClean:"{clean_word}"'
+        query = f'note:"{MODEL_NAME}" WordClean:"{clean_word}"'
         res = requests.post(ANKI_CONNECT_URL, json={
             "action": "findNotes", "version": 6,
             "params": {"query": query}

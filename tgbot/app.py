@@ -20,7 +20,10 @@ from anki_tools.ai_client import check_claude_ready
 from anki_tools.anki_client import check_anki_ready, setup_anki_environment, trigger_sync
 
 from .commands import (
+    _nightly_backup,
     _nightly_don,
+    _periodic_sync,
+    cmd_backup,
     cmd_deck,
     cmd_don,
     cmd_menu,
@@ -30,6 +33,7 @@ from .commands import (
 )
 from .flow_edit import cmd_sua, cmd_suadeck
 from .flow_scan import on_photo
+from .flow_special import cmd_dacbiet
 from .dispatch import on_callback, on_word
 
 
@@ -48,14 +52,15 @@ def wait_for_anki(max_wait_seconds=180):
 async def _post_init(app):
     """Đăng ký menu lệnh gốc của Telegram (nút '/' cạnh ô gõ chữ)."""
     app.create_task(_nightly_don(app))
+    app.create_task(_nightly_backup(app))   # 3h30 sáng: sao lưu + dọn bản cũ
+    app.create_task(_periodic_sync())       # 30 phút/lần: sync HAI CHIỀU
+    # Danh sách "/" CỐ Ý chỉ 4 mục hay dùng (user chốt 20/07/2026: 9 lệnh làm
+    # rối). Các lệnh còn lại (/sua /suadeck /thongke /don /sync) vẫn chạy khi gõ
+    # tay, và có nút trong menu 🛠 — chỉ không chiếm chỗ trong bảng gợi ý.
     await app.bot.set_my_commands([
         BotCommand("menu", "Menu nút bấm"),
+        BotCommand("dacbiet", "⭐ Thẻ ngữ pháp: số nhiều bất quy tắc"),
         BotCommand("deck", "Đổi bộ bài (bảng chọn nút)"),
-        BotCommand("sua", "Làm lại thẻ (giữ tiến trình học)"),
-        BotCommand("suadeck", "Làm lại TOÀN BỘ thẻ trong 1 deck (tốn AI)"),
-        BotCommand("thongke", "Thống kê thẻ theo chủ đề + cảnh báo tách deck"),
-        BotCommand("don", "Chuyển thẻ tốt nghiệp từ inbox về deck chủ đề"),
-        BotCommand("sync", "Đồng bộ AnkiWeb ngay"),
         BotCommand("help", "Hướng dẫn"),
     ])
 
@@ -110,6 +115,8 @@ def main():
     app.add_handler(CommandHandler("sync", cmd_sync, filters=only_me))
     app.add_handler(CommandHandler("sua", cmd_sua, filters=only_me))
     app.add_handler(CommandHandler("suadeck", cmd_suadeck, filters=only_me))
+    app.add_handler(CommandHandler("dacbiet", cmd_dacbiet, filters=only_me))
+    app.add_handler(CommandHandler("backup", cmd_backup, filters=only_me))
     app.add_handler(CallbackQueryHandler(on_callback))
     app.add_handler(MessageHandler(only_me & filters.PHOTO, on_photo))
     app.add_handler(MessageHandler(only_me & filters.TEXT & ~filters.COMMAND, on_word))

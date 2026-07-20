@@ -15,19 +15,27 @@ from anki_tools.anki_client import (
     ensure_deck_exists,
     get_deck_names,
     get_deck_note_ids,
+    move_graduated_from_inbox,
     trigger_sync,
 )
 
+from anki_tools.backup import human_size, list_backups, run_backup
+
+from .commands import _don_report, thongke_report
 from .core import (
     HELP_TEXT,
+    TOOLS_TEXT,
     _current_deck,
     _deck_choose_keyboard,
     _load_last_deck,
+    _menu_keyboard,
+    _menu_text,
     _reset_idle_timer,
     _save_last_deck,
     _set_deck,
     _show_deck_list,
     _sync_report_line,
+    _tools_keyboard,
 )
 from .flow_add import _add_with_dup_check, _do_add, _duplicate_text_and_keyboard
 from .flow_edit import (
@@ -40,6 +48,7 @@ from .flow_edit import (
     _sd_load_resume,
 )
 from .flow_scan import _run_scan_add, _scan_clear, _scan_exclude
+from .flow_special import do_add_plural, do_redo_plural, on_special_callback
 
 
 async def on_word(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -69,6 +78,20 @@ async def on_word(update: Update, context: ContextTypes.DEFAULT_TYPE):
         context.user_data.pop("awaiting", None)
         msg = await update.message.reply_text("⏳ Chuẩn bị làm lại thẻ...")
         await _do_redo(msg, text)
+        return
+
+    # --- Đang chờ TỪ để tạo thẻ SỐ NHIỀU bất quy tắc (mục ⭐ đặc biệt) ---
+    if context.user_data.get("awaiting") == "plural_word":
+        context.user_data.pop("awaiting", None)
+        msg = await update.message.reply_text("⏳ Chuẩn bị dựng thẻ số nhiều...")
+        await do_add_plural(msg, text, context)
+        return
+
+    # --- Đang chờ TỪ để LÀM LẠI thẻ số nhiều (mục ⭐ đặc biệt) ---
+    if context.user_data.get("awaiting") == "plural_sua_word":
+        context.user_data.pop("awaiting", None)
+        msg = await update.message.reply_text("⏳ Chuẩn bị làm lại thẻ số nhiều...")
+        await do_redo_plural(msg, text, context)
         return
 
     # --- Đang có danh sách quét ảnh chờ duyệt: nhắn 'bỏ 3 7 12' để loại từ ---
@@ -144,20 +167,61 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await query.edit_message_text(f"📦 Deck: {deck_name} — gõ từ tiếng Nga để thêm thẻ.")
         return
 
-    # --- Nút menu ---
+    # --- Nút mục ⭐ đặc biệt (thẻ ngữ pháp) — toàn bộ logic ở flow_special.py ---
+    if data.startswith("sp:"):
+        await on_special_callback(query, context, data)
+        return
+
+    # --- Nút menu (tầng 1) + công cụ sửa chữa (tầng 2 sau nút 🛠) ---
     if data.startswith("menu:"):
         action = data.split(":", 1)[1]
-        if action == "deck":
+        if action == "tools":
+            await query.edit_message_text(TOOLS_TEXT, reply_markup=_tools_keyboard())
+        elif action == "back":
+            await query.edit_message_text(_menu_text(context), reply_markup=_menu_keyboard())
+        elif action == "deck":
             await query.edit_message_text(
                 "📚 Chọn deck:", reply_markup=_deck_choose_keyboard()
             )
         elif action == "sua":
             context.user_data["awaiting"] = "sua_word"
             await query.edit_message_text("🔄 Gõ từ cần làm lại thẻ (chỉ cần gõ từ):")
+        elif action == "suadeck":
+            if context.bot_data.get("sd_running"):
+                await query.edit_message_text("⏳ Đang có một đợt làm lại deck chạy dở.")
+                return
+            text, kb = await _sd_deck_list_markup(context)
+            if not text:
+                await query.edit_message_text("📂 Chưa có deck nào trong Anki.")
+                return
+            await query.edit_message_text(text, reply_markup=kb)
+        elif action == "thongke":
+            await query.edit_message_text("⏳ Đang đếm thẻ theo chủ đề...")
+            await query.edit_message_text(await thongke_report())
+        elif action == "don":
+            await query.edit_message_text("⏳ Đang dọn inbox...")
+            moved, total = await asyncio.to_thread(move_graduated_from_inbox)
+            if total:
+                await asyncio.to_thread(trigger_sync)
+            await query.edit_message_text(_don_report(moved, total))
         elif action == "sync":
             await query.edit_message_text("⏳ Đang sync AnkiWeb...")
             ok = await asyncio.to_thread(trigger_sync)
             await query.edit_message_text("☁️ Đã sync AnkiWeb." if ok else "❌ Sync thất bại.")
+        elif action == "backup":
+            await query.edit_message_text("⏳ Đang sao lưu (xuất từng deck, hơi lâu)...")
+            result, removed = await asyncio.to_thread(run_backup)
+            if not result.get("path"):
+                await query.edit_message_text(
+                    "❌ Backup thất bại:\n" + "; ".join(result.get("errors", []))[:300])
+                return
+            existing = await asyncio.to_thread(list_backups)
+            await query.edit_message_text(
+                f"💾 Đã sao lưu {len(result['decks'])} deck — {human_size(result['bytes'])}\n"
+                f"🗂 Đang giữ {len(existing)} bản "
+                f"(tổng {human_size(sum(s for _, s in existing))})."
+                + (f"\n🧹 Đã xóa {removed} bản cũ nhất." if removed else "")
+            )
         elif action == "help":
             await query.edit_message_text(HELP_TEXT)
         return

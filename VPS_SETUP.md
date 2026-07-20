@@ -111,11 +111,12 @@ Bot trả về thẻ mới + tự sync. Mở app Anki trên iPhone → bấm syn
 | Thêm từ | gõ thẳng từ đó, vd `хороший` |
 | Từ không có trên OpenRussian | AI đoán từ nguyên mẫu → bấm nút ✅ xác nhận / 🚫 Hủy |
 | Đổi deck | `/deck` (hoặc nút 📚 trong menu) → bảng chọn deck bằng nút |
-| Thẻ AI bị khuyết (thiếu ví dụ) | bot cảnh báo kèm 2 nút: 🔧 Tự sửa (đổi ví dụ) / ⏭ Bỏ qua |
-| Sửa thẻ đã có | `/sua` (hoặc nút ✏️) → bot hỏi từ → gõ từ → chọn nút 1 Ngắn hơn / 2 Đổi ví dụ / 3 Dài hơn / Tự viết |
-| Sửa theo ý mình | trong bảng kiểu sửa bấm "Tự viết yêu cầu" → gõ thẳng yêu cầu |
-| Sửa TOÀN BỘ deck (ít dùng) | `/suadeck` → chọn deck → kiểu sửa → xác nhận → tiến độ tự cập nhật, có nút ⏹ Dừng |
-| Menu nút bấm | `/menu` |
+| Thẻ AI bị khuyết (thiếu ví dụ) | bot cảnh báo kèm 2 nút: 🔄 Làm lại thẻ / ⏭ Bỏ qua |
+| Làm lại thẻ đã có | `/sua` → bot hỏi từ → gõ từ → cào lại + AI sinh lại, **giữ nguyên tiến trình học** |
+| Làm lại TOÀN BỘ deck (ít dùng) | `/suadeck` → chọn deck → xác nhận → tiến độ tự cập nhật, có nút ⏹ Dừng |
+| Thẻ ngữ pháp (số nhiều bất quy tắc) | `/dacbiet` → ➕ thêm 1 từ / 📋 thêm loạt / 🔄 làm lại / 🩹 vá thẻ thiếu |
+| Sao lưu ngay | `/backup` — bấm **trước** khi làm gì mạo hiểm |
+| Menu nút bấm | `/menu` (3 nút chính; công cụ sửa lỗi nằm sau nút 🛠) |
 | Ép sync ngay | `/sync` |
 
 Nghỉ >3 phút: bot tự reset phiên (chỉ quên deck đang chọn, thẻ không mất gì)
@@ -135,6 +136,24 @@ vì PC đã cài SSH key lên VPS)
 LUÔN chọn **Download from AnkiWeb**. Vì bot trên VPS sync lên AnkiWeb ngay sau MỌI thao tác,
 AnkiWeb luôn là bản mới nhất — chọn Upload sẽ lấy bản cũ trên điện thoại ĐÈ MẤT thẻ mới
 (đã từng làm mất deck + thẻ ngày 14/07/2026).
+
+Lưu ý kèm theo: Download **xóa luôn phần ôn tập bạn vừa làm trên điện thoại mà chưa sync lên**.
+Nên bật **tự động sync** trong app Anki (sync khi mở và khi đóng app) để không bao giờ rơi vào
+cảnh phải chọn. Bảng này chỉ hiện khi hai bên đã lệch schema (vd vừa thêm field cho model).
+
+**Bảng đó hiện phía VPS (bot báo "Sync status 2"):** đây là lúc buộc phải **full sync một lần**.
+Thao tác: `/backup` cho chắc → mở Anki desktop trên PC → Sync → chọn **Upload to AnkiWeb**
+(đẩy bản đầy đủ nhất lên) → rồi điện thoại chọn Download. Đây là thao tác dễ mất dữ liệu nhất
+trong Anki, luôn backup trước.
+
+**Sao lưu tự động:** 3h30 sáng bot xuất từng deck ra `.apkg` (kèm lịch ôn) vào `backups/`, giữ 7
+bản gần nhất. Thành công thì im lặng; **thất bại sẽ nhắn Telegram** — thấy tin đó thì phải xử lý
+ngay, vì lúc đó kho đang không có bản sao lưu mới. Đổi chỗ lưu/số bản: `BACKUP_DIR`, `BACKUP_KEEP`
+trong `.env`.
+
+**❌ Đừng đặt VPS tự động "Download from AnkiWeb" theo lịch.** Lệnh đó ghi đè sạch collection trên
+VPS (xóa thẻ bot vừa thêm chưa kịp đẩy lên), và cũng không cứu được gì khi bạn quên sync điện
+thoại — dữ liệu ôn tập lúc đó nằm trong điện thoại chứ không phải trên AnkiWeb.
 
 **Anki báo "could not create its data folder" (trong VNC):** thư mục `anki-data`
 bị sai quyền. Sửa trên VPS:
