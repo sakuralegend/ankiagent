@@ -27,8 +27,8 @@ HELP_TEXT = (
     "• Gửi 📷 ẢNH trang sách (dạng photo, không phải file) → AI quét từ tiếng Nga,\n"
     "  đưa về nguyên thể, lọc từ đã có thẻ — bạn DUYỆT danh sách rồi bot mới thêm\n"
     "• /deck → bảng chọn deck bằng nút\n"
-    "• /sua → bot hỏi từ cần sửa, gõ từ xong chọn kiểu sửa bằng nút\n"
-    "• /suadeck → sửa TOÀN BỘ thẻ trong 1 deck (ít dùng — có xác nhận + nút Dừng)\n"
+    "• /sua → làm lại thẻ (cào lại + AI + audio), GIỮ nguyên tiến trình học\n"
+    "• /suadeck → làm lại TOÀN BỘ thẻ trong 1 deck (có xác nhận + nút Dừng)\n"
     "• /menu → menu nút bấm\n"
     "• /thongke → phân bố thẻ theo chủ đề, cảnh báo khi cần tách deck\n"
     "• /don → chuyển ngay thẻ tốt nghiệp từ inbox về deck chủ đề\n"
@@ -141,14 +141,14 @@ async def _show_deck_list(query, context):
 
 
 def _degraded_fix_keyboard(word):
-    """2 nút cho thẻ AI tạo bị thiếu nội dung: tự sửa (preset 2 - đổi ví dụ,
-    giống bấm nút 2 ở /sua) hoặc bỏ qua. Trả về None nếu từ quá dài so với
-    giới hạn 64 byte của callback_data (khi đó tin nhắn vẫn còn dòng gợi ý /sua)."""
+    """2 nút cho thẻ AI tạo bị thiếu nội dung: làm lại thẻ (như /sua) hoặc bỏ qua.
+    Trả về None nếu từ quá dài so với giới hạn 64 byte của callback_data (khi đó
+    tin nhắn vẫn còn dòng gợi ý /sua)."""
     data = f"fix:{word}"
     if not word or len(data.encode("utf-8")) > 64:
         return None
     return InlineKeyboardMarkup([[
-        InlineKeyboardButton("🔧 Tự sửa (đổi ví dụ)", callback_data=data),
+        InlineKeyboardButton("🔄 Làm lại thẻ", callback_data=data),
         InlineKeyboardButton("⏭ Bỏ qua", callback_data="fix:"),
     ]])
 
@@ -157,7 +157,7 @@ def _menu_keyboard():
     return InlineKeyboardMarkup([
         [
             InlineKeyboardButton("📚 Chọn deck", callback_data="menu:deck"),
-            InlineKeyboardButton("✏️ Sửa thẻ", callback_data="menu:sua"),
+            InlineKeyboardButton("🔄 Làm lại thẻ", callback_data="menu:sua"),
         ],
         [
             InlineKeyboardButton("☁️ Sync", callback_data="menu:sync"),
@@ -186,14 +186,12 @@ async def _idle_reset_job(context, chat_id):
     user_data = context.application.user_data.get(TELEGRAM_USER_ID)
     if user_data:
         user_data.pop("pending", None)
-        user_data.pop("sua_word", None)
         user_data.pop("awaiting", None)
         user_data.pop("deck_choices", None)
         user_data.pop("lemma_choices", None)
         # Trạng thái CHỌN dở của /suadeck và quét ảnh (batch đang CHẠY không bị
         # ảnh hưởng: _run_suadeck/_run_scan_add tự đẩy đồng hồ idle mỗi thẻ)
-        for k in ("sd_deck_choices", "sd_deck", "sd_note_ids", "sd_instruction", "sd_label",
-                  "scan_words", "scan_msg"):
+        for k in ("sd_deck_choices", "sd_deck", "sd_note_ids", "scan_words", "scan_msg"):
             user_data.pop(k, None)
     try:
         # 1 tin duy nhất: báo đã reset + menu y hệt /menu để lần vào tới bấm luôn

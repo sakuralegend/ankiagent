@@ -4,19 +4,19 @@
 # nhờ vậy logic chỉ tồn tại MỘT nơi. Hàm này KHÔNG dùng input()/print tương tác
 # nên gọi được từ bất kỳ giao diện nào.
 # ==============================================================================
-import json
 import re
 
 from .scraper import process_pure_next_data
 from .utils import strip_accents_perfectly
-from .ai_client import call_claude_refine, REFINE_PRESETS
-from .html_builder import build_html_from_ai_result
 from .anki_client import (
-    push_to_anki,
-    trigger_sync,
+    build_card_fields,
     find_duplicate_notes,
-    get_note_fields,
-    update_note_refined,
+    get_note_full,
+    push_to_anki,
+    set_topic_tag,
+    store_word_audio,
+    trigger_sync,
+    update_note_fields,
 )
 
 
@@ -48,7 +48,7 @@ def process_word(word, deck_name, is_forced=False, do_sync=False):
             return False, card_info, (
                 "Anki báo thẻ này ĐÃ TỒN TẠI (trùng mặt trước) dù bước dò trùng không thấy "
                 "— thường do thẻ cũ được tạo từ phiên bản trước, thiếu ô WordClean.\n"
-                "Cách xử lý: sửa thẻ cũ bằng /sua <từ> <yêu cầu>, hoặc xóa thẻ cũ trong app Anki rồi thêm lại."
+                "Cách xử lý: làm lại thẻ cũ bằng /sua, hoặc xóa thẻ cũ trong app Anki rồi thêm lại."
             )
         return False, card_info, f"AnkiConnect từ chối thêm note: {err or 'không rõ nguyên nhân'}"
 
@@ -60,62 +60,78 @@ def process_word(word, deck_name, is_forced=False, do_sync=False):
     return True, card_info, None
 
 
-def refine_note_id(note_id, instruction, do_sync=False):
-    """Lõi sửa 1 note theo note_id — dùng chung cho /sua (1 thẻ) và /suadeck (cả deck).
+def redo_note_id(note_id, do_sync=False):
+    """LÀM LẠI 1 thẻ đã có: cào lại OpenRussian + AI sinh lại nghĩa/ví dụ giống hệt
+    lúc thêm thẻ MỚI, rồi GHI ĐÈ lên đúng note đó (giữ nguyên note_id -> tiến trình
+    học không đổi). Cũng làm mới tag chủ đề, và VÁ audio nếu thẻ đang thiếu tiếng.
+    Dùng chung cho /sua (1 thẻ) và /suadeck (cả deck).
 
-    Trả về (success: bool, result: dict | None, error_msg: str | None).
-    - success=True  -> result = {"word", "vi", "examples"} (+ "synced" nếu do_sync).
-    - success=False -> result vẫn cố mang {"word": ...} nếu đã đọc được thẻ,
-      để giao diện batch báo được TỪ NÀO bị lỗi.
-
-    instruction có thể là "1"/"2"/"3" (lệnh sửa nhanh - xem REFINE_PRESETS
-    trong ai_client.py) hoặc yêu cầu tự do.
+    Trả về (success, result, error_msg).
+    - success=True  -> result = {"word","vi","examples","ai_degraded","topic",
+      "audio_source"} (+ "synced" nếu do_sync).
+    - success=False -> result cố mang {"word": ...} nếu đã đọc được thẻ, để giao
+      diện batch báo được TỪ NÀO lỗi. Thẻ KHÔNG bị thay đổi khi lỗi.
     """
-    instruction = REFINE_PRESETS.get(instruction.strip(), instruction.strip())
-
-    fields = get_note_fields(note_id)
-    if fields is None:
+    info = get_note_full(note_id)
+    if info is None:
         return False, None, "Không đọc được nội dung thẻ từ Anki."
 
+    fields = info["fields"]
+    tags = info["tags"]
     word_info = {"word": fields.get("Word", "")}
     clean_word = fields.get("WordClean") or strip_accents_perfectly(fields.get("Word", ""))
+    if not clean_word:
+        return False, word_info, "Thẻ không có từ (WordClean rỗng) để làm lại."
 
-    current_vi = fields.get("Vietnamese", "")
-    # Bóc text thô từ HTML ví dụ hiện tại để AI biết thẻ đang có gì
-    current_ex_text = re.sub(r"<[^>]+>", " ", fields.get("ExamplesHTML", ""))
-    current_ex_text = re.sub(r"\s+", " ", current_ex_text).strip()[:1500]
+    data = process_pure_next_data(clean_word)
+    if not data:
+        return False, word_info, (
+            f"Không cào lại được '{clean_word}' trên OpenRussian (từ hiếm hoặc trang đổi cấu trúc). "
+            "Thẻ giữ nguyên, không thay đổi gì."
+        )
 
-    try:
-        raw_examples = json.loads(fields.get("RawExamples") or "[]")
-    except (json.JSONDecodeError, TypeError):
-        raw_examples = []
+    built = build_card_fields(clean_word, data)
+    new_fields = dict(built["fields"])
 
-    ai_result = call_claude_refine(clean_word, current_vi, current_ex_text, raw_examples, instruction)
-    if not ai_result:
-        return False, word_info, "AI trả thiếu dữ liệu 2 lần liên tiếp — thẻ KHÔNG bị thay đổi. Thử lại nhé."
+    # Audio: chỉ tải khi thẻ ĐANG THIẾU tiếng. "Thiếu" = ô Audio không có tag
+    # [sound:...] hợp lệ — gồm cả thẻ trống LẪN thẻ mà AnkiConnect từng ghi câu
+    # lỗi "...download failed with return code 500" vào ô Audio (bug cũ). Khi đó
+    # ghi đè ô Audio bằng tiếng mới, hoặc "" để ít nhất xóa câu lỗi rác.
+    audio_source = ""
+    if not re.search(r"\[sound:[^\]]+\]", fields.get("Audio") or ""):
+        audio_field, audio_source = store_word_audio(clean_word)
+        new_fields["Audio"] = audio_field
 
-    examples_html, vi_meaning, simplified = build_html_from_ai_result(ai_result)
+    if not update_note_fields(note_id, new_fields):
+        return False, word_info, "Ghi thẻ mới vào Anki thất bại (thẻ giữ nguyên)."
 
-    if not update_note_refined(note_id, vi_meaning, examples_html):
-        return False, word_info, "Ghi thẻ mới vào Anki thất bại."
+    # Làm mới tag chủ đề theo phân loại AI mới (không đụng tiến trình học)
+    set_topic_tag(note_id, tags, built["topic_slug"])
 
-    result = {"word": word_info["word"], "vi": vi_meaning, "examples": simplified}
+    result = {
+        "word": built["fields"]["Word"],
+        "vi": built["vi_meaning"],
+        "examples": built["simplified_examples"],
+        "ai_degraded": built["ai_degraded"],
+        "topic": built["topic_slug"] or "",
+        "audio_source": audio_source,   # "google_tts" nếu vừa vá bằng TTS dự phòng
+    }
     if do_sync:
         result["synced"] = trigger_sync()
 
     return True, result, None
 
 
-def refine_note(word, instruction, do_sync=True):
-    """Sửa/làm lại 1 thẻ đã có theo yêu cầu người dùng (luồng /sua của bot).
-    Tìm note theo từ (nhiều note trùng -> chọn note mới nhất) rồi gọi refine_note_id."""
+def redo_note(word, do_sync=True):
+    """Làm lại 1 thẻ theo TỪ (luồng /sua của bot). Tìm note theo từ (nhiều note
+    trùng -> chọn note mới nhất) rồi gọi redo_note_id."""
     clean_word = strip_accents_perfectly(word)
     dups = find_duplicate_notes(clean_word)
     if not dups:
         return False, None, f"Không tìm thấy thẻ nào cho từ '{word}'."
 
     note_id = max(d["note_id"] for d in dups)
-    success, result, error_msg = refine_note_id(note_id, instruction, do_sync=do_sync)
+    success, result, error_msg = redo_note_id(note_id, do_sync=do_sync)
     if success and not result.get("word"):
         result["word"] = word
     return success, result, error_msg

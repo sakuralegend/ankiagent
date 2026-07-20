@@ -5,17 +5,18 @@
 # về (word, english_meanings, part_of_speech, pos_full, gender,
 # raw_dictionary_examples). Nếu đổi tên khóa ở scraper.py, PHẢI sửa lại đây.
 # ==============================================================================
+import base64
 import json
 import os
-import urllib.parse
 from datetime import datetime, timedelta
 import requests
 
 
-from .config import ANKI_CONNECT_URL, INBOX_DECK, MODEL_NAME, OPENRUSSIAN_AUDIO_TEMPLATE, TOPIC_DECK_PARENT
-from .topics import TOPICS, topic_tag, normalize_topic
+from .config import ANKI_CONNECT_URL, INBOX_DECK, MODEL_NAME, TOPIC_DECK_PARENT
+from .topics import TOPICS, TOPIC_TAG_PREFIX, topic_tag, normalize_topic
 from .utils import log_warn, log_fail, strip_accents_perfectly, hl_to_bracket
 from .html_builder import build_examples_html
+from .audio import fetch_audio_bytes
 
 _TEMPLATES_DIR = os.path.join(os.path.dirname(__file__), "templates")
 
@@ -276,17 +277,41 @@ def setup_anki_environment():
         print(f"\n❌ Không kết nối được AnkiConnect: {e}")
 
 
-def push_to_anki(word, data, deck_name, is_forced=False):
-    """Đẩy note lên Anki. Trả về (success, card_info_dict) để hiển thị tóm tắt.
+def store_media_file(filename, data_bytes):
+    """Lưu bytes vào thư mục media của Anki (base64). Trả về True nếu thành công."""
+    b64 = base64.b64encode(data_bytes).decode("ascii")
+    try:
+        res = requests.post(ANKI_CONNECT_URL, json={
+            "action": "storeMediaFile", "version": 6,
+            "params": {"filename": filename, "data": b64}
+        }, timeout=20)
+        if res.json().get("error"):
+            log_fail(f"storeMediaFile lỗi: {res.json().get('error')}")
+            return False
+        return True
+    except Exception as e:
+        log_fail(f"storeMediaFile lỗi mạng: {e}")
+        return False
 
-    deck_name=None -> chế độ TỰ ĐỘNG: thẻ vào INBOX_DECK để học gom một chỗ;
-    tag topic:: (AI chọn) ghi sẵn deck chủ đề đích — thẻ tốt nghiệp learning
-    thì move_graduated_from_inbox() chuyển về TOPIC_DECK_PARENT::<topic>.
-    """
+
+def store_word_audio(clean_word):
+    """Tải audio phát âm (OpenRussian -> Google TTS dự phòng khi 500) rồi lưu vào
+    Anki media. Trả về (audio_field, source): '[sound:ru_audio_X.mp3]' + nguồn
+    ('openrussian'/'google_tts'), hoặc ('', '') nếu cả hai nguồn đều hụt."""
+    data, source = fetch_audio_bytes(clean_word)
+    if not data:
+        return "", ""
+    filename = f"ru_audio_{clean_word}.mp3"
+    if store_media_file(filename, data):
+        return f"[sound:{filename}]", source
+    return "", ""
+
+
+def build_card_fields(word, data):
+    """Dựng field thẻ (TRỪ Audio/Image) + metadata từ dữ liệu cào được. Dùng CHUNG
+    cho thêm thẻ mới (push_to_anki) và làm lại thẻ (pipeline.redo_note_id) để hai
+    luồng luôn tạo ra thẻ giống hệt nhau. KHÔNG đụng AnkiConnect."""
     clean_word = strip_accents_perfectly(word)
-    audio_url = OPENRUSSIAN_AUDIO_TEMPLATE.format(word=urllib.parse.quote(clean_word))
-    audio_filename = f"ru_audio_{clean_word}.mp3"
-
     pos_clean = data["part_of_speech"].lower().strip()
     pos_full = data["pos_full"]
     gender_lower = str(data["gender"]).lower().strip()
@@ -304,26 +329,56 @@ def push_to_anki(word, data, deck_name, is_forced=False):
     for m in data["english_meanings"]: meaning_html += f"<li>{m}</li>"
     meaning_html += "</ol>"
 
-    # Th\u00eam tr\u00f9ng (force): d\u00f9ng option allowDuplicate ch\u00ednh th\u1ed1ng c\u1ee7a AnkiConnect.
-    # (M\u00e1nh c\u0169 g\u1eafn k\u00fd t\u1ef1 v\u00f4 h\u00ecnh \u200b v\u00e0o Word \u0111\u00e3 b\u1ecb Anki >= 25.x t\u1ef1 x\u00f3a khi
-    # l\u01b0u note -> v\u1eabn b\u1ecb ch\u1eb7n tr\u00f9ng, n\u00ean b\u1ecf.)
-    word_field_value = data["word"]
-
     examples_html, vi_meaning, simplified_examples, topic_slug = build_examples_html(
         clean_word,
         data.get("raw_dictionary_examples", []),
         data.get("english_meanings", [])
     )
 
-    # Tag chủ đề (topic::food, topic::animals...) do AI chọn trong CÙNG request
-    # sinh ví dụ. Nhánh fallback không AI -> không có topic, gắn bù sau bằng
-    # `python tag_topics.py --missing`.
-    # (Tag kỹ thuật OpenRussian_*_v25 cũ đã bỏ 16/07/2026: không code nào tra
-    # theo nó — nhận diện thẻ của bot luôn đi qua model name.)
+    fields = {
+        "Word": data["word"], "WordClean": clean_word, "Meaning": meaning_html,
+        "Vietnamese": vi_meaning, "PoS": pos_clean, "PoSFull": pos_full,
+        "GenderBadge": gender_badge_html, "ExamplesHTML": examples_html,
+        "RawExamples": json.dumps(data.get("raw_dictionary_examples", []), ensure_ascii=False),
+    }
+
+    # Thẻ "khuyết": AI thất bại -> không ví dụ, hoặc ví dụ thô thiếu tiếng Việt.
+    ai_degraded = (not simplified_examples) or not any(
+        (ex.get("vi") or ex.get("vietnamese") or "").strip() for ex in simplified_examples
+    )
+
+    return {
+        "fields": fields,
+        "clean_word": clean_word,
+        "topic_slug": topic_slug,
+        "simplified_examples": simplified_examples,
+        "vi_meaning": vi_meaning,
+        "gender_label": gender_label,
+        "pos_full": pos_full,
+        "en_meanings": data["english_meanings"],
+        "ai_degraded": ai_degraded,
+    }
+
+
+def push_to_anki(word, data, deck_name, is_forced=False):
+    """Đẩy note lên Anki. Trả về (success, card_info_dict) để hiển thị tóm tắt.
+
+    deck_name=None -> chế độ TỰ ĐỘNG: thẻ vào INBOX_DECK để học gom một chỗ;
+    tag topic:: (AI chọn) ghi sẵn deck chủ đề đích — thẻ tốt nghiệp learning
+    thì move_graduated_from_inbox() chuyển về TOPIC_DECK_PARENT::<topic>.
+    """
+    built = build_card_fields(word, data)
+    clean_word = built["clean_word"]
+    topic_slug = built["topic_slug"]
+
+    # Audio: bot TỰ tải (OpenRussian -> Google TTS nếu 500) rồi lưu media, thay vì
+    # để AnkiConnect tự tải từ URL (không bắt được lỗi 500 để dùng phao dự phòng).
+    audio_field, audio_source = store_word_audio(clean_word)
+
+    # Th\u00eam tr\u00f9ng (force) d\u00f9ng option allowDuplicate ch\u00ednh th\u1ed1ng c\u1ee7a AnkiConnect.
     note_tags = [topic_tag(topic_slug)] if topic_slug else []
 
     # Chế độ tự động: thẻ mới vào inbox học trước; tag topic:: đã ghi deck đích.
-    # createDeck idempotent (deck có rồi thì thôi), gọi thẳng để không in log mỗi thẻ.
     if not deck_name:
         deck_name = INBOX_DECK
         try:
@@ -333,42 +388,35 @@ def push_to_anki(word, data, deck_name, is_forced=False):
         except Exception as e:
             log_warn(f"Không tạo/kiểm tra được deck '{deck_name}': {e}")
 
+    fields = dict(built["fields"])
+    fields["Image"] = ""
+    fields["Audio"] = audio_field
+
     payload = {
         "action": "addNote", "version": 6,
         "params": {
             "note": {
                 "deckName": deck_name, "modelName": MODEL_NAME,
-                "fields": {
-                    "Word": word_field_value, "WordClean": clean_word, "Meaning": meaning_html,
-                    "Vietnamese": vi_meaning, "PoS": pos_clean, "PoSFull": pos_full,
-                    "GenderBadge": gender_badge_html, "ExamplesHTML": examples_html, "Image": "",
-                    "RawExamples": json.dumps(data.get("raw_dictionary_examples", []), ensure_ascii=False)
-                },
+                "fields": fields,
                 "options": {"allowDuplicate": is_forced},
                 "tags": note_tags,
-                "audio": [{"url": audio_url, "filename": audio_filename, "fields": ["Audio"]}]
             }
         }
     }
 
-    # Thẻ "khuyết": AI thất bại hoàn toàn -> không có ví dụ, hoặc chỉ còn ví dụ
-    # thô không có tiếng Việt. Bot dựa vào cờ này để CẢNH BÁO thay vì im lặng.
-    ai_degraded = (not simplified_examples) or not any(
-        (ex.get("vi") or ex.get("vietnamese") or "").strip() for ex in simplified_examples
-    )
-
     card_info = {
         "word": data["word"],
         "clean_word": clean_word,
-        "en_meanings": data["english_meanings"],
-        "vi_meaning": vi_meaning,
-        "pos": pos_full,
-        "gender": gender_label,
+        "en_meanings": built["en_meanings"],
+        "vi_meaning": built["vi_meaning"],
+        "pos": built["pos_full"],
+        "gender": built["gender_label"],
         "deck": deck_name,
         "is_forced": is_forced,
-        "simplified_examples": simplified_examples,
-        "ai_degraded": ai_degraded,
+        "simplified_examples": built["simplified_examples"],
+        "ai_degraded": built["ai_degraded"],
         "topic": topic_tag(topic_slug) if topic_slug else "",
+        "audio_source": audio_source,   # "openrussian" / "google_tts" / ""
     }
 
     try:
@@ -494,17 +542,35 @@ def get_note_fields(note_id):
         return None
 
 
-def update_note_refined(note_id, vi_meaning, examples_html):
-    """Ghi đè nghĩa tiếng Việt + khối ví dụ mới vào note (luồng sửa thẻ /sua).
-    Trả về True nếu thành công."""
+def get_note_full(note_id):
+    """Đọc note đầy đủ: {'fields': {name: value}, 'tags': [..]} hoặc None.
+    Dùng cho luồng LÀM LẠI thẻ (/sua) cần cả field lẫn tag để làm mới topic."""
+    try:
+        res = requests.post(ANKI_CONNECT_URL, json={
+            "action": "notesInfo", "version": 6,
+            "params": {"notes": [note_id]}
+        }, timeout=5)
+        infos = res.json().get("result", [])
+        if not infos:
+            return None
+        info = infos[0]
+        return {
+            "fields": {k: v.get("value", "") for k, v in info.get("fields", {}).items()},
+            "tags": info.get("tags", []),
+        }
+    except Exception as e:
+        log_warn(f"Không đọc được note {note_id}: {e}")
+        return None
+
+
+def update_note_fields(note_id, fields):
+    """Ghi đè các field cho sẵn vào note (giữ nguyên field không truyền -> Image,
+    và Audio nếu không truyền). Dùng cho luồng LÀM LẠI thẻ. True nếu thành công."""
     try:
         res = requests.post(ANKI_CONNECT_URL, json={
             "action": "updateNoteFields", "version": 6,
-            "params": {"note": {"id": note_id, "fields": {
-                "Vietnamese": vi_meaning,
-                "ExamplesHTML": examples_html,
-            }}}
-        }, timeout=10)
+            "params": {"note": {"id": note_id, "fields": fields}}
+        }, timeout=15)
         result = res.json()
         if result.get("error"):
             log_fail(f"Cập nhật note thất bại: {result.get('error')}")
@@ -513,6 +579,32 @@ def update_note_refined(note_id, vi_meaning, examples_html):
     except Exception as e:
         log_fail(f"Lỗi cập nhật note: {e}")
         return False
+
+
+def set_topic_tag(note_id, current_tags, new_slug):
+    """Làm mới tag chủ đề của note: bỏ mọi tag topic:: cũ, gắn topic::<new_slug>.
+    new_slug None (nhánh fallback không AI) -> chỉ gỡ tag cũ. True nếu không lỗi."""
+    new_tag = topic_tag(new_slug) if new_slug else None
+    old_topic_tags = [t for t in current_tags if t.startswith(TOPIC_TAG_PREFIX)]
+    to_remove = [t for t in old_topic_tags if t != new_tag]
+    ok = True
+    try:
+        if to_remove:
+            res = requests.post(ANKI_CONNECT_URL, json={
+                "action": "removeTags", "version": 6,
+                "params": {"notes": [note_id], "tags": " ".join(to_remove)}
+            }, timeout=10)
+            ok = ok and not res.json().get("error")
+        if new_tag and new_tag not in current_tags:
+            res = requests.post(ANKI_CONNECT_URL, json={
+                "action": "addTags", "version": 6,
+                "params": {"notes": [note_id], "tags": new_tag}
+            }, timeout=10)
+            ok = ok and not res.json().get("error")
+    except Exception as e:
+        log_warn(f"Không cập nhật được tag chủ đề note {note_id}: {e}")
+        return False
+    return ok
 
 
 def print_card_summary(card_info, elapsed):
@@ -536,7 +628,13 @@ def print_card_summary(card_info, elapsed):
         print(f"  🏷️  Từ loại:    {pos}")
     if card_info.get("topic"):
         print(f"  📂 Chủ đề:     {card_info['topic']}")
-    print(f"  🔊 Audio:      [đã đính kèm]")
+    _audio_src = card_info.get("audio_source", "")
+    if _audio_src == "google_tts":
+        print(f"  🔊 Audio:      [Google TTS - OpenRussian lỗi]")
+    elif _audio_src == "openrussian":
+        print(f"  🔊 Audio:      [OpenRussian]")
+    else:
+        print(f"  🔊 Audio:      [KHÔNG có - cả 2 nguồn đều hụt]")
 
     if examples:
         print(f"  ─────────────────────────────────────")

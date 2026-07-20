@@ -40,6 +40,18 @@ TELEGRAM_USER_ID = int(os.environ.get("TELEGRAM_USER_ID", "0"))
 # (Không còn deck mặc định: bot hỏi tên deck khi bắt đầu phiên, giống CLI main.py)
 
 OPENRUSSIAN_AUDIO_TEMPLATE = "https://api.openrussian.org/read/ru/{word}"
+
+# --- Âm thanh dự phòng: Google Cloud Text-to-Speech ---
+# OpenRussian thỉnh thoảng trả 500 -> thẻ thiếu mp3. Khi đó tự sinh audio bằng
+# Google Cloud TTS giọng Standard tiếng Nga (miễn phí 4 triệu ký tự/tháng — dư
+# sức cho nhu cầu học từ).
+# ⚠️ Key Gemini của AI Studio KHÔNG gọi được Cloud TTS — phải là API key tạo
+# trong Google Cloud Console, project đã bật "Cloud Text-to-Speech API".
+# Để riêng biến GOOGLE_TTS_API_KEY trong .env; trống thì bỏ qua phao dự phòng.
+GOOGLE_TTS_URL = "https://texttospeech.googleapis.com/v1/text:synthesize"
+GOOGLE_TTS_API_KEY = os.environ.get("GOOGLE_TTS_API_KEY", "")
+GOOGLE_TTS_LANG = os.environ.get("GOOGLE_TTS_LANG", "ru-RU")
+GOOGLE_TTS_VOICE = os.environ.get("GOOGLE_TTS_VOICE", "ru-RU-Standard-A")  # giọng nữ
 # Đổi tên 19/07/2026 (tên cũ Russian_Premium_OLED_Type_v25) — đổi trong Anki
 # thì phải đổi cả đây, và ngược lại. Model 26 thẻ Irregular tên RU_Plural.
 MODEL_NAME = "RU_Word"

@@ -31,16 +31,13 @@ from .core import (
 )
 from .flow_add import _add_with_dup_check, _do_add, _duplicate_text_and_keyboard
 from .flow_edit import (
-    _do_sua,
+    _do_redo,
     _run_suadeck,
     _sd_clear,
     _sd_confirm_text_keyboard,
     _sd_deck_list_markup,
     _sd_delete_resume,
-    _sd_kind_keyboard,
     _sd_load_resume,
-    _sua_keyboard,
-    _SD_LABELS,
 )
 from .flow_scan import _run_scan_add, _scan_clear, _scan_exclude
 
@@ -67,36 +64,11 @@ async def on_word(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await update.message.reply_text("❌ Không tạo được deck. Nhập tên khác thử:")
         return
 
-    # --- Đang chờ TỪ cần sửa (sau khi bấm /sua hoặc nút ✏️ Sửa thẻ) ---
+    # --- Đang chờ TỪ cần làm lại (sau khi bấm /sua hoặc nút ✏️ Làm lại thẻ) ---
     if context.user_data.get("awaiting") == "sua_word":
         context.user_data.pop("awaiting", None)
-        context.user_data["sua_word"] = text
-        await update.message.reply_text(
-            f"✏️ Sửa thẻ '{text}' — chọn kiểu:", reply_markup=_sua_keyboard()
-        )
-        return
-
-    # --- Đang chờ YÊU CẦU tự viết cho cả deck (/suadeck -> Tự viết) ---
-    if context.user_data.get("awaiting") == "sdeck_custom":
-        context.user_data.pop("awaiting", None)
-        if not context.user_data.get("sd_deck"):
-            await update.message.reply_text("⌛ Phiên sửa deck đã hết hạn, gọi lại /suadeck nhé.")
-            return
-        context.user_data["sd_instruction"] = text
-        context.user_data["sd_label"] = f"✏️ {text[:80]}"
-        confirm_text, kb = _sd_confirm_text_keyboard(context)
-        await update.message.reply_text(confirm_text, reply_markup=kb)
-        return
-
-    # --- Đang chờ YÊU CẦU tự viết (sau khi bấm nút "Tự viết yêu cầu") ---
-    if context.user_data.get("awaiting") == "sua_custom":
-        context.user_data.pop("awaiting", None)
-        word = context.user_data.pop("sua_word", None)
-        if not word:
-            await update.message.reply_text("⌛ Phiên sửa đã hết hạn, gọi lại /sua nhé.")
-            return
-        msg = await update.message.reply_text("⏳ Chuẩn bị sửa thẻ...")
-        await _do_sua(msg, word, text)
+        msg = await update.message.reply_text("⏳ Chuẩn bị làm lại thẻ...")
+        await _do_redo(msg, text)
         return
 
     # --- Đang có danh sách quét ảnh chờ duyệt: nhắn 'bỏ 3 7 12' để loại từ ---
@@ -181,7 +153,7 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             )
         elif action == "sua":
             context.user_data["awaiting"] = "sua_word"
-            await query.edit_message_text("✏️ Gõ từ cần sửa (chỉ cần gõ từ):")
+            await query.edit_message_text("🔄 Gõ từ cần làm lại thẻ (chỉ cần gõ từ):")
         elif action == "sync":
             await query.edit_message_text("⏳ Đang sync AnkiWeb...")
             ok = await asyncio.to_thread(trigger_sync)
@@ -190,10 +162,10 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await query.edit_message_text(HELP_TEXT)
         return
 
-    # --- Luồng /suadeck: chọn deck -> kiểu sửa -> xác nhận -> chạy/dừng ---
+    # --- Luồng /suadeck: chọn deck -> xác nhận -> chạy/dừng ---
     if data == "sdcancel":
         _sd_clear(context.user_data)
-        await query.edit_message_text("⏭️ Đã hủy sửa deck.")
+        await query.edit_message_text("⏭️ Đã hủy làm lại deck.")
         return
     if data == "sdstop":
         if context.bot_data.get("sd_running"):
@@ -211,29 +183,23 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if not note_ids:
             _sd_clear(context.user_data)
             await query.edit_message_text(
-                f"📂 Deck '{deck_name}' không có thẻ nào (của bot) để sửa."
+                f"📂 Deck '{deck_name}' không có thẻ nào (của bot) để làm lại."
             )
             return
         context.user_data["sd_deck"] = deck_name
         context.user_data["sd_note_ids"] = note_ids
-        await query.edit_message_text(
-            f"🛠 Deck '{deck_name}' có {len(note_ids)} thẻ.\n"
-            "Chọn kiểu sửa áp dụng cho TẤT CẢ:",
-            reply_markup=_sd_kind_keyboard(),
-        )
+        confirm_text, kb = _sd_confirm_text_keyboard(context)
+        await query.edit_message_text(confirm_text, reply_markup=kb)
         return
     if data == "sdresume":
         state = _sd_load_resume()
         if not state:
-            await query.edit_message_text("⌛ Không còn đợt sửa dở nào, gọi lại /suadeck nhé.")
+            await query.edit_message_text("⌛ Không còn đợt làm lại dở nào, gọi lại /suadeck nhé.")
             return
         context.user_data["sd_deck"] = state["deck"]
         context.user_data["sd_note_ids"] = state["note_ids"]
-        await query.edit_message_text(
-            f"🔁 Sửa tiếp deck '{state['deck']}' — còn {len(state['note_ids'])} thẻ.\n"
-            "Chọn kiểu sửa (nên chọn ĐÚNG kiểu đã dùng lần trước cho đồng bộ):",
-            reply_markup=_sd_kind_keyboard(),
-        )
+        confirm_text, kb = _sd_confirm_text_keyboard(context)
+        await query.edit_message_text(confirm_text, reply_markup=kb)
         return
     if data == "sdfresh":
         _sd_delete_resume()
@@ -243,38 +209,20 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             return
         await query.edit_message_text(text, reply_markup=kb)
         return
-    if data.startswith("sdsua:"):
-        choice = data.split(":", 1)[1]
-        if not context.user_data.get("sd_deck"):
-            await query.edit_message_text("⌛ Phiên sửa deck đã hết hạn, gọi lại /suadeck nhé.")
-            return
-        if choice == "custom":
-            context.user_data["awaiting"] = "sdeck_custom"
-            await query.edit_message_text(
-                f"✏️ Gõ yêu cầu sửa áp dụng cho TẤT CẢ thẻ trong deck "
-                f"'{context.user_data['sd_deck']}':"
-            )
-            return
-        context.user_data["sd_instruction"] = choice
-        context.user_data["sd_label"] = _SD_LABELS.get(choice, choice)
-        confirm_text, kb = _sd_confirm_text_keyboard(context)
-        await query.edit_message_text(confirm_text, reply_markup=kb)
-        return
     if data == "sdgo":
         deck = context.user_data.get("sd_deck")
         note_ids = context.user_data.get("sd_note_ids")
-        instruction = context.user_data.get("sd_instruction")
-        if not deck or not note_ids or instruction is None:
-            await query.edit_message_text("⌛ Phiên sửa deck đã hết hạn, gọi lại /suadeck nhé.")
+        if not deck or not note_ids:
+            await query.edit_message_text("⌛ Phiên làm lại deck đã hết hạn, gọi lại /suadeck nhé.")
             return
         if context.bot_data.get("sd_running"):
-            await query.edit_message_text("⏳ Đang có một đợt sửa deck khác chạy dở.")
+            await query.edit_message_text("⏳ Đang có một đợt làm lại deck khác chạy dở.")
             return
         _sd_clear(context.user_data)
-        await query.edit_message_text(f"🔄 Bắt đầu sửa deck '{deck}' ({len(note_ids)} thẻ)...")
+        await query.edit_message_text(f"🔄 Bắt đầu làm lại deck '{deck}' ({len(note_ids)} thẻ)...")
         # Task riêng để bot vẫn nhận update (đặc biệt là nút ⏹ Dừng) trong lúc chạy
         asyncio.create_task(
-            _run_suadeck(context, query.message.chat_id, query.message, deck, note_ids, instruction)
+            _run_suadeck(context, query.message.chat_id, query.message, deck, note_ids)
         )
         return
 
@@ -322,7 +270,7 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await _add_with_dup_check(query.message, word, context)
         return
 
-    # --- Nút trên thẻ AI tạo thiếu nội dung: tự sửa (preset 2) / bỏ qua ---
+    # --- Nút trên thẻ AI tạo thiếu nội dung: làm lại thẻ / bỏ qua ---
     if data.startswith("fix:"):
         word = data.split(":", 1)[1]
         if not word:  # "fix:" rỗng = Bỏ qua -> chỉ gỡ nút, giữ nguyên tin nhắn thẻ
@@ -331,25 +279,7 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             except Exception:
                 pass
             return
-        await _do_sua(query.message, word, "2")  # "2" = preset đổi ví dụ, như /sua
-        return
-
-    # --- Nút chọn kiểu sửa thẻ ---
-    if data.startswith("sua:"):
-        choice = data.split(":", 1)[1]
-        word = context.user_data.get("sua_word")
-        if not word:
-            await query.edit_message_text("⌛ Phiên sửa đã hết hạn, gọi lại /sua <từ> nhé.")
-            return
-        if choice == "custom":
-            # Giữ sua_word, chờ user gõ thẳng yêu cầu (không cần gõ lại lệnh/từ)
-            context.user_data["awaiting"] = "sua_custom"
-            await query.edit_message_text(
-                f"✏️ Gõ yêu cầu sửa cho '{word}':\nvd: ví dụ về chủ đề công việc"
-            )
-            return
-        context.user_data.pop("sua_word", None)
-        await _do_sua(query.message, word, choice)  # choice = "1"/"2"/"3", pipeline tự resolve
+        await _do_redo(query.message, word)
         return
 
     # --- Luồng từ trùng (sel:/act:) ---

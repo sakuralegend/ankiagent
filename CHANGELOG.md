@@ -4,6 +4,28 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 20/07/2026
+
+- **Audio dự phòng Google Cloud TTS + /sua = "làm lại thẻ" (bỏ preset 1/2/3)** —
+  hai việc user chốt.
+  (A) ÂM THANH: OpenRussian thỉnh thoảng trả 500 -> AnkiConnect (tải hộ qua URL)
+  KHÔNG bắt được lỗi, còn GHI NGUYÊN câu "…download failed with return code 500"
+  vào ô Audio (3 thẻ dính: дачка, варенный, коммуникативный). Sửa: bot TỰ tải
+  bytes (anki_tools/audio.py: OpenRussian trước, hụt thì Google Cloud TTS giọng
+  ru-RU-Standard-A) rồi storeMediaFile + set field Audio '[sound:...]'. push_to_anki
+  bỏ mảng audio-url, tách build_card_fields() dùng chung. ⚠️ Key TTS phải là API
+  key Google Cloud (bật Cloud Text-to-Speech API) — key Gemini AI Studio KHÔNG
+  gọi được; biến GOOGLE_TTS_API_KEY trong .env, trống thì bỏ qua phao. Free 4tr
+  ký tự/tháng. fix_audio.py (mới): vá thẻ đang thiếu tiếng (nhận diện = ô Audio
+  thiếu tag [sound:], gồm cả thẻ mang text lỗi cũ); dry-run mặc định / --apply.
+  (B) /sua: bỏ hẳn refine preset 1/2/3 + tự-viết (gần như không dùng). Giờ /sua =
+  LÀM LẠI thẻ: cào lại OpenRussian + AI sinh lại nghĩa/ví dụ GIỐNG thẻ mới, ghi
+  đè cùng note_id nên TIẾN TRÌNH HỌC giữ nguyên; làm mới cả tag chủ đề; vá audio
+  nếu thẻ đang thiếu. /suadeck cũng thành "làm lại cả deck" (giữ nút Dừng/resume).
+  pipeline: refine_note* -> redo_note*; anki_client thêm store_media_file/
+  store_word_audio/build_card_fields/get_note_full/update_note_fields/set_topic_tag;
+  xóa code refine chết (call_claude_refine, REFINE_PRESETS, update_note_refined).
+
 ## 19/07/2026 (đợt 6)
 
 - **Fix kẹt "Đang tải ảnh về": nới trần chờ HTTP Telegram + retry tải ảnh** —

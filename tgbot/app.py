@@ -51,8 +51,8 @@ async def _post_init(app):
     await app.bot.set_my_commands([
         BotCommand("menu", "Menu nút bấm"),
         BotCommand("deck", "Đổi bộ bài (bảng chọn nút)"),
-        BotCommand("sua", "Sửa thẻ (bot sẽ hỏi từ)"),
-        BotCommand("suadeck", "Sửa TOÀN BỘ thẻ trong 1 deck (ít dùng, tốn AI)"),
+        BotCommand("sua", "Làm lại thẻ (giữ tiến trình học)"),
+        BotCommand("suadeck", "Làm lại TOÀN BỘ thẻ trong 1 deck (tốn AI)"),
         BotCommand("thongke", "Thống kê thẻ theo chủ đề + cảnh báo tách deck"),
         BotCommand("don", "Chuyển thẻ tốt nghiệp từ inbox về deck chủ đề"),
         BotCommand("sync", "Đồng bộ AnkiWeb ngay"),
