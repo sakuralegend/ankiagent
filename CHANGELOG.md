@@ -6,6 +6,22 @@
 
 ## 21/07/2026 (đợt 2)
 
+- **Backup HỎNG HOÀN TOÀN trên VPS — sửa 2 nhịp.** Chạy thử thật trên VPS (thay vì
+  tin là nó giống PC) mới lòi ra: backup không tạo nổi file nào.
+  (1) `exportPackage` bảo **ANKI** tự ghi file nên đường dẫn được hiểu theo GÓC NHÌN
+  CỦA ANKI. Trên VPS Anki nằm TRONG CONTAINER, không thấy `/root/ankiagent/backups`
+  của host -> Permission denied. Trên PC không lộ vì Anki chạy trực tiếp. Sửa:
+  `resolve_dirs()` tự nhận biết qua `getMediaDirPath` — media nằm dưới `/data` nghĩa
+  là đang trong container, khi đó bảo Anki ghi `/data/backups` còn bot đọc/dọn ở
+  `<project>/anki-data/backups` (docker-compose mount anki-data -> /data).
+  (2) Đường dẫn đúng rồi vẫn Permission denied: bot chạy bằng **root** (host) tạo thư
+  mục 755 root:root, còn Anki trong container chạy bằng **uid 1000** nên không ghi
+  nổi. Sửa: `_makedirs_shared()` chmod 777 thư mục backup (đúng cách VPS_SETUP.md đã
+  bảo làm với chính anki-data).
+  Kết quả: backup chạy được trên VPS, 36MB/bản, đĩa còn 8GB/16GB nên 7 bản (~250MB)
+  thoải mái. BÀI HỌC: thứ gì chạy được trên PC chưa chắc chạy trên VPS — Anki ở hai
+  nơi có tư cách khác hẳn nhau (chạy trực tiếp vs trong container, root vs uid 1000).
+
 - **Job nền không bao giờ chết nữa + dẹp PTBUserWarning** — soi log sau deploy thì
   lộ ra một điểm yếu CÓ SẴN TỪ TRƯỚC: `_nightly_don` không bọc try/except quanh
   thân vòng lặp. Task asyncio mà ném exception thì CHẾT HẲN VÀ IM LẶNG — nghĩa là
