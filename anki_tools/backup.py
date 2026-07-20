@@ -78,6 +78,23 @@ def resolve_dirs():
     return BACKUP_DIR, BACKUP_DIR
 
 
+def _makedirs_shared(path):
+    """Tạo thư mục mà TIẾN TRÌNH ANKI cũng ghi được.
+
+    ⚠️ Trên VPS, bot chạy bằng root (host) còn Anki trong container chạy bằng
+    uid 1000 (anki). Thư mục root tạo mặc định là 755 root:root -> Anki KHÔNG ghi
+    nổi, exportPackage trả "Permission denied" (đã dính 21/07/2026). Nên phải nới
+    quyền y như cách VPS_SETUP.md bảo làm với chính anki-data (chmod 777).
+    An toàn: cả thư mục nằm trong anki-data vốn đã 777, và VPS chỉ có 1 người dùng,
+    mọi cổng đều bind 127.0.0.1. Trên Windows chmod không có tác dụng -> bỏ qua.
+    """
+    os.makedirs(path, exist_ok=True)
+    try:
+        os.chmod(path, 0o777)
+    except OSError:
+        pass
+
+
 def create_backup(base_dir=None):
     """Tạo 1 bản backup vào thư mục con theo thời điểm.
     Trả về dict {"path", "bytes", "decks", "errors"} — errors rỗng là trọn vẹn."""
@@ -87,7 +104,8 @@ def create_backup(base_dir=None):
     stamp = datetime.now().strftime("%Y-%m-%d_%H%M")
     out_dir = os.path.join(host_base, stamp)         # bot ghi/đọc phía host
     anki_dir = f"{anki_base.rstrip('/')}/{stamp}"    # Anki ghi phía nó (POSIX)
-    os.makedirs(out_dir, exist_ok=True)
+    _makedirs_shared(host_base)       # thư mục cha cũng phải mở, tạo lần đầu là root
+    _makedirs_shared(out_dir)
 
     decks, errors, total = [], [], 0
     for deck in top_level_decks():
