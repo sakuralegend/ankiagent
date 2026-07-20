@@ -4,6 +4,23 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 21/07/2026 (đợt 2)
+
+- **Job nền không bao giờ chết nữa + dẹp PTBUserWarning** — soi log sau deploy thì
+  lộ ra một điểm yếu CÓ SẴN TỪ TRƯỚC: `_nightly_don` không bọc try/except quanh
+  thân vòng lặp. Task asyncio mà ném exception thì CHẾT HẲN VÀ IM LẶNG — nghĩa là
+  chỉ cần AnkiConnect lỗi đúng một đêm là job dọn inbox ngừng chạy vĩnh viễn cho
+  tới lần restart bot, không có dấu hiệu nào báo ra. Sửa: thêm `_guard()` bọc mọi
+  job (nuốt lỗi, log, nghỉ 60s rồi chạy tiếp; riêng CancelledError vẫn cho ném để
+  tắt bot bình thường) + `_sleep_until()` dùng chung, bỏ phần tính giờ lặp 2 lần.
+  Đã kiểm chứng: job ném lỗi 6 lần liên tiếp vẫn tiếp tục chạy.
+  Đồng thời `app.create_task` -> `asyncio.create_task` (`_spawn` trong app.py, có
+  giữ tham chiếu vì asyncio chỉ giữ weak ref): PTB cảnh báo mỗi lần khởi động vì
+  Application chưa "running" lúc _post_init — 3 job = 3 dòng rác trong log, dễ che
+  lỗi thật. KHÔNG dùng JobQueue của PTB vì nó đòi thêm gói apscheduler (đã kiểm:
+  `app.job_queue` là None trên VPS) — không đáng cài dependency mới chỉ để dẹp
+  cảnh báo.
+
 ## 21/07/2026
 
 - **Sao lưu tự động + sync định kỳ trên VPS** — user hỏi "có nên đặt VPS luôn

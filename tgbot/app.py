@@ -4,6 +4,7 @@
 # (cào web, gọi AI, AnkiConnect) chạy qua asyncio.to_thread để không nghẽn bot.
 # Logic thêm/sửa từ nằm ở anki_tools/pipeline.py - DÙNG CHUNG với main.py (CLI).
 # ==============================================================================
+import asyncio
 import time
 
 from telegram import Update, BotCommand
@@ -49,11 +50,28 @@ def wait_for_anki(max_wait_seconds=180):
     return False
 
 
+# Giữ tham chiếu tới task nền: asyncio chỉ giữ weak reference, không giữ ở đây
+# thì task có thể bị thu gom rác giữa chừng.
+_BACKGROUND_TASKS = set()
+
+
+def _spawn(coro):
+    """Chạy 1 job nền. Dùng asyncio.create_task thay cho app.create_task: lúc
+    _post_init chạy thì Application chưa "running" nên app.create_task in ra
+    PTBUserWarning mỗi lần khởi động (3 job = 3 dòng rác trong log, dễ che lỗi
+    thật). Vòng lặp job tự bọc try/except rồi (xem _guard ở commands.py) nên
+    không cần PTB theo dõi hộ."""
+    task = asyncio.create_task(coro)
+    _BACKGROUND_TASKS.add(task)
+    task.add_done_callback(_BACKGROUND_TASKS.discard)
+    return task
+
+
 async def _post_init(app):
-    """Đăng ký menu lệnh gốc của Telegram (nút '/' cạnh ô gõ chữ)."""
-    app.create_task(_nightly_don(app))
-    app.create_task(_nightly_backup(app))   # 3h30 sáng: sao lưu + dọn bản cũ
-    app.create_task(_periodic_sync())       # 30 phút/lần: sync HAI CHIỀU
+    """Đăng ký menu lệnh gốc của Telegram (nút '/' cạnh ô gõ chữ) + bật job nền."""
+    _spawn(_nightly_don(app))       # 3h00 sáng: dọn inbox
+    _spawn(_nightly_backup(app))    # 3h30 sáng: sao lưu + dọn bản cũ
+    _spawn(_periodic_sync())        # 30 phút/lần: sync HAI CHIỀU
     # Danh sách "/" CỐ Ý chỉ 4 mục hay dùng (user chốt 20/07/2026: 9 lệnh làm
     # rối). Các lệnh còn lại (/sua /suadeck /thongke /don /sync) vẫn chạy khi gõ
     # tay, và có nút trong menu 🛠 — chỉ không chiếm chỗ trong bảng gợi ý.

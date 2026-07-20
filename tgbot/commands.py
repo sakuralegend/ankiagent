@@ -139,15 +139,44 @@ async def cmd_don(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await msg.edit_text(_don_report(moved, total))
 
 
-async def _nightly_don(app):
-    """Job nền: 3h sáng mỗi ngày tự dọn inbox (giờ VPS = giờ VN). Chỉ nhắn
-    Telegram khi có thẻ được chuyển — đêm không có gì thì im lặng."""
+# ==============================================================================
+# --- JOB NỀN ---
+# ⚠️ QUY TẮC SỐNG CÒN của mọi job ở đây: thân vòng lặp PHẢI bọc try/except.
+# Task asyncio mà ném exception thì CHẾT HẲN VÀ IM LẶNG — từ đó job không bao giờ
+# chạy nữa cho tới khi restart bot, mà không có dấu hiệu nào báo ra. Bản đầu của
+# _nightly_don dính đúng lỗi này: AnkiConnect lỗi một đêm là mất luôn job dọn
+# inbox (phát hiện 21/07/2026 khi soi log sau deploy).
+# Dùng vòng lặp asyncio tự viết thay vì JobQueue của PTB vì JobQueue đòi thêm gói
+# apscheduler — không đáng cài thêm dependency lên VPS đang chạy ổn.
+# ==============================================================================
+async def _sleep_until(hour, minute=0):
+    """Ngủ tới mốc giờ:phút gần nhất (hôm nay nếu chưa qua, không thì ngày mai).
+    Giờ VPS đã đặt = giờ VN nên không phải quy đổi múi giờ."""
+    now = datetime.datetime.now()
+    target = now.replace(hour=hour, minute=minute, second=0, microsecond=0)
+    if target <= now:
+        target += datetime.timedelta(days=1)
+    await asyncio.sleep((target - now).total_seconds())
+
+
+async def _guard(name, body, cooldown=60):
+    """Chạy `body()` mãi mãi, nuốt mọi lỗi để vòng lặp KHÔNG BAO GIỜ chết.
+    Lỗi thì log rồi nghỉ `cooldown` giây để không quay vòng điên cuồng."""
     while True:
-        now = datetime.datetime.now()
-        target = now.replace(hour=3, minute=0, second=0, microsecond=0)
-        if target <= now:
-            target += datetime.timedelta(days=1)
-        await asyncio.sleep((target - now).total_seconds())
+        try:
+            await body()
+        except asyncio.CancelledError:
+            raise                       # tắt bot: phải để hủy task diễn ra bình thường
+        except Exception as e:
+            print(f"⚠️ Job '{name}' lỗi: {e!r} — bỏ qua nhịp này, job vẫn tiếp tục.")
+            await asyncio.sleep(cooldown)
+
+
+async def _nightly_don(app):
+    """3h sáng mỗi ngày tự dọn inbox. Chỉ nhắn Telegram khi CÓ thẻ được chuyển —
+    đêm không có gì thì im lặng."""
+    async def once():
+        await _sleep_until(3, 0)
         moved, total = await asyncio.to_thread(move_graduated_from_inbox)
         if moved and total:
             await asyncio.to_thread(trigger_sync)
@@ -155,6 +184,8 @@ async def _nightly_don(app):
                 await app.bot.send_message(TELEGRAM_USER_ID, "🌙 " + _don_report(moved, total))
             except Exception as e:
                 print(f"⚠️ Không gửi được báo cáo dọn inbox: {e}")
+
+    await _guard("don inbox", once)
 
 
 # --- Sync định kỳ + backup đêm (user chốt 20/07/2026) -------------------------
@@ -173,25 +204,19 @@ BACKUP_MINUTE = 30
 async def _periodic_sync():
     """Sync hai chiều mỗi PERIODIC_SYNC_MINUTES phút. Im lặng khi thành công —
     chỉ log lúc lỗi để không spam Telegram."""
-    while True:
+    async def once():
         await asyncio.sleep(PERIODIC_SYNC_MINUTES * 60)
-        try:
-            if not await asyncio.to_thread(trigger_sync):
-                print("⚠️ Sync định kỳ thất bại (sẽ thử lại ở nhịp sau).")
-        except Exception as e:
-            print(f"⚠️ Sync định kỳ lỗi: {e}")
+        if not await asyncio.to_thread(trigger_sync):
+            print("⚠️ Sync định kỳ thất bại (sẽ thử lại ở nhịp sau).")
+
+    await _guard("sync dinh ky", once)
 
 
 async def _nightly_backup(app):
     """Backup collection mỗi đêm + dọn bản cũ. Chỉ nhắn Telegram khi THẤT BẠI
     (backup thành công là chuyện thường ngày, không cần làm phiền)."""
-    while True:
-        now = datetime.datetime.now()
-        target = now.replace(hour=BACKUP_HOUR, minute=BACKUP_MINUTE,
-                             second=0, microsecond=0)
-        if target <= now:
-            target += datetime.timedelta(days=1)
-        await asyncio.sleep((target - now).total_seconds())
+    async def once():
+        await _sleep_until(BACKUP_HOUR, BACKUP_MINUTE)
         try:
             result, removed = await asyncio.to_thread(run_backup)
         except Exception as e:
@@ -199,7 +224,7 @@ async def _nightly_backup(app):
         if result.get("path"):
             print(f"💾 Backup đêm: {human_size(result['bytes'])} -> {result['path']} "
                   f"(xóa {removed} bản cũ)")
-            continue
+            return
         try:
             await app.bot.send_message(
                 TELEGRAM_USER_ID,
@@ -208,6 +233,8 @@ async def _nightly_backup(app):
             )
         except Exception as e:
             print(f"⚠️ Không gửi được cảnh báo backup: {e}")
+
+    await _guard("backup dem", once)
 
 
 async def cmd_backup(update: Update, context: ContextTypes.DEFAULT_TYPE):
