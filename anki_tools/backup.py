@@ -24,11 +24,23 @@ from .utils import log_fail, log_warn
 
 _PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# Thư mục chứa backup. Đặt BACKUP_DIR trong .env để đẩy sang ổ/khối lưu trữ khác.
+# Thư mục chứa backup khi Anki chạy TRỰC TIẾP trên máy (PC ở nhà).
 BACKUP_DIR = os.environ.get("BACKUP_DIR", os.path.join(_PROJECT_ROOT, "backups"))
 
 # Số bản giữ lại. 1 bản ~36MB (đã gồm audio) -> 7 bản ~250MB.
 BACKUP_KEEP = int(os.environ.get("BACKUP_KEEP", "7"))
+
+# --- ⚠️ CHUYỆN ĐƯỜNG DẪN KHI ANKI CHẠY TRONG DOCKER (trên VPS) ---------------
+# exportPackage bảo ANKI tự ghi file, nên đường dẫn ta đưa được hiểu THEO GÓC
+# NHÌN CỦA ANKI. Trên VPS, Anki nằm trong container nên nó KHÔNG thấy
+# /root/ankiagent/backups của host -> ghi vào đó là "Permission denied"
+# (đã dính đúng lỗi này 21/07/2026, phát hiện nhờ chạy thử trên VPS).
+# docker-compose mount:  <project>/anki-data  (host)  ->  /data  (container)
+# nên phải bảo Anki ghi vào /data/backups, còn bot đọc/dọn ở <project>/anki-data/backups.
+CONTAINER_DATA_ROOT = os.environ.get("ANKI_CONTAINER_DATA", "/data")
+ANKI_DATA_HOST_DIR = os.environ.get(
+    "ANKI_DATA_HOST_DIR", os.path.join(_PROJECT_ROOT, "anki-data")
+)
 
 
 def _call(action, timeout=300, **params):
@@ -51,22 +63,44 @@ def top_level_decks():
     return sorted({d.split("::")[0] for d in (_call("deckNames", timeout=30) or [])})
 
 
-def create_backup(base_dir=BACKUP_DIR):
+def resolve_dirs():
+    """Trả về (thư mục ANKI ghi vào, thư mục BOT đọc ra) — hai cái này KHÁC nhau
+    khi Anki chạy trong Docker. Tự nhận biết bằng cách hỏi Anki thư mục media của
+    nó nằm đâu: nằm dưới /data nghĩa là đang ở trong container.
+    Không hỏi được (Anki lỗi) thì coi như chạy trực tiếp — an toàn cho PC ở nhà."""
+    try:
+        media = _call("getMediaDirPath", timeout=30) or ""
+    except Exception:
+        media = ""
+    if media.replace("\\", "/").startswith(CONTAINER_DATA_ROOT.rstrip("/") + "/"):
+        return (f"{CONTAINER_DATA_ROOT.rstrip('/')}/backups",
+                os.path.join(ANKI_DATA_HOST_DIR, "backups"))
+    return BACKUP_DIR, BACKUP_DIR
+
+
+def create_backup(base_dir=None):
     """Tạo 1 bản backup vào thư mục con theo thời điểm.
     Trả về dict {"path", "bytes", "decks", "errors"} — errors rỗng là trọn vẹn."""
+    anki_base, host_base = resolve_dirs()
+    if base_dir:                      # gọi tay với thư mục chỉ định (chạy trực tiếp)
+        anki_base = host_base = base_dir
     stamp = datetime.now().strftime("%Y-%m-%d_%H%M")
-    out_dir = os.path.join(base_dir, stamp)
+    out_dir = os.path.join(host_base, stamp)         # bot ghi/đọc phía host
+    anki_dir = f"{anki_base.rstrip('/')}/{stamp}"    # Anki ghi phía nó (POSIX)
     os.makedirs(out_dir, exist_ok=True)
 
     decks, errors, total = [], [], 0
     for deck in top_level_decks():
-        path = os.path.join(out_dir, f"{_safe_name(deck)}.apkg")
+        filename = f"{_safe_name(deck)}.apkg"
         try:
-            ok = _call("exportPackage", deck=deck, path=path, includeSched=True)
-            if not ok or not os.path.exists(path):
+            # Đường dẫn đưa cho Anki phải theo GÓC NHÌN CỦA ANKI, không phải của bot
+            ok = _call("exportPackage", deck=deck,
+                       path=f"{anki_dir}/{filename}", includeSched=True)
+            host_path = os.path.join(out_dir, filename)
+            if not ok or not os.path.exists(host_path):
                 errors.append(f"{deck}: exportPackage trả về {ok}")
                 continue
-            size = os.path.getsize(path)
+            size = os.path.getsize(host_path)
             total += size
             decks.append({"deck": deck, "bytes": size})
         except Exception as e:
@@ -80,8 +114,9 @@ def create_backup(base_dir=BACKUP_DIR):
     return {"path": out_dir, "bytes": total, "decks": decks, "errors": errors}
 
 
-def rotate(keep=BACKUP_KEEP, base_dir=BACKUP_DIR):
+def rotate(keep=BACKUP_KEEP, base_dir=None):
     """Xóa các bản backup cũ, chỉ giữ `keep` bản mới nhất. Trả về số bản đã xóa."""
+    base_dir = base_dir or resolve_dirs()[1]
     try:
         entries = sorted(
             d for d in os.listdir(base_dir)
@@ -96,8 +131,9 @@ def rotate(keep=BACKUP_KEEP, base_dir=BACKUP_DIR):
     return removed
 
 
-def list_backups(base_dir=BACKUP_DIR):
+def list_backups(base_dir=None):
     """Các bản backup đang có: list (tên, tổng bytes), mới nhất ở CUỐI."""
+    base_dir = base_dir or resolve_dirs()[1]
     out = []
     try:
         names = sorted(d for d in os.listdir(base_dir)
