@@ -13,7 +13,10 @@ from anki_tools.config import TELEGRAM_USER_ID, TOPIC_DECK_PARENT
 from anki_tools.backup import human_size, list_backups, run_backup
 from anki_tools.topics import FALLBACK_TOPIC
 from anki_tools.anki_client import (
+    CARD_STATES,
     ensure_deck_exists,
+    get_card_state_stats,
+    get_root_decks,
     get_topic_stats,
     move_graduated_from_inbox,
     trigger_sync,
@@ -75,15 +78,54 @@ TOPIC_DECK_WARN = 100     # deck con vượt mức này -> nên tách chủ đ�
 OTHER_WARN_PCT = 15       # other chiếm quá % này của kho -> phân loại đang "rò rỉ"
 
 
+async def _card_state_section():
+    """Phần 'trạng thái học' của báo cáo — đếm RIÊNG từng deck gốc (kho), vì trộn
+    kho từ vựng với kho ngữ pháp vào một cột số là mất hết ý nghĩa: hai kho khác
+    nhau cả về số lượng lẫn nhịp học. Trả về list dòng text ([] nếu không đếm được).
+    """
+    roots = await asyncio.to_thread(get_root_decks)
+    if not roots:
+        return []
+    # Đếm các kho song song: mỗi kho là mấy request nhỏ, chờ tuần tự thì cộng dồn lâu
+    results = await asyncio.gather(
+        *(asyncio.to_thread(get_card_state_stats, deck) for deck in roots)
+    )
+
+    lines = []
+    for deck, (counts, total) in sorted(
+        zip(roots, results), key=lambda x: -(x[1][1] or 0)
+    ):
+        if counts is None or not total:
+            continue  # deck rỗng (vd 'Mặc định') hoặc lỗi -> không bịa số
+        lines.append("")
+        lines.append(f"📚 {deck} — {total} thẻ")
+        for slug, label, _ in CARD_STATES:
+            n = counts.get(slug, 0)
+            # 0 thẻ tạm ngưng/tạm ẩn là chuyện bình thường, đừng làm rối báo cáo
+            if not n and slug in ("suspended", "buried"):
+                continue
+            lines.append(f"   {label}: {n} ({round(n * 100 / total)}%)")
+        # Số lẻ không rơi vào nhóm nào (bản Anki khác có thể phân loại khác) —
+        # thà hiện ra còn hơn để tổng cộng lại không khớp mà người đọc không biết
+        missing = total - sum(counts.values())
+        if missing:
+            lines.append(f"   ❓ Khác: {missing} ({round(missing * 100 / total)}%)")
+    return lines
+
+
 async def thongke_report():
-    """Dựng text báo cáo thống kê chủ đề. Tách riêng để cả lệnh /thongke lẫn nút
+    """Dựng text báo cáo thống kê. Tách riêng để cả lệnh /thongke lẫn nút
     📊 trong menu 🛠 đều dùng chung một logic."""
     stats, untagged = await asyncio.to_thread(get_topic_stats)
     if stats is None:
         return "❌ Không đếm được (AnkiConnect trên VPS lỗi?)."
 
     total = sum(stats.values())
-    lines = [f"📊 KHO {TOPIC_DECK_PARENT}: {total} thẻ", "─" * 22]
+    lines = ["📊 THỐNG KÊ"]
+    lines += await _card_state_section()
+    lines.append("")
+    lines.append(f"📂 CHỦ ĐỀ (kho {TOPIC_DECK_PARENT}): {total} thẻ")
+    lines.append("─" * 22)
     for slug, n in sorted(stats.items(), key=lambda x: -x[1]):
         if n == 0:
             continue

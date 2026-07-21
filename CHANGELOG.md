@@ -4,6 +4,27 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 22/07/2026
+
+- **/thongke hiện thêm TRẠNG THÁI HỌC, tách riêng từng kho** (mới / đang học / trẻ /
+  trưởng thành kèm %, như màn "Card Counts" của Anki). Mốc 21 ngày để tách "trẻ" khỏi
+  "trưởng thành" là hằng số của chính Anki.
+  ⚠️ Bản đầu lọc theo `note:"RU_Word"` — user nhắc kịp "đừng lẫn 2 deck lớn vào nhau",
+  và hóa ra lọc theo model còn có lỗi NẶNG HƠN: mảng ngữ pháp GRAMMAR:: dùng model
+  RU_Plural riêng nên biến mất hoàn toàn khỏi báo cáo mà không ai hay. Sửa: lọc theo
+  DECK GỐC (`get_root_decks()` = tên không chứa '::'), mỗi kho một khối riêng, deck
+  rỗng (vd 'Mặc định') thì bỏ qua chứ không hiện hàng số 0.
+  Đo trước khi viết truy vấn, không đoán cú pháp Anki: trên chính collection này
+  `is:new + is:learn + is:review = 163+4+574 = 741` = đúng tổng và không giao nhau,
+  nên chia nhóm theo lối đó là kín. Thẻ TẠM NGƯNG/TẠM ẨN tách ra TRƯỚC (đúng thứ tự
+  Anki làm) rồi phần còn lại mới chia — nếu không, 8 thẻ tạm ngưng sẽ bị đếm hai lần.
+  Kết quả thật: RUSSIAN 159+0+453+121+8 = 741 ✓, GRAMMAR 94+4+26+0 = 124 ✓.
+  Vẫn có dòng "❓ Khác" phòng khi bản Anki khác phân loại lệch đi — thà hiện ra còn
+  hơn để tổng không khớp mà người đọc không biết.
+  Đếm bằng `findCards` (chỉ trả về id) chứ KHÔNG dùng `cardsInfo`: cardsInfo kèm cả
+  HTML mặt trước/sau đã dựng của từng thẻ — vài MB tải về chỉ để đọc queue/type.
+  Các kho đếm song song bằng asyncio.gather -> cả báo cáo chạy 0.7s.
+
 ## 21/07/2026 (đợt 4)
 
 - **Quét ảnh báo `этот ← это` là "từ MỚI" dù `это` đã có thẻ** — user báo ngay sau khi
