@@ -3,7 +3,13 @@
 # Từ khi gỡ nút AI Refine khỏi thẻ, đây là NƠI DUY NHẤT dựng HTML khối ví dụ
 # (cả lúc thêm thẻ mới lẫn lúc sửa thẻ qua /sua của bot đều đi qua đây).
 # Đổi cấu trúc HTML/class CSS chỉ cần sửa ở file này (+ card.css nếu đổi class).
+# ⚠️ Nửa dưới file là các hàm ĐỌC NGƯỢC (parse_*) HTML đã dựng để hiện lại thẻ cũ
+# dưới dạng text (bot tra từ điển). Đổi cấu trúc ở nửa trên PHẢI sửa luôn nửa dưới.
 # ==============================================================================
+import html as html_lib
+import json
+import re
+
 from .utils import log_warn, apply_hl
 from .ai_client import call_claude_ai, call_claude_ai_freestyle
 
@@ -91,3 +97,77 @@ def build_examples_html(word_clean, raw_examples, english_meanings):
     # Hoàn toàn không có gì
     vi_meaning = ", ".join(english_meanings) if english_meanings else "N/A"
     return "", vi_meaning, [], None
+
+
+# ==============================================================================
+# --- ĐỌC NGƯỢC: HTML trong thẻ -> text thuần ---
+# Bot tra từ điển (gõ từ đã có thẻ) cần hiện lại NGUYÊN NỘI DUNG thẻ cũ, mà thẻ
+# chỉ lưu HTML. Các hàm dưới đây là hàm nghịch của _build_example_block() và của
+# meaning_html trong anki_client.build_card_fields() — sửa cấu trúc HTML ở trên
+# thì phải sửa regex ở đây, nếu không bot sẽ hiện thẻ cũ TRỐNG RỖNG.
+# ==============================================================================
+
+# <span class="hl">x</span> -> <hl>x</hl> để dùng lại utils.hl_to_bracket ([x])
+_HL_SPAN_RE = re.compile(r'<span class="hl">(.*?)</span>', re.S)
+# Bỏ mọi thẻ CÒN LẠI nhưng chừa <hl>/</hl> vừa dựng ở trên.
+# ⚠️ Dấu / phải nằm TRONG lookahead: viết "</?(?!hl\b)..." thì regex vẫn khớp được
+# </hl> bằng cách coi "/" là ký tự đầu tên thẻ -> nuốt mất thẻ đóng, câu ví dụ hiện
+# ra thành "Trời [đẹp quá, đi dạo không?" (đã dính lỗi này và test bắt được).
+_OTHER_TAG_RE = re.compile(r"<(?!/?hl\b)/?[a-zA-Z!][^>]*>")
+
+
+def html_fragment_to_text(fragment):
+    """1 mẩu HTML trong thẻ -> text thuần, giữ <hl>...</hl> đánh dấu từ đích."""
+    if not fragment:
+        return ""
+    text = _HL_SPAN_RE.sub(r"<hl>\1</hl>", fragment)
+    text = re.sub(r"<br\s*/?>", " ", text)
+    text = _OTHER_TAG_RE.sub("", text)
+    text = html_lib.unescape(text)
+    return re.sub(r"\s+", " ", text).strip()
+
+
+def parse_meaning_html(meaning_html):
+    """Ô Meaning (<ol class="meaning-list"><li>..</li></ol>) -> list nghĩa tiếng Anh."""
+    items = re.findall(r"<li[^>]*>(.*?)</li>", meaning_html or "", re.S)
+    return [t for t in (html_fragment_to_text(i) for i in items) if t]
+
+
+def parse_gender_badge(badge_html):
+    """Ô GenderBadge (<div class="badge m">Masculine ♂</div>) -> 'Masculine ♂'."""
+    return html_fragment_to_text(badge_html)
+
+
+def parse_examples_html(examples_html):
+    """Ô ExamplesHTML -> [{'ru','en','vi'}] (hàm nghịch của _build_example_block).
+
+    Mỗi ví dụ nằm trong 1 khối <details>; cắt theo khối TRƯỚC rồi mới bóc từng
+    ngôn ngữ, nhờ vậy câu tiếng Việt (bọc trong <span class="vi-text"> có thể
+    chứa <span class="hl"> lồng bên trong) không bị lẫn sang ví dụ kế tiếp."""
+    html_text = examples_html or ""
+    blocks = re.findall(r"<details\b.*?</details>", html_text, re.S)
+    if not blocks and html_text.strip():
+        blocks = [html_text]  # thẻ đời cũ / cấu trúc lạ: cứ thử bóc nguyên khối
+    examples = []
+    for block in blocks:
+        ru = re.search(r'<div class="ex-ru">(.*?)</div>', block, re.S)
+        en = re.search(r'<div class="ex-en">(.*?)</div>', block, re.S)
+        # THAM LAM cố ý: </span> đầu tiên có thể là của <span class="hl"> lồng trong
+        vi = re.search(r'<span class="vi-text">(.*)</span>', block, re.S)
+        ex = {
+            "ru": html_fragment_to_text(ru.group(1) if ru else ""),
+            "en": html_fragment_to_text(en.group(1) if en else ""),
+            "vi": html_fragment_to_text(vi.group(1) if vi else ""),
+        }
+        if ex["ru"] or ex["en"] or ex["vi"]:
+            examples.append(ex)
+    return examples
+
+
+def parse_raw_examples(raw_json):
+    """Ô RawExamples (JSON câu gốc OpenRussian) -> list[dict] ([] nếu hỏng/trống)."""
+    try:
+        data = json.loads(raw_json or "[]")
+        return data if isinstance(data, list) else []
+    except (ValueError, TypeError):
+        return []

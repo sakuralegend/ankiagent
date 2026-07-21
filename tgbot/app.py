@@ -137,6 +137,9 @@ def main():
     app.add_handler(CommandHandler("backup", cmd_backup, filters=only_me))
     app.add_handler(CallbackQueryHandler(on_callback))
     app.add_handler(MessageHandler(only_me & filters.PHOTO, on_photo))
+    # Ảnh gửi dạng FILE (document): Telegram KHÔNG nén nên chữ nhỏ trong sách còn
+    # nguyên nét -> AI đọc sót ít hơn hẳn ảnh thường (bị ép về ~1280px).
+    app.add_handler(MessageHandler(only_me & filters.Document.IMAGE, on_photo))
     app.add_handler(MessageHandler(only_me & filters.TEXT & ~filters.COMMAND, on_word))
 
     print("🚀 Bot đang chạy (long polling). Mặc định 🤖 tự động: thẻ vào deck con theo chủ đề AI chọn.")

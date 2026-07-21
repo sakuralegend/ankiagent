@@ -8,6 +8,7 @@
 import base64
 import json
 import os
+import re
 from datetime import datetime, timedelta
 import requests
 
@@ -15,7 +16,13 @@ import requests
 from .config import ANKI_CONNECT_URL, INBOX_DECK, MODEL_NAME, TOPIC_DECK_PARENT
 from .topics import TOPICS, TOPIC_TAG_PREFIX, topic_tag, normalize_topic
 from .utils import log_warn, log_fail, strip_accents_perfectly, hl_to_bracket
-from .html_builder import build_examples_html
+from .html_builder import (
+    build_examples_html,
+    parse_examples_html,
+    parse_gender_badge,
+    parse_meaning_html,
+    parse_raw_examples,
+)
 from .audio import fetch_audio_bytes
 
 _TEMPLATES_DIR = os.path.join(os.path.dirname(__file__), "templates")
@@ -107,13 +114,17 @@ def find_duplicate_notes(clean_word):
                 if first_card:
                     deck = first_card.get("deckName", "?")
                     status_text = _card_status_text(first_card)
-            word_field = n.get("fields", {}).get("Word", {}).get("value", "")
+            fields = {k: v.get("value", "") for k, v in n.get("fields", {}).items()}
             duplicates.append({
                 "note_id": n.get("noteId"),
-                "word": word_field,
+                "word": fields.get("Word", ""),
                 "deck": deck,
                 "status_text": status_text,
                 "card_ids": note_card_ids,
+                # fields + tags để bot hiện LẠI TOÀN BỘ nội dung thẻ cũ (tra từ điển),
+                # khỏi phải gọi notesInfo lần nữa — dữ liệu đã nằm sẵn trong tay.
+                "fields": fields,
+                "tags": n.get("tags", []),
             })
         return duplicates
     except Exception as e:
@@ -362,6 +373,44 @@ def build_card_fields(word, data):
         "pos_full": pos_full,
         "en_meanings": data["english_meanings"],
         "ai_degraded": ai_degraded,
+    }
+
+
+def note_to_card_info(dup):
+    """Hàm NGHỊCH của build_card_fields(): note đã nằm trong Anki -> dict card_info
+    ĐÚNG KHUÔN mà push_to_anki() trả về. Nhờ vậy bot hiện thẻ CŨ (tra từ điển) bằng
+    đúng bộ khung hiển thị của thẻ MỚI, không phải viết hai kiểu trình bày.
+
+    dup: 1 phần tử find_duplicate_notes() trả về (đã có sẵn fields + tags).
+    Các khóa THÊM so với card_info gốc (thẻ mới chưa có): note_id, status_text,
+    has_audio, image, raw_count."""
+    fields = dup.get("fields") or {}
+    en_meanings = parse_meaning_html(fields.get("Meaning", ""))
+    topic_tags = [t for t in (dup.get("tags") or []) if t.startswith(TOPIC_TAG_PREFIX)]
+    audio = fields.get("Audio", "")
+    examples = parse_examples_html(fields.get("ExamplesHTML", ""))
+    # Cùng định nghĩa "thẻ khuyết" như build_card_fields() -> thẻ cũ hỏng cũng
+    # được cảnh báo + mời bấm nút làm lại ngay trong bảng tra từ điển.
+    ai_degraded = (not examples) or not any((ex.get("vi") or "").strip() for ex in examples)
+    return {
+        "word": fields.get("Word", "") or dup.get("word", ""),
+        "clean_word": fields.get("WordClean", ""),
+        "en_meanings": en_meanings or ["(thẻ không có nghĩa tiếng Anh)"],
+        "vi_meaning": fields.get("Vietnamese", "").strip(),
+        "pos": fields.get("PoSFull", "") or fields.get("PoS", ""),
+        "gender": parse_gender_badge(fields.get("GenderBadge", "")),
+        "deck": dup.get("deck", "?"),
+        "is_forced": False,
+        "simplified_examples": examples,
+        "ai_degraded": ai_degraded,
+        "topic": topic_tags[0] if topic_tags else "",
+        # Thẻ CŨ không lưu lại nguồn audio, chỉ biết có tiếng hay không
+        "audio_source": "",
+        "has_audio": bool(re.search(r"\[sound:[^\]]+\]", audio)),
+        "image": fields.get("Image", "").strip(),
+        "raw_count": len(parse_raw_examples(fields.get("RawExamples", ""))),
+        "note_id": dup.get("note_id"),
+        "status_text": dup.get("status_text", ""),
     }
 
 

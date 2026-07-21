@@ -13,7 +13,7 @@ from telegram.ext import ContextTypes
 
 from anki_tools.config import INBOX_DECK
 from anki_tools.utils import strip_accents_perfectly
-from anki_tools.ai_client import call_claude_scan_words
+from anki_tools.ai_client import call_claude_scan_words, image_mime_type
 from anki_tools.pipeline import process_word
 from anki_tools.anki_client import find_duplicate_notes, get_known_words, trigger_sync
 
@@ -32,6 +32,23 @@ def _join_words(words, limit=30):
     return shown + more
 
 
+# Trần 1 tin nhắn Telegram là 4096 ký tự — trang sách dày có thể ra hàng trăm từ,
+# vượt trần thì Telegram TỪ CHỐI cả tin, user không thấy gì để duyệt.
+_LIST_TEXT_BUDGET = 3500
+
+
+def _scan_line(index, word):
+    """1 dòng trong danh sách duyệt: 'stt. lemma ← dạng in trên sách' (chỉ hiện
+    dạng gốc khi nó KHÁC lemma, và 🔧 khi pymorphy3 phải sửa lại đáp án của AI)."""
+    lemma, seen = word["lemma"], word.get("seen", "")
+    line = f"{index}. {lemma}"
+    if seen and seen != lemma:
+        line += f" ← {seen}"
+    if word.get("fixed"):
+        line += " 🔧"
+    return line
+
+
 def _scan_list_text_keyboard(words, scanned_total=None):
     """Danh sách từ mới chờ user duyệt + nút xác nhận. Đây là CHỐT AN TOÀN:
     không bấm ✅ thì không có gì được thêm vào Anki."""
@@ -39,9 +56,21 @@ def _scan_list_text_keyboard(words, scanned_total=None):
     header = f"📷 {len(words)} từ MỚI chưa có thẻ"
     if scanned_total is not None and scanned_total > len(words):
         header += f" (quét được {scanned_total}, đã lọc {scanned_total - len(words)} từ có thẻ rồi)"
-    lines = [header + ":"]
-    lines += [f"{i}. {w}" for i, w in enumerate(words, 1)]
+
+    lines, used, hidden = [header + ":"], len(header), 0
+    for i, w in enumerate(words, 1):
+        line = _scan_line(i, w)
+        if used + len(line) > _LIST_TEXT_BUDGET:
+            hidden = len(words) - i + 1
+            break
+        lines.append(line)
+        used += len(line) + 1
+    if hidden:
+        lines.append(f"… và {hidden} từ nữa (không hiện hết được trong 1 tin nhắn).")
+
     lines.append("")
+    if any(w.get("fixed") for w in words):
+        lines.append("🔧 = từ điển hình thái đã sửa lại dạng nguyên thể AI đọc được.")
     lines.append(f"⏱ Thêm hết tốn ~{minutes} phút, {len(words)} lượt AI.")
     lines.append("Muốn loại từ nào: nhắn 'bỏ 3 7 12'. Chưa bấm ✅ thì chưa thêm gì.")
     kb = InlineKeyboardMarkup([[
@@ -51,8 +80,37 @@ def _scan_list_text_keyboard(words, scanned_total=None):
     return "\n".join(lines), kb
 
 
+# Ảnh gửi dạng FILE giữ nguyên độ nét, nhưng nhét nguyên bản vào request AI thì
+# base64 phình ~33% -> quá nặng. Trần này để bot từ chối sớm với lời khuyên rõ ràng
+# thay vì treo rồi lỗi khó hiểu.
+_MAX_IMAGE_BYTES = 8 * 1024 * 1024
+
+
+async def _download_image(message, status):
+    """Tải ảnh từ Telegram (nhận cả photo nén lẫn document ảnh gốc).
+    Trả về bytes, hoặc None nếu đã báo lỗi cho user."""
+    getter = (message.photo[-1] if message.photo else message.document)
+    for attempt in (1, 2):
+        try:
+            tg_file = await getter.get_file()
+            return bytes(await tg_file.download_as_bytearray())
+        except TimedOut:
+            if attempt == 1:
+                await asyncio.sleep(3)  # mạng chững thoáng qua -> thử lại 1 lần
+                continue
+            await status.edit_text("❌ Mạng Telegram đang chậm, tải ảnh thất bại — gửi lại ảnh thử nhé.")
+            return None
+        except Exception:
+            await status.edit_text("❌ Không tải được ảnh từ Telegram, gửi lại thử nhé.")
+            return None
+
+
 async def on_photo(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Nhận ảnh trang sách: quét từ mới rồi CHỜ user duyệt (không tự thêm)."""
+    """Nhận ảnh trang sách: quét từ mới rồi CHỜ user duyệt (không tự thêm).
+
+    Nhận CẢ HAI kiểu gửi: ảnh thường (Telegram nén còn ~1280px) và ảnh gửi dạng
+    FILE/document (giữ nguyên độ nét máy ảnh). Sách chữ nhỏ nên gửi dạng file:
+    chữ càng nét thì AI càng ít bỏ sót từ."""
     _reset_idle_timer(context, update.effective_chat.id)
     try:
         status = await update.message.reply_text("📷 Đang tải ảnh về...")
@@ -62,28 +120,29 @@ async def on_photo(update: Update, context: ContextTypes.DEFAULT_TYPE):
         # client báo lỗi -> thử lại 1 lần rồi đi tiếp; lỗi nữa thì bó tay thật.
         status = await update.message.reply_text("📷 Đang tải ảnh về... (mạng chậm)")
 
-    image_bytes = None
-    for attempt in (1, 2):
-        try:
-            tg_file = await update.message.photo[-1].get_file()
-            image_bytes = bytes(await tg_file.download_as_bytearray())
-            break
-        except TimedOut:
-            if attempt == 1:
-                await asyncio.sleep(3)  # mạng chững thoáng qua -> thử lại 1 lần
-                continue
-            await status.edit_text("❌ Mạng Telegram đang chậm, tải ảnh thất bại — gửi lại ảnh thử nhé.")
-            return
-        except Exception:
-            await status.edit_text("❌ Không tải được ảnh từ Telegram, gửi lại thử nhé.")
-            return
+    image_bytes = await _download_image(update.message, status)
+    if image_bytes is None:
+        return
+    if len(image_bytes) > _MAX_IMAGE_BYTES:
+        await status.edit_text(
+            f"❌ Ảnh nặng {len(image_bytes) / 1024 / 1024:.1f}MB, quá cỡ gửi cho AI (trần 8MB).\n"
+            "Gửi lại dạng ẢNH thường (Telegram tự nén) hoặc chụp lại ở độ phân giải thấp hơn."
+        )
+        return
+    if not image_mime_type(image_bytes):
+        # Hay gặp khi gửi ảnh dạng FILE từ iPhone: file gốc là HEIC
+        await status.edit_text(
+            "❌ Định dạng ảnh này AI không đọc được (chỉ nhận JPEG/PNG/WEBP — file iPhone\n"
+            "gửi nguyên bản thường là HEIC).\nGửi lại dạng ẢNH thường là được ngay."
+        )
+        return
 
-    await status.edit_text("🔍 AI đang quét từ tiếng Nga trong ảnh (1 lượt AI)...")
+    await status.edit_text("🔍 AI đang đọc từ tiếng Nga trong ảnh (1 lượt AI, có thể hơi lâu)...")
     words = await asyncio.to_thread(call_claude_scan_words, image_bytes)
     if not words:
         await status.edit_text(
             "❌ AI không đọc được từ tiếng Nga nào trong ảnh.\n"
-            "Thử chụp gần hơn / rõ nét hơn, và gửi dạng ẢNH (photo) chứ không phải file."
+            "Thử chụp gần hơn / rõ nét hơn, hoặc gửi ảnh dạng FILE để giữ nguyên độ nét."
         )
         return
 
@@ -91,7 +150,7 @@ async def on_photo(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if known is None:
         await status.edit_text("❌ Không đọc được danh sách từ đã có từ Anki — thử gửi lại ảnh sau nhé.")
         return
-    new_words = [w for w in words if strip_accents_perfectly(w).lower() not in known]
+    new_words = [w for w in words if strip_accents_perfectly(w["lemma"]).lower() not in known]
     if not new_words:
         await status.edit_text(f"✅ Cả {len(words)} từ quét được đều ĐÃ có thẻ — không có từ mới.")
         return
@@ -138,12 +197,13 @@ async def _run_scan_add(context, chat_id, msg, words):
     attempted = 0
 
     try:
-        for i, word in enumerate(words):
+        for i, item in enumerate(words):
             if context.bot_data.get("scan_stop"):
                 stopped = True
                 break
             _reset_idle_timer(context, chat_id)
             attempted = i + 1
+            word = item["lemma"]  # dạng từ điển đã qua tay pymorphy3 — thứ dùng để cào
 
             # Dò trùng lần cuối ngay trước khi thêm (rẻ, không tốn AI) — phòng
             # trường hợp từ vừa được thêm tay giữa lúc quét và lúc bấm ✅

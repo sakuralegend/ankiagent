@@ -2,3 +2,8 @@ requests>=2.31
 beautifulsoup4>=4.12
 python-dotenv>=1.0
 python-telegram-bot>=21.0
+# Phân tích hình thái tiếng Nga (từ điển OpenCorpora) — đưa từ về dạng từ điển
+# ngay trên VPS, không mạng/không hạn mức. Xem anki_tools/lemma.py để biết vì sao
+# việc này KHÔNG giao hết cho AI. Gói -dicts-ru là dữ liệu từ điển (~15MB).
+pymorphy3>=2.0
+pymorphy3-dicts-ru

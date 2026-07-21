@@ -61,6 +61,7 @@ anki_tools/
   topics.py          # Nguồn chân lý danh sách chủ đề (TOPICS) + chuẩn hóa slug
   pipeline.py        # Logic dùng chung: process_word() thêm từ, redo_note() làm lại thẻ
   ai_client.py       # Gọi AI: sinh ví dụ, phân loại topic, đoán lemma, quét ảnh; chuỗi model 429
+  lemma.py           # Đưa từ về dạng từ điển bằng pymorphy3 (offline) — TRỌNG TÀI cho AI khi quét ảnh
   scraper.py         # Cào dữ liệu OpenRussian
   audio.py           # Lấy phát âm: OpenRussian → Google Cloud TTS (phao dự phòng khi 500)
   html_builder.py    # NƠI DUY NHẤT dựng HTML khối ví dụ

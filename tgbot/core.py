@@ -21,9 +21,12 @@ HELP_TEXT = (
     "• Gõ 1 từ tiếng Nga → xong. AI chọn chủ đề (gắn tag), thẻ vào\n"
     "  📥 RUSSIAN::0-inbox để học gom một chỗ trước\n"
     "• Thẻ học xong vòng đầu → 3h sáng bot tự chuyển về deck chủ đề theo tag\n"
-    "• Gửi 📷 ẢNH trang sách (dạng photo) → AI quét từ, lọc từ đã có thẻ,\n"
-    "  bạn DUYỆT danh sách rồi bot mới thêm\n"
-    "• Gõ nhầm / gõ dạng biến cách → AI đoán từ nguyên mẫu, bấm nút xác nhận\n"
+    "• Gõ từ ĐÃ CÓ thẻ → bot đọc lại nguyên nội dung thẻ đó như một mục TỪ ĐIỂN\n"
+    "  (nghĩa, từ loại, 3 ví dụ, audio, lịch ôn) — vẫn có nút xóa/chuyển deck\n"
+    "• Gửi 📷 ẢNH trang sách → AI đọc từ, lọc từ đã có thẻ, bạn DUYỆT rồi bot mới\n"
+    "  thêm. Sách chữ nhỏ thì gửi ảnh dạng FILE (không nén) để AI đỡ đọc sót\n"
+    "• Gõ nhầm / gõ dạng biến cách → từ điển hình thái (hoặc AI) đoán từ nguyên\n"
+    "  mẫu, bấm nút xác nhận\n"
     "• ⭐ /dacbiet → thẻ NGỮ PHÁP (số nhiều bất quy tắc), deck GRAMMAR:: riêng.\n"
     "  Một từ có CẢ thẻ từ vựng lẫn thẻ ngữ pháp là bình thường, không phải trùng\n"
     "\n"
@@ -249,12 +252,11 @@ def _reset_idle_timer(context, chat_id):
     context.bot_data["idle_task"] = asyncio.create_task(_idle_reset_job(context, chat_id))
 
 
-def format_card_summary(card_info, elapsed):
-    """Bản Telegram của print_card_summary() - text thuần, không markdown."""
-    w = hl_to_bracket(card_info["word"])
-    forced = " ⚠️ FORCE" if card_info.get("is_forced") else ""
+def _card_body_lines(card_info):
+    """Phần RUỘT của thẻ (nghĩa, từ loại, chủ đề, 3 ví dụ) — dùng CHUNG cho thẻ vừa
+    thêm (format_card_summary) và thẻ đã có sẵn (format_dictionary_entry), để hai
+    nơi không bao giờ trình bày lệch nhau."""
     lines = [
-        f"✅ THẺ MỚI{forced}: {w}",
         f"🇬🇧 {', '.join(card_info['en_meanings'])}",
         f"🇻🇳 {card_info['vi_meaning']}",
     ]
@@ -274,6 +276,15 @@ def format_card_summary(card_info, elapsed):
             lines.append(f"     🇬🇧 {en}")
         if vi:
             lines.append(f"     🇻🇳 {vi}")
+    return lines
+
+
+def format_card_summary(card_info, elapsed):
+    """Bản Telegram của print_card_summary() - text thuần, không markdown."""
+    w = hl_to_bracket(card_info["word"])
+    forced = " ⚠️ FORCE" if card_info.get("is_forced") else ""
+    lines = [f"✅ THẺ MỚI{forced}: {w}"]
+    lines += _card_body_lines(card_info)
 
     if card_info.get("ai_degraded"):
         lines.append(
@@ -288,4 +299,31 @@ def format_card_summary(card_info, elapsed):
         lines.append(SYNC_FAIL_TEXT)
     else:
         lines.append("☁️ Đã sync AnkiWeb — mở app Anki bấm sync để thấy thẻ.")
+    return "\n".join(lines)
+
+
+def format_dictionary_entry(card_info, index=0, total=1):
+    """Gõ một từ ĐÃ CÓ thẻ -> bot trả về nguyên nội dung thẻ đó như một mục TỪ ĐIỂN
+    (user chốt 21/07/2026: báo 'bị trùng' suông là phí — thẻ đã có sẵn đủ nghĩa,
+    ví dụ, audio thì cứ đọc ra). Dùng chung _card_body_lines() với thẻ mới thêm nên
+    bố cục y hệt, chỉ khác phần đuôi: trạng thái học + audio + deck thay cho ⏱/sync.
+
+    index/total: khi 1 từ có nhiều note trùng, cho biết đang xem note thứ mấy."""
+    w = hl_to_bracket(card_info["word"])
+    which = f" (note {index + 1}/{total})" if total > 1 else ""
+    lines = [f"📖 {w} — ĐÃ CÓ THẺ{which}"]
+    lines += _card_body_lines(card_info)
+
+    lines.append("─────────────")
+    lines.append("🔊 Có audio" if card_info.get("has_audio") else "🔇 Thẻ chưa có audio")
+    if card_info.get("image"):
+        lines.append("🖼 Thẻ có ảnh minh họa")
+    if card_info.get("raw_count"):
+        lines.append(f"📄 Kèm {card_info['raw_count']} câu gốc OpenRussian (ô RawExamples)")
+    lines.append(f"📦 {card_info['deck']}")
+    if card_info.get("status_text"):
+        lines.append(f"📈 {card_info['status_text']}")
+
+    if card_info.get("ai_degraded"):
+        lines.append("⚠️ Thẻ này THIẾU ví dụ/nghĩa Việt — nên bấm 🔄 Làm lại thẻ.")
     return "\n".join(lines)

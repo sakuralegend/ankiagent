@@ -4,6 +4,69 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 21/07/2026 (đợt 3)
+
+- **Gõ từ ĐÃ CÓ thẻ → bot trả về nguyên mục TỪ ĐIỂN, không báo "bị trùng" suông nữa.**
+  Thẻ cũ đã chứa sẵn nghĩa Anh/Việt, từ loại, giống, 3 ví dụ song ngữ, audio — báo mỗi
+  câu "đã tồn tại" là vứt hết đi rồi bắt user tự mở app Anki tra lại. Nay bot đọc ngược
+  nội dung note ra đúng bố cục lúc thêm thẻ mới, kèm trạng thái học + deck + có audio hay
+  chưa; nút cũ (chuyển deck / xóa+thêm lại / vẫn thêm trùng) giữ nguyên, thêm nút 🔄 Làm
+  lại thẻ. Nhiều note trùng thì bấm `Note [1] [2]` xem từng cái.
+  Cách làm: thẻ chỉ lưu HTML nên phải viết hàm NGHỊCH của lúc dựng thẻ —
+  `html_builder.parse_examples_html/parse_meaning_html/...` (đặt ngay dưới hàm dựng để
+  sửa cấu trúc HTML là thấy ngay phải sửa cả hai) + `anki_client.note_to_card_info()`
+  dựng lại đúng dict `card_info`, nhờ vậy dùng CHUNG `_card_body_lines()` với thẻ mới,
+  hai nơi không thể trình bày lệch nhau. `find_duplicate_notes()` trả kèm fields+tags
+  (đã có sẵn trong tay, khỏi gọi notesInfo lần hai).
+  ⚠️ Bug regex đã dính và test bắt được: `</?(?!hl\b)[a-zA-Z!/]...` vẫn nuốt `</hl>`
+  (regex coi "/" là ký tự đầu tên thẻ) -> câu ví dụ hiện ra "Trời [đẹp quá, đi dạo
+  không?". Phải đưa dấu / vào TRONG lookahead: `<(?!/?hl\b)/?[a-zA-Z!]...`.
+  Nút 🔄 Làm lại thẻ CỐ Ý chỉ hiện khi có đúng 1 note: `redo_note()` chọn note mới nhất
+  theo từ, nhiều note trùng thì nút sẽ sửa nhầm cái đang xem.
+
+- **Quét ảnh: Gemini ĐỌC, pymorphy3 CHỐT dạng từ điển** (user chốt phương án sau khi
+  hỏi). Lỗi thật đang gặp: AI trả về `проверяем` (chưa chia về nguyên thể) và `дети`
+  (thay vì `ребёнок`) -> OpenRussian không có -> thẻ không thêm được. Đó KHÔNG phải
+  việc nên đoán: tiếng Nga có từ điển hình thái đầy đủ, dùng đúng công cụ là hết sai.
+  `anki_tools/lemma.py` bọc **pymorphy3** (từ điển OpenCorpora, chạy offline trên VPS,
+  không mạng/không hạn mức). ĐÃ ĐO THẬT trước khi chọn, không tin lời quảng cáo: 27/27
+  ca khó đều đúng (дети→ребёнок, проверяем→проверять, люди→человек, шёл→идти,
+  лучше→хороший, бегущий→бежать...).
+  PHÂN VAI là chỗ quan trọng nhất — `reconcile_lemma()` có 3 luật, KHÔNG để từ điển
+  đè AI vô tội vạ: (1) từ điển không biết từ đó (gõ sai/tên riêng) -> giữ AI, vì
+  pymorphy đoán liều theo đuôi rất bậy (компютер -> "компютереть", nhận ra nhờ cờ
+  `is_known`); (2) đáp án AI nằm trong danh sách lemma hợp lệ -> GIỮ AI kể cả khi không
+  phải phương án xác suất cao nhất, vì AI có ngữ cảnh câu còn pymorphy nhìn từ trơ trọi
+  (стали trong "из стали" là сталь, không phải стать); (3) còn lại mới lật. So sánh
+  bỏ qua khác biệt ё/е.
+  Prompt quét ảnh viết lại: tách bạch BƯỚC ĐỌC (bắt quét từng dòng, gồm cả tiêu đề, số
+  bài tập, chú thích, bảng biểu, chữ bị gạch nối xuống dòng — chỗ AI hay lướt) khỏi BƯỚC
+  đưa về nguyên thể; bắt trả về CẶP `{seen, lemma}` chứ không chỉ lemma (model buộc phải
+  nghĩ "từ này từ đâu ra", và bot có dạng gốc để đối chiếu + hiện cho user duyệt); nêu
+  đích danh nhóm suppletive hay trượt. Lượt quét ảnh được nâng `reasoning_effort`
+  minimal->low, `max_tokens` 3000->6000, timeout 60s->180s (đọc kỹ cả trang thì lâu hơn,
+  đứt giữa chừng là mất trắng công đọc).
+  Danh sách duyệt giờ hiện `проверять ← проверяем 🔧` (🔧 = từ điển đã sửa lại AI), và
+  có trần độ dài: trang dày ra hàng trăm từ thì tin nhắn vượt 4096 ký tự và Telegram
+  TỪ CHỐI cả tin — user không thấy gì để duyệt.
+
+- **Nhận ảnh gửi dạng FILE (document), không chỉ ảnh nén.** Telegram ép ảnh thường về
+  ~1280px; sách chữ nhỏ mất nét là AI đọc sót từ — đây nhiều khả năng là nguyên nhân
+  "bỏ lọt vài từ" chứ không chỉ tại prompt. Gửi dạng file thì ảnh nguyên vẹn.
+  Chặn sớm ở 8MB kèm lời khuyên rõ ràng (base64 phình thêm ~33%).
+  Kéo theo: phải NHẬN DẠNG định dạng ảnh bằng magic bytes (`image_mime_type()`) thay vì
+  khai cứng `image/jpeg` — ảnh nén Telegram luôn là JPEG nên trước đây khai bừa cũng
+  đúng, còn file thì có thể là PNG (ảnh chụp màn hình) hoặc HEIC (iPhone gửi nguyên
+  bản, Gemini KHÔNG đọc được) -> báo thẳng "gửi lại dạng ảnh thường" thay vì để AI trả
+  lỗi khó hiểu.
+
+- **Gõ tay từ biến cách: hỏi từ điển TRƯỚC, AI sau.** `дома` -> `_suggest_lemma()` hỏi
+  pymorphy3 ngay (tức thì, 0 lượt AI, chắc chắn đúng); chỉ khi từ điển bó tay — tức là
+  gõ SAI CHÍNH TẢ, thứ từ điển không xử lý được nhưng AI thì có — mới gọi AI đoán.
+  Vẫn phải bấm nút xác nhận như cũ, bot không tự thêm.
+  Thiếu pymorphy3 (chưa `pip install`) thì mọi hàm trả None và hệ thống chạy y như
+  trước — một thư viện phụ trợ không được phép làm chết bot.
+
 ## 21/07/2026 (đợt 2)
 
 - **Backup HỎNG HOÀN TOÀN trên VPS — sửa 2 nhịp.** Chạy thử thật trên VPS (thay vì
