@@ -105,6 +105,18 @@ async def _download_image(message, status):
             return None
 
 
+def _already_has_card(word, known):
+    """Từ coi như ĐÃ CÓ THẺ khi dạng từ điển HOẶC dạng in trên trang sách trùng
+    một thẻ sẵn có.
+
+    Phải xét cả hai vì bước đưa về nguyên thể có thể đổi từ sang một mục từ điển
+    KHÁC mà vẫn hợp lệ: ca thật 21/07/2026 — trang sách có 'это' (đã có thẻ),
+    AI đưa về 'этот' (chưa có thẻ) nên bot báo là TỪ MỚI, dù người học chẳng học
+    thêm được gì. Chỉ so mỗi lemma là còn nguyên cái bẫy đó cho những cặp khác."""
+    forms = {word.get("lemma", ""), word.get("seen", "")}
+    return any(strip_accents_perfectly(f).lower() in known for f in forms if f)
+
+
 async def on_photo(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Nhận ảnh trang sách: quét từ mới rồi CHỜ user duyệt (không tự thêm).
 
@@ -150,7 +162,7 @@ async def on_photo(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if known is None:
         await status.edit_text("❌ Không đọc được danh sách từ đã có từ Anki — thử gửi lại ảnh sau nhé.")
         return
-    new_words = [w for w in words if strip_accents_perfectly(w["lemma"]).lower() not in known]
+    new_words = [w for w in words if not _already_has_card(w, known)]
     if not new_words:
         await status.edit_text(f"✅ Cả {len(words)} từ quét được đều ĐÃ có thẻ — không có từ mới.")
         return

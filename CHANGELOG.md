@@ -4,6 +4,33 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 21/07/2026 (đợt 4)
+
+- **Quét ảnh báo `этот ← это` là "từ MỚI" dù `это` đã có thẻ** — user báo ngay sau khi
+  deploy đợt 3. Tin nhắn tự tố cáo thủ phạm: KHÔNG có dấu 🔧 nghĩa là pymorphy3 không
+  hề sửa gì, chính GEMINI đổi `это`->`этот`, và trọng tài cố tình nhường nó (luật "đáp
+  án AI nằm trong danh sách lemma hợp lệ thì giữ AI" — `этот` đúng là một lemma hợp lệ
+  của `это`). Nguyên nhân gốc: prompt đợt 3 dạy "đại từ -> cách 1", AI áp dụng đúng luật
+  nhưng QUÁ TAY. Kiểm bằng dữ liệu thật: collection có thẻ `это`
+  (RUSSIAN::language::grammar), không có `этот`; OpenRussian có cả hai (`это`="this is",
+  `этот`="this") nên bấm ✅ vẫn tạo được thẻ — tức là không lỗi to, mà là NHIỄU: từ mình
+  đang học quay lại đội lốt từ mới.
+  Sửa HAI TẦNG, tầng nào cũng chặn được một lớp lỗi khác nhau:
+  (1) `reconcile_lemma()` thêm luật: từ điển xếp CHÍNH dạng thấy trên ảnh là lemma khả
+  dĩ nhất -> giữ nguyên nó, không cho AI chia sâu thêm. Đo trước khi viết, luật tách
+  sạch 21/21 từ chức năng (это, всё, что, как, надо, нужно, ничего, уже, тут...) mà
+  KHÔNG đụng 18/18 dạng biến cách thật (дети, проверяем, шла, яйца, сестёр...), vì với
+  chúng lemma xác suất cao nhất khác hẳn dạng trên trang. Đánh đổi đã cân nhắc: từ đồng
+  âm kiểu `мой` (của tôi / rửa đi) sẽ theo từ điển thay vì ngữ cảnh AI — chấp nhận được
+  vì có dấu 🔧 và user vẫn duyệt danh sách trước khi thêm.
+  (2) Bộ lọc "đã có thẻ" giờ xét CẢ dạng nguyên thể LẪN dạng in trên trang
+  (`_already_has_card`). Đây mới là tầng chặn tổng quát: bước đưa về nguyên thể còn có
+  thể đổi từ sang mục từ điển khác hợp lệ ở những cặp khác, chỉ so mỗi lemma là còn
+  nguyên cái bẫy.
+  ⚠️ Test suýt báo oan `лучше`: kết quả ra `лучше` thay vì `хороший`. Soi ra KHÔNG phải
+  hồi quy — `possible_lemmas('лучше')=['хороший','лучше']` nên luật mới không thể bắn;
+  đó là luật CŨ (AI trả lời hợp lệ thì giữ AI) và cả hai đều là mục từ điển thật.
+
 ## 21/07/2026 (đợt 3)
 
 - **Gõ từ ĐÃ CÓ thẻ → bot trả về nguyên mục TỪ ĐIỂN, không báo "bị trùng" suông nữa.**

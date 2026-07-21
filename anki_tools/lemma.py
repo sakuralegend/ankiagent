@@ -96,18 +96,30 @@ def reconcile_lemma(seen, ai_lemma):
 
     Trả về (lemma, fixed): fixed=True nghĩa là pymorphy3 đã LẬT câu trả lời của AI.
 
-    Ba luật, xếp theo thứ tự:
+    Bốn luật, xếp theo thứ tự:
     1. Từ điển không biết `seen` -> giữ nguyên AI (typo/tên riêng: AI giỏi hơn hẳn).
-    2. Đáp án của AI nằm trong danh sách lemma hợp lệ của `seen` -> GIỮ AI, kể cả
+    2. Từ điển xếp CHÍNH `seen` là lemma khả dĩ NHẤT -> giữ nguyên `seen`, không cho
+       "chia" sâu thêm. Đây là luật chống AI lemmatize QUÁ TAY, thêm 21/07/2026 sau
+       ca thật: AI đổi 'это' (this is) thành 'этот' (this) vì đúng luật "đại từ ->
+       cách 1 giống đực" trong prompt. Cả loạt từ chức năng dính chung bẫy này —
+       это, всё, что, как, надо, нужно, ничего, уже... — chúng vừa là dạng biến
+       cách của từ khác, vừa là mục từ điển đứng riêng (OpenRussian có đủ), và bản
+       thân chúng mới là thứ người học gặp trên sách.
+       ⚠️ Đánh đổi đã cân nhắc: từ đồng âm kiểu 'мой' (của tôi / rửa đi!) sẽ bị giữ
+       nguyên dù AI đọc được ngữ cảnh, vì từ điển xếp nghĩa "của tôi" phổ biến hơn
+       hẳn. Chấp nhận được: bot đánh dấu 🔧 và user duyệt danh sách trước khi thêm.
+    3. Đáp án của AI nằm trong danh sách lemma hợp lệ của `seen` -> GIỮ AI, kể cả
        khi nó không phải phương án xác suất cao nhất. Đây là chỗ ngữ cảnh câu của
        AI thắng: 'стали' trong 'из стали' là сталь chứ không phải стать.
-    3. Còn lại (AI trả về thứ không phải lemma của từ đó: проверяем, дети) -> lấy
+    4. Còn lại (AI trả về thứ không phải lemma của từ đó: проверяем, дети) -> lấy
        lemma xác suất cao nhất của từ điển."""
     seen = (seen or "").strip().lower()
     ai_lemma = (ai_lemma or "").strip().lower()
     lemmas = possible_lemmas(seen)
     if not lemmas:
         return ai_lemma or seen, False
+    if _yo_key(lemmas[0]) == _yo_key(seen):
+        return seen, bool(ai_lemma) and _yo_key(ai_lemma) != _yo_key(seen)
     if ai_lemma and _yo_key(ai_lemma) in {_yo_key(l) for l in lemmas}:
         return ai_lemma, False
     return lemmas[0], bool(ai_lemma) and _yo_key(ai_lemma) != _yo_key(lemmas[0])
