@@ -6,6 +6,19 @@
 
 ## 26/07/2026
 
+- **SỬA NÚT 🧹 Dọn trong menu — nó chạy LOGIC CŨ và crash.** Phát hiện nhờ đọc journal VPS:
+  `17:00:24 TypeError: _don_report() takes 1 positional argument but 2 were given`.
+  Nút bấm gọi thẳng `move_graduated_from_inbox()` nên **bỏ cả bước sync-kéo-về lẫn bước
+  GĐ1→GĐ2**, rồi chết ở dòng báo cáo. Lệnh gõ `/don` vẫn đúng, chỉ nút hỏng.
+  → `dispatch.py` giờ gọi chung `run_don()`, không dựng lại logic dọn ở đó nữa.
+  - 🔑 **Bài học**: đổi chữ ký một hàm dùng chung thì phải **grep MỌI call site**, không chỉ
+    chỗ mình vừa sửa. **Lệnh gõ và nút bấm là HAI đường code khác nhau** — sửa một bên không
+    tự sửa bên kia. Đây là lỗi cùng họ với vụ `flow_scan.py` còn import `INBOX_DECK` đã xoá.
+  - 🔑 **Job nền `_guard()` nuốt exception nên Telegram im lặng** — nút hỏng suốt 6 tiếng mà
+    không có cảnh báo nào. Chỗ duy nhất lộ ra là `journalctl -u anki-bot`. Sau mỗi đợt sửa
+    lớn, **đọc journal chứ đừng chỉ hỏi `systemctl is-active`**.
+  - Đã quét lại toàn bộ: 3 chỗ gọi `_don_report` đều 1 tham số, 3 chỗ gọi `run_don`, và
+    import thử **cả 12 module** y như lúc bot khởi động — tất cả sạch.
 - **GỠ SẠCH TRẦN THẺ MỚI** (user: *"tôi sẽ học đến bao giờ hết thì thôi"*). Cả ba preset về
   `new/perDay = 9999` (mức cao nhất Anki nhận = không trần): `russian-parent-70` (cha, 140→9999),
   `stage1-quen` (70→9999), `inbox` (70→9999). `rev/perDay` vốn đã 9999 từ trước.
