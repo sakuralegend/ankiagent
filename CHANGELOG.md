@@ -6,6 +6,28 @@
 
 ## 27/07/2026
 
+- **XONG Ô "HƯỚNG DẪN" CHO TOÀN BỘ 168 TỪ trong hai deck đang học** (lô 1→12). Đây là thứ user
+  đọc ĐẦU TIÊN khi gặp từ mới — mục tiêu user nói rõ: *"học để thật sự hiểu, thật sự nhớ, tránh
+  học vẹt đi vào vết xe đổ lần trước"*.
+  - **Chia lô theo HỌ TỪ, không chia đều.** 32/168 từ nằm cùng hệ thống quốc tịch; soạn cùng
+    nhau thì giải thích nhất quán. Khối hệ thống dùng chung **lặp ở mọi thẻ trong họ là CỐ Ý** —
+    user chỉ nhìn một thẻ mỗi lần, gặp lại 32 lần chính là spaced repetition cho cái hệ thống.
+  - 📄 **Công thức đầy đủ ở `data/huongdan/README.md`** — đặc tả nội dung, 7 tiêu chí "cái tinh
+    tuý nên ưu tiên", quy trình 6 bước, bẫy đã dính, và bảng 12 hệ thống đã dạy. Đọc file đó
+    trước khi soạn lô mới, đừng dò lại từ đầu.
+- **BỘ SOÁT `kiemtra.py` đã bắt 11 lỗi thật qua 12 lô** — user tự nói *"tôi không đủ kiến thức
+  để kiểm tra được độ tin cậy"*, nên phần nào máy soát được thì bắt buộc để máy soát.
+  - Bắt được cả loại lỗi **đọc bằng mắt không ra**: `коре́янка`→`корея́нка`, `славя́нин`→`славяни́н`,
+    `выходны́е`, `морози́льник`; từ **không tồn tại** `ра́дый`; sai dạng `мо́лодый`→`молодо́й`.
+  - 🔴 **Hai lần nó lộ ra LỜI GIẢI THÍCH sai, không chỉ con số**: (1) tôi viết "trọng âm dịch
+    giữa `-ик`/`-ика`" — thực ra đứng yên ở cả 4 cặp, suýt dạy user một luật ngược; (2) `ви́на`
+    không phải cách 2 của `вино́` mà là số nhiều — cách 2 lại trùng khít `вина́` "lỗi lầm".
+  - Đã mở rộng từ chỗ **chỉ soát khối Họ hàng** ra **toàn field** (bản đầu bỏ lọt mọi từ trong
+    phần Cách nhớ và ô cảnh báo), thêm `MIEN_TRU` cho từ đồng tự — một bộ soát kêu nhầm mãi thì
+    rồi chính mình sẽ bỏ qua cả tiếng kêu thật.
+  - ⚠️ **Giới hạn phải nhớ:** `nouns.csv` chỉ có DANH TỪ. Động từ/tính từ rơi vào danh sách
+    "phải đọc bằng mắt" — đó là **chưa kiểm được**, KHÔNG phải "đúng".
+
 - **BỘ SOÁT `data/huongdan/kiemtra.py` — để MÁY kiểm tôi, đừng bắt user tin.** User nói thẳng:
   *"tôi không đủ kiến thức để có thể kiểm tra được độ tin cậy"*. Nên phần nào máy soát được thì
   phải để máy soát. Script đối chiếu mọi từ Nga in đậm trong khối `.hd-fam` với
