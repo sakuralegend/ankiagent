@@ -11,6 +11,11 @@ Soát hai thứ trên MỌI từ Nga in đậm trong khối "Họ hàng" (.hd-fa
 ⚠️ GIỚI HẠN PHẢI BIẾT: nouns.csv chỉ có DANH TỪ. Động từ/tính từ/trạng từ không
 tra được, script báo "khong tra duoc" chứ KHÔNG phải "đúng". Đừng đọc nhầm.
 
+🔴 **PHẢI ĐỌC BẰNG MẮT danh sách "khong tra duoc"** — đó không phải rác. Nó đã lộ
+ra hai từ bịa sai dạng mà máy không cách nào bắt được: `мо́лодый` (đúng: молодо́й)
+và `ра́дый` (không tồn tại trong tiếng Nga chuẩn). Cứ thấy tính từ trông lạ trong
+danh sách đó thì kiểm lại thủ công trước khi báo là xong.
+
 Chạy: python data/huongdan/kiemtra.py
 """
 import csv
