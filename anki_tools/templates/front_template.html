@@ -1,1 +1,85 @@
-<div class="card-container"><div class="section-title" style="text-align: center;">Translate into Russian</div><div class="meaning-box" style="border-bottom-left-radius: 0; border-bottom-right-radius: 0;">{{Meaning}}</div>{{#Vietnamese}}<div class="vietnamese-box"><div class="vi-label">Tiếng Việt</div><div class="vi-content">{{Vietnamese}}</div></div>{{/Vietnamese}}<div class="badge-container"><div class="badge accent">{{PoS}}</div>{{#GenderBadge}}{{GenderBadge}}{{/GenderBadge}}</div>{{type:WordClean}}</div>
+<!-- ============================================================================
+  MỘT card template phục vụ HAI giai đoạn, phân biệt bằng field Stage:
+    Stage rỗng   -> GĐ1 LÀM QUEN  (deck RUSSIAN::0-quen): chỉ hiện chữ Nga,
+                    KHÔNG ô gõ, KHÔNG gợi ý. Nhiệm vụ: nhìn - đọc - đoán nghĩa.
+    Stage="type" -> GĐ2 GÕ        (deck RUSSIAN::1-go):   bản gốc, có ô gõ.
+  Vì sao dùng FIELD chứ không dùng deck: khối điều kiện của Anki CHỈ đọc được
+  field, không đọc được tên deck. Deck lo hàng đợi + hạn mức thẻ mới, field lo
+  mặt thẻ — job dọn phải đặt CẢ HAI cùng lúc, lệch là thẻ hiện sai mặt.
+  Đã kiểm chứng thật: thẻ gõ đặt BÊN TRONG khối điều kiện vẫn bật được ô nhập,
+  nhờ vậy 1 note vẫn = 1 thẻ, không nhân đôi số thẻ.
+
+  ⚠️ TUYỆT ĐỐI không viết ký hiệu ô gõ (hai ngoặc nhọn + "type:", hoặc dạng đã
+  render là hai ngoặc vuông + "type:") vào comment. Anki thay thế trên VĂN BẢN
+  THÔ trước khi thành HTML, nên comment KHÔNG che được — thẻ GĐ1 sẽ mọc ô gõ.
+  Đã dính đúng lỗi này lúc viết bản đầu (26/07/2026).
+============================================================================= -->
+{{^Stage}}
+<div class="card-container stage1">
+    <div class="stage-badge">Giai đoạn 1 · Làm quen</div>
+    <div class="recog-word">{{Word}}</div>
+    <div class="recog-hint">Đọc to — rồi lật thẻ xem nghĩa</div>
+</div>
+{{/Stage}}
+
+{{#Stage}}
+<div class="card-container">
+    <div class="section-title" style="text-align: center;">Translate into Russian</div>
+    <div class="meaning-box" style="border-bottom-left-radius: 0; border-bottom-right-radius: 0;">{{Meaning}}</div>
+    {{#Vietnamese}}
+    <div class="vietnamese-box">
+        <div class="vi-label">Tiếng Việt</div>
+        <div class="vi-content">{{Vietnamese}}</div>
+    </div>
+    {{/Vietnamese}}
+
+    <div class="badge-container">
+        <div class="badge accent">{{PoS}}</div>
+        {{#GenderBadge}}{{GenderBadge}}{{/GenderBadge}}
+    </div>
+
+    <!-- Nguồn cho hint. display:none nằm SẴN trong HTML (không phải do JS gắn):
+         JS có lỗi / thiết bị chặn script thì hint chỉ đơn giản không hiện, chứ
+         KHÔNG bao giờ lộ đáp án ra màn hình. -->
+    <div id="hint-src" style="display: none;">{{WordClean}}</div>
+    <div id="hint-deck" style="display: none;">{{Deck}}</div>
+    <div id="hint-row" class="hint-row"></div>
+
+    {{type:WordClean}}
+</div>
+{{/Stage}}
+
+<script>
+(function () {
+    var src  = document.getElementById('hint-src');
+    var deck = document.getElementById('hint-deck');
+    var row  = document.getElementById('hint-row');
+    // Thẻ GĐ1 không render mấy khối này -> thoát ngay, không cần kiểm tra Stage.
+    if (!src || !deck || !row) return;
+
+    // Bánh xe phụ CHỈ lắp khi thẻ còn nằm ở deck học chính (GĐ2). Job dọn của bot
+    // (và lệnh /don) chuyển thẻ đã tốt nghiệp sang RUSSIAN::<topic slug>, nên
+    // hint tự rụng đúng lúc thẻ trưởng thành - không cần thêm cơ chế nào.
+    // Bản Anki nào không thay được {{Deck}} thì chuỗi so sánh không khớp -> không
+    // hiện hint. Hỏng theo hướng AN TOÀN, đúng ý đồ.
+    if (deck.textContent.indexOf('1-go') === -1) return;
+
+    var word = (src.textContent || '').trim();
+    if (!word) return;
+
+    // Chữ cái đầu. Tách theo khoảng trắng phòng khi sau này có cụm nhiều tiếng
+    // (hiện 841/841 từ đều là từ đơn nên nhánh này chưa dùng tới).
+    var letters = word.split(/\s+/).filter(Boolean).map(function (w) {
+        return w.charAt(0);
+    }).join(' ');
+
+    row.innerHTML =
+        '<span class="hint-box">' +
+            '<span class="hint-label">Gợi ý</span>' +
+            '<span class="hint-letter"></span>' +
+        '</span>';
+    // textContent chứ không nối chuỗi vào innerHTML: chữ cái lấy từ field nên
+    // không bao giờ để nó được diễn giải thành HTML.
+    row.querySelector('.hint-letter').textContent = letters + '…';
+})();
+</script>

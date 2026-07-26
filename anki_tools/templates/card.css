@@ -12,6 +12,26 @@
 .vietnamese-box { margin-top: -10px; padding: 12px 16px; background-color: #161b22; border-bottom: 1px solid #21262d; border-left: 4px solid #3fb950; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; margin-bottom: 20px; font-family: inherit; }
 .vi-label { font-size: 10px; color: #3fb950; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; font-weight: bold; font-family: inherit; }
 .vi-content { font-size: 16px; color: #a5d6a7; font-style: normal; font-weight: 500; font-family: inherit; }
+.mnemonic-box { padding: 12px 16px; background-color: #161b22; border: 1px solid #21262d; border-left: 4px solid #d29922; border-radius: 8px; margin-bottom: 20px; font-family: inherit; }
+.mn-label { font-size: 10px; color: #d29922; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; font-weight: bold; font-family: inherit; }
+.mn-read { font-size: 13px; color: #8b949e; letter-spacing: 0.5px; margin-bottom: 7px; font-family: inherit; }
+/* .mn-story = mnemonic, phần QUAN TRỌNG NHẤT: luôn đứng đầu, chữ to và sáng nhất
+   trong ô. .mn-content (phân tích gốc từ) bị hạ tông xuống để không tranh mắt. */
+.mn-story { font-size: 16px; color: #f2cc60; font-weight: 600; line-height: 1.6; margin-bottom: 10px; font-family: inherit; }
+.mn-story::before { content: "🎬 "; }
+.mn-story b { color: #ffd866; font-weight: 800; }
+.mn-content { font-size: 14px; color: #b9975b; font-weight: 400; line-height: 1.55; font-family: inherit; }
+.mn-content b { color: #d7ae63; font-weight: 700; }
+.mn-tip { margin-top: 8px; padding-top: 7px; border-top: 1px dashed #30363d; font-size: 13px; color: #9e8a5a; line-height: 1.5; font-family: inherit; }
+.mn-tip::before { content: "→ "; color: #d29922; font-weight: bold; }
+.mn-tip b { color: #c9b27a; font-weight: 700; }
+/* --- GIAI ĐOẠN 1 "làm quen": mặt trước chỉ có chữ Nga, không ô gõ, không gợi ý.
+   Tông tím để phân biệt tức thì với thẻ gõ (xanh dương) — nhìn là biết đang ở
+   khâu nào, khỏi bực vì "sao không cho gõ". --- */
+.card-container.stage1 { text-align: center; }
+.stage-badge { display: inline-block; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #d2a8ff; background-color: rgba(210, 168, 255, 0.12); border: 1px solid rgba(210, 168, 255, 0.35); border-radius: 20px; padding: 5px 14px; margin-bottom: 26px; font-weight: 700; font-family: inherit; }
+.recog-word { font-size: 46px; font-weight: 800; color: #58a6ff; text-align: center; margin-bottom: 16px; line-height: 1.25; font-family: inherit; text-rendering: optimizeLegibility; }
+.recog-hint { font-size: 13px; color: #8b949e; text-align: center; font-family: inherit; }
 .word-title { font-size: 38px; font-weight: 800; color: #58a6ff; text-align: center; margin-bottom: 4px; font-family: inherit; text-rendering: optimizeLegibility; line-height: 1.2; }
 .cursive-word { font-family: "Propisi", "MarckScript", "Times New Roman", serif !important; font-style: normal; font-size: 34px; color: #8b949e; text-align: center; margin-bottom: 15px; line-height: 1.3; }
 .audio-box { text-align: center; margin-bottom: 20px; font-family: inherit; }
@@ -36,7 +56,14 @@
 .ex-vi { font-size: 14px; color: #8b949e; font-family: inherit; display: flex; align-items: flex-start; gap: 6px; line-height: 1.4; }
 .ex-vi .arrow { color: #3fb950; font-weight: bold; flex-shrink: 0; user-select: none; }
 .ex-vi .vi-text { color: #a5d6a7; font-weight: 500; }
-.hl { color: #58a6ff !important; font-weight: 700 !important; font-style: normal !important; } 
+/* Bánh xe phụ: chữ cái đầu của từ, dựng bằng JS trong front_template.html và
+   CHỈ hiện khi thẻ còn ở deck 0-inbox. Không thêm field, không thêm card
+   template -> 1 note vẫn = 1 thẻ, số thẻ không đổi dù kho lên vài nghìn từ. */
+.hint-row { text-align: center; margin-top: 4px; font-family: inherit; }
+.hint-box { display: inline-flex; align-items: baseline; gap: 9px; background-color: rgba(56, 139, 253, 0.12); border: 1px solid rgba(56, 139, 253, 0.35); border-radius: 20px; padding: 6px 16px; font-family: inherit; }
+.hint-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #8b949e; font-weight: 700; font-family: inherit; }
+.hint-letter { font-size: 22px; font-weight: 800; color: #58a6ff; letter-spacing: 2px; font-family: inherit; }
+.hl { color: #58a6ff !important; font-weight: 700 !important; font-style: normal !important; }
 input#typeans { background-color: #161b22 !important; color: #ffffff !important; border: 2px solid #30363d !important; border-radius: 8px !important; padding: 12px 15px !important; font-size: 22px !important; width: 100% !important; text-align: center !important; margin-top: 15px; font-family: inherit; }
 #typeans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important; font-size: 18px !important; background-color: #161b22 !important; padding: 12px !important; border-radius: 8px !important; border: 1px solid #30363d !important; display: block !important; text-align: center !important; margin-bottom: 15px !important; }
 .typeGood { background-color: rgba(46, 160, 67, 0.25) !important; color: #3fb950 !important; padding: 2px 6px !important; border-radius: 4px !important; font-weight: bold !important; }

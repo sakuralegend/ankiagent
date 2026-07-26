@@ -25,7 +25,9 @@ from collections import Counter
 
 import requests
 
-from anki_tools.config import ANKI_CONNECT_URL, INBOX_DECK, MODEL_NAME, TOPIC_DECK_PARENT
+from anki_tools.config import (
+    ANKI_CONNECT_URL, MODEL_NAME, STAGE1_DECK, STAGE2_DECK, TOPIC_DECK_PARENT,
+)
 from anki_tools.topics import TOPICS, TOPIC_TAG_PREFIX, normalize_topic
 
 # Deck không bao giờ được xóa (deck mặc định của Anki — bản Việt hóa/gốc)
@@ -43,7 +45,7 @@ def call(action, **params):
 def valid_deck_set():
     """Toàn bộ deck hợp lệ của kho: RUSSIAN + mọi tổ tiên của từng slug.
     Vd slug 'people::family' -> RUSSIAN::people và RUSSIAN::people::family."""
-    decks = {TOPIC_DECK_PARENT, INBOX_DECK}
+    decks = {TOPIC_DECK_PARENT, STAGE1_DECK, STAGE2_DECK}
     for slug in TOPICS:
         parts = slug.split("::")
         for i in range(1, len(parts) + 1):
@@ -62,9 +64,10 @@ def main():
 
     # --- Kế hoạch chuyển thẻ: đọc tag CHÍNH XÁC từng note (không query tag chung
     # vì Anki coi tag:cha khớp cả tag con -> đếm/chuyển sai khi cây lồng cấp) ---
-    # Thẻ đang nằm trong inbox (chưa học xong) KHÔNG bị bốc đi — việc chuyển
-    # khỏi inbox là của move_graduated_from_inbox (bot /don + job đêm).
-    inbox_cards = set(call("findCards", query=f'deck:"{INBOX_DECK}"'))
+    # Thẻ đang trong lộ trình học (GĐ1 làm quen + GĐ2 gõ) KHÔNG bị bốc đi —
+    # việc chuyển chúng đi là của run_don() (bot /don + job đêm).
+    inbox_cards = set(call("findCards", query=f'deck:"{STAGE1_DECK}"')) | \
+                  set(call("findCards", query=f'deck:"{STAGE2_DECK}"'))
 
     plan = {}          # deck đích -> [card_ids]
     untagged = []      # từ chưa có tag topic::
@@ -85,7 +88,7 @@ def main():
 
     print(f"Deck tổng: {TOPIC_DECK_PARENT} ({len(notes)} note)")
     if inbox_cards:
-        print(f"📥 Bỏ qua {len(inbox_cards)} thẻ đang nằm trong {INBOX_DECK} (chưa học xong)")
+        print(f"📥 Bỏ qua {len(inbox_cards)} thẻ đang học ở {STAGE1_DECK} / {STAGE2_DECK}")
     total = 0
     for deck, cards in sorted(plan.items()):
         print(f"  {deck:40} <- {len(cards):4} thẻ")

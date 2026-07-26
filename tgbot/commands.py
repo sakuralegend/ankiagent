@@ -11,6 +11,7 @@ from telegram.ext import ContextTypes
 
 from anki_tools.config import TELEGRAM_USER_ID, TOPIC_DECK_PARENT
 from anki_tools.backup import human_size, list_backups, run_backup
+from anki_tools.utils import log_warn
 from anki_tools.topics import FALLBACK_TOPIC
 from anki_tools.anki_client import (
     CARD_STATES,
@@ -19,6 +20,7 @@ from anki_tools.anki_client import (
     get_root_decks,
     get_topic_stats,
     move_graduated_from_inbox,
+    promote_stage1_to_stage2,
     trigger_sync,
 )
 
@@ -159,26 +161,82 @@ async def cmd_thongke(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await msg.edit_text(await thongke_report())
 
 
-def _don_report(moved, total):
-    """Format kết quả move_graduated_from_inbox thành tin nhắn."""
-    if moved is None:
-        return "❌ Không dọn được inbox (AnkiConnect lỗi? xem log trên VPS)."
-    if total == 0:
-        return "📥 Inbox chưa có thẻ nào tốt nghiệp — không có gì để chuyển."
-    lines = [f"📦 Đã chuyển {total} thẻ tốt nghiệp từ inbox về deck chủ đề:"]
-    for slug, n in sorted(moved.items(), key=lambda x: -x[1]):
-        lines.append(f"  {n:>3} → {TOPIC_DECK_PARENT}::{slug}")
-    return "\n".join(lines)
+def run_don():
+    """LỆNH GỘP TẤT-CẢ-TRONG-MỘT — user học xong gõ /don một phát là xong việc.
+
+    Bốn bước, đúng thứ tự này:
+      1. sync KÉO VỀ  — lấy kết quả học từ AnkiWeb (điện thoại đã đẩy lên)
+      2. GĐ1 -> GĐ2   — làm quen xong thì thành thẻ gõ mới tinh
+      3. GĐ2 -> kho   — gõ xong thì về deck chủ đề theo tag
+      4. sync ĐẨY LÊN — trả kết quả dọn về AnkiWeb
+
+    ⚠️ BƯỚC 1 MỚI LÀ THỨ LÀM LỆNH NÀY ĐÁNG TIN, và nó từng THIẾU: bản cũ chỉ sync
+    SAU khi dọn, tức VPS xử lý trên ảnh chụp cũ — đúng những thẻ user vừa học xong
+    trên iPhone lại là thẻ bị bỏ sót. Luôn chạy bước 1, kể cả khi đoán là không có
+    gì mới.
+
+    Sync bước 1 hỏng thì VẪN dọn tiếp: thao tác idempotent và chỉ đụng thẻ đang
+    thực sự is:review trên VPS, nên cùng lắm là chuyển được ít thẻ hơn, lần /don
+    sau bù. Nhưng phải BÁO RA để user không tưởng xong mà thực ra chưa đẩy lên.
+
+    Trả về dict để _don_report dựng tin nhắn (không tự format ở đây, để job đêm
+    và lệnh tay dùng chung một chỗ)."""
+    out = {"sync_in": False, "promoted": 0, "moved": None, "total": 0,
+           "sync_out": False, "error": None}
+    out["sync_in"] = trigger_sync()
+    try:
+        out["promoted"] = promote_stage1_to_stage2()
+    except Exception as e:
+        out["error"] = f"GĐ1→GĐ2: {e}"
+        log_warn(f"promote_stage1_to_stage2 lỗi: {e!r}")
+    moved, total = move_graduated_from_inbox()
+    out["moved"], out["total"] = moved, total
+    if out["promoted"] or total:
+        out["sync_out"] = trigger_sync()
+    return out
+
+
+def _don_report(res):
+    """Format kết quả run_don() thành tin nhắn. Nói rõ CẢ BỐN BƯỚC — nhất là
+    bước sync nào hỏng, vì đó là lúc user dễ tưởng xong mà thực ra chưa xong."""
+    lines = []
+    if not res["sync_in"]:
+        lines.append("⚠️ SYNC KÉO VỀ THẤT BẠI — dọn trên dữ liệu cũ, có thể sót thẻ "
+                     "bạn vừa học. Xem log VPS; nếu là 'Sync status 2' thì Anki đang "
+                     "đòi full sync, phải xử lý tay.")
+    if res["error"]:
+        lines.append(f"❌ {res['error']}")
+
+    if res["promoted"]:
+        lines.append(f"🎓 {res['promoted']} thẻ làm quen xong → chuyển sang deck GÕ "
+                     "(đã reset thành thẻ mới).")
+    if res["total"]:
+        lines.append(f"📦 {res['total']} thẻ gõ xong → về deck chủ đề:")
+        for slug, n in sorted(res["moved"].items(), key=lambda x: -x[1]):
+            lines.append(f"  {n:>3} → {TOPIC_DECK_PARENT}::{slug}")
+    elif res["moved"] is None:
+        lines.append("❌ Không dọn được deck gõ (AnkiConnect lỗi? xem log trên VPS).")
+
+    if not res["promoted"] and not res["total"] and not res["error"]:
+        lines.append("✅ Không có thẻ nào tốt nghiệp — chưa có gì để chuyển.")
+
+    if res["sync_out"]:
+        lines.append("☁️ Đã đẩy kết quả lên AnkiWeb.")
+    elif res["promoted"] or res["total"]:
+        lines.append("⚠️ ĐẨY LÊN THẤT BẠI — kết quả dọn mới chỉ nằm trên VPS.")
+    else:
+        lines.append("☁️ Đã sync AnkiWeb." if res["sync_in"] else "")
+
+    lines.append("📱 Mở Anki trên iPhone để kéo về.")
+    return "\n".join(l for l in lines if l)
 
 
 async def cmd_don(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Chuyển ngay thẻ đã tốt nghiệp learning từ inbox về deck chủ đề theo tag."""
+    """/don — gộp tất cả: sync về, dọn hai chặng, sync lên. Xem run_don()."""
     _reset_idle_timer(context, update.effective_chat.id)
-    msg = await update.message.reply_text("⏳ Đang dọn inbox...")
-    moved, total = await asyncio.to_thread(move_graduated_from_inbox)
-    if total:
-        await asyncio.to_thread(trigger_sync)
-    await msg.edit_text(_don_report(moved, total))
+    msg = await update.message.reply_text("⏳ Đang sync về rồi dọn...")
+    res = await asyncio.to_thread(run_don)
+    await msg.edit_text(_don_report(res))
 
 
 # ==============================================================================
@@ -215,15 +273,15 @@ async def _guard(name, body, cooldown=60):
 
 
 async def _nightly_don(app):
-    """3h sáng mỗi ngày tự dọn inbox. Chỉ nhắn Telegram khi CÓ thẻ được chuyển —
-    đêm không có gì thì im lặng."""
+    """3h sáng mỗi ngày tự chạy đúng cái /don gộp — LƯỚI AN TOÀN phòng khi user
+    quên gõ tay. Chỉ nhắn Telegram khi CÓ thẻ được chuyển; đêm không có gì thì
+    im lặng, đừng đánh thức user vì một tin nhắn rỗng."""
     async def once():
         await _sleep_until(3, 0)
-        moved, total = await asyncio.to_thread(move_graduated_from_inbox)
-        if moved and total:
-            await asyncio.to_thread(trigger_sync)
+        res = await asyncio.to_thread(run_don)
+        if res["promoted"] or res["total"]:
             try:
-                await app.bot.send_message(TELEGRAM_USER_ID, "🌙 " + _don_report(moved, total))
+                await app.bot.send_message(TELEGRAM_USER_ID, "🌙 " + _don_report(res))
             except Exception as e:
                 print(f"⚠️ Không gửi được báo cáo dọn inbox: {e}")
 

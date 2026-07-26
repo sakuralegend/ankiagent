@@ -11,7 +11,7 @@ from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.error import TimedOut
 from telegram.ext import ContextTypes
 
-from anki_tools.config import INBOX_DECK
+from anki_tools.config import STAGE1_DECK
 from anki_tools.utils import strip_accents_perfectly
 from anki_tools.ai_client import call_claude_scan_words, image_mime_type
 from anki_tools.pipeline import process_word
@@ -255,7 +255,7 @@ async def _run_scan_add(context, chat_id, msg, words):
     title = "⏹ ĐÃ DỪNG thêm từ quét ảnh" if stopped else "🏁 XONG thêm từ quét ảnh"
     lines = [f"{title}: ✅ {len(added)} │ ⏭ trùng {len(skipped_dup)} │ ❌ lỗi {len(failed)} │ tổng {total}"]
     if added:
-        lines.append(f"📥 Đã vào {INBOX_DECK}: {_join_words(added)}")
+        lines.append(f"📥 Đã vào {STAGE1_DECK}: {_join_words(added)}")
     if skipped_dup:
         lines.append(f"⏭ Đã có thẻ từ trước: {_join_words(skipped_dup)}")
     if failed:

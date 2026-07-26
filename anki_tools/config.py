@@ -60,9 +60,25 @@ MODEL_NAME = "RU_Word"
 # (Tên tiếng Anh theo yêu cầu user: dễ gõ khi tìm kiếm/gõ tên deck hơn Cyrillic.)
 TOPIC_DECK_PARENT = os.environ.get("TOPIC_DECK_PARENT", "RUSSIAN")
 
-# --- Deck hứng từ mới (19/07/2026): chế độ TỰ ĐỘNG không đưa thẻ vào thẳng
-# deck chủ đề nữa mà vào inbox để học gom một chỗ (ưu tiên từ mới thêm trước).
-# Tag topic:: vẫn được AI gắn từ đầu — là "địa chỉ nhà" của thẻ. Thẻ TỐT NGHIỆP
-# learning (thành thẻ review) thì job đêm của bot / lệnh /don chuyển về
-# <kho>::<topic slug> theo tag. Tên "0-" để deck luôn đứng đầu danh sách.
-INBOX_DECK = f"{TOPIC_DECK_PARENT}::0-inbox"
+# --- LỘ TRÌNH HỌC HAI GIAI ĐOẠN (26/07/2026) ---------------------------------
+# Trước đây thẻ mới rơi thẳng vào một deck `0-inbox` và bắt GÕ tiếng Nga ngay từ
+# lần gặp đầu — nhiệm vụ khó nhất có thể. Nay tách làm hai chặng, mỗi chặng đo
+# ĐÚNG MỘT thứ:
+#
+#   GĐ1  STAGE1_DECK (0-quen) — LÀM QUEN. Mặt trước chỉ có chữ Nga, KHÔNG ô gõ.
+#        Đo: nhận diện mặt chữ + âm điệu + nghĩa. Rời learning (~2 lượt Good,
+#        khoảng 15 phút vì learning steps là 1m+15m) thì job dọn lật field
+#        Stage sang "type", forgetCards cho thành thẻ MỚI TINH, rồi đẩy sang GĐ2.
+#
+#   GĐ2  STAGE2_DECK (1-go) — GÕ. Chính là deck `0-inbox` cũ, giữ nguyên preset
+#        `inbox` và gợi ý chữ cái đầu. Đo: chính tả. Rời learning lần nữa thì
+#        chuyển về <kho>::<topic slug> theo tag topic:: (như trước giờ vẫn làm).
+#
+# ⚠️ Vì sao phải là HAI DECK chứ không phải một deck với hạn mức gấp đôi: Anki
+# rút thẻ mới theo thứ tự vị trí, nên một deck gộp có thể lĩnh trọn suất cho GĐ1
+# và không còn suất nào cho GĐ2. Hai deck thì mỗi bên có ngân sách đảm bảo.
+# ⚠️ Kèm theo: trần thẻ mới của DECK CHA phải >= tổng hai con (đã đặt 140), vì
+# scheduler v3 lấy trần cha kẹp cả cây — xem CHANGELOG 21/07/2026.
+# Tên "0-"/"1-" để Anki xếp đúng thứ tự học trong danh sách deck.
+STAGE1_DECK = f"{TOPIC_DECK_PARENT}::0-quen"
+STAGE2_DECK = f"{TOPIC_DECK_PARENT}::1-go"

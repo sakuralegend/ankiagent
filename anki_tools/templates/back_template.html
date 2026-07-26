@@ -1,7 +1,13 @@
 <div class="card-container">
+    <!-- Khối so đáp án CHỈ có ở GĐ2. Thẻ GĐ1 (Stage rỗng) không có ô gõ nên
+         không gõ gì -> để nguyên khối này thì Anki sẽ bôi đỏ cả từ thành
+         "missed". Ngoài khối này, mặt sau của HAI giai đoạn dùng chung y hệt —
+         user chốt: thẻ làm quen cũng phải đầy đủ thông tin. -->
+    {{#Stage}}
     <div class="section-title" style="text-align: center;">Your Answer Check</div>
     {{type:WordClean}}
     <hr style="border: none; border-top: 1px solid #21262d; margin: 20px 0;">
+    {{/Stage}}
 
     <div class="section-title" style="text-align: center;">Correct Word</div>
     <div class="word-title">{{Word}}</div>
@@ -24,6 +30,17 @@
         <div class="vi-content">{{Vietnamese}}</div>
     </div>
     {{/Vietnamese}}
+
+    <!-- Hướng dẫn: field do Opus 5 soạn định kỳ (KHÔNG sinh lúc tạo thẻ qua bot).
+         Thứ tự BÊN TRONG field: phiên âm -> mnemonic (.mn-story, từ nào cũng phải có,
+         luôn đứng đầu) -> phân tích gốc từ (.mn-content) -> dòng cách nhớ (.mn-tip).
+         Bọc trong {{#Mnemonic}} nên thẻ chưa có nội dung thì khối này biến mất hẳn. -->
+    {{#Mnemonic}}
+    <div class="mnemonic-box">
+        <div class="mn-label">Hướng dẫn</div>
+        <div class="mn-content">{{Mnemonic}}</div>
+    </div>
+    {{/Mnemonic}}
 
     {{#ExamplesHTML}}
     <div class="section-title">Context Examples</div>

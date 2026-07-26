@@ -13,7 +13,7 @@ from datetime import datetime, timedelta
 import requests
 
 
-from .config import ANKI_CONNECT_URL, INBOX_DECK, MODEL_NAME, TOPIC_DECK_PARENT
+from .config import ANKI_CONNECT_URL, MODEL_NAME, STAGE1_DECK, STAGE2_DECK, TOPIC_DECK_PARENT
 from .topics import TOPICS, TOPIC_TAG_PREFIX, topic_tag, normalize_topic
 from .utils import log_warn, log_fail, strip_accents_perfectly, hl_to_bracket
 from .html_builder import (
@@ -267,7 +267,14 @@ def setup_anki_environment():
                 "action": "createModel", "version": 6,
                 "params": {
                     "modelName": MODEL_NAME,
-                    "inOrderFields": ["Word", "WordClean", "Meaning", "Vietnamese", "PoS", "PoSFull", "GenderBadge", "ExamplesHTML", "Image", "RawExamples", "Audio"],
+                    # Mnemonic: mẹo nhớ do Opus 5 soạn ĐỊNH KỲ (không sinh lúc tạo thẻ) —
+                    # push_to_anki không ghi field này nên thẻ mới để trống, mẹo bù sau.
+                    # Stage: giai đoạn học. RỖNG = GĐ1 làm quen (không ô gõ),
+                    #   "type" = GĐ2 gõ. Template chọn mặt thẻ theo field này —
+                    #   khối điều kiện của Anki không đọc được tên deck nên bắt
+                    #   buộc phải có field. Thẻ mới để trống = vào thẳng GĐ1.
+                    # (Field "Image" đã bỏ 26/07/2026: 0/870 note từng dùng tới.)
+                    "inOrderFields": ["Word", "WordClean", "Meaning", "Vietnamese", "PoS", "PoSFull", "GenderBadge", "ExamplesHTML", "RawExamples", "Audio", "Mnemonic", "Stage"],
                     "css": shared_css, "cardTemplates": [{"Name": "Pure Engine Typing Card v25", "Front": front_template, "Back": back_template}]
                 }
             }, timeout=5)
@@ -417,9 +424,10 @@ def note_to_card_info(dup):
 def push_to_anki(word, data, deck_name, is_forced=False):
     """Đẩy note lên Anki. Trả về (success, card_info_dict) để hiển thị tóm tắt.
 
-    deck_name=None -> chế độ TỰ ĐỘNG: thẻ vào INBOX_DECK để học gom một chỗ;
-    tag topic:: (AI chọn) ghi sẵn deck chủ đề đích — thẻ tốt nghiệp learning
-    thì move_graduated_from_inbox() chuyển về TOPIC_DECK_PARENT::<topic>.
+    deck_name=None -> chế độ TỰ ĐỘNG: thẻ vào STAGE1_DECK (giai đoạn LÀM QUEN);
+    tag topic:: (AI chọn) ghi sẵn deck chủ đề đích. Thẻ đi tiếp theo lộ trình
+    hai giai đoạn do run_don() điều khiển: 0-quen -> 1-go -> <kho>::<topic>.
+    Field Stage để TRỐNG (không ghi) nên thẻ mới luôn bắt đầu ở GĐ1.
     """
     built = build_card_fields(word, data)
     clean_word = built["clean_word"]
@@ -432,9 +440,9 @@ def push_to_anki(word, data, deck_name, is_forced=False):
     # Th\u00eam tr\u00f9ng (force) d\u00f9ng option allowDuplicate ch\u00ednh th\u1ed1ng c\u1ee7a AnkiConnect.
     note_tags = [topic_tag(topic_slug)] if topic_slug else []
 
-    # Chế độ tự động: thẻ mới vào inbox học trước; tag topic:: đã ghi deck đích.
+    # Chế độ tự động: thẻ mới vào deck LÀM QUEN; tag topic:: đã ghi deck đích.
     if not deck_name:
-        deck_name = INBOX_DECK
+        deck_name = STAGE1_DECK
         try:
             requests.post(ANKI_CONNECT_URL, json={
                 "action": "createDeck", "version": 6, "params": {"deck": deck_name}
@@ -443,8 +451,10 @@ def push_to_anki(word, data, deck_name, is_forced=False):
             log_warn(f"Không tạo/kiểm tra được deck '{deck_name}': {e}")
 
     fields = dict(built["fields"])
-    fields["Image"] = ""
     fields["Audio"] = audio_field
+    # KHÔNG ghi "Stage": để trống nghĩa là thẻ bắt đầu ở GĐ1 (làm quen).
+    # KHÔNG còn "Image": field đã bị xoá khỏi note type 26/07/2026 — ghi vào một
+    # field không tồn tại thì AnkiConnect từ chối cả note.
 
     payload = {
         "action": "addNote", "version": 6,
@@ -487,23 +497,67 @@ def push_to_anki(word, data, deck_name, is_forced=False):
         return False, card_info
 
 
+def _ac(action, timeout=60, **params):
+    """Gọi AnkiConnect, NÉM lỗi thay vì nuốt — người gọi tự bắt và báo cáo."""
+    res = requests.post(ANKI_CONNECT_URL, json={
+        "action": action, "version": 6, "params": params
+    }, timeout=timeout)
+    out = res.json()
+    if out.get("error"):
+        raise RuntimeError(f"{action}: {out['error']}")
+    return out["result"]
+
+
+def promote_stage1_to_stage2():
+    """GĐ1 -> GĐ2: thẻ trong STAGE1_DECK đã RỜI LEARNING (is:review, tức ~2 lượt
+    Good trong ~15 phút) thì coi như "đã làm quen xong":
+        1. Stage = "type"     -> template đổi sang mặt gõ
+        2. forgetCards        -> thành THẺ MỚI TINH, chạy lại learning steps
+        3. changeDeck -> STAGE2_DECK
+
+    ⚠️ Ba việc phải đi CÙNG NHAU. Lệch deck với field là thẻ hiện sai mặt (nằm ở
+    deck gõ mà mặt trước vẫn là thẻ làm quen, hoặc ngược lại).
+
+    forgetCards là CỐ Ý chứ không phải tiện tay: user muốn GĐ2 là một thẻ mới
+    hoàn toàn, và nó cũng xoá luôn D tích luỹ ở GĐ1 (Good không kéo D xuống —
+    đã đo 0/84 thẻ tự hồi phục, chỉ Forget mới cứu được).
+
+    Chỉ lọc theo deck GỐC là chưa đủ nếu sau này user dựng lại deck lọc: Anki
+    khớp `deck:X` cho cả thẻ đang bị kéo vào deck lọc. Nên loại luôn thẻ đang
+    nằm ở deck khác với deck gốc.
+
+    Trả về số thẻ đã đẩy sang GĐ2. Idempotent: không có gì thì trả 0."""
+    card_ids = _ac("findCards", query=f'deck:"{STAGE1_DECK}" is:review -is:suspended')
+    if not card_ids:
+        return 0
+    cards = _ac("cardsInfo", timeout=120, cards=card_ids)
+    # deckName là deck ĐANG chứa thẻ; khác STAGE1_DECK nghĩa là thẻ đang bị kéo
+    # vào một deck lọc -> bỏ qua, đừng forgetCards phá lịch của nó.
+    at_home = [c for c in cards
+               if isinstance(c, dict) and c.get("deckName") == STAGE1_DECK]
+    if not at_home:
+        return 0
+    ids = [c["cardId"] for c in at_home]
+    note_ids = sorted({c["note"] for c in at_home if c.get("note")})
+    for nid in note_ids:
+        _ac("updateNoteFields", note={"id": nid, "fields": {"Stage": "type"}})
+    _ac("forgetCards", timeout=120, cards=ids)
+    _ac("createDeck", deck=STAGE2_DECK)
+    _ac("changeDeck", timeout=120, cards=ids, deck=STAGE2_DECK)
+    return len(ids)
+
+
 def move_graduated_from_inbox():
-    """Chuyển thẻ trong INBOX_DECK đã TỐT NGHIỆP learning (thành thẻ review,
-    is:review — gồm cả thẻ lỡ lapse) về deck chủ đề theo tag topic:: của note.
+    """GĐ2 -> kho: thẻ trong STAGE2_DECK đã TỐT NGHIỆP learning (is:review — gồm
+    cả thẻ lỡ lapse) về deck chủ đề theo tag topic:: của note.
     changeDeck không đụng scheduling nên lịch ôn giữ nguyên tuyệt đối.
     Trả về (moved: dict slug->số thẻ đã chuyển, tổng số) hoặc (None, 0) nếu lỗi.
-    Chạy bởi job đêm của bot + lệnh /don. Idempotent: inbox sạch thì trả ({}, 0)."""
+    Idempotent: deck sạch thì trả ({}, 0)."""
     def _call(action, **params):
-        res = requests.post(ANKI_CONNECT_URL, json={
-            "action": action, "version": 6, "params": params
-        }, timeout=60)
-        out = res.json()
-        if out.get("error"):
-            raise RuntimeError(f"{action}: {out['error']}")
-        return out["result"]
+        return _ac(action, **params)
 
     try:
-        card_ids = _call("findCards", query=f'deck:"{INBOX_DECK}" is:review')
+        card_ids = _call("findCards", query=f'deck:"{STAGE2_DECK}" is:review')
         if not card_ids:
             return {}, 0
         cards = _call("cardsInfo", cards=card_ids)
