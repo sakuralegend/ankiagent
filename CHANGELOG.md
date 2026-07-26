@@ -4,6 +4,27 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 27/07/2026
+
+- **BỎ HẲN HƯỚNG MNEMONIC, Ô "HƯỚNG DẪN" CHUYỂN SANG PHÂN TÍCH GỐC TỪ.** User đánh giá sau buổi
+  học 26/07: hai thứ đáng giá nhất là **giai đoạn 1** và **đoạn phân tích gốc từ** — *"đã khiến
+  tôi hiểu được một từ được ghép từ nhiều mảnh, mỗi mảnh có ý nghĩa riêng"*. Ngược lại mnemonic
+  *"chất lượng chưa cao"* ⇒ bỏ luôn, bỏ cả phiên âm.
+  - Nội dung mới ba phần: **Chẻ từ** (từng mảnh + nghĩa của mảnh) → **Cách nhớ** (logic nối các
+    mảnh ra nghĩa, bắc cầu sang tiếng Anh khi cùng gốc Latin) → **Họ hàng** (từ cùng gốc/cùng
+    phụ tố, có nghĩa kèm). Bẫy dễ nhầm gốc thì chèn `.hd-warn` ngay dưới phần liên quan.
+  - **Ô Hướng dẫn giờ THU GỌN mặc định**, bấm mới mở — dùng lại đúng `<details>/<summary>` của
+    khối ví dụ, **HTML thuần không JavaScript** (JS ở mặt sau thẻ hay chết lặng trên AnkiMobile).
+    Nhờ gấp lại được nên nội dung mới được phép dài: user chốt *"đừng rút gọn khó hiểu"*.
+  - **Đổi tên field `Mnemonic` → `HuongDan`** cho khỏi nhầm. 🟢 **Đo được: đổi tên field KHÔNG
+    phải schema mod** — sync ngay sau đó sạch, không đòi full sync — vì số lượng và thứ tự field
+    không đổi (khác hẳn thêm/xoá field). Đây là điều trước nay vẫn tưởng là phải full sync.
+  - **Lớp CSS `mn-` → `hd-`**; khối `mn-read/mn-story/mn-tip` giữ tạm vì **269 note chưa soạn lại
+    vẫn còn các div ấy trong nội dung field**. Nhìn tiền tố là biết cái nào còn sống. Xoá khối
+    di sản khi soạn xong lô cuối.
+  - Xoá `data/mnemonics/` (git vẫn giữ lịch sử). Tag Anki vốn không có tag nào dính mnemonic.
+  - Đã áp mẫu cho **положи́тельный** và **перево́дчик** để user duyệt trước khi chạy cả lô.
+
 ## 26/07/2026
 
 - **SỬA NÚT 🧹 Dọn trong menu — nó chạy LOGIC CŨ và crash.** Phát hiện nhờ đọc journal VPS:

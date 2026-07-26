@@ -267,14 +267,18 @@ def setup_anki_environment():
                 "action": "createModel", "version": 6,
                 "params": {
                     "modelName": MODEL_NAME,
-                    # Mnemonic: mẹo nhớ do Opus 5 soạn ĐỊNH KỲ (không sinh lúc tạo thẻ) —
-                    # push_to_anki không ghi field này nên thẻ mới để trống, mẹo bù sau.
+                    # HuongDan: phân tích chẻ gốc + cách nhớ + họ hàng, do Opus 5 soạn
+                    #   ĐỊNH KỲ THEO LÔ (không sinh lúc tạo thẻ) — push_to_anki không ghi
+                    #   field này nên thẻ mới để trống, soạn bù sau.
+                    #   (Tên cũ "Mnemonic" đã đổi 27/07/2026: hướng mnemonic bị bỏ, để
+                    #   tên cũ chỉ gây nhầm. Đổi tên field KHÔNG phải schema mod — đã đo,
+                    #   sync bình thường — vì số lượng và thứ tự field không đổi.)
                     # Stage: giai đoạn học. RỖNG = GĐ1 làm quen (không ô gõ),
                     #   "type" = GĐ2 gõ. Template chọn mặt thẻ theo field này —
                     #   khối điều kiện của Anki không đọc được tên deck nên bắt
                     #   buộc phải có field. Thẻ mới để trống = vào thẳng GĐ1.
                     # (Field "Image" đã bỏ 26/07/2026: 0/870 note từng dùng tới.)
-                    "inOrderFields": ["Word", "WordClean", "Meaning", "Vietnamese", "PoS", "PoSFull", "GenderBadge", "ExamplesHTML", "RawExamples", "Audio", "Mnemonic", "Stage"],
+                    "inOrderFields": ["Word", "WordClean", "Meaning", "Vietnamese", "PoS", "PoSFull", "GenderBadge", "ExamplesHTML", "RawExamples", "Audio", "HuongDan", "Stage"],
                     "css": shared_css, "cardTemplates": [{"Name": "Pure Engine Typing Card v25", "Front": front_template, "Back": back_template}]
                 }
             }, timeout=5)

@@ -12,16 +12,40 @@
 .vietnamese-box { margin-top: -10px; padding: 12px 16px; background-color: #161b22; border-bottom: 1px solid #21262d; border-left: 4px solid #3fb950; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; margin-bottom: 20px; font-family: inherit; }
 .vi-label { font-size: 10px; color: #3fb950; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; font-weight: bold; font-family: inherit; }
 .vi-content { font-size: 16px; color: #a5d6a7; font-style: normal; font-weight: 500; font-family: inherit; }
-.mnemonic-box { padding: 12px 16px; background-color: #161b22; border: 1px solid #21262d; border-left: 4px solid #d29922; border-radius: 8px; margin-bottom: 20px; font-family: inherit; }
-.mn-label { font-size: 10px; color: #d29922; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; font-weight: bold; font-family: inherit; }
+/* --- Ô HƯỚNG DẪN (field HuongDan) — 27/07/2026 -----------------------------
+   Mặc định THU GỌN, bấm mới mở. Dùng đúng cơ chế <details>/<summary> của khối
+   ví dụ: HTML thuần, KHÔNG JavaScript (JS trong mặt sau thẻ hay chết lặng trên
+   AnkiMobile). Nhờ thu gọn nên nội dung bên trong được phép DÀI VÀ CHI TIẾT —
+   user chốt: "đừng rút gọn khó hiểu".
+   Thứ tự trong field: Chẻ từ (.hd-sec + .hd-row) -> Cách nhớ (.hd-why)
+   -> Họ hàng (.hd-fam). Cảnh báo bẫy: .hd-warn, chèn ngay dưới phần liên quan.
+   Tiền tố `hd-` = hướng dẫn. Tiền tố `mn-` bên dưới là DI SẢN thời mnemonic
+   (hướng đã bỏ) — nhìn tiền tố là biết cái nào còn sống. --- */
+.hd-toggle { background-color: #161b22; border: 1px solid #21262d; border-left: 4px solid #d29922; border-radius: 10px; margin-bottom: 20px; overflow: hidden; font-family: inherit; }
+.hd-summary { padding: 12px 15px; font-size: 12px; color: #d29922; font-weight: 700; cursor: pointer; outline: none; background-color: #1f242c; list-style: none; text-transform: uppercase; letter-spacing: 1px; font-family: inherit; }
+.hd-summary::-webkit-details-marker { display: none; }
+.hd-summary::after { content: "  ▾"; }
+.hd-toggle[open] .hd-summary::after { content: "  ▴"; }
+.hd-summary:hover { background-color: #262c36; }
+.hd-content { padding: 14px 16px; border-top: 1px solid #21262d; font-size: 14px; color: #c2b083; line-height: 1.6; text-align: left; font-family: inherit; }
+.hd-content b { color: #e0c179; font-weight: 700; }
+/* Nhãn từng phần trong ô Hướng dẫn */
+.hd-sec { font-size: 10px; color: #d29922; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin: 14px 0 7px; font-family: inherit; }
+.hd-sec:first-child { margin-top: 0; }
+/* Một dòng chẻ từ: mảnh chữ Nga bên trái, nghĩa của mảnh bên phải */
+.hd-row { display: flex; align-items: baseline; gap: 10px; margin-bottom: 6px; font-family: inherit; }
+.hd-piece { flex: 0 0 auto; min-width: 74px; font-size: 15px; font-weight: 800; color: #58a6ff; font-family: inherit; }
+.hd-gloss { flex: 1 1 auto; font-size: 13px; color: #b6a77e; font-family: inherit; }
+.hd-why { font-size: 14px; color: #d8c58f; line-height: 1.6; margin-bottom: 8px; font-family: inherit; }
+.hd-fam { font-size: 13px; color: #b1a077; line-height: 1.75; font-family: inherit; }
+.hd-fam b { color: #58a6ff; font-weight: 700; }
+.hd-warn { margin-top: 9px; padding: 8px 11px; background-color: rgba(248, 81, 73, 0.08); border-left: 3px solid #f85149; border-radius: 5px; font-size: 13px; color: #d0a9a4; line-height: 1.5; font-family: inherit; }
+.hd-warn b { color: #f0a8a2; font-weight: 700; }
+/* --- DI SẢN thời mnemonic: các div này còn nằm TRONG nội dung field của những
+   note chưa soạn lại, nên chưa xoá được. Soạn xong lô cuối thì xoá cả khối. --- */
 .mn-read { font-size: 13px; color: #8b949e; letter-spacing: 0.5px; margin-bottom: 7px; font-family: inherit; }
-/* .mn-story = mnemonic, phần QUAN TRỌNG NHẤT: luôn đứng đầu, chữ to và sáng nhất
-   trong ô. .mn-content (phân tích gốc từ) bị hạ tông xuống để không tranh mắt. */
-.mn-story { font-size: 16px; color: #f2cc60; font-weight: 600; line-height: 1.6; margin-bottom: 10px; font-family: inherit; }
-.mn-story::before { content: "🎬 "; }
+.mn-story { font-size: 15px; color: #f2cc60; font-weight: 600; line-height: 1.6; margin-bottom: 10px; font-family: inherit; }
 .mn-story b { color: #ffd866; font-weight: 800; }
-.mn-content { font-size: 14px; color: #b9975b; font-weight: 400; line-height: 1.55; font-family: inherit; }
-.mn-content b { color: #d7ae63; font-weight: 700; }
 .mn-tip { margin-top: 8px; padding-top: 7px; border-top: 1px dashed #30363d; font-size: 13px; color: #9e8a5a; line-height: 1.5; font-family: inherit; }
 .mn-tip::before { content: "→ "; color: #d29922; font-weight: bold; }
 .mn-tip b { color: #c9b27a; font-weight: 700; }

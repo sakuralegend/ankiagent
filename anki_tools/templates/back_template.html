@@ -31,16 +31,20 @@
     </div>
     {{/Vietnamese}}
 
-    <!-- Hướng dẫn: field do Opus 5 soạn định kỳ (KHÔNG sinh lúc tạo thẻ qua bot).
-         Thứ tự BÊN TRONG field: phiên âm -> mnemonic (.mn-story, từ nào cũng phải có,
-         luôn đứng đầu) -> phân tích gốc từ (.mn-content) -> dòng cách nhớ (.mn-tip).
-         Bọc trong {{#Mnemonic}} nên thẻ chưa có nội dung thì khối này biến mất hẳn. -->
-    {{#Mnemonic}}
-    <div class="mnemonic-box">
-        <div class="mn-label">Hướng dẫn</div>
-        <div class="mn-content">{{Mnemonic}}</div>
-    </div>
-    {{/Mnemonic}}
+    <!-- Hướng dẫn: field HuongDan, do Opus 5 soạn định kỳ theo lô (KHÔNG sinh
+         lúc tạo thẻ qua bot). Thứ tự BÊN TRONG field: Chẻ từ -> Cách nhớ ->
+         Họ hàng (xem card.css, các lớp `hd-`).
+         Bọc trong {{#HuongDan}} nên thẻ chưa có nội dung thì khối này biến mất hẳn.
+         MẶC ĐỊNH THU GỌN (thẻ <details> KHÔNG có thuộc tính open) — user chốt
+         27/07/2026: nội dung cần chi tiết, nên phải gấp lại kẻo lấn phần Ví dụ.
+         Dùng <details> thuần HTML y như khối ví dụ, KHÔNG JavaScript: JS trong
+         mặt sau thẻ hay chết lặng trên AnkiMobile. -->
+    {{#HuongDan}}
+    <details class="hd-toggle">
+        <summary class="hd-summary">Hướng dẫn (Bấm để mở rộng)</summary>
+        <div class="hd-content">{{HuongDan}}</div>
+    </details>
+    {{/HuongDan}}
 
     {{#ExamplesHTML}}
     <div class="section-title">Context Examples</div>
