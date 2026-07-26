@@ -104,13 +104,26 @@ def main():
     else:
         print("⚠️ AI chưa phản hồi - bot vẫn chạy, sẽ thử lại khi có yêu cầu.")
 
-    setup_anki_environment()
-    # Sync ngay sau khi cập nhật môi trường (template/CSS): đẩy mọi thay đổi lên
-    # AnkiWeb liền để các thiết bị khác luôn thấy bản mới nhất, tránh lệch pha.
+    # ⚠️ THỨ TỰ QUAN TRỌNG: SYNC KÉO VỀ TRƯỚC, rồi mới đẩy template.
+    # Bài học 27/07/2026: bản cũ làm ngược (setup rồi mới sync). Hôm đổi tên field
+    # `Mnemonic` -> `HuongDan` trên laptop, VPS khởi động lại và đẩy template có
+    # {{HuongDan}} vào collection CỦA NÓ vẫn còn tên cũ -> "Field 'HuongDan' not
+    # found", template hỏng. Tệ hơn: lần đẩy hỏng đó vẫn chạm vào note type, làm
+    # bản của VPS "mới hơn" bản laptop nên sync sau đó GIỮ BẢN CŨ — phải vào tận
+    # nơi đổi tên tay mới gỡ được. Kéo về trước thì VPS luôn dựng template trên
+    # đúng bộ field hiện hành.
     if trigger_sync():
-        print("☁️ Sync khởi động: OK.")
+        print("☁️ Sync kéo về: OK.")
     else:
-        print("⚠️ Sync khởi động thất bại - sẽ sync lại ở thao tác đầu tiên.")
+        print("⚠️ Sync kéo về thất bại - template có thể dựng trên bộ field cũ.")
+
+    setup_anki_environment()
+
+    # Đẩy lên lần nữa để các thiết bị khác thấy template/CSS mới ngay.
+    if trigger_sync():
+        print("☁️ Sync đẩy lên: OK.")
+    else:
+        print("⚠️ Sync đẩy lên thất bại - sẽ sync lại ở thao tác đầu tiên.")
 
     # Trần chờ HTTP nới hẳn so với mặc định 5s: VPS (VN) tới api.telegram.org
     # ~230ms RTT, mạng chững một nhịp là dính telegram.error.TimedOut (đã gặp

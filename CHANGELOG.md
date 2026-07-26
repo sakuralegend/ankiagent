@@ -6,6 +6,16 @@
 
 ## 27/07/2026
 
+- **SỬA THỨ TỰ KHỞI ĐỘNG BOT: sync KÉO VỀ trước, rồi mới đẩy template.** Bản cũ làm ngược.
+  Hôm đổi tên field trên laptop, VPS khởi động lại và đẩy template có `{{HuongDan}}` vào
+  collection của nó vẫn còn tên `Mnemonic` → `❌ Templates thất bại: Field 'HuongDan' not found`.
+  - 🔴 **Hậu quả nặng hơn cái lỗi**: lần đẩy hỏng đó **vẫn chạm vào note type**, làm bản của VPS
+    "mới hơn" bản laptop, nên **mọi lần sync sau đều GIỮ BẢN CŨ** dù laptop đã đúng. Sync báo
+    "OK" đều đặn mà tên field không bao giờ về. Phải ssh vào đổi tên tay trên VPS rồi mới hết.
+  - 🔑 Rút ra: **sync báo OK không có nghĩa là hai bên giống nhau.** Sau mỗi lần đổi note type
+    phải đối chiếu thật `modelFieldNames` + `modelTemplates` ở CẢ HAI máy, đừng tin chữ "OK".
+  - Lại một lần nữa lỗi chỉ lộ ra trong `journalctl`, không có tin Telegram nào.
+
 - **BỎ HẲN HƯỚNG MNEMONIC, Ô "HƯỚNG DẪN" CHUYỂN SANG PHÂN TÍCH GỐC TỪ.** User đánh giá sau buổi
   học 26/07: hai thứ đáng giá nhất là **giai đoạn 1** và **đoạn phân tích gốc từ** — *"đã khiến
   tôi hiểu được một từ được ghép từ nhiều mảnh, mỗi mảnh có ý nghĩa riêng"*. Ngược lại mnemonic
