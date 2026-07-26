@@ -6,6 +6,26 @@
 
 ## 27/07/2026
 
+- **BỘ SOÁT `data/huongdan/kiemtra.py` — để MÁY kiểm tôi, đừng bắt user tin.** User nói thẳng:
+  *"tôi không đủ kiến thức để có thể kiểm tra được độ tin cậy"*. Nên phần nào máy soát được thì
+  phải để máy soát. Script đối chiếu mọi từ Nga in đậm trong khối `.hd-fam` với
+  **`data/nouns.csv` (26.856 danh từ có sẵn trọng âm chuẩn)**: từ đó có thật không, và trọng âm
+  đặt đúng chỗ chưa.
+  - 🟢 **Bắt lỗi thật ngay lô đầu**: tôi viết `коре́янка`, đúng phải là `корея́нка`. Tự mâu thuẫn
+    với chính `китая́нка` cùng lô mà không tự thấy.
+  - ⚠️ **Giới hạn phải nói rõ**: `nouns.csv` chỉ có DANH TỪ. Động từ/tính từ script báo
+    "không tra được" — **KHÔNG phải "đúng"**. Đừng đọc nhầm cái im lặng đó thành xác nhận.
+  - ⚠️ Bẫy của chính bộ soát: từ điển **không ghi trọng âm cho nhiều tên riêng** (`Аме́рика`,
+    `Кита́й`, `Коре́я` lưu trần) ⇒ báo nhầm hàng loạt. Đã lọc: mục không có dấu thì không so.
+- **Hướng dẫn lô 1 + lô 2 — trọn họ QUỐC TỊCH (32 từ).** Lô 1: 17 danh từ chỉ người. Lô 2: 9
+  tính từ `-ский` + 6 trạng từ `по-…-ски`. Gom theo HỌ chứ không chia đều — 32/168 từ đang học
+  nằm trong cùng một hệ thống, soạn cùng nhau thì lời giải thích nhất quán.
+  - Trọng tâm lô 2 không phải từng từ mà là **`ру́сский язы́к` (tính từ) vs `говори́ть по-ру́сски`
+    (trạng từ)** — lỗi người mới mắc suốt.
+  - Khối hệ thống lặp ở MỌI thẻ là cố ý: user chỉ nhìn một thẻ mỗi lần, gặp lại 32 lần chính là
+    spaced repetition cho bản thân cái hệ thống.
+  - Còn **237 thẻ** nội dung kiểu cũ, **134 từ** trong hai deck học chưa soạn.
+
 - **SỬA THỨ TỰ KHỞI ĐỘNG BOT: sync KÉO VỀ trước, rồi mới đẩy template.** Bản cũ làm ngược.
   Hôm đổi tên field trên laptop, VPS khởi động lại và đẩy template có `{{HuongDan}}` vào
   collection của nó vẫn còn tên `Mnemonic` → `❌ Templates thất bại: Field 'HuongDan' not found`.

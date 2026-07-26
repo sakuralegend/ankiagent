@@ -149,7 +149,7 @@ S["китаянка"] = (
     '<div class="hd-row"><span class="hd-piece">-ка</span><span class="hd-gloss">hậu tố NGƯỜI NỮ</span></div>'
     '<div class="hd-sec">Cách nhớ</div>'
     '<div class="hd-why">Cặp nam–nữ ở đây <b>lệch nhau</b>, phải nhớ riêng: nam là <b>кита́ец</b> (chỉ -ец), nữ là <b>китая́нка</b> (có thêm -ян-). Không suy được cái này từ cái kia.</div>'
-    '<div class="hd-warn"><b>Bẫy:</b> KHÔNG phải <i>*китайка</i>. Vì tên nước kết thúc bằng nguyên âm + <b>й</b>, phải chèn <b>-ян-</b> cho trôi. Y hệt: Коре́я → коре́янка.</div>'
+    '<div class="hd-warn"><b>Bẫy:</b> KHÔNG phải <i>*китайка</i>. Vì tên nước kết thúc bằng nguyên âm + <b>й</b>, phải chèn <b>-ян-</b> cho trôi. Y hệt: Коре́я → корея́нка.</div>'
     '<div class="hd-sec">Họ hàng — Trung Quốc</div>'
     '<div class="hd-fam"><b>Кита́й</b> Trung Quốc · <b>кита́ец</b> người TQ (nam) · <b>китая́нка</b> người TQ (nữ) · <b>кита́йский</b> thuộc TQ · <b>по-кита́йски</b> bằng tiếng Trung</div>'
     + HE
@@ -161,9 +161,9 @@ S["кореец"] = (
     '<div class="hd-row"><span class="hd-piece">-ец</span><span class="hd-gloss">hậu tố NGƯỜI NAM</span></div>'
     '<div class="hd-sec">Cách nhớ</div>'
     '<div class="hd-why">Đúng luật chuẩn: bỏ <b>-я</b> của tên nước, dán <b>-ец</b>. Chữ <b>е</b> đôi liền nhau (<b>коре-ец</b>) trông lạ mắt nhưng không có gì đặc biệt.</div>'
-    '<div class="hd-warn"><b>Bẫy biến cách:</b> khi biến cách, <b>е</b> của <b>-ец</b> rụng và mọc ra <b>й</b> — коре́<b>ец</b> → коре́<b>йц</b>а, коре́<b>йц</b>ы. Dạng nữ cũng lệch: <b>коре́янка</b> chứ không phải <i>*корейка</i>.</div>'
+    '<div class="hd-warn"><b>Bẫy biến cách:</b> khi biến cách, <b>е</b> của <b>-ец</b> rụng và mọc ra <b>й</b> — коре́<b>ец</b> → коре́<b>йц</b>а, коре́<b>йц</b>ы. Dạng nữ cũng lệch: <b>корея́нка</b> chứ không phải <i>*корейка</i>.</div>'
     '<div class="hd-sec">Họ hàng — Triều Tiên</div>'
-    '<div class="hd-fam"><b>Коре́я</b> Triều Tiên · <b>коре́ец</b> người Triều Tiên (nam) · <b>коре́янка</b> (nữ) · <b>коре́йский</b> thuộc Triều Tiên · <b>по-коре́йски</b> bằng tiếng Triều Tiên</div>'
+    '<div class="hd-fam"><b>Коре́я</b> Triều Tiên · <b>коре́ец</b> người Triều Tiên (nam) · <b>корея́нка</b> (nữ) · <b>коре́йский</b> thuộc Triều Tiên · <b>по-коре́йски</b> bằng tiếng Triều Tiên</div>'
     + HE
 )
 
@@ -176,7 +176,7 @@ S["кореянка"] = (
     '<div class="hd-why">Cặp song sinh với <b>китая́нка</b> — cùng một luật: tên nước tận cùng bằng nguyên âm thì dạng nữ chèn <b>-ян-</b> trước <b>-ка</b>. Nhớ hai từ này chung một chỗ.</div>'
     '<div class="hd-warn"><b>Bẫy:</b> KHÔNG phải <i>*корейка</i> (từ đó có nghĩa khác hẳn: thịt thăn). Dạng nam thì lại không chèn: <b>коре́ец</b>.</div>'
     '<div class="hd-sec">Họ hàng — Triều Tiên</div>'
-    '<div class="hd-fam"><b>Коре́я</b> Triều Tiên · <b>коре́ец</b> người Triều Tiên (nam) · <b>коре́янка</b> (nữ) · <b>коре́йский</b> thuộc Triều Tiên · <b>по-коре́йски</b> bằng tiếng Triều Tiên</div>'
+    '<div class="hd-fam"><b>Коре́я</b> Triều Tiên · <b>коре́ец</b> người Triều Tiên (nam) · <b>корея́нка</b> (nữ) · <b>коре́йский</b> thuộc Triều Tiên · <b>по-коре́йски</b> bằng tiếng Triều Tiên</div>'
     + HE
 )
 
