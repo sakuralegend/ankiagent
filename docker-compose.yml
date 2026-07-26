@@ -9,6 +9,13 @@ services:
     image: thisisnttheway/headless-anki:latest
     container_name: anki
     restart: unless-stopped
+    environment:
+      # Container KHÔNG chạy Xvfb — nó dùng thẳng plugin VNC của Qt, nên "màn hình"
+      # chỉ là một khung do Qt dựng. Mặc định của image là 1024x768, nhỏ hơn cửa sổ
+      # Anki + các hộp thoại của nó -> nhìn qua VNC thấy MÀN HÌNH BỊ CẮT XÉN.
+      # Đặt to hơn là hết. Đo kích thước thật bằng bắt tay RFB (ServerInit trả
+      # width/height), đừng đoán qua mắt nhìn trong VNC viewer.
+      - QT_QPA_PLATFORM=vnc:size=1600x900
     ports:
       - "127.0.0.1:8765:8765"
       - "127.0.0.1:5900:5900"
