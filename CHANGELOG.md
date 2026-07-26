@@ -6,6 +6,19 @@
 
 ## 26/07/2026
 
+- **GỠ SẠCH TRẦN THẺ MỚI** (user: *"tôi sẽ học đến bao giờ hết thì thôi"*). Cả ba preset về
+  `new/perDay = 9999` (mức cao nhất Anki nhận = không trần): `russian-parent-70` (cha, 140→9999),
+  `stage1-quen` (70→9999), `inbox` (70→9999). `rev/perDay` vốn đã 9999 từ trước.
+  Hiệu lực ngay: `getDeckStats.new_count` của `0-quen` từ **0 → 197** (suất 70 hôm nay đã tiêu hết).
+  - ⚠️ **Sửa luôn `setup_inbox.py`**, nếu không nó dựng lại trần 70/140 ở lần chạy sau mà không
+    ai biết — `ensure_preset()` ghi `perDay` **vô điều kiện** mỗi lần chạy. Hằng số nguồn duy nhất
+    là `STAGE_NEW_PER_DAY` / `PARENT_NEW_PER_DAY`; **đừng chỉnh trần bằng tay trong GUI Anki.**
+    (`PARENT_NEW_PER_DAY` không còn = `STAGE × 2` vì 19998 vượt mức Anki nhận.)
+  - ⚠️ **Tên preset `russian-parent-70` giờ là tên SAI** — không còn giới hạn 70. Cố ý giữ tên vì
+    user nhìn nó trong GUI. Đừng suy hạn mức từ tên preset, đọc `new.perDay`.
+  - Đã báo trước cho user cái giá: gỡ trần ở `1-go` nghĩa là cày hết GĐ1 trong một buổi thì hôm
+    sau toàn bộ chỗ đó đổ sang dạng **gõ** cùng lúc, và thẻ gõ đẻ nợ ôn tập kéo dài nhiều tuần
+    chứ không tan sau 15 phút như GĐ1. User chấp nhận.
 - **ĐẨY TOÀN BỘ 89 THẺ `1-go` NGƯỢC VỀ `0-quen`, xoá sạch dữ liệu học** (user yêu cầu sau khi
   học thử GĐ1: *"tôi thấy học kiểu này hiệu quả đấy"* — muốn học lại từ đầu theo lộ trình mới).
   Làm y hệt `promote_stage1_to_stage2()` nhưng ngược chiều, **ba việc phải đi cùng nhau**:

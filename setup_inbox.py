@@ -28,11 +28,18 @@ from anki_tools.config import (
     ANKI_CONNECT_URL, STAGE1_DECK, STAGE2_DECK, TOPIC_DECK_PARENT,
 )
 
-# Mỗi chặng 70 thẻ mới/ngày. Vì mỗi từ đi qua hàng đợi "thẻ mới" HAI lượt (một
-# lần vào GĐ1, một lần nữa sau khi forgetCards để vào GĐ2), muốn thật sự gặp
-# N từ mới/ngày thì mỗi deck để N và deck cha để 2N.
-STAGE_NEW_PER_DAY = 70
-PARENT_NEW_PER_DAY = STAGE_NEW_PER_DAY * 2
+# KHÔNG CÒN TRẦN THẺ MỚI (user chốt 26/07/2026: "học đến bao giờ hết thì thôi").
+# 9999 là mức cao nhất Anki nhận — đặt nó nghĩa là "gỡ trần", không phải "9999 thẻ".
+#
+# ⚠️ Muốn đặt trần trở lại thì sửa ĐÚNG hai hằng số này rồi chạy lại file này; đừng
+# chỉnh tay trong GUI vì lần chạy sau sẽ ghi đè. Vì mỗi từ đi qua hàng đợi "thẻ mới"
+# HAI lượt (vào GĐ1, rồi lại vào GĐ2 sau forgetCards), muốn thật sự gặp N từ mới/ngày
+# thì mỗi deck để N và deck cha để 2N.
+#
+# ⚠️ Preset deck cha vẫn mang tên cũ `russian-parent-70` — TÊN GIỜ SAI, nó không còn
+# giới hạn 70. Không đổi tên vì user nhìn tên đó trong GUI Anki.
+STAGE_NEW_PER_DAY = 9999
+PARENT_NEW_PER_DAY = 9999
 
 
 def call(action, **params):
