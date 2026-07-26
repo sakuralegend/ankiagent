@@ -61,7 +61,7 @@ def main():
     nouns = load_nouns()
     print(f"tu dien: {len(nouns)} danh tu\n")
 
-    note_ids = ac("findNotes", query=r'note:RU_Word HuongDan:*hd-fam*')
+    note_ids = ac("findNotes", query=r'note:RU_Word HuongDan:*hd-sec*')
     notes = ac("notesInfo", notes=note_ids)
     print(f"the kieu moi: {len(notes)}\n")
 
@@ -69,8 +69,10 @@ def main():
     for n in notes:
         word = n["fields"]["WordClean"]["value"]
         html = n["fields"]["HuongDan"]["value"]
-        # Chỉ soát khối Họ hàng: đó là chỗ tôi liệt kê từ khác, dễ bịa nhất.
-        for block in re.findall(r'<div class="hd-fam">(.*?)</div>', html, re.S):
+        # Soát TOÀN BỘ field, không chỉ khối Họ hàng. Bản đầu chỉ soát .hd-fam
+        # nên bỏ lọt mọi từ Nga nằm trong phần "Cách nhớ" và ô cảnh báo — mà đó
+        # cũng là chỗ tôi viết từ ra, cũng sai được y như vậy.
+        for block in [html]:
             for m in re.findall(r"<b>(.*?)</b>", block):
                 token = re.sub(r"<[^>]+>", "", m).strip()
                 if not re.fullmatch(r"[А-Яа-яЁё\u0301\u200b-]+", token) or "-" in token:
@@ -99,9 +101,14 @@ def main():
         seen.add(key)
         print(f"  the {w:16s} toi viet {mine:20s} tu dien {ref}")
 
-    print(f"\n=== KHONG TRA DUOC (khong phai danh tu / khong co trong dump): {len(khong_tra_duoc)} ===")
-    print("  " + ", ".join(sorted(khong_tra_duoc)))
-    print("\n⚠️ 'Khong tra duoc' KHONG co nghia la sai — chi la nouns.csv khong phu.")
+    # Bỏ mảnh phụ tố in đậm (ец, ский, ча…) khỏi danh sách phải đọc bằng mắt —
+    # chúng luôn "không tra được" và làm loãng danh sách tới mức không ai đọc nữa.
+    dai = sorted(w for w in khong_tra_duoc if len(w) >= 4)
+    print(f"\n=== PHAI DOC BANG MAT: {len(dai)} tu (>=4 chu, khong co trong tu dien danh tu) ===")
+    print("  " + ", ".join(dai))
+    print(f"\n(bo qua {len(khong_tra_duoc) - len(dai)} manh phu to ngan)")
+    print("⚠️ 'Khong tra duoc' KHONG co nghia la sai — chi la nouns.csv chi chua DANH TU.")
+    print("   Nhung tinh tu/dong tu trong la trong danh sach nay thi PHAI kiem tay.")
 
 
 if __name__ == "__main__":

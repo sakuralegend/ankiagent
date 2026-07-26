@@ -54,8 +54,8 @@ S["англичанин"] = (
     '<div class="hd-row"><span class="hd-piece">-ин</span><span class="hd-gloss">hậu tố NGƯỜI NAM — lớp cổ hơn <b>-ец</b></span></div>'
     '<div class="hd-sec">Cách nhớ</div>'
     '<div class="hd-why">Đây là từ <b>phá luật</b> đầu tiên bạn gặp: người Anh KHÔNG phải <i>*англиец</i> mà là <b>англича́нин</b>. Hậu tố <b>-анин / -янин</b> là lớp cổ, dùng cho vài dân tộc quen thuộc lâu đời với người Nga.</div>'
-    '<div class="hd-why">Cùng lớp đó: <b>россия́нин</b> công dân Nga · <b>славя́нин</b> người Slav · <b>христиани́н</b> tín đồ Cơ Đốc · <b>египтя́нин</b> người Ai Cập.</div>'
-    '<div class="hd-warn"><b>Bẫy số nhiều:</b> lớp <b>-анин</b> RỤNG mất <b>-ин</b> khi sang số nhiều — англича́н<b>ин</b> → англича́н<b>е</b> (không phải <i>*англичанины</i>). Y hệt: славя́нин → славя́не.</div>'
+    '<div class="hd-why">Cùng lớp đó: <b>россия́нин</b> công dân Nga · <b>славяни́н</b> người Slav · <b>христиани́н</b> tín đồ Cơ Đốc · <b>египтя́нин</b> người Ai Cập.</div>'
+    '<div class="hd-warn"><b>Bẫy số nhiều:</b> lớp <b>-анин</b> RỤNG mất <b>-ин</b> khi sang số nhiều — англича́н<b>ин</b> → англича́н<b>е</b> (không phải <i>*англичанины</i>). Y hệt: славяни́н → славя́не.</div>'
     '<div class="hd-sec">Họ hàng — nước Anh</div>'
     '<div class="hd-fam"><b>А́нглия</b> nước Anh · <b>англича́нин</b> người Anh (nam) · <b>англича́нка</b> người Anh (nữ) · <b>англи́йский</b> thuộc Anh · <b>по-англи́йски</b> bằng tiếng Anh</div>'
     + HE
@@ -124,7 +124,7 @@ S["итальянец"] = (
     '<div class="hd-row"><span class="hd-piece">-ец</span><span class="hd-gloss">hậu tố NGƯỜI NAM</span></div>'
     '<div class="hd-sec">Cách nhớ</div>'
     '<div class="hd-why">Chỗ dễ gõ sai duy nhất là cụm <b>-ья-</b>. Hình dung: <b>Итал-и-я</b> khi thêm hậu tố thì chữ <b>и</b> không đủ chỗ nên co lại thành dấu mềm <b>ь</b> → <b>италь-ян-ец</b>.</div>'
-    '<div class="hd-warn"><b>Bẫy:</b> phải là <b>итальянец</b>, KHÔNG phải <i>*италианец</i> hay <i>*италйянец</i>. Dấu mềm <b>ь</b> đứng NGAY SAU <b>л</b>.</div>'
+    '<div class="hd-warn"><b>Bẫy:</b> phải là <b>италья́нец</b>, KHÔNG phải <i>*италианец</i> hay <i>*италйянец</i>. Dấu mềm <b>ь</b> đứng NGAY SAU <b>л</b>.</div>'
     '<div class="hd-sec">Họ hàng — nước Ý</div>'
     '<div class="hd-fam"><b>Ита́лия</b> nước Ý · <b>италья́нец</b> người Ý (nam) · <b>италья́нка</b> người Ý (nữ) · <b>италья́нский</b> thuộc Ý · <b>по-италья́нски</b> bằng tiếng Ý</div>'
     + HE
