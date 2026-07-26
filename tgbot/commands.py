@@ -21,8 +21,11 @@ from anki_tools.anki_client import (
     get_topic_stats,
     move_graduated_from_inbox,
     promote_stage1_to_stage2,
+    sync_now,
     trigger_sync,
 )
+
+from .alerts import alerter, sync_error_hint
 
 from .core import (
     HELP_TEXT,
@@ -261,7 +264,11 @@ async def _sleep_until(hour, minute=0):
 
 async def _guard(name, body, cooldown=60):
     """Chạy `body()` mãi mãi, nuốt mọi lỗi để vòng lặp KHÔNG BAO GIỜ chết.
-    Lỗi thì log rồi nghỉ `cooldown` giây để không quay vòng điên cuồng."""
+    Lỗi thì log, CẢNH BÁO Telegram rồi nghỉ `cooldown` giây để không quay vòng
+    điên cuồng.
+
+    Job nền ném exception là luôn bất thường (khác lỗi sync có thể do mạng chớp),
+    nên báo ngay từ lần đầu — after=1."""
     while True:
         try:
             await body()
@@ -269,6 +276,13 @@ async def _guard(name, body, cooldown=60):
             raise                       # tắt bot: phải để hủy task diễn ra bình thường
         except Exception as e:
             print(f"⚠️ Job '{name}' lỗi: {e!r} — bỏ qua nhịp này, job vẫn tiếp tục.")
+            await alerter.problem(
+                f"job:{name}",
+                f"Job nền '{name}' đang lỗi:\n{e!r}\n\n"
+                "Job vẫn chạy tiếp, nhưng nhịp này bị bỏ. "
+                "Xem log: journalctl -u anki-bot -n 50",
+                after=1,
+            )
             await asyncio.sleep(cooldown)
 
 
@@ -279,6 +293,17 @@ async def _nightly_don(app):
     async def once():
         await _sleep_until(3, 0)
         res = await asyncio.to_thread(run_don)
+        # Bất thường thì báo BẤT KỂ có thẻ nào được chuyển hay không.
+        if res["error"] or not res["sync_in"]:
+            await alerter.problem(
+                "don dem",
+                "Job dọn 3h sáng chạy không trọn:\n"
+                + (f"• {res['error']}\n" if res["error"] else "")
+                + ("• sync kéo về thất bại → dọn trên dữ liệu cũ\n" if not res["sync_in"] else ""),
+                after=1,
+            )
+        else:
+            await alerter.ok("don dem", "Job dọn 3h sáng")
         if res["promoted"] or res["total"]:
             try:
                 await app.bot.send_message(TELEGRAM_USER_ID, "🌙 " + _don_report(res))
@@ -302,12 +327,22 @@ BACKUP_MINUTE = 30
 
 
 async def _periodic_sync():
-    """Sync hai chiều mỗi PERIODIC_SYNC_MINUTES phút. Im lặng khi thành công —
-    chỉ log lúc lỗi để không spam Telegram."""
+    """Sync hai chiều mỗi PERIODIC_SYNC_MINUTES phút. Im lặng khi thành công.
+
+    Hỏng thì CẢNH BÁO Telegram — nhưng chỉ sau 2 nhịp liên tiếp (~1 tiếng), vì
+    một nhịp lỗi thường chỉ là mạng chớp. Đây chính là lỗ hổng đã để VPS kẹt
+    "Sync status 2" suốt hai ngày mà không ai biết (25-26/07/2026)."""
     async def once():
         await asyncio.sleep(PERIODIC_SYNC_MINUTES * 60)
-        if not await asyncio.to_thread(trigger_sync):
+        ok, err = await asyncio.to_thread(sync_now)
+        if ok:
+            await alerter.ok("sync", "Sync AnkiWeb")
+        else:
             print("⚠️ Sync định kỳ thất bại (sẽ thử lại ở nhịp sau).")
+            await alerter.problem(
+                "sync",
+                f"SYNC ANKIWEB ĐANG HỎNG.\n\n{err[:300]}\n\n👉 {sync_error_hint(err)}",
+            )
 
     await _guard("sync dinh ky", once)
 
@@ -324,15 +359,16 @@ async def _nightly_backup(app):
         if result.get("path"):
             print(f"💾 Backup đêm: {human_size(result['bytes'])} -> {result['path']} "
                   f"(xóa {removed} bản cũ)")
+            await alerter.ok("backup dem", "Backup đêm")
             return
-        try:
-            await app.bot.send_message(
-                TELEGRAM_USER_ID,
-                "⚠️ BACKUP ĐÊM THẤT BẠI — kho Anki đang KHÔNG có bản sao lưu mới.\n"
-                + "; ".join(result.get("errors", []))[:300]
-            )
-        except Exception as e:
-            print(f"⚠️ Không gửi được cảnh báo backup: {e}")
+        # Backup hỏng là LUÔN bất thường (after=1): lúc đó kho đang không có bản
+        # sao lưu mới, mà backup chính là thứ cứu được khi full sync nhầm chiều.
+        await alerter.problem(
+            "backup dem",
+            "BACKUP ĐÊM THẤT BẠI — kho Anki đang KHÔNG có bản sao lưu mới.\n"
+            + "; ".join(result.get("errors", []))[:300],
+            after=1,
+        )
 
     await _guard("backup dem", once)
 
@@ -362,5 +398,11 @@ async def cmd_backup(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def cmd_sync(update: Update, context: ContextTypes.DEFAULT_TYPE):
     _reset_idle_timer(context, update.effective_chat.id)
     msg = await update.message.reply_text("⏳ Đang sync AnkiWeb...")
-    ok = await asyncio.to_thread(trigger_sync)
-    await msg.edit_text("☁️ Đã sync AnkiWeb." if ok else "❌ Sync thất bại (xem log trên VPS).")
+    ok, err = await asyncio.to_thread(sync_now)
+    if ok:
+        # Sync tay thành công thì gỡ luôn trạng thái báo động, đừng bắt user chờ
+        # tới nhịp định kỳ mới thấy tin "đã bình thường".
+        await alerter.ok("sync", "Sync AnkiWeb")
+        await msg.edit_text("☁️ Đã sync AnkiWeb.")
+    else:
+        await msg.edit_text(f"❌ Sync thất bại:\n{err[:300]}\n\n👉 {sync_error_hint(err)}")

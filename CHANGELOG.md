@@ -46,6 +46,21 @@
   trước**. Sync đầu hỏng thì vẫn dọn tiếp (idempotent, cùng lắm chuyển ít thẻ hơn) nhưng **báo
   ra** để user không tưởng xong. Thân tách thành `run_don()` dùng chung cho `/don` và job 3h.
 
+- **CẢNH BÁO BẤT THƯỜNG QUA TELEGRAM (`tgbot/alerts.py`) — bịt lỗ "hỏng im lặng".**
+  User: *"những gì bất thường thì đều phải nhắn"*. Đây là hệ quả trực tiếp của việc VPS kẹt sync
+  2 ngày mà không ai biết: `trigger_sync` chỉ `log_warn` ra journal rồi trả `False`.
+  ⚠️ **Nguyên tắc: cảnh báo phải CÓ TIẾT CHẾ.** Nhắn mỗi 30 phút suốt hai ngày thì user sẽ tắt
+  thông báo của bot, và lần hỏng THẬT tiếp theo lại không ai thấy — tệ hơn cả không cảnh báo. Nên:
+  bỏ qua lỗi thoáng qua (báo sau **2 nhịp liên tiếp**), đang hỏng thì nhắc lại **6 tiếng/lần**,
+  hết hỏng thì báo **một** tin "đã bình thường" rồi im.
+  Đã phủ: sync định kỳ, job nền ném exception (`_guard`, báo ngay lần đầu vì luôn bất thường),
+  backup đêm thất bại, job dọn 3h chạy không trọn.
+  `sync_error_hint()` dịch lỗi thô thành VIỆC CẦN LÀM — "Sync status 2" ra đúng ba bước
+  Upload/Download, vì lỗi đó **không tự khỏi**, phải có người bấm tay.
+  `anki_client.sync_now()` trả `(ok, err)`; `trigger_sync()` giữ nguyên làm vỏ mỏng cho code cũ.
+  Đã test logic tiết chế bằng bot giả: nhịp 1 im, nhịp 2 nhắn, nhịp 3-5 im, qua 6 tiếng nhắc lại,
+  khỏi thì nhắn một tin, vẫn khoẻ thì im.
+
 - **VNC vào VPS bị CẮT XÉN màn hình: màn hình ảo 1024×768 → 1600×900.**
   User: *"mở qua vnc.bat, màn hình VPS nhiều lúc toàn bị cắt xén"*. Nguyên nhân không phải
   TightVNC: container **KHÔNG chạy Xvfb** mà dùng thẳng plugin VNC của Qt (`QT_QPA_PLATFORM=vnc`),

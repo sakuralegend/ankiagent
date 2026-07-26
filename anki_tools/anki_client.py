@@ -686,19 +686,30 @@ def get_topic_stats():
         return None, 0
 
 
-def trigger_sync():
-    """Yêu cầu Anki sync với AnkiWeb (đẩy thẻ mới lên để điện thoại kéo về).
-    Trả về True nếu lệnh được chấp nhận. Không chặn quá lâu: sync chạy nền trong Anki."""
+def sync_now():
+    """Sync với AnkiWeb. Trả về (ok: bool, err: str) — err rỗng khi thành công.
+
+    Dùng bản này khi cần BIẾT LÝ DO hỏng để cảnh báo cho ra hồn. Lý do quan trọng
+    nhất là "Sync status 2" = AnkiWeb đòi full sync (thường do vừa đổi schema:
+    thêm/xoá field, đổi note type). Lúc đó sync sẽ hỏng MÃI MÃI cho tới khi có
+    người vào bấm tay — đúng cái đã làm VPS kẹt im lặng suốt 2 ngày (25-26/07)."""
     try:
         res = requests.post(ANKI_CONNECT_URL, json={"action": "sync", "version": 6}, timeout=60)
         result = res.json()
         if result.get("error"):
-            log_warn(f"Sync AnkiWeb lỗi: {result.get('error')}")
-            return False
-        return True
+            err = str(result["error"])
+            log_warn(f"Sync AnkiWeb lỗi: {err}")
+            return False, err
+        return True, ""
     except Exception as e:
         log_warn(f"Không gọi được sync: {e}")
-        return False
+        return False, str(e)
+
+
+def trigger_sync():
+    """Yêu cầu Anki sync với AnkiWeb (đẩy thẻ mới lên để điện thoại kéo về).
+    Trả về True nếu lệnh được chấp nhận. Không chặn quá lâu: sync chạy nền trong Anki."""
+    return sync_now()[0]
 
 
 def get_note_fields(note_id):

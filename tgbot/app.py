@@ -32,6 +32,7 @@ from .commands import (
     cmd_sync,
     cmd_thongke,
 )
+from .alerts import alerter
 from .flow_edit import cmd_sua, cmd_suadeck
 from .flow_scan import on_photo
 from .flow_special import cmd_dacbiet
@@ -69,6 +70,9 @@ def _spawn(coro):
 
 async def _post_init(app):
     """Đăng ký menu lệnh gốc của Telegram (nút '/' cạnh ô gõ chữ) + bật job nền."""
+    # Gắn app cho bộ cảnh báo TRƯỚC khi bật job nền — job hỏng ngay nhịp đầu thì
+    # vẫn phải nhắn được, chứ không rơi vào cảnh "chưa bind, bỏ tin".
+    alerter.bind(app)
     _spawn(_nightly_don(app))       # 3h00 sáng: dọn inbox
     _spawn(_nightly_backup(app))    # 3h30 sáng: sao lưu + dọn bản cũ
     _spawn(_periodic_sync())        # 30 phút/lần: sync HAI CHIỀU
