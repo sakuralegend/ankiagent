@@ -46,6 +46,20 @@
   trước**. Sync đầu hỏng thì vẫn dọn tiếp (idempotent, cùng lắm chuyển ít thẻ hơn) nhưng **báo
   ra** để user không tưởng xong. Thân tách thành `run_don()` dùng chung cho `/don` và job 3h.
 
+- **VNC vào VPS bị CẮT XÉN màn hình: màn hình ảo 1024×768 → 1600×900.**
+  User: *"mở qua vnc.bat, màn hình VPS nhiều lúc toàn bị cắt xén"*. Nguyên nhân không phải
+  TightVNC: container **KHÔNG chạy Xvfb** mà dùng thẳng plugin VNC của Qt (`QT_QPA_PLATFORM=vnc`),
+  nên "màn hình" chỉ là một khung Qt dựng sẵn, mặc định của image là **1024×768** — nhỏ hơn cửa
+  sổ Anki + các hộp thoại của nó.
+  **Cách đo (dùng lại được):** bắt tay RFB rồi đọc `ServerInit` trả `width/height` — số thật,
+  không phải ước lượng bằng mắt trong VNC viewer. Container không có `xdpyinfo` và cũng không có
+  X server để hỏi.
+  Sửa: `docker-compose.yml` thêm `QT_QPA_PLATFORM=vnc:size=1600x900`.
+  ⚠️ **Thử trên container NHÁP trước** (image y hệt, port 5901, /data riêng) để nếu Qt không nhận
+  tham số thì Anki thật không chết kéo theo bot. Container nháp báo đúng 1600×900 mới áp vào thật.
+  Trước khi `docker compose up -d` thì gọi `sync` một phát cho chắc. Sau khi dựng lại: đo lại RFB
+  = 1600×900, AnkiConnect trả 870 thẻ, bot vẫn `active`.
+
 - **VPS ĐANG KẸT SYNC TỪ 25/07 — phát hiện khi kiểm tra trước lúc làm.** `journalctl` cho thấy
   `Sync status 2` lặp lại mỗi 30 phút suốt hai ngày. Nguyên nhân: thêm field `Mnemonic` (25/07)
   là schema mod, laptop đã Upload nhưng **VPS chưa bao giờ Download**. `trigger_sync()` chỉ
