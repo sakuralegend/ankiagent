@@ -15,13 +15,12 @@ from anki_tools.anki_client import (
     ensure_deck_exists,
     get_deck_names,
     get_deck_note_ids,
-    move_graduated_from_inbox,
     trigger_sync,
 )
 
 from anki_tools.backup import human_size, list_backups, run_backup
 
-from .commands import _don_report, thongke_report
+from .commands import _don_report, run_don, thongke_report
 from .core import (
     HELP_TEXT,
     TOOLS_TEXT,
@@ -199,11 +198,13 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await query.edit_message_text("⏳ Đang đếm thẻ theo chủ đề...")
             await query.edit_message_text(await thongke_report())
         elif action == "don":
-            await query.edit_message_text("⏳ Đang dọn inbox...")
-            moved, total = await asyncio.to_thread(move_graduated_from_inbox)
-            if total:
-                await asyncio.to_thread(trigger_sync)
-            await query.edit_message_text(_don_report(moved, total))
+            # Nút 🧹 phải làm ĐÚNG như lệnh /don — cùng gọi run_don(), đừng bao giờ
+            # dựng lại logic dọn ở đây. Bản cũ gọi thẳng move_graduated_from_inbox()
+            # nên vừa bỏ bước sync-kéo-về vừa bỏ bước GĐ1→GĐ2, rồi crash ở dòng
+            # báo cáo (26/07/2026: TypeError, _don_report đã đổi sang nhận 1 dict).
+            await query.edit_message_text("⏳ Đang sync về rồi dọn...")
+            res = await asyncio.to_thread(run_don)
+            await query.edit_message_text(_don_report(res))
         elif action == "sync":
             await query.edit_message_text("⏳ Đang sync AnkiWeb...")
             ok = await asyncio.to_thread(trigger_sync)
