@@ -40,6 +40,14 @@ def ac(action, **params):
     return out["result"]
 
 
+# Từ ĐỒNG TỰ: hai từ khác nhau viết giống hệt, từ điển chỉ giữ được một.
+# Máy không thể phân biệt, nên phải miễn trừ TAY và ghi rõ lý do — một bộ soát
+# kêu nhầm mãi thì rồi chính mình sẽ bỏ qua cả tiếng kêu thật.
+MIEN_TRU = {
+    "ви́на": "số nhiều của вино́ (rượu vang); từ điển chỉ có вина́ = lỗi lầm",
+}
+
+
 def bare(w):
     """Bỏ trọng âm + zero-width, về dạng tra cứu."""
     return w.replace(ACUTE, "").replace(ZWSP, "").replace("'", "").lower().replace("ё", "е")
@@ -86,6 +94,8 @@ def main():
                 # Коре́я lưu trần). So với mục trần thì mọi dấu tôi đặt đều bị coi
                 # là thừa -> báo nhầm hàng loạt. Không có dấu thì không so.
                 if ACUTE not in chuan:
+                    continue
+                if token in MIEN_TRU:
                     continue
                 if token.replace(ZWSP, "").lower().replace("ё", "е") != chuan.lower().replace("ё", "е"):
                     sai_trong_am.append((word, token, chuan))
