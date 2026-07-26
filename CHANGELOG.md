@@ -6,6 +6,21 @@
 
 ## 26/07/2026
 
+- **ĐẨY TOÀN BỘ 89 THẺ `1-go` NGƯỢC VỀ `0-quen`, xoá sạch dữ liệu học** (user yêu cầu sau khi
+  học thử GĐ1: *"tôi thấy học kiểu này hiệu quả đấy"* — muốn học lại từ đầu theo lộ trình mới).
+  Làm y hệt `promote_stage1_to_stage2()` nhưng ngược chiều, **ba việc phải đi cùng nhau**:
+  `Stage=""` → `forgetCards` → `changeDeck` sang `0-quen`. Sao lưu trước bằng `exportPackage`
+  deck `RUSSIAN` kèm `includeSched=True` → `backups/truoc-reset-1go_2026-07-26_1646.apkg` (40,5 MB).
+  Sau: `1-go` 0 thẻ, `0-quen` 271 thẻ (201 mới), tổng vẫn **870**, 0 thẻ lệch deck ↔ field.
+  Hàng đợi thẻ mới ở `0-quen` là 201 ở mức 70/ngày ⇒ ~3 ngày mới tiêu hết.
+- 🟢 **TRẢ LỜI CÂU HỎI CÒN TREO: `forgetCards` CÓ xoá sạch FSRS Difficulty + Stability.**
+  Đợt reset trên là cơ hội đo thật. Bằng chứng (chính `0-quen` ngay sau khi reset):
+  `is:new prop:d>0` = **0**, `is:new prop:s>0` = **0**, trong khi `-is:new prop:d>0` = **70**
+  (70 thẻ GĐ1 đang học dở hôm nay vẫn giữ D). ⇒ bước GĐ1→GĐ2 tiện thể rửa sạch D tích luỹ,
+  điều mà bấm Good **không** làm được (xem mục 25/07).
+  ⚠️ **Cách đo**: `cardsInfo` trả `difficulty`/`stability`/`fsrsMemoryState` = `None` cho MỌI thẻ —
+  đừng tin đó là "D đã bị xoá", nó chỉ là AnkiConnect không xuất trường này. Phải hỏi bằng
+  **search `prop:d>0` / `prop:s>0`**, đó mới là số Anki tính thật.
 - **LỘ TRÌNH HỌC HAI GIAI ĐOẠN: tách `0-inbox` thành `0-quen` (làm quen) + `1-go` (gõ).**
   Vấn đề: thẻ mới toanh bắt SẢN XUẤT tiếng Nga từ con số 0 ngay lần gặp đầu — nhiệm vụ khó nhất
   có thể. Nguyên tắc thiết kế (user diễn đạt, gọn hơn mọi lý lẽ khác): **mỗi giai đoạn đo ĐÚNG MỘT
