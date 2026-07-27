@@ -4,6 +4,25 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 🔴 VIỆC ĐANG TREO (28/07/2026) — VPS KẸT SYNC, CHỜ VNC
+
+User xoá note type rỗng `ZZ_TEST_TYPESTAGE` (schema mod) rồi **Upload laptop → AnkiWeb**.
+Hệ quả đúng như [[vps-ket-sync-im-lang]] đã cảnh báo: **VPS kẹt, và kẹt IM LẶNG.**
+
+- Gọi `sync` trên VPS trả về: `Sync status 2 not one of [0, 1]` — AnkiWeb đòi full sync.
+- Bot **không báo Telegram** (nuốt lỗi, chỉ `log_warn`), log `journalctl` không có dòng sync
+  nào từ 26/07 23:45 tới giờ.
+- Số liệu lệch: **laptop 869 note / 7 note type** ↔ **VPS 871 note / 8 note type**
+  (VPS vẫn còn `ZZ_TEST_TYPESTAGE` và 2 thẻ trùng đã xoá).
+- **Đã xác minh VPS không có gì để mất**: note mới duy nhất trên VPS là `месяц`
+  (1785112135403), laptop đã có sẵn ⇒ cho VPS Download là an toàn tuyệt đối.
+
+**Cách gỡ:** VNC vào VPS → Anki → Sync → **Download from AnkiWeb**. Rồi iPhone → Sync →
+**Download from AnkiWeb**.
+
+⚠️ **Trong lúc chờ, ĐỪNG thêm từ mới qua bot Telegram** — từ thêm bây giờ rơi vào bản sao cũ
+trên VPS và sẽ bị xoá sạch khi nó Download.
+
 ## 28/07/2026 — LÔ k11 + k12, VÀ MỘT LỖI GHÉP NOTE SUÝT ÂM THẦM
 
 - **Lô k11** (`language::education`, 15 từ) và **k12** (`language::grammar`, 17 từ) đã soạn,
