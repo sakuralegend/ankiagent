@@ -34,6 +34,8 @@ ZWSP = "​"
 MIEN_TRU = {
     "ви́на": "số nhiều của вино́ (rượu vang); từ điển chỉ có вина́ = lỗi lầm",
     "жила́": "quá khứ giống cái của động từ жить (sống); từ điển chỉ có danh từ жи́ла = gân, mạch",
+    "запа́х": "đồng tự với за́пах (mùi): запа́х = vạt áo choàng chồng lên nhau (từ запахну́ть); "
+             "thẻ k05 dạy đúng cặp trọng âm này, từ điển chỉ có за́пах",
 }
 
 
