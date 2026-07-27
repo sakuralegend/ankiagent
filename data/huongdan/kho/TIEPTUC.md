@@ -28,7 +28,8 @@ Khuôn lời nhắn giao cho agent phụ (đổi `kNN` và phần chủ đề):
 > Soạn ô "Hướng dẫn" cho lô **kNN**, dự án Anki học tiếng Nga tại `d:\Desktop\ANKI`.
 >
 > **1. Đọc spec TRƯỚC KHI viết** — toàn bộ `data/huongdan/README.md` (đặc biệt §2, §5, **§7**),
-> và `data/huongdan/kho/k01_actions.py` làm chuẩn văn phong + mật độ nội dung.
+> và `data/huongdan/kho/MAU.py` làm chuẩn văn phong + mật độ nội dung.
+> (**Đừng đọc `k01_actions.py`** — 64 KB, MAU.py 19 KB đã đủ.)
 > **2. Đề bài:** `PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py tiep kNN`
 > **3. Soạn** `data/huongdan/kho/kNN_<topic>.py`, chỉ chứa `S = {...}`. ‹gợi ý hệ thống trục›
 > **4. Tự soát:** `… congcu.py soat kNN` — sửa tới khi **cả ba** mục đầu báo `(khong co)`,
@@ -38,7 +39,11 @@ Khuôn lời nhắn giao cho agent phụ (đổi `kNN` và phần chủ đề):
 >
 > **Báo cáo:** số từ · kết quả 3 mục soát · **những chỗ KHÔNG chắc đã hạ mức tin**.
 
-Chạy **4–5 lô song song** là vừa. Chúng độc lập nhau nên không tranh chấp.
+🔴 **MỖI PHIÊN CHỈ 3 LÔ (~45–50 từ). Chạy tuần tự hoặc 2 song song, đừng 4–5.**
+Đo thật 27/07: 8 lô = trọn cửa sổ 5h gói Pro **+ $25 usage credit**. User đã trả giá để biết
+con số này, đừng thử lại. Hết 3 lô thì **dừng và báo cáo**, để user tự quyết có chạy thêm không.
+
+**Mọi lô dùng Opus** — user chốt 27/07 sau khi biết chi phí. Không hạ model để tiết kiệm.
 
 ## Khi một lô báo xong
 

@@ -164,6 +164,26 @@ và chọn cách chữa: **mỗi lô chạy trong một context trắng tinh.**
 ⇒ Nếu bạn đang đọc dòng này với tư cách người soạn một lô: bạn **không biết gì** về các lô
 khác, và **đó là cố ý**. Mọi thứ bạn cần nằm trong file. Đừng đoán, đừng phỏng theo trí nhớ.
 
+## Ngân sách — đọc trước khi mở lô
+
+Đo thật phiên 27/07/2026 (8 lô, 99 từ): **chi phí tính theo LÔ, không theo từ.**
+
+| Cỡ lô | Token/lô | **Token/từ** |
+|---|---|---|
+| 15 từ | 116–165K | 7,8–11,0K |
+| 6 từ | 125K | 20,9K |
+| 4 từ | 107K | **26,7K** — đắt gấp 3,4 lần |
+
+Phần cố định (đọc spec, xem mẫu, tra từ điển, chạy soát) áp đảo. ⇒ **Không bao giờ chạy lô
+dưới 10 từ**; hàng đợi lệch thì chạy `chialai.py` chia lại cho đều (13–18 từ/lô).
+
+🔴 **Mỗi phiên chỉ nên chạy 3–4 lô (~45–60 từ).** 8 lô đã đốt trọn cửa sổ 5h của gói Pro
+cộng thêm $25 credit. Đây là **trần thật, đã trả giá để biết** — đừng thử lại.
+
+**Xem mẫu thì đọc `kho/MAU.py` (19 KB), ĐỪNG đọc `k01_actions.py` (64 KB).** Hai thẻ trong
+MAU.py đủ cho thấy văn phong, mật độ và cách hạ mức tin; đọc cả k01 chỉ để xem mẫu là mất
+thêm ~25K token mỗi lô mà không biết thêm gì.
+
 ## Quy trình một lô — đúng 5 bước
 
 ```bash

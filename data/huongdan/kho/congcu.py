@@ -219,9 +219,18 @@ def cmd_soat():
         seen.add((mine, ref))
         print(f"  [{f}] the {w:16s} toi viet {mine:20s} tu dien {ref}")
 
+    # Danh sách này dài tới ~950 từ khi soát cả kho. In hết vào màn hình là đổ
+    # thẳng vào context của người đọc — tốn vô ích, mà đọc một mạch 950 từ thì
+    # cũng không ai đọc nổi. Ghi ra file, màn hình chỉ giữ phần xem được.
     dai = sorted(x for x in chua_tra if len(x) >= 4)
+    fn = os.path.join(HERE, "_phaidocbangmat.txt")
+    io.open(fn, "w", encoding="utf-8").write("\n".join(dai))
     print(f"\n=== PHAI DOC BANG MAT: {len(dai)} tu ===")
-    print("  " + ", ".join(dai))
+    if chi:                      # soát một lô -> in hết, đó là việc của lô đó
+        print("  " + ", ".join(dai))
+    else:                        # soát cả kho -> chỉ trích, phần còn lại ở file
+        print("  " + ", ".join(dai[:60]))
+        print(f"  ... {len(dai) - 60} tu nua -> {os.path.basename(fn)}")
     print("\n⚠️ 'Chua tra duoc' KHONG phai 'dung' — nouns.csv chi co DANH TU.")
 
 
