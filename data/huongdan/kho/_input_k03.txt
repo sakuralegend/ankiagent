@@ -1,0 +1,9 @@
+### k03  topic=actions  (6 tu)   [1/56 lo xong]
+### file can tao: k03_actions.py
+
+S["курить"]   кури́ть   (v)   to smoke   |   hút thuốc
+S["ответить"]   отве́тить   (v)   to answer   |   trả lời, đáp lại   [DE GHI DE noi dung mnemonic cu]
+S["быть"]   быть   (v)   to be / (present tense) 'есть' -- there is / there are / (past tense) 'был' -- was / were / have been / has been / (future tense) 'будет' -- will be / shall be   |   có (tồn tại), là
+S["забыть"]   забы́ть   (v)   to forget   |   quên   [DE GHI DE noi dung mnemonic cu]
+S["взять"]   взять   (v)   to take / to pick / to borrow / to grab / to get hold of / to hire / to choose (from)   |   nhấc máy, mượn, lấy, thuê
+S["стоять"]   стоя́ть   (v)   to stand   |   đứng, đứng yên

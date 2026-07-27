@@ -168,8 +168,11 @@ python data/huongdan/kho/congcu.py tiep k07
 # 3. TỰ SOÁT
 python data/huongdan/kho/congcu.py soat k07
 
-# 4. SỬA cho tới khi mục "TRONG AM LECH" báo "(khong co)",
-#    và ĐỌC BẰNG MẮT danh sách "PHAI DOC BANG MAT" (§5 — chính nó bắt được từ bịa)
+# 4. SỬA cho tới khi CẢ BA mục đầu đều báo "(khong co)":
+#      · CAU TRUC HTML                        (thẻ mở/đóng lệch, thiếu .hd-sec/.hd-fam)
+#      · TU NGA IN DAM MA THIEU DAU TRONG AM  (xem vạch đỏ bên dưới)
+#      · TRONG AM LECH so voi tu dien
+#    rồi ĐỌC BẰNG MẮT danh sách "PHAI DOC BANG MAT" (§5 — chính nó bắt được từ bịa)
 
 # 5. DỪNG. Không đánh dấu xong, không commit, không đụng hangdoi.json.
 #    Luồng chính sẽ soát lại rồi mới ghi nhận. Lô tự chấm điểm mình thì bộ soát vô nghĩa.

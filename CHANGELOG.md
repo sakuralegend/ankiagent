@@ -4,6 +4,34 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 27/07/2026 (chiều) — DÂY CHUYỀN SOẠN KHO 703 TỪ
+
+- **`c8d47fe` — dựng dây chuyền soạn ô "Hướng dẫn" cho 703 từ deck kho**, chia **56 lô**.
+  Thẻ trong Anki **chưa bị đụng** — user yêu cầu *"để riêng ra một chỗ, lúc nào xong toàn bộ
+  tôi sẽ nhờ bạn đẩy vào một thể"*.
+- 🔴 **MỖI LÔ CHẠY TRONG MỘT CONTEXT TRẮNG** — user chỉ ra đúng chỗ đau: *"đừng để những lượt
+  làm này gối lên nhau… thứ tôi ưu tiên nhất là chất lượng"*. Soạn nhiều lô liên tiếp trong
+  cùng một context làm chất lượng **nhạt dần** (bắt đầu chép khuôn lô trước thay vì nghĩ lại
+  cho từ mới), mà nhạt dần thì **chính người soạn khó tự thấy** — kiểu xuống cấp nguy hiểm
+  nhất, vì user không kiểm được. Chữa bằng cách giao mỗi lô cho một agent phụ khởi động lạnh,
+  đọc `README.md` §7 rồi soạn. Luồng chính **không soạn**, chỉ **soát và ghi nhận**.
+- **Trạng thái nằm TRÊN ĐĨA, không nằm trong context**: `kho/hangdoi.json` (56 lô + trạng thái)
+  và `kho/tudien.json` (ảnh chụp đông lạnh 703 từ). Hết hạn mức 5h thì phiên sau chỉ cần
+  `congcu.py trangthai` là biết chạy tiếp từ đâu, không phải dò lại.
+- **`kho/congcu.py`** — `tiep <id>` (in đề bài) · `soat [id]` (soát KHÔNG cần Anki) ·
+  `trangthai` · `xong <id>` (chỉ luồng chính gọi) · `nap --apply` (đẩy vào Anki, một lần cuối).
+  Lô soạn xong là file **dữ liệu thuần** `S = {...}`, không boilerplate, không tự gọi Anki —
+  **lô không được tự đánh dấu mình xong**, nếu không bộ soát mất hết ý nghĩa.
+- **Chia lô theo họ từ bằng cách sắp xếp TỪ VIẾT NGƯỢC** — tiếng Nga phái sinh bằng hậu tố,
+  nên xếp ngược thì `-ение`, `-ость`, `-ский`, `-тель` tự động nằm liền nhau.
+- ➕ **Bộ soát thêm hai cửa**, cả hai bắt được lỗi thật ngay lô đầu:
+  - **CẤU TRÚC HTML** — bắt `<u>…</b>` lệch ở thẻ `дава́ть`. HTML hỏng thì thẻ hiện sai trên iPhone.
+  - **TỪ NGA IN ĐẬM THIẾU DẤU TRỌNG ÂM** — bịt lỗ hổng của bộ soát cũ: nó chỉ đối chiếu được
+    từ **có sẵn dấu**, nên **bỏ dấu là né được**. Giờ từ ≥2 nguyên âm mà không dấu sẽ bị báo.
+- Lô k01 (15 động từ) xong, đã soát sạch cả ba cửa. Nội dung dạy 3 hệ thống trục: cặp thể +
+  4 kiểu dựng cặp · hai lớp chia + biến âm ngôi `я` chỉ ở lớp 2 · động từ chuyển động một
+  chiều/nhiều chiều + bảng tiền tố hướng.
+
 ## 27/07/2026
 
 - **XONG Ô "HƯỚNG DẪN" CHO TOÀN BỘ 168 TỪ trong hai deck đang học** (lô 1→12). Đây là thứ user
