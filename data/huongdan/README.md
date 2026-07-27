@@ -135,6 +135,89 @@ mỗi mục phải ghi lý do — một bộ soát kêu nhầm mãi thì rồi c
 
 ### Lô kế tiếp nên làm gì
 
-599 thẻ deck kho. Vẫn **gom theo họ**, không chia đều. Quy trình và tiêu chuẩn y hệt trên.
+703 thẻ deck kho — xem §7, đã có dây chuyền riêng. Vẫn **gom theo họ**, không chia đều.
 Nếu gặp từ đã dùng làm "họ hàng" ở lô cũ, giữ **cùng một cách giải thích** — nhất quán quan
 trọng hơn mới lạ.
+
+---
+
+# §7. Dây chuyền soạn KHO (703 từ) — đọc kỹ nếu bạn được giao một lô `kNN`
+
+## Vì sao dây chuyền này tồn tại
+
+703 từ không soạn hết trong một phiên. Và quan trọng hơn: **soạn nhiều lô liên tiếp trong
+cùng một context làm chất lượng nhạt dần** — người soạn bắt đầu chép khuôn lô trước thay vì
+nghĩ lại cho từ mới, mà nhạt dần thì chính người soạn khó tự thấy. User đã chỉ đúng chỗ này
+và chọn cách chữa: **mỗi lô chạy trong một context trắng tinh.**
+
+⇒ Nếu bạn đang đọc dòng này với tư cách người soạn một lô: bạn **không biết gì** về các lô
+khác, và **đó là cố ý**. Mọi thứ bạn cần nằm trong file. Đừng đoán, đừng phỏng theo trí nhớ.
+
+## Quy trình một lô — đúng 5 bước
+
+```bash
+# 1. LẤY ĐỀ BÀI (thay k07 bằng id lô của bạn)
+python data/huongdan/kho/congcu.py tiep k07
+#    -> in ra 15 dòng: WordClean, dạng có trọng âm, từ loại, nghĩa Anh + Việt
+#    -> dòng nào có [DE GHI DE noi dung mnemonic cu] là thẻ còn rác cũ, cứ ghi đè
+
+# 2. SOẠN — tạo data/huongdan/kho/k07_<topic>.py
+#    File CHỈ CHỨA `S = {...}`. KHÔNG import, KHÔNG main(), KHÔNG gọi Anki.
+#    Việc đẩy vào Anki là của lệnh `nap`, chạy một lần duy nhất ở cuối, khi user cho phép.
+
+# 3. TỰ SOÁT
+python data/huongdan/kho/congcu.py soat k07
+
+# 4. SỬA cho tới khi mục "TRONG AM LECH" báo "(khong co)",
+#    và ĐỌC BẰNG MẮT danh sách "PHAI DOC BANG MAT" (§5 — chính nó bắt được từ bịa)
+
+# 5. DỪNG. Không đánh dấu xong, không commit, không đụng hangdoi.json.
+#    Luồng chính sẽ soát lại rồi mới ghi nhận. Lô tự chấm điểm mình thì bộ soát vô nghĩa.
+```
+
+## Khuôn file (chép nguyên, đổi phần nội dung)
+
+```python
+# -*- coding: utf-8 -*-
+"""k07 — <topic>: <một câu nói hệ thống trục của lô này>."""
+
+HE = (  # khối hệ thống dùng chung cho cả lô — xem §3, LẶP Ở MỌI THẺ LÀ CỐ Ý
+    '<div class="hd-sec">…</div>'
+    '<div class="hd-why">…</div>'
+)
+
+S = {}
+
+S["дом"] = (
+    '<div class="hd-sec">Chẻ từ</div>'
+    '<div class="hd-row"><span class="hd-piece">дом-</span>'
+    '<span class="hd-gloss">NHÀ</span></div>'
+    '<div class="hd-sec">Cách nhớ</div>'
+    '<div class="hd-why">…</div>'
+    '<div class="hd-sec">Họ hàng</div>'
+    '<div class="hd-fam"><b>дома́шний</b> thuộc về nhà · …</div>'
+    + HE
+)
+```
+
+**Khoá `S[...]` phải khớp `WordClean` CHÍNH XÁC** — kể cả `ё` (`весёлый` ≠ `веселый`).
+Cứ chép nguyên chuỗi mà lệnh `tiep` in ra.
+
+## Vạch đỏ — vi phạm là hỏng cả thẻ
+
+- **Từ Nga in `<b>` thì BẮT BUỘC có dấu trọng âm** (`дома́шний`, không phải `домашний`).
+  Bộ soát chỉ đối chiếu được từ nào bạn đánh dấu; bỏ dấu = né bộ soát, không phải "an toàn".
+- **Không bịa cấu trúc** cho từ gốc trơn hay từ mượn. Không chẻ được thì nói thẳng là không.
+- **Không chắc thì hạ mức tin**, đừng khẳng định: `<div class="hd-warn">⚠️ Mức tin: đây là từ
+  nguyên, không phải luật suy ra được…</div>`. User **không tự kiểm được** (§1) — nói quá là
+  hại thật, không phải chuyện văn phong.
+- **Không mnemonic, không phiên âm.** User đã bỏ hẳn hai hướng này.
+- Từ loại quyết định trọng tâm: **danh từ** → giống + số nhiều bất thường; **động từ** →
+  cặp thể + lớp chia + cách nó đòi; **tính từ** → dạng ngắn + trạng từ `-о` tương ứng;
+  **số từ** → cách mà nó bắt danh từ theo sau (2–4 khác 5+, đây là chỗ khó nhất của số từ).
+
+## Trạng thái
+
+`python data/huongdan/kho/congcu.py trangthai` — còn bao nhiêu lô, bao nhiêu từ.
+Toàn bộ tiến độ nằm ở `kho/hangdoi.json`; `kho/tudien.json` là ảnh chụp 703 từ (đông lạnh,
+đừng sửa). Thẻ trong Anki **không bị đụng** cho tới khi user bảo chạy `nap --apply`.

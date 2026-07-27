@@ -1,0 +1,6329 @@
+[
+{
+"wc": "да",
+"w": "да",
+"en": "<ol class=\"meaning-list\"><li>yes</li><li>but</li><li>and</li></ol>",
+"vi": "vâng, đúng vậy, nhưng",
+"pos": "oth",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "он",
+"w": "он",
+"en": "<ol class=\"meaning-list\"><li>he</li></ol>",
+"vi": "anh ấy, ông ấy (đại từ nhân xưng nam giới)",
+"pos": "pron",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "там",
+"w": "там",
+"en": "<ol class=\"meaning-list\"><li>there</li><li>later</li><li>by and by</li></ol>",
+"vi": "ở đó, chỗ đó",
+"pos": "oth",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "тут",
+"w": "тут",
+"en": "<ol class=\"meaning-list\"><li>here</li><li>now</li></ol>",
+"vi": "ở đây, ngay tại đây",
+"pos": "oth",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "дом",
+"w": "дом",
+"en": "<ol class=\"meaning-list\"><li>house</li><li>home</li><li>house-hold</li></ol>",
+"vi": "nhà, ngôi nhà, tổ ấm",
+"pos": "n",
+"topic": "life::home",
+"cu": false
+},
+{
+"wc": "кто",
+"w": "кто",
+"en": "<ol class=\"meaning-list\"><li>who?</li><li>who</li></ol>",
+"vi": "ai (người nào, ai đó)",
+"pos": "pron",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "как",
+"w": "как",
+"en": "<ol class=\"meaning-list\"><li>how</li><li>what</li><li>like</li><li>as</li><li>because</li></ol>",
+"vi": "như thế nào, làm sao, như, giống như",
+"pos": "oth",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "кот",
+"w": "кот",
+"en": "<ol class=\"meaning-list\"><li>cat</li></ol>",
+"vi": "con mèo (đực)",
+"pos": "n",
+"topic": "nature::animals",
+"cu": false
+},
+{
+"wc": "год",
+"w": "год",
+"en": "<ol class=\"meaning-list\"><li>year</li></ol>",
+"vi": "năm (đơn vị thời gian)",
+"pos": "n",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "дуб",
+"w": "дуб",
+"en": "<ol class=\"meaning-list\"><li>oak</li></ol>",
+"vi": "cây sồi",
+"pos": "n",
+"topic": "nature::plants",
+"cu": false
+},
+{
+"wc": "банк",
+"w": "банк",
+"en": "<ol class=\"meaning-list\"><li>bank (financial establishment)</li></ol>",
+"vi": "ngân hàng (tổ chức tài chính)",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "лук",
+"w": "лук",
+"en": "<ol class=\"meaning-list\"><li>onion</li><li>bow</li></ol>",
+"vi": "hành (củ), cung (bắn tên)",
+"pos": "n",
+"topic": "life::food",
+"cu": false
+},
+{
+"wc": "пол",
+"w": "пол",
+"en": "<ol class=\"meaning-list\"><li>floor</li><li>ground</li><li>sex</li><li>gender</li><li>half</li></ol>",
+"vi": "sàn nhà, giới tính",
+"pos": "n",
+"topic": "life::home",
+"cu": false
+},
+{
+"wc": "брат",
+"w": "брат",
+"en": "<ol class=\"meaning-list\"><li>brother</li></ol>",
+"vi": "anh trai, em trai",
+"pos": "n",
+"topic": "people::family",
+"cu": false
+},
+{
+"wc": "друг",
+"w": "друг",
+"en": "<ol class=\"meaning-list\"><li>friend</li></ol>",
+"vi": "bạn bè, người bạn",
+"pos": "n",
+"topic": "people::family",
+"cu": false
+},
+{
+"wc": "вот",
+"w": "вот",
+"en": "<ol class=\"meaning-list\"><li>here is</li><li>here are</li><li>this is</li><li>there</li><li>there you go</li></ol>",
+"vi": "đây, chính là, này",
+"pos": "oth",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "вон",
+"w": "вон",
+"en": "<ol class=\"meaning-list\"><li>out</li><li>there</li><li>over there</li></ol>",
+"vi": "đằng kia, ở đằng kia",
+"pos": "oth",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "фон",
+"w": "фон",
+"en": "<ol class=\"meaning-list\"><li>background</li></ol>",
+"vi": "nền, phông nền",
+"pos": "n",
+"topic": "concepts::misc",
+"cu": false
+},
+{
+"wc": "факт",
+"w": "факт",
+"en": "<ol class=\"meaning-list\"><li>fact</li><li>case</li></ol>",
+"vi": "thực tế, sự thật",
+"pos": "n",
+"topic": "concepts::abstract",
+"cu": false
+},
+{
+"wc": "сад",
+"w": "сад",
+"en": "<ol class=\"meaning-list\"><li>garden</li></ol>",
+"vi": "vườn, công viên, mẫu giáo",
+"pos": "n",
+"topic": "nature::plants",
+"cu": false
+},
+{
+"wc": "сам",
+"w": "сам",
+"en": "<ol class=\"meaning-list\"><li>ourselves</li><li>yourself</li><li>oneself</li><li>yourselves</li><li>himself</li><li>herself</li><li>itself</li><li>themselves</li></ol>",
+"vi": "bản thân, tự mình, chính mình",
+"pos": "pron",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "суп",
+"w": "суп",
+"en": "<ol class=\"meaning-list\"><li>soup</li></ol>",
+"vi": "món súp, canh",
+"pos": "n",
+"topic": "life::food",
+"cu": false
+},
+{
+"wc": "сок",
+"w": "сок",
+"en": "<ol class=\"meaning-list\"><li>juice</li><li>sap</li></ol>",
+"vi": "nước ép, nước trái cây",
+"pos": "n",
+"topic": "life::food",
+"cu": false
+},
+{
+"wc": "зал",
+"w": "зал",
+"en": "<ol class=\"meaning-list\"><li>hall</li><li>audience chamber</li><li>reception-room</li><li>living room</li><li>gym</li></ol>",
+"vi": "phòng lớn, hội trường, phòng tập gym",
+"pos": "n",
+"topic": "life::home",
+"cu": false
+},
+{
+"wc": "звук",
+"w": "звук",
+"en": "<ol class=\"meaning-list\"><li>sound</li></ol>",
+"vi": "tiếng, âm thanh",
+"pos": "n",
+"topic": "concepts::abstract",
+"cu": false
+},
+{
+"wc": "глаз",
+"w": "глаз",
+"en": "<ol class=\"meaning-list\"><li>eye</li></ol>",
+"vi": "mắt",
+"pos": "n",
+"topic": "people::body",
+"cu": false
+},
+{
+"wc": "класс",
+"w": "класс",
+"en": "<ol class=\"meaning-list\"><li>class</li><li>form</li><li>class-room</li></ol>",
+"vi": "lớp học, lớp (trường học), phòng học, tuyệt vời (từ lóng)",
+"pos": "n",
+"topic": "language::education",
+"cu": false
+},
+{
+"wc": "стул",
+"w": "стул",
+"en": "<ol class=\"meaning-list\"><li>chair</li><li>stool</li></ol>",
+"vi": "ghế, ghế ngồi",
+"pos": "n",
+"topic": "life::home",
+"cu": false
+},
+{
+"wc": "стол",
+"w": "стол",
+"en": "<ol class=\"meaning-list\"><li>table</li></ol>",
+"vi": "bàn, mặt bàn",
+"pos": "n",
+"topic": "life::home",
+"cu": false
+},
+{
+"wc": "сын",
+"w": "сын",
+"en": "<ol class=\"meaning-list\"><li>son</li><li>child</li><li>(poetic plural) sons</li></ol>",
+"vi": "con trai",
+"pos": "n",
+"topic": "people::family",
+"cu": false
+},
+{
+"wc": "сыр",
+"w": "сыр",
+"en": "<ol class=\"meaning-list\"><li>cheese</li></ol>",
+"vi": "phô mai",
+"pos": "n",
+"topic": "life::food",
+"cu": false
+},
+{
+"wc": "рис",
+"w": "рис",
+"en": "<ol class=\"meaning-list\"><li>rice</li><li>paddy</li></ol>",
+"vi": "cơm, gạo",
+"pos": "n",
+"topic": "life::food",
+"cu": false
+},
+{
+"wc": "шар",
+"w": "шар",
+"en": "<ol class=\"meaning-list\"><li>sphere</li><li>ball</li><li>balloon</li></ol>",
+"vi": "quả bóng, hình cầu, khinh khí cầu",
+"pos": "n",
+"topic": "concepts::misc",
+"cu": false
+},
+{
+"wc": "жар",
+"w": "жар",
+"en": "<ol class=\"meaning-list\"><li>heat</li><li>ardour</li><li>fever</li></ol>",
+"vi": "sốt, nhiệt độ cao, hơi nóng",
+"pos": "n",
+"topic": "nature::weather",
+"cu": false
+},
+{
+"wc": "шарф",
+"w": "шарф",
+"en": "<ol class=\"meaning-list\"><li>scarf</li></ol>",
+"vi": "khăn quàng cổ, khăn choàng",
+"pos": "n",
+"topic": "life::clothing",
+"cu": false
+},
+{
+"wc": "муж",
+"w": "муж",
+"en": "<ol class=\"meaning-list\"><li>husband</li><li>man</li></ol>",
+"vi": "chồng",
+"pos": "n",
+"topic": "people::family",
+"cu": false
+},
+{
+"wc": "шкаф",
+"w": "шкаф",
+"en": "<ol class=\"meaning-list\"><li>closet</li><li>cupboard</li><li>dresser</li><li>wardrobe</li><li>cabinet</li><li>bookcase</li><li>locker</li></ol>",
+"vi": "tủ, tủ quần áo, tủ đựng đồ",
+"pos": "n",
+"topic": "life::home",
+"cu": false
+},
+{
+"wc": "цирк",
+"w": "цирк",
+"en": "<ol class=\"meaning-list\"><li>circus</li></ol>",
+"vi": "rạp xiếc, sự hỗn loạn/trò hề",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "центр",
+"w": "центр",
+"en": "<ol class=\"meaning-list\"><li>center</li><li>centre</li></ol>",
+"vi": "trung tâm, giữa",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "вдох",
+"w": "вдох",
+"en": "<ol class=\"meaning-list\"><li>inhalation</li><li>breath (in)</li></ol>",
+"vi": "hít vào, hơi thở (vào)",
+"pos": "n",
+"topic": "people::body",
+"cu": false
+},
+{
+"wc": "вход",
+"w": "вход",
+"en": "<ol class=\"meaning-list\"><li>entrance</li><li>entry</li><li>admission</li></ol>",
+"vi": "cổng vào, lối đi, vé vào cửa",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "нож",
+"w": "нож",
+"en": "<ol class=\"meaning-list\"><li>knife</li><li>table-knife</li><li>penknife</li><li>clasp-knife</li></ol>",
+"vi": "con dao",
+"pos": "n",
+"topic": "life::home",
+"cu": false
+},
+{
+"wc": "что",
+"w": "что",
+"en": "<ol class=\"meaning-list\"><li>what</li><li>that</li></ol>",
+"vi": "gì, cái gì (câu hỏi); rằng, điều mà (liên từ)",
+"pos": "pron",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "клуб",
+"w": "клуб",
+"en": "<ol class=\"meaning-list\"><li>club</li><li>club-house</li><li>puff</li></ol>",
+"vi": "câu lạc bộ, chốn vui chơi/sinh hoạt",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "газ",
+"w": "газ",
+"en": "<ol class=\"meaning-list\"><li>gas</li><li>wind / flatulence</li><li>gauze</li><li>gossamery</li></ol>",
+"vi": "khí (chất khí), ga (nhiên liệu)",
+"pos": "n",
+"topic": "concepts::misc",
+"cu": false
+},
+{
+"wc": "круг",
+"w": "круг",
+"en": "<ol class=\"meaning-list\"><li>circle</li></ol>",
+"vi": "hình tròn, vòng, phạm vi, quầng thâm",
+"pos": "n",
+"topic": "concepts::misc",
+"cu": false
+},
+{
+"wc": "бар",
+"w": "бар",
+"en": "<ol class=\"meaning-list\"><li>bar</li><li>snack-bar</li><li>sand-bar</li></ol>",
+"vi": "quán bar, quán rượu, quầy bar",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "юг",
+"w": "юг",
+"en": "<ol class=\"meaning-list\"><li>south</li></ol>",
+"vi": "phía nam, miền Nam",
+"pos": "n",
+"topic": "nature::plants",
+"cu": false
+},
+{
+"wc": "ёж",
+"w": "ёж",
+"en": "<ol class=\"meaning-list\"><li>hedgehog</li></ol>",
+"vi": "con nhím",
+"pos": "n",
+"topic": "nature::animals",
+"cu": false
+},
+{
+"wc": "есть",
+"w": "есть",
+"en": "<ol class=\"meaning-list\"><li>there is</li><li>there are</li><li>eats</li></ol>",
+"vi": "có, ăn",
+"pos": "oth",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "ты",
+"w": "ты",
+"en": "<ol class=\"meaning-list\"><li>you</li></ol>",
+"vi": "bạn, anh/chị/em (người được nói đến)",
+"pos": "pron",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "мы",
+"w": "мы",
+"en": "<ol class=\"meaning-list\"><li>we</li></ol>",
+"vi": "chúng tôi, chúng ta",
+"pos": "pron",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "вы",
+"w": "вы",
+"en": "<ol class=\"meaning-list\"><li>you (plural)</li><li>you (formal)</li></ol>",
+"vi": "bạn (đa số), các bạn, ngài, quý vị",
+"pos": "pron",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "наш",
+"w": "наш",
+"en": "<ol class=\"meaning-list\"><li>our</li></ol>",
+"vi": "của chúng tôi, của ta",
+"pos": "pron",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "ваш",
+"w": "ваш",
+"en": "<ol class=\"meaning-list\"><li>your</li><li>yours</li></ol>",
+"vi": "của bạn, của các bạn, của ngài (tính từ sở hữu)",
+"pos": "pron",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "их",
+"w": "их",
+"en": "<ol class=\"meaning-list\"><li>their</li></ol>",
+"vi": "của họ",
+"pos": "pron",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "мой",
+"w": "мой",
+"en": "<ol class=\"meaning-list\"><li>my</li><li>mine</li><li>my people</li></ol>",
+"vi": "của tôi, của mình",
+"pos": "pron",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "твой",
+"w": "твой",
+"en": "<ol class=\"meaning-list\"><li>your</li><li>yours</li></ol>",
+"vi": "của bạn, của anh/chị/em (thân mật)",
+"pos": "pron",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "край",
+"w": "край",
+"en": "<ol class=\"meaning-list\"><li>edge (border, end)</li><li>brim</li><li>brink</li><li>side</li><li>line</li><li>region</li><li>krai</li><li>land</li><li>territory</li></ol>",
+"vi": "cạnh, mép, bờ; vùng đất, miền",
+"pos": "n",
+"topic": "concepts::misc",
+"cu": false
+},
+{
+"wc": "нет",
+"w": "нет",
+"en": "<ol class=\"meaning-list\"><li>no</li><li>not</li><li>not any</li><li>there isn't (any)</li></ol>",
+"vi": "không, không có, không tồn tại",
+"pos": "oth",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "парк",
+"w": "парк",
+"en": "<ol class=\"meaning-list\"><li>park</li><li>fleet</li><li>stock</li><li>yard</li><li>depot</li></ol>",
+"vi": "công viên",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "чей",
+"w": "чей",
+"en": "<ol class=\"meaning-list\"><li>whose</li></ol>",
+"vi": "của ai, thuộc về ai",
+"pos": "pron",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "мама",
+"w": "ма́ма",
+"en": "<ol class=\"meaning-list\"><li>mom</li><li>mama</li><li>mommy</li><li>mummy</li></ol>",
+"vi": "mẹ, má",
+"pos": "n",
+"topic": "people::family",
+"cu": false
+},
+{
+"wc": "это",
+"w": "э́то",
+"en": "<ol class=\"meaning-list\"><li>this is</li><li>that is</li></ol>",
+"vi": "đây là, đó là",
+"pos": "oth",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "дома",
+"w": "до́ма",
+"en": "<ol class=\"meaning-list\"><li>at home</li></ol>",
+"vi": "ở nhà",
+"pos": "adv",
+"topic": "life::home",
+"cu": false
+},
+{
+"wc": "много",
+"w": "мно́го",
+"en": "<ol class=\"meaning-list\"><li>much</li><li>many</li><li>a lot of</li><li>plenty of</li></ol>",
+"vi": "nhiều, rất nhiều",
+"pos": "adv",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "папа",
+"w": "па́па",
+"en": "<ol class=\"meaning-list\"><li>dad</li><li>father</li><li>Pope</li></ol>",
+"vi": "bố, cha",
+"pos": "n",
+"topic": "people::family",
+"cu": false
+},
+{
+"wc": "лампа",
+"w": "ла́мпа",
+"en": "<ol class=\"meaning-list\"><li>lamp</li><li>valve</li><li>tube</li></ol>",
+"vi": "đèn, bóng đèn",
+"pos": "n",
+"topic": "life::home",
+"cu": false
+},
+{
+"wc": "карта",
+"w": "ка́рта",
+"en": "<ol class=\"meaning-list\"><li>card</li><li>map</li></ol>",
+"vi": "bản đồ, thẻ (tín dụng/ghi nợ), bộ bài",
+"pos": "n",
+"topic": "concepts::misc",
+"cu": false
+},
+{
+"wc": "полка",
+"w": "по́лка",
+"en": "<ol class=\"meaning-list\"><li>the shelf</li><li>the rack</li><li>the regiment</li></ol>",
+"vi": "cái kệ, giá sách",
+"pos": "n",
+"topic": "life::home",
+"cu": false
+},
+{
+"wc": "город",
+"w": "го́род",
+"en": "<ol class=\"meaning-list\"><li>city</li><li>town</li></ol>",
+"vi": "thành phố, thị trấn",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "группа",
+"w": "гру́ппа",
+"en": "<ol class=\"meaning-list\"><li>group</li><li>cluster</li><li>clump</li><li>band (music)</li></ol>",
+"vi": "nhóm, đội, ban nhạc",
+"pos": "n",
+"topic": "concepts::misc",
+"cu": false
+},
+{
+"wc": "фото",
+"w": "фо́то",
+"en": "<ol class=\"meaning-list\"><li>photo</li></ol>",
+"vi": "bức ảnh, hình chụp",
+"pos": "n",
+"topic": "concepts::misc",
+"cu": false
+},
+{
+"wc": "ваза",
+"w": "ва́за",
+"en": "<ol class=\"meaning-list\"><li>vase</li><li>bowl</li></ol>",
+"vi": "bình hoa, lọ hoa",
+"pos": "n",
+"topic": "life::home",
+"cu": false
+},
+{
+"wc": "буква",
+"w": "бу́ква",
+"en": "<ol class=\"meaning-list\"><li>letter</li></ol>",
+"vi": "chữ cái, ký tự",
+"pos": "n",
+"topic": "language::education",
+"cu": false
+},
+{
+"wc": "правда",
+"w": "пра́вда",
+"en": "<ol class=\"meaning-list\"><li>truth</li><li>justice</li><li>sure enough</li><li>indeed</li><li>actually</li><li>as a matter of fact</li><li>though</li><li>however</li><li>but</li><li>admittedly</li></ol>",
+"vi": "sự thật, đúng vậy, đúng không",
+"pos": "n",
+"topic": "concepts::abstract",
+"cu": false
+},
+{
+"wc": "остров",
+"w": "о́стров",
+"en": "<ol class=\"meaning-list\"><li>island</li><li>isle</li></ol>",
+"vi": "đảo, hòn đảo",
+"pos": "n",
+"topic": "nature::plants",
+"cu": false
+},
+{
+"wc": "масло",
+"w": "ма́сло",
+"en": "<ol class=\"meaning-list\"><li>butter / oil</li><li>oil painting</li></ol>",
+"vi": "bơ, dầu ăn",
+"pos": "n",
+"topic": "life::food",
+"cu": false
+},
+{
+"wc": "слово",
+"w": "сло́во",
+"en": "<ol class=\"meaning-list\"><li>word</li><li>speech</li><li>promise</li><li>word</li></ol>",
+"vi": "từ, lời nói, lời hứa",
+"pos": "n",
+"topic": "language::education",
+"cu": false
+},
+{
+"wc": "сумка",
+"w": "су́мка",
+"en": "<ol class=\"meaning-list\"><li>bag</li><li>pouch</li></ol>",
+"vi": "túi, cặp",
+"pos": "n",
+"topic": "life::clothing",
+"cu": false
+},
+{
+"wc": "сказка",
+"w": "ска́зка",
+"en": "<ol class=\"meaning-list\"><li>tale</li><li>fairy tale</li><li>story</li><li>fairytale</li></ol>",
+"vi": "câu chuyện cổ tích, truyện kể",
+"pos": "n",
+"topic": "language::education",
+"cu": false
+},
+{
+"wc": "завтра",
+"w": "за́втра",
+"en": "<ol class=\"meaning-list\"><li>tomorrow</li></ol>",
+"vi": "ngày mai",
+"pos": "adv",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "завтрак",
+"w": "за́втрак",
+"en": "<ol class=\"meaning-list\"><li>breakfast</li><li>lunch</li><li>luncheon</li></ol>",
+"vi": "bữa sáng",
+"pos": "n",
+"topic": "life::food",
+"cu": false
+},
+{
+"wc": "мыло",
+"w": "мы́ло",
+"en": "<ol class=\"meaning-list\"><li>soap</li><li>foam</li><li>lather</li></ol>",
+"vi": "xà phòng",
+"pos": "n",
+"topic": "life::home",
+"cu": false
+},
+{
+"wc": "рыба",
+"w": "ры́ба",
+"en": "<ol class=\"meaning-list\"><li>fish</li></ol>",
+"vi": "cá",
+"pos": "n",
+"topic": "nature::animals",
+"cu": false
+},
+{
+"wc": "рынок",
+"w": "ры́нок",
+"en": "<ol class=\"meaning-list\"><li>market</li></ol>",
+"vi": "thị trường, chợ",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "марка",
+"w": "ма́рка",
+"en": "<ol class=\"meaning-list\"><li>stamp</li><li>mark</li><li>sign</li><li>brand</li><li>grade</li><li>sort</li><li>counter</li></ol>",
+"vi": "nhãn hiệu, thương hiệu, tem thư",
+"pos": "n",
+"topic": "concepts::misc",
+"cu": false
+},
+{
+"wc": "книга",
+"w": "кни́га",
+"en": "<ol class=\"meaning-list\"><li>book</li><li>volume</li></ol>",
+"vi": "cuốn sách, tập",
+"pos": "n",
+"topic": "language::education",
+"cu": false
+},
+{
+"wc": "шапка",
+"w": "ша́пка",
+"en": "<ol class=\"meaning-list\"><li>cap</li><li>beanie</li><li>header</li><li>(movie slang) wrap party</li></ol>",
+"vi": "mũ, mũ len (thường dùng trong thời tiết lạnh)",
+"pos": "n",
+"topic": "life::clothing",
+"cu": false
+},
+{
+"wc": "шутка",
+"w": "шу́тка",
+"en": "<ol class=\"meaning-list\"><li>joke</li></ol>",
+"vi": "cái trò đùa, câu nói đùa, nói cho vui",
+"pos": "n",
+"topic": "concepts::abstract",
+"cu": false
+},
+{
+"wc": "школа",
+"w": "шко́ла",
+"en": "<ol class=\"meaning-list\"><li>school</li><li>schoolhouse</li></ol>",
+"vi": "trường học",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "шуба",
+"w": "шу́ба",
+"en": "<ol class=\"meaning-list\"><li>fur coat</li></ol>",
+"vi": "áo khoác lông thú",
+"pos": "n",
+"topic": "life::clothing",
+"cu": false
+},
+{
+"wc": "дружба",
+"w": "дру́жба",
+"en": "<ol class=\"meaning-list\"><li>friendship</li><li>amity</li></ol>",
+"vi": "tình bạn, sự thân thiết",
+"pos": "n",
+"topic": "concepts::abstract",
+"cu": false
+},
+{
+"wc": "важно",
+"w": "ва́жно",
+"en": "<ol class=\"meaning-list\"><li>it is important</li><li>with an air of importance</li><li>with a consequential air</li><li>grandly</li></ol>",
+"vi": "quan trọng, cần thiết",
+"pos": "adv",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "можно",
+"w": "мо́жно",
+"en": "<ol class=\"meaning-list\"><li>one can (it is possible)</li><li>one may (it is allowed)</li></ol>",
+"vi": "có thể, được phép",
+"pos": "adv",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "ложка",
+"w": "ло́жка",
+"en": "<ol class=\"meaning-list\"><li>spoon</li></ol>",
+"vi": "cái thìa, muỗng",
+"pos": "n",
+"topic": "life::home",
+"cu": false
+},
+{
+"wc": "запах",
+"w": "за́пах",
+"en": "<ol class=\"meaning-list\"><li>smell</li><li>wrap over</li></ol>",
+"vi": "mùi, hương",
+"pos": "n",
+"topic": "concepts::abstract",
+"cu": false
+},
+{
+"wc": "холод",
+"w": "хо́лод",
+"en": "<ol class=\"meaning-list\"><li>cold</li><li>coldness</li><li>cold weather</li></ol>",
+"vi": "lạnh, cái lạnh, thời tiết lạnh",
+"pos": "n",
+"topic": "nature::weather",
+"cu": false
+},
+{
+"wc": "выдох",
+"w": "вы́дох",
+"en": "<ol class=\"meaning-list\"><li>exhalation</li><li>outward breath</li></ol>",
+"vi": "hơi thở ra, nhịp thở ra",
+"pos": "n",
+"topic": "people::body",
+"cu": false
+},
+{
+"wc": "выход",
+"w": "вы́ход",
+"en": "<ol class=\"meaning-list\"><li>exit</li><li>way out</li><li>leaving</li><li>withdrawal</li><li>outlet</li><li>gate</li><li>solution (way out)</li></ol>",
+"vi": "lối ra, cửa ra, giải pháp, sự rời đi",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "сахар",
+"w": "са́хар",
+"en": "<ol class=\"meaning-list\"><li>sugar</li></ol>",
+"vi": "đường",
+"pos": "n",
+"topic": "life::food",
+"cu": false
+},
+{
+"wc": "плохо",
+"w": "пло́хо",
+"en": "<ol class=\"meaning-list\"><li>it is bad</li><li>hard</li></ol>",
+"vi": "xấu, không tốt, khó khăn",
+"pos": "adv",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "цифра",
+"w": "ци́фра",
+"en": "<ol class=\"meaning-list\"><li>digit</li><li>numeral</li><li>figure</li><li>number</li></ol>",
+"vi": "chữ số, con số, số liệu",
+"pos": "n",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "ухо",
+"w": "у́хо",
+"en": "<ol class=\"meaning-list\"><li>ear</li></ol>",
+"vi": "tai",
+"pos": "n",
+"topic": "people::body",
+"cu": false
+},
+{
+"wc": "муха",
+"w": "му́ха",
+"en": "<ol class=\"meaning-list\"><li>fly (insect)</li></ol>",
+"vi": "con ruồi",
+"pos": "n",
+"topic": "nature::animals",
+"cu": false
+},
+{
+"wc": "сцена",
+"w": "сце́на",
+"en": "<ol class=\"meaning-list\"><li>stage</li><li>scene</li></ol>",
+"vi": "sân khấu, bục diễn; cảnh, màn (trong phim/kịch)",
+"pos": "n",
+"topic": "concepts::misc",
+"cu": false
+},
+{
+"wc": "палка",
+"w": "па́лка",
+"en": "<ol class=\"meaning-list\"><li>stick</li><li>walking-stick</li><li>cane</li><li>staff</li></ol>",
+"vi": "cây gậy, que, cây đũa, nạng",
+"pos": "n",
+"topic": "concepts::misc",
+"cu": false
+},
+{
+"wc": "балка",
+"w": "ба́лка",
+"en": "<ol class=\"meaning-list\"><li>beam</li><li>girder</li><li>gorge</li><li>gully</li></ol>",
+"vi": "dầm, xà (cấu trúc xây dựng)",
+"pos": "n",
+"topic": "life::home",
+"cu": false
+},
+{
+"wc": "коса",
+"w": "коса́",
+"en": "<ol class=\"meaning-list\"><li>hair braid</li><li>scythe</li></ol>",
+"vi": "bím tóc, dải đất hẹp/bãi cát ven biển",
+"pos": "n",
+"topic": "people::body",
+"cu": false
+},
+{
+"wc": "кошка",
+"w": "ко́шка",
+"en": "<ol class=\"meaning-list\"><li>cat</li><li>grapnel</li><li>drag</li><li>climbing-irons</li></ol>",
+"vi": "con mèo",
+"pos": "n",
+"topic": "nature::animals",
+"cu": false
+},
+{
+"wc": "ясно",
+"w": "я́сно",
+"en": "<ol class=\"meaning-list\"><li>clearly</li></ol>",
+"vi": "rõ ràng, hiểu rồi, dễ hiểu",
+"pos": "adv",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "ярко",
+"w": "я́рко",
+"en": "<ol class=\"meaning-list\"><li>brightly</li><li>strikingly</li><li>brilliantly</li><li>vividly</li></ol>",
+"vi": "sáng, rực rỡ, rõ ràng",
+"pos": "adv",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "юбка",
+"w": "ю́бка",
+"en": "<ol class=\"meaning-list\"><li>skirt</li></ol>",
+"vi": "váy (đồ mặc dưới eo)",
+"pos": "n",
+"topic": "life::clothing",
+"cu": false
+},
+{
+"wc": "ёлка",
+"w": "ёлка",
+"en": "<ol class=\"meaning-list\"><li>(small) spruce</li><li>spruce tree</li><li>Christmas tree</li><li>jolka festival (on 31 Dec.)</li></ol>",
+"vi": "cây thông Noel",
+"pos": "n",
+"topic": "nature::plants",
+"cu": false
+},
+{
+"wc": "тоже",
+"w": "то́же",
+"en": "<ol class=\"meaning-list\"><li>also</li><li>as well</li><li>too</li></ol>",
+"vi": "cũng, cũng vậy, nữa",
+"pos": "oth",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "груша",
+"w": "гру́ша",
+"en": "<ol class=\"meaning-list\"><li>pear</li><li>punching bag</li></ol>",
+"vi": "quả lê",
+"pos": "n",
+"topic": "life::food",
+"cu": false
+},
+{
+"wc": "она",
+"w": "она́",
+"en": "<ol class=\"meaning-list\"><li>she</li></ol>",
+"vi": "cô ấy, bà ấy",
+"pos": "pron",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "окно",
+"w": "окно́",
+"en": "<ol class=\"meaning-list\"><li>window</li><li>casement-window</li><li>window-sill</li><li>gap</li><li>opening</li><li>port</li><li>slot</li></ol>",
+"vi": "cửa sổ, ô cửa",
+"pos": "n",
+"topic": "life::home",
+"cu": false
+},
+{
+"wc": "потом",
+"w": "пото́м",
+"en": "<ol class=\"meaning-list\"><li>afterwards</li><li>then</li><li>later on</li><li>later</li></ol>",
+"vi": "sau đó, lát nữa",
+"pos": "oth",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "батон",
+"w": "бато́н",
+"en": "<ol class=\"meaning-list\"><li>long loaf</li><li>bread stick</li></ol>",
+"vi": "ổ bánh mì dài",
+"pos": "n",
+"topic": "life::food",
+"cu": false
+},
+{
+"wc": "куда",
+"w": "куда́",
+"en": "<ol class=\"meaning-list\"><li>where (to)</li><li>whereto</li><li>wherever</li><li>whenever</li></ol>",
+"vi": "đâu (về phía nào), đến đâu, bất cứ nơi đâu",
+"pos": "oth",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "когда",
+"w": "когда́",
+"en": "<ol class=\"meaning-list\"><li>when</li><li>while</li><li>as</li></ol>",
+"vi": "khi nào, trong khi, lúc",
+"pos": "oth",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "рука",
+"w": "рука́",
+"en": "<ol class=\"meaning-list\"><li>hand</li><li>arm</li><li>handwriting</li></ol>",
+"vi": "tay, cánh tay, nét chữ viết tay",
+"pos": "n",
+"topic": "people::body",
+"cu": false
+},
+{
+"wc": "урок",
+"w": "уро́к",
+"en": "<ol class=\"meaning-list\"><li>lesson</li><li>homework</li><li>task</li><li>class</li></ol>",
+"vi": "bài học, bài tập về nhà",
+"pos": "n",
+"topic": "language::education",
+"cu": false
+},
+{
+"wc": "страна",
+"w": "страна́",
+"en": "<ol class=\"meaning-list\"><li>country</li><li>land</li><li>region</li></ol>",
+"vi": "quốc gia, đất nước",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "луна",
+"w": "луна́",
+"en": "<ol class=\"meaning-list\"><li>moon</li></ol>",
+"vi": "trăng, mặt trăng",
+"pos": "n",
+"topic": "nature::plants",
+"cu": false
+},
+{
+"wc": "роман",
+"w": "рома́н",
+"en": "<ol class=\"meaning-list\"><li>novel</li><li>romance</li><li>love affair</li></ol>",
+"vi": "tiểu thuyết, chuyện tình cảm",
+"pos": "n",
+"topic": "language::education",
+"cu": false
+},
+{
+"wc": "вода",
+"w": "вода́",
+"en": "<ol class=\"meaning-list\"><li>water</li></ol>",
+"vi": "nước",
+"pos": "n",
+"topic": "life::food",
+"cu": false
+},
+{
+"wc": "фонтан",
+"w": "фонта́н",
+"en": "<ol class=\"meaning-list\"><li>fountain</li></ol>",
+"vi": "đài phun nước, vòi phun nước",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "трава",
+"w": "трава́",
+"en": "<ol class=\"meaning-list\"><li>grass</li><li>weed</li><li>herb</li></ol>",
+"vi": "cỏ, thảm cỏ",
+"pos": "n",
+"topic": "nature::plants",
+"cu": false
+},
+{
+"wc": "багаж",
+"w": "бага́ж",
+"en": "<ol class=\"meaning-list\"><li>luggage</li><li>bagaj</li></ol>",
+"vi": "hành lý, đồ đạc mang theo",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "нога",
+"w": "нога́",
+"en": "<ol class=\"meaning-list\"><li>leg</li><li>foot</li></ol>",
+"vi": "chân (cơ thể), chân (động vật)",
+"pos": "n",
+"topic": "people::body",
+"cu": false
+},
+{
+"wc": "этаж",
+"w": "эта́ж",
+"en": "<ol class=\"meaning-list\"><li>floor</li><li>storey</li></ol>",
+"vi": "tầng (nhà), lầu",
+"pos": "n",
+"topic": "life::home",
+"cu": false
+},
+{
+"wc": "гроза",
+"w": "гроза́",
+"en": "<ol class=\"meaning-list\"><li>thunderstorm</li></ol>",
+"vi": "bão tố, sấm sét",
+"pos": "n",
+"topic": "nature::weather",
+"cu": false
+},
+{
+"wc": "коза",
+"w": "коза́",
+"en": "<ol class=\"meaning-list\"><li>goat</li><li>she-goat</li><li>nanny-goat</li></ol>",
+"vi": "con dê",
+"pos": "n",
+"topic": "nature::animals",
+"cu": false
+},
+{
+"wc": "алмаз",
+"w": "алма́з",
+"en": "<ol class=\"meaning-list\"><li>Diamond</li></ol>",
+"vi": "kim cương",
+"pos": "n",
+"topic": "concepts::misc",
+"cu": false
+},
+{
+"wc": "рассказ",
+"w": "расска́з",
+"en": "<ol class=\"meaning-list\"><li>story</li></ol>",
+"vi": "câu chuyện, truyện ngắn",
+"pos": "n",
+"topic": "language::education",
+"cu": false
+},
+{
+"wc": "вопрос",
+"w": "вопро́с",
+"en": "<ol class=\"meaning-list\"><li>question</li><li>matter</li><li>issue</li><li>problem</li></ol>",
+"vi": "câu hỏi, vấn đề, chuyện",
+"pos": "n",
+"topic": "language::education",
+"cu": false
+},
+{
+"wc": "москва",
+"w": "Москва́",
+"en": "<ol class=\"meaning-list\"><li>Moscow</li><li>Moskva River</li></ol>",
+"vi": "Moscow, sông Moskva",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "завод",
+"w": "заво́д",
+"en": "<ol class=\"meaning-list\"><li>factory</li><li>plant</li><li>winding mechanism</li><li>winding up</li></ol>",
+"vi": "nhà máy, xí nghiệp",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "народ",
+"w": "наро́д",
+"en": "<ol class=\"meaning-list\"><li>people</li></ol>",
+"vi": "dân chúng, nhân dân, người ta",
+"pos": "n",
+"topic": "people::family",
+"cu": false
+},
+{
+"wc": "вокзал",
+"w": "вокза́л",
+"en": "<ol class=\"meaning-list\"><li>station building</li><li>terminal</li><li>train station</li></ol>",
+"vi": "nhà ga (tàu hỏa)",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "доска",
+"w": "доска́",
+"en": "<ol class=\"meaning-list\"><li>board</li><li>plank</li><li>slab</li><li>blackboard</li></ol>",
+"vi": "bảng, tấm ván",
+"pos": "n",
+"topic": "language::education",
+"cu": false
+},
+{
+"wc": "карман",
+"w": "карма́н",
+"en": "<ol class=\"meaning-list\"><li>pocket</li></ol>",
+"vi": "túi, túi quần, túi áo",
+"pos": "n",
+"topic": "life::clothing",
+"cu": false
+},
+{
+"wc": "игра",
+"w": "игра́",
+"en": "<ol class=\"meaning-list\"><li>play</li><li>game</li></ol>",
+"vi": "trò chơi, cuộc chơi",
+"pos": "n",
+"topic": "concepts::abstract",
+"cu": false
+},
+{
+"wc": "икра",
+"w": "икра́",
+"en": "<ol class=\"meaning-list\"><li>caviar</li></ol>",
+"vi": "trứng cá",
+"pos": "n",
+"topic": "life::food",
+"cu": false
+},
+{
+"wc": "гараж",
+"w": "гара́ж",
+"en": "<ol class=\"meaning-list\"><li>garage</li></ol>",
+"vi": "gara, nhà để xe",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "пожар",
+"w": "пожа́р",
+"en": "<ol class=\"meaning-list\"><li>a fire</li></ol>",
+"vi": "cháy, đám cháy",
+"pos": "n",
+"topic": "concepts::misc",
+"cu": false
+},
+{
+"wc": "прыжок",
+"w": "прыжо́к",
+"en": "<ol class=\"meaning-list\"><li>a jump</li></ol>",
+"vi": "cú nhảy, hành động nhảy",
+"pos": "n",
+"topic": "concepts::misc",
+"cu": false
+},
+{
+"wc": "журнал",
+"w": "журна́л",
+"en": "<ol class=\"meaning-list\"><li>periodical</li><li>magazine</li><li>journal</li><li>diary</li><li>register</li></ol>",
+"vi": "tạp chí, sổ ghi chép, nhật ký hành trình",
+"pos": "n",
+"topic": "language::education",
+"cu": false
+},
+{
+"wc": "собор",
+"w": "собо́р",
+"en": "<ol class=\"meaning-list\"><li>cathedral</li><li>council</li><li>synod</li></ol>",
+"vi": "nhà thờ lớn (cathedral)",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "комната",
+"w": "ко́мната",
+"en": "<ol class=\"meaning-list\"><li>room</li></ol>",
+"vi": "phòng (chỗ ở, phòng ngủ), căn phòng",
+"pos": "n",
+"topic": "life::home",
+"cu": false
+},
+{
+"wc": "облако",
+"w": "о́блако",
+"en": "<ol class=\"meaning-list\"><li>cloud</li></ol>",
+"vi": "đám mây, dịch vụ lưu trữ đám mây",
+"pos": "n",
+"topic": "nature::weather",
+"cu": false
+},
+{
+"wc": "дорого",
+"w": "до́рого",
+"en": "<ol class=\"meaning-list\"><li>expensive (adverb)</li><li>dear</li><li>dearly</li></ol>",
+"vi": "đắt, đắt đỏ",
+"pos": "adv",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "холодно",
+"w": "хо́лодно",
+"en": "<ol class=\"meaning-list\"><li>it is cold</li><li>coldly</li></ol>",
+"vi": "lạnh, lạnh lùng",
+"pos": "adv",
+"topic": "nature::weather",
+"cu": false
+},
+{
+"wc": "золото",
+"w": "зо́лото",
+"en": "<ol class=\"meaning-list\"><li>gold</li></ol>",
+"vi": "vàng (kim loại quý), màu vàng óng, điều quý giá",
+"pos": "n",
+"topic": "concepts::misc",
+"cu": false
+},
+{
+"wc": "яблоко",
+"w": "я́блоко",
+"en": "<ol class=\"meaning-list\"><li>apple</li><li>ball</li></ol>",
+"vi": "quả táo",
+"pos": "n",
+"topic": "life::food",
+"cu": false
+},
+{
+"wc": "шахматы",
+"w": "ша́хматы",
+"en": "<ol class=\"meaning-list\"><li>chess</li><li>chess-men</li></ol>",
+"vi": "cờ vua",
+"pos": "n",
+"topic": "concepts::misc",
+"cu": false
+},
+{
+"wc": "дорога",
+"w": "доро́га",
+"en": "<ol class=\"meaning-list\"><li>road</li><li>way</li><li>journey</li></ol>",
+"vi": "đường, lối đi, hành trình",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "подруга",
+"w": "подру́га",
+"en": "<ol class=\"meaning-list\"><li>friend (female)</li><li>girlfriend</li></ol>",
+"vi": "bạn gái, người bạn (nữ)",
+"pos": "n",
+"topic": "people::family",
+"cu": false
+},
+{
+"wc": "работа",
+"w": "рабо́та",
+"en": "<ol class=\"meaning-list\"><li>work</li><li>working</li><li>job</li></ol>",
+"vi": "công việc, làm việc",
+"pos": "n",
+"topic": "concepts::abstract",
+"cu": false
+},
+{
+"wc": "болото",
+"w": "боло́то",
+"en": "<ol class=\"meaning-list\"><li>swamp</li><li>marsh</li><li>bog</li></ol>",
+"vi": "vùng đất ngập nước, đầm lầy",
+"pos": "n",
+"topic": "nature::plants",
+"cu": false
+},
+{
+"wc": "погода",
+"w": "пого́да",
+"en": "<ol class=\"meaning-list\"><li>Weather</li></ol>",
+"vi": "thời tiết",
+"pos": "n",
+"topic": "nature::weather",
+"cu": false
+},
+{
+"wc": "бумага",
+"w": "бума́га",
+"en": "<ol class=\"meaning-list\"><li>paper</li><li>document</li></ol>",
+"vi": "giấy, giấy tờ",
+"pos": "n",
+"topic": "language::education",
+"cu": false
+},
+{
+"wc": "автобус",
+"w": "авто́бус",
+"en": "<ol class=\"meaning-list\"><li>bus</li></ol>",
+"vi": "xe buýt",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "квартира",
+"w": "кварти́ра",
+"en": "<ol class=\"meaning-list\"><li>flat</li><li>quarters</li><li>apartment</li></ol>",
+"vi": "căn hộ, nhà ở",
+"pos": "n",
+"topic": "life::home",
+"cu": false
+},
+{
+"wc": "открытка",
+"w": "откры́тка",
+"en": "<ol class=\"meaning-list\"><li>postcard</li></ol>",
+"vi": "bưu thiếp, thiệp",
+"pos": "n",
+"topic": "language::education",
+"cu": false
+},
+{
+"wc": "машина",
+"w": "маши́на",
+"en": "<ol class=\"meaning-list\"><li>car</li><li>machine</li><li>machinery</li><li>engine</li><li>mechanism</li></ol>",
+"vi": "xe hơi, máy móc",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "рубашка",
+"w": "руба́шка",
+"en": "<ol class=\"meaning-list\"><li>shirt</li></ol>",
+"vi": "cái áo sơ mi",
+"pos": "n",
+"topic": "life::clothing",
+"cu": false
+},
+{
+"wc": "подушка",
+"w": "поду́шка",
+"en": "<ol class=\"meaning-list\"><li>pillow</li><li>cushion</li><li>air-cushion</li><li>bolster</li></ol>",
+"vi": "gối, đệm",
+"pos": "n",
+"topic": "life::home",
+"cu": false
+},
+{
+"wc": "охота",
+"w": "охо́та",
+"en": "<ol class=\"meaning-list\"><li>hunt</li><li>wish</li><li>desire</li><li>inclination</li></ol>",
+"vi": "săn bắn, hoặc (khi dùng với 'мне') cảm giác muốn làm gì đó",
+"pos": "n",
+"topic": "concepts::abstract",
+"cu": false
+},
+{
+"wc": "молоко",
+"w": "молоко́",
+"en": "<ol class=\"meaning-list\"><li>milk</li></ol>",
+"vi": "sữa",
+"pos": "n",
+"topic": "life::food",
+"cu": false
+},
+{
+"wc": "потолок",
+"w": "потоло́к",
+"en": "<ol class=\"meaning-list\"><li>ceiling</li></ol>",
+"vi": "trần nhà",
+"pos": "n",
+"topic": "life::home",
+"cu": false
+},
+{
+"wc": "голова",
+"w": "голова́",
+"en": "<ol class=\"meaning-list\"><li>head</li><li>mind</li><li>brains</li><li>chief</li><li>master</li></ol>",
+"vi": "đầu, trí tuệ, ý kiến, người đứng đầu",
+"pos": "n",
+"topic": "people::body",
+"cu": false
+},
+{
+"wc": "карандаш",
+"w": "каранда́ш",
+"en": "<ol class=\"meaning-list\"><li>pencil</li></ol>",
+"vi": "bút chì",
+"pos": "n",
+"topic": "language::education",
+"cu": false
+},
+{
+"wc": "хорошо",
+"w": "хорошо́",
+"en": "<ol class=\"meaning-list\"><li>it is good</li><li>it is pleasant</li><li>well</li><li>good</li></ol>",
+"vi": "tốt, hay, khỏe, ổn",
+"pos": "adv",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "петь",
+"w": "петь",
+"en": "<ol class=\"meaning-list\"><li>to sing</li><li>to intone</li></ol>",
+"vi": "hát, ngân nga",
+"pos": "v",
+"topic": "actions",
+"cu": false
+},
+{
+"wc": "писать",
+"w": "писа́ть",
+"en": "<ol class=\"meaning-list\"><li>to write</li><li>text</li><li>to paint</li></ol>",
+"vi": "viết",
+"pos": "v",
+"topic": "language::education",
+"cu": false
+},
+{
+"wc": "пить",
+"w": "пить",
+"en": "<ol class=\"meaning-list\"><li>to drink</li></ol>",
+"vi": "uống (đồ uống, nước), khát",
+"pos": "v",
+"topic": "life::food",
+"cu": false
+},
+{
+"wc": "брать",
+"w": "брать",
+"en": "<ol class=\"meaning-list\"><li>to take</li><li>to get</li><li>to pick</li><li>to borrow</li><li>to choose (from)</li><li>to grab</li><li>get hold of</li><li>note</li><li>to hire</li></ol>",
+"vi": "nhận, lấy, mang đi, thuê, chọn",
+"pos": "v",
+"topic": "actions",
+"cu": false
+},
+{
+"wc": "идти",
+"w": "идти́",
+"en": "<ol class=\"meaning-list\"><li>to go</li><li>to walk</li><li>to be going</li></ol>",
+"vi": "đi, bước đi, diễn ra",
+"pos": "v",
+"topic": "actions",
+"cu": false
+},
+{
+"wc": "мужской",
+"w": "мужско́й",
+"en": "<ol class=\"meaning-list\"><li>masculine</li><li>male</li></ol>",
+"vi": "nam, thuộc giới tính nam",
+"pos": "adj",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "женский",
+"w": "же́нский",
+"en": "<ol class=\"meaning-list\"><li>female</li><li>womanlike</li><li>womanly</li><li>feminine</li><li>women's</li></ol>",
+"vi": "nữ, thuộc về phụ nữ",
+"pos": "adj",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "средний",
+"w": "сре́дний",
+"en": "<ol class=\"meaning-list\"><li>middle</li><li>average</li><li>mean</li><li>middling</li><li>neuter</li></ol>",
+"vi": "trung bình, ở giữa, trung học",
+"pos": "adj",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "новый",
+"w": "но́вый",
+"en": "<ol class=\"meaning-list\"><li>new</li></ol>",
+"vi": "mới",
+"pos": "adj",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "старый",
+"w": "ста́рый",
+"en": "<ol class=\"meaning-list\"><li>old</li><li>ancient</li></ol>",
+"vi": "cũ, già, lâu đời",
+"pos": "adj",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "фильм",
+"w": "фильм",
+"en": "<ol class=\"meaning-list\"><li>movie</li><li>film</li></ol>",
+"vi": "phim, bộ phim",
+"pos": "n",
+"topic": "concepts::misc",
+"cu": false
+},
+{
+"wc": "дождь",
+"w": "дождь",
+"en": "<ol class=\"meaning-list\"><li>rain</li></ol>",
+"vi": "mưa",
+"pos": "n",
+"topic": "nature::weather",
+"cu": false
+},
+{
+"wc": "ручка",
+"w": "ру́чка",
+"en": "<ol class=\"meaning-list\"><li>pen</li><li>ballpoint</li><li>handle</li><li>knob</li><li>grip</li><li>small hand</li></ol>",
+"vi": "bút bi, bút mực; tay nắm, núm vặn",
+"pos": "n",
+"topic": "language::education",
+"cu": false
+},
+{
+"wc": "листва",
+"w": "листва́",
+"en": "<ol class=\"meaning-list\"><li>foliage</li><li>leaves</li></ol>",
+"vi": "lá cây, tán lá",
+"pos": "n",
+"topic": "nature::plants",
+"cu": false
+},
+{
+"wc": "платье",
+"w": "пла́тье",
+"en": "<ol class=\"meaning-list\"><li>dress</li><li>gown</li><li>clothes (archaic)</li><li>clothing</li></ol>",
+"vi": "váy, bộ quần áo nữ",
+"pos": "n",
+"topic": "life::clothing",
+"cu": false
+},
+{
+"wc": "солнце",
+"w": "со́лнце",
+"en": "<ol class=\"meaning-list\"><li>sun</li></ol>",
+"vi": "mặt trời",
+"pos": "n",
+"topic": "nature::plants",
+"cu": false
+},
+{
+"wc": "деревня",
+"w": "дере́вня",
+"en": "<ol class=\"meaning-list\"><li>village</li></ol>",
+"vi": "thôn, làng, quê",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "село",
+"w": "село́",
+"en": "<ol class=\"meaning-list\"><li>village</li><li>A large peasant settlement is an economic and administrative center for the surrounding villages (in pre-revolutionary Russia a church was also a mandatory part of such a settlement).</li></ol>",
+"vi": "thôn, làng",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "поляна",
+"w": "поля́на",
+"en": "<ol class=\"meaning-list\"><li>glade clearing or meadow</li></ol>",
+"vi": "bãi cỏ, trảng trống, khoảng đất trống",
+"pos": "n",
+"topic": "nature::plants",
+"cu": false
+},
+{
+"wc": "письмо",
+"w": "письмо́",
+"en": "<ol class=\"meaning-list\"><li>letter (written communication)</li><li>writing (action)</li><li>script</li><li>writing system</li></ol>",
+"vi": "thư (viết), bức thư",
+"pos": "n",
+"topic": "language::education",
+"cu": false
+},
+{
+"wc": "дерево",
+"w": "де́рево",
+"en": "<ol class=\"meaning-list\"><li>tree</li><li>wood</li></ol>",
+"vi": "cây, gỗ",
+"pos": "n",
+"topic": "nature::plants",
+"cu": false
+},
+{
+"wc": "добрый",
+"w": "до́брый",
+"en": "<ol class=\"meaning-list\"><li>good</li><li>kind</li></ol>",
+"vi": "tốt, tốt bụng, tử tế",
+"pos": "adj",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "молодой",
+"w": "молодо́й",
+"en": "<ol class=\"meaning-list\"><li>young</li><li>youthful</li><li>new</li></ol>",
+"vi": "trẻ, non trẻ",
+"pos": "adj",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "красный",
+"w": "кра́сный",
+"en": "<ol class=\"meaning-list\"><li>red</li><li>beautiful</li></ol>",
+"vi": "đỏ",
+"pos": "adj",
+"topic": "qualities::colors",
+"cu": false
+},
+{
+"wc": "вкусный",
+"w": "вку́сный",
+"en": "<ol class=\"meaning-list\"><li>tasty</li><li>delicious</li><li>palatable</li><li>savoury</li></ol>",
+"vi": "ngon, đậm đà",
+"pos": "adj",
+"topic": "life::food",
+"cu": false
+},
+{
+"wc": "умный",
+"w": "у́мный",
+"en": "<ol class=\"meaning-list\"><li>smart</li><li>wise</li><li>intelligent</li><li>smart</li><li>wise</li><li>intelligent</li></ol>",
+"vi": "thông minh, sáng suốt",
+"pos": "adj",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "дорогой",
+"w": "дорого́й",
+"en": "<ol class=\"meaning-list\"><li>expensive</li><li>costly</li><li>precious</li><li>dear</li><li>darling</li><li>important</li></ol>",
+"vi": "đắt, đắt đỏ, quý giá",
+"pos": "adj",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "прекрасный",
+"w": "прекра́сный",
+"en": "<ol class=\"meaning-list\"><li>wonderful</li><li>beautiful</li><li>fine</li><li>excellent</li></ol>",
+"vi": "tuyệt vời, xinh đẹp, rất tốt",
+"pos": "adj",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "ужасный",
+"w": "ужа́сный",
+"en": "<ol class=\"meaning-list\"><li>terrible</li><li>awful</li><li>horrible</li></ol>",
+"vi": "khủng khiếp, tồi tệ, kinh khủng",
+"pos": "adj",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "белый",
+"w": "бе́лый",
+"en": "<ol class=\"meaning-list\"><li>white</li></ol>",
+"vi": "trắng, màu trắng",
+"pos": "adj",
+"topic": "qualities::colors",
+"cu": false
+},
+{
+"wc": "утро",
+"w": "у́тро",
+"en": "<ol class=\"meaning-list\"><li>morning</li></ol>",
+"vi": "buổi sáng, buổi sớm",
+"pos": "n",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "утренний",
+"w": "у́тренний",
+"en": "<ol class=\"meaning-list\"><li>morning</li></ol>",
+"vi": "thuộc về buổi sáng, buổi sớm",
+"pos": "adj",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "красивый",
+"w": "краси́вый",
+"en": "<ol class=\"meaning-list\"><li>beautiful</li><li>handsome</li></ol>",
+"vi": "đẹp, xinh, ưa nhìn",
+"pos": "adj",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "некрасивый",
+"w": "некраси́вый",
+"en": "<ol class=\"meaning-list\"><li>plain</li><li>not beautiful</li><li>not good-looking</li><li>ugly</li><li>not nice</li></ol>",
+"vi": "xấu, không đẹp, khó coi",
+"pos": "adj",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "вечер",
+"w": "ве́чер",
+"en": "<ol class=\"meaning-list\"><li>evening</li></ol>",
+"vi": "chiều tối, buổi tối",
+"pos": "n",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "вечерний",
+"w": "вече́рний",
+"en": "<ol class=\"meaning-list\"><li>(relational) evening</li></ol>",
+"vi": "thuộc về buổi tối, chiều tối",
+"pos": "adj",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "злой",
+"w": "злой",
+"en": "<ol class=\"meaning-list\"><li>evil</li><li>angry</li><li>mean</li></ol>",
+"vi": "dữ, hung dữ, giận dữ, cáu kỉnh",
+"pos": "adj",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "жёлтый",
+"w": "жёлтый",
+"en": "<ol class=\"meaning-list\"><li>yellow</li></ol>",
+"vi": "vàng",
+"pos": "adj",
+"topic": "qualities::colors",
+"cu": false
+},
+{
+"wc": "вчера",
+"w": "вчера́",
+"en": "<ol class=\"meaning-list\"><li>yesterday</li></ol>",
+"vi": "hôm qua",
+"pos": "adv",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "вчерашний",
+"w": "вчера́шний",
+"en": "<ol class=\"meaning-list\"><li>yesterday (adj)</li></ol>",
+"vi": "thuộc về ngày hôm qua",
+"pos": "adj",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "дешёвый",
+"w": "дешёвый",
+"en": "<ol class=\"meaning-list\"><li>cheap</li><li>inexpensive</li><li>low (of a price or quality)</li></ol>",
+"vi": "rẻ, giá thấp",
+"pos": "adj",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "чёрный",
+"w": "чёрный",
+"en": "<ol class=\"meaning-list\"><li>black</li><li>(colloquial) dark</li><li>swarthy</li><li>dark-haired</li><li>rough</li><li>coarse</li></ol>",
+"vi": "đen, màu đen",
+"pos": "adj",
+"topic": "qualities::colors",
+"cu": false
+},
+{
+"wc": "сегодня",
+"w": "сего́дня",
+"en": "<ol class=\"meaning-list\"><li>today</li></ol>",
+"vi": "hôm nay",
+"pos": "adv",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "сегодняшний",
+"w": "сего́дняшний",
+"en": "<ol class=\"meaning-list\"><li>today's</li><li>today</li></ol>",
+"vi": "hôm nay, của hôm nay",
+"pos": "adj",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "чистый",
+"w": "чи́стый",
+"en": "<ol class=\"meaning-list\"><li>clean</li><li>neat</li><li>tidy</li><li>pure</li><li>clear</li><li>mere</li><li>sheer</li><li>(relational) net</li></ol>",
+"vi": "sạch, gọn gàng, tinh khiết, hoàn toàn",
+"pos": "adj",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "грязный",
+"w": "гря́зный",
+"en": "<ol class=\"meaning-list\"><li>dirty</li><li>muddy</li><li>miry</li><li>filthy</li><li>sordid</li></ol>",
+"vi": "bẩn, lấm bẩn, nhơ nhuốc",
+"pos": "adj",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "оранжевый",
+"w": "ора́нжевый",
+"en": "<ol class=\"meaning-list\"><li>orange</li></ol>",
+"vi": "màu cam",
+"pos": "adj",
+"topic": "qualities::colors",
+"cu": false
+},
+{
+"wc": "завтрашний",
+"w": "за́втрашний",
+"en": "<ol class=\"meaning-list\"><li>tomorrow (adj)</li></ol>",
+"vi": "thuộc về ngày mai",
+"pos": "adj",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "лёгкий",
+"w": "лёгкий",
+"en": "<ol class=\"meaning-list\"><li>light</li><li>slight</li><li>easy</li></ol>",
+"vi": "nhẹ, dễ dàng",
+"pos": "adj",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "трудный",
+"w": "тру́дный",
+"en": "<ol class=\"meaning-list\"><li>difficult</li><li>tough</li></ol>",
+"vi": "khó khăn, khó (làm gì đó), gian nan",
+"pos": "adj",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "тяжёлый",
+"w": "тяжёлый",
+"en": "<ol class=\"meaning-list\"><li>heavy</li><li>difficult</li><li>hard</li><li>tough</li></ol>",
+"vi": "nặng, khó khăn, vất vả",
+"pos": "adj",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "коричневый",
+"w": "кори́чневый",
+"en": "<ol class=\"meaning-list\"><li>brown</li></ol>",
+"vi": "nâu",
+"pos": "adj",
+"topic": "qualities::colors",
+"cu": false
+},
+{
+"wc": "весенний",
+"w": "весе́нний",
+"en": "<ol class=\"meaning-list\"><li>spring</li></ol>",
+"vi": "thuộc về mùa xuân",
+"pos": "adj",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "громкий",
+"w": "гро́мкий",
+"en": "<ol class=\"meaning-list\"><li>loud</li></ol>",
+"vi": "to, ồn ào, lớn tiếng",
+"pos": "adj",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "тихий",
+"w": "ти́хий",
+"en": "<ol class=\"meaning-list\"><li>quiet</li><li>low</li><li>silent</li><li>still</li><li>soft</li><li>peaceful</li><li>unhurried</li><li>calm</li><li>Pacific</li></ol>",
+"vi": "yên tĩnh, im lặng, nhẹ nhàng, bình yên",
+"pos": "adj",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "фиолетовый",
+"w": "фиоле́товый",
+"en": "<ol class=\"meaning-list\"><li>violet</li><li>purple</li></ol>",
+"vi": "tím, màu tím",
+"pos": "adj",
+"topic": "qualities::colors",
+"cu": false
+},
+{
+"wc": "летний",
+"w": "ле́тний",
+"en": "<ol class=\"meaning-list\"><li>summer</li></ol>",
+"vi": "thuộc về mùa hè",
+"pos": "adj",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "твёрдый",
+"w": "твёрдый",
+"en": "<ol class=\"meaning-list\"><li>hard</li><li>solid</li><li>stable</li><li>firm</li><li>strong</li><li>steadfast</li></ol>",
+"vi": "cứng, rắn chắc, kiên định",
+"pos": "adj",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "мягкий",
+"w": "мя́гкий",
+"en": "<ol class=\"meaning-list\"><li>soft</li><li>tender</li><li>mild</li></ol>",
+"vi": "mềm, dịu dàng, nhẹ nhàng",
+"pos": "adj",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "голубой",
+"w": "голубо́й",
+"en": "<ol class=\"meaning-list\"><li>light blue</li><li>pale blue</li><li>sky-blue</li><li>azure</li></ol>",
+"vi": "xanh dương, xanh da trời",
+"pos": "adj",
+"topic": "qualities::colors",
+"cu": false
+},
+{
+"wc": "осенний",
+"w": "осе́нний",
+"en": "<ol class=\"meaning-list\"><li>autumn</li></ol>",
+"vi": "thu, thuộc về mùa thu",
+"pos": "adj",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "холодный",
+"w": "холо́дный",
+"en": "<ol class=\"meaning-list\"><li>cold</li></ol>",
+"vi": "lạnh, lạnh lẽo",
+"pos": "adj",
+"topic": "nature::weather",
+"cu": false
+},
+{
+"wc": "жаркий",
+"w": "жа́ркий",
+"en": "<ol class=\"meaning-list\"><li>hot</li></ol>",
+"vi": "nóng, nóng nực",
+"pos": "adj",
+"topic": "nature::weather",
+"cu": false
+},
+{
+"wc": "горячий",
+"w": "горя́чий",
+"en": "<ol class=\"meaning-list\"><li>hot</li><li>heated</li><li>hot-tempered</li><li>passionate</li></ol>",
+"vi": "nóng, nóng hổi",
+"pos": "adj",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "тёплый",
+"w": "тёплый",
+"en": "<ol class=\"meaning-list\"><li>warm</li><li>mild</li><li>cordial</li><li>kindly</li><li>affectionate</li></ol>",
+"vi": "ấm, ấm áp, thân thiện, hòa nhã",
+"pos": "adj",
+"topic": "nature::weather",
+"cu": false
+},
+{
+"wc": "зелёный",
+"w": "зелёный",
+"en": "<ol class=\"meaning-list\"><li>green</li></ol>",
+"vi": "xanh lá cây",
+"pos": "adj",
+"topic": "qualities::colors",
+"cu": false
+},
+{
+"wc": "зимний",
+"w": "зи́мний",
+"en": "<ol class=\"meaning-list\"><li>Winter</li></ol>",
+"vi": "thuộc về mùa đông, mùa đông",
+"pos": "adj",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "высокий",
+"w": "высо́кий",
+"en": "<ol class=\"meaning-list\"><li>tall</li><li>high (altitude,intensity,pitch etc.)</li><li>good</li><li>favorable</li><li>great</li><li>selfless</li><li>noble</li><li>lofty</li><li>elevated</li></ol>",
+"vi": "cao (chiều cao, độ cao), lớn, nhiều, tốt, quý giá",
+"pos": "adj",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "низкий",
+"w": "ни́зкий",
+"en": "<ol class=\"meaning-list\"><li>short</li><li>base</li><li>mean</li><li>low</li><li>deep (voice)</li></ol>",
+"vi": "thấp, ngắn, nhỏ (về chiều cao hoặc mức độ), trầm (giọng nói), kém (tự tin/kỹ năng)",
+"pos": "adj",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "розовый",
+"w": "ро́зовый",
+"en": "<ol class=\"meaning-list\"><li>pink</li></ol>",
+"vi": "hồng (màu hồng)",
+"pos": "adj",
+"topic": "qualities::colors",
+"cu": false
+},
+{
+"wc": "деревянный",
+"w": "деревя́нный",
+"en": "<ol class=\"meaning-list\"><li>wooden</li><li>ligneous</li></ol>",
+"vi": "bằng gỗ, làm bằng gỗ",
+"pos": "adj",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "быстрый",
+"w": "бы́стрый",
+"en": "<ol class=\"meaning-list\"><li>fast</li><li>quick</li><li>rapid</li><li>prompt</li></ol>",
+"vi": "nhanh, nhanh chóng, mau lẹ",
+"pos": "adj",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "медленный",
+"w": "ме́дленный",
+"en": "<ol class=\"meaning-list\"><li>slow</li></ol>",
+"vi": "chậm",
+"pos": "adj",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "синий",
+"w": "си́ний",
+"en": "<ol class=\"meaning-list\"><li>blue</li><li>deep blue</li><li>indigo</li><li>drunk</li></ol>",
+"vi": "màu xanh dương",
+"pos": "adj",
+"topic": "qualities::colors",
+"cu": false
+},
+{
+"wc": "майский",
+"w": "ма́йский",
+"en": "<ol class=\"meaning-list\"><li>May-Day</li></ol>",
+"vi": "thuộc về tháng Năm, mang không khí của tháng Năm",
+"pos": "adj",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "ночь",
+"w": "ночь",
+"en": "<ol class=\"meaning-list\"><li>night</li></ol>",
+"vi": "đêm, ban đêm",
+"pos": "n",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "ночной",
+"w": "ночно́й",
+"en": "<ol class=\"meaning-list\"><li>night</li><li>nightly</li><li>nocturnal</li></ol>",
+"vi": "thuộc về ban đêm, về đêm",
+"pos": "adj",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "большой",
+"w": "большо́й",
+"en": "<ol class=\"meaning-list\"><li>big</li><li>large</li><li>great</li><li>important</li><li>grown-up</li></ol>",
+"vi": "lớn, to, quan trọng, trưởng thành",
+"pos": "adj",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "маленький",
+"w": "ма́ленький",
+"en": "<ol class=\"meaning-list\"><li>little</li><li>small</li><li>short</li><li>trifling</li><li>petty</li></ol>",
+"vi": "nhỏ, bé, ít",
+"pos": "adj",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "день",
+"w": "день",
+"en": "<ol class=\"meaning-list\"><li>day</li><li>daytime</li><li>afternoon</li><li>early evening</li></ol>",
+"vi": "ngày, ban ngày",
+"pos": "n",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "дневной",
+"w": "дневно́й",
+"en": "<ol class=\"meaning-list\"><li>day</li><li>daily</li></ol>",
+"vi": "thuộc về ban ngày, diễn ra vào ban ngày",
+"pos": "adj",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "ранний",
+"w": "ра́нний",
+"en": "<ol class=\"meaning-list\"><li>early</li></ol>",
+"vi": "sớm, ban đầu",
+"pos": "adj",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "поздний",
+"w": "по́здний",
+"en": "<ol class=\"meaning-list\"><li>late</li><li>tardy</li></ol>",
+"vi": "muộn, trễ",
+"pos": "adj",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "хороший",
+"w": "хоро́ший",
+"en": "<ol class=\"meaning-list\"><li>good</li><li>nice</li></ol>",
+"vi": "tốt, hay, đẹp",
+"pos": "adj",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "плохой",
+"w": "плохо́й",
+"en": "<ol class=\"meaning-list\"><li>bad</li></ol>",
+"vi": "xấu, tồi tệ, không tốt",
+"pos": "adj",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "сильный",
+"w": "си́льный",
+"en": "<ol class=\"meaning-list\"><li>strong</li><li>powerful</li><li>fierce</li><li>keen</li><li>intense</li><li>violent</li><li>towering</li><li>potent</li><li>impressive</li><li>hard</li><li>heavy</li><li>good</li></ol>",
+"vi": "mạnh, khỏe, dữ dội, cực kỳ",
+"pos": "adj",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "чай",
+"w": "чай",
+"en": "<ol class=\"meaning-list\"><li>tea</li></ol>",
+"vi": "trà",
+"pos": "n",
+"topic": "life::food",
+"cu": false
+},
+{
+"wc": "число",
+"w": "число́",
+"en": "<ol class=\"meaning-list\"><li>number</li><li>quantity</li><li>date</li></ol>",
+"vi": "số, con số, ngày",
+"pos": "n",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "мяч",
+"w": "мяч",
+"en": "<ol class=\"meaning-list\"><li>ball</li></ol>",
+"vi": "quả bóng",
+"pos": "n",
+"topic": "concepts::misc",
+"cu": false
+},
+{
+"wc": "делать",
+"w": "де́лать",
+"en": "<ol class=\"meaning-list\"><li>to do</li><li>to make</li></ol>",
+"vi": "làm, thực hiện, tạo ra",
+"pos": "v",
+"topic": "actions",
+"cu": false
+},
+{
+"wc": "читать",
+"w": "чита́ть",
+"en": "<ol class=\"meaning-list\"><li>read</li></ol>",
+"vi": "đọc, đọc sách",
+"pos": "v",
+"topic": "language::education",
+"cu": false
+},
+{
+"wc": "слушать",
+"w": "слу́шать",
+"en": "<ol class=\"meaning-list\"><li>to listen</li><li>to hear</li></ol>",
+"vi": "nghe (tập trung chú ý), nghe thấy (nhận biết âm thanh)",
+"pos": "v",
+"topic": "actions",
+"cu": false
+},
+{
+"wc": "работать",
+"w": "рабо́тать",
+"en": "<ol class=\"meaning-list\"><li>work</li><li>operate</li><li>open</li><li>function</li></ol>",
+"vi": "làm việc, hoạt động",
+"pos": "v",
+"topic": "actions",
+"cu": false
+},
+{
+"wc": "отдыхать",
+"w": "отдыха́ть",
+"en": "<ol class=\"meaning-list\"><li>rest</li><li>be resting</li><li>be on holiday</li></ol>",
+"vi": "nghỉ ngơi, nghỉ dưỡng, đi nghỉ",
+"pos": "v",
+"topic": "actions",
+"cu": false
+},
+{
+"wc": "знать",
+"w": "знать",
+"en": "<ol class=\"meaning-list\"><li>to know</li><li>be aware</li><li>be acquainted</li><li>it seems</li></ol>",
+"vi": "biết, quen biết, rõ ràng",
+"pos": "v",
+"topic": "actions",
+"cu": false
+},
+{
+"wc": "семья",
+"w": "семья́",
+"en": "<ol class=\"meaning-list\"><li>family</li></ol>",
+"vi": "gia đình",
+"pos": "n",
+"topic": "people::family",
+"cu": false
+},
+{
+"wc": "хотя",
+"w": "хотя́",
+"en": "<ol class=\"meaning-list\"><li>although</li><li>though</li><li>at least</li><li>despite</li></ol>",
+"vi": "dù, tuy nhiên, ít ra",
+"pos": "oth",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "тётя",
+"w": "тётя",
+"en": "<ol class=\"meaning-list\"><li>aunt</li><li>aunty</li></ol>",
+"vi": "dì, cô, bác gái (chị/em của bố hoặc mẹ)",
+"pos": "n",
+"topic": "people::family",
+"cu": false
+},
+{
+"wc": "костюм",
+"w": "костю́м",
+"en": "<ol class=\"meaning-list\"><li>costume</li><li>dress</li><li>suit</li></ol>",
+"vi": "bộ đồ, bộ vest, trang phục (costume, suit)",
+"pos": "n",
+"topic": "life::clothing",
+"cu": false
+},
+{
+"wc": "утюг",
+"w": "утю́г",
+"en": "<ol class=\"meaning-list\"><li>iron (appliance)</li><li>smoothing-iron</li></ol>",
+"vi": "bàn là (đồ dùng), máy ủi quần áo",
+"pos": "n",
+"topic": "life::home",
+"cu": false
+},
+{
+"wc": "тихо",
+"w": "ти́хо",
+"en": "<ol class=\"meaning-list\"><li>quietly</li><li>it is calm</li><li>it is quiet</li><li>softly</li><li>gently</li><li>faintly</li><li>silently</li><li>calmly</li><li>peacefully</li><li>slowly</li></ol>",
+"vi": "nhẹ nhàng, yên tĩnh, im lặng",
+"pos": "adv",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "картина",
+"w": "карти́на",
+"en": "<ol class=\"meaning-list\"><li>picture</li><li>painting</li><li>canvas</li><li>scene</li></ol>",
+"vi": "bức tranh, bức ảnh",
+"pos": "n",
+"topic": "life::home",
+"cu": false
+},
+{
+"wc": "кровать",
+"w": "крова́ть",
+"en": "<ol class=\"meaning-list\"><li>bed</li></ol>",
+"vi": "giường, giường ngủ",
+"pos": "n",
+"topic": "life::home",
+"cu": false
+},
+{
+"wc": "дядя",
+"w": "дя́дя",
+"en": "<ol class=\"meaning-list\"><li>uncle</li></ol>",
+"vi": "chú, bác (anh trai hoặc em trai của bố mẹ)",
+"pos": "n",
+"topic": "people::family",
+"cu": false
+},
+{
+"wc": "молодёжь",
+"w": "молодёжь",
+"en": "<ol class=\"meaning-list\"><li>young</li><li>youth</li><li>young generation</li><li>young people</li></ol>",
+"vi": "giới trẻ, thanh niên, người trẻ",
+"pos": "n",
+"topic": "people::family",
+"cu": false
+},
+{
+"wc": "дюйм",
+"w": "дюйм",
+"en": "<ol class=\"meaning-list\"><li>inch</li></ol>",
+"vi": "inch (đơn vị đo chiều dài), một inch, không nhượng bộ chút nào",
+"pos": "n",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "студент",
+"w": "студе́нт",
+"en": "<ol class=\"meaning-list\"><li>student</li></ol>",
+"vi": "sinh viên, học sinh",
+"pos": "n",
+"topic": "people::professions",
+"cu": false
+},
+{
+"wc": "деньги",
+"w": "де́ньги",
+"en": "<ol class=\"meaning-list\"><li>money</li><li>funds</li><li>cash</li></ol>",
+"vi": "tiền, tiền bạc, vốn",
+"pos": "n",
+"topic": "concepts::misc",
+"cu": false
+},
+{
+"wc": "дело",
+"w": "де́ло",
+"en": "<ol class=\"meaning-list\"><li>business</li><li>work</li><li>matter</li><li>concern</li><li>affair</li><li>thing</li><li>action</li><li>act</li><li>art</li><li>science</li><li>truth</li><li>really</li><li>honestly</li></ol>",
+"vi": "việc, công việc, chuyện, sự việc, thực ra, thật vậy",
+"pos": "n",
+"topic": "concepts::abstract",
+"cu": false
+},
+{
+"wc": "одежда",
+"w": "оде́жда",
+"en": "<ol class=\"meaning-list\"><li>clothing</li></ol>",
+"vi": "quần áo, trang phục",
+"pos": "n",
+"topic": "life::clothing",
+"cu": false
+},
+{
+"wc": "диктор",
+"w": "ди́ктор",
+"en": "<ol class=\"meaning-list\"><li>announcer</li></ol>",
+"vi": "người dẫn chương trình, phát thanh viên",
+"pos": "n",
+"topic": "people::professions",
+"cu": false
+},
+{
+"wc": "грудь",
+"w": "грудь",
+"en": "<ol class=\"meaning-list\"><li>breast</li><li>chest</li></ol>",
+"vi": "ngực, vú",
+"pos": "n",
+"topic": "people::body",
+"cu": false
+},
+{
+"wc": "тетрадь",
+"w": "тетра́дь",
+"en": "<ol class=\"meaning-list\"><li>notebook</li><li>writing-book</li><li>exercise-book</li><li>copy-book</li><li>part</li></ol>",
+"vi": "vở, tập viết",
+"pos": "n",
+"topic": "language::education",
+"cu": false
+},
+{
+"wc": "площадь",
+"w": "пло́щадь",
+"en": "<ol class=\"meaning-list\"><li>area (geometry)</li><li>square</li><li>space</li><li>living space</li></ol>",
+"vi": "diện tích (hình học), quảng trường, không gian sống",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "очередь",
+"w": "о́чередь",
+"en": "<ol class=\"meaning-list\"><li>queue</li><li>line</li><li>turn</li><li>order</li><li>succession</li><li>one by one</li><li>phase</li><li>stage (project)</li><li>place</li></ol>",
+"vi": "hàng đợi, hàng chờ, lượt, lần lượt",
+"pos": "n",
+"topic": "concepts::abstract",
+"cu": false
+},
+{
+"wc": "мать",
+"w": "мать",
+"en": "<ol class=\"meaning-list\"><li>mother</li></ol>",
+"vi": "mẹ, người mẹ",
+"pos": "n",
+"topic": "people::family",
+"cu": false
+},
+{
+"wc": "понятно",
+"w": "поня́тно",
+"en": "<ol class=\"meaning-list\"><li>it is clear</li><li>naturally</li><li>of course</li><li>clearly</li><li>plainly</li><li>forcibly</li><li>perspicuously</li><li>alright</li></ol>",
+"vi": "hiểu, rõ ràng, tất nhiên, dĩ nhiên",
+"pos": "adv",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "няня",
+"w": "ня́ня",
+"en": "<ol class=\"meaning-list\"><li>nanny</li><li>babysitter</li></ol>",
+"vi": "người giữ trẻ, bảo mẫu",
+"pos": "n",
+"topic": "people::family",
+"cu": false
+},
+{
+"wc": "нёбо",
+"w": "нёбо",
+"en": "<ol class=\"meaning-list\"><li>palate</li></ol>",
+"vi": "vòm miệng, lưỡi gà",
+"pos": "n",
+"topic": "people::body",
+"cu": false
+},
+{
+"wc": "снег",
+"w": "снег",
+"en": "<ol class=\"meaning-list\"><li>snow</li></ol>",
+"vi": "tuyết",
+"pos": "n",
+"topic": "nature::weather",
+"cu": false
+},
+{
+"wc": "небо",
+"w": "не́бо",
+"en": "<ol class=\"meaning-list\"><li>sky</li><li>heaven</li><li>firmament</li><li>air</li></ol>",
+"vi": "trời, bầu trời",
+"pos": "n",
+"topic": "nature::plants",
+"cu": false
+},
+{
+"wc": "окунь",
+"w": "о́кунь",
+"en": "<ol class=\"meaning-list\"><li>perch</li></ol>",
+"vi": "cá chạch (loại cá biển)",
+"pos": "n",
+"topic": "nature::animals",
+"cu": false
+},
+{
+"wc": "ладонь",
+"w": "ладо́нь",
+"en": "<ol class=\"meaning-list\"><li>palm (of the hand)</li><li>clearly view</li></ol>",
+"vi": "lòng bàn tay",
+"pos": "n",
+"topic": "people::body",
+"cu": false
+},
+{
+"wc": "ткань",
+"w": "ткань",
+"en": "<ol class=\"meaning-list\"><li>fabric</li></ol>",
+"vi": "vải, chất liệu",
+"pos": "n",
+"topic": "life::clothing",
+"cu": false
+},
+{
+"wc": "мясо",
+"w": "мя́со",
+"en": "<ol class=\"meaning-list\"><li>meat</li><li>flesh</li></ol>",
+"vi": "thịt",
+"pos": "n",
+"topic": "life::food",
+"cu": false
+},
+{
+"wc": "мясной",
+"w": "мясно́й",
+"en": "<ol class=\"meaning-list\"><li>meat</li></ol>",
+"vi": "thuộc về thịt, có thịt",
+"pos": "adj",
+"topic": "life::food",
+"cu": false
+},
+{
+"wc": "мята",
+"w": "мя́та",
+"en": "<ol class=\"meaning-list\"><li>mint</li></ol>",
+"vi": "hạt bạc hà, lá bạc hà",
+"pos": "n",
+"topic": "life::food",
+"cu": false
+},
+{
+"wc": "мёд",
+"w": "мёд",
+"en": "<ol class=\"meaning-list\"><li>honey</li><li>mead</li></ol>",
+"vi": "mật ong",
+"pos": "n",
+"topic": "life::food",
+"cu": false
+},
+{
+"wc": "мел",
+"w": "мел",
+"en": "<ol class=\"meaning-list\"><li>chalk</li><li>whiting</li><li>whitewash</li></ol>",
+"vi": "bút phấn, vôi",
+"pos": "n",
+"topic": "language::education",
+"cu": false
+},
+{
+"wc": "метр",
+"w": "метр",
+"en": "<ol class=\"meaning-list\"><li>metre</li><li>metre measure ruler</li><li>master</li></ol>",
+"vi": "mét (đơn vị đo chiều dài), thước kẻ, người đứng đầu",
+"pos": "n",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "место",
+"w": "ме́сто",
+"en": "<ol class=\"meaning-list\"><li>place</li><li>spot</li><li>site</li><li>locality</li><li>seat</li><li>region</li><li>area</li><li>site</li><li>scene</li><li>room</li><li>space</li><li>job</li><li>position</li><li>piece of luggage</li></ol>",
+"vi": "nơi chốn, chỗ ngồi, vị trí, địa điểm",
+"pos": "n",
+"topic": "concepts::misc",
+"cu": false
+},
+{
+"wc": "мир",
+"w": "мир",
+"en": "<ol class=\"meaning-list\"><li>world</li><li>peace</li></ol>",
+"vi": "thế giới, hòa bình",
+"pos": "n",
+"topic": "concepts::abstract",
+"cu": false
+},
+{
+"wc": "трудно",
+"w": "тру́дно",
+"en": "<ol class=\"meaning-list\"><li>difficultly</li></ol>",
+"vi": "khó khăn (mang tính kỹ thuật/trí óc)<div>Từ này dùng khi một việc gì đó đòi hỏi nhiều nỗ lực, kỹ năng, thời gian hoặc tư duy để hoàn thành. Nó trái nghĩa với từ Легко (Dễ dàng).</div>",
+"pos": "adv",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "легко",
+"w": "легко́",
+"en": "<ol class=\"meaning-list\"><li>lightly</li><li>slightly</li><li>easily</li></ol>",
+"vi": "dễ dàng, nhẹ nhàng, một chút",
+"pos": "adv",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "непонятно",
+"w": "непоня́тно",
+"en": "<ol class=\"meaning-list\"><li>it is incomprehensible</li><li>it is impossible to understand</li><li>incomprehensibly</li></ol>",
+"vi": "không hiểu, không rõ ràng, khó hiểu",
+"pos": "adv",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "дёшево",
+"w": "дёшево",
+"en": "<ol class=\"meaning-list\"><li>cheap</li><li>cheaply</li></ol>",
+"vi": "rẻ, giá rẻ",
+"pos": "adv",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "жарко",
+"w": "жа́рко",
+"en": "<ol class=\"meaning-list\"><li>it is hot</li><li>hotly</li></ol>",
+"vi": "nóng (thời tiết), nóng bức",
+"pos": "adv",
+"topic": "nature::weather",
+"cu": false
+},
+{
+"wc": "высоко",
+"w": "высоко́",
+"en": "<ol class=\"meaning-list\"><li>highly</li></ol>",
+"vi": "cao, cao lên",
+"pos": "adv",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "низко",
+"w": "ни́зко",
+"en": "<ol class=\"meaning-list\"><li>low</li><li>basely</li><li>meanly</li><li>despicably</li></ol>",
+"vi": "thấp, một cách hèn hạ, đáng khinh",
+"pos": "adv",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "всё",
+"w": "всё",
+"en": "<ol class=\"meaning-list\"><li>always</li><li>all the time</li><li>the whole time</li><li>still</li><li>only</li><li>all</li><li>all the same</li><li>however</li><li>nevertheless</li><li>everything</li><li>often</li></ol>",
+"vi": "tất cả mọi thứ, tất cả",
+"pos": "oth",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "всюду",
+"w": "всю́ду",
+"en": "<ol class=\"meaning-list\"><li>everywhere</li></ol>",
+"vi": "mọi nơi",
+"pos": "adv",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "серный",
+"w": "се́рный",
+"en": "<ol class=\"meaning-list\"><li>sulphuric</li><li>sulphurous</li><li>sulphury</li></ol>",
+"vi": "liên quan đến lưu huỳnh, có mùi lưu huỳnh",
+"pos": "adj",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "сестра",
+"w": "сестра́",
+"en": "<ol class=\"meaning-list\"><li>sister</li><li>nurse</li></ol>",
+"vi": "chị, em gái",
+"pos": "n",
+"topic": "people::family",
+"cu": false
+},
+{
+"wc": "россия",
+"w": "Росси́я",
+"en": "<ol class=\"meaning-list\"><li>Russia</li></ol>",
+"vi": "Nga",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "здесь",
+"w": "здесь",
+"en": "<ol class=\"meaning-list\"><li>here</li><li>with us</li><li>in this country</li><li>about it</li><li>in it</li><li>at this point</li></ol>",
+"vi": "đây, ở đây",
+"pos": "oth",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "взять",
+"w": "взять",
+"en": "<ol class=\"meaning-list\"><li>to take</li><li>to pick</li><li>to borrow</li><li>to grab</li><li>to get hold of</li><li>to hire</li><li>to choose (from)</li></ol>",
+"vi": "nhấc máy, mượn, lấy, thuê",
+"pos": "v",
+"topic": "actions",
+"cu": false
+},
+{
+"wc": "зяблик",
+"w": "зя́блик",
+"en": "<ol class=\"meaning-list\"><li>chaffinch</li></ol>",
+"vi": "chim chích bông",
+"pos": "n",
+"topic": "nature::animals",
+"cu": false
+},
+{
+"wc": "зерно",
+"w": "зерно́",
+"en": "<ol class=\"meaning-list\"><li>grain</li><li>seed</li><li>core</li><li>kernel</li><li>corn</li><li>cereals</li><li>grain crop</li></ol>",
+"vi": "hạt, thóc",
+"pos": "n",
+"topic": "nature::plants",
+"cu": false
+},
+{
+"wc": "озеро",
+"w": "о́зеро",
+"en": "<ol class=\"meaning-list\"><li>lake</li></ol>",
+"vi": "ao, hồ",
+"pos": "n",
+"topic": "nature::plants",
+"cu": false
+},
+{
+"wc": "изюм",
+"w": "изю́м",
+"en": "<ol class=\"meaning-list\"><li>raisins</li><li>sultana</li></ol>",
+"vi": "nho khô",
+"pos": "n",
+"topic": "life::food",
+"cu": false
+},
+{
+"wc": "зеркало",
+"w": "зе́ркало",
+"en": "<ol class=\"meaning-list\"><li>mirror</li></ol>",
+"vi": "gương",
+"pos": "n",
+"topic": "life::home",
+"cu": false
+},
+{
+"wc": "газета",
+"w": "газе́та",
+"en": "<ol class=\"meaning-list\"><li>newspaper</li><li>paper</li><li>daily paper</li><li>daily</li></ol>",
+"vi": "báo",
+"pos": "n",
+"topic": "language::education",
+"cu": false
+},
+{
+"wc": "магазин",
+"w": "магази́н",
+"en": "<ol class=\"meaning-list\"><li>a shop</li><li>store</li></ol>",
+"vi": "cửa hàng, siêu thị",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "корзина",
+"w": "корзи́на",
+"en": "<ol class=\"meaning-list\"><li>basket</li><li>wastebasket</li></ol>",
+"vi": "thùng, giỏ",
+"pos": "n",
+"topic": "life::home",
+"cu": false
+},
+{
+"wc": "связь",
+"w": "связь",
+"en": "<ol class=\"meaning-list\"><li>connection</li><li>link</li><li>bond</li><li>touch</li><li>communication</li></ol>",
+"vi": "liên lạc, kết nối",
+"pos": "n",
+"topic": "concepts::abstract",
+"cu": false
+},
+{
+"wc": "князь",
+"w": "князь",
+"en": "<ol class=\"meaning-list\"><li>prince</li></ol>",
+"vi": "vị công tước, quý ông",
+"pos": "n",
+"topic": "people::professions",
+"cu": false
+},
+{
+"wc": "нельзя",
+"w": "нельзя́",
+"en": "<ol class=\"meaning-list\"><li>one cannot</li><li>you can't</li><li>it's impossible</li><li>one should not</li><li>it is not allowed</li><li>one must not (it is prohibited / forbidden)</li></ol>",
+"vi": "không được phép, cấm, không thể",
+"pos": "oth",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "нормально",
+"w": "норма́льно",
+"en": "<ol class=\"meaning-list\"><li>normally</li></ol>",
+"vi": "bình thường, ổn, được",
+"pos": "adv",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "сейчас",
+"w": "сейча́с",
+"en": "<ol class=\"meaning-list\"><li>now</li><li>just now</li><li>soon</li><li>right now</li><li>at once</li></ol>",
+"vi": "bây giờ, ngay lúc này, sắp",
+"pos": "adv",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "улица",
+"w": "у́лица",
+"en": "<ol class=\"meaning-list\"><li>street</li></ol>",
+"vi": "đường phố, ngoài trời",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "институт",
+"w": "институ́т",
+"en": "<ol class=\"meaning-list\"><li>institute</li><li>institution</li></ol>",
+"vi": "trường đại học, viện nghiên cứu",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "индия",
+"w": "И́ндия",
+"en": "<ol class=\"meaning-list\"><li>India</li></ol>",
+"vi": "Ấn Độ",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "франция",
+"w": "Фра́нция",
+"en": "<ol class=\"meaning-list\"><li>France</li></ol>",
+"vi": "Pháp",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "быль",
+"w": "быль",
+"en": "<ol class=\"meaning-list\"><li>a true story that happened</li></ol>",
+"vi": "sự thật, chuyện có thật",
+"pos": "n",
+"topic": "concepts::abstract",
+"cu": false
+},
+{
+"wc": "быть",
+"w": "быть",
+"en": "<ol class=\"meaning-list\"><li>to be</li><li>(present tense) 'есть'  -- there is</li><li>there are</li><li>(past tense) 'был' -- was</li><li>were</li><li>have been</li><li>has been</li><li>(future tense) 'будет' -- will be</li><li>shall be</li></ol>",
+"vi": "có (tồn tại), là",
+"pos": "v",
+"topic": "actions",
+"cu": false
+},
+{
+"wc": "мороз",
+"w": "моро́з",
+"en": "<ol class=\"meaning-list\"><li>frost</li><li>freezing weather</li></ol>",
+"vi": "sương giá, rét",
+"pos": "n",
+"topic": "nature::weather",
+"cu": false
+},
+{
+"wc": "пятно",
+"w": "пятно́",
+"en": "<ol class=\"meaning-list\"><li>spot</li><li>stain</li></ol>",
+"vi": "vết bẩn, đốm, vết bớt",
+"pos": "n",
+"topic": "concepts::misc",
+"cu": false
+},
+{
+"wc": "пятница",
+"w": "пя́тница",
+"en": "<ol class=\"meaning-list\"><li>Friday</li></ol>",
+"vi": "thứ Sáu",
+"pos": "n",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "пёс",
+"w": "пёс",
+"en": "<ol class=\"meaning-list\"><li>(male) dog</li></ol>",
+"vi": "con chó",
+"pos": "n",
+"topic": "nature::animals",
+"cu": false
+},
+{
+"wc": "пюре",
+"w": "пюре́",
+"en": "<ol class=\"meaning-list\"><li>puree</li><li>mashed potatoes</li></ol>",
+"vi": "khoai tây nghiền",
+"pos": "n",
+"topic": "life::food",
+"cu": false
+},
+{
+"wc": "песня",
+"w": "пе́сня",
+"en": "<ol class=\"meaning-list\"><li>song</li></ol>",
+"vi": "bài hát, ca khúc",
+"pos": "n",
+"topic": "concepts::misc",
+"cu": false
+},
+{
+"wc": "первый",
+"w": "пе́рвый",
+"en": "<ol class=\"meaning-list\"><li>first</li><li>front</li><li>former</li><li>earliest</li></ol>",
+"vi": "đầu tiên, trước nhất",
+"pos": "num",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "петь",
+"w": "петь​",
+"en": "<ol class=\"meaning-list\"><li>to sing</li><li>to intone</li></ol>",
+"vi": "hát",
+"pos": "v",
+"topic": "actions",
+"cu": false
+},
+{
+"wc": "проспект",
+"w": "проспе́кт",
+"en": "<ol class=\"meaning-list\"><li>avenue</li><li>prospectus</li><li>booklet</li><li>folder</li></ol>",
+"vi": "đường lớn, quảng cáo",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "пить",
+"w": "пить​",
+"en": "<ol class=\"meaning-list\"><li>to drink</li></ol>",
+"vi": "uống, khát",
+"pos": "v",
+"topic": "life::food",
+"cu": false
+},
+{
+"wc": "пиво",
+"w": "пи́во",
+"en": "<ol class=\"meaning-list\"><li>beer</li></ol>",
+"vi": "bia",
+"pos": "n",
+"topic": "life::food",
+"cu": false
+},
+{
+"wc": "степь",
+"w": "степь",
+"en": "<ol class=\"meaning-list\"><li>steppe / veld</li></ol>",
+"vi": "đồng cỏ mênh mông",
+"pos": "n",
+"topic": "nature::plants",
+"cu": false
+},
+{
+"wc": "сыпь",
+"w": "сыпь",
+"en": "<ol class=\"meaning-list\"><li>rash</li><li>eruption</li></ol>",
+"vi": "bệnh da liễu, nổi mẩn, mụn",
+"pos": "n",
+"topic": "people::body",
+"cu": false
+},
+{
+"wc": "ребята",
+"w": "ребя́та",
+"en": "<ol class=\"meaning-list\"><li>lads</li><li>boys</li><li>guys</li><li>children</li><li>kids</li></ol>",
+"vi": "những người bạn, đám đông",
+"pos": "n",
+"topic": "people::family",
+"cu": false
+},
+{
+"wc": "бюро",
+"w": "бюро́",
+"en": "<ol class=\"meaning-list\"><li>bureau</li></ol>",
+"vi": "trạm, văn phòng dịch vụ",
+"pos": "n",
+"topic": "life::home",
+"cu": false
+},
+{
+"wc": "бюст",
+"w": "бюст",
+"en": "<ol class=\"meaning-list\"><li>bust</li><li>bosom</li></ol>",
+"vi": "bức tượng bán thân",
+"pos": "n",
+"topic": "concepts::misc",
+"cu": false
+},
+{
+"wc": "обед",
+"w": "обе́д",
+"en": "<ol class=\"meaning-list\"><li>lunch</li></ol>",
+"vi": "bữa trưa",
+"pos": "n",
+"topic": "life::food",
+"cu": false
+},
+{
+"wc": "белка",
+"w": "бе́лка",
+"en": "<ol class=\"meaning-list\"><li>squirrel</li></ol>",
+"vi": "con sóc",
+"pos": "n",
+"topic": "nature::animals",
+"cu": false
+},
+{
+"wc": "обида",
+"w": "оби́да",
+"en": "<ol class=\"meaning-list\"><li>offence</li><li>resentment</li><li>grudge</li><li>hurt feelings</li></ol>",
+"vi": "bực mình, tổn thương, đố kỵ",
+"pos": "n",
+"topic": "concepts::abstract",
+"cu": false
+},
+{
+"wc": "бить",
+"w": "бить",
+"en": "<ol class=\"meaning-list\"><li>to beat</li><li>hit</li><li>strike</li><li>to defeat or overcome</li><li>to chime</li></ol>",
+"vi": "đánh, vả, gõ",
+"pos": "v",
+"topic": "actions",
+"cu": false
+},
+{
+"wc": "дробь",
+"w": "дробь",
+"en": "<ol class=\"meaning-list\"><li>fraction</li><li>shot</li><li>pellets (e.g. in a shotgun)</li><li>drumroll</li><li>pitter-patter</li><li>rapid tapping sound</li></ol>",
+"vi": "phân số",
+"pos": "n",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "голубь",
+"w": "го́лубь",
+"en": "<ol class=\"meaning-list\"><li>pigeon</li><li>dove</li></ol>",
+"vi": "chim bồ câu",
+"pos": "n",
+"topic": "nature::animals",
+"cu": false
+},
+{
+"wc": "быстро",
+"w": "бы́стро",
+"en": "<ol class=\"meaning-list\"><li>fast</li><li>quickly</li><li>rapidly</li><li>with speed</li></ol>",
+"vi": "nhanh, nhanh chóng",
+"pos": "adv",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "медленно",
+"w": "ме́дленно",
+"en": "<ol class=\"meaning-list\"><li>slowly</li></ol>",
+"vi": "chậm, từ tốn",
+"pos": "adv",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "темно",
+"w": "темно́",
+"en": "<ol class=\"meaning-list\"><li>dark</li></ol>",
+"vi": "tối",
+"pos": "adv",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "светло",
+"w": "светло́",
+"en": "<ol class=\"meaning-list\"><li>it is light</li><li>brightly</li><li>bright</li><li>daylight</li></ol>",
+"vi": "sáng, đủ sáng",
+"pos": "adv",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "тяжело",
+"w": "тяжело́",
+"en": "<ol class=\"meaning-list\"><li>hard</li><li>difficult</li><li>heavily</li></ol>",
+"vi": "Nặng nề - mang tính thể chất/cảm xúc<div>Từ này gốc là tính từ chỉ \"trọng lượng nặng\" (Тяжёлый), nên khi dùng ở dạng trạng từ, nó mang sắc thái nặng nề, kiệt sức về thể xác hoặc mệt mỏi, đau buồn về tâm lý. Nó trái nghĩa với từ Легко (Nhẹ nhàng).</div>",
+"pos": "adv",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "громко",
+"w": "гро́мко",
+"en": "<ol class=\"meaning-list\"><li>loud</li><li>aloud</li></ol>",
+"vi": "ồn, lớn tiếng",
+"pos": "adv",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "мало",
+"w": "ма́ло",
+"en": "<ol class=\"meaning-list\"><li>little</li><li>few</li><li>a little bit</li><li>too little</li><li>too few</li></ol>",
+"vi": "ít, không nhiều",
+"pos": "adv",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "вперёд",
+"w": "вперёд",
+"en": "<ol class=\"meaning-list\"><li>forward</li></ol>",
+"vi": "tiến về phía trước, về phía trước",
+"pos": "oth",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "назад",
+"w": "наза́д",
+"en": "<ol class=\"meaning-list\"><li>back</li><li>backwards</li><li>ago</li></ol>",
+"vi": "lùi về quá khứ, quay lại",
+"pos": "oth",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "порядок",
+"w": "поря́док",
+"en": "<ol class=\"meaning-list\"><li>order of magnitude</li><li>order</li><li>sequence</li><li>order</li><li>procedure</li><li>manner</li><li>way</li><li>form</li><li>order</li><li>regime</li><li>system</li><li>(plural) customs</li><li>usages</li><li>observances</li><li>Alright</li><li>Ok</li></ol>",
+"vi": "trật tự, sự ngăn nắp, ổn, bình thường",
+"pos": "n",
+"topic": "concepts::abstract",
+"cu": false
+},
+{
+"wc": "ничего",
+"w": "ничего́",
+"en": "<ol class=\"meaning-list\"><li>nothing</li><li>not anything</li><li>never mind</li><li>all right</li><li>not badly</li><li>passably</li><li>so-so</li><li>not bad</li></ol>",
+"vi": "không có gì, không sao cả, ổn",
+"pos": "oth",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "разговаривать",
+"w": "разгова́ривать",
+"en": "<ol class=\"meaning-list\"><li>speak</li><li>talk</li><li>converse</li><li>be on speaking terms</li></ol>",
+"vi": "nói chuyện, trò chuyện",
+"pos": "v",
+"topic": "actions",
+"cu": false
+},
+{
+"wc": "ведро",
+"w": "ведро́",
+"en": "<ol class=\"meaning-list\"><li>bucket</li><li>bin/ trash can</li></ol>",
+"vi": "cái xô, thùng",
+"pos": "n",
+"topic": "life::home",
+"cu": false
+},
+{
+"wc": "продавец",
+"w": "продаве́ц",
+"en": "<ol class=\"meaning-list\"><li>seller</li><li>vendor</li><li>salesman</li><li>shop assistant</li><li>cashier</li><li>clerk</li></ol>",
+"vi": "nhân viên bán hàng",
+"pos": "n",
+"topic": "people::professions",
+"cu": false
+},
+{
+"wc": "продавщица",
+"w": "продавщи́ца",
+"en": "<ol class=\"meaning-list\"><li>seller</li><li>saleswoman</li><li>shop-assistant</li><li>shop-girl</li></ol>",
+"vi": "nữ bán hàng, cô bán hàng",
+"pos": "n",
+"topic": "people::professions",
+"cu": false
+},
+{
+"wc": "певец",
+"w": "певе́ц",
+"en": "<ol class=\"meaning-list\"><li>singer (male)</li></ol>",
+"vi": "ca sĩ (nam)",
+"pos": "n",
+"topic": "people::professions",
+"cu": false
+},
+{
+"wc": "певица",
+"w": "певи́ца",
+"en": "<ol class=\"meaning-list\"><li>singer</li></ol>",
+"vi": "ca sĩ",
+"pos": "n",
+"topic": "people::professions",
+"cu": false
+},
+{
+"wc": "ковёр",
+"w": "ковёр",
+"en": "<ol class=\"meaning-list\"><li>carpet</li></ol>",
+"vi": "thảm, tấm thảm",
+"pos": "n",
+"topic": "life::home",
+"cu": false
+},
+{
+"wc": "свёкла",
+"w": "свёкла",
+"en": "<ol class=\"meaning-list\"><li>beet</li><li>beetroot</li></ol>",
+"vi": "củ dền",
+"pos": "n",
+"topic": "life::food",
+"cu": false
+},
+{
+"wc": "вишня",
+"w": "ви́шня",
+"en": "<ol class=\"meaning-list\"><li>cherries</li><li>cherry</li><li>sour cherry</li></ol>",
+"vi": "quả anh đào (vi)",
+"pos": "n",
+"topic": "life::food",
+"cu": false
+},
+{
+"wc": "университет",
+"w": "университе́т",
+"en": "<ol class=\"meaning-list\"><li>university</li></ol>",
+"vi": "trường đại học",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "сколько",
+"w": "ско́лько",
+"en": "<ol class=\"meaning-list\"><li>how much</li><li>how many</li></ol>",
+"vi": "bao nhiêu",
+"pos": "pron",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "лев",
+"w": "лев",
+"en": "<ol class=\"meaning-list\"><li>lion</li><li>Leo</li><li>lew</li><li>lev</li></ol>",
+"vi": "sư tử",
+"pos": "n",
+"topic": "nature::animals",
+"cu": true
+},
+{
+"wc": "хлеб",
+"w": "хлеб",
+"en": "<ol class=\"meaning-list\"><li>bread</li><li>loaf</li><li>daily bread</li><li>corn</li><li>crops</li><li>grain</li><li>cereals</li></ol>",
+"vi": "bánh mì",
+"pos": "n",
+"topic": "life::food",
+"cu": true
+},
+{
+"wc": "билет",
+"w": "биле́т",
+"en": "<ol class=\"meaning-list\"><li>ticket</li><li>card</li></ol>",
+"vi": "vé",
+"pos": "n",
+"topic": "concepts::misc",
+"cu": true
+},
+{
+"wc": "липа",
+"w": "ли́па",
+"en": "<ol class=\"meaning-list\"><li>linden</li><li>lime tree</li><li>(colloquial) forgery</li><li>fake</li></ol>",
+"vi": "cây bồ đề (linden tree) hoặc đồ giả/hàng nhái (slang)",
+"pos": "n",
+"topic": "nature::plants",
+"cu": false
+},
+{
+"wc": "соль",
+"w": "соль",
+"en": "<ol class=\"meaning-list\"><li>salt</li><li>point</li><li>punchline</li><li>Musical note G</li><li>sol (unit of Peruvian currency)</li></ol>",
+"vi": "muối",
+"pos": "n",
+"topic": "life::food",
+"cu": false
+},
+{
+"wc": "рубль",
+"w": "рубль",
+"en": "<ol class=\"meaning-list\"><li>ruble</li></ol>",
+"vi": "đồng rúp (đơn vị tiền tệ Nga)",
+"pos": "n",
+"topic": "concepts::misc",
+"cu": false
+},
+{
+"wc": "автомобиль",
+"w": "автомоби́ль",
+"en": "<ol class=\"meaning-list\"><li>car (automobile)</li><li>motorcar</li><li>motor vehicle</li></ol>",
+"vi": "xe hơi, ô tô",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "пальто",
+"w": "пальто́",
+"en": "<ol class=\"meaning-list\"><li>coat</li><li>topcoat</li></ol>",
+"vi": "áo khoác dài",
+"pos": "n",
+"topic": "life::clothing",
+"cu": false
+},
+{
+"wc": "больница",
+"w": "больни́ца",
+"en": "<ol class=\"meaning-list\"><li>hospital</li></ol>",
+"vi": "bệnh viện",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "телефон",
+"w": "телефо́н",
+"en": "<ol class=\"meaning-list\"><li>telephone</li><li>phone</li></ol>",
+"vi": "điện thoại",
+"pos": "n",
+"topic": "life::home",
+"cu": false
+},
+{
+"wc": "телевизор",
+"w": "телеви́зор",
+"en": "<ol class=\"meaning-list\"><li>television set</li><li>TV set</li></ol>",
+"vi": "tivi, cái tivi",
+"pos": "n",
+"topic": "life::home",
+"cu": false
+},
+{
+"wc": "девочка",
+"w": "де́вочка",
+"en": "<ol class=\"meaning-list\"><li>girl</li><li>little girl</li><li>girlie</li></ol>",
+"vi": "bé gái, cô bé, con gái nhỏ",
+"pos": "n",
+"topic": "people::family",
+"cu": false
+},
+{
+"wc": "один",
+"w": "оди́н",
+"en": "<ol class=\"meaning-list\"><li>one</li><li>1</li><li>alone</li></ol>",
+"vi": "một, một mình",
+"pos": "num",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "два",
+"w": "два",
+"en": "<ol class=\"meaning-list\"><li>two</li><li>2</li></ol>",
+"vi": "hai",
+"pos": "num",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "три",
+"w": "три",
+"en": "<ol class=\"meaning-list\"><li>three</li><li>3</li></ol>",
+"vi": "ba, số 3",
+"pos": "num",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "четыре",
+"w": "четы́ре",
+"en": "<ol class=\"meaning-list\"><li>four</li><li>4</li></ol>",
+"vi": "bốn",
+"pos": "num",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "пять",
+"w": "пять",
+"en": "<ol class=\"meaning-list\"><li>five</li><li>5</li></ol>",
+"vi": "năm",
+"pos": "num",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "шесть",
+"w": "шесть",
+"en": "<ol class=\"meaning-list\"><li>six</li><li>6</li></ol>",
+"vi": "sáu, số 6",
+"pos": "num",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "семь",
+"w": "семь",
+"en": "<ol class=\"meaning-list\"><li>seven</li><li>7</li></ol>",
+"vi": "số bảy",
+"pos": "num",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "восемь",
+"w": "во́семь",
+"en": "<ol class=\"meaning-list\"><li>eight</li><li>8</li></ol>",
+"vi": "tám, số 8",
+"pos": "num",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "девять",
+"w": "де́вять",
+"en": "<ol class=\"meaning-list\"><li>nine</li><li>9</li></ol>",
+"vi": "số chín",
+"pos": "num",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "десять",
+"w": "де́сять",
+"en": "<ol class=\"meaning-list\"><li>ten</li><li>10</li></ol>",
+"vi": "mười",
+"pos": "num",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "весна",
+"w": "весна́",
+"en": "<ol class=\"meaning-list\"><li>spring</li></ol>",
+"vi": "mùa xuân",
+"pos": "n",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "лето",
+"w": "ле́то",
+"en": "<ol class=\"meaning-list\"><li>summer</li></ol>",
+"vi": "mùa hè",
+"pos": "n",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "осень",
+"w": "о́сень",
+"en": "<ol class=\"meaning-list\"><li>autumn</li><li>fall</li></ol>",
+"vi": "mùa thu",
+"pos": "n",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "зима",
+"w": "зима́",
+"en": "<ol class=\"meaning-list\"><li>winter</li></ol>",
+"vi": "mùa đông",
+"pos": "n",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "весной",
+"w": "весно́й",
+"en": "<ol class=\"meaning-list\"><li>in spring\" or during the spring</li></ol>",
+"vi": "vào mùa xuân",
+"pos": "oth",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "осенью",
+"w": "о́сенью",
+"en": "<ol class=\"meaning-list\"><li>in autumn</li><li>fall</li></ol>",
+"vi": "vào mùa thu",
+"pos": "oth",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "зимой",
+"w": "зимо́й",
+"en": "<ol class=\"meaning-list\"><li>in winter</li></ol>",
+"vi": "vào mùa đông",
+"pos": "adv",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "март",
+"w": "март",
+"en": "<ol class=\"meaning-list\"><li>March</li></ol>",
+"vi": "tháng Ba",
+"pos": "n",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "апрель",
+"w": "апре́ль",
+"en": "<ol class=\"meaning-list\"><li>April</li></ol>",
+"vi": "tháng Tư",
+"pos": "n",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "май",
+"w": "май",
+"en": "<ol class=\"meaning-list\"><li>May</li></ol>",
+"vi": "tháng Năm",
+"pos": "n",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "июнь",
+"w": "ию́нь",
+"en": "<ol class=\"meaning-list\"><li>June</li></ol>",
+"vi": "tháng sáu",
+"pos": "n",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "июль",
+"w": "ию́ль",
+"en": "<ol class=\"meaning-list\"><li>July</li></ol>",
+"vi": "tháng 7",
+"pos": "n",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "август",
+"w": "а́вгуст",
+"en": "<ol class=\"meaning-list\"><li>August</li></ol>",
+"vi": "tháng Tám",
+"pos": "n",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "октябрь",
+"w": "октя́брь",
+"en": "<ol class=\"meaning-list\"><li>October</li></ol>",
+"vi": "tháng mười",
+"pos": "n",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "ноябрь",
+"w": "ноя́брь",
+"en": "<ol class=\"meaning-list\"><li>November</li></ol>",
+"vi": "tháng 11",
+"pos": "n",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "декабрь",
+"w": "дека́брь",
+"en": "<ol class=\"meaning-list\"><li>December</li></ol>",
+"vi": "tháng Mười Hai",
+"pos": "n",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "февраль",
+"w": "февра́ль",
+"en": "<ol class=\"meaning-list\"><li>February</li></ol>",
+"vi": "tháng Hai",
+"pos": "n",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "понедельник",
+"w": "понеде́льник",
+"en": "<ol class=\"meaning-list\"><li>Monday</li></ol>",
+"vi": "thứ Hai",
+"pos": "n",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "вторник",
+"w": "вто́рник",
+"en": "<ol class=\"meaning-list\"><li>Tuesday</li></ol>",
+"vi": "thứ ba",
+"pos": "n",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "среда",
+"w": "среда́",
+"en": "<ol class=\"meaning-list\"><li>Wednesday</li><li>environment</li><li>medium</li></ol>",
+"vi": "thứ Tư; môi trường",
+"pos": "n",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "четверг",
+"w": "четве́рг",
+"en": "<ol class=\"meaning-list\"><li>Thursday</li></ol>",
+"vi": "thứ Năm",
+"pos": "n",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "суббота",
+"w": "суббо́та",
+"en": "<ol class=\"meaning-list\"><li>Saturday</li></ol>",
+"vi": "thứ Bảy",
+"pos": "n",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "воскресенье",
+"w": "воскресе́нье",
+"en": "<ol class=\"meaning-list\"><li>Sunday</li></ol>",
+"vi": "chủ nhật",
+"pos": "n",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "ноль",
+"w": "ноль",
+"en": "<ol class=\"meaning-list\"><li>nil</li><li>zero</li><li>nothing</li></ol>",
+"vi": "số không, không có gì, trắng tay",
+"pos": "num",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "кислый",
+"w": "ки́слый",
+"en": "<ol class=\"meaning-list\"><li>sour</li></ol>",
+"vi": "chua",
+"pos": "adj",
+"topic": "life::food",
+"cu": false
+},
+{
+"wc": "сладкий",
+"w": "сла́дкий",
+"en": "<ol class=\"meaning-list\"><li>sweet</li><li>sugary</li></ol>",
+"vi": "ngọt",
+"pos": "adj",
+"topic": "life::food",
+"cu": false
+},
+{
+"wc": "киев",
+"w": "Ки́ев",
+"en": "<ol class=\"meaning-list\"><li>Kiev</li></ol>",
+"vi": "Kiev (thủ đô của Ukraine)",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "кино",
+"w": "кино́",
+"en": "<ol class=\"meaning-list\"><li>cinema</li><li>movie</li></ol>",
+"vi": "phim, rạp chiếu phim",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "килограмм",
+"w": "килогра́мм",
+"en": "<ol class=\"meaning-list\"><li>kilogram</li><li>kilogramme</li></ol>",
+"vi": "ki-lô-gam (cân)",
+"pos": "n",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "кеды",
+"w": "ке́ды",
+"en": "<ol class=\"meaning-list\"><li>plimsolls</li><li>trainers</li></ol>",
+"vi": "giày vải, giày thể thao đế bằng",
+"pos": "n",
+"topic": "life::clothing",
+"cu": false
+},
+{
+"wc": "кепка",
+"w": "ке́пка",
+"en": "<ol class=\"meaning-list\"><li>cloth-cap</li><li>baseball cap</li></ol>",
+"vi": "nón kết, mũ lưỡi trai",
+"pos": "n",
+"topic": "life::clothing",
+"cu": false
+},
+{
+"wc": "пакет",
+"w": "паке́т",
+"en": "<ol class=\"meaning-list\"><li>bag</li><li>package</li><li>parcel</li><li>packet</li><li>paper-bag</li></ol>",
+"vi": "túi, túi nilon, gói hàng",
+"pos": "n",
+"topic": "life::home",
+"cu": false
+},
+{
+"wc": "гимн",
+"w": "гимн",
+"en": "<ol class=\"meaning-list\"><li>hymn</li><li>anthem</li></ol>",
+"vi": "quốc ca, bài ca (thường dùng cho quốc gia hoặc tổ chức)",
+"pos": "n",
+"topic": "concepts::misc",
+"cu": false
+},
+{
+"wc": "гиря",
+"w": "ги́ря",
+"en": "<ol class=\"meaning-list\"><li>Metal weight</li><li>Suspended weight</li><li>Kettlebell</li></ol>",
+"vi": "tạ (thường là tạ ấm/tạ chuông)",
+"pos": "n",
+"topic": "concepts::misc",
+"cu": false
+},
+{
+"wc": "гибкий",
+"w": "ги́бкий",
+"en": "<ol class=\"meaning-list\"><li>flexible</li><li>lithe</li><li>lissom</li><li>supple</li><li>pliable</li><li>pliant</li><li>versatile</li><li>adaptable</li></ol>",
+"vi": "linh hoạt, dẻo dai",
+"pos": "adj",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "герб",
+"w": "герб",
+"en": "<ol class=\"meaning-list\"><li>coat of arms</li><li>armorial bearings</li></ol>",
+"vi": "quốc huy, huy hiệu",
+"pos": "n",
+"topic": "concepts::misc",
+"cu": false
+},
+{
+"wc": "гений",
+"w": "ге́ний",
+"en": "<ol class=\"meaning-list\"><li>genius</li></ol>",
+"vi": "thiên tài",
+"pos": "n",
+"topic": "people::family",
+"cu": false
+},
+{
+"wc": "химик",
+"w": "хи́мик",
+"en": "<ol class=\"meaning-list\"><li>chemist</li><li>chemical industry worker</li></ol>",
+"vi": "nhà hóa học, người làm trong ngành hóa chất",
+"pos": "n",
+"topic": "people::professions",
+"cu": false
+},
+{
+"wc": "химия",
+"w": "хи́мия",
+"en": "<ol class=\"meaning-list\"><li>chemistry</li></ol>",
+"vi": "môn hóa học",
+"pos": "n",
+"topic": "language::education",
+"cu": false
+},
+{
+"wc": "хитрый",
+"w": "хи́трый",
+"en": "<ol class=\"meaning-list\"><li>sly</li></ol>",
+"vi": "ranh mãnh, khôn lỏi, cáo già",
+"pos": "adj",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "хек",
+"w": "хек",
+"en": "<ol class=\"meaning-list\"><li>hake</li></ol>",
+"vi": "cá hake (một loại cá biển)",
+"pos": "n",
+"topic": "nature::animals",
+"cu": false
+},
+{
+"wc": "кинотеатр",
+"w": "кинотеа́тр",
+"en": "<ol class=\"meaning-list\"><li>cinema</li><li>movie-house</li></ol>",
+"vi": "rạp chiếu phim",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "учебник",
+"w": "уче́бник",
+"en": "<ol class=\"meaning-list\"><li>textbook</li><li>manual</li><li>primer</li></ol>",
+"vi": "sách giáo khoa, giáo trình",
+"pos": "n",
+"topic": "language::education",
+"cu": false
+},
+{
+"wc": "враг",
+"w": "враг",
+"en": "<ol class=\"meaning-list\"><li>enemy</li><li>foe</li><li>opponent</li></ol>",
+"vi": "kẻ thù, đối thủ",
+"pos": "n",
+"topic": "people::family",
+"cu": false
+},
+{
+"wc": "сапог",
+"w": "сапо́г",
+"en": "<ol class=\"meaning-list\"><li>boot</li><li>top-boot</li><li>jackboot</li><li>wader</li><li>boot</li><li>very long boot</li></ol>",
+"vi": "ủng, đôi ủng",
+"pos": "n",
+"topic": "life::clothing",
+"cu": false
+},
+{
+"wc": "стих",
+"w": "стих́",
+"en": "<ol class=\"meaning-list\"><li>line of poetry</li><li>(biblical) verse</li><li>poem</li></ol>",
+"vi": "bài thơ, câu thơ, khổ thơ",
+"pos": "n",
+"topic": "language::education",
+"cu": false
+},
+{
+"wc": "национальный",
+"w": "национа́льный",
+"en": "<ol class=\"meaning-list\"><li>national</li><li>State</li></ol>",
+"vi": "thuộc về quốc gia, quốc gia",
+"pos": "adj",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "варенный",
+"w": "ва́ренный",
+"en": "<ol class=\"meaning-list\"><li>boiled</li><li>cooked</li></ol>",
+"vi": "đã luộc, được nấu chín",
+"pos": "adj",
+"topic": "life::food",
+"cu": false
+},
+{
+"wc": "колбаса",
+"w": "колбаса́",
+"en": "<ol class=\"meaning-list\"><li>sausage</li></ol>",
+"vi": "xúc xích, giò chả",
+"pos": "n",
+"topic": "life::food",
+"cu": false
+},
+{
+"wc": "яйцо",
+"w": "яйцо́",
+"en": "<ol class=\"meaning-list\"><li>egg</li><li>ovum</li><li>testicle</li></ol>",
+"vi": "trứng",
+"pos": "n",
+"topic": "life::food",
+"cu": false
+},
+{
+"wc": "куриный",
+"w": "кури́ный",
+"en": "<ol class=\"meaning-list\"><li>chicken adj</li></ol>",
+"vi": "(thuộc về) gà",
+"pos": "adj",
+"topic": "life::food",
+"cu": false
+},
+{
+"wc": "картофель",
+"w": "карто́фель",
+"en": "<ol class=\"meaning-list\"><li>potatoes</li><li>potato plant</li></ol>",
+"vi": "khoai tây",
+"pos": "n",
+"topic": "life::food",
+"cu": false
+},
+{
+"wc": "огурец",
+"w": "огуре́ц",
+"en": "<ol class=\"meaning-list\"><li>cucumber</li></ol>",
+"vi": "dưa chuột, dưa leo",
+"pos": "n",
+"topic": "life::food",
+"cu": false
+},
+{
+"wc": "сметана",
+"w": "смета́на",
+"en": "<ol class=\"meaning-list\"><li>sour cream</li></ol>",
+"vi": "kem chua",
+"pos": "n",
+"topic": "life::food",
+"cu": false
+},
+{
+"wc": "одиннадцать",
+"w": "оди́ннадцать",
+"en": "<ol class=\"meaning-list\"><li>eleven</li></ol>",
+"vi": "mười một",
+"pos": "num",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "двенадцать",
+"w": "двена́дцать",
+"en": "<ol class=\"meaning-list\"><li>twelve</li></ol>",
+"vi": "mười hai",
+"pos": "num",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "тринадцать",
+"w": "трина́дцать",
+"en": "<ol class=\"meaning-list\"><li>thirteen</li></ol>",
+"vi": "mười ba",
+"pos": "num",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "четырнадцать",
+"w": "четы́рнадцать",
+"en": "<ol class=\"meaning-list\"><li>fourteen</li></ol>",
+"vi": "mười bốn",
+"pos": "num",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "пятнадцать",
+"w": "пятна́дцать",
+"en": "<ol class=\"meaning-list\"><li>fifteen</li></ol>",
+"vi": "mười lăm",
+"pos": "num",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "шестнадцать",
+"w": "шестна́дцать",
+"en": "<ol class=\"meaning-list\"><li>sixteen</li></ol>",
+"vi": "mười sáu",
+"pos": "num",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "семнадцать",
+"w": "семна́дцать",
+"en": "<ol class=\"meaning-list\"><li>seventeen</li></ol>",
+"vi": "mười bảy",
+"pos": "num",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "восемнадцать",
+"w": "восемна́дцать",
+"en": "<ol class=\"meaning-list\"><li>eighteen</li></ol>",
+"vi": "mười tám",
+"pos": "num",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "девятнадцать",
+"w": "девятна́дцать",
+"en": "<ol class=\"meaning-list\"><li>nineteen</li></ol>",
+"vi": "mười chín",
+"pos": "num",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "двадцать",
+"w": "два́дцать",
+"en": "<ol class=\"meaning-list\"><li>twenty</li></ol>",
+"vi": "hai mươi",
+"pos": "num",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "тридцать",
+"w": "три́дцать",
+"en": "<ol class=\"meaning-list\"><li>thirty</li></ol>",
+"vi": "ba mươi",
+"pos": "num",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "сорок",
+"w": "со́рок",
+"en": "<ol class=\"meaning-list\"><li>forty</li></ol>",
+"vi": "bốn mươi",
+"pos": "num",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "пятьдесят",
+"w": "пятьдеся́т",
+"en": "<ol class=\"meaning-list\"><li>fifty</li></ol>",
+"vi": "năm mươi",
+"pos": "num",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "шестьдесят",
+"w": "шестьдеся́т",
+"en": "<ol class=\"meaning-list\"><li>sixty</li></ol>",
+"vi": "sáu mươi",
+"pos": "num",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "семьдесят",
+"w": "се́мьдесят",
+"en": "<ol class=\"meaning-list\"><li>seventy</li></ol>",
+"vi": "bảy mươi",
+"pos": "num",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "восемьдесят",
+"w": "во́семьдесят",
+"en": "<ol class=\"meaning-list\"><li>eighty</li></ol>",
+"vi": "tám mươi",
+"pos": "num",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "девяносто",
+"w": "девяно́сто",
+"en": "<ol class=\"meaning-list\"><li>ninety</li></ol>",
+"vi": "chín mươi",
+"pos": "num",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "сто",
+"w": "сто",
+"en": "<ol class=\"meaning-list\"><li>hundred</li></ol>",
+"vi": "một trăm",
+"pos": "num",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "двести",
+"w": "две́сти",
+"en": "<ol class=\"meaning-list\"><li>two hundred</li></ol>",
+"vi": "hai trăm",
+"pos": "num",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "триста",
+"w": "три́ста",
+"en": "<ol class=\"meaning-list\"><li>three hundred</li></ol>",
+"vi": "ba trăm",
+"pos": "num",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "четыреста",
+"w": "четы́реста",
+"en": "<ol class=\"meaning-list\"><li>four hundred</li></ol>",
+"vi": "bốn trăm",
+"pos": "num",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "пятьсот",
+"w": "пятьсо́т",
+"en": "<ol class=\"meaning-list\"><li>five hundred</li></ol>",
+"vi": "năm trăm",
+"pos": "num",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "шестьсот",
+"w": "шестьсо́т",
+"en": "<ol class=\"meaning-list\"><li>six hundred</li></ol>",
+"vi": "sáu trăm",
+"pos": "num",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "семьсот",
+"w": "семьсо́т",
+"en": "<ol class=\"meaning-list\"><li>seven hundred</li></ol>",
+"vi": "bảy trăm",
+"pos": "num",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "восемьсот",
+"w": "восемьсо́т",
+"en": "<ol class=\"meaning-list\"><li>eight hundred</li></ol>",
+"vi": "tám trăm",
+"pos": "num",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "девятьсот",
+"w": "девятьсо́т",
+"en": "<ol class=\"meaning-list\"><li>nine hundred</li></ol>",
+"vi": "chín trăm",
+"pos": "num",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "тысяча",
+"w": "ты́сяча",
+"en": "<ol class=\"meaning-list\"><li>a thousand</li></ol>",
+"vi": "một nghìn, ngàn",
+"pos": "num",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "библиотека",
+"w": "библиоте́ка",
+"en": "<ol class=\"meaning-list\"><li>library</li><li>lending library</li><li>reference library</li></ol>",
+"vi": "thư viện",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "лекция",
+"w": "ле́кция",
+"en": "<ol class=\"meaning-list\"><li>lecture</li></ol>",
+"vi": "bài giảng, buổi thuyết trình",
+"pos": "n",
+"topic": "language::education",
+"cu": false
+},
+{
+"wc": "стена",
+"w": "стена́",
+"en": "<ol class=\"meaning-list\"><li>wall</li></ol>",
+"vi": "bức tường",
+"pos": "n",
+"topic": "life::home",
+"cu": false
+},
+{
+"wc": "родитель",
+"w": "роди́тель",
+"en": "<ol class=\"meaning-list\"><li>parent</li></ol>",
+"vi": "bố mẹ, phụ huynh",
+"pos": "n",
+"topic": "people::family",
+"cu": false
+},
+{
+"wc": "галстук",
+"w": "га́лстук",
+"en": "<ol class=\"meaning-list\"><li>tie</li><li>necktie</li><li>cravat</li></ol>",
+"vi": "cà vạt",
+"pos": "n",
+"topic": "life::clothing",
+"cu": false
+},
+{
+"wc": "одеяло",
+"w": "одея́ло",
+"en": "<ol class=\"meaning-list\"><li>blanket</li><li>quilt</li><li>patchwork quilt</li><li>counterpane</li><li>winter blanket</li></ol>",
+"vi": "cái chăn, cái mền",
+"pos": "n",
+"topic": "life::home",
+"cu": false
+},
+{
+"wc": "словарь",
+"w": "слова́рь",
+"en": "<ol class=\"meaning-list\"><li>dictionary</li></ol>",
+"vi": "từ điển",
+"pos": "n",
+"topic": "language::education",
+"cu": false
+},
+{
+"wc": "кольцо",
+"w": "кольцо́",
+"en": "<ol class=\"meaning-list\"><li>ring</li><li>hoop</li></ol>",
+"vi": "nhẫn, vòng tròn",
+"pos": "n",
+"topic": "life::clothing",
+"cu": false
+},
+{
+"wc": "длинный",
+"w": "дли́нный",
+"en": "<ol class=\"meaning-list\"><li>long</li><li>lengthy</li></ol>",
+"vi": "dài",
+"pos": "adj",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "короткий",
+"w": "коро́ткий",
+"en": "<ol class=\"meaning-list\"><li>short (often length or duration)</li></ol>",
+"vi": "ngắn, ngắn ngủi",
+"pos": "adj",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "угол",
+"w": "у́гол",
+"en": "<ol class=\"meaning-list\"><li>corner</li><li>angle</li><li>dwelling</li><li>quarters</li></ol>",
+"vi": "góc",
+"pos": "n",
+"topic": "concepts::misc",
+"cu": false
+},
+{
+"wc": "рядом",
+"w": "ря́дом",
+"en": "<ol class=\"meaning-list\"><li>near</li><li>next to</li><li>side by side</li><li>beside</li><li>by</li><li>next</li><li>next door</li><li>Next to</li></ol>",
+"vi": "gần, kế bên, bên cạnh",
+"pos": "adv",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "прямо",
+"w": "пря́мо",
+"en": "<ol class=\"meaning-list\"><li>straight</li><li>just</li><li>frankly</li><li>openly</li><li>bluntly</li><li>real</li><li>really</li><li>truly</li><li>exactly</li><li>downright</li></ol>",
+"vi": "thẳng, ngay, đúng lúc",
+"pos": "adv",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "сентябрь",
+"w": "сентя́брь",
+"en": "<ol class=\"meaning-list\"><li>September</li></ol>",
+"vi": "tháng chín",
+"pos": "n",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "рёв",
+"w": "рёв",
+"en": "<ol class=\"meaning-list\"><li>roar</li><li>bellow</li><li>howl</li><li>whine</li></ol>",
+"vi": "tiếng gầm, tiếng kêu gào, tiếng khóc thét",
+"pos": "n",
+"topic": "concepts::abstract",
+"cu": false
+},
+{
+"wc": "орёл",
+"w": "орёл",
+"en": "<ol class=\"meaning-list\"><li>eagle</li></ol>",
+"vi": "con đại bàng, hoặc mặt ngửa của đồng xu",
+"pos": "n",
+"topic": "nature::animals",
+"cu": false
+},
+{
+"wc": "рюмка",
+"w": "рю́мка",
+"en": "<ol class=\"meaning-list\"><li>shot glass</li></ol>",
+"vi": "ly nhỏ (để uống rượu mạnh)",
+"pos": "n",
+"topic": "life::food",
+"cu": false
+},
+{
+"wc": "время",
+"w": "вре́мя",
+"en": "<ol class=\"meaning-list\"><li>time</li><li>times</li><li>tense</li><li>weather</li></ol>",
+"vi": "thời gian, lúc, dịp",
+"pos": "n",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "речь",
+"w": "речь",
+"en": "<ol class=\"meaning-list\"><li>speech</li><li>talk about</li><li>enunciation</li><li>style of speaking</li><li>language</li><li>discourse</li><li>oration</li><li>address</li></ol>",
+"vi": "bài phát biểu, lời nói, cách nói",
+"pos": "n",
+"topic": "concepts::abstract",
+"cu": false
+},
+{
+"wc": "речка",
+"w": "ре́чка",
+"en": "<ol class=\"meaning-list\"><li>small river</li><li>brook</li><li>rivulet</li></ol>",
+"vi": "con sông nhỏ, dòng suối nhỏ",
+"pos": "n",
+"topic": "nature::plants",
+"cu": false
+},
+{
+"wc": "орех",
+"w": "оре́х",
+"en": "<ol class=\"meaning-list\"><li>a nut</li></ol>",
+"vi": "hạt (quả hạch)",
+"pos": "n",
+"topic": "life::food",
+"cu": false
+},
+{
+"wc": "январь",
+"w": "янва́рь",
+"en": "<ol class=\"meaning-list\"><li>January</li></ol>",
+"vi": "tháng Một",
+"pos": "n",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "борьба",
+"w": "борьба́",
+"en": "<ol class=\"meaning-list\"><li>struggle</li><li>wrestling</li></ol>",
+"vi": "cuộc đấu tranh, vật lộn, môn vật",
+"pos": "n",
+"topic": "concepts::abstract",
+"cu": false
+},
+{
+"wc": "горько",
+"w": "го́рько",
+"en": "<ol class=\"meaning-list\"><li>bitterly</li></ol>",
+"vi": "đắng, cay đắng, đau đớn (cảm xúc)",
+"pos": "adv",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "перерыв",
+"w": "переры́в",
+"en": "<ol class=\"meaning-list\"><li>interruption</li><li>interval</li><li>break</li><li>intermission</li></ol>",
+"vi": "giờ nghỉ, khoảng nghỉ",
+"pos": "n",
+"topic": "concepts::abstract",
+"cu": false
+},
+{
+"wc": "преподаватель",
+"w": "преподава́тель",
+"en": "<ol class=\"meaning-list\"><li>teacher</li><li>instructor</li><li>lecturer</li><li>Teacher of university level</li></ol>",
+"vi": "giảng viên, giáo viên (thường ở bậc đại học)",
+"pos": "n",
+"topic": "people::professions",
+"cu": false
+},
+{
+"wc": "ресторан",
+"w": "рестора́н",
+"en": "<ol class=\"meaning-list\"><li>restaurant</li></ol>",
+"vi": "nhà hàng",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "смотреть",
+"w": "смотре́ть",
+"en": "<ol class=\"meaning-list\"><li>to look</li><li>to watch</li></ol>",
+"vi": "nhìn, xem",
+"pos": "v",
+"topic": "actions",
+"cu": false
+},
+{
+"wc": "стоять",
+"w": "стоя́ть",
+"en": "<ol class=\"meaning-list\"><li>to stand</li></ol>",
+"vi": "đứng, đứng yên",
+"pos": "v",
+"topic": "actions",
+"cu": false
+},
+{
+"wc": "фамилия",
+"w": "фами́лия",
+"en": "<ol class=\"meaning-list\"><li>last name</li><li>family name</li><li>surname</li></ol>",
+"vi": "họ (tên)",
+"pos": "n",
+"topic": "people::family",
+"cu": false
+},
+{
+"wc": "инфинитив",
+"w": "инфинити́в",
+"en": "<ol class=\"meaning-list\"><li>infinitive</li></ol>",
+"vi": "dạng nguyên thể (của động từ)",
+"pos": "n",
+"topic": "language::education",
+"cu": false
+},
+{
+"wc": "учить",
+"w": "учи́ть",
+"en": "<ol class=\"meaning-list\"><li>to study</li><li>learn</li><li>to teach</li><li>instruct</li></ol>",
+"vi": "học, dạy",
+"pos": "v",
+"topic": "language::education",
+"cu": false
+},
+{
+"wc": "лексика",
+"w": "ле́ксика",
+"en": "<ol class=\"meaning-list\"><li>vocabulary</li></ol>",
+"vi": "từ vựng, vốn từ",
+"pos": "n",
+"topic": "language::education",
+"cu": false
+},
+{
+"wc": "здравствовать",
+"w": "здра́вствовать",
+"en": "<ol class=\"meaning-list\"><li>be well</li><li>prosper</li><li>thrive</li></ol>",
+"vi": "sống lâu, trường tồn, muôn năm",
+"pos": "v",
+"topic": "concepts::abstract",
+"cu": false
+},
+{
+"wc": "до",
+"w": "до",
+"en": "<ol class=\"meaning-list\"><li>to (direction)</li><li>to (distance)</li><li>before</li><li>until</li><li>up to (limit)</li></ol>",
+"vi": "đến, tới, trước",
+"pos": "oth",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "свидание",
+"w": "свида́ние",
+"en": "<ol class=\"meaning-list\"><li>date</li><li>meeting</li></ol>",
+"vi": "buổi hẹn hò, cuộc gặp gỡ",
+"pos": "n",
+"topic": "people::family",
+"cu": false
+},
+{
+"wc": "пока",
+"w": "пока́",
+"en": "<ol class=\"meaning-list\"><li>bye (informal)</li><li>while</li><li>in the meantime</li><li>so far</li><li>for now</li><li>until</li><li>until now</li></ol>",
+"vi": "tạm biệt, trong khi, cho đến khi",
+"pos": "oth",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "отчество",
+"w": "о́тчество",
+"en": "<ol class=\"meaning-list\"><li>Patronymic surname</li><li>Middle name</li></ol>",
+"vi": "tên đệm (theo tên cha)",
+"pos": "n",
+"topic": "people::family",
+"cu": false
+},
+{
+"wc": "знакомство",
+"w": "знако́мство",
+"en": "<ol class=\"meaning-list\"><li>acquaintance</li></ol>",
+"vi": "làm quen, gặp gỡ (lần đầu)",
+"pos": "n",
+"topic": "people::family",
+"cu": false
+},
+{
+"wc": "знакомиться",
+"w": "знако́миться",
+"en": "<ol class=\"meaning-list\"><li>to make acquaintance</li><li>get to know</li><li>to meet</li></ol>",
+"vi": "làm quen",
+"pos": "v",
+"topic": "people::family",
+"cu": false
+},
+{
+"wc": "звать",
+"w": "звать",
+"en": "<ol class=\"meaning-list\"><li>to call (someone a name)</li><li>to call (for someone or something)</li><li>to invite</li></ol>",
+"vi": "gọi tên, gọi (ai đó), mời",
+"pos": "v",
+"topic": "actions",
+"cu": false
+},
+{
+"wc": "коллега",
+"w": "колле́га",
+"en": "<ol class=\"meaning-list\"><li>colleague</li></ol>",
+"vi": "đồng nghiệp",
+"pos": "n",
+"topic": "people::professions",
+"cu": false
+},
+{
+"wc": "приятно",
+"w": "прия́тно",
+"en": "<ol class=\"meaning-list\"><li>it is pleasant</li><li>it is nice</li><li>pleasantly</li><li>agreeably</li><li>noted</li></ol>",
+"vi": "dễ chịu, thoải mái, vui vẻ",
+"pos": "adv",
+"topic": "concepts::abstract",
+"cu": false
+},
+{
+"wc": "войти",
+"w": "войти́",
+"en": "<ol class=\"meaning-list\"><li>to enter</li><li>to come in</li><li>to include</li></ol>",
+"vi": "đi vào, bước vào",
+"pos": "v",
+"topic": "actions",
+"cu": false
+},
+{
+"wc": "выйти",
+"w": "вы́йти",
+"en": "<ol class=\"meaning-list\"><li>to go out</li><li>to come out</li><li>to leave</li><li>get off</li><li>to be published</li><li>to be issued</li><li>to marry</li></ol>",
+"vi": "đi ra ngoài, bước ra, xuất bản, kết hôn (với phụ nữ)",
+"pos": "v",
+"topic": "actions",
+"cu": false
+},
+{
+"wc": "посмотреть",
+"w": "посмотре́ть",
+"en": "<ol class=\"meaning-list\"><li>look</li><li>watch</li></ol>",
+"vi": "xem, nhìn",
+"pos": "v",
+"topic": "actions",
+"cu": false
+},
+{
+"wc": "модель",
+"w": "моде́ль",
+"en": "<ol class=\"meaning-list\"><li>model</li><li>pattern</li></ol>",
+"vi": "người mẫu, mẫu thiết kế/kiểu dáng",
+"pos": "n",
+"topic": "people::professions",
+"cu": false
+},
+{
+"wc": "имя",
+"w": "и́мя",
+"en": "<ol class=\"meaning-list\"><li>name</li><li>first name</li><li>reputation</li><li>noun</li></ol>",
+"vi": "tên",
+"pos": "n",
+"topic": "people::family",
+"cu": false
+},
+{
+"wc": "программист",
+"w": "программи́ст",
+"en": "<ol class=\"meaning-list\"><li>programmer</li></ol>",
+"vi": "lập trình viên",
+"pos": "n",
+"topic": "people::professions",
+"cu": false
+},
+{
+"wc": "справа",
+"w": "спра́ва",
+"en": "<ol class=\"meaning-list\"><li>on the right</li><li>from the right</li></ol>",
+"vi": "bên phải",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "слева",
+"w": "сле́ва",
+"en": "<ol class=\"meaning-list\"><li>on the left</li><li>from the left</li></ol>",
+"vi": "bên trái",
+"pos": "oth",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "пожалуйста",
+"w": "пожа́луйста",
+"en": "<ol class=\"meaning-list\"><li>please</li><li>you are welcome</li><li>here you go</li></ol>",
+"vi": "làm ơn, không có chi, xin mời",
+"pos": "oth",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "извинить",
+"w": "извини́ть",
+"en": "<ol class=\"meaning-list\"><li>excuse</li></ol>",
+"vi": "xin lỗi, tha lỗi",
+"pos": "v",
+"topic": "concepts::abstract",
+"cu": false
+},
+{
+"wc": "давать",
+"w": "дава́ть",
+"en": "<ol class=\"meaning-list\"><li>to give</li><li>let</li><li>make</li></ol>",
+"vi": "đưa, cho, để, hãy (khi dùng với 'давай')",
+"pos": "v",
+"topic": "actions",
+"cu": false
+},
+{
+"wc": "познакомиться",
+"w": "познако́миться",
+"en": "<ol class=\"meaning-list\"><li>to meet</li><li>make the acquaintance</li><li>get to know</li><li>to get acquainted with</li></ol>",
+"vi": "làm quen, gặp gỡ (lần đầu)",
+"pos": "v",
+"topic": "people::family",
+"cu": false
+},
+{
+"wc": "очень",
+"w": "о́чень",
+"en": "<ol class=\"meaning-list\"><li>very</li><li>very much</li><li>greatly</li></ol>",
+"vi": "rất",
+"pos": "adv",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "я",
+"w": "я",
+"en": "<ol class=\"meaning-list\"><li>I</li><li>me</li><li>myself</li></ol>",
+"vi": "tôi, mình",
+"pos": "pron",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "коммуникативный",
+"w": "коммуникати́вный",
+"en": "<ol class=\"meaning-list\"><li>communicative</li></ol>",
+"vi": "có khả năng giao tiếp tốt, cởi mở",
+"pos": "adj",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "академия",
+"w": "акаде́мия",
+"en": "<ol class=\"meaning-list\"><li>academy</li></ol>",
+"vi": "học viện",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "государственный",
+"w": "госуда́рственный",
+"en": "<ol class=\"meaning-list\"><li>state</li><li>national</li><li>public</li></ol>",
+"vi": "thuộc về nhà nước, quốc gia",
+"pos": "adj",
+"topic": "concepts::abstract",
+"cu": false
+},
+{
+"wc": "раньше",
+"w": "ра́ньше",
+"en": "<ol class=\"meaning-list\"><li>before</li><li>earlier</li></ol>",
+"vi": "trước đây, hồi trước",
+"pos": "oth",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "колледж",
+"w": "ко́лледж",
+"en": "<ol class=\"meaning-list\"><li>college</li></ol>",
+"vi": "trường cao đẳng",
+"pos": "n",
+"topic": "language::education",
+"cu": false
+},
+{
+"wc": "крупный",
+"w": "кру́пный",
+"en": "<ol class=\"meaning-list\"><li>dense</li><li>coarse</li><li>large</li><li>outstanding</li><li>significant</li><li>vital</li></ol>",
+"vi": "lớn, to lớn, quan trọng, quy mô lớn",
+"pos": "adj",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "компания",
+"w": "компа́ния",
+"en": "<ol class=\"meaning-list\"><li>company</li></ol>",
+"vi": "công ty, hội nhóm",
+"pos": "n",
+"topic": "people::professions",
+"cu": false
+},
+{
+"wc": "медицинский",
+"w": "медици́нский",
+"en": "<ol class=\"meaning-list\"><li>medical</li></ol>",
+"vi": "thuộc về y tế, y khoa",
+"pos": "adj",
+"topic": "people::professions",
+"cu": false
+},
+{
+"wc": "никогда",
+"w": "никогда́",
+"en": "<ol class=\"meaning-list\"><li>never</li><li>ever</li></ol>",
+"vi": "không bao giờ",
+"pos": "oth",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "менеджер",
+"w": "ме́неджер",
+"en": "<ol class=\"meaning-list\"><li>manager</li></ol>",
+"vi": "quản lý, người quản lý",
+"pos": "n",
+"topic": "people::professions",
+"cu": false
+},
+{
+"wc": "педагогический",
+"w": "педагоги́ческий",
+"en": "<ol class=\"meaning-list\"><li>pedagogic.</li><li>educational.</li></ol>",
+"vi": "thuộc về sư phạm, giáo dục",
+"pos": "adj",
+"topic": "people::professions",
+"cu": false
+},
+{
+"wc": "профессия",
+"w": "профе́ссия",
+"en": "<ol class=\"meaning-list\"><li>occupation</li><li>profession</li><li>trade</li></ol>",
+"vi": "nghề nghiệp, chuyên môn",
+"pos": "n",
+"topic": "people::professions",
+"cu": false
+},
+{
+"wc": "строительный",
+"w": "строи́тельный",
+"en": "<ol class=\"meaning-list\"><li>building construction</li></ol>",
+"vi": "thuộc về xây dựng",
+"pos": "adj",
+"topic": "people::professions",
+"cu": false
+},
+{
+"wc": "офис",
+"w": "о́фис",
+"en": "<ol class=\"meaning-list\"><li>office</li></ol>",
+"vi": "văn phòng",
+"pos": "n",
+"topic": "people::professions",
+"cu": false
+},
+{
+"wc": "посольство",
+"w": "посо́льство",
+"en": "<ol class=\"meaning-list\"><li>embassy</li></ol>",
+"vi": "đại sứ quán",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "секретарь",
+"w": "секрета́рь",
+"en": "<ol class=\"meaning-list\"><li>secretary (male)</li></ol>",
+"vi": "thư ký",
+"pos": "n",
+"topic": "people::professions",
+"cu": false
+},
+{
+"wc": "художник",
+"w": "худо́жник",
+"en": "<ol class=\"meaning-list\"><li>artist</li><li>painter</li></ol>",
+"vi": "họa sĩ",
+"pos": "n",
+"topic": "people::professions",
+"cu": false
+},
+{
+"wc": "фотограф",
+"w": "фото́граф",
+"en": "<ol class=\"meaning-list\"><li>photographer</li></ol>",
+"vi": "nhiếp ảnh gia",
+"pos": "n",
+"topic": "people::professions",
+"cu": false
+},
+{
+"wc": "учительница",
+"w": "учи́тельница",
+"en": "<ol class=\"meaning-list\"><li>teacher</li></ol>",
+"vi": "cô giáo",
+"pos": "n",
+"topic": "people::professions",
+"cu": false
+},
+{
+"wc": "учитель",
+"w": "учи́тель",
+"en": "<ol class=\"meaning-list\"><li>teacher (elementary/secondary school)</li><li>tutor</li></ol>",
+"vi": "giáo viên, thầy giáo, cô giáo",
+"pos": "n",
+"topic": "people::professions",
+"cu": false
+},
+{
+"wc": "суффикс",
+"w": "су́ффикс",
+"en": "<ol class=\"meaning-list\"><li>suffix</li></ol>",
+"vi": "hậu tố",
+"pos": "n",
+"topic": "language::education",
+"cu": false
+},
+{
+"wc": "где",
+"w": "где",
+"en": "<ol class=\"meaning-list\"><li>where</li></ol>",
+"vi": "ở đâu",
+"pos": "oth",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "в",
+"w": "в",
+"en": "<ol class=\"meaning-list\"><li>in</li><li>to (towards)</li><li>on/in/at [date/time]</li><li>per</li></ol>",
+"vi": "ở, trong, vào (thời gian)",
+"pos": "oth",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "но",
+"w": "но",
+"en": "<ol class=\"meaning-list\"><li>but</li></ol>",
+"vi": "nhưng",
+"pos": "oth",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "фабрика",
+"w": "фа́брика",
+"en": "<ol class=\"meaning-list\"><li>factory</li></ol>",
+"vi": "nhà máy, xưởng",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "почта",
+"w": "по́чта",
+"en": "<ol class=\"meaning-list\"><li>post</li><li>mail</li><li>post-office</li></ol>",
+"vi": "bưu điện, thư từ, email",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "на",
+"w": "на",
+"en": "<ol class=\"meaning-list\"><li>on (place)</li><li>during</li><li>on (day/week)</li><li>on (means of transport)</li><li>to (direction)</li><li>onto</li><li>upon (direction)</li><li>against (something)</li><li>at (location)</li><li>for</li><li>by (specify the extent of the difference)</li></ol>",
+"vi": "trên, vào, ở (giới từ chỉ địa điểm, thời gian, phương tiện)",
+"pos": "oth",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "компьютер",
+"w": "компью́тер",
+"en": "<ol class=\"meaning-list\"><li>computer</li></ol>",
+"vi": "máy tính",
+"pos": "n",
+"topic": "life::home",
+"cu": false
+},
+{
+"wc": "часть",
+"w": "часть",
+"en": "<ol class=\"meaning-list\"><li>part</li><li>share</li></ol>",
+"vi": "phần, bộ phận, miếng, mảnh",
+"pos": "n",
+"topic": "concepts::abstract",
+"cu": false
+},
+{
+"wc": "занятие",
+"w": "заня́тие",
+"en": "<ol class=\"meaning-list\"><li>occupation</li><li>pursuit</li><li>activity</li><li>class</li><li>session</li></ol>",
+"vi": "buổi học, hoạt động, công việc",
+"pos": "n",
+"topic": "language::education",
+"cu": false
+},
+{
+"wc": "позавтракать",
+"w": "поза́втракать",
+"en": "<ol class=\"meaning-list\"><li>to have breakfast</li></ol>",
+"vi": "ăn sáng",
+"pos": "v",
+"topic": "life::food",
+"cu": false
+},
+{
+"wc": "послезавтра",
+"w": "послеза́втра",
+"en": "<ol class=\"meaning-list\"><li>the day after tomorrow</li></ol>",
+"vi": "ngày kia (ngày sau ngày mai)",
+"pos": "oth",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "образец",
+"w": "образе́ц",
+"en": "<ol class=\"meaning-list\"><li>sample</li><li>model</li><li>example</li></ol>",
+"vi": "mẫu, vật mẫu, hình mẫu",
+"pos": "n",
+"topic": "concepts::misc",
+"cu": true
+},
+{
+"wc": "инженер",
+"w": "инжене́р",
+"en": "<ol class=\"meaning-list\"><li>engineer</li></ol>",
+"vi": "kỹ sư",
+"pos": "n",
+"topic": "people::professions",
+"cu": true
+},
+{
+"wc": "они",
+"w": "они́",
+"en": "<ol class=\"meaning-list\"><li>they</li></ol>",
+"vi": "họ",
+"pos": "pron",
+"topic": "language::grammar",
+"cu": true
+},
+{
+"wc": "экономист",
+"w": "экономи́ст",
+"en": "<ol class=\"meaning-list\"><li>economist</li></ol>",
+"vi": "nhà kinh tế học",
+"pos": "n",
+"topic": "people::professions",
+"cu": true
+},
+{
+"wc": "поставить",
+"w": "поста́вить",
+"en": "<ol class=\"meaning-list\"><li>to put</li><li>place</li><li>set</li></ol>",
+"vi": "đặt, để, dựng, cài đặt",
+"pos": "v",
+"topic": "actions",
+"cu": true
+},
+{
+"wc": "глагол",
+"w": "глаго́л",
+"en": "<ol class=\"meaning-list\"><li>verb</li><li>word</li></ol>",
+"vi": "động từ",
+"pos": "n",
+"topic": "language::education",
+"cu": true
+},
+{
+"wc": "нужный",
+"w": "ну́жный",
+"en": "<ol class=\"meaning-list\"><li>necessary</li><li>needed</li><li>the right</li><li>the correct</li><li>need</li></ol>",
+"vi": "cần thiết, cần",
+"pos": "adj",
+"topic": "concepts::abstract",
+"cu": true
+},
+{
+"wc": "форма",
+"w": "фо́рма",
+"en": "<ol class=\"meaning-list\"><li>form</li><li>shape</li><li>mound</li><li>form (document)</li><li>form</li><li>structure</li><li>frame</li><li>mold</li><li>model</li><li>uniform (sports, military)</li></ol>",
+"vi": "dạng, hình dáng, biểu mẫu, đồng phục",
+"pos": "n",
+"topic": "concepts::misc",
+"cu": true
+},
+{
+"wc": "спрашивать",
+"w": "спра́шивать",
+"en": "<ol class=\"meaning-list\"><li>to ask</li><li>inquire</li><li>to demand</li></ol>",
+"vi": "hỏi, hỏi han",
+"pos": "v",
+"topic": "actions",
+"cu": true
+},
+{
+"wc": "отвечать",
+"w": "отвеча́ть",
+"en": "<ol class=\"meaning-list\"><li>to answer</li></ol>",
+"vi": "trả lời, hồi đáp, chịu trách nhiệm",
+"pos": "v",
+"topic": "actions",
+"cu": true
+},
+{
+"wc": "какой",
+"w": "како́й",
+"en": "<ol class=\"meaning-list\"><li>which</li><li>what</li><li>what kind of</li><li>when</li></ol>",
+"vi": "nào, gì, thế nào (dùng để hỏi về loại, tính chất hoặc sự lựa chọn)",
+"pos": "pron",
+"topic": "language::grammar",
+"cu": true
+},
+{
+"wc": "небольшой",
+"w": "небольшо́й",
+"en": "<ol class=\"meaning-list\"><li>small</li><li>not great</li><li>short</li></ol>",
+"vi": "nhỏ, không lớn lắm",
+"pos": "adj",
+"topic": "qualities",
+"cu": true
+},
+{
+"wc": "и",
+"w": "и",
+"en": "<ol class=\"meaning-list\"><li>and</li><li>Emphatic particle</li><li>Both... and...</li></ol>",
+"vi": "và, cũng như, chính là (nhấn mạnh)",
+"pos": "oth",
+"topic": "language::grammar",
+"cu": true
+},
+{
+"wc": "прочитать",
+"w": "прочита́ть",
+"en": "<ol class=\"meaning-list\"><li>read</li><li>spend reading</li><li>give (public speaking)</li></ol>",
+"vi": "đọc (xong)",
+"pos": "v",
+"topic": "language::education",
+"cu": true
+},
+{
+"wc": "текст",
+"w": "текст",
+"en": "<ol class=\"meaning-list\"><li>text</li><li>words</li></ol>",
+"vi": "văn bản, nội dung, bài viết",
+"pos": "n",
+"topic": "language::education",
+"cu": true
+},
+{
+"wc": "письменно",
+"w": "пи́сьменно",
+"en": "<ol class=\"meaning-list\"><li>in written form</li><li>in writing</li></ol>",
+"vi": "bằng văn bản, viết tay",
+"pos": "adv",
+"topic": "language::education",
+"cu": true
+},
+{
+"wc": "ответить",
+"w": "отве́тить",
+"en": "<ol class=\"meaning-list\"><li>to answer</li></ol>",
+"vi": "trả lời, đáp lại",
+"pos": "v",
+"topic": "actions",
+"cu": true
+},
+{
+"wc": "жена",
+"w": "жена́",
+"en": "<ol class=\"meaning-list\"><li>wife</li><li>woman</li></ol>",
+"vi": "vợ",
+"pos": "n",
+"topic": "people::family",
+"cu": true
+},
+{
+"wc": "его",
+"w": "его́",
+"en": "<ol class=\"meaning-list\"><li>his</li></ol>",
+"vi": "của anh ấy, của nó",
+"pos": "pron",
+"topic": "language::grammar",
+"cu": true
+},
+{
+"wc": "не",
+"w": "не",
+"en": "<ol class=\"meaning-list\"><li>not</li></ol>",
+"vi": "không (phủ định)",
+"pos": "oth",
+"topic": "language::grammar",
+"cu": true
+},
+{
+"wc": "говорить",
+"w": "говори́ть",
+"en": "<ol class=\"meaning-list\"><li>to speak</li><li>to say</li></ol>",
+"vi": "nói, trò chuyện",
+"pos": "v",
+"topic": "actions",
+"cu": true
+},
+{
+"wc": "прослушать",
+"w": "прослу́шать",
+"en": "<ol class=\"meaning-list\"><li>to listen to (from start to finish)</li></ol>",
+"vi": "nghe hết, nghe trọn vẹn",
+"pos": "v",
+"topic": "actions",
+"cu": true
+},
+{
+"wc": "юрист",
+"w": "юри́ст",
+"en": "<ol class=\"meaning-list\"><li>lawyer</li><li>jurist</li><li>student of law</li></ol>",
+"vi": "luật sư",
+"pos": "n",
+"topic": "people::professions",
+"cu": true
+},
+{
+"wc": "а",
+"w": "а",
+"en": "<ol class=\"meaning-list\"><li>and (as contrast)</li></ol>",
+"vi": "nhưng, mà (dùng để tương phản)",
+"pos": "oth",
+"topic": "language::grammar",
+"cu": true
+},
+{
+"wc": "юридический",
+"w": "юриди́ческий",
+"en": "<ol class=\"meaning-list\"><li>juridical</li><li>legal</li><li>juristic</li></ol>",
+"vi": "thuộc về pháp lý, luật pháp",
+"pos": "adj",
+"topic": "concepts::abstract",
+"cu": true
+},
+{
+"wc": "воскресение",
+"w": "воскресе́ние",
+"en": "<ol class=\"meaning-list\"><li>resurrection/revival</li></ol>",
+"vi": "sự phục sinh, sự sống lại",
+"pos": "n",
+"topic": "concepts::abstract",
+"cu": true
+},
+{
+"wc": "музыка",
+"w": "му́зыка",
+"en": "<ol class=\"meaning-list\"><li>music</li></ol>",
+"vi": "âm nhạc",
+"pos": "n",
+"topic": "concepts::misc",
+"cu": true
+},
+{
+"wc": "написать",
+"w": "написа́ть",
+"en": "<ol class=\"meaning-list\"><li>to write</li><li>text</li><li>to paint</li></ol>",
+"vi": "viết, nhắn tin (xong)",
+"pos": "v",
+"topic": "language::education",
+"cu": true
+},
+{
+"wc": "диктант",
+"w": "дикта́нт",
+"en": "<ol class=\"meaning-list\"><li>dictation</li></ol>",
+"vi": "bài chính tả",
+"pos": "n",
+"topic": "language::education",
+"cu": true
+},
+{
+"wc": "составить",
+"w": "соста́вить",
+"en": "<ol class=\"meaning-list\"><li>amount to</li><li>to make out/compose</li><li>produce</li><li>create</li><li>draw up</li><li>keep</li></ol>",
+"vi": "lập ra, soạn thảo, tạo thành, đi cùng (ai đó)",
+"pos": "v",
+"topic": "actions",
+"cu": true
+},
+{
+"wc": "диалог",
+"w": "диало́г",
+"en": "<ol class=\"meaning-list\"><li>dialogue</li></ol>",
+"vi": "cuộc đối thoại, hội thoại",
+"pos": "n",
+"topic": "concepts::abstract",
+"cu": true
+},
+{
+"wc": "аналогичный",
+"w": "аналоги́чный",
+"en": "<ol class=\"meaning-list\"><li>analogous</li><li>similar</li></ol>",
+"vi": "tương tự, giống như",
+"pos": "adj",
+"topic": "qualities",
+"cu": true
+},
+{
+"wc": "использовать",
+"w": "испо́льзовать",
+"en": "<ol class=\"meaning-list\"><li>to utilize</li><li>use</li></ol>",
+"vi": "sử dụng, dùng",
+"pos": "v",
+"topic": "actions",
+"cu": true
+},
+{
+"wc": "конструкция",
+"w": "констру́кция",
+"en": "<ol class=\"meaning-list\"><li>construction</li><li>design</li><li>structure</li></ol>",
+"vi": "cấu trúc, thiết kế, mô hình",
+"pos": "n",
+"topic": "concepts::misc",
+"cu": true
+},
+{
+"wc": "рассказать",
+"w": "рассказа́ть",
+"en": "<ol class=\"meaning-list\"><li>to tell</li><li>to relate</li><li>narrate</li></ol>",
+"vi": "kể, kể lại, thuật lại",
+"pos": "v",
+"topic": "actions",
+"cu": true
+},
+{
+"wc": "выполнить",
+"w": "вы́полнить",
+"en": "<ol class=\"meaning-list\"><li>to implement</li><li>accomplish</li><li>carry into effect</li><li>realize</li><li>to fulfill</li><li>carry out</li><li>execute</li><li>perform</li></ol>",
+"vi": "hoàn thành, thực hiện",
+"pos": "v",
+"topic": "actions",
+"cu": true
+},
+{
+"wc": "тест",
+"w": "тест",
+"en": "<ol class=\"meaning-list\"><li>test</li></ol>",
+"vi": "bài kiểm tra, bài thi, thử nghiệm",
+"pos": "n",
+"topic": "language::education",
+"cu": true
+},
+{
+"wc": "вместо",
+"w": "вме́сто",
+"en": "<ol class=\"meaning-list\"><li>instead of</li></ol>",
+"vi": "thay vì",
+"pos": "oth",
+"topic": "language::grammar",
+"cu": true
+},
+{
+"wc": "вставить",
+"w": "вста́вить",
+"en": "<ol class=\"meaning-list\"><li>to insert</li><li>put in</li><li>to paste</li></ol>",
+"vi": "cắm vào, chèn vào, nhét vào",
+"pos": "v",
+"topic": "actions",
+"cu": true
+},
+{
+"wc": "вопросительный",
+"w": "вопроси́тельный",
+"en": "<ol class=\"meaning-list\"><li>questioning</li></ol>",
+"vi": "có tính chất câu hỏi, nghi vấn",
+"pos": "adj",
+"topic": "language::education",
+"cu": true
+},
+{
+"wc": "реплика",
+"w": "ре́плика",
+"en": "<ol class=\"meaning-list\"><li>remark</li><li>comment</li></ol>",
+"vi": "lời nhận xét, câu nói (đặc biệt trong kịch/phim)",
+"pos": "n",
+"topic": "concepts::abstract",
+"cu": true
+},
+{
+"wc": "ответный",
+"w": "отве́тный",
+"en": "<ol class=\"meaning-list\"><li>reciprocal</li></ol>",
+"vi": "đáp lại, phản hồi, tương ứng",
+"pos": "adj",
+"topic": "concepts::abstract",
+"cu": true
+},
+{
+"wc": "мочь",
+"w": "мочь",
+"en": "<ol class=\"meaning-list\"><li>to be able to</li><li>can</li></ol>",
+"vi": "có thể, biết (làm gì đó)",
+"pos": "v",
+"topic": "language::grammar",
+"cu": true
+},
+{
+"wc": "хотеть",
+"w": "хоте́ть",
+"en": "<ol class=\"meaning-list\"><li>to want</li><li>to feel like</li><li>to mean</li></ol>",
+"vi": "muốn",
+"pos": "v",
+"topic": "actions",
+"cu": true
+},
+{
+"wc": "ребёнок",
+"w": "ребёнок",
+"en": "<ol class=\"meaning-list\"><li>child</li><li>kid</li></ol>",
+"vi": "đứa trẻ, con",
+"pos": "n",
+"topic": "people::family",
+"cu": true
+},
+{
+"wc": "профессор",
+"w": "профе́ссор",
+"en": "<ol class=\"meaning-list\"><li>professor</li></ol>",
+"vi": "giáo sư",
+"pos": "n",
+"topic": "people::professions",
+"cu": true
+},
+{
+"wc": "жительство",
+"w": "жи́тельство",
+"en": "<ol class=\"meaning-list\"><li>residence</li></ol>",
+"vi": "nơi cư trú, chỗ ở",
+"pos": "n",
+"topic": "places::city",
+"cu": true
+},
+{
+"wc": "национальность",
+"w": "национа́льность",
+"en": "<ol class=\"meaning-list\"><li>nationality</li></ol>",
+"vi": "quốc tịch, dân tộc",
+"pos": "n",
+"topic": "people::family",
+"cu": true
+},
+{
+"wc": "язык",
+"w": "язы́к",
+"en": "<ol class=\"meaning-list\"><li>tongue</li><li>language</li><li>prisoner</li><li>informer</li></ol>",
+"vi": "ngôn ngữ, tiếng (nói)",
+"pos": "n",
+"topic": "language::education",
+"cu": true
+},
+{
+"wc": "прошедшее",
+"w": "проше́дшее",
+"en": "<ol class=\"meaning-list\"><li>past</li></ol>",
+"vi": "quá khứ",
+"pos": "n",
+"topic": "time",
+"cu": true
+},
+{
+"wc": "образование",
+"w": "образова́ние",
+"en": "<ol class=\"meaning-list\"><li>education</li><li>formation</li></ol>",
+"vi": "giáo dục, sự học hành",
+"pos": "n",
+"topic": "language::education",
+"cu": true
+},
+{
+"wc": "императив",
+"w": "императи́в",
+"en": "<ol class=\"meaning-list\"><li>imperative</li></ol>",
+"vi": "câu mệnh lệnh, dạng mệnh lệnh",
+"pos": "n",
+"topic": "language::grammar",
+"cu": true
+},
+{
+"wc": "другой",
+"w": "друго́й",
+"en": "<ol class=\"meaning-list\"><li>other</li><li>another</li><li>another thing</li><li>something else</li><li>others</li><li>the rest</li></ol>",
+"vi": "khác, cái khác",
+"pos": "pron",
+"topic": "concepts::abstract",
+"cu": true
+},
+{
+"wc": "родной",
+"w": "родно́й",
+"en": "<ol class=\"meaning-list\"><li>native</li><li>home</li><li>dear</li><li>darling</li><li>relatives</li><li>relations</li><li>kinsfolk</li><li>kin</li><li>sweet</li></ol>",
+"vi": "quê hương, ruột thịt, tiếng mẹ đẻ, thân thiết",
+"pos": "adj",
+"topic": "people::family",
+"cu": true
+},
+{
+"wc": "сначала",
+"w": "снача́ла",
+"en": "<ol class=\"meaning-list\"><li>firstly</li><li>at first</li><li>all over again</li><li>afresh</li></ol>",
+"vi": "trước tiên, ban đầu, từ đầu",
+"pos": "oth",
+"topic": "time",
+"cu": true
+},
+{
+"wc": "немного",
+"w": "немно́го",
+"en": "<ol class=\"meaning-list\"><li>a little</li><li>some</li><li>somewhat</li><li>slightly</li></ol>",
+"vi": "một chút, hơi",
+"pos": "adv",
+"topic": "language::grammar",
+"cu": true
+},
+{
+"wc": "конечно",
+"w": "коне́чно",
+"en": "<ol class=\"meaning-list\"><li>certainly</li><li>of course</li></ol>",
+"vi": "tất nhiên, dĩ nhiên",
+"pos": "adv",
+"topic": "language::grammar",
+"cu": true
+},
+{
+"wc": "почему",
+"w": "почему́",
+"en": "<ol class=\"meaning-list\"><li>Why? How come?</li></ol>",
+"vi": "tại sao, vì sao",
+"pos": "oth",
+"topic": "language::grammar",
+"cu": true
+},
+{
+"wc": "потому",
+"w": "потому́",
+"en": "<ol class=\"meaning-list\"><li>because</li></ol>",
+"vi": "bởi vì, tại vì",
+"pos": "oth",
+"topic": "language::grammar",
+"cu": true
+},
+{
+"wc": "по",
+"w": "по",
+"en": "<ol class=\"meaning-list\"><li>along</li><li>down</li><li>through</li><li>across</li><li>around</li><li>about</li><li>on the subject of</li><li>by the means of</li><li>after a certain age</li><li>to (indicating to the end or limit of an object)</li><li>on (weekdays, specific part of a day)</li></ol>",
+"vi": "theo, dọc, ở, vào (dùng trong nhiều ngữ cảnh khác nhau như phương tiện, thời gian, vị trí)",
+"pos": "oth",
+"topic": "language::grammar",
+"cu": true
+},
+{
+"wc": "русски",
+"w": "ру́сски",
+"en": "<ol class=\"meaning-list\"><li>Only used as part of \"по-русски\"</li></ol>",
+"vi": "bằng tiếng Nga",
+"pos": "oth",
+"topic": "language::education",
+"cu": true
+},
+{
+"wc": "у",
+"w": "у",
+"en": "<ol class=\"meaning-list\"><li>(possession)</li><li>by</li><li>at (place)</li><li>with</li><li>from (take, borrow)</li></ol>",
+"vi": "của, có (chỉ sở hữu), ở gần, tại",
+"pos": "oth",
+"topic": "language::grammar",
+"cu": true
+},
+{
+"wc": "китаец",
+"w": "кита́ец",
+"en": "<ol class=\"meaning-list\"><li>Chinese man</li><li>the Chinese</li></ol>",
+"vi": "người Trung Quốc",
+"pos": "n",
+"topic": "people::family",
+"cu": true
+},
+{
+"wc": "американец",
+"w": "америка́нец",
+"en": "<ol class=\"meaning-list\"><li>American</li><li>Yankee</li><li>Yank</li></ol>",
+"vi": "người Mỹ",
+"pos": "n",
+"topic": "people::family",
+"cu": true
+},
+{
+"wc": "китай",
+"w": "Кита́й",
+"en": "<ol class=\"meaning-list\"><li>China</li></ol>",
+"vi": "Trung Quốc",
+"pos": "n",
+"topic": "places::city",
+"cu": true
+},
+{
+"wc": "настоящий",
+"w": "настоя́щий",
+"en": "<ol class=\"meaning-list\"><li>present</li><li>currently</li><li>true</li><li>real</li><li>genuine</li></ol>",
+"vi": "thật, đích thực",
+"pos": "adj",
+"topic": "qualities",
+"cu": true
+},
+{
+"wc": "неплохо",
+"w": "непло́хо",
+"en": "<ol class=\"meaning-list\"><li>not bad</li><li>rather well</li><li>quite good</li></ol>",
+"vi": "không tệ, khá tốt",
+"pos": "adv",
+"topic": "qualities",
+"cu": false
+},
+{
+"wc": "ещё",
+"w": "ещё",
+"en": "<ol class=\"meaning-list\"><li>still</li><li>even</li><li>more</li><li>else</li><li>yet</li><li>as far back as</li><li>as long as ... ago</li></ol>",
+"vi": "nữa, thêm, vẫn, chưa",
+"pos": "oth",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "раз",
+"w": "раз",
+"en": "<ol class=\"meaning-list\"><li>time</li><li>one</li><li>once</li><li>if</li><li>since</li></ol>",
+"vi": "lần, một lần, vì (lý do là)",
+"pos": "n",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "поговорить",
+"w": "поговори́ть",
+"en": "<ol class=\"meaning-list\"><li>to have a talk</li><li>chat</li></ol>",
+"vi": "nói chuyện, trò chuyện",
+"pos": "v",
+"topic": "actions",
+"cu": true
+},
+{
+"wc": "рисунок",
+"w": "рису́нок",
+"en": "<ol class=\"meaning-list\"><li>drawing/picture</li></ol>",
+"vi": "bức tranh, hình vẽ",
+"pos": "n",
+"topic": "concepts::misc",
+"cu": true
+},
+{
+"wc": "этот",
+"w": "э́тот",
+"en": "<ol class=\"meaning-list\"><li>this</li></ol>",
+"vi": "này (chỉ vật/người ở gần)",
+"pos": "pron",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "человек",
+"w": "челове́к",
+"en": "<ol class=\"meaning-list\"><li>person</li><li>human</li><li>human being</li><li>people (collective)</li><li>guy (colloquial)</li></ol>",
+"vi": "người, con người",
+"pos": "n",
+"topic": "people::family",
+"cu": false
+},
+{
+"wc": "между",
+"w": "ме́жду",
+"en": "<ol class=\"meaning-list\"><li>between</li><li>among</li><li>inter-</li></ol>",
+"vi": "giữa",
+"pos": "oth",
+"topic": "language::grammar",
+"cu": true
+},
+{
+"wc": "дать",
+"w": "дать",
+"en": "<ol class=\"meaning-list\"><li>give</li><li>allocate</li><li>make</li><li>cause</li><li>let</li><li>allow</li><li>permit</li></ol>",
+"vi": "đưa, cho, tặng, cấp",
+"pos": "v",
+"topic": "actions",
+"cu": true
+},
+{
+"wc": "ответ",
+"w": "отве́т",
+"en": "<ol class=\"meaning-list\"><li>answer</li></ol>",
+"vi": "câu trả lời, phản hồi",
+"pos": "n",
+"topic": "concepts::abstract",
+"cu": true
+},
+{
+"wc": "скобка",
+"w": "ско́бка",
+"en": "<ol class=\"meaning-list\"><li>brackets</li><li>parenthesis</li></ol>",
+"vi": "dấu ngoặc",
+"pos": "n",
+"topic": "language::education",
+"cu": true
+},
+{
+"wc": "английски",
+"w": "англи́йски",
+"en": "<ol class=\"meaning-list\"><li>English</li></ol>",
+"vi": "tiếng Anh",
+"pos": "adv",
+"topic": "language::education",
+"cu": true
+},
+{
+"wc": "китайски",
+"w": "кита́йски",
+"en": "<ol class=\"meaning-list\"><li>in Chinese</li></ol>",
+"vi": "thuộc về Trung Quốc, tiếng Trung",
+"pos": "oth",
+"topic": "concepts::misc",
+"cu": true
+},
+{
+"wc": "её",
+"w": "её",
+"en": "<ol class=\"meaning-list\"><li>her</li></ol>",
+"vi": "của cô ấy",
+"pos": "pron",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "прошедший",
+"w": "проше́дший",
+"en": "<ol class=\"meaning-list\"><li>past already occured</li></ol>",
+"vi": "đã qua, vừa rồi, trước",
+"pos": "adj",
+"topic": "time",
+"cu": true
+},
+{
+"wc": "о",
+"w": "о",
+"en": "<ol class=\"meaning-list\"><li>about</li><li>of</li><li>on</li><li>against</li><li>over</li></ol>",
+"vi": "về, nói về",
+"pos": "oth",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "бизнесмен",
+"w": "бизнесме́н",
+"en": "<ol class=\"meaning-list\"><li>businessman</li></ol>",
+"vi": "doanh nhân",
+"pos": "n",
+"topic": "people::professions",
+"cu": true
+},
+{
+"wc": "уже",
+"w": "уже́",
+"en": "<ol class=\"meaning-list\"><li>already</li><li>by this time</li><li>by now</li><li>ready</li><li>no longer</li></ol>",
+"vi": "rồi, đã",
+"pos": "oth",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "актриса",
+"w": "актри́са",
+"en": "<ol class=\"meaning-list\"><li>actress</li></ol>",
+"vi": "nữ diễn viên",
+"pos": "n",
+"topic": "people::professions",
+"cu": true
+},
+{
+"wc": "театр",
+"w": "теа́тр",
+"en": "<ol class=\"meaning-list\"><li>theatre</li><li>play-house</li><li>dramatic works</li><li>plays</li></ol>",
+"vi": "nhà hát, kịch",
+"pos": "n",
+"topic": "places::city",
+"cu": false
+},
+{
+"wc": "итальянский",
+"w": "италья́нский",
+"en": "<ol class=\"meaning-list\"><li>Italian</li></ol>",
+"vi": "tiếng Ý, thuộc về nước Ý",
+"pos": "adj",
+"topic": "language::education",
+"cu": true
+},
+{
+"wc": "забыть",
+"w": "забы́ть",
+"en": "<ol class=\"meaning-list\"><li>to forget</li></ol>",
+"vi": "quên",
+"pos": "v",
+"topic": "actions",
+"cu": true
+},
+{
+"wc": "все",
+"w": "все",
+"en": "<ol class=\"meaning-list\"><li>all</li><li>everybody</li><li>the whole (of)</li><li>Everything</li></ol>",
+"vi": "tất cả, mọi người, mọi thứ",
+"pos": "oth",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "диск",
+"w": "диск",
+"en": "<ol class=\"meaning-list\"><li>disk</li><li>disc</li><li>discus</li><li>drum</li></ol>",
+"vi": "đĩa (CD, DVD, hoặc ổ cứng)",
+"pos": "n",
+"topic": "concepts::misc",
+"cu": false
+},
+{
+"wc": "записывать",
+"w": "запи́сывать",
+"en": "<ol class=\"meaning-list\"><li>write down</li><li>put down</li><li>take down</li><li>note</li><li>jot down</li><li>record</li><li>enter</li></ol>",
+"vi": "ghi chép, ghi lại",
+"pos": "v",
+"topic": "language::education",
+"cu": true
+},
+{
+"wc": "к",
+"w": "к",
+"en": "<ol class=\"meaning-list\"><li>towards</li><li>to</li><li>by (time)</li><li>for the purpose of</li></ol>",
+"vi": "đến, hướng về, trước (thời gian), đối với",
+"pos": "oth",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "с",
+"w": "с",
+"en": "<ol class=\"meaning-list\"><li>with</li><li>from</li><li>in the course of</li><li>since</li><li>off</li><li>remove from</li><li>against</li><li>about (indicating approximate time or number)</li></ol>",
+"vi": "với, cùng, từ (thời điểm), kể từ",
+"pos": "oth",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "девушка",
+"w": "де́вушка",
+"en": "<ol class=\"meaning-list\"><li>girl</li><li>young woman</li><li>girlfriend</li><li>miss (informal)</li></ol>",
+"vi": "cô gái, bạn gái",
+"pos": "n",
+"topic": "people::family",
+"cu": false
+},
+{
+"wc": "утром",
+"w": "у́тром",
+"en": "<ol class=\"meaning-list\"><li>in the morning</li></ol>",
+"vi": "vào buổi sáng",
+"pos": "oth",
+"topic": "time",
+"cu": false
+},
+{
+"wc": "ой",
+"w": "ой",
+"en": "<ol class=\"meaning-list\"><li>oh / ow</li><li>ah</li><li>outsch</li><li>reinforcing (what, such)</li></ol>",
+"vi": "ôi, ối, ôi chao (cảm thán)",
+"pos": "oth",
+"topic": "language::grammar",
+"cu": false
+},
+{
+"wc": "футбол",
+"w": "футбо́л",
+"en": "<ol class=\"meaning-list\"><li>football</li><li>soccer</li></ol>",
+"vi": "bóng đá",
+"pos": "n",
+"topic": "concepts::misc",
+"cu": false
+},
+{
+"wc": "курить",
+"w": "кури́ть",
+"en": "<ol class=\"meaning-list\"><li>to smoke</li></ol>",
+"vi": "hút thuốc",
+"pos": "v",
+"topic": "actions",
+"cu": false
+},
+{
+"wc": "женатый",
+"w": "жена́тый",
+"en": "<ol class=\"meaning-list\"><li>married (for men)</li></ol>",
+"vi": "đã kết hôn (dành cho nam giới)",
+"pos": "adj",
+"topic": "people::family",
+"cu": true
+},
+{
+"wc": "отец",
+"w": "оте́ц",
+"en": "<ol class=\"meaning-list\"><li>father</li></ol>",
+"vi": "bố, cha",
+"pos": "n",
+"topic": "people::family",
+"cu": false
+},
+{
+"wc": "замужем",
+"w": "за́мужем",
+"en": "<ol class=\"meaning-list\"><li>married (for women)</li></ol>",
+"vi": "đã có chồng (chỉ dành cho nữ)",
+"pos": "adv",
+"topic": "people::family",
+"cu": true
+},
+{
+"wc": "курс",
+"w": "курс",
+"en": "<ol class=\"meaning-list\"><li>course</li><li>policy</li><li>rate of exchange</li></ol>",
+"vi": "khóa học, tỉ giá (tiền tệ), nắm bắt thông tin",
+"pos": "n",
+"topic": "concepts::abstract",
+"cu": true
+},
+{
+"wc": "родиться",
+"w": "роди́ться",
+"en": "<ol class=\"meaning-list\"><li>to be born</li><li>to come into being</li><li>to arise</li><li>to thrive</li></ol>",
+"vi": "sinh ra, chào đời",
+"pos": "v",
+"topic": "people::family",
+"cu": true
+},
+{
+"wc": "дедушка",
+"w": "де́душка",
+"en": "<ol class=\"meaning-list\"><li>grandfather</li><li>grandad</li><li>grand-dad</li><li>grandpa</li><li>old man</li></ol>",
+"vi": "ông (nội/ngoại)",
+"pos": "n",
+"topic": "people::family",
+"cu": false
+},
+{
+"wc": "бабушка",
+"w": "ба́бушка",
+"en": "<ol class=\"meaning-list\"><li>grandmother</li><li>grandmamma</li><li>grandma</li><li>granny</li></ol>",
+"vi": "bà (nội/ngoại)",
+"pos": "n",
+"topic": "people::family",
+"cu": false
+},
+{
+"wc": "второй",
+"w": "второ́й",
+"en": "<ol class=\"meaning-list\"><li>second</li><li>the latter</li></ol>",
+"vi": "thứ hai",
+"pos": "num",
+"topic": "numbers",
+"cu": true
+},
+{
+"wc": "третий",
+"w": "тре́тий",
+"en": "<ol class=\"meaning-list\"><li>third</li><li>third course (time)</li></ol>",
+"vi": "thứ ba",
+"pos": "num",
+"topic": "numbers",
+"cu": true
+},
+{
+"wc": "четвёртый",
+"w": "четвёртый",
+"en": "<ol class=\"meaning-list\"><li>fourth</li></ol>",
+"vi": "thứ tư",
+"pos": "num",
+"topic": "numbers",
+"cu": true
+},
+{
+"wc": "пятый",
+"w": "пя́тый",
+"en": "<ol class=\"meaning-list\"><li>fifth</li></ol>",
+"vi": "thứ năm",
+"pos": "num",
+"topic": "numbers",
+"cu": true
+},
+{
+"wc": "шестой",
+"w": "шесто́й",
+"en": "<ol class=\"meaning-list\"><li>sixth</li></ol>",
+"vi": "thứ sáu",
+"pos": "num",
+"topic": "numbers",
+"cu": true
+},
+{
+"wc": "седьмой",
+"w": "седьмо́й",
+"en": "<ol class=\"meaning-list\"><li>seventh</li></ol>",
+"vi": "thứ bảy",
+"pos": "num",
+"topic": "numbers",
+"cu": true
+},
+{
+"wc": "восьмой",
+"w": "восьмо́й",
+"en": "<ol class=\"meaning-list\"><li>eighth</li></ol>",
+"vi": "thứ tám",
+"pos": "num",
+"topic": "numbers",
+"cu": true
+},
+{
+"wc": "девятый",
+"w": "девя́тый",
+"en": "<ol class=\"meaning-list\"><li>ninth</li></ol>",
+"vi": "thứ chín",
+"pos": "num",
+"topic": "numbers",
+"cu": true
+},
+{
+"wc": "десятый",
+"w": "деся́тый",
+"en": "<ol class=\"meaning-list\"><li>tenth</li></ol>",
+"vi": "thứ mười",
+"pos": "num",
+"topic": "numbers",
+"cu": true
+},
+{
+"wc": "одиннадцатый",
+"w": "оди́ннадцатый",
+"en": "<ol class=\"meaning-list\"><li>eleventh</li></ol>",
+"vi": "thứ mười một",
+"pos": "num",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "двадцатый",
+"w": "двадца́тый",
+"en": "<ol class=\"meaning-list\"><li>twentieth</li></ol>",
+"vi": "thứ hai mươi",
+"pos": "num",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "сороковой",
+"w": "сороково́й",
+"en": "<ol class=\"meaning-list\"><li>fortieth</li></ol>",
+"vi": "thứ bốn mươi",
+"pos": "num",
+"topic": "numbers",
+"cu": true
+},
+{
+"wc": "пятидесятый",
+"w": "пятидеся́тый",
+"en": "<ol class=\"meaning-list\"><li>fiftieth</li></ol>",
+"vi": "thứ năm mươi",
+"pos": "num",
+"topic": "numbers",
+"cu": true
+},
+{
+"wc": "шестидесятый",
+"w": "шестидеся́тый",
+"en": "<ol class=\"meaning-list\"><li>sixtieth</li></ol>",
+"vi": "thứ sáu mươi",
+"pos": "num",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "семидесятый",
+"w": "семидеся́тый",
+"en": "<ol class=\"meaning-list\"><li>seventieth</li></ol>",
+"vi": "thứ bảy mươi",
+"pos": "num",
+"topic": "numbers",
+"cu": false
+},
+{
+"wc": "восьмидесятый",
+"w": "восьмидеся́тый",
+"en": "<ol class=\"meaning-list\"><li>eightieth</li></ol>",
+"vi": "thứ tám mươi",
+"pos": "num",
+"topic": "numbers",
+"cu": true
+},
+{
+"wc": "девяностый",
+"w": "девяно́стый",
+"en": "<ol class=\"meaning-list\"><li>ninetieth</li></ol>",
+"vi": "thứ chín mươi",
+"pos": "num",
+"topic": "numbers",
+"cu": true
+},
+{
+"wc": "сотый",
+"w": "со́тый",
+"en": "<ol class=\"meaning-list\"><li>hundredth</li></ol>",
+"vi": "thứ một trăm",
+"pos": "num",
+"topic": "numbers",
+"cu": true
+},
+{
+"wc": "тысячный",
+"w": "ты́сячный",
+"en": "<ol class=\"meaning-list\"><li>thousandth</li><li>millesimal</li><li>of many thousands</li></ol>",
+"vi": "thứ một nghìn",
+"pos": "num",
+"topic": "numbers",
+"cu": true
+},
+{
+"wc": "двухтысячный",
+"w": "двухты́сячный",
+"en": "<ol class=\"meaning-list\"><li>the two thousandth</li><li>two thousand roubles worth</li><li>millennial</li></ol>",
+"vi": "thứ hai nghìn, của năm 2000",
+"pos": "adj",
+"topic": "numbers",
+"cu": true
+},
+{
+"wc": "месяц",
+"w": "ме́сяц",
+"en": "<ol class=\"meaning-list\"><li>month</li><li>moon</li></ol>",
+"vi": "tháng, mặt trăng",
+"pos": "n",
+"topic": "time",
+"cu": false
+}
+]
