@@ -45,7 +45,20 @@ MIEN_TRU = {
 
 
 def bare(w):
+    """Khoá TRA TỪ ĐIỂN trọng âm — gộp ё về е vì nouns.csv in ё thành е.
+    ĐỪNG dùng để ghép với note Anki: xem `khoa_note`."""
     return w.replace(ACUTE, "").replace(ZWSP, "").replace("'", "").lower().replace("ё", "е")
+
+
+def khoa_note(w):
+    """Khoá GHÉP VỚI NOTE ANKI — GIỮ NGUYÊN ё.
+
+    ё và е phân biệt những từ khác hẳn nhau: всё (mọi thứ) ≠ все (mọi người),
+    нёбо (vòm miệng) ≠ небо (bầu trời). Dùng `bare` ở đây thì hai note gộp làm
+    một khoá, và `nap` ghi nội dung của từ này đè lên thẻ của từ kia. Đã xảy ra
+    thật 28/07: thẻ всё nhận nguyên ô Hướng dẫn của все.
+    """
+    return w.replace(ACUTE, "").replace(ZWSP, "").replace("'", "").lower()
 
 
 def doc_hangdoi():
@@ -328,12 +341,12 @@ def cmd_nap():
         # `noteId`, KHÔNG phải `id` — notesInfo trả về noteId, còn updateNoteFields
         # lại nhận khoá `id`. Hai đầu đặt tên khác nhau, dễ dính.
         nid = n["noteId"]
-        ban_do.setdefault(bare(n["fields"]["WordClean"]["value"]), []).append(nid)
+        ban_do.setdefault(khoa_note(n["fields"]["WordClean"]["value"]), []).append(nid)
         hien_co[nid] = n["fields"].get("HuongDan", {}).get("value", "")
 
     ok, bo_qua, miss, doi = 0, 0, [], 0
     for word, html in gop.items():
-        nids = ban_do.get(bare(word), [])
+        nids = ban_do.get(khoa_note(word), [])
         if not nids:
             miss.append(word)
             continue

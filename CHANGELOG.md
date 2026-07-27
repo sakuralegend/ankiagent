@@ -4,6 +4,38 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 28/07/2026 — LÔ k11 + k12, VÀ MỘT LỖI GHÉP NOTE SUÝT ÂM THẦM
+
+- **Lô k11** (`language::education`, 15 từ) và **k12** (`language::grammar`, 17 từ) đã soạn,
+  soát sạch ba cửa, nạp vào Anki. **12/48 lô · 163/703 từ.**
+- 🐛 **`bare()` gộp `ё` về `е`, và nó được dùng làm khoá ghép với note Anki.**
+  Hậu quả thật: thẻ **`всё`** (mọi thứ / luôn luôn) nhận nguyên ô Hướng dẫn viết cho **`все`**
+  (mọi người). Hai từ khác hẳn nhau, chỉ trùng khi bỏ dấu ё.
+  - Gộp `ё→е` là **đúng cho việc tra `nouns.csv`** (từ điển đó in ё thành е) nhưng **sai cho
+    việc ghép note** — cùng một hàm dùng cho hai mục đích trái ngược nhau.
+  - Sửa: tách hẳn **`khoa_note()`** (giữ nguyên ё) cho `nap`, để `bare()` lại đúng việc tra
+    từ điển. Note `всё` đã trả về rỗng (`_backup_huongdan.json` xác nhận trước đó nó vốn rỗng).
+  - **Còn một cặp nữa chưa nổ:** `нёбо` (vòm miệng) / `небо` (bầu trời) — cả hai đang rỗng vì
+    lô của chúng chưa tới lượt. Sửa hôm nay là kịp trước khi lô đó chạy.
+  - Cách phát hiện: `nap` báo *ghi vào 33 note* trong khi lô chỉ có **32 từ**. Con số lệch 1 đó
+    là thứ duy nhất tố giác. **Bài học: đối chiếu lại số note đã ghi với số từ đã soạn sau mỗi
+    lần nạp** — trùng khớp thì thôi, lệch thì truy tới nơi, đừng cho qua.
+- ⚠️ **Lỗ thủng của bộ soát do agent k11 chỉ ra:** cụm in đậm **nhiều chữ** (có dấu cách) không
+  được đối chiếu trọng âm chút nào — bộ soát bỏ qua mọi token chứa khoảng trắng. Nó lọt
+  `между́ строк` (đúng là `ме́жду строк`), agent tự bắt bằng mắt. Chưa vá; tạm thời mọi lô phải
+  tự rà tay các collocation in đậm.
+- **Agent k11 bác một gợi ý sai của luồng chính:** tôi dặn "‑ия luôn nhấn trước ‑ия", agent kiểm
+  `nouns.csv` và tìm ra phản ví dụ (`аллерги́я`, `хирурги́я`, `Росси́я`) ⇒ tách thành **`-ция` là
+  luật**, còn **`-ия` trần chỉ là xu hướng**, nêu thẳng phản ví dụ trên thẻ. Đúng như thiết kế:
+  agent có từ điển trong tay, luồng chính thì không.
+- 🌐 **Mạng nhà user chớp vài giây** làm **cả hai agent chết cùng lúc** ("Connection closed
+  mid-response") đúng lúc sắp ghi file. Không mất dữ liệu (chưa file nào chạm đĩa), và cho chạy
+  tiếp từ ngữ cảnh cũ là đủ — không phải soạn lại. Từ nay agent **ghi file theo từng khúc 3–4
+  từ** thay vì một cục ~100 KB, để đứt giữa chừng chỉ mất một khúc.
+- Kiểm tra từ `месяц` user thêm 27/07: **có sẵn trong hàng đợi, nằm ở lô k46** (`time`). Dòng
+  `❌ Server trả về status 404` trong log VPS đúng lúc thêm từ này là một lượt gọi phụ hỏng —
+  thẻ vẫn tạo đủ cả audio.
+
 ## 27/07/2026 (tối) — NẠP THEO TỪNG LÔ, KHÔNG GOM MỘT CỤC
 
 - **`7b61dc1` — `nap` chạy được sau MỖI lô**, thay vì để dành đẩy một lần cuối đường.

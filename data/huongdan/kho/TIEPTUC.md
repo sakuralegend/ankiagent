@@ -104,6 +104,24 @@ Sau khi nạp xong toàn bộ 871 thẻ: **xoá khối CSS `mn-*` di sản** tro
   vào commit, và HEAD giữ **ảnh chụp còn lỗi** trong khi bản đã sửa nằm trên đĩa. Đã dính thật
   ở k08. Commit theo **đường dẫn cụ thể**: `git add data/huongdan/kho/kNN_*.py hangdoi.json`.
 
+- 🔴 **`ё` KHÔNG được gộp về `е` khi ghép với note Anki.** `bare()` gộp ё→е (đúng, vì
+  `nouns.csv` in ё thành е), nhưng dùng chính nó làm khoá ghép note thì **всё và все thành một
+  khoá** — và `nap` ghi ô Hướng dẫn của từ này đè lên thẻ của từ kia. Đã xảy ra thật 28/07.
+  Nay `nap` dùng **`khoa_note()`** (giữ ё). Cặp còn lại chưa nổ: **`нёбо` (vòm miệng) / `небо`
+  (bầu trời)** — nhớ khi tới lô của chúng.
+  **Sau mỗi lần nạp, đối chiếu "ghi vào N note" với số từ của lô.** Lệch là có chuyện; chính con
+  số 33-note-cho-32-từ đã tố giác lỗi này.
+
+- ⚠️ **Bộ soát KHÔNG kiểm cụm in đậm nhiều chữ.** Mọi token có dấu cách bị bỏ qua hoàn toàn,
+  nên trọng âm sai trong collocation (`между́ строк` thay vì `ме́жду строк`) lọt sạch ba cửa.
+  Lô nào có nhiều cụm in đậm thì phải **rà tay**. Chưa vá.
+
+- 🌐 **Mạng chớp = cả hai agent chết cùng lúc.** Đã dính 28/07: hai agent độc lập cùng báo
+  "Connection closed mid-response" đúng lúc sắp `Write` file ~100 KB. Cách chữa: dặn agent
+  **ghi từng khúc 3–4 từ** (Write khung trước, rồi Edit chèn thêm), và khi gặp lỗi này thì
+  **`SendMessage` cho chạy tiếp** thay vì spawn agent mới — ngữ cảnh còn nguyên, không phải
+  soạn lại.
+
 - **AnkiConnect đặt tên khoá LỆCH nhau ở hai đầu**: `notesInfo` trả về `noteId`, còn
   `updateNoteFields` lại nhận `{"id": …}`. Code cũ đọc `n["id"]` nên `nap` **chưa bao giờ chạy
   được thật** — và nó sẽ nổ đúng ở bước cuối cùng, sau khi đã soạn xong cả 703 từ. Bài học:

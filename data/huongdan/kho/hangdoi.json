@@ -244,8 +244,9 @@
     "химия",
     "лекция"
    ],
-   "trangthai": "cho",
-   "file": null
+   "trangthai": "xong",
+   "file": "k11_language-education.py",
+   "daNap": true
   },
   {
    "id": "k12",
@@ -269,8 +270,9 @@
     "и",
     "они"
    ],
-   "trangthai": "cho",
-   "file": null
+   "trangthai": "xong",
+   "file": "k12_language-grammar.py",
+   "daNap": true
   },
   {
    "id": "k13",
