@@ -32,6 +32,17 @@ Bẫy dễ nhầm thì chèn `hd-warn` **ngay dưới phần liên quan**, khôn
 **ĐƯỢC PHÉP DÀI.** User chốt: *"đừng rút gọn khó hiểu"*. Ô này thu gọn mặc định nên độ dài
 không làm phiền ai.
 
+⚠️ **Nhưng dài có trần: nhắm 6–10 KB HTML mỗi thẻ, tối đa ~12 KB.**
+Đo thật: lô k01 trung bình 7,7 KB — vừa. Lô k04 lên 13,4 KB (đỉnh 16,9) vì **chồng ba khối
+hệ thống lên cùng một thẻ**. Đây không phải chuyện thẩm mỹ: mục đích user nói rõ là *"thứ ĐẦU
+TIÊN tôi đọc để hiểu một từ mới"* — dài quá thì user **không đọc**, và thế là hỏng đúng mục
+đích mà độ dài định phục vụ. Quy tắc: **tối đa 2 khối dùng chung mỗi thẻ**, và khối thứ hai
+phải thật sự liên quan tới từ đó chứ không gắn cho đủ bộ. Kiểm nhanh:
+
+```bash
+PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py dodai kNN
+```
+
 ### Cái "tinh tuý" nên ưu tiên, theo thứ tự giá trị đường dài
 
 1. **Luật SUY RA ĐƯỢC vs chỗ BUỘC PHẢI THUỘC** — tách bạch hai loại này tiết kiệm công nhất.

@@ -68,6 +68,16 @@ bộ tôi sẽ nhờ bạn đẩy vào một thể"*. Chỉ chạy `--apply` khi
 Sau khi nạp xong toàn bộ 870 thẻ: **xoá khối CSS `mn-*` di sản** trong
 `anki_tools/templates/card.css` (di sản của hướng mnemonic đã bỏ).
 
+## Việc còn nợ
+
+- ⚠️ **Lô k04 phình dài** — 13/15 thẻ vượt 12 KB (đỉnh `реплика` 16,9 KB) vì chồng **ba** khối
+  hệ thống lên cùng một thẻ. Nội dung **không sai**, chỉ dài. Trần đã ghi vào README §2
+  (6–10 KB, **tối đa 2 khối dùng chung mỗi thẻ**) và các lô sau phải theo. Lúc nào rảnh thì
+  quay lại gọt k04: bỏ bớt khối thứ ba ở những thẻ mà nó không thật sự liên quan.
+  Kiểm bằng `congcu.py dodai`.
+- **Thẻ trùng do U+200B** (`петь`/`пить`) — `nap` đã ghi vào cả hai note nên không sót nội
+  dung, nhưng bộ sưu tập vẫn thừa 2 thẻ. **Hỏi user** có muốn gộp không; đừng tự xoá thẻ.
+
 ## Bẫy đã dính, đừng dính lại
 
 - **Console Windows là cp1252** — in tiếng Nga ra là `UnicodeEncodeError`.

@@ -213,6 +213,24 @@ def cmd_soat():
 
 
 # ---------------------------------------------------------- lệnh: trangthai
+def cmd_dodai():
+    """Đo độ dài từng thẻ. Trần 6–10 KB, tối đa ~12 KB — xem README §2.
+
+    Dài quá thì user không đọc, mà không đọc thì hỏng đúng mục đích ô này.
+    """
+    chi = [a for a in sys.argv[2:] if re.fullmatch(r"k\d\d", a)] or None
+    gop, nguon = nap_lo_da_soan(chi)
+    L = sorted(((len(v), k) for k, v in gop.items()), reverse=True)
+    if not L:
+        print("chua co gi")
+        return
+    qua = [x for x in L if x[0] > 12000]
+    print(f"{len(gop)} the | trung binh {sum(n for n, _ in L) // len(L)} "
+          f"| dai nhat {L[0][0]} ({L[0][1]}) | QUA 12KB: {len(qua)}")
+    for n, w in qua[:15]:
+        print(f"  {n:6d}  {w}   [{nguon[w]}]")
+
+
 def cmd_trangthai():
     q = doc_hangdoi()
     xong = [l for l in q["lo"] if l["trangthai"] == "xong"]
@@ -276,4 +294,4 @@ def cmd_nap():
 if __name__ == "__main__":
     cmd = sys.argv[1] if len(sys.argv) > 1 else "trangthai"
     {"tiep": cmd_tiep, "soat": cmd_soat, "trangthai": cmd_trangthai,
-     "xong": cmd_xong, "nap": cmd_nap}[cmd]()
+     "xong": cmd_xong, "nap": cmd_nap, "dodai": cmd_dodai}[cmd]()
