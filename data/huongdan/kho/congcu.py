@@ -236,9 +236,11 @@ def cmd_dodai():
 def cmd_trangthai():
     q = doc_hangdoi()
     xong = [l for l in q["lo"] if l["trangthai"] == "xong"]
-    gop, _ = nap_lo_da_soan()
+    # CHỈ đếm lô đã được luồng chính duyệt. Đếm mọi file kNN_*.py có trên đĩa
+    # sẽ tính cả lô đang soạn dở của agent chạy song song -> báo cao hơn thật.
+    gop, _ = nap_lo_da_soan([l["id"] for l in xong] or ["__khong_co__"])
     print(f"lo:  {len(xong)}/{q['tong_lo']}")
-    print(f"tu:  {len(gop)}/{q['tong_tu']}")
+    print(f"tu:  {len(gop)}/{q['tong_tu']}  (da duyet)")
     cho = [l["id"] for l in q["lo"] if l["trangthai"] == "cho"]
     print(f"con: {' '.join(cho[:12])}{' ...' if len(cho) > 12 else ''}")
 
