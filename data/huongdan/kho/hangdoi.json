@@ -45,8 +45,8 @@
     "говорить",
     "поговорить"
    ],
-   "trangthai": "cho",
-   "file": null
+   "trangthai": "xong",
+   "file": "k02_actions.py"
   },
   {
    "id": "k03",
@@ -59,8 +59,8 @@
     "взять",
     "стоять"
    ],
-   "trangthai": "cho",
-   "file": null
+   "trangthai": "xong",
+   "file": "k03_actions.py"
   },
   {
    "id": "k04",

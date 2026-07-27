@@ -33,6 +33,7 @@ ZWSP = "​"
 # Từ ĐỒNG TỰ — máy không phân biệt được, miễn trừ tay, mỗi mục ghi rõ lý do.
 MIEN_TRU = {
     "ви́на": "số nhiều của вино́ (rượu vang); từ điển chỉ có вина́ = lỗi lầm",
+    "жила́": "quá khứ giống cái của động từ жить (sống); từ điển chỉ có danh từ жи́ла = gân, mạch",
 }
 
 
@@ -146,9 +147,18 @@ def cmd_soat():
     sai, chua_tra, khong_dau, hong = [], set(), [], []
     for word, html in gop.items():
         # (a) CẤU TRÚC: thẻ mở/đóng phải cân, và phải có đủ mục
+        # Đếm theo CẶP là chưa đủ: <b>…<b>…</b>…</b> vẫn cân bằng nhưng thẻ đóng
+        # bên trong cắt in đậm giữa chừng khi hiển thị. Phải quét theo ĐỘ SÂU.
         for tag in ("div", "span", "b", "i", "u"):
-            if len(re.findall(f"<{tag}[ >]", html)) != len(re.findall(f"</{tag}>", html)):
-                hong.append((word, nguon[word], f"lech the <{tag}>"))
+            sau = 0
+            for mt in re.finditer(f"<{tag}[ >]|</{tag}>", html):
+                sau += 1 if mt.group()[1] != "/" else -1
+                if sau < 0 or (tag in ("b", "i", "u") and sau > 1):
+                    hong.append((word, nguon[word],
+                                 f"<{tag}> long/lech tai vi tri {mt.start()}"))
+                    break
+            if sau > 0:
+                hong.append((word, nguon[word], f"thieu {sau} the dong </{tag}>"))
         for lop in ("hd-sec", "hd-fam"):
             if lop not in html:
                 hong.append((word, nguon[word], f"thieu .{lop}"))
@@ -225,21 +235,40 @@ def ac(action, **params):
 
 
 def cmd_nap():
-    """Đẩy TẤT CẢ lô đã soạn vào Anki — chỉ chạy khi user bảo."""
+    """Đẩy TẤT CẢ lô đã soạn vào Anki — chỉ chạy khi user bảo.
+
+    KHÔNG dùng `findNotes WordClean:<từ>` cho từng từ. Hai lý do:
+      * 703 lần gọi mạng thì chậm và dễ đứt giữa chừng;
+      * bộ sưu tập có thẻ TRÙNG do ký tự zero-width U+200B (`петь` vs `петь​`,
+        `пить` vs `пить​`). Anki coi là hai note khác nhau, mắt thường không
+        phân biệt được. Tra từng từ thì mỗi cặp sẽ bị bỏ sót một thẻ.
+    ⇒ Kéo TOÀN BỘ WordClean về một lần, ghép theo khoá đã bỏ U+200B, và ghi
+      vào MỌI note khớp — thẻ trùng thì cả hai đều nhận nội dung.
+    """
     apply = "--apply" in sys.argv
     gop, _ = nap_lo_da_soan()
-    ok, miss = [], []
+    print(f"da soan: {len(gop)} tu")
+
+    ids = ac("findNotes", query="note:RU_Word")
+    ban_do = {}
+    for n in ac("notesInfo", notes=ids):
+        ban_do.setdefault(bare(n["fields"]["WordClean"]["value"]), []).append(n["id"])
+
+    ok, miss, doi = 0, [], 0
     for word, html in gop.items():
-        ids = ac("findNotes", query=f'note:RU_Word WordClean:{word}')
-        if len(ids) != 1:
-            miss.append((word, len(ids)))
+        nids = ban_do.get(bare(word), [])
+        if not nids:
+            miss.append(word)
             continue
-        if apply:
-            ac("updateNoteFields", note={"id": ids[0], "fields": {"HuongDan": html}})
-        ok.append(word)
-    print(f"khop: {len(ok)}/{len(gop)}")
-    for w, n in miss:
-        print(f"  !! {w}: tim thay {n} note")
+        if len(nids) > 1:
+            doi += 1
+        for nid in nids:
+            if apply:
+                ac("updateNoteFields", note={"id": nid, "fields": {"HuongDan": html}})
+            ok += 1
+    print(f"ghi vao {ok} note ({doi} tu co the trung, ghi ca hai)")
+    for w in miss:
+        print(f"  !! khong tim thay note cho: {w}")
     print("da ghi. sync: " + str(ac("sync")) if apply
           else "(chua ghi gi — them --apply de ghi that)")
 
