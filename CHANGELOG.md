@@ -23,6 +23,14 @@
 - **Đã đẩy k01–k08 vào Anki**: 99 từ → **100 note** (một cặp thẻ trùng do U+200B, ghi cả hai),
   đối chiếu lại **100/100 khớp** nội dung file nguồn, sync xong. Note có `HuongDan`: 271 → **342**.
   Nội dung `HuongDan` cũ sao lưu ở `kho/_backup_huongdan.json` (không commit — dữ liệu chết).
+- **`abd3421` k09 + `68a8304` k10** — 32 từ chủ đề giáo dục/ngôn ngữ, cả hai đã nạp thẳng vào
+  Anki ngay sau khi soát. **10/48 lô · 131/703 từ · 10/10 lô đã vào Anki.**
+  Bộ soát bắt được **10 lỗi trọng âm thật** mà agent tự viết sai (`дво́еточие→двоето́чие`,
+  `колоко́л→ко́локол`, `ко́нверт→конве́рт`, `эконо́мист→экономи́ст`, `до́щечка→доще́чка`,
+  `рукопи́сь→ру́копись`, `заня́тость→за́нятость`, `про́бел→пробе́л`, `ака́демия→акаде́мия`,
+  `синони́м→сино́ним`) cộng 6 chỗ `<b>` lồng nhau — bằng chứng cụ thể rằng ba cửa soát
+  không phải hình thức.
+  `MIEN_TRU` thêm `помо́чь` (động từ "giúp đỡ"; `nouns.csv` chỉ có danh từ phương ngữ `по́мочь`).
 - **Sửa trên laptop KHÔNG cản việc học trên iPhone**: ghi field `HuongDan` không phải schema mod
   (field có sẵn từ đợt trước) ⇒ **không kích hoạt full sync**. Sửa nội dung note (laptop) và lịch
   sử ôn (iPhone) là hai loại dữ liệu khác nhau, Anki gộp bình thường, không phải chọn chiều.
