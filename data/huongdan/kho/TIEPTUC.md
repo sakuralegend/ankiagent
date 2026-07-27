@@ -85,8 +85,19 @@ loại dữ liệu khác nhau, Anki gộp được — không phải chọn chi�
 python data/huongdan/kiemtra.py     # soát lại TRÊN THẺ THẬT, sau khi đã nạp hết
 ```
 
-Sau khi nạp xong toàn bộ 871 thẻ: **xoá khối CSS `mn-*` di sản** trong
-`anki_tools/templates/card.css` (di sản của hướng mnemonic đã bỏ).
+Sau khi nạp xong toàn bộ thẻ: **xoá khối CSS `mn-*` di sản** (6 quy tắc) trong
+`anki_tools/templates/card.css`.
+
+⚠️ **Chưa xoá được bây giờ.** Đo 28/07 trên 869 thẻ: 163 thẻ đã có hướng dẫn mới ·
+**222 thẻ mang nội dung cũ** · 484 thẻ rỗng. Trong 222 thẻ cũ đó, **chỉ 54 thẻ là mnemonic
+thật** (class `mn-story`/`mn-tip`/`mn-read`) — 168 thẻ còn lại **đã đúng định dạng `hd-*`**,
+chỉ mỏng hơn (1–2 KB). Xoá CSS khi 54 thẻ kia còn sống là vỡ giao diện chúng.
+
+**Đừng xoá nội dung mnemonic cũ đi cho gọn** (đã cân nhắc và bác 28/07): cả 54 thẻ là mnemonic
+**thuần**, không thẻ nào có sẵn phần `hd-*`, nên xoá là để lại ô trống hàng tuần liền. Mà nội
+dung đó không phải rác — ngoài phần phiên âm thô đã bị bác, mỗi thẻ còn nêu **từ họ hàng**
+(`лев`↔lion, `хлеб`↔loaf) và **luật vô thanh hoá âm cuối** (`в→f`, `б→p`), đều đúng. Chúng tự
+bị viết đè khi lô của chúng tới lượt.
 
 ## Việc còn nợ
 
