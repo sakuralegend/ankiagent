@@ -80,6 +80,10 @@ Sau khi nạp xong toàn bộ 870 thẻ: **xoá khối CSS `mn-*` di sản** tro
 
 ## Bẫy đã dính, đừng dính lại
 
+- 🔴 **KHI CÓ LÔ CHẠY SONG SONG, ĐỪNG `git add -A`.** Nó quét cả file đang soạn dở của lô khác
+  vào commit, và HEAD giữ **ảnh chụp còn lỗi** trong khi bản đã sửa nằm trên đĩa. Đã dính thật
+  ở k08. Commit theo **đường dẫn cụ thể**: `git add data/huongdan/kho/kNN_*.py hangdoi.json`.
+
 - **Console Windows là cp1252** — in tiếng Nga ra là `UnicodeEncodeError`.
   Luôn `PYTHONIOENCODING=utf-8`, và dữ liệu lớn thì ghi ra file.
 - **Bash tool là Git Bash, KHÔNG phải PowerShell.** Đừng dùng here-string `@'…'@` cho commit
