@@ -95,8 +95,9 @@ Sau khi nạp xong toàn bộ 871 thẻ: **xoá khối CSS `mn-*` di sản** tro
   (6–10 KB, **tối đa 2 khối dùng chung mỗi thẻ**) và các lô sau phải theo. Lúc nào rảnh thì
   quay lại gọt k04: bỏ bớt khối thứ ba ở những thẻ mà nó không thật sự liên quan.
   Kiểm bằng `congcu.py dodai`.
-- **Thẻ trùng do U+200B** (`петь`/`пить`) — `nap` đã ghi vào cả hai note nên không sót nội
-  dung, nhưng bộ sưu tập vẫn thừa 2 thẻ. **Hỏi user** có muốn gộp không; đừng tự xoá thẻ.
+- ~~Thẻ trùng do U+200B~~ **XONG 28/07**: user duyệt xoá, đã bỏ hai bản 12/07 (bản mang U+200B
+  trong field `Word`, ít lượt ôn hơn), giữ hai bản 04/07 sạch chữ. Bộ sưu tập **871 → 869 note**.
+  Sao lưu đầy đủ cả 4 note kèm revlog ở `_backup_the_trung.json` (không commit).
 
 ## Bẫy đã dính, đừng dính lại
 

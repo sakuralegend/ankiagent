@@ -29,6 +29,13 @@
   Chạy trên 12 lô cũ: lộ ra 9 chỗ, lọc còn **3 lỗi thật**, đã sửa và đẩy lên Anki —
   `дого́вор`→`догово́р` (k05 мир), `аппетит`→`аппети́т` (k05 приятно), `партийный`→`парти́йный`
   (k08 билет).
+- **Xoá 2 thẻ trùng, bộ sưu tập 871 → 869 note.** `петь` và `пить` mỗi từ có **hai bản của
+  chính nó** (không phải hai từ trùng nhau — user hiểu nhầm chỗ này lúc đầu, phải nói lại cho rõ).
+  Bản thêm ngày 12/07 mang **U+200B trong field `Word`** — chính ký tự vô hình đó khiến Anki
+  không nhận ra trùng. Giữ bản 04/07: sạch chữ và lịch sử ôn dày hơn (5 và 9 lượt, so với 3 và
+  3). Đánh đổi: mất interval dài hơn của bản mới (38d, 37d) — chấp nhận, vì interval dài đó đến
+  từ ít lượt ôn chứ không phải nhớ tốt hơn.
+  Sao lưu **cả 4 note kèm scheduling và revlog** ở `_backup_the_trung.json` trước khi xoá.
 - ⚠️ **Lỗ thủng của bộ soát do agent k11 chỉ ra:** cụm in đậm **nhiều chữ** (có dấu cách) không
   được đối chiếu trọng âm chút nào — bộ soát bỏ qua mọi token chứa khoảng trắng. Nó lọt
   `между́ строк` (đúng là `ме́жду строк`), agent tự bắt bằng mắt. Chưa vá; tạm thời mọi lô phải
