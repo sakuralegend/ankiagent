@@ -4,6 +4,29 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 27/07/2026 (tối) — NẠP THEO TỪNG LÔ, KHÔNG GOM MỘT CỤC
+
+- **`7b61dc1` — `nap` chạy được sau MỖI lô**, thay vì để dành đẩy một lần cuối đường.
+  User đổi ý và hỏi đúng câu cần hỏi: *"đẩy luôn vào anki mà vẫn giữ cho tiến trình không bị
+  loạn?"*. Ba chốt giữ cho không loạn:
+  1. `nap` **chỉ đọc lô có `trangthai == "xong"`** — y hệt `trangthai`. Đọc mọi file `kNN_*.py`
+     trên đĩa sẽ vớ luôn file **đang soạn dở** của agent chạy song song và đẩy nội dung
+     **chưa soát** vào thẻ thật. Có chốt này thì nạp được ngay cả khi lô khác đang chạy.
+  2. **`daNap` trong `hangdoi.json` là sổ cái** — lô đã vào Anki thì lần sau không đụng nữa
+     (`--tatca` để ép đẩy lại). Bỏ qua note đã trùng nội dung ⇒ gói sync nhẹ hơn.
+  3. **Thiếu note thì KHÔNG đánh dấu `daNap`** — hàng đợi lệch bộ sưu tập thì phải hiểu rồi
+     mới chạy tiếp, đánh dấu lúc đó là chôn luôn những từ chưa vào.
+- 🐛 **Bug đã nằm im từ đầu: `notesInfo` trả về `noteId`, code cũ đọc `n["id"]`.**
+  `updateNoteFields` thì lại nhận khoá `id` — hai đầu AnkiConnect đặt tên lệch nhau. Nghĩa là
+  `nap` **chưa bao giờ chạy được thật**, và nó sẽ nổ đúng ở bước cuối cùng sau khi đã soạn xong
+  cả 703 từ. Bài học: **chạy khan đường ống ghi từ sớm**, đừng để dành tới cuối.
+- **Đã đẩy k01–k08 vào Anki**: 99 từ → **100 note** (một cặp thẻ trùng do U+200B, ghi cả hai),
+  đối chiếu lại **100/100 khớp** nội dung file nguồn, sync xong. Note có `HuongDan`: 271 → **342**.
+  Nội dung `HuongDan` cũ sao lưu ở `kho/_backup_huongdan.json` (không commit — dữ liệu chết).
+- **Sửa trên laptop KHÔNG cản việc học trên iPhone**: ghi field `HuongDan` không phải schema mod
+  (field có sẵn từ đợt trước) ⇒ **không kích hoạt full sync**. Sửa nội dung note (laptop) và lịch
+  sử ôn (iPhone) là hai loại dữ liệu khác nhau, Anki gộp bình thường, không phải chọn chiều.
+
 ## 27/07/2026 (chiều) — DÂY CHUYỀN SOẠN KHO 703 TỪ
 
 - **`c8d47fe` — dựng dây chuyền soạn ô "Hướng dẫn" cho 703 từ deck kho**, chia **56 lô**.

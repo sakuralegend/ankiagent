@@ -48,29 +48,35 @@ con số này, đừng thử lại. Hết 3 lô thì **dừng và báo cáo**, �
 ## Khi một lô báo xong
 
 ```bash
-PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py soat kNN   # tự soát lại, ĐỪNG tin báo cáo suông
-PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py xong kNN   # chỉ luồng chính được gọi
-git add -A && git commit …
+PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py soat kNN        # tự soát lại, ĐỪNG tin báo cáo suông
+PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py xong kNN        # chỉ luồng chính được gọi
+PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py nap --apply     # đẩy vào Anki ngay + sync
+git add data/huongdan/kho/kNN_*.py data/huongdan/kho/hangdoi.json && git commit …
 ```
+
+**Nạp NGAY sau mỗi lô, không gom một cục cuối đường** (user chốt 27/07). Ba chốt giữ cho
+tiến trình không loạn:
+1. `nap` **chỉ đọc lô `trangthai == "xong"`** — file agent đang soạn dở không thể lọt vào thẻ thật,
+   nên nạp được cả khi có lô khác đang chạy song song.
+2. **`daNap` trong `hangdoi.json` là sổ cái** — lô đã vào Anki thì lần sau không đụng lại
+   (`--tatca` để ép đẩy lại toàn bộ).
+3. **Thiếu note thì KHÔNG đánh dấu `daNap`** — hàng đợi lệch bộ sưu tập phải hiểu rồi mới chạy tiếp.
+
+Ghi field `HuongDan` **không phải schema mod** (field có sẵn) ⇒ **không kích hoạt full sync**,
+laptop vẫn sync thường với iPhone và VPS. Sửa nội dung note (laptop) và lịch sử ôn (iPhone) là hai
+loại dữ liệu khác nhau, Anki gộp được — không phải chọn chiều.
 
 ⚠️ **Lô không được tự đánh dấu mình xong** — tự chấm điểm mình thì bộ soát mất hết ý nghĩa.
 Đọc kỹ mục "chỗ tôi không chắc" trong báo cáo: lô động từ/tính từ gần như **không được bộ soát
 đỡ** (`nouns.csv` chỉ có 382/703 từ là danh từ), nên đó là chỗ duy nhất bắt được lỗi nội dung.
 
-## Khi HẾT 56 lô
-
-Hỏi user trước, rồi:
+## Khi HẾT 48 lô
 
 ```bash
-PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py nap            # chạy khan
-PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py nap --apply    # ghi thật + sync
-python data/huongdan/kiemtra.py                                          # soát lại TRÊN THẺ THẬT
+python data/huongdan/kiemtra.py     # soát lại TRÊN THẺ THẬT, sau khi đã nạp hết
 ```
 
-⚠️ **Thẻ trong Anki chưa bị đụng chữ nào.** User chốt: *"để riêng ra một chỗ, lúc nào xong toàn
-bộ tôi sẽ nhờ bạn đẩy vào một thể"*. Chỉ chạy `--apply` khi user bảo.
-
-Sau khi nạp xong toàn bộ 870 thẻ: **xoá khối CSS `mn-*` di sản** trong
+Sau khi nạp xong toàn bộ 871 thẻ: **xoá khối CSS `mn-*` di sản** trong
 `anki_tools/templates/card.css` (di sản của hướng mnemonic đã bỏ).
 
 ## Việc còn nợ
@@ -88,6 +94,15 @@ Sau khi nạp xong toàn bộ 870 thẻ: **xoá khối CSS `mn-*` di sản** tro
 - 🔴 **KHI CÓ LÔ CHẠY SONG SONG, ĐỪNG `git add -A`.** Nó quét cả file đang soạn dở của lô khác
   vào commit, và HEAD giữ **ảnh chụp còn lỗi** trong khi bản đã sửa nằm trên đĩa. Đã dính thật
   ở k08. Commit theo **đường dẫn cụ thể**: `git add data/huongdan/kho/kNN_*.py hangdoi.json`.
+
+- **AnkiConnect đặt tên khoá LỆCH nhau ở hai đầu**: `notesInfo` trả về `noteId`, còn
+  `updateNoteFields` lại nhận `{"id": …}`. Code cũ đọc `n["id"]` nên `nap` **chưa bao giờ chạy
+  được thật** — và nó sẽ nổ đúng ở bước cuối cùng, sau khi đã soạn xong cả 703 từ. Bài học:
+  **chạy khan đường ống ghi từ sớm**, đừng để dành tới cuối.
+
+- **Nội dung `HuongDan` cũ đã sao lưu** ở `_backup_huongdan.json` (271 note, không commit vì
+  nặng và là dữ liệu chết). Nội dung mới thì nguồn thật nằm ở các file `kNN_*.py` trong git,
+  nạp lại lúc nào cũng được — Anki chỉ là bản sao.
 
 - **Console Windows là cp1252** — in tiếng Nga ra là `UnicodeEncodeError`.
   Luôn `PYTHONIOENCODING=utf-8`, và dữ liệu lớn thì ghi ra file.
