@@ -213,7 +213,7 @@ S["фильм"] = (
     '<div class="hd-sec">Họ hàng</div>'
     '<div class="hd-fam"><b>мультфи́льм</b> phim hoạt hình (mult- = multiplication, kỹ thuật vẽ nhiều hình) · '
     '<b>кинофи́льм</b> phim điện ảnh · <b>кино́</b> điện ảnh; rạp phim · <b>кинотеа́тр</b> rạp chiếu bóng · '
-    '<b>фи́льмовый</b> thuộc về phim</div>'
+    '<b>плёнка</b> cuộn phim nhựa (từ KHÁC, để phân biệt)</div>'
     + MUON + GIONG + SONHIEU
 )
 
@@ -434,20 +434,22 @@ S["угол"] = (
     '<b>у́гол</b> cùng nguồn Ấn–Âu với Latin <i>angulus</i> và Hy Lạp <i>ankýlos</i> (cong, gập), gốc nghĩa "chỗ gập lại". '
     'Vì thế nó nằm sẵn trong tiếng Anh của bạn: <i>angle</i> (góc), <i>angular</i>, <i>ankle</i> (mắt cá — chỗ chân gập).</div>'
     '<div class="hd-sec">Họ hàng — gốc угол/угл</div>'
-    '<div class="hd-fam"><b>треуго́льник</b> hình tam giác (три + угол = "ba góc") · <b>у́гольник</b> ê-ke, thước góc · '
-    '<b>углово́й</b> ở góc, thuộc góc · <b>уголо́к</b> góc nhỏ, xó · <b>многоуго́льник</b> đa giác</div>'
+    '<div class="hd-fam"><b>треуго́льник</b> hình tam giác (три + угол = "ba góc") · <b>углово́й</b> ở góc, thuộc góc · <b>уголо́к</b> góc nhỏ, xó · <b>многоуго́льник</b> đa giác</div>'
     + GIONG + SONHIEU
 )
 
 S["пожар"] = (
     '<div class="hd-sec">Chẻ từ</div>'
     '<div class="hd-row"><span class="hd-piece">по-</span>'
-    '<span class="hd-gloss">tiền tố "trùm khắp, lan ra hết" — ở đây là lửa <b>phủ hết</b> chỗ đó</span></div>'
+    '<span class="hd-gloss">tiền tố — ở đây <b>đã mờ nghĩa</b>, không mang nghĩa riêng nào rõ ràng; '
+    'nó chỉ biến gốc "nóng" thành tên gọi của <b>một sự việc trọn vẹn</b>. Đừng cố gán nghĩa cho nó.</span></div>'
     '<div class="hd-row"><span class="hd-piece">-жар</span>'
     '<span class="hd-gloss">gốc <b>SỨC NÓNG</b> — chính là danh từ <b>жар</b> (hơi nóng; cơn sốt)</span></div>'
     '<div class="hd-sec">Cách nhớ</div>'
-    '<div class="hd-why">Cộng thẳng: <b>sức nóng</b> + <b>lan trùm hết</b> = <b>đám cháy</b>. '
-    'Nhận ra <b>жар</b> nằm trong đó là từ này hết lạ, và bạn được luôn cả một chùm từ về nóng/nấu ở dưới.</div>'
+    '<div class="hd-why">Phần <b>chắc chắn</b> và đáng học ở đây là gốc: <b>пожа́р</b> chứa nguyên vẹn '
+    '<b>жар</b> (sức nóng). Nhận ra điều đó là từ này hết lạ, và bạn được luôn cả chùm từ về nóng/nấu ở dưới. '
+    'Còn phần tiền tố thì đừng ép nghĩa — tiếng Nga có rất nhiều tiền tố đã mờ hẳn, '
+    'nói thẳng "không mang nghĩa" đúng hơn là bịa ra một nghĩa nghe xuôi tai.</div>'
     '<div class="hd-warn"><b>Luân phiên </b><b>гор / жар / жёг</b><b> — cùng một gốc đội ba mặt nạ:</b><br>'
     '• <b>гор-</b>: <b>горе́ть</b> cháy · <b>горя́чий</b> nóng (sờ vào) · <b>го́рький</b> đắng<br>'
     '• <b>жар-</b>: <b>жар</b> hơi nóng · <b>жара́</b> trời nóng · <b>жа́рить</b> rán, nướng<br>'
@@ -499,8 +501,7 @@ S["шар"] = (
     'Vì vậy tôi <b>không bắc cầu</b> sang tiếng Anh ở từ này. Riêng <b>сфе́ра</b> trong tiếng Nga thì đúng là mượn '
     'từ <i>sphaera</i>, nhưng đó là <u>từ khác</u>, dùng cho nghĩa trừu tượng (<i>сфе́ра де́ятельности</i> = lĩnh vực).</div>'
     '<div class="hd-sec">Họ hàng</div>'
-    '<div class="hd-fam"><b>ша́рик</b> quả cầu nhỏ; bóng bay · <b>шарово́й</b> hình cầu · <b>ша́рикоподши́пник</b> vòng bi · '
-    '<b>мяч</b> bóng thể thao (từ KHÁC, để phân biệt) · <b>сфе́ра</b> hình cầu (thuật ngữ); lĩnh vực</div>'
+    '<div class="hd-fam"><b>ша́рик</b> quả cầu nhỏ; bóng bay · <b>шарово́й</b> hình cầu · <b>мяч</b> bóng thể thao (từ KHÁC, để phân biệt) · <b>сфе́ра</b> hình cầu (thuật ngữ); lĩnh vực</div>'
     + GIONG + SONHIEU
 )
 
