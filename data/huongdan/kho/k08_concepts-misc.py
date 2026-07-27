@@ -326,7 +326,7 @@ S["билет"] = (
     '<div class="hd-warn"><b>Nghĩa thứ hai — rất đặc trưng Nga, từ điển ghi là "card":</b><br>'
     '<b>экзаменацио́нный биле́т</b> = <b>phiếu đề thi</b>. Thi vấn đáp ở Nga: sinh viên bốc ngẫu nhiên một tờ '
     '<b>биле́т</b> có 2–3 câu hỏi rồi trả lời. Nói <i>Мне попа́лся тру́дный биле́т</i> = tôi bốc trúng đề khó.<br>'
-    'Cùng nghĩa "thẻ giấy có dấu": <b>партийный биле́т</b> = thẻ đảng · <b>лотере́йный биле́т</b> = vé số.</div>'
+    'Cùng nghĩa "thẻ giấy có dấu": <b>парти́йный биле́т</b> = thẻ đảng · <b>лотере́йный биле́т</b> = vé số.</div>'
     '<div class="hd-warn"><b>Cụm dùng hằng ngày:</b> <b>купи́ть биле́т</b> mua vé · <b>обра́тный биле́т</b> vé khứ hồi · '
     '<b>биле́т туда́ и обра́тно</b> vé khứ hồi (nói thường) · <b>Ва́ши биле́ты!</b> = Xin mời cho xem vé!<br>'
     'Trọng âm <b>биле́т</b> nằm ở âm tiết cuối và <b>đứng yên</b> mọi dạng: биле́та, биле́ту, биле́ты.</div>'

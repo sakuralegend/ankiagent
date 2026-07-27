@@ -195,25 +195,40 @@ def cmd_soat():
                 hong.append((word, nguon[word], f"chu TRON Cyrillic+Latin: {tok}"))
 
         for m in re.findall(r"<b>(.*?)</b>", html):
-            token = re.sub(r"<[^>]+>", "", m).strip()
-            if not re.fullmatch(r"[А-Яа-яЁё́​-]+", token) or "-" in token:
-                continue
-            # (b) THIẾU DẤU TRỌNG ÂM = né bộ soát, không phải "an toàn".
+            noi_dung = re.sub(r"<[^>]+>", "", m).strip()
+            # (d) CỤM NHIỀU CHỮ phải tách ra soi TỪNG CHỮ.
+            # `fullmatch` trượt ngay ở dấu cách, nên trước đây MỌI cụm in đậm
+            # (collocation, ví dụ ngắn) đi qua cửa mà không bị kiểm chút nào —
+            # `между́ строк` lọt cả ba cửa, đúng phải là `ме́жду строк`.
+            chu = [t.strip(".,;:!?()[]«»\"'…") for t in noi_dung.split()]
+            # Cụm THUẦN NGA (mọi chữ đều Cyrillic) mới là collocation thật -> soi
+            # cả dấu trọng âm. Còn câu tiêu đề tiếng Việt có kèm một từ Nga thì từ
+            # đó thường được CỐ Ý viết trần để nêu mặt chữ; đòi dấu ở đó là kêu oan,
+            # mà kêu oan thì lô sau sẽ thêm dấu giả cho im cửa — đúng thứ cần tránh.
+            thuan_nga = all(re.fullmatch(r"[А-Яа-яЁё́​-]*", t) for t in chu)
+            for i, token in enumerate(chu):
+                if not re.fullmatch(r"[А-Яа-яЁё́​-]+", token) or "-" in token:
+                    continue
+                # `не́`/`ни́` hút trọng âm của từ đứng sau (не́ было, не́ был) ->
+                # từ sau nó MẤT dấu là đúng chính tả, không phải thiếu sót.
+                sau_ne = i > 0 and chu[i - 1].lower() in ("не́", "ни́")
+                # (b) THIẾU DẤU TRỌNG ÂM = né bộ soát, không phải "an toàn".
             # Bộ soát chỉ đối chiếu được từ CÓ dấu; bỏ dấu là tự động qua cửa.
-            # Từ ≥2 nguyên âm mà không dấu, không có ё (ё luôn mang trọng âm) -> báo.
-            if (len(re.findall(r"[аеёиоуыэюяАЕЁИОУЫЭЮЯ]", token)) >= 2
-                    and ACUTE not in token and "ё" not in token.lower()):
-                khong_dau.append((word, nguon[word], token))
+                # Từ ≥2 nguyên âm mà không dấu, không có ё (ё luôn mang trọng âm) -> báo.
+                if (len(re.findall(r"[аеёиоуыэюяАЕЁИОУЫЭЮЯ]", token)) >= 2
+                        and ACUTE not in token and "ё" not in token.lower()
+                        and thuan_nga and not sau_ne):
+                    khong_dau.append((word, nguon[word], token))
 
-            b = bare(token)
-            if b not in nouns:
-                chua_tra.add(b)
-                continue
-            chuan = nouns[b]
-            if ACUTE not in chuan or token in MIEN_TRU:
-                continue          # tên riêng lưu trần -> không so được
-            if token.replace(ZWSP, "").lower().replace("ё", "е") != chuan.lower().replace("ё", "е"):
-                sai.append((word, nguon[word], token, chuan))
+                b = bare(token)
+                if b not in nouns:
+                    chua_tra.add(b)
+                    continue
+                chuan = nouns[b]
+                if ACUTE not in chuan or token in MIEN_TRU:
+                    continue          # tên riêng lưu trần -> không so được
+                if token.replace(ZWSP, "").lower().replace("ё", "е") != chuan.lower().replace("ё", "е"):
+                    sai.append((word, nguon[word], token, chuan))
 
     print("=== CAU TRUC HTML ===")
     print("  (khong co)" if not hong else "")
