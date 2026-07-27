@@ -165,6 +165,17 @@ def cmd_soat():
             if lop not in html:
                 hong.append((word, nguon[word], f"thieu .{lop}"))
 
+        # (c) CHỮ TRỘN CYRILLIC + LATIN — lỗi gõ MẮT KHÔNG THẤY.
+        # `а о е р с х у` Nga và Latin vẽ giống hệt nhau. Một chữ lọt vào giữa
+        # từ Nga thì thẻ trông vẫn đúng nhưng đó không còn là từ đó nữa.
+        # Lô k07 tự viết script bắt được `гốc` và `цapтa` — giữ lại thành cửa chung.
+        # ⚠️ Dải chữ Latin phải viết TƯỜNG MINH. Viết tắt kiểu `À-ỹ` nuốt trọn cả
+        # bảng Cyrillic (U+0400 nằm trong U+00C0–U+1EF9) -> báo nhầm mọi từ Nga.
+        LAT = r"A-Za-zÀ-ɏḀ-ỿ"
+        for tok in re.findall(rf"[{LAT}А-Яа-яЁё́]{{2,}}", re.sub(r"<[^>]+>", " ", html)):
+            if re.search(r"[А-Яа-яЁё]", tok) and re.search(rf"[{LAT}]", tok):
+                hong.append((word, nguon[word], f"chu TRON Cyrillic+Latin: {tok}"))
+
         for m in re.findall(r"<b>(.*?)</b>", html):
             token = re.sub(r"<[^>]+>", "", m).strip()
             if not re.fullmatch(r"[А-Яа-яЁё́​-]+", token) or "-" in token:
