@@ -23,7 +23,8 @@
     "отдыхать"
    ],
    "trangthai": "xong",
-   "file": "k01_actions.py"
+   "file": "k01_actions.py",
+   "daNap": true
   },
   {
    "id": "k02",
@@ -46,7 +47,8 @@
     "поговорить"
    ],
    "trangthai": "xong",
-   "file": "k02_actions.py"
+   "file": "k02_actions.py",
+   "daNap": true
   },
   {
    "id": "k03",
@@ -60,7 +62,8 @@
     "стоять"
    ],
    "trangthai": "xong",
-   "file": "k03_actions.py"
+   "file": "k03_actions.py",
+   "daNap": true
   },
   {
    "id": "k04",
@@ -83,7 +86,8 @@
     "другой"
    ],
    "trangthai": "xong",
-   "file": "k04_concepts-abstract.py"
+   "file": "k04_concepts-abstract.py",
+   "daNap": true
   },
   {
    "id": "k05",
@@ -106,7 +110,8 @@
     "быль"
    ],
    "trangthai": "xong",
-   "file": "k05_concepts-abstract.py"
+   "file": "k05_concepts-abstract.py",
+   "daNap": true
   },
   {
    "id": "k06",
@@ -118,7 +123,8 @@
     "речь"
    ],
    "trangthai": "xong",
-   "file": "k06_concepts-abstract.py"
+   "file": "k06_concepts-abstract.py",
+   "daNap": true
   },
   {
    "id": "k07",
@@ -141,7 +147,8 @@
     "прыжок"
    ],
    "trangthai": "xong",
-   "file": "k07_concepts-misc.py"
+   "file": "k07_concepts-misc.py",
+   "daNap": true
   },
   {
    "id": "k08",
@@ -164,7 +171,8 @@
     "бюст"
    ],
    "trangthai": "xong",
-   "file": "k08_concepts-misc.py"
+   "file": "k08_concepts-misc.py",
+   "daNap": true
   },
   {
    "id": "k09",

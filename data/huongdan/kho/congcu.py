@@ -7,12 +7,15 @@ phiên chat. Càng ít thứ phải nhớ càng ít chỗ sai.
     python data/huongdan/kho/congcu.py tiep          # in dữ liệu lô kế tiếp để soạn
     python data/huongdan/kho/congcu.py soat          # soát toàn bộ lô đã soạn (KHÔNG cần Anki)
     python data/huongdan/kho/congcu.py trangthai     # còn bao nhiêu
-    python data/huongdan/kho/congcu.py nap [--apply] # ĐẨY vào Anki — chỉ chạy khi user bảo
+    python data/huongdan/kho/congcu.py nap [--apply] # ĐẨY vào Anki — chỉ lô đã duyệt & chưa nạp
 
 🔴 Lô soạn xong là file `kNN_<topic>.py` CHỈ CHỨA `S = {...}` — dữ liệu thuần,
-không boilerplate, không tự gọi Anki. Việc đẩy là của `nap`, một lần, cuối cùng.
-Nhờ vậy user "để riêng ra một chỗ" được đúng như yêu cầu: thẻ trong Anki không
-bị đụng cho tới lúc user cho phép.
+không boilerplate, không tự gọi Anki. Agent phụ KHÔNG bao giờ đụng Anki; việc
+đẩy là của `nap`, do luồng chính gọi sau khi đã soát.
+
+Từ 27/07 `nap` chạy được sau MỖI lô thay vì gom một cục cuối đường: nó chỉ đọc
+lô `trangthai == "xong"` và ghi sổ `daNap` vào hangdoi.json, nên lô đang soạn dở
+không thể lọt vào thẻ thật và không lô nào bị nạp hai lần.
 """
 import glob
 import importlib.util
@@ -261,6 +264,10 @@ def cmd_trangthai():
     gop, _ = nap_lo_da_soan([l["id"] for l in xong] or ["__khong_co__"])
     print(f"lo:  {len(xong)}/{q['tong_lo']}")
     print(f"tu:  {len(gop)}/{q['tong_tu']}  (da duyet)")
+    da_nap = [l["id"] for l in xong if l.get("daNap")]
+    chua_nap = [l["id"] for l in xong if not l.get("daNap")]
+    print(f"nap: {len(da_nap)}/{len(xong)} lo da vao Anki"
+          + (f"   chua nap: {' '.join(chua_nap)}" if chua_nap else ""))
     cho = [l["id"] for l in q["lo"] if l["trangthai"] == "cho"]
     print(f"con: {' '.join(cho[:12])}{' ...' if len(cho) > 12 else ''}")
 
@@ -277,7 +284,20 @@ def ac(action, **params):
 
 
 def cmd_nap():
-    """Đẩy TẤT CẢ lô đã soạn vào Anki — chỉ chạy khi user bảo.
+    """Đẩy vào Anki các lô ĐÃ DUYỆT mà CHƯA nạp.
+
+    Nạp theo từng lô (thay vì gom một cục cuối đường) an toàn nhờ ba chốt:
+
+      1. **Chỉ đọc lô có `trangthai == "xong"`** — y hệt `trangthai`. Đọc mọi
+         file kNN_*.py trên đĩa sẽ vớ luôn file đang soạn dở của agent chạy
+         song song và đẩy nội dung CHƯA SOÁT vào thẻ thật.
+      2. **`daNap` trong hangdoi.json là sổ cái** — lô nào đã vào Anki thì ghi
+         lại, lần sau không đụng nữa. Muốn đẩy lại thì `--tatca`.
+      3. **Ghi khi nội dung KHÁC** — trùng thì bỏ qua, không làm bẩn USN,
+         gói sync nhẹ hơn và không đội thẻ lên khi bấm nhầm hai lần.
+
+    Ghi field `HuongDan` KHÔNG phải schema mod (field có sẵn từ đợt trước),
+    nên không kích hoạt full sync — laptop vẫn sync thường với iPhone/VPS.
 
     KHÔNG dùng `findNotes WordClean:<từ>` cho từng từ. Hai lý do:
       * 703 lần gọi mạng thì chậm và dễ đứt giữa chừng;
@@ -288,15 +308,28 @@ def cmd_nap():
       vào MỌI note khớp — thẻ trùng thì cả hai đều nhận nội dung.
     """
     apply = "--apply" in sys.argv
-    gop, _ = nap_lo_da_soan()
+    tatca = "--tatca" in sys.argv
+    q = doc_hangdoi()
+    xong = [l for l in q["lo"] if l["trangthai"] == "xong"]
+    can = [l for l in xong if tatca or not l.get("daNap")]
+    if not can:
+        print(f"khong co lo moi de nap ({len(xong)} lo da duyet, tat ca da nap)")
+        return
+    ids_lo = [l["id"] for l in can]
+    print(f"nap {len(can)} lo: {' '.join(ids_lo)}")
+    gop, _ = nap_lo_da_soan(ids_lo)
     print(f"da soan: {len(gop)} tu")
 
     ids = ac("findNotes", query="note:RU_Word")
-    ban_do = {}
+    ban_do, hien_co = {}, {}
     for n in ac("notesInfo", notes=ids):
-        ban_do.setdefault(bare(n["fields"]["WordClean"]["value"]), []).append(n["id"])
+        # `noteId`, KHÔNG phải `id` — notesInfo trả về noteId, còn updateNoteFields
+        # lại nhận khoá `id`. Hai đầu đặt tên khác nhau, dễ dính.
+        nid = n["noteId"]
+        ban_do.setdefault(bare(n["fields"]["WordClean"]["value"]), []).append(nid)
+        hien_co[nid] = n["fields"].get("HuongDan", {}).get("value", "")
 
-    ok, miss, doi = 0, [], 0
+    ok, bo_qua, miss, doi = 0, 0, [], 0
     for word, html in gop.items():
         nids = ban_do.get(bare(word), [])
         if not nids:
@@ -305,14 +338,30 @@ def cmd_nap():
         if len(nids) > 1:
             doi += 1
         for nid in nids:
+            if hien_co.get(nid) == html:
+                bo_qua += 1
+                continue
             if apply:
                 ac("updateNoteFields", note={"id": nid, "fields": {"HuongDan": html}})
             ok += 1
-    print(f"ghi vao {ok} note ({doi} tu co the trung, ghi ca hai)")
+    print(f"ghi vao {ok} note, bo qua {bo_qua} (da trung noi dung), "
+          f"{doi} tu co the trung -> ghi ca hai")
     for w in miss:
         print(f"  !! khong tim thay note cho: {w}")
-    print("da ghi. sync: " + str(ac("sync")) if apply
-          else "(chua ghi gi — them --apply de ghi that)")
+    if not apply:
+        print("(chua ghi gi — them --apply de ghi that)")
+        return
+    if miss:
+        # Thiếu note = hàng đợi và bộ sưu tập lệch nhau. Đánh dấu daNap lúc này
+        # sẽ chôn luôn những từ chưa vào -> để nguyên, chạy lại sau khi đã hiểu.
+        print("  !! CO TU KHONG TIM THAY -> KHONG danh dau daNap. Xu ly roi chay lai.")
+        return
+    for l in q["lo"]:
+        if l["id"] in ids_lo:
+            l["daNap"] = True
+    ghi_hangdoi(q)
+    print(f"da ghi + danh dau daNap: {' '.join(ids_lo)}")
+    print("sync: " + str(ac("sync")))
 
 
 if __name__ == "__main__":
