@@ -20,6 +20,15 @@
   - Cách phát hiện: `nap` báo *ghi vào 33 note* trong khi lô chỉ có **32 từ**. Con số lệch 1 đó
     là thứ duy nhất tố giác. **Bài học: đối chiếu lại số note đã ghi với số từ đã soạn sau mỗi
     lần nạp** — trùng khớp thì thôi, lệch thì truy tới nơi, đừng cho qua.
+- **`908dc20` — VÁ lỗ thủng đó ngay trong phiên.** Tách cụm in đậm ra soi từng chữ. Hai chốt
+  chống kêu oan, vì kêu oan là thứ **nguy hiểm hơn cả lỗi**: lô sau sẽ thêm dấu trọng âm giả
+  cho im cửa, đúng hành vi bộ soát sinh ra để chặn.
+  1. Chỉ đòi dấu trọng âm ở cụm **thuần Nga**; câu tiêu đề tiếng Việt kèm một từ Nga thì từ đó
+     thường được **cố ý viết trần** để nêu mặt chữ.
+  2. Từ đứng sau `не́`/`ни́` mang dấu thì **mất dấu là đúng chính tả** (`не́ было`).
+  Chạy trên 12 lô cũ: lộ ra 9 chỗ, lọc còn **3 lỗi thật**, đã sửa và đẩy lên Anki —
+  `дого́вор`→`догово́р` (k05 мир), `аппетит`→`аппети́т` (k05 приятно), `партийный`→`парти́йный`
+  (k08 билет).
 - ⚠️ **Lỗ thủng của bộ soát do agent k11 chỉ ra:** cụm in đậm **nhiều chữ** (có dấu cách) không
   được đối chiếu trọng âm chút nào — bộ soát bỏ qua mọi token chứa khoảng trắng. Nó lọt
   `между́ строк` (đúng là `ме́жду строк`), agent tự bắt bằng mắt. Chưa vá; tạm thời mọi lô phải
