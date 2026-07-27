@@ -39,9 +39,18 @@ Khuôn lời nhắn giao cho agent phụ (đổi `kNN` và phần chủ đề):
 >
 > **Báo cáo:** số từ · kết quả 3 mục soát · **những chỗ KHÔNG chắc đã hạ mức tin**.
 
-🔴 **MỖI PHIÊN CHỈ 3 LÔ (~45–50 từ). Chạy tuần tự hoặc 2 song song, đừng 4–5.**
-Đo thật 27/07: 8 lô = trọn cửa sổ 5h gói Pro **+ $25 usage credit**. User đã trả giá để biết
-con số này, đừng thử lại. Hết 3 lô thì **dừng và báo cáo**, để user tự quyết có chạy thêm không.
+🔴 **MỖI PHIÊN 2 LÔ, VÀ PHIÊN ĐÓ CHỈ ĐƯỢC CHẠY LÔ.**
+Đo thật phiên tối 27/07: k09 = **191K token**, k10 = **171K** ⇒ ~**180K/lô**, hai lô ~360K.
+Nhưng phiên đó chạm 99% *không phải* chỉ vì hai lô — luồng chính còn viết lại `nap`, truy bug
+`noteId`, sửa docs, 5 lần commit. **Trộn việc sửa công cụ vào phiên chạy lô chính là thứ đội
+hạn mức lên.** (Trước đó: 8 lô = trọn cửa sổ 5h + $25 credit.)
+
+- **2 lô** nếu phiên chỉ chạy lô — **giao cả hai ngay từ tin nhắn đầu**, chạy song song, luồng
+  chính đứng im chờ. Đó là lúc rẻ nhất.
+- **1 lô** nếu còn phải sửa công cụ / gọt k04 / bàn việc khác.
+- Luồng chính **KHÔNG đọc file lô** (~1000 dòng mỗi file) — tin ba cửa soát, đó là lý do dựng chúng.
+
+Hết quota thì **dừng và báo cáo**, để user tự quyết.
 
 **Mọi lô dùng Opus** — user chốt 27/07 sau khi biết chi phí. Không hạ model để tiết kiệm.
 
