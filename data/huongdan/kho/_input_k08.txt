@@ -1,0 +1,18 @@
+### k08  topic=concepts::misc  (15 tu)   [3/56 lo xong]
+### file can tao: k08_concepts-misc.py
+
+S["рисунок"]   рису́нок   (n)   drawing/picture   |   bức tranh, hình vẽ   [DE GHI DE noi dung mnemonic cu]
+S["диск"]   диск   (n)   disk / disc / discus / drum   |   đĩa (CD, DVD, hoặc ổ cứng)
+S["футбол"]   футбо́л   (n)   football / soccer   |   bóng đá
+S["угол"]   у́гол   (n)   corner / angle / dwelling / quarters   |   góc
+S["фильм"]   фильм   (n)   movie / film   |   phim, bộ phim
+S["гимн"]   гимн   (n)   hymn / anthem   |   quốc ca, bài ca (thường dùng cho quốc gia hoặc tổ chức)
+S["фон"]   фон   (n)   background   |   nền, phông nền
+S["пятно"]   пятно́   (n)   spot / stain   |   vết bẩn, đốm, vết bớt
+S["золото"]   зо́лото   (n)   gold   |   vàng (kim loại quý), màu vàng óng, điều quý giá
+S["фото"]   фо́то   (n)   photo   |   bức ảnh, hình chụp
+S["место"]   ме́сто   (n)   place / spot / site / locality / seat / region / area / site / scene / room / space / job / position / piece of luggage   |   nơi chốn, chỗ ngồi, vị trí, địa điểm
+S["пожар"]   пожа́р   (n)   a fire   |   cháy, đám cháy
+S["шар"]   шар   (n)   sphere / ball / balloon   |   quả bóng, hình cầu, khinh khí cầu
+S["билет"]   биле́т   (n)   ticket / card   |   vé   [DE GHI DE noi dung mnemonic cu]
+S["бюст"]   бюст   (n)   bust / bosom   |   bức tượng bán thân
