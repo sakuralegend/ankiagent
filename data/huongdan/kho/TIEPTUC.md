@@ -115,19 +115,40 @@ Khuôn lời nhắn giao cho agent phụ (đổi `kNN` và phần chủ đề):
 
 > Soạn ô "Hướng dẫn" cho lô **kNN**, dự án Anki học tiếng Nga tại `d:\Desktop\ANKI`.
 >
-> **1. Đọc spec TRƯỚC KHI viết** — toàn bộ `data/huongdan/README.md` (đặc biệt §2, §5, **§7**),
-> và `data/huongdan/kho/MAU.py` làm chuẩn văn phong + mật độ nội dung.
-> (**Đừng đọc `k01_actions.py`** — 64 KB, MAU.py 19 KB đã đủ.)
+> **1. Đọc spec TRƯỚC KHI viết** — toàn bộ `data/huongdan/README.md` (đặc biệt **§2b NGẮN GỌN**,
+> §2, §5, **§7**). 🔴 **§2b đè lên mọi hướng dẫn "được phép dài" ở chỗ khác trong file.**
+> (**Đừng đọc `k01_actions.py` hay `MAU.py`** — cả hai soạn theo chuẩn CŨ dài gấp 4–5 lần,
+> chép theo là hỏng. Bản mẫu đúng nằm ngay trong §2b.)
+>
+> 🔴 **BA CON SỐ CỨNG:** tối đa **2 ô đỏ** (`hd-warn`) mỗi thẻ · tối đa **1 khối dùng chung** ·
+> **1,2–2,2 KB, trần 3 KB**. Biến cách/số nhiều **theo đúng quy tắc thì BỎ**, chỉ liệt kê khi
+> bất thường. Ba mục cốt lõi giữ nguyên: **Chẻ từ → Cách nhớ → Họ hàng**.
 > **2. Đề bài:** `PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py tiep kNN`
 > **3. Soạn** `data/huongdan/kho/kNN_<topic>.py`, chỉ chứa `S = {...}`. ‹gợi ý hệ thống trục›
 > **4. Tự soát:** `… congcu.py soat kNN` — sửa tới khi **cả ba** mục đầu báo `(khong co)`,
 > rồi **đọc bằng mắt** danh sách "PHAI DOC BANG MAT".
+> **Và `… congcu.py dodai kNN` phải báo `QUA 3KB: 0` VÀ `QUA 2 O DO: 0`.**
 > **5. DỪNG** — không sửa `hangdoi.json`, không commit, không `nap`, không đụng Anki.
 > (Ngoại lệ: gặp **từ đồng tự** thật thì được thêm dòng vào `MIEN_TRU` kèm lý do, và phải báo lên.)
 >
 > **Báo cáo:** số từ · kết quả 3 mục soát · **những chỗ KHÔNG chắc đã hạ mức tin**.
 
-🔴 **MỖI PHIÊN 2 LÔ, VÀ PHIÊN ĐÓ CHỈ ĐƯỢC CHẠY LÔ.**
+🔴 **MỖI PHIÊN 4 LÔ** (chuẩn §2b), **VÀ PHIÊN ĐÓ CHỈ ĐƯỢC CHẠY LÔ.**
+
+📐 **Tính lại 28/07 sau khi chốt chuẩn ngắn.** Khớp mô hình `chi phí = cố định/lô + c × số từ`
+từ hai điểm đo thật cùng phiên (k15 = 7 từ / 93K token · k16 = 14 từ / 126K):
+
+| | Cố định mỗi lô | Mỗi từ | Lô 20 từ | **Từ / phiên** |
+|---|---|---|---|---|
+| Chuẩn cũ | 60K | 4,7K | 154K | **~40** (2 lô) |
+| **Chuẩn §2b** | 53K | **1,6K** | **84K** | **~76** (4 lô) |
+
+Vì sao gần gấp đôi: nội dung còn ~1/3, và bỏ luôn việc đọc `MAU.py` (~7K). ⚠️ **Hệ quả phải
+nhớ: phần cố định nay chiếm ~62% chi phí một lô** (53K/84K) — nên **lô to càng lợi hơn trước**:
+lô 22 từ tốn 3 983 token/từ, lô 14 từ tốn 5 366. Đừng cắt nhỏ lô.
+
+⚠️ Đây là **ước lượng từ mô hình**, chưa đo thật ở chuẩn mới. Phiên đầu chạy §2b phải **đo lại
+và ghi vào bảng này**; nếu lệch thì sửa số, đừng giữ con số đẹp.
 
 📊 **Đo qua ba phiên — chi phí mỗi TỪ giảm khi lô to hơn và khi luồng chính im lặng:**
 

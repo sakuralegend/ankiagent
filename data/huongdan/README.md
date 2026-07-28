@@ -19,29 +19,69 @@ Và:
 ⇒ **Không được đẩy việc thẩm định sang user.** Phần nào máy soát được thì bắt buộc để máy soát
 (xem §5). Phần nào không soát được thì **nói rõ mức tin ngay trên thẻ**.
 
-## 2. Nội dung — ba phần, đúng thứ tự
+## 2. Nội dung — ba mục, đúng thứ tự, và NGẮN
 
-| Phần | Lớp CSS | Nội dung |
+### 🧭 Nguyên tắc gốc — đọc câu này trước, mọi con số bên dưới chỉ là cách thi hành nó
+
+> *"Tôi muốn **mỗi từ chỉ tiết lộ một ít kiến thức liên quan TRỰC TIẾP đến nó** thôi, đừng bê
+> cả họ kiến thức như sách giáo khoa vào."*
+
+**Phép thử một câu:** *câu này có giúp nhớ ĐÚNG TỪ NÀY không, hay chỉ là kiến thức đúng nói
+chung?* Loại thứ hai bỏ đi. **Đúng không phải lý do để cho vào thẻ.**
+
+### Ba mục cốt lõi — đây là thứ user gọi là quan trọng nhất
+
+| Mục | Lớp CSS | Nội dung |
 |---|---|---|
 | **Chẻ từ** | `hd-sec` + `hd-row`(`hd-piece`/`hd-gloss`) | Từng mảnh **kèm nghĩa của mảnh**. Mảnh không mang nghĩa riêng (tiền tố thể) thì **nói thẳng là không**, đừng bịa. Từ gốc trơn thì bỏ hẳn phần chẻ, thay bằng một câu `hd-why` nói rõ "không chẻ được". |
-| **Cách nhớ** | `hd-why` | Logic nối các mảnh ra nghĩa. **Bắc cầu sang tiếng Anh khi thật sự cùng gốc** (`совреме́нный` ↔ *contemporary* = *con-* + *tempus*). Chỉ ra **phụ tố mở khoá cả lớp từ** — đây là phần giá trị nhất. |
+| **Cách nhớ** | `hd-why` | **Chủ yếu suy thẳng ra TỪ các mảnh vừa chẻ.** Bắc cầu sang tiếng Anh khi thật sự cùng gốc (`совреме́нный` ↔ *contemporary*). |
 | **Họ hàng** | `hd-sec` + `hd-fam` | Từ cùng gốc / cùng phụ tố, **luôn kèm nghĩa tiếng Việt**. |
+
+### 🔴 Ba con số cứng
+
+1. **TỐI ĐA 2 ô đỏ (`hd-warn`) mỗi thẻ** — chọn hai cái hay nhất, bỏ hết phần còn lại.
+2. **MẶC ĐỊNH KHÔNG CÓ KHỐI HỆ THỐNG** (§3). Cần lắm thì trải đầy đủ ở **đúng một thẻ** của lô,
+   thẻ khác dẫn chiếu một dòng.
+3. **Nhắm 1,2–2,2 KB HTML, trần cứng 3 KB.**
+
+```bash
+PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py dodai kNN   # byte + ô đỏ + %khối chung
+```
+
+### Cắt cái gì để xuống được cỡ đó
+
+- ✂️ **Biến cách / số nhiều theo ĐÚNG QUY TẮC thì BỎ HẲN.** Chỉ liệt kê khi **bất thường** —
+  nguyên âm chạy (`лёд → льда`), số nhiều bất quy tắc, giống lệch với đuôi.
+  *"Đặc biệt thì liệt kê đủ, còn theo quy tắc thì thôi."*
+- ✂️ Bỏ sắc thái phụ, ví dụ câu thứ hai trở đi, mẹo phát âm không mở khoá lớp từ nào.
+
+⚠️ **Ngắn KHÔNG phải là cụt** — user vẫn giữ *"đừng rút gọn khó hiểu"*.
+
+### 📐 Bản mẫu: `сожаление` — 1 173 byte, và user chấm là "vừa súc tích vừa đủ ý"
+
+**Chép cái TỈ LỆ này, đừng chép độ dài suông:**
+
+- **Chẻ từ**: 3 mảnh, mỗi mảnh một dòng ngắn (`со-` cùng · `-жал-` thương xót · `-ение` → danh từ)
+- **Cách nhớ**: một câu nghĩa đen nối các mảnh + **một dẫn chiếu sang từ đã học** (`совреме́нный`)
+- **2 ô đỏ đắt giá**: từ cùng gốc user dùng hằng ngày (`пожа́луйста`) · cụm phải thuộc (`к сожале́нию`)
+- **Họ hàng**: đúng một dòng, 5 từ
 
 Bẫy dễ nhầm thì chèn `hd-warn` **ngay dưới phần liên quan**, không dồn xuống cuối.
 
-**ĐƯỢC PHÉP DÀI.** User chốt: *"đừng rút gọn khó hiểu"*. Ô này thu gọn mặc định nên độ dài
-không làm phiền ai.
+<details><summary>Vì sao chuẩn đổi (28/07) — đọc nếu định nới lại cho dài</summary>
 
-⚠️ **Nhưng dài có trần: nhắm 6–10 KB HTML mỗi thẻ, tối đa ~12 KB.**
-Đo thật: lô k01 trung bình 7,7 KB — vừa. Lô k04 lên 13,4 KB (đỉnh 16,9) vì **chồng ba khối
-hệ thống lên cùng một thẻ**. Đây không phải chuyện thẩm mỹ: mục đích user nói rõ là *"thứ ĐẦU
-TIÊN tôi đọc để hiểu một từ mới"* — dài quá thì user **không đọc**, và thế là hỏng đúng mục
-đích mà độ dài định phục vụ. Quy tắc: **tối đa 2 khối dùng chung mỗi thẻ**, và khối thứ hai
-phải thật sự liên quan tới từ đó chứ không gắn cho đủ bộ. Kiểm nhanh:
+Trước đây mục này ghi *"ĐƯỢC PHÉP DÀI, nhắm 6–10 KB"*. User học hết số thẻ đã soạn rồi kết luận
+ngược: *"tham quá khiến thẻ dài tôi đọc xong không nhớ gì"*. Công cụ khi đó **chỉ đo byte, không
+đếm ô đỏ và không đếm khối lặp**, nên tôi tưởng đã đạt trong khi trượt rất xa:
 
-```bash
-PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py dodai kNN
-```
+| | `сожаление` | k12 (lô gọn nhất) | k04 |
+|---|---|---|---|
+| Byte | **1 173** | 3 583 | 13 403 |
+| Ô đỏ / thẻ | **2** | 4,3 | 10,5 |
+| % là khối lặp | **0%** | 0% | **80%** |
+
+⇒ **Trần byte một mình không đủ.** `dodai` nay đo cả ba.
+</details>
 
 ### Cái "tinh tuý" nên ưu tiên, theo thứ tự giá trị đường dài
 
@@ -65,9 +105,38 @@ PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py dodai kNN
 ## 3. Chia lô theo HỌ TỪ, không chia đều
 
 32/168 từ nằm cùng một hệ thống quốc tịch. Soạn cùng nhau thì lời giải thích **nhất quán và
-không tự mâu thuẫn giữa các lô**. Khối hệ thống dùng chung (biến `HE`, `LUAT`, `THE`…) **lặp
-ở mọi thẻ trong họ là CỐ Ý** — user chỉ nhìn một thẻ mỗi lần, gặp lại 32 lần chính là spaced
-repetition cho bản thân cái hệ thống.
+không tự mâu thuẫn giữa các lô**.
+
+### 🔴 Khối hệ thống dùng chung: MẶC ĐỊNH LÀ KHÔNG CÓ
+
+1. **Lô 0% khối chung (k09, k10, k12, k49) là CHUẨN, không phải ngoại lệ.** Khối dùng chung phải
+   tự chứng minh mình đáng có; nó không phải mục cần điền cho đủ bộ.
+2. **Cần lắm thì trải đầy đủ ở ĐÚNG MỘT thẻ của lô** — thẻ mà hệ thống đó là trọng tâm thật
+   (bảng biến cách đại từ đặt ở `он`, không rải khắp 14 thẻ).
+3. **Thẻ còn lại: một dòng dẫn chiếu, hoặc không nói gì.**
+   `<div class="hd-why">Bảng biến cách đầy đủ nằm ở thẻ <b>он</b>.</div>`
+4. **Cấm bảng/danh sách trọn lớp từ trên thẻ không thuộc trọng tâm của lớp đó.** Kiến thức chung
+   phải **hoà vào "Cách nhớ" bằng một câu nói về CHÍNH TỪ NÀY**:
+   ✅ *"đuôi `-ение` cho biết đây là danh từ giống trung"* — ❌ cả bảng ba giống.
+5. **Không bao giờ đánh số "Hệ thống 1 / 2 / 3"** trên một thẻ. Viết tới số 2 là đã sai.
+
+`congcu.py dodai` in cột **`khoi dung chung: N% do dai the`** — kêu khi vượt 15%.
+
+<details><summary>Vì sao đổi (28/07) — đọc nếu định khôi phục cách cũ</summary>
+
+Mục này trước đây khẳng định *"khối hệ thống lặp ở mọi thẻ trong họ là CỐ Ý — user chỉ nhìn một
+thẻ mỗi lần, gặp lại 32 lần chính là spaced repetition cho bản thân cái hệ thống"*. Lập luận
+nghe hợp lý, **user cũng đã đồng ý lúc đó**, nhưng sai khi dùng thật:
+
+| Lô | k04 | k08 | k07 | k05 | k01 | k16 | k02 | k09·k10·k12·k49 |
+|---|---|---|---|---|---|---|---|---|
+| % độ dài thẻ là khối lặp | **80%** | 73% | 68% | 62% | 60% | 56% | 52% | **0%** |
+
+Ở k04, **4/5 thẻ là khối lặp**, phần nói về chính từ đó chỉ còn 1/5. Cái "spaced repetition cho
+hệ thống" đẩy chính cái từ ra rìa và làm mọi thẻ trong lô **trông giống hệt nhau** nên mắt lướt
+qua. User: *"tôi thấy nó chiếm quá nhiều diện tích rồi… đừng bê cả họ kiến thức như sách giáo
+khoa vào"*.
+</details>
 
 ## 4. Quy trình chạy một lô — không được bỏ bước nào
 
@@ -177,12 +246,14 @@ khác, và **đó là cố ý**. Mọi thứ bạn cần nằm trong file. Đừ
 Phần cố định (đọc spec, xem mẫu, tra từ điển, chạy soát) áp đảo. ⇒ **Không bao giờ chạy lô
 dưới 10 từ**; hàng đợi lệch thì chạy `chialai.py` chia lại cho đều (13–18 từ/lô).
 
-🔴 **Mỗi phiên chỉ nên chạy 3–4 lô (~45–60 từ).** 8 lô đã đốt trọn cửa sổ 5h của gói Pro
-cộng thêm $25 credit. Đây là **trần thật, đã trả giá để biết** — đừng thử lại.
+🔴 **Mỗi phiên 4 lô (~76 từ) ở chuẩn §2.** Đo thật 28/07: chi phí ≈ **53K cố định mỗi lô +
+1,6K mỗi từ**. Phần cố định chiếm ~62% một lô ⇒ **lô to rẻ hơn rõ rệt trên mỗi từ, đừng cắt
+nhỏ lô**. (Ở chuẩn cũ dài gấp 4–5 lần thì chỉ chạy được 2 lô ≈ 40 từ. Và 8 lô một phiên đã
+từng đốt trọn cửa sổ 5h + $25 credit — trần thật, đã trả giá để biết.)
 
-**Xem mẫu thì đọc `kho/MAU.py` (19 KB), ĐỪNG đọc `k01_actions.py` (64 KB).** Hai thẻ trong
-MAU.py đủ cho thấy văn phong, mật độ và cách hạ mức tin; đọc cả k01 chỉ để xem mẫu là mất
-thêm ~25K token mỗi lô mà không biết thêm gì.
+🔴 **ĐỪNG đọc `MAU.py` hay `k01_actions.py` để xem mẫu.** Cả hai soạn theo **chuẩn cũ dài gấp
+4–5 lần** (nhiều ô đỏ, khối hệ thống lặp) — chép theo là hỏng đúng thứ vừa sửa. Bản mẫu đúng là
+**`сожаление` ở §2**, đã trích sẵn đủ tỉ lệ; không cần mở file nào khác.
 
 ## Quy trình một lô — đúng 5 bước
 
@@ -215,10 +286,8 @@ python data/huongdan/kho/congcu.py soat k07
 # -*- coding: utf-8 -*-
 """k07 — <topic>: <một câu nói hệ thống trục của lô này>."""
 
-HE = (  # khối hệ thống dùng chung cho cả lô — xem §3, LẶP Ở MỌI THẺ LÀ CỐ Ý
-    '<div class="hd-sec">…</div>'
-    '<div class="hd-why">…</div>'
-)
+# 🔴 KHÔNG dựng biến khối dùng chung (HE/LUAT/THE…) rồi cộng vào mọi thẻ.
+# Đó là cách cũ, đã bỏ 28/07 — xem §3. Nó nuốt tới 80% độ dài thẻ ở k04.
 
 S = {}
 
@@ -230,9 +299,10 @@ S["дом"] = (
     '<div class="hd-why">…</div>'
     '<div class="hd-sec">Họ hàng</div>'
     '<div class="hd-fam"><b>дома́шний</b> thuộc về nhà · …</div>'
-    + HE
 )
 ```
+
+**Cả thẻ nhắm 1,2–2,2 KB, tối đa 2 ô `hd-warn`.** Xem bản mẫu `сожаление` ở §2.
 
 **Khoá `S[...]` phải khớp `WordClean` CHÍNH XÁC** — kể cả `ё` (`весёлый` ≠ `веселый`).
 Cứ chép nguyên chuỗi mà lệnh `tiep` in ra.

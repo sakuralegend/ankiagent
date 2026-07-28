@@ -273,10 +273,16 @@ def cmd_soat():
 
 
 # ---------------------------------------------------------- lệnh: trangthai
-def cmd_dodai():
-    """Đo độ dài từng thẻ. Trần 6–10 KB, tối đa ~12 KB — xem README §2.
+TRAN_BYTE = 3000     # README §2b — chốt 28/07, thay cho trần 12 KB cũ
+TRAN_WARN = 2        # số ô đỏ (.hd-warn) tối đa mỗi thẻ
 
-    Dài quá thì user không đọc, mà không đọc thì hỏng đúng mục đích ô này.
+
+def cmd_dodai():
+    """Đo độ dài VÀ đếm ô đỏ từng thẻ — xem README §2b.
+
+    🔴 Đếm ô đỏ mới là cửa quan trọng. Suốt 16 lô đầu chỉ có trần byte, nên
+    thẻ "đạt" 12 KB vẫn có tới 16 ô đỏ và user đọc xong không nhớ gì — đúng
+    thứ mà độ dài định phục vụ thì lại hỏng. Trần byte một mình KHÔNG đủ.
     """
     chi = [a for a in sys.argv[2:] if re.fullmatch(r"k\d\d", a)] or None
     gop, nguon = nap_lo_da_soan(chi)
@@ -284,11 +290,38 @@ def cmd_dodai():
     if not L:
         print("chua co gi")
         return
-    qua = [x for x in L if x[0] > 12000]
-    print(f"{len(gop)} the | trung binh {sum(n for n, _ in L) // len(L)} "
-          f"| dai nhat {L[0][0]} ({L[0][1]}) | QUA 12KB: {len(qua)}")
+    W = {k: v.count("hd-warn") for k, v in gop.items()}
+    qua = [x for x in L if x[0] > TRAN_BYTE]
+    do = sorted(((n, k) for k, n in W.items() if n > TRAN_WARN), reverse=True)
+    print(f"{len(gop)} the | byte tb {sum(n for n, _ in L) // len(L)} "
+          f"| dai nhat {L[0][0]} ({L[0][1]}) | QUA {TRAN_BYTE // 1000}KB: {len(qua)}")
+    print(f"{'':>9} o do tb {sum(W.values()) / len(W):.1f} "
+          f"| nhieu nhat {do[0][0] if do else max(W.values())} "
+          f"({do[0][1] if do else '-'}) | QUA {TRAN_WARN} O DO: {len(do)}")
+
+    # KHỐI DÙNG CHUNG: mục .hd-sec nào xuất hiện ở >=50% số thẻ thì đó là khối
+    # lặp, không phải nội dung của từ. §3 — mặc định phải là 0%; ở k04 nó nuốt
+    # 80% độ dài thẻ và đẩy chính cái từ ra rìa.
+    dem, dai = {}, {}
+    for v in gop.values():
+        p = re.split(r'<div class="hd-sec">(.*?)</div>', v)
+        for i in range(1, len(p), 2):
+            ten = re.sub(r"<[^>]+>", "", p[i]).strip()
+            dem[ten] = dem.get(ten, 0) + 1
+            dai[ten] = dai.get(ten, 0) + len(p[i]) + (len(p[i + 1]) if i + 1 < len(p) else 0)
+    coc = {"Chẻ từ", "Cách nhớ", "Họ hàng"}
+    chung = [(t, c) for t, c in dem.items() if c >= len(gop) * 0.5 and t not in coc]
+    tong = sum(len(v) for v in gop.values())
+    pc = 100 * sum(dai[t] for t, _ in chung) / tong if tong else 0
+    print(f"{'':>9} khoi dung chung: {pc:.0f}% do dai the"
+          f"{'  <- QUA NHIEU, xem README §3' if pc > 15 else ''}")
+    for t, c in sorted(chung, key=lambda x: -x[1]):
+        print(f"     lap x{c}/{len(gop)}  {dai[t]:6d}b  {t[:60]}")
+
     for n, w in qua[:15]:
-        print(f"  {n:6d}  {w}   [{nguon[w]}]")
+        print(f"  byte  {n:6d}  {w}   [{nguon[w]}]")
+    for n, w in do[:15]:
+        print(f"  o do  {n:6d}  {w}   [{nguon[w]}]")
 
 
 def cmd_trangthai():
