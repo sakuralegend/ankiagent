@@ -52,9 +52,23 @@ deck user đang học** chứ không theo số hiệu lô.
   dạy luật "đuôi `-еть` nhưng lớp 2" rồi minh hoạ bằng `слы́шать` (đuôi `-ать`, **không phải ví
   dụ của luật đó**) · hạ "tiền tố `про-` **luôn** mang ý xuyên suốt" xuống "**thường**".
   Sửa `Vietnamese` cả 19 từ vì 19/19 là động từ nên **thể là bắt buộc**.
-- 📊 **Chi phí thật ở chuẩn ngắn, đo 5 lô: ~105K token/agent mỗi lô** (77 · 116 · 127 · 100 ·
-  113K) — mô hình dự 84K hơi lạc quan nhưng đúng bậc độ lớn. Đã sửa số trong `TIEPTUC.md` thay
-  vì giữ con số đẹp. ⇒ **4 lô/phiên là vừa**, lô thứ 5 chỉ chạy khi luồng chính im gần tuyệt đối.
+- 📊 **CHI PHÍ: ĐẾM BẰNG TỪ, KHÔNG BẰNG LÔ** — user hỏi cuối phiên *"một lượt có thể làm 5 lô
+  nổi không"*. Năm điểm đo cùng phiên (4·14·19·20·21 từ → 77·100·113·116·127K token) hồi quy ra
+  **65K cố định mỗi lô + 2,67K mỗi từ** (dự 533K, thật 533K). ⚠️ Con số cũ **53K + 1,6K/từ sai
+  theo hướng lạc quan** — phần cố định thấp 23%, phần mỗi từ thấp gần 70%; đã thay bằng số đo.
+  ⇒ **Ngân sách phiên ≈ 80 TỪ**, không phải "N lô": phiên này 5 lô nổi **chỉ vì trung bình 15,6
+  từ/lô**; 5 lô × 20 từ = 592K là vượt. Quy đổi hạn mức 5h: ~**5,7K token mỗi 1%**.
+- 🏷️ **Đề bài `Vietnamese` KHÔNG ghi từ loại** — user: *"cái từ loại không cần ghi đâu, vì thẻ
+  của tôi đã có field đó rồi"*. Đúng: front của card gõ in sẵn `{{PoS}}` + `{{GenderBadge}}`
+  ngay dưới ô đề bài, nên "(TÍNH TỪ)"/"(DANH TỪ)"/"— ĐỘNG TỪ"/"(giống cái)" là lặp thứ user đang
+  nhìn. Đã gỡ **26 dòng** ở k51/k52/k53/k54 và đẩy lại (`nap --tatca` → đổi đúng 26 note).
+  **Giữ lại thứ không field nào chứa**: thể hoàn thành/chưa hoàn thành · phản thân `-ся` · so
+  sánh hơn · từ chỉ dùng số nhiều. **Ngoại lệ `PoS = oth`** (`по-ру́сски·за·про·то́лько`): badge
+  hiện đúng chữ "oth" nên vẫn phải ghi từ loại — kiểm bằng `notesInfo`, đừng đoán.
+  ⇒ Hai cặp lo nhất hoá ra badge tự tách sẵn: `бли́зкий`/`бли́зко` (adj vs adv) và
+  `за́втракать`/`за́втрак` (v vs n). Luật đã vào README §2c + khuôn lời nhắn trong `TIEPTUC.md`.
+  📌 **Bài học: trước khi thêm chú thích vào một field, ĐỌC CARD TEMPLATE xem mặt thẻ đã hiện
+  gì** — cùng loại sai với việc đoán nội dung lô từ tên topic ở trên.
 - 🔧 **Bẫy PowerShell mới**: here-string `@'…'@` cho `git commit -m` **vỡ khi message chứa dấu
   `"` hoặc `§`** — PowerShell tách thành nhiều tham số, git báo hàng loạt `pathspec did not match`.
   Cách chữa đã ghi trong tài liệu vẫn đúng: **ghi message ra file rồi `git commit -F <file>`**.

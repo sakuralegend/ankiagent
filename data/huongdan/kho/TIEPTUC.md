@@ -25,9 +25,28 @@ Phiên **5 lô** theo chuẩn ngắn: **78 từ**, 0 thẻ vượt trần nào, 
 bốn lô `sua`. Bắt được **8 lỗi nội dung** của bản cũ (phần lớn chỉ lộ lúc rà tay bằng mắt) —
 chi tiết ở mục 28/07 trong `CHANGELOG.md`.
 
-📊 **Đo thật chi phí ở chuẩn ngắn: ~105K token/agent mỗi lô** (77K · 116K · 127K · 100K · 113K),
-tức mô hình dự 84K hơi lạc quan nhưng đúng bậc độ lớn. Trên hạn mức 5h: **~18%/lô**, 4 lô song
-song = 74%. ⇒ **4 lô/phiên là vừa; lô thứ 5 chỉ chạy khi luồng chính im gần như tuyệt đối.**
+### 📊 CHI PHÍ — ĐO THẬT 5 LÔ, ĐẾM BẰNG **TỪ** CHỨ KHÔNG PHẢI BẰNG LÔ
+
+Năm điểm đo cùng phiên 28/07: k13 4 từ = **77K** · k53 14 từ = **100K** · k54 19 từ = **113K** ·
+k51 20 từ = **116K** · k52 21 từ = **127K**. Hồi quy tuyến tính:
+
+> **chi phí ≈ 65K cố định mỗi lô + 2,67K mỗi từ** (tổng dự 533K, tổng thật 533K)
+
+⚠️ **Con số cũ trong tài liệu (53K + 1,6K/từ) SAI theo hướng lạc quan** — phần cố định thấp 23%,
+phần mỗi từ thấp gần 70%. Đã thay bằng số đo. Đừng khôi phục con số đẹp.
+
+🔴 **NGÂN SÁCH PHIÊN ≈ 80 TỪ, KHÔNG PHẢI "N LÔ".** Phiên này chạy **5 lô nổi** — nhưng chỉ vì
+trung bình **15,6 từ/lô** (có k13 chỉ 4 từ). Năm lô 20 từ = 100 từ ≈ **592K → vượt**.
+Quy đổi hạn mức 5h: 420K ứng 74% ⇒ **~5,7K token mỗi 1%**.
+
+| Cỡ lô trung bình | Số lô nổi trong một phiên |
+|---|---|
+| ~15 từ | **5 lô** (~78 từ) |
+| ~20 từ | **4 lô** (~80 từ) |
+| ~22 từ (trần) | **3–4 lô** |
+
+⇒ Trước khi giao việc, **cộng số từ của các lô định chạy**; quá ~80 thì bớt một lô. Và điều kiện
+đi kèm vẫn giữ: **luồng chính im**, không trộn việc sửa công cụ vào phiên chạy lô.
 
 🎯 **Cách chọn lô của phiên này đáng giữ**: user muốn ưu tiên thẻ **đang học**, nên luồng chính
 đối chiếu deck thật với hàng đợi trước khi giao việc (đếm `deck:RUSSIAN::1-go` rơi vào lô nào).
