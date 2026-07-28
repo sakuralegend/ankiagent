@@ -16,18 +16,17 @@ Bạn (user) chỉ cần gõ một câu: **"chạy tiếp kho"**. Phần dưới
 PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py trangthai
 ```
 
-### 🔴 Ưu tiên: k49 + k50 chạy TRƯỚC k13
+### ✅ k49 + k50 XONG 28/07 — lô kế tiếp là **k13**
 
-User thêm 39 từ giao thông/phương hướng ngày 28/07 và muốn xong trước. Đã nối vào
-`tudien.json` + `hangdoi.json` thành **k49 (19 từ)** và **k50 (20 từ)**, cùng topic
-`places::city`. Chạy hai lô này rồi mới quay lại k13.
+39 từ giao thông/phương hướng user thêm 28/07 đã soạn và nạp xong (k49 19 từ, k50 20 từ,
+cùng `places::city`). Hàng đợi trở lại tuần tự từ **k13**.
 
-⚠️ **Hai lô này to hơn thường lệ (19–20 thay vì 15).** Chấp nhận được vì chủ đề rất đồng nhất
-— `дойти·доехать·прийти·приехать` chung khối tiền tố до-/при-, còn
-`метро·такси·мопед·мотоцикл·велосипед·трамвай·троллейбус` chung khối từ mượn — nên một khối
-dùng chung gánh được nhiều từ hơn hẳn lô hỗn hợp. Nhưng đó cũng đúng là điều kiện làm **k04
-vỡ trần 12 KB**, nên khi giao đề phải ghi thêm hai dòng vào lời nhắn agent:
-**trần 12 KB là cứng** (`congcu.py dodai` để tự kiểm) và **tối đa 2 khối dùng chung / thẻ**.
+✅ **Đã chứng minh: trần 12 KB giữ được bằng lời dặn, kể cả với lô 19–20 từ.** Hai lô này to
+hơn thường lệ và chủ đề rất đồng nhất — đúng điều kiện làm **k04 vỡ trần**. Chỉ cần thêm hai
+dòng vào lời nhắn agent là đủ chặn: **trần 12 KB là cứng** (`congcu.py dodai` để tự kiểm) và
+**tối đa 2 khối dùng chung / thẻ**. Kết quả: k49 trung bình 4 657 (đỉnh 6 569), k50 trung bình
+5 896 (đỉnh 6 832), **0 thẻ quá trần** ở cả hai. ⇒ Giữ hai dòng này trong MỌI lời nhắn về sau;
+k04 phình là do thiếu lời dặn, không phải do lô to.
 
 **Bài học chung — bổ sung từ mới thì phải chạm HAI file.** `hangdoi.json` quyết định lô nào
 được soạn, nhưng `congcu.py tiep` lấy nghĩa/trọng âm từ `tudien.json`. Thêm vào một file mà

@@ -4,6 +4,29 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 28/07/2026 — CHẠY XONG k49 + k50: 39 TỪ GIAO THÔNG ĐÃ VÀO ANKI
+
+Commit `fcf99aa` (k49) + `69e5eb1` (k50). Dây chuyền: **14/50 lô · 202/740 từ**, cả 14 lô đã nạp.
+Hàng đợi trở lại tuần tự từ **k13**.
+
+- **k49 — 19 từ phương hướng & đi lại.** Trục chính: tiền tố **до-/при-** giao với cặp gốc
+  `идти`/`ехать` (`дойти·доехать·прийти·приехать`), khối phương hướng **на-**
+  (`налево·направо·напротив`), khối **пере-** (`переход·пересадка`).
+- **k50 — 20 từ phương tiện & địa điểm.** Trục chính: từ mượn **bất biến** (`метро·такси`) vs
+  **chia cách** (`трамвай·велосипед`), mảnh gốc Hy–La (`вело-/мото-/-пед/-цикл`), và từ ghép
+  **tự giải nghĩa** (`сам+лёт`, `верт+лёт`, `тепло+ход`) kèm luật ё luôn mang trọng âm.
+- ✅ **Trần 12 KB giữ được bằng LỜI DẶN, không cần cắt nhỏ lô.** Hai lô này 19–20 từ (thường lệ
+  15) và chủ đề rất đồng nhất — **đúng điều kiện đã làm k04 vỡ trần** (13/15 thẻ >12 KB, đỉnh
+  16,9 KB). Chỉ thêm hai dòng vào lời nhắn agent — *trần 12 KB là cứng, tự kiểm bằng `dodai`* +
+  *tối đa 2 khối dùng chung mỗi thẻ* — là đủ chặn: k49 trung bình **4 657** (đỉnh 6 569), k50
+  trung bình **5 896** (đỉnh 6 832), **0 thẻ quá trần** ở cả hai. Kết luận đúng là *thiếu lời
+  dặn* làm phình, **không phải** *lô to* làm phình — nên đừng cắt nhỏ lô để chữa, vì lô nhỏ đắt
+  gấp 3–4 lần trên mỗi từ.
+- **Bộ soát lại bắt lỗi thật ở cả hai lô**, đúng như lý do dựng nó: k49 `е́зда` → **`езда́`**;
+  k50 `транспорти́ровка` → **`транспортиро́вка`**. Cả hai đều là trọng âm agent tự tin viết sai.
+- **Nạp khớp tuyệt đối**: k49 ghi vào **19 note / 19 từ**, k50 **20 note / 20 từ**. Con số khớp
+  là thứ duy nhất tố giác bẫy `ё` ghép nhầm note (đã nổ hôm qua ở `всё`/`все`), nên vẫn đối chiếu.
+
 ## 28/07/2026 — 39 TỪ MỚI THÀNH LÔ k49 + k50, ƯU TIÊN CHẠY TRƯỚC k13
 
 Commit `37e1a5b`. User thêm 39 từ giao thông/phương hướng trong ngày và muốn xong trước khi
