@@ -153,7 +153,7 @@ loại dữ liệu khác nhau, Anki gộp được — không phải chọn chi�
 Đọc kỹ mục "chỗ tôi không chắc" trong báo cáo: lô động từ/tính từ gần như **không được bộ soát
 đỡ** (`nouns.csv` chỉ có 382/703 từ là danh từ), nên đó là chỗ duy nhất bắt được lỗi nội dung.
 
-## Khi HẾT 48 lô
+## Khi HẾT 33 lô còn lại
 
 ```bash
 python data/huongdan/kiemtra.py     # soát lại TRÊN THẺ THẬT, sau khi đã nạp hết
@@ -162,10 +162,25 @@ python data/huongdan/kiemtra.py     # soát lại TRÊN THẺ THẬT, sau khi đ
 Sau khi nạp xong toàn bộ thẻ: **xoá khối CSS `mn-*` di sản** (6 quy tắc) trong
 `anki_tools/templates/card.css`.
 
-⚠️ **Chưa xoá được bây giờ.** Đo 28/07 trên 869 thẻ: 163 thẻ đã có hướng dẫn mới ·
-**222 thẻ mang nội dung cũ** · 484 thẻ rỗng. Trong 222 thẻ cũ đó, **chỉ 54 thẻ là mnemonic
-thật** (class `mn-story`/`mn-tip`/`mn-read`) — 168 thẻ còn lại **đã đúng định dạng `hd-*`**,
-chỉ mỏng hơn (1–2 KB). Xoá CSS khi 54 thẻ kia còn sống là vỡ giao diện chúng.
+✅ **Đã xác nhận xoá được — nhưng chỉ sau khi hết hàng đợi.** Đo lại 28/07 trên 908 thẻ:
+**cả 54 thẻ mang mnemonic cũ (`mn-story`/`mn-tip`/`mn-read`) đều nằm trong lô CHƯA soạn**, nên
+chúng sẽ tự bị viết đè khi lô của chúng tới lượt. Hết hàng đợi = 0 thẻ dùng `mn-*` = xoá CSS an
+toàn. Trước đó thì không, vì xoá sớm là vỡ giao diện 54 thẻ đang sống.
+
+## 🕳️ 168 THẺ NGOÀI HÀNG ĐỢI — sẽ KHÔNG BAO GIỜ được viết lại
+
+Phép trừ 28/07: 908 thẻ − 740 từ trong hàng đợi = **168 thẻ chưa từng nằm trong dây chuyền**.
+Cả 168 đều **đã có nội dung** đúng định dạng `hd-*` (0 thẻ rỗng — không có lỗ hổng che phủ),
+nhưng **mỏng hơn hẳn**:
+
+| | trung bình | min | max |
+|---|---|---|---|
+| 168 thẻ ngoài hàng đợi | **1 635 byte** | 662 | 2 666 |
+| 202 thẻ đã qua dây chuyền | **7 648 byte** | — | 16 874 |
+
+Tức chúng chỉ dày bằng **~1/5**. Hàng đợi đông lạnh ở 703 từ lúc lập kế hoạch nên chúng không
+bao giờ được xếp lô. **Đây là việc còn nợ, chưa hỏi user.** Muốn nâng cấp thì nối 168 từ này
+vào `tudien.json` + `hangdoi.json` (đúng quy trình đã ghi ở trên) — thêm khoảng **9 lô nữa**.
 
 **Đừng xoá nội dung mnemonic cũ đi cho gọn** (đã cân nhắc và bác 28/07): cả 54 thẻ là mnemonic
 **thuần**, không thẻ nào có sẵn phần `hd-*`, nên xoá là để lại ô trống hàng tuần liền. Mà nội
