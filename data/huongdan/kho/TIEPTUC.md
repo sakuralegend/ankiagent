@@ -8,13 +8,31 @@ Bạn (user) chỉ cần gõ một câu: **"chạy tiếp kho"**. Phần dưới
 
 | File | Là gì |
 |---|---|
-| `hangdoi.json` | 56 lô + `trangthai: cho\|xong` — **nguồn sự thật duy nhất** |
-| `tudien.json` | ảnh chụp đông lạnh 703 từ (WordClean, trọng âm, từ loại, nghĩa). **Đừng sửa** |
+| `hangdoi.json` | 50 lô + `trangthai: cho\|xong` — **nguồn sự thật duy nhất** |
+| `tudien.json` | ảnh chụp 740 từ (WordClean, trọng âm, từ loại, nghĩa). Chỉ nối thêm khi user thêm từ mới — xem dưới |
 | `kNN_*.py` | nội dung đã soạn, dữ liệu thuần `S = {...}` |
 
 ```bash
 PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py trangthai
 ```
+
+### 🔴 Ưu tiên: k49 + k50 chạy TRƯỚC k13
+
+User thêm 39 từ giao thông/phương hướng ngày 28/07 và muốn xong trước. Đã nối vào
+`tudien.json` + `hangdoi.json` thành **k49 (19 từ)** và **k50 (20 từ)**, cùng topic
+`places::city`. Chạy hai lô này rồi mới quay lại k13.
+
+⚠️ **Hai lô này to hơn thường lệ (19–20 thay vì 15).** Chấp nhận được vì chủ đề rất đồng nhất
+— `дойти·доехать·прийти·приехать` chung khối tiền tố до-/при-, còn
+`метро·такси·мопед·мотоцикл·велосипед·трамвай·троллейбус` chung khối từ mượn — nên một khối
+dùng chung gánh được nhiều từ hơn hẳn lô hỗn hợp. Nhưng đó cũng đúng là điều kiện làm **k04
+vỡ trần 12 KB**, nên khi giao đề phải ghi thêm hai dòng vào lời nhắn agent:
+**trần 12 KB là cứng** (`congcu.py dodai` để tự kiểm) và **tối đa 2 khối dùng chung / thẻ**.
+
+**Bài học chung — bổ sung từ mới thì phải chạm HAI file.** `hangdoi.json` quyết định lô nào
+được soạn, nhưng `congcu.py tiep` lấy nghĩa/trọng âm từ `tudien.json`. Thêm vào một file mà
+quên file kia thì `tiep` in ra `?` ở mọi cột và agent sẽ soạn mò. Lấy dữ liệu từ chính Anki
+(`notesInfo` → `Word`/`WordClean`/`Meaning`/`Vietnamese`/`PoS` + tag `topic::`), đừng gõ tay.
 
 ## Mở lô kế tiếp — quy tắc bất di bất dịch
 
