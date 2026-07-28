@@ -8170,5 +8170,41 @@
   "pos": "n",
   "topic": "life::home",
   "cu": false
+ },
+ {
+  "wc": "здание",
+  "w": "зда́ние",
+  "en": "<ol class=\"meaning-list\"><li>building</li></ol>",
+  "vi": "tòa nhà, công trình",
+  "pos": "n",
+  "topic": "places::city",
+  "cu": false
+ },
+ {
+  "wc": "лучше",
+  "w": "лу́чше",
+  "en": "<ol class=\"meaning-list\"><li>better</li><li>it is better</li></ol>",
+  "vi": "tốt hơn",
+  "pos": "adv",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "отель",
+  "w": "оте́ль",
+  "en": "<ol class=\"meaning-list\"><li>hotel</li></ol>",
+  "vi": "khách sạn",
+  "pos": "n",
+  "topic": "places::city",
+  "cu": false
+ },
+ {
+  "wc": "столица",
+  "w": "столи́ца",
+  "en": "<ol class=\"meaning-list\"><li>capital</li></ol>",
+  "vi": "thủ đô",
+  "pos": "n",
+  "topic": "places::city",
+  "cu": false
  }
 ]
