@@ -1152,7 +1152,9 @@
     "стадион",
     "общежитие"
    ],
-   "trangthai": "cho"
+   "trangthai": "xong",
+   "file": "k50_places-city.py",
+   "daNap": true
   }
  ]
 }
