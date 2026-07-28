@@ -4,6 +4,42 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 28/07/2026 — QUY HOẠCH KÍN 908 THẺ: 168 TỪ LÔ 01→12 XẾP LÊN ĐẦU HÀNG ĐỢI
+
+User hỏi *"168 thẻ nào vậy, tôi không hiểu"* — câu hỏi đó lộ ra tài liệu sai và một quyết định
+ưu tiên mà tôi đã khuyến nghị ngược.
+
+- 🔴 **`TIEPTUC.md` mô tả sai 168 thẻ đó** là *"chưa từng nằm trong dây chuyền, sẽ KHÔNG BAO GIỜ
+  được viết lại"*, và tôi đã tin phép trừ `908 − 740 = 168` là một **lỗ hổng che phủ** rồi báo
+  cho user như vậy. Kiểm bằng máy (hỏi thẳng Anki + đối chiếu khoá `lo01…lo12`): **166/168 khớp
+  chính xác** lô 01→12, 2 từ lẻ `переводчик`/`положительный`. Chúng **ngoài hàng đợi vì lúc lập
+  hàng đợi đã soạn xong rồi** — không thiếu thẻ nào. Bài học: **số rút từ phép trừ phải kiểm
+  bằng dữ liệu thật trước khi báo user**, hỏi Anki mất 30 giây.
+- 📏 Khác biệt thật là **độ dày**: 1 635 B so với 7 381 B (~1/5), vì chuẩn *"được phép dài,
+  nhắm 6–10 KB"* chỉ chốt **sau** khi soạn xong 12 lô đó.
+- ✅ **User chốt: soạn lại, và ưu tiên NGAY** — trước cả k17. Tôi khuyến nghị làm sau (466 thẻ
+  còn rỗng hoàn toàn), **user bác với lý do đúng hơn**: 168 từ này là *"những từ mới, tôi chưa
+  thuộc nên cần hướng dẫn hơn"*, còn phần kho *"đã thuộc sơ rồi"*. ⇒ **Ô Hướng dẫn có giá trị
+  nhất ở đúng lúc đang học từ, không phải ở chỗ nào trống nhất.** Ngoại lệ: hôm nào user thêm
+  từ mới thì từ mới ưu tiên hơn cả khối này.
+- 🗂️ **Nối thành 10 lô `k51`…`k60`** (14–22 từ, tb 16,8) đặt ở **đầu** `hangdoi.json`. Không chia
+  đều mà **giữ nguyên nhóm họ gốc của lô 01→12** — chúng vốn đã chia theo họ rất tốt. Chỉ gộp ở
+  ba chỗ thật sự cùng một trục: `k53` = dấu cứng `ъ` + bộ chữ rít `ч/щ` (đều là *luật chính tả
+  mặt chữ*), `k54` = thời tiết + tính từ trừu tượng (đều là *danh từ → tính từ bằng hậu tố*,
+  và đối chiếu `-н-` gốc Nga với `-альный` quốc tế còn hay hơn để riêng), `k58` = học tập +
+  `переводчик` (cùng họ `-ик` người / `-ика` ngành với `физик/физика`).
+- ⚠️ **Thứ tự chạy ≠ thứ tự số hiệu** kể từ nay: `k51…k60` đứng trước `k17…k47` trong file, và
+  `tiep` lấy lô `cho` đầu danh sách. Cả 10 lô mang khoá `thucong` nên `chialai.py` không xoá
+  được, và trục của chúng kèm sẵn lời dặn *viết đè hoàn toàn, đừng giữ bản cũ*.
+- 📊 **Soát toàn deck** (user yêu cầu): `deck:RUSSIAN::*` = **908 thẻ, 100% model `RU_Word`**,
+  **0 thẻ ngoài hàng đợi** — quy hoạch đã phủ kín. Chuẩn mới **223/908**; còn 466 rỗng, 168 mỏng
+  (nay là k51–k60), 51 mnemonic cũ. Con số `mn-*` giảm **54 → 51** đúng bằng 3 thẻ k15/k16 vừa
+  viết đè — khớp, đường ống ổn.
+- 🔴 **Phát hiện thêm: thẻ phình dài rộng hơn tài liệu ghi.** Trước chỉ ghi k04; đo toàn deck ra
+  **21 thẻ vượt 12 KB** ở **bốn** lô: k03 (**5/6**), k04 (**13/15**), k06 (**2/4**), k07 (1/15).
+  Từ k09 trở đi có lời dặn *tối đa 2 khối/thẻ* thì tắt hẳn — k09→k16 và k49/k50 **không thẻ nào
+  vượt**. Việc gọt cần làm ở **k03 + k04 + k06** (20/21 thẻ).
+
 ## 28/07/2026 — CHẠY XONG k15 + k16: 21 TỪ, VÀ LÔ GHÉP TAY ĐẦU TIÊN ĐÃ CHỨNG MINH
 
 Commit `821efce` (k15) + `e0ce437` (k16). Dây chuyền: **16/47 lô · 223/740 từ**, cả 16 lô đã nạp.

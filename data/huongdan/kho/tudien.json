@@ -6658,5 +6658,1517 @@
   "pos": "n",
   "topic": "places::city",
   "cu": false
+ },
+ {
+  "wc": "американка",
+  "w": "америка́нка",
+  "en": "<ol class=\"meaning-list\"><li>American woman</li></ol>",
+  "vi": "người phụ nữ Mỹ",
+  "pos": "n",
+  "topic": "people::family",
+  "cu": false
+ },
+ {
+  "wc": "американский",
+  "w": "америка́нский",
+  "en": "<ol class=\"meaning-list\"><li>American</li></ol>",
+  "vi": "thuộc về nước Mỹ",
+  "pos": "adj",
+  "topic": "places::city",
+  "cu": false
+ },
+ {
+  "wc": "английский",
+  "w": "англи́йский",
+  "en": "<ol class=\"meaning-list\"><li>English</li><li>British</li></ol>",
+  "vi": "tiếng Anh, thuộc về nước Anh",
+  "pos": "adj",
+  "topic": "language::education",
+  "cu": false
+ },
+ {
+  "wc": "англичанин",
+  "w": "англича́нин",
+  "en": "<ol class=\"meaning-list\"><li>Englishman</li></ol>",
+  "vi": "người Anh (nam giới)",
+  "pos": "n",
+  "topic": "people::family",
+  "cu": false
+ },
+ {
+  "wc": "англичанка",
+  "w": "англича́нка",
+  "en": "<ol class=\"meaning-list\"><li>Englishwoman</li></ol>",
+  "vi": "người phụ nữ Anh",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "араб",
+  "w": "ара́б",
+  "en": "<ol class=\"meaning-list\"><li>Arab</li><li>Arabian</li></ol>",
+  "vi": "người Ả Rập",
+  "pos": "n",
+  "topic": "people::family",
+  "cu": false
+ },
+ {
+  "wc": "арабка",
+  "w": "ара́бка",
+  "en": "<ol class=\"meaning-list\"><li>Arab woman</li><li>female Arab</li></ol>",
+  "vi": "phụ nữ Ả Rập",
+  "pos": "n",
+  "topic": "people::family",
+  "cu": false
+ },
+ {
+  "wc": "арабский",
+  "w": "ара́бский",
+  "en": "<ol class=\"meaning-list\"><li>Arab</li><li>Arabian</li><li>Arabic</li></ol>",
+  "vi": "tiếng Ả Rập, thuộc về Ả Rập",
+  "pos": "adj",
+  "topic": "language::education",
+  "cu": false
+ },
+ {
+  "wc": "близкий",
+  "w": "бли́зкий",
+  "en": "<ol class=\"meaning-list\"><li>close/near</li></ol>",
+  "vi": "gần (không gian), thân thiết (mối quan hệ)",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "близко",
+  "w": "бли́зко",
+  "en": "<ol class=\"meaning-list\"><li>nearby</li><li>close by</li></ol>",
+  "vi": "gần",
+  "pos": "adv",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "блюдо",
+  "w": "блю́до",
+  "en": "<ol class=\"meaning-list\"><li>meal</li><li>cuisine</li><li>food</li><li>dish</li><li>course</li></ol>",
+  "vi": "món ăn",
+  "pos": "n",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "богатый",
+  "w": "бога́тый",
+  "en": "<ol class=\"meaning-list\"><li>rich</li></ol>",
+  "vi": "giàu có, giàu",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "борщ",
+  "w": "борщ",
+  "en": "<ol class=\"meaning-list\"><li>borscht</li></ol>",
+  "vi": "súp củ cải đỏ (borscht)",
+  "pos": "n",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "будничный",
+  "w": "бу́дничный",
+  "en": "<ol class=\"meaning-list\"><li>workaday</li><li>everyday</li></ol>",
+  "vi": "thường ngày, bình thường, tẻ nhạt",
+  "pos": "adj",
+  "topic": "time",
+  "cu": false
+ },
+ {
+  "wc": "буфет",
+  "w": "буфе́т",
+  "en": "<ol class=\"meaning-list\"><li>canteen</li><li>bar</li><li>counter</li></ol>",
+  "vi": "quầy ăn nhẹ, căng tin",
+  "pos": "n",
+  "topic": "places::city",
+  "cu": false
+ },
+ {
+  "wc": "весёлый",
+  "w": "весёлый",
+  "en": "<ol class=\"meaning-list\"><li>merry</li><li>cheerful</li><li>happy</li><li>fun</li></ol>",
+  "vi": "vui vẻ, vui tươi, hóm hỉnh",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "ветер",
+  "w": "ве́тер",
+  "en": "<ol class=\"meaning-list\"><li>wind</li><li>breeze</li></ol>",
+  "vi": "gió",
+  "pos": "n",
+  "topic": "nature::weather",
+  "cu": false
+ },
+ {
+  "wc": "ветреный",
+  "w": "ве́треный",
+  "en": "<ol class=\"meaning-list\"><li>windy</li><li>frivolous</li><li>giddy</li><li>empty-headed</li><li>thoughtless</li><li>flighty</li><li>unstable</li><li>fickle</li></ol>",
+  "vi": "có gió, lộng gió, hoặc chỉ người hay thay đổi, không kiên định",
+  "pos": "adj",
+  "topic": "nature::weather",
+  "cu": false
+ },
+ {
+  "wc": "вечером",
+  "w": "ве́чером",
+  "en": "<ol class=\"meaning-list\"><li>in the evening</li></ol>",
+  "vi": "vào buổi tối",
+  "pos": "adv",
+  "topic": "time",
+  "cu": false
+ },
+ {
+  "wc": "вещь",
+  "w": "вещь",
+  "en": "<ol class=\"meaning-list\"><li>thing</li><li>things</li><li>belongings</li><li>clothes</li><li>work</li></ol>",
+  "vi": "đồ vật, món đồ, thứ, chuyện",
+  "pos": "n",
+  "topic": "concepts::misc",
+  "cu": false
+ },
+ {
+  "wc": "видеть",
+  "w": "ви́деть",
+  "en": "<ol class=\"meaning-list\"><li>to see</li></ol>",
+  "vi": "nhìn thấy, gặp, chứng kiến",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "вина",
+  "w": "вина́",
+  "en": "<ol class=\"meaning-list\"><li>guilt</li><li>fault</li></ol>",
+  "vi": "lỗi, tội lỗi, trách nhiệm",
+  "pos": "n",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "врач",
+  "w": "врач",
+  "en": "<ol class=\"meaning-list\"><li>doctor</li></ol>",
+  "vi": "bác sĩ",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "вслух",
+  "w": "вслух",
+  "en": "<ol class=\"meaning-list\"><li>aloud</li></ol>",
+  "vi": "thành tiếng, ra tiếng",
+  "pos": "oth",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "выходной",
+  "w": "выходно́й",
+  "en": "<ol class=\"meaning-list\"><li>to be available</li></ol>",
+  "vi": "ngày nghỉ, cuối tuần",
+  "pos": "adj",
+  "topic": "time",
+  "cu": false
+ },
+ {
+  "wc": "вьетнамский",
+  "w": "вьетна́мский",
+  "en": "<ol class=\"meaning-list\"><li>Vietnamese</li></ol>",
+  "vi": "tiếng Việt, thuộc về Việt Nam",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "грамматика",
+  "w": "грамма́тика",
+  "en": "<ol class=\"meaning-list\"><li>grammar</li></ol>",
+  "vi": "ngữ pháp",
+  "pos": "n",
+  "topic": "language::education",
+  "cu": false
+ },
+ {
+  "wc": "грач",
+  "w": "грач",
+  "en": "<ol class=\"meaning-list\"><li>rook</li></ol>",
+  "vi": "chim sáo (loài chim báo hiệu mùa xuân)",
+  "pos": "n",
+  "topic": "nature::animals",
+  "cu": false
+ },
+ {
+  "wc": "гулять",
+  "w": "гуля́ть",
+  "en": "<ol class=\"meaning-list\"><li>take a walk</li></ol>",
+  "vi": "đi dạo, đi chơi, đi chơi phố",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "дачка",
+  "w": "да́чка",
+  "en": "<ol class=\"meaning-list\"><li>small dacha</li><li>little country house</li><li>little cottage</li></ol>",
+  "vi": "nhà vườn nhỏ, căn nhà ngoại ô xinh xắn",
+  "pos": "n",
+  "topic": "life::home",
+  "cu": false
+ },
+ {
+  "wc": "дождливый",
+  "w": "дождли́вый",
+  "en": "<ol class=\"meaning-list\"><li>rainy</li><li>wet</li></ol>",
+  "vi": "có mưa, nhiều mưa",
+  "pos": "adj",
+  "topic": "nature::weather",
+  "cu": false
+ },
+ {
+  "wc": "домашний",
+  "w": "дома́шний",
+  "en": "<ol class=\"meaning-list\"><li>(relational) house / home</li><li>family</li><li>domestic</li><li>home-made</li><li>home-spun</li></ol>",
+  "vi": "(thuộc) nhà, gia đình; tự làm tại nhà",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "дочь",
+  "w": "дочь",
+  "en": "<ol class=\"meaning-list\"><li>daughter</li></ol>",
+  "vi": "con gái",
+  "pos": "n",
+  "topic": "people::family",
+  "cu": false
+ },
+ {
+  "wc": "думать",
+  "w": "ду́мать",
+  "en": "<ol class=\"meaning-list\"><li>to think</li><li>to consider</li></ol>",
+  "vi": "nghĩ, cho rằng, dự đoán",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "жить",
+  "w": "жить",
+  "en": "<ol class=\"meaning-list\"><li>to live</li></ol>",
+  "vi": "sống, sinh sống, tồn tại",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "за",
+  "w": "за",
+  "en": "<ol class=\"meaning-list\"><li>behind</li><li>at (location)</li><li>at (direction)</li><li>for (in support of)</li><li>for (mistake for)</li><li>for (reason)</li><li>for (duration)</li><li>following after</li><li>chasing after</li><li>over (a certain age)</li><li>beyond</li><li>on the far side of</li><li>out of (location)</li></ol>",
+  "vi": "cho, vì, đằng sau, trong vòng (khoảng thời gian)",
+  "pos": "oth",
+  "topic": "language::grammar",
+  "cu": false
+ },
+ {
+  "wc": "завтракать",
+  "w": "за́втракать",
+  "en": "<ol class=\"meaning-list\"><li>to have breakfast</li></ol>",
+  "vi": "ăn sáng, dùng bữa sáng",
+  "pos": "v",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "зачёт",
+  "w": "зачёт",
+  "en": "<ol class=\"meaning-list\"><li>test</li><li>knowledge check</li></ol>",
+  "vi": "bài kiểm tra, bài thi, bài đánh giá kiến thức",
+  "pos": "n",
+  "topic": "language::education",
+  "cu": false
+ },
+ {
+  "wc": "защита",
+  "w": "защи́та",
+  "en": "<ol class=\"meaning-list\"><li>defence</li><li>protection</li></ol>",
+  "vi": "sự bảo vệ, sự che chắn",
+  "pos": "n",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "звонить",
+  "w": "звони́ть",
+  "en": "<ol class=\"meaning-list\"><li>to call</li><li>ring</li></ol>",
+  "vi": "gọi điện thoại",
+  "pos": "v",
+  "topic": "life::home",
+  "cu": false
+ },
+ {
+  "wc": "земля",
+  "w": "земля́",
+  "en": "<ol class=\"meaning-list\"><li>earth</li><li>land</li></ol>",
+  "vi": "đất, mặt đất, trái đất",
+  "pos": "n",
+  "topic": "nature::plants",
+  "cu": false
+ },
+ {
+  "wc": "играть",
+  "w": "игра́ть",
+  "en": "<ol class=\"meaning-list\"><li>to play</li></ol>",
+  "vi": "chơi (thể thao, trò chơi, nhạc cụ), đóng vai",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "или",
+  "w": "и́ли",
+  "en": "<ol class=\"meaning-list\"><li>or</li></ol>",
+  "vi": "hoặc, hay là",
+  "pos": "oth",
+  "topic": "language::grammar",
+  "cu": false
+ },
+ {
+  "wc": "иностранный",
+  "w": "иностра́нный",
+  "en": "<ol class=\"meaning-list\"><li>foreign</li></ol>",
+  "vi": "nước ngoài, thuộc về nước ngoài",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "интересный",
+  "w": "интере́сный",
+  "en": "<ol class=\"meaning-list\"><li>interesting</li></ol>",
+  "vi": "thú vị, hay, hấp dẫn",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "испанец",
+  "w": "испа́нец",
+  "en": "<ol class=\"meaning-list\"><li>Spaniard</li></ol>",
+  "vi": "người Tây Ban Nha",
+  "pos": "n",
+  "topic": "people::family",
+  "cu": false
+ },
+ {
+  "wc": "испанка",
+  "w": "испа́нка",
+  "en": "<ol class=\"meaning-list\"><li>Spanish woman</li></ol>",
+  "vi": "phụ nữ người Tây Ban Nha",
+  "pos": "n",
+  "topic": "people::family",
+  "cu": false
+ },
+ {
+  "wc": "испанский",
+  "w": "испа́нский",
+  "en": "<ol class=\"meaning-list\"><li>Spanish</li></ol>",
+  "vi": "tiếng Tây Ban Nha",
+  "pos": "adj",
+  "topic": "language::education",
+  "cu": false
+ },
+ {
+  "wc": "итальянец",
+  "w": "италья́нец",
+  "en": "<ol class=\"meaning-list\"><li>Italian</li></ol>",
+  "vi": "người Ý",
+  "pos": "n",
+  "topic": "people::family",
+  "cu": false
+ },
+ {
+  "wc": "итальянка",
+  "w": "италья́нка",
+  "en": "<ol class=\"meaning-list\"><li>Italian woman</li></ol>",
+  "vi": "phụ nữ người Ý",
+  "pos": "n",
+  "topic": "people::family",
+  "cu": false
+ },
+ {
+  "wc": "каждый",
+  "w": "ка́ждый",
+  "en": "<ol class=\"meaning-list\"><li>each</li><li>every</li><li>everyone</li></ol>",
+  "vi": "mỗi, mọi, tất cả",
+  "pos": "pron",
+  "topic": "language::grammar",
+  "cu": false
+ },
+ {
+  "wc": "капуста",
+  "w": "капу́ста",
+  "en": "<ol class=\"meaning-list\"><li>cabbage</li></ol>",
+  "vi": "cải bắp",
+  "pos": "n",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "картошка",
+  "w": "карто́шка",
+  "en": "<ol class=\"meaning-list\"><li>potato</li></ol>",
+  "vi": "khoai tây (thông tục), khoai",
+  "pos": "n",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "китайский",
+  "w": "кита́йский",
+  "en": "<ol class=\"meaning-list\"><li>Chinese</li></ol>",
+  "vi": "thuộc về Trung Quốc, tiếng Trung",
+  "pos": "adj",
+  "topic": "concepts::misc",
+  "cu": false
+ },
+ {
+  "wc": "китаянка",
+  "w": "китая́нка",
+  "en": "<ol class=\"meaning-list\"><li>Chinese woman</li></ol>",
+  "vi": "phụ nữ Trung Quốc",
+  "pos": "n",
+  "topic": "people::family",
+  "cu": false
+ },
+ {
+  "wc": "конфета",
+  "w": "конфе́та",
+  "en": "<ol class=\"meaning-list\"><li>sweet</li><li>bon-bon</li><li>sweetmeats</li><li>candy</li></ol>",
+  "vi": "kẹo",
+  "pos": "n",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "кореец",
+  "w": "коре́ец",
+  "en": "<ol class=\"meaning-list\"><li>Korean</li></ol>",
+  "vi": "người Hàn Quốc",
+  "pos": "n",
+  "topic": "people::family",
+  "cu": false
+ },
+ {
+  "wc": "кореянка",
+  "w": "корея́нка",
+  "en": "<ol class=\"meaning-list\"><li>Korean woman</li></ol>",
+  "vi": "người phụ nữ Hàn Quốc",
+  "pos": "n",
+  "topic": "people::family",
+  "cu": false
+ },
+ {
+  "wc": "лес",
+  "w": "лес​",
+  "en": "<ol class=\"meaning-list\"><li>woods</li><li>forest</li><li>timber</li><li>lumber (singular only)</li><li>scaffolding</li><li>(plural only)</li><li>much</li><li>many (figurative)</li></ol>",
+  "vi": "rừng, khu rừng",
+  "pos": "n",
+  "topic": "nature::plants",
+  "cu": false
+ },
+ {
+  "wc": "луч",
+  "w": "луч",
+  "en": "<ol class=\"meaning-list\"><li>ray</li><li>beam</li></ol>",
+  "vi": "tia sáng, tia nắng, chùm sáng",
+  "pos": "n",
+  "topic": "nature::plants",
+  "cu": false
+ },
+ {
+  "wc": "любовь",
+  "w": "любо́вь",
+  "en": "<ol class=\"meaning-list\"><li>love</li><li>affection</li></ol>",
+  "vi": "tình yêu, sự yêu thương",
+  "pos": "n",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "лёд",
+  "w": "лёд",
+  "en": "<ol class=\"meaning-list\"><li>ice</li></ol>",
+  "vi": "băng, đá (nước đóng băng)",
+  "pos": "n",
+  "topic": "nature::weather",
+  "cu": false
+ },
+ {
+  "wc": "лён",
+  "w": "лён",
+  "en": "<ol class=\"meaning-list\"><li>flax</li><li>linen</li></ol>",
+  "vi": "vải lanh, cây lanh",
+  "pos": "n",
+  "topic": "nature::plants",
+  "cu": false
+ },
+ {
+  "wc": "малыш",
+  "w": "малы́ш",
+  "en": "<ol class=\"meaning-list\"><li>baby boy</li><li>little boy</li><li>little man</li><li>shorty</li><li>little kid</li><li>little one</li><li>toddler</li></ol>",
+  "vi": "bé, em bé, con nhỏ",
+  "pos": "n",
+  "topic": "people::family",
+  "cu": false
+ },
+ {
+  "wc": "множественный",
+  "w": "мно́жественный",
+  "en": "<ol class=\"meaning-list\"><li>multiple</li><li>(grammar) plural</li></ol>",
+  "vi": "số nhiều",
+  "pos": "adj",
+  "topic": "language::grammar",
+  "cu": false
+ },
+ {
+  "wc": "модный",
+  "w": "мо́дный",
+  "en": "<ol class=\"meaning-list\"><li>fashionable</li><li>stylish</li></ol>",
+  "vi": "thời trang, hợp mốt, sành điệu",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "море",
+  "w": "мо́ре",
+  "en": "<ol class=\"meaning-list\"><li>sea</li><li>ocean</li></ol>",
+  "vi": "biển",
+  "pos": "n",
+  "topic": "nature::plants",
+  "cu": false
+ },
+ {
+  "wc": "морозный",
+  "w": "моро́зный",
+  "en": "<ol class=\"meaning-list\"><li>frosty</li></ol>",
+  "vi": "băng giá, lạnh buốt",
+  "pos": "adj",
+  "topic": "nature::weather",
+  "cu": false
+ },
+ {
+  "wc": "музей",
+  "w": "музе́й",
+  "en": "<ol class=\"meaning-list\"><li>museum</li></ol>",
+  "vi": "bảo tàng",
+  "pos": "n",
+  "topic": "places::city",
+  "cu": false
+ },
+ {
+  "wc": "мышь",
+  "w": "мышь",
+  "en": "<ol class=\"meaning-list\"><li>mouse</li></ol>",
+  "vi": "con chuột (động vật), con chuột máy tính",
+  "pos": "n",
+  "topic": "nature::animals",
+  "cu": false
+ },
+ {
+  "wc": "натуральный",
+  "w": "натура́льный",
+  "en": "<ol class=\"meaning-list\"><li>natural</li><li>Organic (food)</li></ol>",
+  "vi": "tự nhiên, thiên nhiên, nguyên chất",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "начало",
+  "w": "нача́ло",
+  "en": "<ol class=\"meaning-list\"><li>beginning</li><li>commencement</li><li>start</li><li>onset</li><li>source</li><li>origin</li><li>(in plural) principles</li><li>basis</li><li>basics</li><li>command</li><li>authority</li></ol>",
+  "vi": "bắt đầu, khởi đầu, lúc ban đầu",
+  "pos": "n",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "неинтересный",
+  "w": "неинтере́сный",
+  "en": "<ol class=\"meaning-list\"><li>uninteresting</li></ol>",
+  "vi": "không thú vị, nhàm chán",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "некоторый",
+  "w": "не́который",
+  "en": "<ol class=\"meaning-list\"><li>some</li></ol>",
+  "vi": "một vài, một chút, nào đó",
+  "pos": "adj",
+  "topic": "concepts::misc",
+  "cu": false
+ },
+ {
+  "wc": "немец",
+  "w": "не́мец",
+  "en": "<ol class=\"meaning-list\"><li>German</li><li>German man</li></ol>",
+  "vi": "người Đức",
+  "pos": "n",
+  "topic": "people::family",
+  "cu": false
+ },
+ {
+  "wc": "немецкий",
+  "w": "неме́цкий",
+  "en": "<ol class=\"meaning-list\"><li>German</li></ol>",
+  "vi": "thuộc về nước Đức, tiếng Đức",
+  "pos": "adj",
+  "topic": "places::city",
+  "cu": false
+ },
+ {
+  "wc": "немка",
+  "w": "не́мка",
+  "en": "<ol class=\"meaning-list\"><li>German woman</li></ol>",
+  "vi": "người phụ nữ Đức",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "нормальный",
+  "w": "норма́льный",
+  "en": "<ol class=\"meaning-list\"><li>normal</li><li>sane</li></ol>",
+  "vi": "bình thường, ổn, khá",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "обедать",
+  "w": "обе́дать",
+  "en": "<ol class=\"meaning-list\"><li>to eat lunch</li></ol>",
+  "vi": "ăn trưa, dùng bữa trưa",
+  "pos": "v",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "облачный",
+  "w": "о́блачный",
+  "en": "<ol class=\"meaning-list\"><li>cloudy</li></ol>",
+  "vi": "nhiều mây, u ám, (công nghệ) đám mây",
+  "pos": "adj",
+  "topic": "nature::weather",
+  "cu": false
+ },
+ {
+  "wc": "объявить",
+  "w": "объяви́ть",
+  "en": "<ol class=\"meaning-list\"><li>to declare</li><li>announce</li></ol>",
+  "vi": "thông báo, tuyên bố",
+  "pos": "v",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "объявление",
+  "w": "объявле́ние",
+  "en": "<ol class=\"meaning-list\"><li>Announcement</li><li>advertise</li><li>poster</li></ol>",
+  "vi": "thông báo, quảng cáo, tin rao vặt",
+  "pos": "n",
+  "topic": "concepts::misc",
+  "cu": false
+ },
+ {
+  "wc": "объём",
+  "w": "объём",
+  "en": "<ol class=\"meaning-list\"><li>volume</li><li>capacity</li><li>quantity</li><li>scope</li><li>size</li><li>extent</li></ol>",
+  "vi": "thể tích, dung tích, khối lượng",
+  "pos": "n",
+  "topic": "concepts::misc",
+  "cu": false
+ },
+ {
+  "wc": "особенность",
+  "w": "осо́бенность",
+  "en": "<ol class=\"meaning-list\"><li>peculiarity</li><li>feature</li><li>characteristic</li></ol>",
+  "vi": "đặc điểm, nét đặc trưng, đặc biệt là",
+  "pos": "n",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "острый",
+  "w": "о́стрый",
+  "en": "<ol class=\"meaning-list\"><li>sharp</li><li>acute</li><li>spicy</li></ol>",
+  "vi": "nhọn, sắc, cay, dữ dội",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "отлично",
+  "w": "отли́чно",
+  "en": "<ol class=\"meaning-list\"><li>excellently</li></ol>",
+  "vi": "tuyệt vời, rất tốt",
+  "pos": "adv",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "отрицательный",
+  "w": "отрица́тельный",
+  "en": "<ol class=\"meaning-list\"><li>negative</li></ol>",
+  "vi": "tiêu cực, phủ định",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "пасмурный",
+  "w": "па́смурный",
+  "en": "<ol class=\"meaning-list\"><li>cloudy</li><li>(about a person) gloomy</li></ol>",
+  "vi": "u ám, nhiều mây, buồn bã",
+  "pos": "adj",
+  "topic": "nature::weather",
+  "cu": false
+ },
+ {
+  "wc": "переводчик",
+  "w": "перево́дчик",
+  "en": "<ol class=\"meaning-list\"><li>translator</li><li>interpreter</li><li>change-lever</li></ol>",
+  "vi": "phiên dịch viên, người dịch",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "плач",
+  "w": "плач",
+  "en": "<ol class=\"meaning-list\"><li>crying</li></ol>",
+  "vi": "tiếng khóc, sự khóc lóc",
+  "pos": "n",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "плащ",
+  "w": "плащ",
+  "en": "<ol class=\"meaning-list\"><li>raincoat</li><li>cloak</li><li>coat</li></ol>",
+  "vi": "áo mưa, áo choàng",
+  "pos": "n",
+  "topic": "life::clothing",
+  "cu": false
+ },
+ {
+  "wc": "по-английски",
+  "w": "по-англи́йски",
+  "en": "<ol class=\"meaning-list\"><li>In English</li></ol>",
+  "vi": "bằng tiếng Anh",
+  "pos": "oth",
+  "topic": "language::education",
+  "cu": false
+ },
+ {
+  "wc": "по-испански",
+  "w": "по-испа́нски",
+  "en": "<ol class=\"meaning-list\"><li>In Spanish</li></ol>",
+  "vi": "bằng tiếng Tây Ban Nha",
+  "pos": "oth",
+  "topic": "language::education",
+  "cu": false
+ },
+ {
+  "wc": "по-китайски",
+  "w": "по-кита́йски",
+  "en": "<ol class=\"meaning-list\"><li>by Chinese</li></ol>",
+  "vi": "bằng tiếng Trung",
+  "pos": "oth",
+  "topic": "language::education",
+  "cu": false
+ },
+ {
+  "wc": "по-немецки",
+  "w": "по-неме́цки",
+  "en": "<ol class=\"meaning-list\"><li>German</li></ol>",
+  "vi": "bằng tiếng Đức",
+  "pos": "oth",
+  "topic": "language::education",
+  "cu": false
+ },
+ {
+  "wc": "по-русски",
+  "w": "по-ру́сски",
+  "en": "<ol class=\"meaning-list\"><li>in Russian</li><li>Russian</li></ol>",
+  "vi": "bằng tiếng Nga",
+  "pos": "oth",
+  "topic": "language::education",
+  "cu": false
+ },
+ {
+  "wc": "по-французски",
+  "w": "по-францу́зски",
+  "en": "<ol class=\"meaning-list\"><li>In french</li></ol>",
+  "vi": "bằng tiếng Pháp",
+  "pos": "oth",
+  "topic": "language::education",
+  "cu": false
+ },
+ {
+  "wc": "повторять",
+  "w": "повторя́ть",
+  "en": "<ol class=\"meaning-list\"><li>to repeat</li></ol>",
+  "vi": "lặp lại, nhắc lại, ôn tập",
+  "pos": "v",
+  "topic": "language::education",
+  "cu": false
+ },
+ {
+  "wc": "подъезд",
+  "w": "подъе́зд",
+  "en": "<ol class=\"meaning-list\"><li>entrance (by car)</li><li>Car approach / Access route</li><li>building entrance</li><li>Short taxi stop</li></ol>",
+  "vi": "lối vào (tòa nhà hoặc đường vào)",
+  "pos": "n",
+  "topic": "places::city",
+  "cu": false
+ },
+ {
+  "wc": "подъём",
+  "w": "подъём",
+  "en": "<ol class=\"meaning-list\"><li>lifting</li><li>rising</li><li>climb</li><li>hoisting</li><li>salvaging</li><li>ascent</li><li>slope</li><li>rise</li><li>raising</li><li>upsurge</li><li>enthusiasm</li><li>development</li><li>animation</li><li>reveille</li><li>instep</li><li>1. Ascent / Height</li><li>Getting up (from sleep or from bed)</li><li>Recovery/Improvement (figuratively)</li></ol>",
+  "vi": "sự thức dậy, việc leo lên, sự tăng trưởng",
+  "pos": "n",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "позавчера",
+  "w": "позавчера́",
+  "en": "<ol class=\"meaning-list\"><li>the day before yesterday</li></ol>",
+  "vi": "ngày hôm kia",
+  "pos": "oth",
+  "topic": "time",
+  "cu": false
+ },
+ {
+  "wc": "поле",
+  "w": "по́ле",
+  "en": "<ol class=\"meaning-list\"><li>a field</li><li>margins</li><li>brim</li></ol>",
+  "vi": "cánh đồng, sân chơi, lĩnh vực chuyên môn",
+  "pos": "n",
+  "topic": "nature::plants",
+  "cu": false
+ },
+ {
+  "wc": "положительный",
+  "w": "положи́тельный",
+  "en": "<ol class=\"meaning-list\"><li>positive</li><li>favourable</li></ol>",
+  "vi": "tích cực",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "помидор",
+  "w": "помидо́р",
+  "en": "<ol class=\"meaning-list\"><li>tomato</li></ol>",
+  "vi": "cà chua",
+  "pos": "n",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "помощь",
+  "w": "по́мощь",
+  "en": "<ol class=\"meaning-list\"><li>help</li></ol>",
+  "vi": "sự giúp đỡ, viện trợ",
+  "pos": "n",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "понимать",
+  "w": "понима́ть",
+  "en": "<ol class=\"meaning-list\"><li>to understand</li><li>comprehend</li><li>realize</li></ol>",
+  "vi": "hiểu, thông cảm, nhận ra",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "пощада",
+  "w": "поща́да",
+  "en": "<ol class=\"meaning-list\"><li>mercy</li></ol>",
+  "vi": "sự khoan dung, lòng thương hại",
+  "pos": "n",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "правильно",
+  "w": "пра́вильно",
+  "en": "<ol class=\"meaning-list\"><li>right</li><li>rightly</li><li>correctly</li><li>regularly</li><li>properly</li></ol>",
+  "vi": "đúng, chính xác, hợp lý",
+  "pos": "adv",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "привет",
+  "w": "приве́т",
+  "en": "<ol class=\"meaning-list\"><li>hello (informal)</li><li>hi (informal)</li></ol>",
+  "vi": "chào (thân mật)",
+  "pos": "n",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "про",
+  "w": "про",
+  "en": "<ol class=\"meaning-list\"><li>about</li><li>concerning</li><li>for</li></ol>",
+  "vi": "về, liên quan đến",
+  "pos": "oth",
+  "topic": "language::grammar",
+  "cu": false
+ },
+ {
+  "wc": "проверять",
+  "w": "проверя́ть",
+  "en": "<ol class=\"meaning-list\"><li>check</li><li>test</li><li>examine</li><li>audit</li></ol>",
+  "vi": "kiểm tra, xem xét",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "разъезд",
+  "w": "разъе́зд",
+  "en": "<ol class=\"meaning-list\"><li>travels</li><li>departure</li><li>passing-track</li><li>double-track section</li><li>halt</li><li>mounted patrol</li></ol>",
+  "vi": "việc đi lại (công tác), sự di chuyển liên tục",
+  "pos": "n",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "разъём",
+  "w": "разъём",
+  "en": "<ol class=\"meaning-list\"><li>connector</li><li>socket</li></ol>",
+  "vi": "cổng kết nối, giắc cắm",
+  "pos": "n",
+  "topic": "life::home",
+  "cu": false
+ },
+ {
+  "wc": "рисовать",
+  "w": "рисова́ть",
+  "en": "<ol class=\"meaning-list\"><li>to draw</li><li>to paint</li></ol>",
+  "vi": "vẽ, phác họa",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "род",
+  "w": "род",
+  "en": "<ol class=\"meaning-list\"><li>generation</li><li>birth</li><li>origin</li><li>stock</li><li>family</li><li>race</li><li>kin</li><li>(taxonomy) genus</li><li>sort</li><li>kind</li><li>genre</li><li>style</li><li>branch</li><li>(grammar) gender</li><li>class</li></ol>",
+  "vi": "gia đình, dòng họ, giống loài, loại, thể loại",
+  "pos": "n",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "рожь",
+  "w": "рожь",
+  "en": "<ol class=\"meaning-list\"><li>rye</li></ol>",
+  "vi": "lúa mạch đen",
+  "pos": "n",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "русский",
+  "w": "ру́сский",
+  "en": "<ol class=\"meaning-list\"><li>Russian</li></ol>",
+  "vi": "người Nga, thuộc về nước Nga, tiếng Nga",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "салат",
+  "w": "сала́т",
+  "en": "<ol class=\"meaning-list\"><li>salad</li><li>lettuce</li></ol>",
+  "vi": "món salad, món rau trộn",
+  "pos": "n",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "себя",
+  "w": "себя́",
+  "en": "<ol class=\"meaning-list\"><li>oneself</li><li>ourselves</li><li>yourselves</li><li>himself</li><li>herself</li><li>itself</li><li>yourself</li><li>myself</li><li>themselves</li></ol>",
+  "vi": "bản thân, mình",
+  "pos": "pron",
+  "topic": "language::grammar",
+  "cu": false
+ },
+ {
+  "wc": "сказать",
+  "w": "сказа́ть",
+  "en": "<ol class=\"meaning-list\"><li>to say</li><li>to tell</li><li>to speak</li><li>to talk</li></ol>",
+  "vi": "nói, bảo, cho biết",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "скучный",
+  "w": "ску́чный",
+  "en": "<ol class=\"meaning-list\"><li>boring (boring)</li></ol>",
+  "vi": "nhàm chán, tẻ nhạt",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "слабый",
+  "w": "сла́бый",
+  "en": "<ol class=\"meaning-list\"><li>weak</li><li>feeble</li><li>faint</li><li>loose</li><li>slack</li><li>poor</li></ol>",
+  "vi": "yếu, ốm yếu, nhạt (màu/vị), lỏng lẻo",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "слеза",
+  "w": "слеза́",
+  "en": "<ol class=\"meaning-list\"><li>tear</li></ol>",
+  "vi": "nước mắt",
+  "pos": "n",
+  "topic": "people::body",
+  "cu": false
+ },
+ {
+  "wc": "снежный",
+  "w": "сне́жный",
+  "en": "<ol class=\"meaning-list\"><li>snow</li><li>snowy</li></ol>",
+  "vi": "có tuyết, thuộc về tuyết",
+  "pos": "adj",
+  "topic": "nature::weather",
+  "cu": false
+ },
+ {
+  "wc": "современный",
+  "w": "совреме́нный",
+  "en": "<ol class=\"meaning-list\"><li>modern</li><li>contemporary</li></ol>",
+  "vi": "hiện đại, đương đại",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "сожаление",
+  "w": "сожале́ние",
+  "en": "<ol class=\"meaning-list\"><li>regret</li><li>pity</li><li>unfortunately</li></ol>",
+  "vi": "tiếc là, đáng tiếc",
+  "pos": "n",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "солнечный",
+  "w": "со́лнечный",
+  "en": "<ol class=\"meaning-list\"><li>sunny</li></ol>",
+  "vi": "nắng, có nắng, thuộc về mặt trời",
+  "pos": "adj",
+  "topic": "nature::weather",
+  "cu": false
+ },
+ {
+  "wc": "спорт",
+  "w": "спорт",
+  "en": "<ol class=\"meaning-list\"><li>sport</li></ol>",
+  "vi": "thể thao, môn thể thao",
+  "pos": "n",
+  "topic": "concepts::misc",
+  "cu": false
+ },
+ {
+  "wc": "спортивный",
+  "w": "спорти́вный",
+  "en": "<ol class=\"meaning-list\"><li>athletic</li><li>sporting</li></ol>",
+  "vi": "thể thao, năng động (dùng cho đồ dùng, phong cách hoặc sự kiện liên quan đến hoạt động thể chất)",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "спросить",
+  "w": "спроси́ть",
+  "en": "<ol class=\"meaning-list\"><li>to ask</li><li>inquire</li><li>demand</li></ol>",
+  "vi": "hỏi",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "спрягаться",
+  "w": "спряга́ться",
+  "en": "<ol class=\"meaning-list\"><li>be conjugated</li></ol>",
+  "vi": "chia (động từ)",
+  "pos": "v",
+  "topic": "language::education",
+  "cu": false
+ },
+ {
+  "wc": "спряжение",
+  "w": "спряже́ние",
+  "en": "<ol class=\"meaning-list\"><li>conjugation (of verbs)</li></ol>",
+  "vi": "chia (động từ)",
+  "pos": "n",
+  "topic": "language::education",
+  "cu": false
+ },
+ {
+  "wc": "счастливый",
+  "w": "счастли́вый",
+  "en": "<ol class=\"meaning-list\"><li>happy</li></ol>",
+  "vi": "hạnh phúc, vui vẻ, may mắn",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "счастье",
+  "w": "сча́стье",
+  "en": "<ol class=\"meaning-list\"><li>happiness</li><li>luck</li><li>good fortune</li></ol>",
+  "vi": "hạnh phúc, niềm vui, sự may mắn",
+  "pos": "n",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "счёт",
+  "w": "счёт",
+  "en": "<ol class=\"meaning-list\"><li>bill</li><li>check</li><li>account</li><li>score</li><li>expense</li><li>due to</li><li>at the cost</li></ol>",
+  "vi": "hóa đơn, tài khoản, điểm số",
+  "pos": "n",
+  "topic": "concepts::misc",
+  "cu": false
+ },
+ {
+  "wc": "съезд",
+  "w": "съезд",
+  "en": "<ol class=\"meaning-list\"><li>congressional meeting</li><li>Road exit/exit ramp (on roads)</li><li>Mass departure (sometimes in an older or formal context)</li></ol>",
+  "vi": "đại hội, cuộc họp lớn hoặc lối ra đường cao tốc",
+  "pos": "n",
+  "topic": "places::city",
+  "cu": false
+ },
+ {
+  "wc": "танцевать",
+  "w": "танцева́ть",
+  "en": "<ol class=\"meaning-list\"><li>to dance</li></ol>",
+  "vi": "nhảy múa, nhảy",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "тип",
+  "w": "тип",
+  "en": "<ol class=\"meaning-list\"><li>type</li><li>model</li><li>character</li><li>man</li><li>guy</li><li>like</li><li>such as</li><li>Phylum</li></ol>",
+  "vi": "loại, kiểu, gã/anh chàng (lóng)",
+  "pos": "n",
+  "topic": "concepts::misc",
+  "cu": false
+ },
+ {
+  "wc": "только",
+  "w": "то́лько",
+  "en": "<ol class=\"meaning-list\"><li>only</li><li>just</li><li>simply</li></ol>",
+  "vi": "chỉ, duy nhất, mới",
+  "pos": "oth",
+  "topic": "language::grammar",
+  "cu": false
+ },
+ {
+  "wc": "точка",
+  "w": "то́чка",
+  "en": "<ol class=\"meaning-list\"><li>dot: period</li><li>point (physical place)</li></ol>",
+  "vi": "dấu chấm, điểm (vị trí), quan điểm",
+  "pos": "n",
+  "topic": "concepts::misc",
+  "cu": false
+ },
+ {
+  "wc": "ужинать",
+  "w": "у́жинать",
+  "en": "<ol class=\"meaning-list\"><li>have dinner</li></ol>",
+  "vi": "ăn tối, dùng bữa tối",
+  "pos": "v",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "узкий",
+  "w": "у́зкий",
+  "en": "<ol class=\"meaning-list\"><li>narrow</li></ol>",
+  "vi": "hẹp (về kích thước, khoảng cách), chật (quần áo), hẹp hòi (tính cách)",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "упражнение",
+  "w": "упражне́ние",
+  "en": "<ol class=\"meaning-list\"><li>exercise</li><li>practice</li><li>training</li></ol>",
+  "vi": "bài tập, sự luyện tập",
+  "pos": "n",
+  "topic": "language::education",
+  "cu": false
+ },
+ {
+  "wc": "учиться",
+  "w": "учи́ться",
+  "en": "<ol class=\"meaning-list\"><li>to study</li></ol>",
+  "vi": "học, học tập",
+  "pos": "v",
+  "topic": "language::education",
+  "cu": false
+ },
+ {
+  "wc": "учёный",
+  "w": "учёный",
+  "en": "<ol class=\"meaning-list\"><li>scientist</li></ol>",
+  "vi": "nhà khoa học, nhà nghiên cứu",
+  "pos": "adj",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "физик",
+  "w": "фи́зик",
+  "en": "<ol class=\"meaning-list\"><li>physicist</li></ol>",
+  "vi": "nhà vật lý học",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "физика",
+  "w": "фи́зика",
+  "en": "<ol class=\"meaning-list\"><li>physics</li></ol>",
+  "vi": "vật lý",
+  "pos": "n",
+  "topic": "language::education",
+  "cu": false
+ },
+ {
+  "wc": "фирма",
+  "w": "фи́рма",
+  "en": "<ol class=\"meaning-list\"><li>firm</li><li>company (brand)</li></ol>",
+  "vi": "công ty, hãng, thương hiệu",
+  "pos": "n",
+  "topic": "concepts::misc",
+  "cu": false
+ },
+ {
+  "wc": "француженка",
+  "w": "францу́женка",
+  "en": "<ol class=\"meaning-list\"><li>Frenchwoman</li><li>French woman</li></ol>",
+  "vi": "người phụ nữ Pháp",
+  "pos": "n",
+  "topic": "people::family",
+  "cu": false
+ },
+ {
+  "wc": "француз",
+  "w": "францу́з",
+  "en": "<ol class=\"meaning-list\"><li>Frenchman</li><li>the French</li></ol>",
+  "vi": "người Pháp",
+  "pos": "n",
+  "topic": "people::family",
+  "cu": false
+ },
+ {
+  "wc": "французский",
+  "w": "францу́зский",
+  "en": "<ol class=\"meaning-list\"><li>French (related to France)</li></ol>",
+  "vi": "thuộc về nước Pháp, tiếng Pháp",
+  "pos": "adj",
+  "topic": "places::city",
+  "cu": false
+ },
+ {
+  "wc": "хвощ",
+  "w": "хвощ",
+  "en": "<ol class=\"meaning-list\"><li>horsetail (plant)</li></ol>",
+  "vi": "cây cỏ đuôi ngựa",
+  "pos": "n",
+  "topic": "nature::plants",
+  "cu": false
+ },
+ {
+  "wc": "цвет",
+  "w": "цвет",
+  "en": "<ol class=\"meaning-list\"><li>color</li><li>colour</li></ol>",
+  "vi": "màu sắc, màu",
+  "pos": "n",
+  "topic": "qualities::colors",
+  "cu": false
+ },
+ {
+  "wc": "целовать",
+  "w": "целова́ть",
+  "en": "<ol class=\"meaning-list\"><li>kiss</li><li>give a kiss</li></ol>",
+  "vi": "hôn",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "центральный",
+  "w": "центра́льный",
+  "en": "<ol class=\"meaning-list\"><li>central</li><li>metropolitan</li></ol>",
+  "vi": "trung tâm, chính",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "час",
+  "w": "час",
+  "en": "<ol class=\"meaning-list\"><li>hour</li><li>time</li><li>hours</li><li>a watch</li></ol>",
+  "vi": "giờ, thời gian",
+  "pos": "n",
+  "topic": "time",
+  "cu": false
+ },
+ {
+  "wc": "часто",
+  "w": "ча́сто",
+  "en": "<ol class=\"meaning-list\"><li>often</li><li>frequently</li><li>closely together</li><li>thickly</li></ol>",
+  "vi": "thường xuyên, hay",
+  "pos": "adv",
+  "topic": "time",
+  "cu": false
+ },
+ {
+  "wc": "чашка",
+  "w": "ча́шка",
+  "en": "<ol class=\"meaning-list\"><li>cup</li><li>cupful</li><li>scale</li><li>pan</li></ol>",
+  "vi": "cốc, tách",
+  "pos": "n",
+  "topic": "life::home",
+  "cu": false
+ },
+ {
+  "wc": "чех",
+  "w": "чех",
+  "en": "<ol class=\"meaning-list\"><li>Czech</li></ol>",
+  "vi": "người Séc",
+  "pos": "n",
+  "topic": "people::family",
+  "cu": false
+ },
+ {
+  "wc": "чудо",
+  "w": "чу́до",
+  "en": "<ol class=\"meaning-list\"><li>miracle</li><li>wonder</li><li>wonderment</li><li>wonderwork</li><li>marvel</li><li>wondrous creature</li></ol>",
+  "vi": "kỳ tích, phép màu, điều kỳ diệu",
+  "pos": "n",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "широкий",
+  "w": "широ́кий",
+  "en": "<ol class=\"meaning-list\"><li>wide</li></ol>",
+  "vi": "rộng, rộng rãi (chỉ kích thước), đa dạng (chỉ phạm vi)",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "шоколад",
+  "w": "шокола́д",
+  "en": "<ol class=\"meaning-list\"><li>chocolate</li></ol>",
+  "vi": "sô-cô-la",
+  "pos": "n",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "шофёр",
+  "w": "шофёр",
+  "en": "<ol class=\"meaning-list\"><li>chauffeur</li><li>driver</li></ol>",
+  "vi": "lái xe, tài xế",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "щепка",
+  "w": "ще́пка",
+  "en": "<ol class=\"meaning-list\"><li>chips (woodchips)</li><li>sliver</li></ol>",
+  "vi": "vụn gỗ, dằm gỗ",
+  "pos": "n",
+  "topic": "concepts::misc",
+  "cu": false
+ },
+ {
+  "wc": "щи",
+  "w": "щи",
+  "en": "<ol class=\"meaning-list\"><li>shchi</li></ol>",
+  "vi": "súp bắp cải (món súp truyền thống Nga)",
+  "pos": "n",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "щит",
+  "w": "щит",
+  "en": "<ol class=\"meaning-list\"><li>shield</li><li>buckler</li><li>screen</li><li>snow-screen</li><li>snow-fence</li><li>sluice-gate</li><li>panel</li><li>tortoise-shell</li><li>scutum</li></ol>",
+  "vi": "lá chắn, tấm khiên, bảng quảng cáo",
+  "pos": "n",
+  "topic": "concepts::misc",
+  "cu": false
+ },
+ {
+  "wc": "щука",
+  "w": "щу́ка",
+  "en": "<ol class=\"meaning-list\"><li>pike</li><li>ling</li></ol>",
+  "vi": "cá chó, cá măng (loài cá săn mồi nước ngọt)",
+  "pos": "n",
+  "topic": "nature::animals",
+  "cu": false
+ },
+ {
+  "wc": "щётка",
+  "w": "щётка",
+  "en": "<ol class=\"meaning-list\"><li>brush</li><li>fetlock</li><li>broom</li></ol>",
+  "vi": "bàn chải",
+  "pos": "n",
+  "topic": "life::home",
+  "cu": false
  }
 ]

@@ -16,9 +16,21 @@ Bạn (user) chỉ cần gõ một câu: **"chạy tiếp kho"**. Phần dưới
 PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py trangthai
 ```
 
-### ✅ k15 + k16 XONG 28/07 — lô kế tiếp là **k17**
+### ✅ k15 + k16 XONG 28/07 — lô kế tiếp là **k51** (KHÔNG phải k17)
 
-**16/47 lô · 223/740 từ · cả 16 đã nạp.** k15 là lô 7 từ rời rạc (không trục chung, dồn giá
+🔴 **USER CHỐT 28/07: soạn lại 168 từ của lô 01→12 TRƯỚC, rồi mới quay về k17.**
+Lý do user nêu: *"đó là những từ mới, tôi chưa thuộc nên cần hướng dẫn hơn các từ cũ, dù không
+có hướng dẫn nhưng đã thuộc sơ rồi"*. Ngoại lệ duy nhất: **hôm nào user thêm từ mới thì từ mới
+ưu tiên hơn cả khối này.**
+
+168 từ đã nối vào **đầu** hàng đợi thành 10 lô **`k51`…`k60`** (14–22 từ, trung bình 16,8).
+Hàng đợi nay **57 lô / 908 từ** — bằng đúng tổng số thẻ, **0 thẻ ngoài quy hoạch**.
+⚠️ **Thứ tự chạy ≠ thứ tự số hiệu**: `k51…k60` nằm TRƯỚC `k17…k47` trong `hangdoi.json`, và
+`tiep` lấy lô `cho` **đầu danh sách**. Đừng "sắp xếp lại cho gọn".
+Cả 10 lô mang khoá `thucong` (chialai.py không đụng được) và trục của chúng kèm sẵn lời dặn
+**SOAN LAI: thẻ đã có nội dung chuẩn cũ ~1,6 KB → viết đè hoàn toàn theo chuẩn mới**.
+
+**16/57 lô · 223/908 từ · cả 16 đã nạp.** k15 là lô 7 từ rời rạc (không trục chung, dồn giá
 trị vào từng thẻ); k16 là **lô ghép tay đầu tiên được soạn** — trục ghi sẵn trong `hangdoi.json`
 đã làm đúng việc, lô ra đồng nhất. Rà tay cụm in đậm đã trả công lần đầu: **143 cụm ở k16**,
 không cụm nào lệch trọng âm, nhưng chính lúc rà agent tự bắt **hai lỗi giải thích** của mình
@@ -168,6 +180,27 @@ loại dữ liệu khác nhau, Anki gộp được — không phải chọn chi�
 Đọc kỹ mục "chỗ tôi không chắc" trong báo cáo: lô động từ/tính từ gần như **không được bộ soát
 đỡ** (`nouns.csv` chỉ có 382/703 từ là danh từ), nên đó là chỗ duy nhất bắt được lỗi nội dung.
 
+## 📊 SOÁT TOÀN DECK 28/07 — ảnh chụp chuẩn để đối chiếu về sau
+
+`deck:RUSSIAN::*` = **908 thẻ, 100% model `RU_Word`** (không lẫn model khác), và **0 thẻ ngoài
+hàng đợi** sau khi nối 168 từ. Quy hoạch đã phủ kín.
+
+| Nội dung thật trên thẻ | Số thẻ | |
+|---|---|---|
+| **Chuẩn mới (đã nạp)** | **223** | 217 dày ≥3 KB + 6 thẻ ngắn hợp lệ |
+| Rỗng hoàn toàn | 466 | chưa soạn |
+| `hd-*` mỏng (chuẩn cũ, lô 01→12) | 168 | nay là k51–k60 |
+| Còn mnemonic cũ `mn-*` | 51 | rải ở k17–k46, sẽ tự bị viết đè |
+
+Độ dày: **đã nạp tb 7 381 B** (trung vị 6 408, min 2 394, max 16 874) · **chưa soạn tb 424 B**.
+
+⚠️ **6 thẻ đã nạp dưới 3 KB không phải lỗi**: `пока · пожалуйста · все · не` (k12), `гиря`
+(k15), `адрес` (k49) — từ gốc trơn / hư từ, README §2 cấm bịa cấu trúc cho chúng. **Ngắn vì
+không chẻ được là đúng, đừng "sửa" cho dày lên.**
+
+📌 Con số `mn-*` giảm **54 → 51** đúng bằng 3 thẻ k15/k16 vừa viết đè — khớp, đường ống ổn.
+Xoá CSS `mn-*` trong `card.css` chỉ an toàn khi con số này về **0**.
+
 ## Khi HẾT 33 lô còn lại
 
 ```bash
@@ -204,9 +237,11 @@ Cả 168 đều **đã có nội dung** đúng `hd-*` (**0 thẻ rỗng, 0 thẻ
 đang cày. Và chúng mang các hệ thống nền mà lô sau chỉ **dẫn chiếu** chứ không dạy lại (bộ bốn
 quốc tịch, `ЧА ЩА`, cặp thể động từ, luật giống theo chữ cuối).
 
-Vậy đây **không phải "việc còn nợ"** mà là một câu hỏi ưu tiên: *có soạn lại 168 từ đầu theo
-chuẩn hiện tại không?* Muốn làm thì nối vào `tudien.json` + `hangdoi.json` — thêm ~**9 lô**.
-🔴 **Nhưng 524 từ trong hàng đợi thì chưa có nội dung tử tế lần nào — phần đó phải xong trước.**
+✅ **ĐÃ XỬ LÝ 28/07 — user chọn soạn lại, và ưu tiên NGAY.** Tôi khuyến nghị làm sau (vì 466 thẻ
+còn rỗng hoàn toàn), **user bác và nêu lý do đúng hơn**: 168 từ này là *"những từ mới, tôi chưa
+thuộc nên cần hướng dẫn hơn"*, còn phần kho tuy chưa có hướng dẫn nhưng user *"đã thuộc sơ rồi"*.
+Tức là ô Hướng dẫn có giá trị nhất **ở đúng lúc đang học từ**, không phải ở chỗ nào trống nhất.
+⇒ Đã nối thành 10 lô `k51`…`k60` ở **đầu** hàng đợi (xem mục trạng thái trên cùng).
 
 **Đừng xoá nội dung mnemonic cũ đi cho gọn** (đã cân nhắc và bác 28/07): cả 54 thẻ là mnemonic
 **thuần**, không thẻ nào có sẵn phần `hd-*`, nên xoá là để lại ô trống hàng tuần liền. Mà nội
@@ -216,11 +251,21 @@ bị viết đè khi lô của chúng tới lượt.
 
 ## Việc còn nợ
 
-- ⚠️ **Lô k04 phình dài** — 13/15 thẻ vượt 12 KB (đỉnh `реплика` 16,9 KB) vì chồng **ba** khối
-  hệ thống lên cùng một thẻ. Nội dung **không sai**, chỉ dài. Trần đã ghi vào README §2
-  (6–10 KB, **tối đa 2 khối dùng chung mỗi thẻ**) và các lô sau phải theo. Lúc nào rảnh thì
-  quay lại gọt k04: bỏ bớt khối thứ ba ở những thẻ mà nó không thật sự liên quan.
-  Kiểm bằng `congcu.py dodai`.
+- ⚠️ **Thẻ phình dài: 21 thẻ vượt 12 KB, và KHÔNG chỉ ở k04** (đo toàn deck 28/07 — trước đây
+  tài liệu chỉ ghi k04, thiếu mất k03 và k06):
+
+  | Lô | Vượt trần | Trên tổng |
+  |---|---|---|
+  | k03 `actions` | **5** | 6 |
+  | k04 `concepts::abstract` | **13** | 15 |
+  | k06 `concepts::abstract` | **2** | 4 |
+  | k07 `concepts::misc` | 1 | 15 |
+
+  Đỉnh `реплика` 16 874 · `диалог` 16 621 · `воскресение` 14 190. Nguyên nhân chung: chồng
+  **ba** khối hệ thống lên cùng một thẻ. Nội dung **không sai**, chỉ dài. Từ k09 trở đi có lời
+  dặn *tối đa 2 khối/thẻ* thì tắt hẳn — **k09→k16 và k49/k50 không thẻ nào vượt**.
+  Lúc nào rảnh thì gọt **k03 + k04 + k06** (20/21 thẻ nằm ở đây): bỏ khối thứ ba ở thẻ mà nó
+  không thật sự liên quan. Kiểm bằng `congcu.py dodai`.
 - ~~Thẻ trùng do U+200B~~ **XONG 28/07**: user duyệt xoá, đã bỏ hai bản 12/07 (bản mang U+200B
   trong field `Word`, ít lượt ôn hơn), giữ hai bản 04/07 sạch chữ. Bộ sưu tập **871 → 869 note**.
   Sao lưu đầy đủ cả 4 note kèm revlog ở `_backup_the_trung.json` (không commit).
