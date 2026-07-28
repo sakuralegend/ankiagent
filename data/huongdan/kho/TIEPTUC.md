@@ -16,11 +16,18 @@ Bạn (user) chỉ cần gõ một câu: **"chạy tiếp kho"**. Phần dưới
 PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py trangthai
 ```
 
-### ✅ k13 + k51 + k52 + k53 XONG & ĐÃ NẠP 28/07 — lô kế tiếp là **k54**
+### ✅ k13 + k51 + k52 + k53 + k54 XONG & ĐÃ NẠP 28/07 — lô kế tiếp là **k55**
 
-Phiên 4 lô đầu tiên theo chuẩn ngắn: **59 từ**, 0 thẻ vượt trần nào, khối dùng chung về **0%**
-ở cả ba lô `sua`. Bắt được **5 lỗi nội dung** của bản cũ (4 lỗi chỉ lộ lúc rà tay bằng mắt) —
+🎯 **k55 (19 từ) là lô CUỐI CÙNG còn thẻ ở deck `1-go`** — chạy xong nó là 44/44 thẻ `1-go` chưa
+đạt chuẩn đều có ô Hướng dẫn mới. Sau đó quay về thứ tự thường: `k01`…`k08` (nhóm A).
+
+Phiên **5 lô** theo chuẩn ngắn: **78 từ**, 0 thẻ vượt trần nào, khối dùng chung về **0%** ở cả
+bốn lô `sua`. Bắt được **8 lỗi nội dung** của bản cũ (phần lớn chỉ lộ lúc rà tay bằng mắt) —
 chi tiết ở mục 28/07 trong `CHANGELOG.md`.
+
+📊 **Đo thật chi phí ở chuẩn ngắn: ~105K token/agent mỗi lô** (77K · 116K · 127K · 100K · 113K),
+tức mô hình dự 84K hơi lạc quan nhưng đúng bậc độ lớn. Trên hạn mức 5h: **~18%/lô**, 4 lô song
+song = 74%. ⇒ **4 lô/phiên là vừa; lô thứ 5 chỉ chạy khi luồng chính im gần như tuyệt đối.**
 
 🎯 **Cách chọn lô của phiên này đáng giữ**: user muốn ưu tiên thẻ **đang học**, nên luồng chính
 đối chiếu deck thật với hàng đợi trước khi giao việc (đếm `deck:RUSSIAN::1-go` rơi vào lô nào).

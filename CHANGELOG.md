@@ -4,7 +4,7 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
-## 28/07/2026 — PHIÊN CHẠY LÔ ĐẦU TIÊN THEO CHUẨN NGẮN: k13 · k51 · k52 · k53 (59 từ)
+## 28/07/2026 — PHIÊN CHẠY LÔ ĐẦU TIÊN THEO CHUẨN NGẮN: k13 · k51 · k52 · k53 · k54 (78 từ)
 
 User: *"bắt đầu chạy lô, ưu tiên trước vài từ mới tôi mới thêm vào để học luôn, rồi sau đó đến
 1-go"*. Đây là **phiên đầu tiên chạy 4 lô** theo chuẩn §2b, và cũng là lần đầu ưu tiên **theo
@@ -44,6 +44,17 @@ deck user đang học** chứ không theo số hiệu lô.
   1× chết lúc mới đọc spec) — lần thứ hai dính, và cách chữa đã ghi sẵn trong `TIEPTUC.md` hoạt
   động đúng: **`SendMessage` cho chạy tiếp**, không spawn agent mới. Ngữ cảnh còn nguyên, **không
   mất phần soạn nào**; hai lô đã kịp ghi file dở (k13 6 224 B, k53 18 002 B), hai lô chưa có file.
+- ➕ **k54 chạy thêm sau khi user hỏi "mới hết 74%, có đủ chạy tiếp không"** — trả lời bằng số đo
+  chứ không bằng cảm giác: 4 lô = 420K token agent ứng với 74% ⇒ **~18%/lô**, còn 26% thì **đủ
+  1 lô, không đủ 2**. Chạy k54 (19 động từ, 8 thẻ ở `1-go`), để k55 cho phiên mới. Lô này bỏ 4
+  khối lặp (cặp thể · hai lớp chia · biến âm ngôi *tôi* · bộ ba bữa ăn) và bắt thêm **3 lỗi**:
+  `целовать` nối họ hàng với `цель` (từ này mượn qua Ba Lan/Đức *Ziel*, **khác gốc**) · `видеть`
+  dạy luật "đuôi `-еть` nhưng lớp 2" rồi minh hoạ bằng `слы́шать` (đuôi `-ать`, **không phải ví
+  dụ của luật đó**) · hạ "tiền tố `про-` **luôn** mang ý xuyên suốt" xuống "**thường**".
+  Sửa `Vietnamese` cả 19 từ vì 19/19 là động từ nên **thể là bắt buộc**.
+- 📊 **Chi phí thật ở chuẩn ngắn, đo 5 lô: ~105K token/agent mỗi lô** (77 · 116 · 127 · 100 ·
+  113K) — mô hình dự 84K hơi lạc quan nhưng đúng bậc độ lớn. Đã sửa số trong `TIEPTUC.md` thay
+  vì giữ con số đẹp. ⇒ **4 lô/phiên là vừa**, lô thứ 5 chỉ chạy khi luồng chính im gần tuyệt đối.
 - 🔧 **Bẫy PowerShell mới**: here-string `@'…'@` cho `git commit -m` **vỡ khi message chứa dấu
   `"` hoặc `§`** — PowerShell tách thành nhiều tham số, git báo hàng loạt `pathspec did not match`.
   Cách chữa đã ghi trong tài liệu vẫn đúng: **ghi message ra file rồi `git commit -F <file>`**.
