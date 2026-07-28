@@ -20,9 +20,12 @@ Lô kế tiếp: **k17**.
   ngôi ba **và** sở hữu bất biến). Trọng tâm là hệ thống dùng chứ không phải từ nguyên: luật
   **`н-` chèn sau giới từ** (`у него́` vs `его́ дом`), `его́/её/их` bất biến vs `мой/твой/наш/ваш`
   phải chia, và `свой` thay thế khi chủ ngữ trùng.
-- 🎯 **Rà tay cụm in đậm đã trả công lần đầu.** Đây là chỗ mù đã biết (bộ soát bỏ qua token có
-  dấu cách). k15 có 50 cụm, **k16 có 143** — dày nhất từ trước tới nay. Rà hết, không cụm nào
-  lệch trọng âm; nhưng chính lúc rà, agent k16 **tự bắt hai lỗi nội dung của mình**: nói
+- 🎯 **Rà tay cụm in đậm đã trả công lần đầu** — nhưng **không phải vì bộ soát mù**. Cửa (d) đã
+  vá 28/07 và đang chạy tốt: cụm **thuần Cyrillic** được tách ra soi từng chữ. Phần máy vẫn
+  không đụng tới là **từ có gạch nối** (`по-мо́ему`, `чей-нибу́дь` — bị `continue` thẳng) và
+  **cụm trộn Cyrillic với chữ Việt** (chỉ tắt báo *thiếu dấu*, phần đối chiếu từ điển vẫn chạy).
+  k15 có 50 cụm, **k16 có 143** — dày nhất từ trước tới nay. Rà hết, không cụm nào lệch trọng
+  âm; nhưng chính lúc rà, agent k16 **tự bắt hai lỗi nội dung của mình**: nói
   `наш/ваш` "đuôi ngắn hơn `мой`" (sai — bộ đuôi y hệt, khác đúng **chỗ nhấn**: `моего́` vs
   `на́шего`), và `азъ` "cùng gốc *alpha*" (sai — đó là tên chữ cái Slav). Cả hai đúng loại
   **"lời giải thích SAI"** mà README §5 cảnh báo là nguy hiểm nhất, vì bộ soát không đỡ được.

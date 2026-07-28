@@ -20,10 +20,12 @@ PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py trangthai
 
 **16/47 lô · 223/740 từ · cả 16 đã nạp.** k15 là lô 7 từ rời rạc (không trục chung, dồn giá
 trị vào từng thẻ); k16 là **lô ghép tay đầu tiên được soạn** — trục ghi sẵn trong `hangdoi.json`
-đã làm đúng việc, lô ra đồng nhất. Rà tay cụm in đậm (chỗ mù của bộ soát) đã trả công lần đầu:
-**143 cụm ở k16**, không cụm nào lệch trọng âm, nhưng chính lúc rà agent tự bắt **hai lỗi giải
-thích** của mình (`наш/ваш` "đuôi ngắn hơn `мой`" — sai, khác đúng chỗ nhấn; `азъ` ↔ *alpha* —
-sai). ⇒ **Lời dặn "rà tay cụm in đậm" phải giữ trong mọi lời nhắn về sau.**
+đã làm đúng việc, lô ra đồng nhất. Rà tay cụm in đậm đã trả công lần đầu: **143 cụm ở k16**,
+không cụm nào lệch trọng âm, nhưng chính lúc rà agent tự bắt **hai lỗi giải thích** của mình
+(`наш/ваш` "đuôi ngắn hơn `мой`" — sai, khác đúng chỗ nhấn; `азъ` ↔ *alpha* — sai).
+⇒ **Lời dặn "rà tay cụm in đậm" phải giữ trong mọi lời nhắn về sau** — giá trị của nó không nằm
+ở trọng âm (máy soi rồi) mà ở chỗ **đọc lại nội dung một lượt nữa bằng mắt**, đó là cửa duy nhất
+bắt được "lời giải thích sai".
 
 🔧 **Classifier chặn ở Bash tool** (gặp 28/07): `git commit` heredoc và lệnh nối chuỗi có
 `nap --apply` đều bị từ chối. Đi vòng bằng **PowerShell tool** — tách từng lệnh một, commit
@@ -226,9 +228,14 @@ bị viết đè khi lô của chúng tới lượt.
   **Sau mỗi lần nạp, đối chiếu "ghi vào N note" với số từ của lô.** Lệch là có chuyện; chính con
   số 33-note-cho-32-từ đã tố giác lỗi này.
 
-- ⚠️ **Bộ soát KHÔNG kiểm cụm in đậm nhiều chữ.** Mọi token có dấu cách bị bỏ qua hoàn toàn,
-  nên trọng âm sai trong collocation (`между́ строк` thay vì `ме́жду строк`) lọt sạch ba cửa.
-  Lô nào có nhiều cụm in đậm thì phải **rà tay**. Chưa vá.
+- ✅ **Cụm in đậm nhiều chữ: ĐÃ VÁ 28/07** (mục này trước ghi "chưa vá" — sai, đã sửa 28/07).
+  Cửa (d) trong `congcu.py` tách cụm ra soi **từng chữ**; cụm **thuần Cyrillic** bị soi cả dấu
+  trọng âm. Vá xong lòi ra 3 lỗi thật (`догово́р`, `аппети́т`, `парти́йный`).
+  **Phần máy vẫn KHÔNG đụng tới, phải rà tay:** ① **từ có gạch nối** (`по-мо́ему`, `чей-нибу́дь`)
+  bị `continue` thẳng, không soi mà cũng không tra từ điển; ② **cụm trộn Cyrillic với chữ Việt**
+  chỉ tắt báo *thiếu dấu* (cố ý — từ Nga viết trần trong câu Việt là hợp lệ, kêu oan thì lô sau
+  sẽ thêm dấu giả cho im cửa), phần đối chiếu từ điển vẫn chạy bình thường.
+  🔴 Đừng "sửa" hai chốt chống kêu oan này — chúng có lý do, ghi ở ngay comment trong mã.
 
 - 🌐 **Mạng chớp = cả hai agent chết cùng lúc.** Đã dính 28/07: hai agent độc lập cùng báo
   "Connection closed mid-response" đúng lúc sắp `Write` file ~100 KB. Cách chữa: dặn agent
