@@ -4,6 +4,37 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 28/07/2026 — SOẠN LẠI 833/908 THẺ, VÀ LỆNH `moi` HỨNG TỪ MỚI HẰNG NGÀY
+
+- ✅ **User chốt "ngoài những thẻ đã đạt tiêu chuẩn, soạn lại hết".** Đo cả 908 thẻ theo ba trần
+  mới: **75 đạt · 466 rỗng · 367 phải làm lại**. Hàng đợi nay **52 lô chờ = 833 từ** + 1 lô
+  `dat` = 75 từ. Thứ tự **B** (vá 93 thẻ gần đạt) → **A** (99 thẻ phình nhất) → **C** (517 thẻ
+  rỗng) → **A2** (124 thẻ k09+, không sai chỉ dài 1–3 màn hình).
+  ✅ **Thẻ trong Anki KHÔNG bị xoá** — user vẫn học bằng nội dung hiện có, từng lô thay khi tới lượt.
+- 💰 **VÁ TỐN NHIỀU TOKEN HƠN SOẠN MỚI — đo được, ngược trực giác.** User hỏi vá có rẻ hơn không;
+  câu trả lời là **không**: vá **không** làm giảm phần viết (agent vẫn phải xuất ra toàn bộ nội
+  dung cuối cùng), nó chỉ **cộng thêm** phần đọc bản cũ.
+
+  | Nhóm | Nội dung cũ tb | Soạn mới | Vá | Chênh |
+  |---|---|---|---|---|
+  | 93 thẻ lô 01→12 | 1 891 B | 85K | 98K | **+15%** |
+  | k09+ | 5 151 B | 85K | 119K | **+40%** |
+  | k01–k08 | 10 174 B | 85K | 153K | **+80%** |
+
+  ⇒ **Chỉ nhóm B dùng chế độ `sua`** (+15%, đáng vì nội dung đang tốt, chỉ thiếu họ hàng hoặc
+  thừa một ô đỏ). Mọi nhóm khác soạn mới và **không mở file cũ ra xem** — vừa rẻ hơn, vừa tránh
+  bản dài kéo văn phong dài trở lại.
+- 🆕 **`congcu.py moi` — hứng từ mới hằng ngày.** User: *"mỗi lần muốn thêm từ mới lại phải giải
+  thích mệt"*. Đây là cái bẫy đã ghi trong tài liệu từ lâu (**phải chạm ĐÚNG HAI file**;
+  `hangdoi.json` quyết định lô nhưng `tiep` lấy nghĩa từ `tudien.json`, quên file sau thì đề bài
+  in `?` ở mọi cột) nhưng **chưa bao giờ tự động hoá**. Nay một lệnh làm hết, đặt lô ở **đầu**
+  hàng đợi. **Gộp dồn thay vì đẻ lô mới mỗi ngày** — ba ngày mỗi ngày 4 từ mà chạy riêng là trả
+  phần cố định 53K/lô ba lần. Tự cảnh báo lô <10 từ (đắt gấp ~3 lần/từ) và >22 từ (phải chia).
+  `trangthai` **tự nhắc** khi thấy từ mới. Đã thử **cả hai nhánh bằng cách giả lập 3 từ mới thật**
+  — không tin một nhánh chưa chạy bao giờ.
+- 🧹 `.gitignore`: thêm kết quả trung gian của `congcu.py` (`_input_*`, `_vacham_vi`,
+  `_phaidocbangmat`, `*.bak`) — sinh lại được, không phải nguồn.
+
 ## 28/07/2026 — ĐẢO CHUẨN NỘI DUNG: NGẮN GỌN, VỪA MỘT MÀN HÌNH iPHONE
 
 User học hết số thẻ đã soạn rồi kết luận ngược lại chuẩn cũ. Đây là phiên sửa **gốc**, không
