@@ -365,9 +365,10 @@
     "сам",
     "чей"
    ],
-   "trangthai": "cho",
-   "file": null,
-   "thucong": "dai tu nhan xung & so huu"
+   "trangthai": "xong",
+   "file": "k16_language-grammar.py",
+   "thucong": "dai tu nhan xung & so huu",
+   "daNap": true
   },
   {
    "id": "k17",
