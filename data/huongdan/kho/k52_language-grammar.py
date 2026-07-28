@@ -437,17 +437,17 @@ S["щётка"] = (
 V["грач"] = "quạ đen mỏ trắng (loài rook — chim báo mùa xuân ở Nga)"
 
 # защита (danh từ) đụng защищать (động từ) khi dịch thành "bảo vệ".
-V["защита"] = "sự bảo vệ, sự che chắn (DANH TỪ)"
+V["защита"] = "sự bảo vệ, sự che chắn"
 
 # "thông báo" một mình không phân biệt thể, cũng không phân biệt với danh từ объявление.
 V["объявить"] = "tuyên bố, công bố cho mọi người biết (HOÀN THÀNH — một lần, xong việc)"
-V["объявление"] = "tờ thông báo, mẩu rao vặt dán/đăng công khai (danh từ)"
+V["объявление"] = "tờ thông báo, mẩu rao vặt dán/đăng công khai"
 
 # "khối lượng" trong nghĩa cũ đụng масса/вес; объём là chỗ chiếm trong không gian.
 V["объём"] = "thể tích, dung tích (chỗ chiếm trong không gian)"
 
 # плач (danh từ) đụng плакать (động từ) và рёв ("tiếng khóc thét").
-V["плач"] = "tiếng khóc (DANH TỪ, không phải động từ khóc)"
+V["плач"] = "tiếng khóc"
 
 # "áo choàng" đụng пальто ("áo khoác dài").
 V["плащ"] = "áo mưa, áo khoác ngoài che mưa gió"
@@ -456,10 +456,10 @@ V["плащ"] = "áo mưa, áo khoác ngoài che mưa gió"
 V["подъезд"] = "sảnh/cửa vào của khu chung cư; lối cho xe chạy tới sát"
 
 # Nghĩa cũ rời rạc, không nhận ra là một từ; gom lại thành dấu vân tay của подъём.
-V["подъём"] = "sự nâng lên; đoạn dốc đi lên; lúc thức dậy (một danh từ mang cả ba)"
+V["подъём"] = "sự nâng lên; đoạn dốc đi lên; lúc thức dậy (một từ mang cả ba)"
 
 # помощь (danh từ) đụng động từ "giúp đỡ".
-V["помощь"] = "sự giúp đỡ, sự cứu giúp (DANH TỪ giống cái)"
+V["помощь"] = "sự giúp đỡ, sự cứu giúp"
 
 # "khoan dung / thương hại" đụng милосердие, жалость.
 V["пощада"] = "sự tha, sự nương tay (không giết, không trừng phạt)"

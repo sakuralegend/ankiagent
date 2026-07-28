@@ -203,7 +203,11 @@ Khuôn lời nhắn giao cho agent phụ (đổi `kNN` và phần chủ đề):
 > **Việc thứ hai bắt buộc — sửa field `Vietnamese` (§2c):** dòng tiếng Việt là **đề bài của
 > deck `1-go`, user GÕ từ Nga từ nó**, nên nó phải sát tới mức **chỉ có một đáp án đúng**.
 > **Tự nhận ra từ nào dễ nhầm với từ nào** — không có công cụ nào phải chạy. Thêm
-> `V["từ"] = "…"`, luôn ghi rõ **thể** với động từ. ‹gợi ý hệ thống trục›
+> `V["từ"] = "…"`, luôn ghi rõ **thể** với động từ.
+> 🔴 **ĐỪNG ghi từ loại vào đó** — mặt đề bài đã in sẵn badge `{{PoS}}` + `{{GenderBadge}}`
+> (`n·v·adj·adv·pron` + M/Fe). Viết "(TÍNH TỪ)" hay "(DANH TỪ)" là lặp thứ user đang nhìn.
+> **Ngoại lệ:** từ có `PoS = oth` thì badge vô dụng, vẫn phải ghi. Còn **thể** thì không field
+> nào chứa ⇒ luôn phải ghi. ‹gợi ý hệ thống trục›
 > **4. Tự soát:** `… congcu.py soat kNN` — sửa tới khi **cả ba** mục đầu báo `(khong co)`,
 > rồi **đọc bằng mắt** danh sách "PHAI DOC BANG MAT".
 > **Và `… congcu.py dodai kNN` phải báo `QUA 1 MAN HINH (700px): 0` VÀ `QUA 2 O DO: 0`.**

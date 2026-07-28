@@ -141,11 +141,34 @@ V = {
 }
 ```
 
-Bốn lớp hay đụng nhất — gặp là xử lý, khỏi cân nhắc:
-1. **Cặp thể động từ** — luôn ghi *hoàn thành* / *chưa hoàn thành*.
+🔴 **ĐỪNG GHI TỪ LOẠI — mặt đề bài đã có badge rồi** (user chốt 28/07: *"cái từ loại không cần
+ghi đâu, vì thẻ của tôi đã có field đó rồi"*). Front của card gõ in sẵn `{{PoS}}` và
+`{{GenderBadge}}`, nên viết thêm "(TÍNH TỪ)" · "(DANH TỪ)" · "— ĐỘNG TỪ" · "(giống cái)" là
+**lặp lại thứ user đang nhìn thấy**, chỉ tổ làm đề bài dài ra.
+
+| Badge in sẵn | Không cần ghi lại |
+|---|---|
+| `n` `v` `adj` `adv` `pron` + `M`/`Fe`/`Nt` | từ loại, giống |
+
+⚠️ **Ngoại lệ `oth`**: từ nào có `PoS = oth` thì badge chỉ hiện "oth" — vô dụng. Với chúng
+(`по-ру́сски`, `за`, `про`, `то́лько`…) **vẫn phải ghi** "trạng từ" / "giới từ, đi với cách 4".
+Kiểm bằng `notesInfo` chứ đừng đoán.
+
+⚠️ **THỂ động từ thì KHÔNG có field nào chứa** — badge chỉ nói `v`. Nên *hoàn thành / chưa hoàn
+thành* **vẫn phải ghi**, đây mới là thứ user cần. Tương tự: dạng phản thân `-ся`, so sánh hơn,
+từ chỉ dùng số nhiều — đều không nằm trong field nào.
+
+⇒ Hệ quả cho **hai lớp dưới**: cặp *tính từ vs trạng từ* (`бли́зкий`/`бли́зко`) và cặp *động từ ↔
+danh từ cùng gốc* (`за́втракать`/`за́втрак`) **badge đã tự tách rồi** — chỉ cần lo phần nghĩa.
+
+Các lớp hay đụng nhất — gặp là xử lý, khỏi cân nhắc:
+1. **Cặp thể động từ** — luôn ghi *hoàn thành* / *chưa hoàn thành*. **Đây là lớp quan trọng nhất**
+   vì không badge nào đỡ.
 2. **Đồng nghĩa gần** (`ви́деть`/`смотре́ть` đều "nhìn") — thêm nét phân biệt.
-3. **Tính từ vs trạng từ** — `бли́зкий` (gần, tính từ) vs `бли́зко` (gần, trạng từ).
-4. **Giống nam/nữ** — `не́мец` (người Đức, nam) vs `не́мка` (nữ).
+3. **Cùng từ loại, nghĩa Việt trùng** (`бу́дничный` "bình thường" đụng `обы́чный`) — badge không
+   cứu được, phải tách bằng nghĩa.
+4. **Cặp có tiền tố ↔ không tiền tố** và **phản thân ↔ không** (`учи́ть`/`учи́ться`) — cùng `v`,
+   badge không tách được.
 
 ⚠️ `nap` in từng dòng `cũ -> mới` để soát bằng mắt trước khi ghi — đổi đề bài của thẻ user đang
 học thì phải thấy được, không làm lặng lẽ.

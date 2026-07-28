@@ -311,15 +311,15 @@ S["счастливый"] = (
 #   "bình thường" -> обычный · "tất cả" -> все · "tích cực" -> активный
 # --------------------------------------------------------------------------
 
-V["будничный"]     = "thuộc ngày thường phải đi làm; đều đều, tẻ nhạt (tính từ)"
+V["будничный"]     = "thuộc ngày thường phải đi làm; đều đều, tẻ nhạt"
 V["ветреный"]      = "lộng gió, nhiều gió; (nói về người) nông nổi, hay thay đổi"
 V["дождливый"]     = "mưa nhiều, mưa dai dẳng (nói về thời tiết, mùa)"
 V["морозный"]      = "băng giá, rét dưới 0 độ (không phải \"lạnh\" nói chung)"
 V["облачный"]      = "có mây, nhiều mây (trời vẫn hửng); (công nghệ) đám mây"
 V["пасмурный"]     = "xám kín mây, âm u không thấy mặt trời; (mặt người) rầu rĩ"
 V["положительный"] = "tích cực, khẳng định, dương (kết quả, câu trả lời)"
-V["близкий"]       = "gần, thân thiết — TÍNH TỪ (bạn thân, người thân)"
-V["весёлый"]       = "vui vẻ, tươi tắn, hoạt náo — TÍNH TỪ (vui ra ngoài)"
+V["близкий"]       = "gần, thân thiết (bạn thân, người thân)"
+V["весёлый"]       = "vui vẻ, tươi tắn, hoạt náo (vui ra ngoài)"
 V["каждый"]        = "mỗi, từng cái một (riêng lẻ — không phải \"tất cả\" gộp chung)"
-V["слабый"]        = "yếu, ốm yếu; nhạt (trà, màu); lỏng lẻo — TÍNH TỪ"
-V["счастливый"]    = "hạnh phúc, may mắn — TÍNH TỪ (niềm vui sâu bên trong)"
+V["слабый"]        = "yếu, ốm yếu; nhạt (trà, màu); lỏng lẻo"
+V["счастливый"]    = "hạnh phúc, may mắn (niềm vui sâu bên trong)"
