@@ -74,10 +74,11 @@
     "щука",
     "щётка"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k52_language-grammar.py",
    "sua": true,
-   "thucong": "LO SUA, KHONG PHAI LO SOAN MOI. The da co noi dung DUNG CHUAN NGAN GON roi (trung binh 1 635 byte, 1,4 o do) - `tiep` in kem NOI DUNG HIEN TAI cua tung the. GIU NGUYEN phan dang tot, chi lam dung hai viec: (1) them muc 'Ho hang' cho the nao thieu; (2) the nao qua 2 o do thi GIU LAI HAI CAI HAY NHAT, phan con lai hoa vao 'Cach nho' hoac bo han. TUYET DOI khong viet dai ra, khong them khoi he thong. Truc ho tu cua nhom nay: LUAT CHINH TA - MAT CHU: (1) dau cung ъ chi dung sau TIEN TO ket thuc bang phu am truoc е/ё/ю/я (объявить, подъезд, разъём); (2) bo chu rit ч/щ/ж/ш - ЧА ЩА viet А, ЧУ ЩУ viet У, ЖИ ШИ viet И, va nguon goc chu щ. Hai luat, dung chong khoi thu ba"
+   "thucong": "LO SUA, KHONG PHAI LO SOAN MOI. The da co noi dung DUNG CHUAN NGAN GON roi (trung binh 1 635 byte, 1,4 o do) - `tiep` in kem NOI DUNG HIEN TAI cua tung the. GIU NGUYEN phan dang tot, chi lam dung hai viec: (1) them muc 'Ho hang' cho the nao thieu; (2) the nao qua 2 o do thi GIU LAI HAI CAI HAY NHAT, phan con lai hoa vao 'Cach nho' hoac bo han. TUYET DOI khong viet dai ra, khong them khoi he thong. Truc ho tu cua nhom nay: LUAT CHINH TA - MAT CHU: (1) dau cung ъ chi dung sau TIEN TO ket thuc bang phu am truoc е/ё/ю/я (объявить, подъезд, разъём); (2) bo chu rit ч/щ/ж/ш - ЧА ЩА viet А, ЧУ ЩУ viet У, ЖИ ШИ viet И, va nguon goc chu щ. Hai luat, dung chong khoi thu ba",
+   "daNap": true
   },
   {
    "id": "k53",
