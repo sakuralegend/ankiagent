@@ -120,14 +120,19 @@ Khuôn lời nhắn giao cho agent phụ (đổi `kNN` và phần chủ đề):
 > (**Đừng đọc `k01_actions.py` hay `MAU.py`** — cả hai soạn theo chuẩn CŨ dài gấp 4–5 lần,
 > chép theo là hỏng. Bản mẫu đúng nằm ngay trong §2b.)
 >
-> 🔴 **BA CON SỐ CỨNG:** tối đa **2 ô đỏ** (`hd-warn`) mỗi thẻ · tối đa **1 khối dùng chung** ·
-> **1,2–2,2 KB, trần 3 KB**. Biến cách/số nhiều **theo đúng quy tắc thì BỎ**, chỉ liệt kê khi
-> bất thường. Ba mục cốt lõi giữ nguyên: **Chẻ từ → Cách nhớ → Họ hàng**.
+> 🔴 **BA CON SỐ CỨNG:** ① thẻ phải **vừa MỘT màn hình iPhone — trần 700px, nhắm <600px**
+> (đừng canh byte, byte là đại lượng sai) · ② tối đa **2 ô đỏ** (`hd-warn`) · ③ **mặc định
+> KHÔNG có khối hệ thống dùng chung**. Biến cách/số nhiều **theo đúng quy tắc thì BỎ**, chỉ liệt
+> kê khi bất thường. Ba mục cốt lõi giữ nguyên: **Chẻ từ → Cách nhớ → Họ hàng**.
 > **2. Đề bài:** `PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py tiep kNN`
-> **3. Soạn** `data/huongdan/kho/kNN_<topic>.py`, chỉ chứa `S = {...}`. ‹gợi ý hệ thống trục›
+> **3. Soạn** `data/huongdan/kho/kNN_<topic>.py`, chứa `S = {...}` và (nếu cần) `V = {...}`.
+> **Việc thứ hai bắt buộc — sửa field `Vietnamese` (§2c):** dòng tiếng Việt là **đề bài của
+> deck `1-go`, user GÕ từ Nga từ nó**, nên nó phải sát tới mức **chỉ có một đáp án đúng**.
+> **Tự nhận ra từ nào dễ nhầm với từ nào** — không có công cụ nào phải chạy. Thêm
+> `V["từ"] = "…"`, luôn ghi rõ **thể** với động từ. ‹gợi ý hệ thống trục›
 > **4. Tự soát:** `… congcu.py soat kNN` — sửa tới khi **cả ba** mục đầu báo `(khong co)`,
 > rồi **đọc bằng mắt** danh sách "PHAI DOC BANG MAT".
-> **Và `… congcu.py dodai kNN` phải báo `QUA 3KB: 0` VÀ `QUA 2 O DO: 0`.**
+> **Và `… congcu.py dodai kNN` phải báo `QUA 1 MAN HINH (700px): 0` VÀ `QUA 2 O DO: 0`.**
 > **5. DỪNG** — không sửa `hangdoi.json`, không commit, không `nap`, không đụng Anki.
 > (Ngoại lệ: gặp **từ đồng tự** thật thì được thêm dòng vào `MIEN_TRU` kèm lý do, và phải báo lên.)
 >

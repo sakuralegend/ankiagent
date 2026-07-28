@@ -39,14 +39,28 @@ chung?* Loại thứ hai bỏ đi. **Đúng không phải lý do để cho vào 
 
 ### 🔴 Ba con số cứng
 
-1. **TỐI ĐA 2 ô đỏ (`hd-warn`) mỗi thẻ** — chọn hai cái hay nhất, bỏ hết phần còn lại.
-2. **MẶC ĐỊNH KHÔNG CÓ KHỐI HỆ THỐNG** (§3). Cần lắm thì trải đầy đủ ở **đúng một thẻ** của lô,
+1. **VỪA ĐÚNG MỘT MÀN HÌNH iPHONE — trần 700px, nhắm dưới 600px.** User chốt:
+   *"toàn bộ nội dung đó chỉ được hiện trên 1 mặt màn hình iPhone thôi"* (máy thật:
+   **iPhone 16 Pro Max, 440×956**). Quá 700px là phải cuộn = vỡ yêu cầu.
+2. **TỐI ĐA 2 ô đỏ (`hd-warn`) mỗi thẻ** — chọn hai cái hay nhất, bỏ hết phần còn lại.
+3. **MẶC ĐỊNH KHÔNG CÓ KHỐI HỆ THỐNG** (§3). Cần lắm thì trải đầy đủ ở **đúng một thẻ** của lô,
    thẻ khác dẫn chiếu một dòng.
-3. **Nhắm 1,2–2,2 KB HTML, trần cứng 3 KB.**
 
 ```bash
-PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py dodai kNN   # byte + ô đỏ + %khối chung
+PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py dodai kNN   # cao px + ô đỏ + %khối chung
 ```
+
+⚠️ **Đừng canh theo BYTE — byte là đại lượng sai.** Một bảng 6 dòng và một đoạn văn cùng số byte
+chiếm chiều cao khác nhau tới ba lần. `dodai` ước lượng **chiều cao dựng hình** từ đúng
+font-size/line-height/padding trong `card.css`. Đối chiếu thật:
+
+| | `сожаление` (user khen) | `гиря` (k15, ngắn nhất lô) | `реплика` (k04) |
+|---|---|---|---|
+| Byte | 1 173 | 2 827 | 16 874 |
+| **Chiều cao** | **516px = 0,7 màn** | 1 112px = **1,6 màn** | 6 305px = **9 màn** |
+
+Cỡ chữ tham khảo: một thẻ vừa màn hình thường rơi vào **1,2–1,6 KB HTML** — nhưng đó là *hệ quả*,
+không phải mục tiêu. Mục tiêu là con số px.
 
 ### Cắt cái gì để xuống được cỡ đó
 
@@ -101,6 +115,44 @@ ngược: *"tham quá khiến thẻ dài tôi đọc xong không nhớ gì"*. C�
 - ❌ Bịa cấu trúc cho từ gốc trơn hoặc từ mượn.
 - ❌ Khẳng định chắc nịch một từ nguyên còn tranh cãi. Dùng `hd-warn` mở đầu bằng
   `⚠️ Mức tin:` rồi nói rõ đó là từ nguyên, không phải luật suy ra được.
+
+## 2c. Việc thứ hai của mỗi lô: SỬA FIELD `Vietnamese`
+
+User chốt 28/07: *"phần dịch tiếng Việt đôi khi chưa được thoát ý, ví dụ phải chỉ ra đó là thể
+hoàn thành hay chưa hoàn thành thì tôi mới viết đúng được"*.
+
+🔴 **Dòng tiếng Việt là ĐỀ BÀI của deck `1-go`** — user nhìn nó rồi **gõ** từ Nga. Mơ hồ ở đây
+không phải lỗi thẩm mỹ mà là **đề bài không có đáp án đúng**: `nói` không phân biệt được
+`сказа́ть` (hoàn thành) với `говори́ть` (chưa hoàn thành), nên user gõ kiểu gì cũng có thể sai.
+
+**Tiêu chí:** *"tạo nghĩa tiếng Việt sát nhất, sao cho **chỉ có 1 đáp án đúng** thôi"* — user
+không biết trước sẽ học từ nào, nên không thể trông vào việc họ đoán ý.
+
+🧠 **Dùng chính đầu óc của bạn, đừng chờ công cụ.** User nói rõ: *"nó phải tự biết từ này dễ
+nhầm với từ nào chứ"*. Không có bước bắt buộc nào phải chạy — bạn biết `сказа́ть` đụng
+`говори́ть`, `бли́зкий` đụng `бли́зко`, thì xử lý luôn.
+
+**Cách làm:** trong file lô, khai thêm dict `V` bên cạnh `S`, **chỉ những từ cần làm rõ**:
+
+```python
+V = {
+    "сказать":  "nói, bảo (HOÀN THÀNH — một lần, xong việc)",
+    "говорить": "nói, trò chuyện (chưa hoàn thành — đang/thường xuyên)",
+}
+```
+
+Bốn lớp hay đụng nhất — gặp là xử lý, khỏi cân nhắc:
+1. **Cặp thể động từ** — luôn ghi *hoàn thành* / *chưa hoàn thành*.
+2. **Đồng nghĩa gần** (`ви́деть`/`смотре́ть` đều "nhìn") — thêm nét phân biệt.
+3. **Tính từ vs trạng từ** — `бли́зкий` (gần, tính từ) vs `бли́зко` (gần, trạng từ).
+4. **Giống nam/nữ** — `не́мец` (người Đức, nam) vs `не́мка` (nữ).
+
+⚠️ `nap` in từng dòng `cũ -> mới` để soát bằng mắt trước khi ghi — đổi đề bài của thẻ user đang
+học thì phải thấy được, không làm lặng lẽ.
+
+<sub>Có `congcu.py vacham` soi toàn bộ 908 thẻ tìm nghĩa Việt trùng nhau (đo 28/07: **186 nghĩa
+trùng, dính 414 lượt từ** — `ổn` ứng với 5 từ Nga). **Tuỳ chọn, không phải cửa bắt buộc** —
+dùng khi luồng chính muốn kiểm lại, đừng bắt agent chạy.</sub>
 
 ## 3. Chia lô theo HỌ TỪ, không chia đều
 

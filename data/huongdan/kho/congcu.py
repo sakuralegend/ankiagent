@@ -69,12 +69,17 @@ def ghi_hangdoi(q):
     io.open(HANGDOI, "w", encoding="utf-8").write(json.dumps(q, ensure_ascii=False, indent=1))
 
 
-def nap_lo_da_soan(chi=None):
+def nap_lo_da_soan(chi=None, lay_v=False):
     """Đọc mọi file kNN_*.py trong kho, trả {word: html} gộp.
 
     `chi` = danh sách id để chỉ đọc vài lô — dùng khi một lô tự soát mình.
+    `lay_v` = trả thêm dict `V` (bản tiếng Việt sửa lại) của các lô đó.
+
+    File lô có thể khai báo HAI dict:
+      S = {từ: html ô Hướng dẫn}      — bắt buộc
+      V = {từ: "nghĩa tiếng Việt"}    — tuỳ chọn, CHỈ những từ cần sửa
     """
-    gop, nguon = {}, {}
+    gop, nguon, vi = {}, {}, {}
     for path in sorted(glob.glob(os.path.join(HERE, "k[0-9][0-9]_*.py"))):
         if chi and os.path.basename(path)[:3] not in chi:
             continue
@@ -86,7 +91,8 @@ def nap_lo_da_soan(chi=None):
                 print(f"  !! TRUNG '{w}': {nguon[w]} va {os.path.basename(path)}")
             gop[w] = html
             nguon[w] = os.path.basename(path)
-    return gop, nguon
+        vi.update(getattr(mod, "V", {}))
+    return (gop, nguon, vi) if lay_v else (gop, nguon)
 
 
 # --------------------------------------------------------------- lệnh: tiep
@@ -118,6 +124,25 @@ def cmd_tiep():
     if lo.get("thucong"):
         out.append(f"### TRUC CUA LO (da ghep tay theo nghia): {lo['thucong']}")
     out.append("")
+    out.append("### VIEC THU HAI: SUA FIELD TIENG VIET (dict V, xem README §2c)")
+    out.append("### Dong tieng Viet duoi day la DE BAI cua deck 1-go — user GO tu Nga tu no.")
+    out.append("### Mo ho la de bai khong co dap an dung: 'noi' khong phan biet duoc")
+    out.append("### сказать (hoan thanh) voi говорить (chua hoan thanh).")
+    out.append("### Them V[\"tu\"] = \"...\" CHI cho tu nao that su can sua.")
+    out.append("")
+    # LÔ SỬA (`sua: true`): thẻ ĐÃ có nội dung dùng được, chỉ vá chỗ thiếu.
+    # Agent không được đụng Anki (§7), nên nội dung hiện tại phải do `tiep`
+    # kéo về sẵn — nếu không agent sẽ viết đè và xoá mất phần đang tốt.
+    cu_hd = {}
+    if lo.get("sua"):
+        try:
+            ids = ac("findNotes", query="note:RU_Word")
+            for n in ac("notesInfo", notes=ids):
+                f = n["fields"]
+                cu_hd[khoa_note(f.get("WordClean", {}).get("value", ""))] = \
+                    f.get("HuongDan", {}).get("value", "")
+        except Exception as e:
+            out.append(f"### !! KHONG LAY DUOC NOI DUNG HIEN TAI ({e}) — DUNG LAI, bao luong chinh")
     for wc in lo["tu"]:
         w = words.get(wc, {})
         cu = "   [DE GHI DE noi dung mnemonic cu]" if w.get("cu") else ""
@@ -126,6 +151,10 @@ def cmd_tiep():
                                         re.sub(r"</li>\s*<li>", " / ", w.get("en", "")))).strip()
         out.append(f'S["{wc}"]   {w.get("w","?")}   ({w.get("pos","?")})   '
                    f'{en}   |   {w.get("vi","")}{cu}')
+        if lo.get("sua"):
+            hd = cu_hd.get(khoa_note(wc), "")
+            out.append(f"### NOI DUNG HIEN TAI cua {wc} ({len(hd)} byte) — GIU LAI phan dang "
+                       f"tot, chi va cho thieu:\n{hd or '(TRONG)'}\n")
     io.open(os.path.join(HERE, f"_input_{lo['id']}.txt"), "w", encoding="utf-8").write(
         "\n".join(out))
     print("\n".join(out))
@@ -273,8 +302,54 @@ def cmd_soat():
 
 
 # ---------------------------------------------------------- lệnh: trangthai
-TRAN_BYTE = 3000     # README §2b — chốt 28/07, thay cho trần 12 KB cũ
 TRAN_WARN = 2        # số ô đỏ (.hd-warn) tối đa mỗi thẻ
+
+# ---- TRẦN THẬT: VỪA MỘT MÀN HÌNH iPHONE (user chốt 28/07) ----------------
+# Byte là đại lượng SAI để đo cái user thật sự quan tâm. User nói thẳng:
+# "toàn bộ nội dung đó chỉ được hiện trên 1 mặt màn hình iPhone thôi".
+# Nên đo bằng CHIỀU CAO DỰNG HÌNH ước lượng, theo đúng số trong card.css.
+#
+# MÁY THẬT CỦA USER: iPhone 16 Pro Max = 440 x 956 pt (CSS px).
+# Ghi rõ từng bước trừ để sau này đổi máy thì sửa được, đừng đoán lại:
+#   BỀ RỘNG  440 − .card-container padding 20×2 = 400 − .hd-content 16×2 = 368px
+#   CHIỀU CAO 956 − thanh trên + Dynamic Island ~103 − nút trả lời ~100 = ~753px
+#             − thanh "Hướng dẫn (bấm để mở rộng)" ~40px  ->  ~713px
+#   Lấy 700px cho chẵn và chừa sai số.
+TRAN_CAO = 700       # px — quá số này là PHẢI CUỘN, tức vỡ yêu cầu "1 mặt màn hình"
+NHAM_CAO = 600       # px — nhắm dưới mức này cho thoải mái
+BE_RONG = 368        # px bề rộng chữ trong .hd-content
+
+
+def _dong(chu, px_font, be_rong=BE_RONG):
+    """Số dòng khi chữ tự xuống hàng. Bề rộng ký tự trung bình ~0,5 cỡ chữ
+    với font sans tỉ lệ (-apple-system). Chữ Việt có dấu không rộng thêm."""
+    moi_dong = max(1, int(be_rong / (px_font * 0.5)))
+    return max(1, -(-len(chu) // moi_dong))
+
+
+def uoc_cao(html):
+    """Ước lượng chiều cao dựng hình (px) của một ô Hướng dẫn.
+
+    Không phải trình duyệt, nên đây là XẤP XỈ — nhưng sai số vài chục px
+    không đổi kết luận, còn byte thì sai hẳn về CHẤT: một bảng 6 dòng và
+    một đoạn văn cùng số byte chiếm chiều cao khác nhau tới ba lần.
+    """
+    cao = 28  # padding trên+dưới của .hd-content
+    for m in re.finditer(
+            r'<div class="(hd-sec|hd-row|hd-why|hd-fam|hd-warn)"[^>]*>(.*?)</div>\s*(?=<div|$)',
+            html, re.S):
+        lop, ruot = m.group(1), re.sub(r"<[^>]+>", "", m.group(2)).strip()
+        if lop == "hd-sec":
+            cao += 16 + 21                       # 10px chữ + margin 14/7
+        elif lop == "hd-row":
+            cao += _dong(ruot, 13, BE_RONG - 74) * 24 + 6   # cột nghĩa hẹp hơn
+        elif lop == "hd-why":
+            cao += _dong(ruot, 14) * 22.4 + 8
+        elif lop == "hd-fam":
+            cao += _dong(ruot, 13) * 22.75
+        elif lop == "hd-warn":
+            cao += _dong(ruot, 13, BE_RONG - 25) * 19.5 + 25
+    return int(cao)
 
 
 def cmd_dodai():
@@ -291,13 +366,16 @@ def cmd_dodai():
         print("chua co gi")
         return
     W = {k: v.count("hd-warn") for k, v in gop.items()}
-    qua = [x for x in L if x[0] > TRAN_BYTE]
+    C = {k: uoc_cao(v) for k, v in gop.items()}
+    cao = sorted(((n, k) for k, n in C.items() if n > TRAN_CAO), reverse=True)
     do = sorted(((n, k) for k, n in W.items() if n > TRAN_WARN), reverse=True)
-    print(f"{len(gop)} the | byte tb {sum(n for n, _ in L) // len(L)} "
-          f"| dai nhat {L[0][0]} ({L[0][1]}) | QUA {TRAN_BYTE // 1000}KB: {len(qua)}")
+    print(f"{len(gop)} the | CAO tb {sum(C.values()) // len(C)}px "
+          f"| cao nhat {max(C.values())}px ({max(C, key=C.get)}) "
+          f"| QUA 1 MAN HINH ({TRAN_CAO}px): {len(cao)}")
     print(f"{'':>9} o do tb {sum(W.values()) / len(W):.1f} "
-          f"| nhieu nhat {do[0][0] if do else max(W.values())} "
-          f"({do[0][1] if do else '-'}) | QUA {TRAN_WARN} O DO: {len(do)}")
+          f"| nhieu nhat {max(W.values())} "
+          f"({max(W, key=W.get)}) | QUA {TRAN_WARN} O DO: {len(do)}")
+    print(f"{'':>9} byte tb {sum(n for n, _ in L) // len(L)} (tham khao)")
 
     # KHỐI DÙNG CHUNG: mục .hd-sec nào xuất hiện ở >=50% số thẻ thì đó là khối
     # lặp, không phải nội dung của từ. §3 — mặc định phải là 0%; ở k04 nó nuốt
@@ -318,10 +396,10 @@ def cmd_dodai():
     for t, c in sorted(chung, key=lambda x: -x[1]):
         print(f"     lap x{c}/{len(gop)}  {dai[t]:6d}b  {t[:60]}")
 
-    for n, w in qua[:15]:
-        print(f"  byte  {n:6d}  {w}   [{nguon[w]}]")
+    for n, w in cao[:15]:
+        print(f"  cao   {n:6d}px  {w}   [{nguon[w]}]  = {n / TRAN_CAO:.1f} man hinh")
     for n, w in do[:15]:
-        print(f"  o do  {n:6d}  {w}   [{nguon[w]}]")
+        print(f"  o do  {n:6d}    {w}   [{nguon[w]}]")
 
 
 def cmd_trangthai():
@@ -330,14 +408,74 @@ def cmd_trangthai():
     # CHỈ đếm lô đã được luồng chính duyệt. Đếm mọi file kNN_*.py có trên đĩa
     # sẽ tính cả lô đang soạn dở của agent chạy song song -> báo cao hơn thật.
     gop, _ = nap_lo_da_soan([l["id"] for l in xong] or ["__khong_co__"])
-    print(f"lo:  {len(xong)}/{q['tong_lo']}")
-    print(f"tu:  {len(gop)}/{q['tong_tu']}  (da duyet)")
+    # trangthai "dat" = thẻ đã có nội dung ĐẠT CHUẨN sẵn, không cần soạn lại.
+    # Không phải "xong" (không có file kNN_*.py, `nap` phải bỏ qua) và cũng
+    # không phải "cho" (không ai phải làm gì). Thiếu trạng thái này thì bộ đếm
+    # `tu:` không bao giờ chạm tổng, và phiên sau sẽ tưởng còn việc chưa làm.
+    dat = [l for l in q["lo"] if l["trangthai"] == "dat"]
+    n_dat = sum(len(l["tu"]) for l in dat)
+    print(f"lo:  {len(xong)}/{q['tong_lo']}"
+          + (f"   (+{len(dat)} lo 'dat chuan san')" if dat else ""))
+    print(f"tu:  {len(gop) + n_dat}/{q['tong_tu']}  (da duyet"
+          + (f", trong do {n_dat} tu dat chuan san)" if n_dat else ")"))
     da_nap = [l["id"] for l in xong if l.get("daNap")]
     chua_nap = [l["id"] for l in xong if not l.get("daNap")]
     print(f"nap: {len(da_nap)}/{len(xong)} lo da vao Anki"
           + (f"   chua nap: {' '.join(chua_nap)}" if chua_nap else ""))
     cho = [l["id"] for l in q["lo"] if l["trangthai"] == "cho"]
     print(f"con: {' '.join(cho[:12])}{' ...' if len(cho) > 12 else ''}")
+
+
+# ------------------------------------------------- va chạm nghĩa tiếng Việt
+def tach_nghia(vi):
+    """Tách một dòng tiếng Việt thành các nghĩa rời để so trùng.
+
+    `Vietnamese` viết kiểu "nói, bảo, cho biết" — mỗi cụm là MỘT đáp án mà
+    user có thể nhìn vào rồi gõ. Nên so trùng phải so từng cụm, không so cả
+    dòng: "nói, bảo" và "nói, trò chuyện" khác nhau nguyên dòng nhưng cùng
+    chứa "nói", tức vẫn là đề bài hai đáp án.
+    """
+    vi = re.sub(r"<[^>]+>", " ", vi or "").lower()
+    vi = re.sub(r"\([^)]*\)", " ", vi)          # bỏ phần chú trong ngoặc
+    ra = set()
+    for cum in re.split(r"[,;/·|]|\bhoặc\b|\bhay là\b", vi):
+        cum = re.sub(r"\s+", " ", cum).strip(" .…")
+        # cụm quá ngắn hoặc chỉ là hư từ thì bỏ, kẻo báo trùng tràn lan
+        if len(cum) >= 2 and cum not in ("và", "là", "của", "cho", "một"):
+            ra.add(cum)
+    return ra
+
+
+def do_va_cham(notes):
+    """{nghĩa Việt: [các từ Nga cùng mang nghĩa đó]} — chỉ giữ nghĩa >= 2 từ."""
+    theo = {}
+    for wc, vi in notes.items():
+        for ng in tach_nghia(vi):
+            theo.setdefault(ng, set()).add(wc)
+    return {k: sorted(v) for k, v in theo.items() if len(v) > 1}
+
+
+def cmd_vacham():
+    """Soi TOÀN BỘ bộ sưu tập: đề bài tiếng Việt nào có nhiều hơn một đáp án.
+
+    User không biết trước sẽ học từ nào, nên yêu cầu là **mỗi đề bài đúng một
+    đáp án**. Agent soạn một lô KHÔNG nhìn thấy 907 thẻ còn lại, nên nó không
+    thể tự phát hiện va chạm — bắt buộc phải có cửa này ở luồng chính.
+    """
+    notes = {}
+    for n in ac("notesInfo", notes=ac("findNotes", query="note:RU_Word")):
+        f = n["fields"]
+        notes[f.get("WordClean", {}).get("value", "")] = \
+            f.get("Vietnamese", {}).get("value", "")
+    vc = do_va_cham(notes)
+    tong = sum(len(v) for v in vc.values())
+    print(f"{len(notes)} the | {len(vc)} nghia Viet bi TRUNG, dinh {tong} luot tu\n")
+    for ng, tu in sorted(vc.items(), key=lambda x: (-len(x[1]), x[0]))[:40]:
+        print(f"  '{ng}'  ->  {' · '.join(tu)}")
+    fn = os.path.join(HERE, "_vacham_vi.txt")
+    io.open(fn, "w", encoding="utf-8").write(
+        "\n".join(f"{ng}\t{' · '.join(tu)}" for ng, tu in sorted(vc.items())))
+    print(f"\n-> day du: {os.path.basename(fn)}")
 
 
 # --------------------------------------------------------------- lệnh: nap
@@ -385,17 +523,32 @@ def cmd_nap():
         return
     ids_lo = [l["id"] for l in can]
     print(f"nap {len(can)} lo: {' '.join(ids_lo)}")
-    gop, _ = nap_lo_da_soan(ids_lo)
-    print(f"da soan: {len(gop)} tu")
+    gop, _, vi_moi = nap_lo_da_soan(ids_lo, lay_v=True)
+    print(f"da soan: {len(gop)} tu" + (f" | sua tieng Viet: {len(vi_moi)} tu" if vi_moi else ""))
 
     ids = ac("findNotes", query="note:RU_Word")
-    ban_do, hien_co = {}, {}
+    ban_do, hien_co, vi_co = {}, {}, {}
     for n in ac("notesInfo", notes=ids):
         # `noteId`, KHÔNG phải `id` — notesInfo trả về noteId, còn updateNoteFields
         # lại nhận khoá `id`. Hai đầu đặt tên khác nhau, dễ dính.
         nid = n["noteId"]
         ban_do.setdefault(khoa_note(n["fields"]["WordClean"]["value"]), []).append(nid)
         hien_co[nid] = n["fields"].get("HuongDan", {}).get("value", "")
+        vi_co[nid] = n["fields"].get("Vietnamese", {}).get("value", "")
+
+    # Field `Vietnamese` là ĐỀ BÀI của deck 1-go (user gõ từ Nga từ dòng này),
+    # nên sửa nó là sửa cái user phải trả lời — đổi thì phải in ra để soát mắt.
+    n_vi = 0
+    for word, moi in vi_moi.items():
+        for nid in ban_do.get(khoa_note(word), []):
+            if vi_co.get(nid) == moi:
+                continue
+            print(f"  vi: {word:16s} '{vi_co.get(nid,'')}'  ->  '{moi}'")
+            if apply:
+                ac("updateNoteFields", note={"id": nid, "fields": {"Vietnamese": moi}})
+            n_vi += 1
+    if vi_moi:
+        print(f"  -> doi tieng Viet {n_vi} note")
 
     ok, bo_qua, miss, doi = 0, 0, [], 0
     for word, html in gop.items():
@@ -435,4 +588,5 @@ def cmd_nap():
 if __name__ == "__main__":
     cmd = sys.argv[1] if len(sys.argv) > 1 else "trangthai"
     {"tiep": cmd_tiep, "soat": cmd_soat, "trangthai": cmd_trangthai,
-     "xong": cmd_xong, "nap": cmd_nap, "dodai": cmd_dodai}[cmd]()
+     "xong": cmd_xong, "nap": cmd_nap, "dodai": cmd_dodai,
+     "vacham": cmd_vacham}[cmd]()

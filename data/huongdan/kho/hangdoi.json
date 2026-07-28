@@ -1,60 +1,40 @@
 {
  "tong_tu": 908,
- "tong_lo": 57,
+ "tong_lo": 53,
  "lo": [
   {
    "id": "k51",
-   "topic": "people::family",
+   "topic": "hontap-nguoi-huTu",
    "tu": [
-    "американка",
     "англичанин",
-    "англичанка",
-    "араб",
-    "арабка",
-    "испанец",
-    "испанка",
-    "итальянец",
-    "итальянка",
-    "китаянка",
-    "кореец",
-    "кореянка",
-    "немец",
-    "немка",
-    "француженка",
-    "француз",
-    "чех"
-   ],
-   "trangthai": "cho",
-   "file": null,
-   "thucong": "bo bon quoc tich - DANH TU chi nguoi: -ец/-анин (nam) vs -ка/-анка (nu), bien am truoc hau to, va cho BAT QUY TAC phai thuoc (француз/француженка, чех). SOAN LAI: the DA CO noi dung chuan CU (~1,6 KB, mong bang 1/5) -> viet DE hoan toan theo chuan moi 6-10 KB, dung giu lai ban cu"
-  },
-  {
-   "id": "k52",
-   "topic": "language::education",
-   "tu": [
-    "американский",
     "английский",
-    "арабский",
-    "вьетнамский",
-    "испанский",
-    "китайский",
     "немецкий",
-    "по-английски",
-    "по-испански",
-    "по-китайски",
-    "по-немецки",
     "по-русски",
     "по-французски",
     "русский",
-    "французский"
+    "французский",
+    "грамматика",
+    "спортивный",
+    "спряжение",
+    "близко",
+    "за",
+    "или",
+    "отлично",
+    "правильно",
+    "про",
+    "себя",
+    "только",
+    "час",
+    "часто"
    ],
    "trangthai": "cho",
    "file": null,
-   "thucong": "bo bon quoc tich - TINH TU -ский vs TRANG TU по-...-ски: khac nhau o CACH DUNG (русский язык tinh tu vs говорить по-русски trang tu), va trong am dich khi them hau to. SOAN LAI: the DA CO noi dung chuan CU (~1,6 KB, mong bang 1/5) -> viet DE hoan toan theo chuan moi 6-10 KB, dung giu lai ban cu"
+   "sua": true,
+   "thucong": "LO SUA, KHONG PHAI LO SOAN MOI. `tiep` in kem NOI DUNG HIEN TAI cua tung the. GIU NGUYEN phan dang tot, chi lam dung ba viec: (1) them muc 'Ho hang' cho the nao thieu; (2) the nao qua 2 o do thi GIU HAI CAI HAY NHAT, phan con lai hoa vao 'Cach nho' hoac bo; (3) the nao qua 1 man hinh (700px) thi cat cho vua. Lo nay gom tu tu nhieu ho khac nhau — SUA TUNG THE DOC LAP, dung dung khoi he thong nao."
   },
   {
-   "id": "k53",
-   "topic": "language::grammar",
+   "id": "k52",
+   "topic": "language-grammar",
    "tu": [
     "врач",
     "грач",
@@ -73,7 +53,6 @@
     "разъём",
     "съезд",
     "хвощ",
-    "щепка",
     "щи",
     "щит",
     "щука",
@@ -81,36 +60,35 @@
    ],
    "trangthai": "cho",
    "file": null,
-   "thucong": "LUAT CHINH TA - MAT CHU: (1) dau cung ъ chi dung sau TIEN TO ket thuc bang phu am truoc е/ё/ю/я (объявить, подъезд, разъём); (2) bo chu rit ч/щ/ж/ш - ЧА ЩА viet А, ЧУ ЩУ viet У, ЖИ ШИ viet И, va nguon goc chu щ. Hai luat, dung chong khoi thu ba. SOAN LAI: the DA CO noi dung chuan CU (~1,6 KB, mong bang 1/5) -> viet DE hoan toan theo chuan moi 6-10 KB, dung giu lai ban cu"
+   "sua": true,
+   "thucong": "LO SUA, KHONG PHAI LO SOAN MOI. The da co noi dung DUNG CHUAN NGAN GON roi (trung binh 1 635 byte, 1,4 o do) - `tiep` in kem NOI DUNG HIEN TAI cua tung the. GIU NGUYEN phan dang tot, chi lam dung hai viec: (1) them muc 'Ho hang' cho the nao thieu; (2) the nao qua 2 o do thi GIU LAI HAI CAI HAY NHAT, phan con lai hoa vao 'Cach nho' hoac bo han. TUYET DOI khong viet dai ra, khong them khoi he thong. Truc ho tu cua nhom nay: LUAT CHINH TA - MAT CHU: (1) dau cung ъ chi dung sau TIEN TO ket thuc bang phu am truoc е/ё/ю/я (объявить, подъезд, разъём); (2) bo chu rit ч/щ/ж/ш - ЧА ЩА viet А, ЧУ ЩУ viet У, ЖИ ШИ viet И, va nguon goc chu щ. Hai luat, dung chong khoi thu ba"
   },
   {
-   "id": "k54",
+   "id": "k53",
    "topic": "qualities",
    "tu": [
     "будничный",
     "ветреный",
     "дождливый",
-    "иностранный",
-    "множественный",
     "морозный",
-    "натуральный",
-    "нормальный",
     "облачный",
-    "особенность",
-    "отрицательный",
     "пасмурный",
     "положительный",
     "снежный",
-    "современный",
     "солнечный",
-    "центральный"
+    "близкий",
+    "весёлый",
+    "каждый",
+    "слабый",
+    "счастливый"
    ],
    "trangthai": "cho",
    "file": null,
-   "thucong": "DANH TU -> TINH TU bang HAU TO, doi chieu hai lop: goc Nga -н- (ветер->ветреный, снег->снежный) vs kho tu QUOC TE -альный/-тельный/-ость (нормальный, отрицательный, особенность). Cap doi lap отрицательный/положительный day chung mot cho. SOAN LAI: the DA CO noi dung chuan CU (~1,6 KB, mong bang 1/5) -> viet DE hoan toan theo chuan moi 6-10 KB, dung giu lai ban cu"
+   "sua": true,
+   "thucong": "LO SUA, KHONG PHAI LO SOAN MOI. The da co noi dung DUNG CHUAN NGAN GON roi (trung binh 1 635 byte, 1,4 o do) - `tiep` in kem NOI DUNG HIEN TAI cua tung the. GIU NGUYEN phan dang tot, chi lam dung hai viec: (1) them muc 'Ho hang' cho the nao thieu; (2) the nao qua 2 o do thi GIU LAI HAI CAI HAY NHAT, phan con lai hoa vao 'Cach nho' hoac bo han. TUYET DOI khong viet dai ra, khong them khoi he thong. Truc ho tu cua nhom nay: DANH TU -> TINH TU bang HAU TO, doi chieu hai lop: goc Nga -н- (ветер->ветреный, снег->снежный) vs kho tu QUOC TE -альный/-тельный/-ость (нормальный, отрицательный, особенность). Cap doi lap отрицательный/положительный day chung mot cho"
   },
   {
-   "id": "k55",
+   "id": "k54",
    "topic": "actions",
    "tu": [
     "видеть",
@@ -135,37 +113,12 @@
    ],
    "trangthai": "cho",
    "file": null,
-   "thucong": "DONG TU: cap the (вид), hai lop chia, bien am ngoi 'toi' (видеть->вижу), -овать->-ую (танцевать->танцую), va CACH ma moi dong tu doi. SOAN LAI: the DA CO noi dung chuan CU (~1,6 KB, mong bang 1/5) -> viet DE hoan toan theo chuan moi 6-10 KB, dung giu lai ban cu"
+   "sua": true,
+   "thucong": "LO SUA, KHONG PHAI LO SOAN MOI. The da co noi dung DUNG CHUAN NGAN GON roi (trung binh 1 635 byte, 1,4 o do) - `tiep` in kem NOI DUNG HIEN TAI cua tung the. GIU NGUYEN phan dang tot, chi lam dung hai viec: (1) them muc 'Ho hang' cho the nao thieu; (2) the nao qua 2 o do thi GIU LAI HAI CAI HAY NHAT, phan con lai hoa vao 'Cach nho' hoac bo han. TUYET DOI khong viet dai ra, khong them khoi he thong. Truc ho tu cua nhom nay: DONG TU: cap the (вид), hai lop chia, bien am ngoi 'toi' (видеть->вижу), -овать->-ую (танцевать->танцую), va CACH ma moi dong tu doi"
   },
   {
-   "id": "k56",
-   "topic": "qualities",
-   "tu": [
-    "близкий",
-    "богатый",
-    "весёлый",
-    "выходной",
-    "домашний",
-    "интересный",
-    "каждый",
-    "модный",
-    "неинтересный",
-    "некоторый",
-    "острый",
-    "скучный",
-    "слабый",
-    "счастливый",
-    "узкий",
-    "учёный",
-    "широкий"
-   ],
-   "trangthai": "cho",
-   "file": null,
-   "thucong": "TINH TU MO TA: dang ngan, so sanh hon, tinh tu hoa danh tu (учёный), va cap doi lap co tien to не- (интересный/неинтересный). SOAN LAI: the DA CO noi dung chuan CU (~1,6 KB, mong bang 1/5) -> viet DE hoan toan theo chuan moi 6-10 KB, dung giu lai ban cu"
-  },
-  {
-   "id": "k57",
-   "topic": "life::food",
+   "id": "k55",
+   "topic": "doisong-thiennhien",
    "tu": [
     "блюдо",
     "борщ",
@@ -180,24 +133,73 @@
     "фирма",
     "чашка",
     "шоколад",
-    "шофёр"
+    "шофёр",
+    "вещь",
+    "дочь",
+    "любовь",
+    "лёд",
+    "рожь"
    ],
    "trangthai": "cho",
    "file": null,
-   "thucong": "DOI SONG & DO AN: luat GIONG theo chu cuoi, tu muon quoc te (салат, шоколад), hau to nho -ка/-ик (дачка, чашка, картошка) va sac thai thong tuc cua chung. SOAN LAI: the DA CO noi dung chuan CU (~1,6 KB, mong bang 1/5) -> viet DE hoan toan theo chuan moi 6-10 KB, dung giu lai ban cu"
+   "sua": true,
+   "thucong": "LO SUA, KHONG PHAI LO SOAN MOI. `tiep` in kem NOI DUNG HIEN TAI cua tung the. GIU NGUYEN phan dang tot, chi lam dung ba viec: (1) them muc 'Ho hang' cho the nao thieu; (2) the nao qua 2 o do thi GIU HAI CAI HAY NHAT, phan con lai hoa vao 'Cach nho' hoac bo; (3) the nao qua 1 man hinh (700px) thi cat cho vua. Lo nay gom tu tu nhieu ho khac nhau — SUA TUNG THE DOC LAP, dung dung khoi he thong nao."
   },
   {
-   "id": "k58",
-   "topic": "language::education",
+   "id": "k61",
+   "topic": "dat-chuan-san",
    "tu": [
-    "грамматика",
+    "американка",
+    "англичанка",
+    "араб",
+    "арабка",
+    "испанец",
+    "испанка",
+    "итальянец",
+    "итальянка",
+    "китаянка",
+    "кореец",
+    "кореянка",
+    "немец",
+    "немка",
+    "француженка",
+    "француз",
+    "чех",
+    "американский",
+    "арабский",
+    "вьетнамский",
+    "испанский",
+    "китайский",
+    "по-английски",
+    "по-испански",
+    "по-китайски",
+    "по-немецки",
+    "щепка",
+    "иностранный",
+    "множественный",
+    "натуральный",
+    "нормальный",
+    "особенность",
+    "отрицательный",
+    "современный",
+    "центральный",
+    "богатый",
+    "выходной",
+    "домашний",
+    "интересный",
+    "модный",
+    "неинтересный",
+    "некоторый",
+    "острый",
+    "скучный",
+    "узкий",
+    "учёный",
+    "широкий",
     "зачёт",
     "начало",
     "переводчик",
     "род",
     "спорт",
-    "спортивный",
-    "спряжение",
     "счёт",
     "тип",
     "точка",
@@ -205,60 +207,27 @@
     "физик",
     "физика",
     "цвет",
-    "чудо"
-   ],
-   "trangthai": "cho",
-   "file": null,
-   "thucong": "HOC TAP & DANH TU PHAI SINH: -ение/-ание (-> giong trung: спряжение, упражнение), -ик NGUOI vs -ика NGANH (физик/физика, переводчик), goc род va чёт (зачёт, счёт). SOAN LAI: the DA CO noi dung chuan CU (~1,6 KB, mong bang 1/5) -> viet DE hoan toan theo chuan moi 6-10 KB, dung giu lai ban cu"
-  },
-  {
-   "id": "k59",
-   "topic": "nature::plants",
-   "tu": [
+    "чудо",
     "ветер",
-    "вещь",
     "вина",
-    "дочь",
     "земля",
     "лес",
-    "любовь",
-    "лёд",
     "лён",
     "малыш",
     "море",
     "мышь",
     "поле",
-    "рожь",
     "слеза",
     "сожаление",
-    "счастье"
-   ],
-   "trangthai": "cho",
-   "file": null,
-   "thucong": "THIEN NHIEN: giong CAI duoi -ь (bien cach 3: вещь, дочь, мышь, рожь, любовь), NGUYEN AM CHAY (лёд->льда, лён->льна), va 5 tu ho hang An-Au. SOAN LAI: the DA CO noi dung chuan CU (~1,6 KB, mong bang 1/5) -> viet DE hoan toan theo chuan moi 6-10 KB, dung giu lai ban cu"
-  },
-  {
-   "id": "k60",
-   "topic": "language::grammar",
-   "tu": [
-    "близко",
+    "счастье",
     "вечером",
     "вслух",
-    "за",
-    "или",
-    "отлично",
     "позавчера",
-    "правильно",
-    "привет",
-    "про",
-    "себя",
-    "только",
-    "час",
-    "часто"
+    "привет"
    ],
-   "trangthai": "cho",
+   "trangthai": "dat",
    "file": null,
-   "thucong": "TRANG TU & HU TU: tinh tu -> trang tu bang -о (близкий->близко), CACH 5 lam trang tu thoi gian (вечером), gioi tu hai cach (за, про), va dai tu phan than себя. SOAN LAI: the DA CO noi dung chuan CU (~1,6 KB, mong bang 1/5) -> viet DE hoan toan theo chuan moi 6-10 KB, dung giu lai ban cu"
+   "ghichu": "The lo 01-12 da DAT ca ba tran (1 man hinh, <=2 o do, 0% khoi lap). KHONG soan lai - viet de la pha."
   },
   {
    "id": "k01",
@@ -280,9 +249,11 @@
     "работать",
     "отдыхать"
    ],
-   "trangthai": "xong",
+   "trangthai": "cho",
    "file": "k01_actions.py",
-   "daNap": true
+   "daNap": false,
+   "thucong": "SOAN LAI theo chuan ngan gon (README muc 2 + muc 3). Ban cu cua lo nay la loai TE NHAT ca kho: khoi he thong lap chiem 52-80% do dai the, 8-14 o do moi the, 7-13 KB. Viet lai HOAN TOAN, dung sua vat ban cu va dung mo file cu ra tham khao - no se keo van phong dai tro lai. Ban mau la sozhalenie trong README muc 2.",
+   "soanlai": true
   },
   {
    "id": "k02",
@@ -303,9 +274,11 @@
     "говорить",
     "поговорить"
    ],
-   "trangthai": "xong",
+   "trangthai": "cho",
    "file": "k02_actions.py",
-   "daNap": true
+   "daNap": false,
+   "thucong": "SOAN LAI theo chuan ngan gon (README muc 2 + muc 3). Ban cu cua lo nay la loai TE NHAT ca kho: khoi he thong lap chiem 52-80% do dai the, 8-14 o do moi the, 7-13 KB. Viet lai HOAN TOAN, dung sua vat ban cu va dung mo file cu ra tham khao - no se keo van phong dai tro lai. Ban mau la sozhalenie trong README muc 2.",
+   "soanlai": true
   },
   {
    "id": "k03",
@@ -318,9 +291,11 @@
     "взять",
     "стоять"
    ],
-   "trangthai": "xong",
+   "trangthai": "cho",
    "file": "k03_actions.py",
-   "daNap": true
+   "daNap": false,
+   "thucong": "SOAN LAI theo chuan ngan gon (README muc 2 + muc 3). Ban cu cua lo nay la loai TE NHAT ca kho: khoi he thong lap chiem 52-80% do dai the, 8-14 o do moi the, 7-13 KB. Viet lai HOAN TOAN, dung sua vat ban cu va dung mo file cu ra tham khao - no se keo van phong dai tro lai. Ban mau la sozhalenie trong README muc 2.",
+   "soanlai": true
   },
   {
    "id": "k04",
@@ -342,9 +317,11 @@
     "юридический",
     "другой"
    ],
-   "trangthai": "xong",
+   "trangthai": "cho",
    "file": "k04_concepts-abstract.py",
-   "daNap": true
+   "daNap": false,
+   "thucong": "SOAN LAI theo chuan ngan gon (README muc 2 + muc 3). Ban cu cua lo nay la loai TE NHAT ca kho: khoi he thong lap chiem 52-80% do dai the, 8-14 o do moi the, 7-13 KB. Viet lai HOAN TOAN, dung sua vat ban cu va dung mo file cu ra tham khao - no se keo van phong dai tro lai. Ban mau la sozhalenie trong README muc 2.",
+   "soanlai": true
   },
   {
    "id": "k05",
@@ -366,9 +343,11 @@
     "связь",
     "быль"
    ],
-   "trangthai": "xong",
+   "trangthai": "cho",
    "file": "k05_concepts-abstract.py",
-   "daNap": true
+   "daNap": false,
+   "thucong": "SOAN LAI theo chuan ngan gon (README muc 2 + muc 3). Ban cu cua lo nay la loai TE NHAT ca kho: khoi he thong lap chiem 52-80% do dai the, 8-14 o do moi the, 7-13 KB. Viet lai HOAN TOAN, dung sua vat ban cu va dung mo file cu ra tham khao - no se keo van phong dai tro lai. Ban mau la sozhalenie trong README muc 2.",
+   "soanlai": true
   },
   {
    "id": "k06",
@@ -379,9 +358,11 @@
     "часть",
     "речь"
    ],
-   "trangthai": "xong",
+   "trangthai": "cho",
    "file": "k06_concepts-abstract.py",
-   "daNap": true
+   "daNap": false,
+   "thucong": "SOAN LAI theo chuan ngan gon (README muc 2 + muc 3). Ban cu cua lo nay la loai TE NHAT ca kho: khoi he thong lap chiem 52-80% do dai the, 8-14 o do moi the, 7-13 KB. Viet lai HOAN TOAN, dung sua vat ban cu va dung mo file cu ra tham khao - no se keo van phong dai tro lai. Ban mau la sozhalenie trong README muc 2.",
+   "soanlai": true
   },
   {
    "id": "k07",
@@ -403,9 +384,11 @@
     "край",
     "прыжок"
    ],
-   "trangthai": "xong",
+   "trangthai": "cho",
    "file": "k07_concepts-misc.py",
-   "daNap": true
+   "daNap": false,
+   "thucong": "SOAN LAI theo chuan ngan gon (README muc 2 + muc 3). Ban cu cua lo nay la loai TE NHAT ca kho: khoi he thong lap chiem 52-80% do dai the, 8-14 o do moi the, 7-13 KB. Viet lai HOAN TOAN, dung sua vat ban cu va dung mo file cu ra tham khao - no se keo van phong dai tro lai. Ban mau la sozhalenie trong README muc 2.",
+   "soanlai": true
   },
   {
    "id": "k08",
@@ -427,9 +410,11 @@
     "билет",
     "бюст"
    ],
-   "trangthai": "xong",
+   "trangthai": "cho",
    "file": "k08_concepts-misc.py",
-   "daNap": true
+   "daNap": false,
+   "thucong": "SOAN LAI theo chuan ngan gon (README muc 2 + muc 3). Ban cu cua lo nay la loai TE NHAT ca kho: khoi he thong lap chiem 52-80% do dai the, 8-14 o do moi the, 7-13 KB. Viet lai HOAN TOAN, dung sua vat ban cu va dung mo file cu ra tham khao - no se keo van phong dai tro lai. Ban mau la sozhalenie trong README muc 2.",
+   "soanlai": true
   },
   {
    "id": "k09",
