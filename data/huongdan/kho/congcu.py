@@ -424,6 +424,19 @@ def cmd_trangthai():
           + (f"   chua nap: {' '.join(chua_nap)}" if chua_nap else ""))
     cho = [l["id"] for l in q["lo"] if l["trangthai"] == "cho"]
     print(f"con: {' '.join(cho[:12])}{' ...' if len(cho) > 12 else ''}")
+    # Tự nhắc: từ mới thêm vào Anki KHÔNG tự vào hàng đợi, và `nap` bỏ qua
+    # chúng vĩnh viễn cho tới khi được nối. Không nhắc thì chúng nằm im.
+    try:
+        da_co = {khoa_note(t) for l in q["lo"] for t in l["tu"]}
+        moi = [w for w in (n["fields"].get("WordClean", {}).get("value", "").strip()
+                           for n in ac("notesInfo",
+                                       notes=ac("findNotes", query="note:RU_Word")))
+               if w and khoa_note(w) not in da_co]
+        if moi:
+            print(f"\n🆕 {len(moi)} TU MOI chua vao hang doi "
+                  f"-> chay: congcu.py moi --apply")
+    except Exception:
+        pass          # không có Anki thì thôi, `trangthai` vẫn phải chạy được
 
 
 # ------------------------------------------------- va chạm nghĩa tiếng Việt
@@ -476,6 +489,85 @@ def cmd_vacham():
     io.open(fn, "w", encoding="utf-8").write(
         "\n".join(f"{ng}\t{' · '.join(tu)}" for ng, tu in sorted(vc.items())))
     print(f"\n-> day du: {os.path.basename(fn)}")
+
+
+# ---------------------------------------------------------- lệnh: tu moi
+def cmd_moi():
+    """Hứng TỪ MỚI user vừa thêm vào Anki, đưa lên ĐẦU hàng đợi.
+
+    Trước đây đây là việc làm tay và phải chạm ĐÚNG HAI file, quên một cái
+    thì `tiep` in ra `?` ở mọi cột và agent soạn mò. User phải giải thích
+    lại từ đầu mỗi lần thêm từ ⇒ gói thành một lệnh chạy hằng ngày.
+
+    Gộp dồn thay vì đẻ lô mới mỗi ngày: nếu đã có một lô từ mới CHƯA chạy
+    thì nối tiếp vào đó. Lô 4 từ tốn gần bằng lô 15 từ (phần cố định áp
+    đảo), nên ba ngày mỗi ngày 4 từ mà chạy riêng là trả giá gấp ba.
+    """
+    apply = "--apply" in sys.argv
+    q = doc_hangdoi()
+    da_co = {khoa_note(t) for l in q["lo"] for t in l["tu"]}
+
+    notes = ac("notesInfo", notes=ac("findNotes", query="note:RU_Word"))
+    moi = {}
+    for n in notes:
+        f = n["fields"]
+        wc = f.get("WordClean", {}).get("value", "").strip()
+        if not wc or khoa_note(wc) in da_co:
+            continue
+        tags = [t.replace("topic::", "") for t in n.get("tags", []) if t.startswith("topic::")]
+        moi[wc] = {"wc": wc, "w": f.get("Word", {}).get("value", "").strip(),
+                   "en": f.get("Meaning", {}).get("value", ""),
+                   "vi": f.get("Vietnamese", {}).get("value", ""),
+                   "pos": f.get("PoS", {}).get("value", ""),
+                   "topic": tags[0] if tags else "other", "cu": False}
+
+    if not moi:
+        print(f"khong co tu moi ({len(notes)} the, tat ca da nam trong hang doi)")
+        return
+    print(f"TU MOI: {len(moi)} tu chua co trong hang doi")
+    for w in sorted(moi):
+        print(f"  {moi[w]['w'] or w:20s} {moi[w]['pos']:6s} {moi[w]['topic']:20s} {moi[w]['vi'][:44]}")
+
+    # lô từ mới CHƯA chạy -> nối vào; không có thì mở lô mới với id trống đầu tiên
+    dich = next((l for l in q["lo"] if l.get("tuMoi") and l["trangthai"] == "cho"), None)
+    if dich:
+        print(f"\n-> NOI vao lo {dich['id']} dang cho ({len(dich['tu'])} -> "
+              f"{len(dich['tu']) + len(moi)} tu)")
+    else:
+        dung = {l["id"] for l in q["lo"]}
+        sid = next(f"k{n:02d}" for n in range(1, 100) if f"k{n:02d}" not in dung)
+        print(f"\n-> MO lo moi {sid}, dat o DAU hang doi")
+
+    n_sau = (len(dich["tu"]) if dich else 0) + len(moi)
+    if n_sau < 10:
+        print(f"   ⚠️ moi {n_sau} tu. Lo duoi 10 tu dat gap ~3 lan tren moi tu "
+              f"(phan co dinh 53K/lo ap dao). Nen doi gom them roi hay chay.")
+    if n_sau > 22:
+        print(f"   ⚠️ {n_sau} tu, qua tran 22 — chia lam hai lo truoc khi chay.")
+
+    if not apply:
+        print("\n(CHAY KHAN — them --apply de ghi)")
+        return
+
+    td = json.load(io.open(TUDIEN, encoding="utf-8"))
+    co = {x["wc"] for x in td}
+    td.extend(v for k, v in sorted(moi.items()) if v["wc"] not in co)
+    io.open(TUDIEN, "w", encoding="utf-8").write(json.dumps(td, ensure_ascii=False, indent=1))
+
+    if dich:
+        dich["tu"] += sorted(moi)
+    else:
+        q["lo"].insert(0, {
+            "id": sid, "topic": "tu-moi", "tu": sorted(moi), "trangthai": "cho",
+            "file": None, "tuMoi": True,
+            "thucong": "TU MOI user vua them. Cac tu co the KHONG cung ho nhau — "
+                       "soan tung the doc lap, dung ep mot truc chung va dung dung "
+                       "khoi he thong. Chuan: README muc 2 (1 man hinh iPhone, toi da "
+                       "2 o do) + muc 2c (sua field Vietnamese cho chi co 1 dap an dung)."})
+    q["tong_tu"] = sum(len(l["tu"]) for l in q["lo"])
+    q["tong_lo"] = len(q["lo"])
+    ghi_hangdoi(q)
+    print(f"DA GHI ca hai file | hang doi: {q['tong_lo']} lo / {q['tong_tu']} tu")
 
 
 # --------------------------------------------------------------- lệnh: nap
@@ -589,4 +681,4 @@ if __name__ == "__main__":
     cmd = sys.argv[1] if len(sys.argv) > 1 else "trangthai"
     {"tiep": cmd_tiep, "soat": cmd_soat, "trangthai": cmd_trangthai,
      "xong": cmd_xong, "nap": cmd_nap, "dodai": cmd_dodai,
-     "vacham": cmd_vacham}[cmd]()
+     "vacham": cmd_vacham, "moi": cmd_moi}[cmd]()

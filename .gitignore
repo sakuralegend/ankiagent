@@ -26,3 +26,9 @@ backups/
 # Dump từ điển gốc (~8MB) — tải lại bằng: python -m grammar_forms.irregular_plurals
 data/nouns.csv
 data/openrussian_cache.json
+
+# Kết quả trung gian của congcu.py — sinh lại được, không phải nguồn
+data/huongdan/kho/_input_*.txt
+data/huongdan/kho/_phaidocbangmat.txt
+data/huongdan/kho/_vacham_vi.txt
+data/huongdan/kho/*.bak

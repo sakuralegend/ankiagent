@@ -29,14 +29,33 @@ Sau khi chốt chuẩn ngắn gọn (§2b README), **đo lại 168 thẻ cũ th�
 — kế hoạch "viết đè trọn 168 thẻ" của lần quy hoạch trước **là phá đi cái đang tốt**. Việc thật
 rút từ 10 lô xuống 5.
 
-| | Lô | Từ | Việc |
-|---|---|---|---|
-| **B** | `k51`…`k55` | 93 | **SỬA** 93/168 thẻ lô 01→12 chưa đạt (thiếu họ hàng · >2 ô đỏ · quá 1 màn hình). Mang khoá `"sua"` ⇒ `tiep` kéo **nội dung hiện tại** về cho agent vá. 75 thẻ đạt rồi nằm ở lô `trangthai: "dat"` — **không đụng**. |
-| **A** | `k01`…`k08` | 99 | **SOẠN LẠI** 99 thẻ tệ nhất kho (khối lặp 52–80%, 8–14 ô đỏ, 7–13 KB). Mở lại **chính id cũ** (`cho` + `daNap:false`) ⇒ mỗi từ vẫn một lô, một file, không sinh bản trùng. |
-| **C** | `k17`…`k47` | 517 | Thẻ rỗng, soạn thẳng theo chuẩn mới. |
+User chốt: **"ngoài những thẻ đã đạt tiêu chuẩn, soạn lại hết"** ⇒ **833/908 từ vào lại hàng đợi**,
+chỉ **75 thẻ** đạt cả ba trần là không đụng tới.
 
-**53 lô / 908 từ · 8 lô xong · lô kế tiếp `k51`.**
+| | Lô | Từ | Việc | Chế độ |
+|---|---|---|---|---|
+| **B** | `k51`…`k55` | 93 | Vá 93/168 thẻ lô 01→12 chưa đạt (thiếu họ hàng · >2 ô đỏ · quá 1 màn hình) | **`sua`** — `tiep` kéo nội dung hiện tại về |
+| **A** | `k01`…`k08` | 99 | Soạn lại 99 thẻ **tệ nhất** kho (khối lặp 52–80%, 8–14 ô đỏ, 7–13 KB) | soạn mới |
+| **C** | `k17`…`k47` | 517 | Thẻ rỗng | soạn mới |
+| **A2** | `k09`…`k16`, `k49`, `k50` | 124 | Soạn lại — nội dung **không sai**, chỉ dài 1–3 màn hình | soạn mới |
+
+**53 lô / 908 từ · 833 từ chờ · 75 từ `dat` · lô kế tiếp `k51`.**
 ⚠️ **Thứ tự chạy ≠ thứ tự số hiệu**: `tiep` lấy lô `cho` **đầu danh sách**. Đừng sắp xếp lại.
+✅ **Thẻ trong Anki KHÔNG bị xoá** — user vẫn học bằng nội dung hiện có, từng lô thay khi tới lượt.
+
+### 💰 VÁ TỐN NHIỀU TOKEN HƠN SOẠN MỚI — đo 28/07, ngược trực giác
+
+Vá **không** làm giảm phần viết (agent vẫn phải xuất ra toàn bộ nội dung cuối cùng), nó chỉ
+**cộng thêm** phần đọc bản cũ:
+
+| Nhóm | Nội dung cũ tb | Soạn mới | Vá | Chênh |
+|---|---|---|---|---|
+| 93 thẻ lô 01→12 | 1 891 B | 85K | 98K | **+15%** |
+| k09+ | 5 151 B | 85K | 119K | **+40%** |
+| k01–k08 | 10 174 B | 85K | 153K | **+80%** |
+
+⇒ **Chỉ B dùng chế độ `sua`** (+15%, đáng vì nội dung đó đang tốt). Mọi nhóm khác **soạn mới và
+KHÔNG mở file cũ ra xem** — vừa rẻ hơn, vừa tránh bản dài kéo văn phong dài trở lại.
 
 🆕 **Trạng thái `"dat"`**: thẻ đã đạt chuẩn sẵn — **không phải `xong`** (không có file, `nap` bỏ
 qua) và **không phải `cho`** (không ai phải làm gì). Thiếu nó thì bộ đếm `tu:` không bao giờ
@@ -115,6 +134,26 @@ k04 phình là do thiếu lời dặn, không phải do lô to.
 được soạn, nhưng `congcu.py tiep` lấy nghĩa/trọng âm từ `tudien.json`. Thêm vào một file mà
 quên file kia thì `tiep` in ra `?` ở mọi cột và agent sẽ soạn mò. Lấy dữ liệu từ chính Anki
 (`notesInfo` → `Word`/`WordClean`/`Meaning`/`Vietnamese`/`PoS` + tag `topic::`), đừng gõ tay.
+
+## 🆕 THÊM TỪ MỚI — chạy hằng ngày, một lệnh
+
+User: *"mỗi lần muốn thêm từ mới lại phải giải thích mệt"*. Trước đây đây là việc làm tay và
+phải chạm **đúng hai file** (`tudien.json` cấp nghĩa/trọng âm, `hangdoi.json` quyết định lô);
+quên một cái thì `tiep` in `?` ở mọi cột và agent soạn mò. Nay gói thành lệnh:
+
+```bash
+PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py moi            # xem có gì mới
+PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py moi --apply    # nối vào hàng đợi
+```
+
+Nó tự: kéo từ Anki mọi note `RU_Word` **chưa có trong hàng đợi** → ghi vào **cả hai file** →
+đặt lô ở **ĐẦU** hàng đợi (từ mới ưu tiên hơn mọi thứ, user chốt 28/07).
+
+- **Gộp dồn, không đẻ lô mới mỗi ngày**: đã có lô từ mới chưa chạy thì **nối tiếp vào đó**.
+  Ba ngày mỗi ngày 4 từ mà chạy riêng là trả phần cố định 53K/lô ba lần.
+- **Tự cảnh báo cỡ lô**: dưới 10 từ thì báo *đắt gấp ~3 lần mỗi từ, nên đợi gom thêm*;
+  trên 22 từ thì báo phải chia hai.
+- `congcu.py trangthai` **tự nhắc** khi phát hiện từ mới, khỏi phải nhớ chạy lệnh nào.
 
 ## Mở lô kế tiếp — quy tắc bất di bất dịch
 
