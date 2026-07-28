@@ -28,7 +28,15 @@ thẻ từ `0-quen`. Với 50 từ/ngày, thành phần `1-go` **đổi gần h�
 `findNotes` trên model `RU_Word` — **không quan tâm thẻ đang nằm ở deck nào**. k55 soạn xong vẫn
 ghi đúng thẻ dù chúng đã về deck chủ đề.
 
-**Chỉ ảnh hưởng THỨ TỰ ƯU TIÊN.** Muốn giữ luật "thẻ đang học trước" thì **đo lại đầu mỗi phiên**:
+### 🔴 LUẬT THƯỜNG TRỰC — USER CHỐT 28/07, KHỎI HỎI LẠI
+
+> *"ưu tiên deck 0→1, sau đó là gì cũng được"*
+
+**Mỗi phiên, việc ĐẦU TIÊN là đo `0-quen` + `1-go` rồi chạy lô của chúng trước.** Hết phần đó thì
+**lấy lô nào cũng được** — theo thứ tự hàng đợi cho gọn, không phải cân nhắc gì thêm.
+⚠️ Đây là luật **phải đo lại mỗi phiên**, không phải danh sách chép sẵn: xem lý do ngay dưới.
+
+**Cách đo — đầu mỗi phiên:**
 
 ```python
 # ánh xạ từ của deck đang học về lô trong hangdoi.json
