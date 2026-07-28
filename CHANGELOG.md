@@ -4,7 +4,37 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
-## 🔴 VIỆC ĐANG TREO (28/07/2026) — VPS KẸT SYNC, CHỜ VNC
+## 28/07/2026 — 39 TỪ MỚI THÀNH LÔ k49 + k50, ƯU TIÊN CHẠY TRƯỚC k13
+
+Commit `37e1a5b`. User thêm 39 từ giao thông/phương hướng trong ngày và muốn xong trước khi
+quay lại hàng đợi cũ.
+
+- 🐛 **Từ mới KHÔNG tự vào dây chuyền.** `hangdoi.json` bị đóng băng ở 703 từ lúc lập kế hoạch,
+  nên 39 thẻ này `nap` sẽ bỏ qua **vĩnh viễn** — không có cảnh báo nào, chúng chỉ đơn giản là
+  không tồn tại với công cụ. Tìm ra bằng phép trừ: 908 note trong Anki − 701 trong hàng đợi
+  − số đã có Hướng dẫn = đúng 39.
+- **Phải chạm CẢ HAI file**: `hangdoi.json` (lô nào được soạn) **và** `tudien.json`
+  (`congcu.py tiep` lấy nghĩa/trọng âm từ đây). Quên file sau thì đề bài in `?` ở mọi cột và
+  agent soạn mò. Dữ liệu lấy thẳng từ Anki qua `notesInfo` + tag `topic::`, không gõ tay.
+- 🐛 **Hàng đợi có từ lặp**: `петь` 2 lần trong k02, `пить` 2 lần trong k19 — vết tích của 2 thẻ
+  trùng đã xoá hôm qua. k02 đã chạy nên vô hại, nhưng k19 sẽ soạn thừa và **làm hỏng chính phép
+  đối chiếu "ghi vào N note ↔ số từ của lô"** vừa lập hôm nay. Đã bỏ trùng ở cả `hangdoi.json`
+  lẫn `tudien.json`. **703 → 701 → 740 từ / 50 lô.**
+- Chia: **k49** (19 từ — động từ chuyển động + phương hướng) · **k50** (20 từ — phương tiện +
+  địa điểm). To hơn mức thường (15) nhưng chủ đề rất đồng nhất: `дойти·доехать·прийти·приехать`
+  chung khối tiền tố до-/при-, `метро·такси·мопед·мотоцикл·велосипед·трамвай·троллейбус` chung
+  khối từ mượn ⇒ mỗi khối dùng chung gánh nhiều từ hơn, chi phí biên mỗi từ thấp hơn lô hỗn hợp.
+  ⚠️ Nhưng đó cũng đúng là điều kiện làm **k04 vỡ trần 12 KB**, nên đề bài phải ghi rõ
+  **trần 12 KB là cứng** và **tối đa 2 khối dùng chung / thẻ**.
+- 📌 **Chạy lô lẻ tốn HƠN chạy song song, không phải ít hơn.** Chi phí một lô nằm ~90% trong
+  context riêng của agent (~180K) và cố định. Khác nhau là số lượt của **luồng chính**, mà mỗi
+  lượt gửi lại toàn bộ hội thoại đã tích: song song = 2 lượt (phóng cả hai, nhận cả hai), lần
+  lượt = 4 lượt.
+
+## ✅ ĐÃ GỠ (28/07/2026) — VPS KẸT SYNC
+
+User đã VNC vào VPS chọn **Download from AnkiWeb**. Xác minh sau đó: **869 note / 7 note type**,
+`sync` trả `error: null`. Ba máy khớp nhau. Giữ lại phần dưới vì cách chẩn đoán còn dùng lại được.
 
 User xoá note type rỗng `ZZ_TEST_TYPESTAGE` (schema mod) rồi **Upload laptop → AnkiWeb**.
 Hệ quả đúng như [[vps-ket-sync-im-lang]] đã cảnh báo: **VPS kẹt, và kẹt IM LẶNG.**
