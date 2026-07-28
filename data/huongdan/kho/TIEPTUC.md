@@ -16,7 +16,23 @@ Bạn (user) chỉ cần gõ một câu: **"chạy tiếp kho"**. Phần dưới
 PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py trangthai
 ```
 
-### ✅ k15 + k16 XONG 28/07 — lô kế tiếp là **k51** (KHÔNG phải k17)
+### ✅ k13 + k51 + k52 + k53 XONG & ĐÃ NẠP 28/07 — lô kế tiếp là **k54**
+
+Phiên 4 lô đầu tiên theo chuẩn ngắn: **59 từ**, 0 thẻ vượt trần nào, khối dùng chung về **0%**
+ở cả ba lô `sua`. Bắt được **5 lỗi nội dung** của bản cũ (4 lỗi chỉ lộ lúc rà tay bằng mắt) —
+chi tiết ở mục 28/07 trong `CHANGELOG.md`.
+
+🎯 **Cách chọn lô của phiên này đáng giữ**: user muốn ưu tiên thẻ **đang học**, nên luồng chính
+đối chiếu deck thật với hàng đợi trước khi giao việc (đếm `deck:RUSSIAN::1-go` rơi vào lô nào).
+Ra: `1-go` = k51(5) · k52(**14**) · k53(9) · k54(8) · k55(7) · k47(1) · 26 thẻ đã `dat`.
+⇒ **Chạy k54 + k55 là hết sạch phần `1-go`.** Đừng chọn lô bằng thứ tự số khi user nêu ưu tiên
+theo deck.
+
+📝 **Đừng đoán nội dung lô từ tên topic.** Lời nhắn giao k52 mô tả "hư từ, đại từ, tiểu từ" (suy
+từ `language-grammar`) trong khi lô thật gần như toàn **danh từ cụ thể**, trục là luật chính tả
+`ъ` / ЧА ЩА. Agent soạn theo `tiep` — đúng. Muốn nhắc trục thì đọc `tiep` trước, hoặc đừng nhắc.
+
+### ✅ k15 + k16 XONG 28/07 (mốc cũ) — sau đó tới **k51**
 
 🔴 **USER CHỐT 28/07: soạn lại 168 từ của lô 01→12 TRƯỚC, rồi mới quay về k17.**
 Lý do user nêu: *"đó là những từ mới, tôi chưa thuộc nên cần hướng dẫn hơn các từ cũ, dù không
@@ -389,6 +405,9 @@ bị viết đè khi lô của chúng tới lượt.
   Luôn `PYTHONIOENCODING=utf-8`, và dữ liệu lớn thì ghi ra file.
 - **Bash tool là Git Bash, KHÔNG phải PowerShell.** Đừng dùng here-string `@'…'@` cho commit
   message — nó tạo commit tên `@`. Dùng `git commit -F - <<'EOF'`.
+- 🔧 **PowerShell here-string cũng vỡ khi message chứa `"` hoặc `§`** (dính 28/07): PowerShell
+  tách message thành nhiều tham số, git nôn ra hàng loạt `pathspec did not match`. Message dài
+  thì **ghi ra file rồi `git commit -F <file>`** — đừng dò lại.
 - **Bộ sưu tập có thẻ TRÙNG do zero-width U+200B**: `петь`/`петь​`, `пить`/`пить​`. Anki coi là
   hai note, mắt thường không phân biệt được. `nap` đã xử lý (ghép theo khoá đã bỏ U+200B, ghi
   vào **cả hai** note) — đừng "sửa" nó về `findNotes` từng từ.

@@ -4,6 +4,55 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 28/07/2026 — PHIÊN CHẠY LÔ ĐẦU TIÊN THEO CHUẨN NGẮN: k13 · k51 · k52 · k53 (59 từ)
+
+User: *"bắt đầu chạy lô, ưu tiên trước vài từ mới tôi mới thêm vào để học luôn, rồi sau đó đến
+1-go"*. Đây là **phiên đầu tiên chạy 4 lô** theo chuẩn §2b, và cũng là lần đầu ưu tiên **theo
+deck user đang học** chứ không theo số hiệu lô.
+
+- 🆕 **`congcu.py moi --apply` hứng đúng 4 từ user vừa sync**: `здание · лучше · отель · столица`
+  → mở lô **k13** ở đầu hàng đợi (912 từ / 54 lô). Công cụ có cảnh báo lô 4 từ đắt gấp ~3 lần
+  mỗi từ và khuyên đợi gom thêm — **vẫn chạy vì user muốn học ngay**, cái giá đã nói rõ với user.
+- 🎯 **Chọn k51→k53 bằng cách đối chiếu deck thật với hàng đợi**, không lấy theo thứ tự số:
+  đếm được `1-go` có 70 thẻ = k51(5) · k52(**14**) · k53(9) · k54(8) · k55(7) · k47(1) · 26 thẻ
+  đã `dat`. Ba lô này phủ **28/44** thẻ `1-go` chưa đạt chuẩn. Còn k54+k55 là hết sạch phần `1-go`.
+- ✅ **4/4 lô qua cả ba cửa soát và cả hai trần** (luồng chính tự chạy lại `soat`/`dodai`, không
+  tin báo cáo suông). Cao nhất **628px/700** · **0 thẻ** quá 2 ô đỏ · `nap` ghi đúng 4·20·21·14
+  note, khớp số từ từng lô.
+- 📉 **Chuẩn ngắn có tác dụng thật, đo được**: cả 3 lô `sua` đều đưa **khối dùng chung về 0%**
+  (k52 từ ~50%). k53 byte trung bình 2 100 → 1 131. Thứ bị bỏ là các khối hệ thống lặp:
+  luật `-н-` · biến âm `г·к·х→ж·ч·ш` · `-ский/по-…-ски` · luật `ъ` · luật ЧА ЩА — mỗi luật nay
+  chỉ còn ở **một** thẻ ví dụ sạch nhất, phần còn lại hoà thành một câu về chính từ đó.
+- 🔴 **5 lỗi NỘI DUNG của bản cũ bị bắt — 4 trong số đó chỉ lộ ra lúc rà tay bằng mắt**, đúng
+  như lời dặn "giá trị của bước rà không nằm ở trọng âm (máy soi rồi) mà ở chỗ đọc lại một lượt":
+
+  | Từ | Bản cũ dạy | Đúng ra |
+  |---|---|---|
+  | `английский` | luật `-ия → -ийский`, ví dụ **`Ита́лия → италья́нский`** | chính từ đó **không** theo luật; đổi ví dụ sang `И́ндия → инди́йский` |
+  | `за` | `под`·`над`·`пе́ред` cùng khuôn "cách 5 đứng yên / cách 4 chuyển động" | `над` và `пе́ред` **chỉ** đi cách 5; rút còn `под` |
+  | `облачный` | `о́блако` cùng gốc với `во́лос` (sợi tóc) | gốc `об-` + `-волок-` (bọc, phủ); họ hàng thật là `оболо́чка` |
+  | `врачебная` | `вра́чебная по́мощь` | **враче́бная** — sai trọng âm |
+  | `разъезд` | `разде́лить` | **раздели́ть** — sai trọng âm |
+
+- 🇻🇳 **Sửa 49 dòng `Vietnamese`** (đề bài user gõ ở `1-go`). Ổ va chạm nặng nhất từ trước tới
+  nay là k51: **4 tính từ quốc tịch** (`английский…`) và **2 trạng từ** (`по-русски…`) đều mang
+  chữ "tiếng Anh/Pháp/Nga" ⇒ đề bài **không có đáp án xác định**. Nay gắn nhãn TÍNH TỪ vs TRẠNG TỪ.
+  Và một lỗi dịch **sai hẳn**: `грач` ghi là "chim sáo" — chim sáo là `скворец` (starling), `грач`
+  là rook ⇒ "quạ đen mỏ trắng". Ba nghĩa Việt khác trùng thẳng với từ Nga đã có thẻ:
+  `будничный`~`обычный` · `каждый`~`все` · `положительный`~`активный`.
+- 🌐 **Mạng chớp làm CẢ 4 agent chết cùng lúc** (2× ENOTFOUND, 1× "Connection closed mid-response",
+  1× chết lúc mới đọc spec) — lần thứ hai dính, và cách chữa đã ghi sẵn trong `TIEPTUC.md` hoạt
+  động đúng: **`SendMessage` cho chạy tiếp**, không spawn agent mới. Ngữ cảnh còn nguyên, **không
+  mất phần soạn nào**; hai lô đã kịp ghi file dở (k13 6 224 B, k53 18 002 B), hai lô chưa có file.
+- 🔧 **Bẫy PowerShell mới**: here-string `@'…'@` cho `git commit -m` **vỡ khi message chứa dấu
+  `"` hoặc `§`** — PowerShell tách thành nhiều tham số, git báo hàng loạt `pathspec did not match`.
+  Cách chữa đã ghi trong tài liệu vẫn đúng: **ghi message ra file rồi `git commit -F <file>`**.
+- 📝 **Lỗi của luồng chính, ghi lại để không lặp**: lời nhắn giao k52 mô tả lô là "hư từ, đại từ,
+  tiểu từ" (suy từ tên topic `language-grammar`) trong khi lô thật gần như **toàn danh từ cụ thể**
+  (`врач · грач · плащ · щука · щи`), trục là hai luật chính tả mặt chữ `ъ` / ЧА ЩА. Agent soạn
+  theo `tiep` chứ không theo brief — **đúng**. ⇒ Đừng đoán nội dung lô từ tên topic; nếu muốn
+  nhắc trục thì đọc `tiep` trước, hoặc đừng nhắc gì.
+
 ## 28/07/2026 — SOẠN LẠI 833/908 THẺ, VÀ LỆNH `moi` HỨNG TỪ MỚI HẰNG NGÀY
 
 - ✅ **User chốt "ngoài những thẻ đã đạt tiêu chuẩn, soạn lại hết".** Đo cả 908 thẻ theo ba trần
