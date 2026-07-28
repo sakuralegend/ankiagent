@@ -18,8 +18,28 @@ PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py trangthai
 
 ### ✅ k13 + k51 + k52 + k53 + k54 XONG & ĐÃ NẠP 28/07 — lô kế tiếp là **k55**
 
-🎯 **k55 (19 từ) là lô CUỐI CÙNG còn thẻ ở deck `1-go`** — chạy xong nó là 44/44 thẻ `1-go` chưa
-đạt chuẩn đều có ô Hướng dẫn mới. Sau đó quay về thứ tự thường: `k01`…`k08` (nhóm A).
+🎯 **k55 (19 từ) là lô cuối cùng còn thẻ ở `1-go` — TÍNH THEO ẢNH CHỤP 28/07.**
+
+🔴 **ĐỪNG TIN CON SỐ NÀY SANG NGÀY HÔM SAU.** `/don` (tgbot, và job 3h sáng) chạy **hai chiều**:
+`0-quen → 1-go → deck chủ đề`. Nó vừa **rút** thẻ đã thuộc khỏi `1-go` vừa **nạp đầy lại** bằng
+thẻ từ `0-quen`. Với 50 từ/ngày, thành phần `1-go` **đổi gần hết chỉ sau một hai ngày**.
+
+**Không ảnh hưởng gì tới tính đúng đắn của lô**: hàng đợi khoá theo **TỪ**, `nap` tìm note bằng
+`findNotes` trên model `RU_Word` — **không quan tâm thẻ đang nằm ở deck nào**. k55 soạn xong vẫn
+ghi đúng thẻ dù chúng đã về deck chủ đề.
+
+**Chỉ ảnh hưởng THỨ TỰ ƯU TIÊN.** Muốn giữ luật "thẻ đang học trước" thì **đo lại đầu mỗi phiên**:
+
+```python
+# ánh xạ từ của deck đang học về lô trong hangdoi.json
+findNotes  'deck:RUSSIAN::1-go note:RU_Word'   →  notesInfo  →  Word  →  tra hangdoi.json
+```
+
+📌 **Đo 28/07, `0-quen` còn 39 thẻ CHƯA soạn lại: `k49` (19) + `k50` (20)** — 39 từ giao thông
+user thêm 28/07, hiện thuộc nhóm A2 (có nội dung nhưng dài 1–3 màn hình). Chúng chính là thứ sắp
+lên `1-go`. ⇒ Nếu user vẫn giữ ưu tiên "thẻ đang học", thứ tự hợp lý là **k55 → k49 → k50**, chứ
+không phải k55 → k01. Nhóm A (`k01`…`k08`) tuy tệ nhất kho nhưng là từ user **đã thuộc sơ**, nằm
+ở deck chủ đề — đúng thứ user đã bác hồi 28/07 khi tôi khuyên làm chỗ trống nhất trước.
 
 Phiên **5 lô** theo chuẩn ngắn: **78 từ**, 0 thẻ vượt trần nào, khối dùng chung về **0%** ở cả
 bốn lô `sua`. Bắt được **8 lỗi nội dung** của bản cũ (phần lớn chỉ lộ lúc rà tay bằng mắt) —
