@@ -342,8 +342,9 @@
     "песня",
     "гиря"
    ],
-   "trangthai": "cho",
-   "file": null
+   "trangthai": "xong",
+   "file": "k15_concepts-misc.py",
+   "daNap": true
   },
   {
    "id": "k16",
