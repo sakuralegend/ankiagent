@@ -129,10 +129,11 @@
     "учиться",
     "целовать"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k54_actions.py",
    "sua": true,
-   "thucong": "LO SUA, KHONG PHAI LO SOAN MOI. The da co noi dung DUNG CHUAN NGAN GON roi (trung binh 1 635 byte, 1,4 o do) - `tiep` in kem NOI DUNG HIEN TAI cua tung the. GIU NGUYEN phan dang tot, chi lam dung hai viec: (1) them muc 'Ho hang' cho the nao thieu; (2) the nao qua 2 o do thi GIU LAI HAI CAI HAY NHAT, phan con lai hoa vao 'Cach nho' hoac bo han. TUYET DOI khong viet dai ra, khong them khoi he thong. Truc ho tu cua nhom nay: DONG TU: cap the (вид), hai lop chia, bien am ngoi 'toi' (видеть->вижу), -овать->-ую (танцевать->танцую), va CACH ma moi dong tu doi"
+   "thucong": "LO SUA, KHONG PHAI LO SOAN MOI. The da co noi dung DUNG CHUAN NGAN GON roi (trung binh 1 635 byte, 1,4 o do) - `tiep` in kem NOI DUNG HIEN TAI cua tung the. GIU NGUYEN phan dang tot, chi lam dung hai viec: (1) them muc 'Ho hang' cho the nao thieu; (2) the nao qua 2 o do thi GIU LAI HAI CAI HAY NHAT, phan con lai hoa vao 'Cach nho' hoac bo han. TUYET DOI khong viet dai ra, khong them khoi he thong. Truc ho tu cua nhom nay: DONG TU: cap the (вид), hai lop chia, bien am ngoi 'toi' (видеть->вижу), -овать->-ую (танцевать->танцую), va CACH ma moi dong tu doi",
+   "daNap": true
   },
   {
    "id": "k55",
