@@ -19,8 +19,33 @@ PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py trangthai
 ### ✅ k49 + k50 XONG 28/07 — lô kế tiếp là **k15**
 
 39 từ giao thông/phương hướng user thêm 28/07 đã soạn và nạp xong (k49 19 từ, k50 20 từ,
-cùng `places::city`). Hàng đợi **đã chia lại 28/07: 36 lô → 31 lô**, đánh số từ **k15** đến
-**k45** (k49/k50 giữ nguyên số vì đã xong). 740 từ, không mất từ nào, không lô nào trùng.
+cùng `places::city`). Hàng đợi **đã chia lại 28/07: 36 lô → 33 lô**, đánh số từ **k15** đến
+**k47** (k49/k50 giữ nguyên số vì đã xong). 740 từ, không mất từ nào, không lô nào trùng.
+
+### 🔴 8 lô GHÉP TAY — `chialai.py` sẽ xoá sạch nếu chạy lại
+
+`xephangdoi.py` sắp từ **theo hậu tố**. Với danh từ thì tuyệt (mọi từ `-ция` chung một luật
+trọng âm), nhưng **với hư từ và số từ thì hậu tố không phải họ hàng** — k16 cũ trộn
+`чей·ой·твой·какой·мой·к·как·сам·там·рядом` chỉ vì chúng vần với nhau, còn số thứ tự thì bị
+xé ra ba lô. Đã ghép tay lại theo **họ ngữ pháp thật**:
+
+| Lô | Trục | Từ |
+|---|---|---|
+| k16 | đại từ nhân xưng & sở hữu | 14 |
+| k17 | nghi vấn, chỉ định & nơi chốn | 14 |
+| k18 | giới từ & cách chi phối | 8 |
+| k19 | tiểu từ, trạng từ & động từ khiếm khuyết | 14 |
+| k28 | số đếm 0–20 | 21 |
+| k29 | hàng chục, trăm & nghìn | 17 |
+| k30 | số thứ tự | 21 |
+| k31 | đơn vị đo & khái niệm số | 7 |
+
+Tám lô này mang khoá `"thucong"` trong `hangdoi.json`. **`chialai.py` nay TỪ CHỐI chạy** khi
+thấy chúng (phải `--ep` mới ghi đè) — vì chạy lại là gom hết từ của topic rồi chia lại bằng
+máy, xoá công ghép mà không báo gì. `congcu.py tiep` cũng in dòng **`### TRUC CUA LO`** cho
+agent biết trục sẵn có, khỏi tự mò một trục khác rồi lô thành rời rạc.
+
+⚠️ Đổi lại mất thêm **2 lô** (31 → 33). Đó là đánh đổi đã chọn, không phải sơ suất.
 
 ### 📏 Cỡ lô: nhắm 20, NHƯNG KHÔNG ÉP
 

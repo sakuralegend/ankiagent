@@ -27,6 +27,27 @@ Hàng đợi trở lại tuần tự từ **k13**.
 - **Nạp khớp tuyệt đối**: k49 ghi vào **19 note / 19 từ**, k50 **20 note / 20 từ**. Con số khớp
   là thứ duy nhất tố giác bẫy `ё` ghép nhầm note (đã nổ hôm qua ở `всё`/`все`), nên vẫn đối chiếu.
 
+## 28/07/2026 — GHÉP TAY 8 LÔ: HẬU TỐ KHÔNG PHẢI HỌ HÀNG
+
+Commit sau khi chia lại bằng máy, đọc lại kết quả thì thấy một lỗi thiết kế cũ.
+
+- 🔴 **`xephangdoi.py` sắp từ theo HẬU TỐ.** Với danh từ thì đúng và rất tốt — mọi từ `-ция`
+  chung một luật trọng âm, mọi từ `-ь` chung một luật giống. **Nhưng hư từ và số từ không hoạt
+  động như vậy**: k16 cũ trộn `чей·ой·твой·какой·мой·к·как·сам·там·рядом` vào một lô **chỉ vì
+  chúng vần với nhau** (đại từ + giới từ + thán từ + trạng từ), còn `numbers` thì số thứ tự bị
+  xé ra ba lô và số hàng trăm nằm rải cả ba.
+- ✅ **Ghép tay 8 lô theo họ ngữ pháp thật**: k16 đại từ nhân xưng & sở hữu (14) · k17 nghi vấn,
+  chỉ định & nơi chốn (14) · k18 giới từ & cách chi phối (8) · k19 tiểu từ, trạng từ & động từ
+  khiếm khuyết (14) · k28 số đếm 0–20 (21) · k29 hàng chục, trăm & nghìn (17) · k30 số thứ tự
+  (21) · k31 đơn vị đo & khái niệm số (7). **31 → 33 lô**, mất thêm 2 lô, đã chấp nhận.
+- 🛡️ **Dựng chốt chặn**: 8 lô mang khoá `"thucong"`; `chialai.py` **từ chối chạy** khi thấy khoá
+  đó (cần `--ep` mới ghi đè). Không có chốt này thì lần chạy `chialai.py` sau sẽ gom hết từ của
+  topic rồi chia lại bằng máy, **xoá sạch công ghép mà không báo một dòng nào**.
+- `congcu.py tiep` nay in thêm **`### TRUC CUA LO`** cho lô ghép tay, để agent xây khối dùng
+  chung quanh đúng trục thay vì tự mò một trục khác rồi lô thành rời rạc.
+- 🧹 Xoá 8 file `_input_k01..k08.txt` còn sót trong git (sinh lại được bằng `congcu.py tiep`,
+  và `.gitignore` đã chặn từ lâu).
+
 ## 28/07/2026 — CHIA LẠI HÀNG ĐỢI: CỠ LÔ 16 → 20, VÀ BỎ HẲN LÔ "GỘP"
 
 Sau khi k49+k50 chứng minh lô 19–20 từ chạy tốt, chia lại 36 lô chưa soạn → **31 lô**

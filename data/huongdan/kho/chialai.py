@@ -60,6 +60,19 @@ def main():
     xong = [l for l in q["lo"] if l["trangthai"] == "xong"]
     cho = [l for l in q["lo"] if l["trangthai"] != "xong"]
 
+    # ------------------------------------------------------------ chốt chặn
+    # Lô có `thucong` là lô ĐÃ GHÉP TAY THEO NGHĨA, không theo hậu tố. Chạy lại
+    # file này sẽ gom hết từ của topic đó rồi chia lại bằng máy — xoá sạch công
+    # ghép mà không báo gì. Đã suýt mất `language::grammar` và `numbers` (28/07).
+    tay = [l for l in cho if l.get("thucong")]
+    if tay and "--ep" not in sys.argv:
+        print(f"DUNG: {len(tay)} lo da ghep tay theo nghia, chia lai bang may se xoa sach:")
+        for l in tay:
+            print(f"  {l['id']}  {l['topic']:22} {len(l['tu']):3}   [{l['thucong']}]")
+        print("\nHau to KHONG phai ho hang voi hu tu va so tu — do la ly do chung"
+              "\nduoc ghep tay. Chi thuc su muon xoa thi them --ep.")
+        return
+
     # gom lại theo topic, GIỮ NGUYÊN thứ tự từ (đã sắp theo hậu tố ở xephangdoi.py)
     theo_topic = {}
     for l in cho:

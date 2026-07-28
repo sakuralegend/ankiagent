@@ -1,7 +1,0 @@
-### k06  topic=concepts::abstract  (4 tu)   [3/56 lo xong]
-### file can tao: k06_concepts-abstract.py
-
-S["здравствовать"]   здра́вствовать   (v)   be well / prosper / thrive   |   sống lâu, trường tồn, muôn năm
-S["извинить"]   извини́ть   (v)   excuse   |   xin lỗi, tha lỗi
-S["часть"]   часть   (n)   part / share   |   phần, bộ phận, miếng, mảnh
-S["речь"]   речь   (n)   speech / talk about / enunciation / style of speaking / language / discourse / oration / address   |   bài phát biểu, lời nói, cách nói

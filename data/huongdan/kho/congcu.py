@@ -112,7 +112,12 @@ def cmd_tiep():
     xong = sum(1 for l in q["lo"] if l["trangthai"] == "xong")
     out = [f"### {lo['id']}  topic={lo['topic']}  ({len(lo['tu'])} tu)"
            f"   [{xong}/{q['tong_lo']} lo xong]",
-           f"### file can tao: {lo['id']}_{lo['topic'].replace('::','-')}.py", ""]
+           f"### file can tao: {lo['id']}_{lo['topic'].replace('::','-')}.py"]
+    # Lô ghép tay mang sẵn TRỤC của nó — nói ra để agent xây khối dùng chung
+    # quanh đúng trục đó, thay vì tự mò một trục khác rồi lô thành rời rạc.
+    if lo.get("thucong"):
+        out.append(f"### TRUC CUA LO (da ghep tay theo nghia): {lo['thucong']}")
+    out.append("")
     for wc in lo["tu"]:
         w = words.get(wc, {})
         cu = "   [DE GHI DE noi dung mnemonic cu]" if w.get("cu") else ""
