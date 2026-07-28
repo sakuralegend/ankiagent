@@ -182,20 +182,31 @@ Sau khi nạp xong toàn bộ thẻ: **xoá khối CSS `mn-*` di sản** (6 quy 
 chúng sẽ tự bị viết đè khi lô của chúng tới lượt. Hết hàng đợi = 0 thẻ dùng `mn-*` = xoá CSS an
 toàn. Trước đó thì không, vì xoá sớm là vỡ giao diện 54 thẻ đang sống.
 
-## 🕳️ 168 THẺ NGOÀI HÀNG ĐỢI — sẽ KHÔNG BAO GIỜ được viết lại
+## 📕 168 THẺ NGOÀI HÀNG ĐỢI = CHÍNH LÀ LÔ 01→12 (không phải lỗ hổng)
 
-Phép trừ 28/07: 908 thẻ − 740 từ trong hàng đợi = **168 thẻ chưa từng nằm trong dây chuyền**.
-Cả 168 đều **đã có nội dung** đúng định dạng `hd-*` (0 thẻ rỗng — không có lỗ hổng che phủ),
-nhưng **mỏng hơn hẳn**:
+⚠️ **Mục này trước đây viết sai** ("thẻ chưa từng nằm trong dây chuyền", "sẽ không bao giờ được
+viết lại") và đã làm chính tôi hiểu nhầm phép trừ `908 − 740 = 168` thành một lỗ hổng che phủ.
+Kiểm bằng máy 28/07: **166/168 khớp CHÍNH XÁC khoá của `lo01…lo12`**, 2 từ lẻ là `переводчик`
+và `положительный` (không nằm trong file lô nào, soạn sớm hơn nữa).
+
+⇒ Chúng **ngoài hàng đợi vì lúc lập hàng đợi chúng đã soạn xong rồi** — hàng đợi chỉ gom phần
+deck kho chưa ai đụng. Không thiếu thẻ nào, không có lỗ hổng.
+
+Cả 168 đều **đã có nội dung** đúng `hd-*` (**0 thẻ rỗng, 0 thẻ còn mnemonic `mn-*`**), nhưng
+**mỏng bằng ~1/5** vì chuẩn "được phép dài, nhắm 6–10 KB" chỉ chốt **SAU** khi soạn xong 12 lô đó:
 
 | | trung bình | min | max |
 |---|---|---|---|
-| 168 thẻ ngoài hàng đợi | **1 635 byte** | 662 | 2 666 |
-| 202 thẻ đã qua dây chuyền | **7 648 byte** | — | 16 874 |
+| 168 thẻ lô 01→12 | **1 635 byte** | 662 | 2 666 |
+| 223 thẻ đã qua dây chuyền | **7 381 byte** | 2 394 | 16 874 |
 
-Tức chúng chỉ dày bằng **~1/5**. Hàng đợi đông lạnh ở 703 từ lúc lập kế hoạch nên chúng không
-bao giờ được xếp lô. **Đây là việc còn nợ, chưa hỏi user.** Muốn nâng cấp thì nối 168 từ này
-vào `tudien.json` + `hangdoi.json` (đúng quy trình đã ghi ở trên) — thêm khoảng **9 lô nữa**.
+📍 **Chúng KHÔNG nằm im trong kho**: 69 thẻ ở `RUSSIAN::1-go` + 4 ở `0-quen` — đúng những từ user
+đang cày. Và chúng mang các hệ thống nền mà lô sau chỉ **dẫn chiếu** chứ không dạy lại (bộ bốn
+quốc tịch, `ЧА ЩА`, cặp thể động từ, luật giống theo chữ cuối).
+
+Vậy đây **không phải "việc còn nợ"** mà là một câu hỏi ưu tiên: *có soạn lại 168 từ đầu theo
+chuẩn hiện tại không?* Muốn làm thì nối vào `tudien.json` + `hangdoi.json` — thêm ~**9 lô**.
+🔴 **Nhưng 524 từ trong hàng đợi thì chưa có nội dung tử tế lần nào — phần đó phải xong trước.**
 
 **Đừng xoá nội dung mnemonic cũ đi cho gọn** (đã cân nhắc và bác 28/07): cả 54 thẻ là mnemonic
 **thuần**, không thẻ nào có sẵn phần `hd-*`, nên xoá là để lại ô trống hàng tuần liền. Mà nội
