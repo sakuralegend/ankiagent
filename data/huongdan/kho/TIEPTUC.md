@@ -23,14 +23,26 @@ Lý do user nêu: *"đó là những từ mới, tôi chưa thuộc nên cần h
 có hướng dẫn nhưng đã thuộc sơ rồi"*. Ngoại lệ duy nhất: **hôm nào user thêm từ mới thì từ mới
 ưu tiên hơn cả khối này.**
 
-168 từ đã nối vào **đầu** hàng đợi thành 10 lô **`k51`…`k60`** (14–22 từ, trung bình 16,8).
-Hàng đợi nay **57 lô / 908 từ** — bằng đúng tổng số thẻ, **0 thẻ ngoài quy hoạch**.
-⚠️ **Thứ tự chạy ≠ thứ tự số hiệu**: `k51…k60` nằm TRƯỚC `k17…k47` trong `hangdoi.json`, và
-`tiep` lấy lô `cho` **đầu danh sách**. Đừng "sắp xếp lại cho gọn".
-Cả 10 lô mang khoá `thucong` (chialai.py không đụng được) và trục của chúng kèm sẵn lời dặn
-**SOAN LAI: thẻ đã có nội dung chuẩn cũ ~1,6 KB → viết đè hoàn toàn theo chuẩn mới**.
+### 🔴 QUY HOẠCH LẠI 28/07 (lần 2) — thứ tự **B → A → C**, user chọn
 
-**16/57 lô · 223/908 từ · cả 16 đã nạp.** k15 là lô 7 từ rời rạc (không trục chung, dồn giá
+Sau khi chốt chuẩn ngắn gọn (§2b README), **đo lại 168 thẻ cũ thì 75 thẻ đã ĐẠT sẵn cả ba trần**
+— kế hoạch "viết đè trọn 168 thẻ" của lần quy hoạch trước **là phá đi cái đang tốt**. Việc thật
+rút từ 10 lô xuống 5.
+
+| | Lô | Từ | Việc |
+|---|---|---|---|
+| **B** | `k51`…`k55` | 93 | **SỬA** 93/168 thẻ lô 01→12 chưa đạt (thiếu họ hàng · >2 ô đỏ · quá 1 màn hình). Mang khoá `"sua"` ⇒ `tiep` kéo **nội dung hiện tại** về cho agent vá. 75 thẻ đạt rồi nằm ở lô `trangthai: "dat"` — **không đụng**. |
+| **A** | `k01`…`k08` | 99 | **SOẠN LẠI** 99 thẻ tệ nhất kho (khối lặp 52–80%, 8–14 ô đỏ, 7–13 KB). Mở lại **chính id cũ** (`cho` + `daNap:false`) ⇒ mỗi từ vẫn một lô, một file, không sinh bản trùng. |
+| **C** | `k17`…`k47` | 517 | Thẻ rỗng, soạn thẳng theo chuẩn mới. |
+
+**53 lô / 908 từ · 8 lô xong · lô kế tiếp `k51`.**
+⚠️ **Thứ tự chạy ≠ thứ tự số hiệu**: `tiep` lấy lô `cho` **đầu danh sách**. Đừng sắp xếp lại.
+
+🆕 **Trạng thái `"dat"`**: thẻ đã đạt chuẩn sẵn — **không phải `xong`** (không có file, `nap` bỏ
+qua) và **không phải `cho`** (không ai phải làm gì). Thiếu nó thì bộ đếm `tu:` không bao giờ
+chạm 908 và phiên sau tưởng còn việc.
+
+🔴 **Bài học: trước khi mở một khối "làm lại", ĐO xem nó đã đạt chuẩn chưa.** k15 là lô 7 từ rời rạc (không trục chung, dồn giá
 trị vào từng thẻ); k16 là **lô ghép tay đầu tiên được soạn** — trục ghi sẵn trong `hangdoi.json`
 đã làm đúng việc, lô ra đồng nhất. Rà tay cụm in đậm đã trả công lần đầu: **143 cụm ở k16**,
 không cụm nào lệch trọng âm, nhưng chính lúc rà agent tự bắt **hai lỗi giải thích** của mình

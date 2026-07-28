@@ -4,6 +4,58 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 28/07/2026 — ĐẢO CHUẨN NỘI DUNG: NGẮN GỌN, VỪA MỘT MÀN HÌNH iPHONE
+
+User học hết số thẻ đã soạn rồi kết luận ngược lại chuẩn cũ. Đây là phiên sửa **gốc**, không
+phải sửa vặt: cả spec, công cụ đo, lẫn quy hoạch hàng đợi đều đổi.
+
+- 🔴 **Chuẩn "được phép dài" (6–10 KB) BỊ BỎ.** User: *"thẻ ngắn gọn như `сожаление` lại vừa súc
+  tích vừa đủ ý… tham quá khiến thẻ dài tôi đọc xong không nhớ gì"*, *"mấy cái hệ thống cũng bị
+  spam hơi nhiều"*, và nguyên tắc gốc: *"**mỗi từ chỉ tiết lộ một ít kiến thức liên quan TRỰC
+  TIẾP đến nó** thôi, đừng bê cả họ kiến thức như sách giáo khoa vào"*.
+- 📏 **Trần nay đo bằng CHIỀU CAO MÀN HÌNH, không phải byte** — user chốt *"chỉ được hiện trên
+  1 mặt màn hình iPhone thôi"*, máy thật **iPhone 16 Pro Max (440×956)** ⇒ **trần 700px**.
+  **Byte là đại lượng sai**: một bảng 6 dòng và một đoạn văn cùng số byte cao khác nhau ba lần.
+
+  | | `сожаление` (khen) | `гиря` (k15, **ngắn nhất lô**) | `реплика` (k04) |
+  |---|---|---|---|
+  | Byte | 1 173 | 2 827 | 16 874 |
+  | Chiều cao | **516px = 0,7 màn** | 1 112px = **1,6 màn** | 6 305px = **9 màn** |
+
+- 🔬 **Vì sao trượt mà không biết: công cụ CHỈ ĐO BYTE.** Thẻ "đạt" trần 12 KB vẫn có **16 ô đỏ**
+  và **80% độ dài là khối lặp**. `congcu.py dodai` nay đo **cả ba** — chiều cao px, số ô đỏ, và
+  `% độ dài là khối lặp`. **Đặt ràng buộc mới mà không thêm cửa đo cho nó thì ràng buộc đó không
+  tồn tại.**
+- 📊 **Khối hệ thống là nguồn phình lớn nhất**, hơn cả ô đỏ: k04 **80%** · k08 73% · k07 68% ·
+  k05 62% · k01 60% · k16 56% · k02 52%, trong khi k09/k10/k12/k49 = **0%**. Ở k04 **4/5 thẻ là
+  khối lặp**. Lập luận cũ *"lặp ở mọi thẻ là spaced repetition cho hệ thống"* nghe hợp lý và
+  **user từng đồng ý**, nhưng dùng thật thì nó đẩy chính cái từ ra rìa. ⇒ **Mặc định KHÔNG có
+  khối hệ thống**; cần lắm thì trải ở **đúng một thẻ**, thẻ khác dẫn chiếu một dòng.
+- 🆕 **Việc thứ hai của mỗi lô: sửa field `Vietnamese`.** Nó là **đề bài của deck `1-go`** —
+  user *gõ* từ Nga từ dòng đó — nên mơ hồ là **đề bài không có đáp án đúng** (`nói` không phân
+  biệt `сказа́ть` hoàn thành với `говори́ть` chưa hoàn thành). File lô nay khai thêm dict `V`;
+  `nap` ghi cả hai field và **in từng dòng `cũ -> mới`** để soát mắt.
+  🧠 Tôi định dựng cửa soát va chạm bắt buộc, **user gạt**: *"chỉ cần dựa vào chính bộ óc của AI…
+  nó phải tự biết từ này dễ nhầm với từ nào chứ"*. Giữ `congcu.py vacham` làm **tuỳ chọn** (đo
+  được 186 nghĩa Việt trùng, dính 414 lượt từ — `ổn` ứng với 5 từ Nga).
+- 🗂️ **Quy hoạch lại B → A → C.** User hỏi có nên làm lại từ đầu không; số liệu nói **không** —
+  xếp theo thứ tự soạn thì chất lượng **đi lên**, 99 thẻ tệ nhất là 8 lô **đầu tiên**. Và đo lại
+  thì **75/168 thẻ cũ đã ĐẠT sẵn cả ba trần**, nên kế hoạch "viết đè trọn 168 thẻ" dựng hai giờ
+  trước là **phá đi cái đang tốt** — rút từ 10 lô xuống 5.
+  **B** `k51`–`k55` vá 93 thẻ (khoá `"sua"` ⇒ `tiep` kéo nội dung hiện tại về cho agent vá) ·
+  **A** `k01`–`k08` soạn lại 99 thẻ tệ nhất (mở lại **chính id cũ**, không tạo lô mới, để mỗi từ
+  vẫn một lô một file) · **C** `k17`–`k47` 517 thẻ rỗng.
+- 🆕 **Trạng thái `"dat"`** cho lô đã đạt chuẩn sẵn — không phải `xong` (không có file, `nap` bỏ
+  qua), không phải `cho` (không ai phải làm gì). Thiếu nó thì bộ đếm `tu:` không bao giờ chạm
+  908 và phiên sau tưởng còn việc chưa làm.
+- 📐 **Ngân sách gần gấp đôi**: khớp từ hai điểm đo thật (k15 7 từ/93K · k16 14 từ/126K) ra
+  `60K cố định/lô + 4,7K/từ` (chuẩn cũ) → `53K + 1,6K` (chuẩn mới). Một phiên **~40 từ → ~76 từ
+  (4 lô)**. Phần cố định nay chiếm ~62% một lô ⇒ **lô to càng lợi, đừng cắt nhỏ**.
+- 🧹 **Dọn tài liệu thay vì chồng ghi chú** (user cho phép xoá bàn luận cũ gây loạn): §2 và §3
+  của README viết lại hẳn, phần "vì sao đổi" gấp vào `<details>`. Quan trọng nhất: **khuôn file
+  mẫu ở §7 vẫn đang dạy đúng cái pattern vừa cấm** (`HE = (...)` cộng vào mọi thẻ) — đã xoá, và
+  cấm luôn việc lấy `MAU.py`/`k01` làm mẫu vì cả hai theo chuẩn cũ dài gấp 4–5 lần.
+
 ## 28/07/2026 — QUY HOẠCH KÍN 908 THẺ: 168 TỪ LÔ 01→12 XẾP LÊN ĐẦU HÀNG ĐỢI
 
 User hỏi *"168 thẻ nào vậy, tôi không hiểu"* — câu hỏi đó lộ ra tài liệu sai và một quyết định
