@@ -42,10 +42,11 @@
     "час",
     "часто"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k51_hontap-nguoi-huTu.py",
    "sua": true,
-   "thucong": "LO SUA, KHONG PHAI LO SOAN MOI. `tiep` in kem NOI DUNG HIEN TAI cua tung the. GIU NGUYEN phan dang tot, chi lam dung ba viec: (1) them muc 'Ho hang' cho the nao thieu; (2) the nao qua 2 o do thi GIU HAI CAI HAY NHAT, phan con lai hoa vao 'Cach nho' hoac bo; (3) the nao qua 1 man hinh (700px) thi cat cho vua. Lo nay gom tu tu nhieu ho khac nhau — SUA TUNG THE DOC LAP, dung dung khoi he thong nao."
+   "thucong": "LO SUA, KHONG PHAI LO SOAN MOI. `tiep` in kem NOI DUNG HIEN TAI cua tung the. GIU NGUYEN phan dang tot, chi lam dung ba viec: (1) them muc 'Ho hang' cho the nao thieu; (2) the nao qua 2 o do thi GIU HAI CAI HAY NHAT, phan con lai hoa vao 'Cach nho' hoac bo; (3) the nao qua 1 man hinh (700px) thi cat cho vua. Lo nay gom tu tu nhieu ho khac nhau — SUA TUNG THE DOC LAP, dung dung khoi he thong nao.",
+   "daNap": true
   },
   {
    "id": "k52",
