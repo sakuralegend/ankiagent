@@ -16,10 +16,29 @@ Bạn (user) chỉ cần gõ một câu: **"chạy tiếp kho"**. Phần dưới
 PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py trangthai
 ```
 
-### ✅ k49 + k50 XONG 28/07 — lô kế tiếp là **k13**
+### ✅ k49 + k50 XONG 28/07 — lô kế tiếp là **k15**
 
 39 từ giao thông/phương hướng user thêm 28/07 đã soạn và nạp xong (k49 19 từ, k50 20 từ,
-cùng `places::city`). Hàng đợi trở lại tuần tự từ **k13**.
+cùng `places::city`). Hàng đợi **đã chia lại 28/07: 36 lô → 31 lô**, đánh số từ **k15** đến
+**k45** (k49/k50 giữ nguyên số vì đã xong). 740 từ, không mất từ nào, không lô nào trùng.
+
+### 📏 Cỡ lô: nhắm 20, NHƯNG KHÔNG ÉP
+
+User chốt 28/07: *"tôi ưu tiên chất lượng cao nhất… nếu từ khác nhau quá, bạn đừng ngại cho
+riêng 1 lô, đừng ép phải khuôn cứng 20"*. `chialai.py` nay `TRAN=20 / TOI_DA=22`, và **đã bỏ
+hẳn cơ chế gộp topic khác nhau** — nó tiết kiệm token bằng cách hi sinh đúng thứ làm nên giá
+trị một lô: **các từ cùng họ thì một khối dùng chung mới gánh được nhiều thẻ**. Hệ quả là
+`k15 concepts::misc` chỉ có **7 từ** và `k42 qualities::colors` có **11 từ** — lô nhỏ đắt gấp
+3–4 lần mỗi từ, và đó là **cái giá đã cân nhắc rồi chấp nhận, không phải sơ suất**. Đừng
+"tối ưu" lại bằng cách gộp chúng vào lô khác.
+
+Kết quả chia lại: 31 lô, nhỏ nhất 7 – lớn nhất 22, trung bình 17,4.
+
+🐛 **Bẫy đã bắt được lúc chia lại: topic có dấu `:` sinh ra tên file không hợp lệ.** Tên file
+lấy từ topic (`topic.replace('::','-')`), nên topic cũ `gop:concepts::misc` cho ra
+`k15_gop:concepts-misc.py` — **Windows cấm dấu hai chấm trong tên file**, agent sẽ chết ngay ở
+bước `Write` mà không hiểu vì sao. Đã đổi thành `concepts::misc`. **Đặt tên topic mới thì chỉ
+dùng chữ, số và `::`.**
 
 ✅ **Đã chứng minh: trần 12 KB giữ được bằng lời dặn, kể cả với lô 19–20 từ.** Hai lô này to
 hơn thường lệ và chủ đề rất đồng nhất — đúng điều kiện làm **k04 vỡ trần**. Chỉ cần thêm hai
@@ -57,6 +76,19 @@ Khuôn lời nhắn giao cho agent phụ (đổi `kNN` và phần chủ đề):
 > **Báo cáo:** số từ · kết quả 3 mục soát · **những chỗ KHÔNG chắc đã hạ mức tin**.
 
 🔴 **MỖI PHIÊN 2 LÔ, VÀ PHIÊN ĐÓ CHỈ ĐƯỢC CHẠY LÔ.**
+
+📊 **Đo qua ba phiên — chi phí mỗi TỪ giảm khi lô to hơn và khi luồng chính im lặng:**
+
+| Phiên | Số từ | Hạn mức | Mỗi từ |
+|---|---|---|---|
+| k09+k10 (27/07, có trộn việc sửa công cụ) | 32 | 99% | 3,1% |
+| k11+k12 (28/07) | 32 | ~80% | 2,5% |
+| **k49+k50 (28/07, user chỉ gõ 1 lệnh, không chat)** | **39** | **75%** | **1,9%** |
+
+Hai điều rút ra: (1) phần cố định mỗi lô (đọc spec + MAU.py + dựng khung) **không phụ thuộc
+số từ**, nên lô 20 từ rẻ hơn lô 15 tính trên mỗi từ; (2) mỗi lượt chat của luồng chính **gửi
+lại toàn bộ hội thoại đã tích**, nên chat ở cuối phiên đắt hơn chat ở đầu phiên rất nhiều.
+
 Đo thật phiên tối 27/07: k09 = **191K token**, k10 = **171K** ⇒ ~**180K/lô**, hai lô ~360K.
 Nhưng phiên đó chạm 99% *không phải* chỉ vì hai lô — luồng chính còn viết lại `nap`, truy bug
 `noteId`, sửa docs, 5 lần commit. **Trộn việc sửa công cụ vào phiên chạy lô chính là thứ đội

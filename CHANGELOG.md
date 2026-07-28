@@ -27,6 +27,33 @@ Hàng đợi trở lại tuần tự từ **k13**.
 - **Nạp khớp tuyệt đối**: k49 ghi vào **19 note / 19 từ**, k50 **20 note / 20 từ**. Con số khớp
   là thứ duy nhất tố giác bẫy `ё` ghép nhầm note (đã nổ hôm qua ở `всё`/`все`), nên vẫn đối chiếu.
 
+## 28/07/2026 — CHIA LẠI HÀNG ĐỢI: CỠ LÔ 16 → 20, VÀ BỎ HẲN LÔ "GỘP"
+
+Sau khi k49+k50 chứng minh lô 19–20 từ chạy tốt, chia lại 36 lô chưa soạn → **31 lô**
+(`k15`…`k45`), 538 từ giữ nguyên, không lô nào trùng.
+
+- 📊 **Chi phí mỗi từ giảm rõ qua ba phiên**: k09+k10 = 3,1% hạn mức/từ · k11+k12 = 2,5% ·
+  **k49+k50 = 1,9%**. Hai nguyên nhân: phần cố định mỗi lô (đọc spec + MAU.py + dựng khung)
+  **không phụ thuộc số từ** nên lô to rẻ hơn tính trên mỗi từ; và mỗi lượt chat của luồng
+  chính **gửi lại toàn bộ hội thoại đã tích** — phiên k49/k50 user chỉ gõ đúng 1 lệnh.
+- ✅ **Không có dấu hiệu hụt hơi ở lô 20 từ.** Đo độ dày thẻ theo thứ tự soạn: k50 phẳng lì
+  (nửa đầu 5 874 / nửa sau 5 918), k12 đối chứng cũng phẳng (3 569 / 3 595). k49 tụt 32% nhưng
+  là do **nội dung** — nửa sau toàn trạng từ (`налево·направо·пешком`) vốn ít chữ, không phải mỏi.
+  ⚠️ Nhưng đây là đo **độ dày, không phải chất lượng** — nên dừng ở 20, không đẩy lên 24–25.
+- 🔴 **Bỏ hẳn cơ chế gộp topic khác nhau trong `chialai.py`** (user chốt: *"ưu tiên chất lượng
+  cao nhất… nếu từ khác nhau quá đừng ngại cho riêng 1 lô"*). Gộp là tiết kiệm token bằng cách
+  hi sinh đúng thứ làm nên giá trị của một lô: **từ cùng họ thì một khối dùng chung mới gánh
+  được nhiều thẻ**. Hệ quả cố ý: `k15 concepts::misc` chỉ 7 từ, `k42 qualities::colors` 11 từ —
+  đắt gấp 3–4 lần mỗi từ, **đã cân nhắc rồi chấp nhận**. Đừng "tối ưu" lại.
+- 🐛 **Bắt được một lỗi trước khi nó nổ: topic có dấu `:` sinh tên file không hợp lệ.** Tên file
+  lô lấy từ `topic.replace('::','-')`, nên topic cũ `gop:concepts::misc` cho ra
+  `k15_gop:concepts-misc.py` — **Windows cấm `:` trong tên file**, agent sẽ chết ở bước `Write`
+  mà không hiểu vì sao. Đổi thành `concepts::misc`. Quy tắc: topic chỉ dùng chữ, số và `::`.
+
+**Kiểm lại k49+k50 độc lập** (không tin báo cáo suông): cả 3 cửa soát `(khong co)` ở cả hai lô ·
+39/39 từ đã vào Anki · 908 note, **424 có Hướng dẫn** = 385 + 39 khớp chính xác · **0 thẻ vượt
+trần 12 KB** (danh sách vượt trần giờ chỉ còn k04/k07/k03 cũ).
+
 ## 28/07/2026 — 39 TỪ MỚI THÀNH LÔ k49 + k50, ƯU TIÊN CHẠY TRƯỚC k13
 
 Commit `37e1a5b`. User thêm 39 từ giao thông/phương hướng trong ngày và muốn xong trước khi

@@ -9,10 +9,25 @@ phần cố định đó áp đảo:
     lô  6 từ -> 125K token     -> 20,9K token/từ
     lô  4 từ -> 107K token     -> 26,7K token/từ   (đắt gấp 3,4 lần)
 
-Cách chia: mỗi topic tách thành `ceil(n/16)` phần **đều nhau** thay vì cắt 15
-rồi bỏ mẩu thừa. 67 từ -> 14+13+13+13+14, chứ không phải 15+15+15+15+7.
-Mẩu dưới 10 từ của các topic nhỏ được gom lại thành lô "gộp" — mất một chút
-tính thuần họ từ, nhưng rẻ hơn nhiều so với chạy một lô 4 từ riêng.
+Cách chia: mỗi topic tách thành `round(n/TRAN)` phần **đều nhau** thay vì cắt
+đủ cỡ rồi bỏ mẩu thừa. 67 từ -> 14+13+13+13+14, chứ không phải 15+15+15+15+7.
+
+--------------------------------------------------------------------- 28/07
+**Nâng cỡ lô 16 -> 20, và BỎ HẲN việc gộp topic khác nhau.**
+
+Cỡ 20 đã đo thật ở k49 (19 từ) + k50 (20 từ): 39 từ hết 75% hạn mức = 1,9%/từ,
+so với 2,5%/từ của các phiên lô 15-17 từ. Rẻ hơn vì phần cố định (đọc spec, xem
+mẫu, dựng khung) chia cho nhiều từ hơn. Không có dấu hiệu hụt hơi: đo độ dày thẻ
+theo thứ tự soạn thì k50 phẳng lì (nửa đầu 5.874 / nửa sau 5.918), k49 tụt là do
+nửa sau toàn trạng từ vốn ít chữ, không phải mỏi.
+
+Nhưng **20 là mức nhắm, không phải khuôn ép** (user chốt 28/07: *"nếu từ khác
+nhau quá, bạn đừng ngại cho riêng 1 lô, đừng ép phải khuôn cứng 20"*). Vì vậy
+lô "gộp" trộn nhiều topic đã bị bỏ: nó tiết kiệm token bằng cách hi sinh đúng thứ
+làm nên giá trị của một lô — **các từ trong lô phải cùng họ thì khối dùng chung
+mới gánh được nhiều thẻ**. Topic nhỏ nay giữ nguyên thành lô riêng, dù chỉ 7 từ.
+Chi phí mỗi từ của lô nhỏ cao gấp 3-4 lần, và đó là cái giá đã được cân nhắc
+rồi chấp nhận, không phải sơ suất.
 
 Lô ĐÃ SOẠN không bị đụng tới.
 
@@ -20,14 +35,13 @@ Chạy: python data/huongdan/kho/chialai.py [--apply]
 """
 import io
 import json
-import math
 import os
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-TRAN = 16     # cỡ lô nhắm tới
-TOI_DA = 18   # không lô nào vượt quá — lớn hơn thì agent dễ hụt hơi
-SAN = 10    # dưới mức này thì gom sang lô "gộp"
+TRAN = 20     # cỡ lô nhắm tới
+TOI_DA = 22   # không lô nào vượt quá — lớn hơn thì agent dễ hụt hơi
+SAN = 10      # chỉ để CẢNH BÁO khi in, không còn dùng để gộp
 
 
 def chia_deu(xs, k):
@@ -51,34 +65,17 @@ def main():
     for l in cho:
         theo_topic.setdefault(l["topic"], []).extend(l["tu"])
 
-    lo_moi, le = [], []
+    lo_moi = []
     for t in sorted(theo_topic):
         tu = theo_topic[t]
-        if len(tu) < SAN:
-            le.append((t, tu))       # cả topic ít từ -> để dành gộp
-            continue
-        # Chia đều quanh mức TRAN, KHÔNG cắt 16 rồi bỏ mẩu thừa.
-        # `round` chứ không `ceil`: 17 từ -> MỘT lô 17, không phải 9+8.
-        # Một topic thuần chia đều thì mọi mẩu đều hợp lệ, kể cả khi nhỏ hơn SAN —
-        # SAN chỉ dùng để quyết định có GỘP TOPIC KHÁC vào hay không.
+        # Chia đều quanh mức TRAN, KHÔNG cắt đủ cỡ rồi bỏ mẩu thừa.
+        # `round` chứ không `ceil`: 22 từ -> MỘT lô 22, không phải 11+11.
+        # Topic nhỏ hơn TRAN thì k=1 -> nguyên topic thành MỘT lô, dù chỉ 7 từ.
+        # Không gộp sang topic khác: xem phần 28/07 ở đầu file.
         k = max(1, round(len(tu) / TRAN))
         while len(tu) / k > TOI_DA:
             k += 1
         lo_moi.extend((t, phan) for phan in chia_deu(tu, k))
-
-    # mẩu lẻ của các topic nhỏ -> gom thành lô "gộp"
-    if le:
-        goi, dem = [], 0
-        for t, phan in le:
-            if dem + len(phan) > TRAN and goi:
-                lo_moi.append(("gop:" + "+".join(sorted({x for x, _ in goi})),
-                               [w for _, p in goi for w in p]))
-                goi, dem = [], 0
-            goi.append((t, phan))
-            dem += len(phan)
-        if goi:
-            lo_moi.append(("gop:" + "+".join(sorted({x for x, _ in goi})),
-                           [w for _, p in goi for w in p]))
 
     i = len(xong)
     ra = list(xong)
