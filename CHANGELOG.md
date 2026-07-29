@@ -4,6 +4,41 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 29/07/2026 — QUY HOẠCH LẠI: chỉ 38 từ được tính là xong, 912 từ về hàng chờ
+
+User xem bảng trạng thái chia theo **đời soạn** rồi chốt: *"những từ được như lô vừa làm là đạt
+chuẩn (phải có hướng dẫn trọng âm nếu đặc biệt…), những cái còn lại coi như không có, làm lại
+từ đầu"*.
+
+📊 **Bảng đã dẫn tới quyết định** (950 thẻ, cắt theo đời soạn rồi đối chiếu thẻ thật):
+
+| Nhóm | Từ | Trên thẻ thật | Có khối `BAT THUONG` lúc soạn? |
+|---|---|---|---|
+| **k14 + k48** (29/07) | **38** | 38 đạt cả hai trần | ✅ |
+| k13 / k51–k54 (28/07, chuẩn §2b) | 78 | 78 đạt cả hai trần | ❌ |
+| "đạt chuẩn sẵn" (chuẩn cũ) | 75 | **68 đạt · 7 đã vỡ trần** | ❌ |
+| Chưa soạn lại | 759 | 466 trống · 51 mnemonic cũ · 238 nội dung cũ vỡ trần · 4 lọt | ❌ |
+
+- 🔍 **Hai điều chỉ lộ ra khi cắt theo đời, không lộ ra ở con số tổng:**
+  ① nhãn **"đạt chuẩn sẵn" đã hết hạn** — 7/75 từ mang nhãn đó nay vỡ trần, vì sau 28/07 thẻ
+  có thêm bảng chia và badge; ② chỉ **38 từ (4,0%)** được soạn khi đã có khối `BAT THUONG`,
+  tức chỉ 38 từ chắc chắn có câu hướng dẫn ở chỗ bảng chia bất thường.
+- 📐 **364/950 từ (38%) là "đặc biệt"** — từ điển báo bảng chia lệch quy tắc nên **bắt buộc**
+  phải có một câu chú ý. Tỉ lệ theo nhóm: k14+k48 31% · k13/k51–k54 32% · nhóm "đạt chuẩn sẵn"
+  **60%** (cao nhất, vì đó vừa là từ thông dụng nhất vừa là từ bất quy tắc nhất) · phần còn lại 37%.
+- 🔧 **Hàng đợi xếp lại: 59 lô / 950 từ · 38 duyệt · 912 chờ.** Bỏ hai thứ:
+  **trạng thái `dat`** (nhãn hết hạn ⇒ 75 từ tách thành 4 lô thường `k56`–`k58`, `k61`, gom theo
+  topic để mỗi lô có trục) và **chế độ `sua`** ("làm lại từ đầu" ⇒ mọi lô soạn mới; vá còn **đắt
+  hơn** soạn mới +15% với thẻ mỏng vì agent vẫn phải xuất toàn bộ nội dung).
+  ✅ Kiểm sau khi xếp: 950 từ **riêng biệt**, không từ nào trùng, không lô nào quá trần 22,
+  không còn `sua`/`file`/`daNap` sót ở lô `cho`.
+- ⚠️ **File `kNN_*.py` cũ giữ nguyên trên đĩa** nhưng lô của chúng là `cho` — `nap` chỉ đọc lô
+  `xong` nên không thể lọt vào thẻ, agent sẽ ghi đè khi tới lượt.
+- 🔴 **LUẬT THỨ TỰ MỚI** (user chốt): *"cứ đẩy hết vào hàng chờ, lô từ hàng chờ sẽ đến lượt sau
+  khi xử lí toàn bộ từ mới của một ngày"* ⇒ mỗi phiên chạy `congcu.py moi --apply` **trước**,
+  hết lô từ mới rồi mới lấy lô hàng chờ. **Thay** luật cũ "ưu tiên deck 0-quen → 1-go".
+- 💰 Khối lượng còn lại: **912 từ ≈ 46 lô ≈ 11–12 phiên** (mô hình 65K/lô + 2,67K/từ).
+
 ## 29/07/2026 — 38 từ mới: k14 (mua sắm) + k48, và bộ đo TỈ LỆ ĐẠT CHUẨN
 
 - 🆕 **`data/huongdan/dochuan.py`** — user hỏi *"tỉ lệ phần trăm những thẻ đã đạt chuẩn mới nhất

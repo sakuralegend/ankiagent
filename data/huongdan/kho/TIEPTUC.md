@@ -4,6 +4,42 @@ Bạn (user) chỉ cần gõ một câu: **"chạy tiếp kho"**. Phần dưới
 
 ---
 
+## 🔴 QUY HOẠCH LẠI 29/07 — ĐỌC TRƯỚC MỌI THỨ KHÁC, ĐÈ LÊN MỌI MỤC BÊN DƯỚI
+
+User chốt 29/07 sau khi xem bảng trạng thái theo **đời soạn**:
+
+> *"Những từ được như lô vừa làm là đạt chuẩn (phải có hướng dẫn trọng âm nếu đặc biệt…).
+> Những cái còn lại coi như không có, làm lại từ đầu."*
+
+⇒ **Chỉ `k14` + `k48` (38 từ) được tính là xong.** Toàn bộ 912 từ còn lại đã trả về `cho`,
+kể cả 78 từ soạn 28/07 (đạt cả hai trần) và 75 từ từng mang nhãn *"đạt chuẩn sẵn"*.
+**59 lô / 950 từ · 38 duyệt · 912 chờ.**
+
+| Bỏ đi | Vì sao |
+|---|---|
+| Trạng thái **`dat`** | Nhãn gán 28/07 đã hết hạn — 7/75 từ nay vỡ trần sau khi thẻ có thêm bảng chia + badge. Nhóm đó nay là 4 lô thường (`k56`–`k58`, `k61`). |
+| Chế độ **`sua`** | "Làm lại từ đầu" ⇒ mọi lô soạn mới. Vá còn **đắt hơn** soạn mới (+15% với thẻ mỏng) vì agent vẫn phải xuất toàn bộ nội dung, chỉ cộng thêm phần đọc bản cũ. |
+
+⚠️ **File `kNN_*.py` cũ vẫn nằm trên đĩa** (k01…k13, k15, k16, k49…k54) nhưng lô của chúng
+đã là `cho` — `nap` chỉ đọc lô `xong` nên chúng **không thể lọt vào thẻ**, và agent sẽ ghi đè
+khi tới lượt. 🔴 **Đừng mở file cũ ra xem lúc soạn lại** — vừa đắt vừa kéo văn phong dài trở lại.
+
+### 🔴 LUẬT THỨ TỰ — user chốt 29/07
+
+> *"Cứ đẩy hết vào hàng chờ. Lô từ hàng chờ sẽ đến lượt **sau khi xử lí toàn bộ từ mới của
+> một ngày**."*
+
+**Mỗi phiên: `congcu.py moi --apply` TRƯỚC, chạy hết lô từ mới, rồi mới lấy lô hàng chờ.**
+`moi` tự chèn lô từ mới vào **đầu** hàng đợi và gộp dồn vào lô từ mới chưa chạy (không đẻ lô
+nhỏ mỗi ngày), nên chỉ cần chạy nó rồi lấy lô đầu danh sách là đúng thứ tự.
+⚠️ Luật này **thay** luật cũ "ưu tiên deck 0-quen → 1-go" ở mục bên dưới.
+
+**Điều kiện đạt chuẩn của một thẻ** (ngoài hai trần px/ô đỏ):
+từ nào `congcu.py tiep` in khối `BAT THUONG` thì **bắt buộc có MỘT CÂU chú ý** trên bảng chia —
+đọc câu đó là hiểu cả bảng. **364/950 từ (38%) rơi vào diện này.**
+
+---
+
 ## Trạng thái nằm ở đâu
 
 | File | Là gì |
