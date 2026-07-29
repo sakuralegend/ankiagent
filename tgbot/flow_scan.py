@@ -17,8 +17,8 @@ from anki_tools.ai_client import call_claude_scan_words, image_mime_type
 from anki_tools.pipeline import process_word
 from anki_tools.anki_client import find_duplicate_notes, get_known_words, trigger_sync
 
-from .core import SYNC_FAIL_TEXT, SYNC_OK_TEXT, _reset_idle_timer
-from .flow_edit import SUADECK_DELAY_SECONDS
+from .core import (bao_ket_qua, chay_hang_loat,
+                   SYNC_FAIL_TEXT, SYNC_OK_TEXT, _reset_idle_timer)
 
 
 def _scan_clear(user_data):
@@ -200,55 +200,34 @@ async def _run_scan_add(context, chat_id, msg, words):
     thêm từ thường (cào OpenRussian -> AI -> Anki; deck None = tự động -> inbox),
     nghỉ giữa 2 từ chống chạm giới hạn mỗi-phút. Chạy bằng create_task để nút
     ⏹ Dừng vẫn được xử lý (PTB xử lý update tuần tự — giống /suadeck)."""
-    context.bot_data["scan_running"] = True
-    context.bot_data["scan_stop"] = False
     total = len(words)
     added, skipped_dup, failed = [], [], []
-    stop_kb = InlineKeyboardMarkup([[InlineKeyboardButton("⏹ Dừng", callback_data="scanstop")]])
-    stopped = False
-    attempted = 0
 
-    try:
-        for i, item in enumerate(words):
-            if context.bot_data.get("scan_stop"):
-                stopped = True
-                break
-            _reset_idle_timer(context, chat_id)
-            attempted = i + 1
-            word = item["lemma"]  # dạng từ điển đã qua tay pymorphy3 — thứ dùng để cào
+    async def lam(item):
+        word = item["lemma"]  # dạng từ điển đã qua tay pymorphy3 — thứ dùng để cào
+        # Dò trùng lần cuối ngay trước khi thêm (rẻ, không tốn AI) — phòng
+        # trường hợp từ vừa được thêm tay giữa lúc quét và lúc bấm ✅
+        dups = await asyncio.to_thread(find_duplicate_notes, strip_accents_perfectly(word))
+        if dups:
+            skipped_dup.append(word)
+            # `False` = lượt này KHÔNG gọi AI nên khỏi nghỉ chống RPM. Đây là chỗ
+            # duy nhất trong ba luồng cần cửa đó, nên nó là tham số chứ không phải
+            # luật cứng của bộ chạy chung.
+            return f"{word} ⏭ đã có", False
+        success, _, _ = await asyncio.to_thread(
+            process_word, word, None, False, False   # sync 1 lần cuối đợt
+        )
+        (added if success else failed).append(word)
+        return f"{word} {'✅' if success else '❌'}", True
 
-            # Dò trùng lần cuối ngay trước khi thêm (rẻ, không tốn AI) — phòng
-            # trường hợp từ vừa được thêm tay giữa lúc quét và lúc bấm ✅
-            dups = await asyncio.to_thread(find_duplicate_notes, strip_accents_perfectly(word))
-            if dups:
-                skipped_dup.append(word)
-                mark = "⏭ đã có"
-            else:
-                success, card_info, error_msg = await asyncio.to_thread(
-                    process_word, word, None, False, False  # sync 1 lần cuối đợt
-                )
-                if success:
-                    added.append(word)
-                    mark = "✅"
-                else:
-                    failed.append(word)
-                    mark = "❌"
-                # Nghỉ chống RPM — chỉ cần sau lượt có gọi AI thật
-                if attempted < total and not context.bot_data.get("scan_stop"):
-                    await asyncio.sleep(SUADECK_DELAY_SECONDS)
+    def tien_do(lam_roi, tong, nhan):
+        return (f"🔄 Thêm từ quét ảnh: {lam_roi}/{tong}\n"
+                f"📝 Vừa xong: {nhan}\n"
+                f"✅ thêm {len(added)} │ ⏭ trùng {len(skipped_dup)} │ ❌ lỗi {len(failed)}")
 
-            progress = (
-                f"🔄 Thêm từ quét ảnh: {attempted}/{total}\n"
-                f"📝 Vừa xong: {word} {mark}\n"
-                f"✅ thêm {len(added)} │ ⏭ trùng {len(skipped_dup)} │ ❌ lỗi {len(failed)}"
-            )
-            try:
-                await msg.edit_text(progress, reply_markup=stop_kb)
-            except Exception:
-                pass  # nội dung trùng / mạng chớp — vòng sau edit tiếp
-    finally:
-        context.bot_data["scan_running"] = False
-        context.bot_data["scan_stop"] = False
+    stopped, attempted = await chay_hang_loat(
+        context, chat_id, msg, words,
+        co="scan", stop_data="scanstop", lam=lam, tien_do=tien_do)
 
     synced = await asyncio.to_thread(trigger_sync) if added else True
 
@@ -267,7 +246,4 @@ async def _run_scan_add(context, chat_id, msg, words):
             "(từ đã thêm sẽ tự bị lọc)."
         )
     lines.append(SYNC_OK_TEXT if synced else SYNC_FAIL_TEXT)
-    try:
-        await msg.edit_text("\n".join(lines))
-    except Exception:
-        pass
+    await bao_ket_qua(msg, lines)

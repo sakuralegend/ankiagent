@@ -4,6 +4,36 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 29/07/2026 — GOM ba luồng chạy nền về MỘT bộ chạy chung
+
+User chốt nguyên tắc: *"cùng 1 chức năng chỉ có đúng 1 script nhận nhiệm vụ, không được có 2 cái
+cùng làm 1 thứ. Nếu xảy ra thì phải quy về mô hình nhiều tầng, cái gì làm chung thì là 1 script,
+khi khác nhau thì tách ra."*
+
+- 🆕 **`core.chay_hang_loat()`** — bộ chạy nền dùng chung. `_run_suadeck` (87 dòng) ·
+  `_run_scan_add` (76) · `_run_batch` (72) **đều có đủ 11 bước giống hệt nhau**; nay còn
+  **65 · 52 · 49** và 11 bước đó chỉ tồn tại MỘT bản.
+- 🐛 **Ba bản đã trôi lệch nhau thật, gom mới lộ ra**: chỉ `_run_scan_add` nghỉ chống RPM
+  **TRƯỚC** khi hiện tiến độ, nên user phải chờ thêm 3 giây mới thấy từ vừa xong. Nay cả ba
+  cùng thứ tự "làm → hiện tiến độ → nghỉ".
+- ✅ **Phần CHUNG** (ở `core.py`): bật cờ · vòng lặp · kiểm nút ⏹ Dừng · đẩy đồng hồ idle ·
+  hiện tiến độ · nuốt lỗi `edit_text` · nghỉ chống RPM · `finally` hạ cờ.
+  **Phần RIÊNG** (người gọi truyền vào): `lam(item)` làm việc thật và tự cộng sổ trong closure ·
+  `tien_do()` dựng chữ · và **câu tóm tắt cuối vẫn để mỗi luồng tự làm** — ba luồng tóm tắt ba
+  kiểu khác hẳn (suadeck có danh sách thẻ còn dở, quét ảnh có mục "đã có thẻ từ trước", số nhiều
+  có "vá thẻ cũ"), gom vào là ép chung một khuôn rồi lại phải đẻ tham số cho từng ngoại lệ.
+- 🔑 **Cửa `co_nghi`**: `lam()` trả thêm cờ có-cần-nghỉ, vì quét ảnh **bỏ qua từ trùng mà không
+  gọi AI** nên lượt đó khỏi phải nghỉ 3 giây. Đó là chỗ DUY NHẤT cần cửa này ⇒ để làm tham số,
+  không phải luật cứng của bộ chạy chung.
+- 🧹 `SUADECK_DELAY_SECONDS` định nghĩa ở `flow_edit` mà hai luồng kia đi mượn — nay là
+  `core.NGHI_GIAY`. Gỡ thêm một import chết (`get_deck_note_ids` trong `flow_edit`).
+- 🧪 **Chạy thử bằng giả lập, 6 ca đều qua** (không đụng Telegram, không đụng Anki): chạy hết +
+  nghỉ đúng số lần (không nghỉ sau mục cuối) · bấm ⏹ Dừng thì dừng ngay và không nghỉ tiếp ·
+  `co_nghi=False` thì bỏ qua nghỉ · `edit_text` nổ giữa chừng thì nuốt và chạy tiếp ·
+  **`lam()` ném lỗi thì `finally` vẫn hạ cờ** (nếu không thì bot kẹt vĩnh viễn, không đợt nào
+  chạy được nữa) · chốt chống chạy chồng đọc đúng ba luồng.
+- ✅ Kiểm cuối: **không file nào ngoài `core.py` còn tự bật/hạ cờ chạy nền.**
+
 ## 29/07/2026 — DẤU ĐẠT CHUẨN có số hiệu + sổ chuẩn `CHUAN.md` + rà soát lệnh bot
 
 User: *"phải có cách đánh dấu từ nào đã đạt chuẩn để không bị loạn nữa"* và *"chuẩn cũng phải
@@ -44,7 +74,8 @@ có một series… phải ghi rõ ra 1 file là chuẩn này có những tiêu 
   mức AI, cùng sync, hai tin tiến độ đè nhau. Nay gom về **một hàm `core.dang_chay_hang_loat()`**
   dùng cho cả bốn lối vào — thêm luồng nền thứ tư chỉ cần thêm một dòng vào `_LUONG_NEN`, khỏi
   phải nhớ đi vá ba chỗ.
-- ⚠️ **CÒN NỢ — ba script cùng làm một việc** (user chốt nguyên tắc: *"cùng 1 chức năng chỉ có
+- ✅ **ĐÃ GOM ba script cùng làm một việc** (mục "còn nợ" bên dưới nay đã trả).
+- ~~CÒN NỢ~~ (user chốt nguyên tắc: *"cùng 1 chức năng chỉ có
   đúng 1 script nhận nhiệm vụ… nếu xảy ra thì phải quy về mô hình nhiều tầng"*):
   `_run_suadeck` (87 dòng) · `_run_scan_add` (76) · `_run_batch` (72) — **cả ba đều có đủ 11
   bước giống nhau** (bật cờ · vòng lặp · kiểm nút Dừng · đẩy đồng hồ idle · chạy trong thread ·

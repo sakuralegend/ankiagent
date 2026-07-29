@@ -15,9 +15,11 @@ from telegram.ext import ContextTypes
 
 from anki_tools.utils import hl_to_bracket
 from anki_tools.pipeline import redo_note, redo_note_id
-from anki_tools.anki_client import get_deck_names, get_deck_note_ids, trigger_sync
+from anki_tools.anki_client import get_deck_names, trigger_sync
 
 from .core import (
+    bao_ket_qua,
+    chay_hang_loat,
     dang_chay_hang_loat,
     _PROJECT_ROOT,
     MAX_DECK_BUTTONS,
@@ -28,7 +30,6 @@ from .core import (
 )
 
 SUADECK_QUOTA_WARN = 400   # gần trần ~500 lượt AI/ngày (làm lại tốn ~1 lượt/thẻ)
-SUADECK_DELAY_SECONDS = 3  # nghỉ giữa 2 thẻ để không dồn dập chạm giới hạn RPM
 
 
 async def _do_redo(status_msg, word, context=None, chon_id=None):
@@ -155,53 +156,34 @@ async def _run_suadeck(context, chat_id, msg, deck, note_ids):
     """Task chạy nền làm lại cả deck. PHẢI chạy bằng asyncio.create_task: PTB xử lý
     update tuần tự, nếu chạy ngay trong handler thì nút ⏹ Dừng không bao giờ được
     xử lý. Tiến độ hiển thị trong ĐÚNG 1 tin nhắn edit tại chỗ."""
-    context.bot_data["sd_running"] = True
-    context.bot_data["sd_stop"] = False
     total = len(note_ids)
     done, failed_words, failed_ids, homonym_words = 0, [], [], []
-    attempted = 0
-    stop_kb = InlineKeyboardMarkup([[InlineKeyboardButton("⏹ Dừng", callback_data="sdstop")]])
-    stopped = False
 
-    try:
-        for i, note_id in enumerate(note_ids):
-            if context.bot_data.get("sd_stop"):
-                stopped = True
-                break
-            # Đẩy đồng hồ idle mỗi thẻ để menu reset 3 phút không chen giữa batch
-            _reset_idle_timer(context, chat_id)
+    async def lam(note_id):
+        nonlocal done
+        success, result, _ = await asyncio.to_thread(redo_note_id, note_id, False)
+        word = hl_to_bracket((result or {}).get("word", "")) or f"note {note_id}"
+        if success:
+            done += 1
+        else:
+            # TỪ ĐỒNG TỰ: chạy hàng loạt thì không hỏi từng thẻ được, mà đoán
+            # bừa là ghi đè thẻ đang học bằng nghĩa của TỪ KHÁC. Để thẻ nguyên
+            # và tách riêng ra báo, kèm lời nhắc /sua thủ công — nếu gộp chung
+            # "lỗi" thì user không biết vì sao và cứ bấm Làm tiếp mãi.
+            if (result or {}).get("nhieu_muc"):
+                homonym_words.append(word)
+            failed_words.append(word)
+            failed_ids.append(note_id)
+        return f"{word} {'✅' if success else '❌'}", True
 
-            success, result, error_msg = await asyncio.to_thread(redo_note_id, note_id, False)
-            attempted = i + 1
-            word = hl_to_bracket((result or {}).get("word", "")) or f"note {note_id}"
-            if success:
-                done += 1
-            else:
-                # TỪ ĐỒNG TỰ: chạy hàng loạt thì không hỏi từng thẻ được, mà đoán
-                # bừa là ghi đè thẻ đang học bằng nghĩa của TỪ KHÁC. Để thẻ nguyên
-                # và tách riêng ra báo, kèm lời nhắc /sua thủ công — nếu gộp chung
-                # "lỗi" thì user không biết vì sao và cứ bấm Làm tiếp mãi.
-                if (result or {}).get("nhieu_muc"):
-                    homonym_words.append(word)
-                failed_words.append(word)
-                failed_ids.append(note_id)
+    def tien_do(lam_roi, tong, nhan):
+        return (f"🔄 Làm lại deck '{deck}': thẻ {lam_roi}/{tong}\n"
+                f"📝 Vừa xong: {nhan}\n"
+                f"✅ xong {done} │ ❌ lỗi {len(failed_words)}")
 
-            progress = (
-                f"🔄 Làm lại deck '{deck}': thẻ {attempted}/{total}\n"
-                f"📝 Vừa xong: {word} {'✅' if success else '❌'}\n"
-                f"✅ xong {done} │ ❌ lỗi {len(failed_words)}"
-            )
-            try:
-                await msg.edit_text(progress, reply_markup=stop_kb)
-            except Exception:
-                pass  # nội dung trùng / mạng chớp — bỏ qua, vòng sau edit tiếp
-
-            # Nghỉ ngắn giữa 2 thẻ: tránh dồn dập chạm giới hạn mỗi-phút (RPM)
-            if attempted < total and not context.bot_data.get("sd_stop"):
-                await asyncio.sleep(SUADECK_DELAY_SECONDS)
-    finally:
-        context.bot_data["sd_running"] = False
-        context.bot_data["sd_stop"] = False
+    stopped, attempted = await chay_hang_loat(
+        context, chat_id, msg, note_ids,
+        co="sd", stop_data="sdstop", lam=lam, tien_do=tien_do)
 
     # Danh sách thẻ CHƯA xong (lỗi + chưa chạy tới) -> lưu để /suadeck hỏi "Làm tiếp"
     leftover_ids = failed_ids + list(note_ids[attempted:])
@@ -233,10 +215,7 @@ async def _run_suadeck(context, chat_id, msg, deck, note_ids):
             f"💾 Đã lưu {len(leftover_ids)} thẻ còn dở — gọi /suadeck sẽ có nút ▶️ Làm tiếp."
         )
     lines.append(SYNC_OK_TEXT if synced else SYNC_FAIL_TEXT)
-    try:
-        await msg.edit_text("\n".join(lines))
-    except Exception:
-        pass
+    await bao_ket_qua(msg, lines)
 
 
 async def _sd_deck_list_markup(context):

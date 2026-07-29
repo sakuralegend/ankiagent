@@ -289,6 +289,77 @@ def dang_chay_hang_loat(context, bo_qua=None):
     return None
 
 
+NGHI_GIAY = 3   # nghỉ giữa hai mục — chống chạm giới hạn mỗi-phút (RPM) của AI
+
+
+async def chay_hang_loat(context, chat_id, msg, items, *, co, stop_data, lam, tien_do,
+                         nghi=NGHI_GIAY):
+    """BỘ CHẠY NỀN DÙNG CHUNG cho mọi đợt hàng loạt. Trả `(stopped, attempted)`.
+
+    🔴 User chốt 29/07: *"cùng 1 chức năng chỉ có đúng 1 script nhận nhiệm vụ,
+    không được có 2 cái cùng làm 1 thứ. Nếu xảy ra thì phải quy về mô hình nhiều
+    tầng, cái gì làm chung thì là 1 script, khi khác nhau thì tách ra."*
+    Trước đó `_run_suadeck` (87 dòng) · `_run_scan_add` (76) · `_run_batch` (72)
+    **đều có đủ 11 bước giống hệt nhau**, và ba bản đã trôi lệch nhau thật: chỉ
+    `_run_scan_add` nghỉ TRƯỚC khi hiện tiến độ, nên user phải chờ thêm 3 giây
+    mới thấy từ vừa xong.
+
+    PHẦN CHUNG (ở đây): bật cờ · vòng lặp · kiểm nút ⏹ Dừng · đẩy đồng hồ idle ·
+    hiện tiến độ · nuốt lỗi `edit_text` · nghỉ chống RPM · `finally` hạ cờ.
+
+    PHẦN RIÊNG (người gọi truyền vào):
+      `co`        tiền tố cờ, ví dụ "sd" -> dùng `sd_running` / `sd_stop`
+      `stop_data` `callback_data` của nút ⏹ Dừng
+      `lam(item)` **async**, làm việc thật với một mục. Trả `(nhan, co_nghi)`:
+                  `nhan` = chữ hiện ở dòng "Vừa xong"; `co_nghi=False` khi lượt
+                  đó KHÔNG gọi AI (quét ảnh bỏ qua từ trùng) nên khỏi phải nghỉ.
+                  Người gọi tự cộng sổ thắng/thua trong closure của mình.
+      `tien_do(attempted, total, nhan)` -> chữ của tin nhắn tiến độ.
+
+    Việc dựng câu TÓM TẮT CUỐI vẫn để người gọi tự làm — ba luồng tóm tắt ba kiểu
+    khác hẳn nhau (suadeck có danh sách thẻ còn dở, quét ảnh có mục "đã có thẻ
+    từ trước", số nhiều có "vá thẻ cũ"), gom vào đây là ép chung một khuôn rồi
+    lại phải đẻ tham số cho từng ngoại lệ.
+    """
+    co_run, co_stop = f"{co}_running", f"{co}_stop"
+    context.bot_data[co_run] = True
+    context.bot_data[co_stop] = False
+    total = len(items)
+    stop_kb = InlineKeyboardMarkup([[InlineKeyboardButton("⏹ Dừng", callback_data=stop_data)]])
+    stopped, attempted = False, 0
+    try:
+        for i, item in enumerate(items):
+            if context.bot_data.get(co_stop):
+                stopped = True
+                break
+            # Đẩy đồng hồ idle mỗi mục để menu reset 3 phút không chen giữa đợt
+            _reset_idle_timer(context, chat_id)
+            attempted = i + 1
+
+            nhan, co_nghi = await lam(item)
+
+            try:
+                await msg.edit_text(tien_do(attempted, total, nhan), reply_markup=stop_kb)
+            except Exception:
+                pass   # nội dung trùng / mạng chớp — bỏ qua, vòng sau edit tiếp
+
+            if co_nghi and attempted < total and not context.bot_data.get(co_stop):
+                await asyncio.sleep(nghi)
+    finally:
+        context.bot_data[co_run] = False
+        context.bot_data[co_stop] = False
+    return stopped, attempted
+
+
+async def bao_ket_qua(msg, lines):
+    """In tóm tắt cuối đợt. Nuốt lỗi edit y như trong vòng lặp — mạng chớp ở
+    đúng dòng cuối không được phép làm nổ task nền."""
+    try:
+        await msg.edit_text("\n".join(lines))
+    except Exception:
+        pass
+
+
 def _card_body_lines(card_info):
     """Phần RUỘT của thẻ (nghĩa, từ loại, chủ đề, 3 ví dụ) — dùng CHUNG cho thẻ vừa
     thêm (format_card_summary) và thẻ đã có sẵn (format_dictionary_entry), để hai

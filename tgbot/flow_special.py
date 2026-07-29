@@ -18,8 +18,8 @@ from grammar_forms import cards as gcards
 from grammar_forms.config import PLURAL_DECK
 from grammar_forms.pipeline import load_word_list, process_word, redo_note, redo_word
 
-from .core import dang_chay_hang_loat, SYNC_FAIL_TEXT, SYNC_OK_TEXT, _reset_idle_timer
-from .flow_edit import SUADECK_DELAY_SECONDS
+from .core import (dang_chay_hang_loat, bao_ket_qua, chay_hang_loat,
+                   SYNC_FAIL_TEXT, SYNC_OK_TEXT, _reset_idle_timer)
 
 SPECIAL_TEXT = (
     "⭐ MỤC ĐẶC BIỆT — thẻ ngữ pháp (biến cách)\n"
@@ -114,55 +114,35 @@ def _batch_preview(words):
 async def _run_batch(context, chat_id, msg, rows, mode):
     """Task nền chạy loạt. mode='add' thêm thẻ mới, mode='fix' làm lại thẻ cũ.
     Chạy bằng create_task để nút ⏹ Dừng vẫn được xử lý trong lúc chạy."""
-    context.bot_data["sp_running"] = True
-    context.bot_data["sp_stop"] = False
     total = len(rows)
     done, failed = [], []
-    stop_kb = InlineKeyboardMarkup([[InlineKeyboardButton("⏹ Dừng", callback_data="sp:stop")]])
-    stopped, attempted = False, 0
     word_list = load_word_list()
 
-    try:
-        for i, row in enumerate(rows):
-            if context.bot_data.get("sp_stop"):
-                stopped = True
-                break
-            _reset_idle_timer(context, chat_id)
-            attempted = i + 1
-
-            if mode == "add":
-                label = row["accented"]
-                success, info, error = await asyncio.to_thread(
-                    process_word, row["bare"], PLURAL_DECK, False, word_list
-                )
-            else:
-                label = row["word"]
-                success, info, error = await asyncio.to_thread(
-                    redo_note, row["note_id"], False, word_list
-                )
-
-            if success:
-                done.append(label)
-                mark = "✅"
-            else:
-                failed.append(f"{label} ({error[:50]})" if error else label)
-                mark = "❌"
-
-            progress = (
-                f"🔄 {'Thêm thẻ số nhiều' if mode == 'add' else 'Vá thẻ cũ'}: {attempted}/{total}\n"
-                f"📝 Vừa xong: {label} {mark}\n"
-                f"✅ {len(done)} │ ❌ {len(failed)}"
+    async def lam(row):
+        if mode == "add":
+            label = row["accented"]
+            success, _, error = await asyncio.to_thread(
+                process_word, row["bare"], PLURAL_DECK, False, word_list
             )
-            try:
-                await msg.edit_text(progress, reply_markup=stop_kb)
-            except Exception:
-                pass
+        else:
+            label = row["word"]
+            success, _, error = await asyncio.to_thread(
+                redo_note, row["note_id"], False, word_list
+            )
+        if success:
+            done.append(label)
+        else:
+            failed.append(f"{label} ({error[:50]})" if error else label)
+        return f"{label} {'✅' if success else '❌'}", True
 
-            if attempted < total and not context.bot_data.get("sp_stop"):
-                await asyncio.sleep(SUADECK_DELAY_SECONDS)
-    finally:
-        context.bot_data["sp_running"] = False
-        context.bot_data["sp_stop"] = False
+    def tien_do(lam_roi, tong, nhan):
+        return (f"🔄 {'Thêm thẻ số nhiều' if mode == 'add' else 'Vá thẻ cũ'}: {lam_roi}/{tong}\n"
+                f"📝 Vừa xong: {nhan}\n"
+                f"✅ {len(done)} │ ❌ {len(failed)}")
+
+    stopped, attempted = await chay_hang_loat(
+        context, chat_id, msg, rows,
+        co="sp", stop_data="sp:stop", lam=lam, tien_do=tien_do)
 
     synced = await asyncio.to_thread(trigger_sync) if done else True
 
@@ -178,10 +158,7 @@ async def _run_batch(context, chat_id, msg, rows, mode):
         lines.append(f"💤 Còn {total - attempted} từ chưa chạy — bấm lại /dacbiet để chạy tiếp "
                      "(từ đã thêm sẽ tự bị lọc).")
     lines.append(SYNC_OK_TEXT if synced else SYNC_FAIL_TEXT)
-    try:
-        await msg.edit_text("\n".join(lines))
-    except Exception:
-        pass
+    await bao_ket_qua(msg, lines)
 
 
 async def on_special_callback(query, context, data):
