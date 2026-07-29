@@ -138,6 +138,15 @@ def parse_gender_badge(badge_html):
     return html_fragment_to_text(badge_html)
 
 
+def parse_aspect_badge(badge_html):
+    """Ô AspectBadge (<div class="badge aspect-pf">Hoàn thành</div>) -> 'Hoàn thành'.
+
+    Hàm nghịch của grammar.aspect_badge_html(). Bot tra từ điển gõ một từ đã có
+    thẻ thì phải đọc lại ĐÚNG thứ đang in trên thẻ — thiếu hàm này thì bot im
+    lặng bỏ qua thể, đúng cái thông tin user vừa thêm badge để khỏi nhầm."""
+    return html_fragment_to_text(badge_html)
+
+
 def parse_examples_html(examples_html):
     """Ô ExamplesHTML -> [{'ru','en','vi'}] (hàm nghịch của _build_example_block).
 

@@ -4,6 +4,48 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 29/07/2026 — BADGE THỂ ĐỘNG TỪ (phần A của đợt nâng cấp ngữ pháp)
+
+User: *"sau quá trình học, giờ tôi bị nhầm lẫn từ khá nhiều do không có đủ badge"* — kèm link
+`за́втракать` trên OpenRussian. Hoãn việc chạy lô để làm đợt nâng cấp này.
+
+- 🔍 **Phát hiện: `scraper.py` đang vứt đi ~90% dữ liệu OpenRussian.** Trang nhúng sẵn khối
+  `__NEXT_DATA__` có **thể động từ · sống/không sống · bảng biến cách 12 ô có trọng âm · chia
+  ngôi · dạng ngắn · họ từ** — scraper chỉ lấy nghĩa + ví dụ + audio. Module mới
+  `anki_tools/grammar.py` đọc nốt phần còn lại.
+- 🗄️ **Cache `data/grammar_cache.json`: 950/950 từ, 0 lỗi** (`cao_nguphap.py`, chạy một lần rồi
+  dùng mãi vì từ điển tĩnh). ⚠️ `tudien.json` là ảnh chụp đông lạnh 912 từ nên **không** hứng
+  được từ user mới thêm ⇒ thêm cờ `--anki` lấy danh sách thẳng từ bộ sưu tập (bắt được 38 từ
+  user thêm sáng 29/07).
+- ✅ **Kiểm nghi vấn của user về nguồn dữ liệu**: user để ý trang web *"một số từ nó chỉ ghi mỗi
+  cái đuôi chia thôi"* (`хоро́ш|ий`). Soi **5 900 ô** → **0 ô nào chỉ có đuôi**; đó chỉ là cách
+  trang *vẽ ra màn hình*, JSON bên dưới luôn có dạng đầy đủ. Không phải đổi nguồn. Hụt thật duy
+  nhất: **4/5 900 ô thiếu dấu trọng âm** (`ва́ренный`) ⇒ ô đó tự khai bằng dấu `?` chứ không im
+  lặng, vì user không tự kiểm được (README §1).
+- 🆕 **Field `AspectBadge`** — user chốt làm hẳn field riêng thay vì nhét chung vào `GenderBadge`
+  ("để sau này bảo trì dễ hơn", và không ngại tự sync). `setup_anki_environment()` tự thêm field
+  vào model có sẵn qua `modelFieldAdd`, có `if thiếu` để chạy lại nhiều lần vẫn yên.
+- 🏷️ **88/950 thẻ nhận badge** (47 chưa hoàn thành · 27 hoàn thành · 2 "hai thể": `быть`,
+  `испо́льзовать`) — **0 từ nào từ điển không biết thể**. Badge nằm ở **CẢ mặt đề bài**, vì đó
+  là cả lý do nó tồn tại: user nhìn dòng tiếng Việt rồi *gõ*, mà "nói" không tách được
+  `сказа́ть` với `говори́ть`. Hai màu cố ý khác hẳn nhau (cam vs xanh lơ), không phải hai sắc độ.
+  `badge-container` thêm `flex-wrap` để "Chưa hoàn thành" tràn thì xuống hàng chứ không bị cắt.
+- 🧹 **Gỡ chú thích thể khỏi 24 dòng `Vietnamese`** (`don_vietnamese_the.py`) — có badge rồi thì
+  dòng đề bài đang lặp lại đúng thứ user đang nhìn, chính lỗi user đã bắt hôm 28/07 với từ loại.
+  🔴 **Làm bằng BẢNG CHỈ ĐỊNH TAY, không bằng regex**: thẻ `вы́полнить` có
+  `Vietnamese = "hoàn thành, thực hiện"` — đó là **NGHĨA của từ**, mọi regex bắt chữ "hoàn thành"
+  đều xoá nhầm nó. Và 6 thẻ có ngoặc gánh thêm nét phân biệt mà badge KHÔNG cứu được, chỉ cắt
+  phần thể: `учи́ться` "phản thân, KHÔNG phải dạy" · `ви́деть` "mắt bắt được, không chủ ý" ·
+  `гуля́ть` · `игра́ть` · `звони́ть` "không tiền tố" · `спряга́ться`.
+- 📊 **Đo hậu quả bằng `do_va_cham`**: 7 nghĩa Việt bị trùng sau khi gỡ, **5 là cặp thể** ⇒ badge
+  mới tách đúng chúng (`чита́ть`/`прочита́ть`, `за́втракать`/`поза́втракать`…). Còn 2 chỗ:
+  `понима́ть`~`поня́тно` (badge `v` vs `adv` tách được) và **`учи́ть`~`учи́ться` vẫn mơ hồ** —
+  cùng `v`, cùng chưa hoàn thành, badge bó tay; lỗi có sẵn từ trước, chưa sửa.
+- 🔴 **`Sync status 2` đúng như dự báo** — thêm field là schema mod, AnkiWeb đòi full sync và
+  AnkiConnect không làm được (phải bấm từ giao diện Anki, chọn **Upload to AnkiWeb**). Đã sao
+  lưu trước khi đổi schema (52 MB, 3 deck, 0 lỗi). Sau khi Upload phải kiểm `journalctl` trên
+  VPS — bẫy cũ: VPS kẹt **im lặng**, không báo Telegram.
+
 ## 28/07/2026 — PHIÊN CHẠY LÔ ĐẦU TIÊN THEO CHUẨN NGẮN: k13 · k51 · k52 · k53 · k54 (78 từ)
 
 User: *"bắt đầu chạy lô, ưu tiên trước vài từ mới tôi mới thêm vào để học luôn, rồi sau đó đến

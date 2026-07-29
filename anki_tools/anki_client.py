@@ -13,6 +13,7 @@ from datetime import datetime, timedelta
 import requests
 
 
+from . import grammar
 from .config import ANKI_CONNECT_URL, MODEL_NAME, STAGE1_DECK, STAGE2_DECK, TOPIC_DECK_PARENT
 from .topics import TOPICS, TOPIC_TAG_PREFIX, topic_tag, normalize_topic
 from .utils import log_warn, log_fail, strip_accents_perfectly, hl_to_bracket
@@ -20,6 +21,7 @@ from .html_builder import (
     build_examples_html,
     parse_examples_html,
     parse_gender_badge,
+    parse_aspect_badge,
     parse_meaning_html,
     parse_raw_examples,
 )
@@ -278,7 +280,12 @@ def setup_anki_environment():
                     #   khối điều kiện của Anki không đọc được tên deck nên bắt
                     #   buộc phải có field. Thẻ mới để trống = vào thẳng GĐ1.
                     # (Field "Image" đã bỏ 26/07/2026: 0/870 note từng dùng tới.)
-                    "inOrderFields": ["Word", "WordClean", "Meaning", "Vietnamese", "PoS", "PoSFull", "GenderBadge", "ExamplesHTML", "RawExamples", "Audio", "HuongDan", "Stage"],
+                    # AspectBadge: thể động từ (HOÀN THÀNH / CHƯA HOÀN THÀNH) —
+                    #   thêm 29/07/2026. Để RIÊNG một field chứ không nhét chung
+                    #   vào GenderBadge: user chốt "làm hẳn 1 field mới cho dễ bảo
+                    #   trì". Danh từ/tính từ để trống -> khối điều kiện trong
+                    #   template làm badge biến mất, không có ô rỗng lơ lửng.
+                    "inOrderFields": ["Word", "WordClean", "Meaning", "Vietnamese", "PoS", "PoSFull", "GenderBadge", "AspectBadge", "ExamplesHTML", "RawExamples", "Audio", "HuongDan", "Stage"],
                     "css": shared_css, "cardTemplates": [{"Name": "Pure Engine Typing Card v25", "Front": front_template, "Back": back_template}]
                 }
             }, timeout=5)
@@ -288,6 +295,27 @@ def setup_anki_environment():
                 print("✅", end=" ")
         else:
             print("✅", end=" ")
+            # Model ĐÃ CÓ SẴN thì `createModel` ở trên không chạy, nên field mới
+            # phải thêm riêng. Bọc trong `if thiếu` để chạy lại nhiều lần vẫn yên:
+            # `modelFieldAdd` gọi lần hai sẽ báo lỗi trùng tên.
+            # 🔴 Thêm field LÀ schema mod -> Anki đòi full sync một lần. Đã nói
+            # trước với user (29/07). Sau khi sync phải kiểm `journalctl` trên VPS:
+            # mọi schema mod đều làm VPS kẹt "Sync status 2" mà KHÔNG báo Telegram.
+            res_f = requests.post(ANKI_CONNECT_URL, json={
+                "action": "modelFieldNames", "version": 6,
+                "params": {"modelName": MODEL_NAME}}, timeout=5)
+            dang_co = res_f.json().get("result") or []
+            for ten, vi_tri in (("AspectBadge", 7),):
+                if ten in dang_co:
+                    continue
+                res_add = requests.post(ANKI_CONNECT_URL, json={
+                    "action": "modelFieldAdd", "version": 6,
+                    "params": {"modelName": MODEL_NAME, "fieldName": ten,
+                               "index": vi_tri}}, timeout=10)
+                if res_add.json().get("error"):
+                    print(f"\n❌ Thêm field {ten} thất bại: {res_add.json().get('error')}")
+                else:
+                    print(f"\n🆕 Đã thêm field {ten} — Anki sẽ đòi FULL SYNC một lần.")
 
         res_style = requests.post(ANKI_CONNECT_URL, json={"action": "updateModelStyling", "version": 6, "params": {"model": {"name": MODEL_NAME, "css": shared_css}}}, timeout=5)
         if res_style.json().get("error"):
@@ -352,6 +380,9 @@ def build_card_fields(word, data):
 
     gender_badge_html = f'<div class="badge {gender_lower}">{gender_label}</div>' if gender_label else ""
 
+    # Thể động từ — badge riêng, chỉ động từ mới có. Xem grammar.aspect_badge_html.
+    aspect_badge_html = grammar.aspect_badge_html(data.get("aspect", ""))
+
     meaning_html = '<ol class="meaning-list">'
     for m in data["english_meanings"]: meaning_html += f"<li>{m}</li>"
     meaning_html += "</ol>"
@@ -365,7 +396,8 @@ def build_card_fields(word, data):
     fields = {
         "Word": data["word"], "WordClean": clean_word, "Meaning": meaning_html,
         "Vietnamese": vi_meaning, "PoS": pos_clean, "PoSFull": pos_full,
-        "GenderBadge": gender_badge_html, "ExamplesHTML": examples_html,
+        "GenderBadge": gender_badge_html, "AspectBadge": aspect_badge_html,
+        "ExamplesHTML": examples_html,
         "RawExamples": json.dumps(data.get("raw_dictionary_examples", []), ensure_ascii=False),
     }
 
@@ -381,6 +413,8 @@ def build_card_fields(word, data):
         "simplified_examples": simplified_examples,
         "vi_meaning": vi_meaning,
         "gender_label": gender_label,
+        "aspect_label": grammar.NHAN_THE.get(
+            (data.get("aspect") or "").strip().lower(), ("", ""))[1],
         "pos_full": pos_full,
         "en_meanings": data["english_meanings"],
         "ai_degraded": ai_degraded,
@@ -410,6 +444,7 @@ def note_to_card_info(dup):
         "vi_meaning": fields.get("Vietnamese", "").strip(),
         "pos": fields.get("PoSFull", "") or fields.get("PoS", ""),
         "gender": parse_gender_badge(fields.get("GenderBadge", "")),
+        "aspect": parse_aspect_badge(fields.get("AspectBadge", "")),
         "deck": dup.get("deck", "?"),
         "is_forced": False,
         "simplified_examples": examples,
@@ -479,6 +514,7 @@ def push_to_anki(word, data, deck_name, is_forced=False):
         "vi_meaning": built["vi_meaning"],
         "pos": built["pos_full"],
         "gender": built["gender_label"],
+        "aspect": built["aspect_label"],
         "deck": deck_name,
         "is_forced": is_forced,
         "simplified_examples": built["simplified_examples"],
@@ -813,10 +849,8 @@ def print_card_summary(card_info, elapsed):
     print(f"  🇷🇺 Từ:         {w}")
     print(f"  🇬🇧 Nghĩa:      {en}")
     print(f"  🇻🇳 Tiếng Việt:  {vi}")
-    if gender:
-        print(f"  🏷️  Từ loại:    {pos} ({gender})")
-    else:
-        print(f"  🏷️  Từ loại:    {pos}")
+    phu = [x for x in (gender, card_info.get("aspect")) if x]
+    print(f"  🏷️  Từ loại:    {pos}" + (f" ({', '.join(phu)})" if phu else ""))
     if card_info.get("topic"):
         print(f"  📂 Chủ đề:     {card_info['topic']}")
     _audio_src = card_info.get("audio_source", "")

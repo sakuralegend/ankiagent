@@ -33,9 +33,14 @@
     </div>
     {{/Vietnamese}}
 
+    <!-- AspectBadge (thể động từ) NẰM NGAY ĐÂY, ở mặt ĐỀ BÀI — đó là cả lý do
+         nó tồn tại. User nhìn dòng tiếng Việt rồi GÕ từ Nga: "nói" một mình
+         không phân biệt được сказа́ть (hoàn thành) với говори́ть (chưa hoàn
+         thành), tức đề bài không có đáp án đúng. Badge này chính là chỗ tách. -->
     <div class="badge-container">
         <div class="badge accent">{{PoS}}</div>
         {{#GenderBadge}}{{GenderBadge}}{{/GenderBadge}}
+        {{#AspectBadge}}{{AspectBadge}}{{/AspectBadge}}
     </div>
 
     <!-- Nguồn cho hint. display:none nằm SẴN trong HTML (không phải do JS gắn):

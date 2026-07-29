@@ -263,10 +263,10 @@ def _card_body_lines(card_info):
         f"🇬🇧 {', '.join(card_info['en_meanings'])}",
         f"🇻🇳 {card_info['vi_meaning']}",
     ]
-    if card_info.get("gender"):
-        lines.append(f"🏷️ {card_info['pos']} ({card_info['gender']})")
-    else:
-        lines.append(f"🏷️ {card_info['pos']}")
+    # Thể động từ đứng chung ngoặc với giống: hai thứ này loại trừ nhau (danh từ
+    # có giống, động từ có thể) nên không bao giờ chen nhau trên cùng một dòng.
+    phu = [x for x in (card_info.get("gender"), card_info.get("aspect")) if x]
+    lines.append(f"🏷️ {card_info['pos']}" + (f" ({', '.join(phu)})" if phu else ""))
     if card_info.get("topic"):
         lines.append(f"📂 {card_info['topic']}")
 

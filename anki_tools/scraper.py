@@ -12,7 +12,8 @@ from .utils import log_fail, convert_stress_to_combining_accent
 def process_pure_next_data(word):
     """Cào dữ liệu từ vựng từ OpenRussian.
     Trả về dict với các khóa cố định (được push_to_anki() sử dụng):
-      word, english_meanings, part_of_speech, pos_full, gender, raw_dictionary_examples
+      word, english_meanings, part_of_speech, pos_full, gender, aspect,
+      raw_dictionary_examples
     ⚠️ Nếu đổi tên bất kỳ khóa nào ở đây, phải sửa luôn anki_client.push_to_anki().
     """
     clean_word = word.strip()
@@ -64,6 +65,11 @@ def process_pure_next_data(word):
         gender_map = {"m": "Masculine", "f": "Feminine", "n": "Neuter", "pl": "Plural"}
         gender = gender_map.get(gender_code, "None")
 
+        # Thể động từ (вид) — nguồn cho badge HOÀN THÀNH / CHƯA HOÀN THÀNH.
+        # Chỉ có ở mục động từ; danh từ/tính từ trả về "" và badge biến mất.
+        verb_obj = main_word_obj.get("verb")
+        aspect = verb_obj.get("aspect") or "" if isinstance(verb_obj, dict) else ""
+
         meanings = []
         trans_data = main_word_obj.get("translations")
         if isinstance(trans_data, dict) and "en" in trans_data:
@@ -86,6 +92,7 @@ def process_pure_next_data(word):
             "part_of_speech": pos_short,
             "pos_full": pos_full,
             "gender": gender,
+            "aspect": aspect,
             "raw_dictionary_examples": raw_examples
         }
     except Exception as e:
