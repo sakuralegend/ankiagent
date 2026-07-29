@@ -7,6 +7,7 @@
 import re
 
 from . import grammar
+from .grammar import cac_muc_dong_tu, fetch_page, tom_tat_muc
 from .scraper import process_pure_next_data
 from .utils import strip_accents_perfectly
 from .anki_client import (
@@ -21,7 +22,7 @@ from .anki_client import (
 )
 
 
-def process_word(word, deck_name, is_forced=False, do_sync=False):
+def process_word(word, deck_name, is_forced=False, do_sync=False, chon_id=None):
     """Xử lý trọn vẹn 1 từ: cào OpenRussian -> AI dịch/tạo ví dụ -> đẩy lên Anki.
 
     deck_name=None -> chế độ TỰ ĐỘNG: thẻ vào deck con theo chủ đề AI chọn
@@ -33,8 +34,19 @@ def process_word(word, deck_name, is_forced=False, do_sync=False):
 
     do_sync=True: sau khi thêm thành công sẽ gọi AnkiConnect sync để đẩy lên
     AnkiWeb ngay (dùng trên VPS; trên PC để False vì Anki desktop tự sync).
+
+    TỪ ĐỒNG TỰ: nếu trang có >1 mục đúng chính tả (`мочь` động từ *có thể* /
+    danh từ *sức lực*) và `chon_id=None`, hàm DỪNG LẠI và trả
+    `(False, {"nhieu_muc": [...]}, None)` để giao diện hỏi user chọn — máy không
+    có cách nào biết user định học nghĩa nào. Gọi lại với `chon_id` để chạy tiếp.
     """
-    extracted_data = process_pure_next_data(word)
+    if chon_id is None:
+        info = fetch_page(word)
+        muc = cac_muc_dong_tu(info, word)
+        if len(muc) > 1:
+            return False, {"nhieu_muc": [tom_tat_muc(m) for m in muc]}, None
+
+    extracted_data = process_pure_next_data(word, chon_id=chon_id)
     if not extracted_data:
         # card_info mang cờ not_found để giao diện (bot) nhận ra tình huống
         # "từ không có trên OpenRussian" và kích hoạt luồng AI đoán từ nguyên mẫu.

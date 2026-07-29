@@ -70,10 +70,24 @@ def fetch_noun(word):
 
         # ⚠️ Khóa là "tls" (LIST nghĩa), không phải "tl" — dùng nhầm "tl" thì mọi
         # thẻ đều ra "N/A" (đã dính lỗi này 20/07/2026).
-        english = []
-        for t in w.get("translations") or []:
-            if isinstance(t, dict) and isinstance(t.get("tls"), list):
-                english.extend(x for x in t["tls"] if isinstance(x, str) and x.strip())
+        #
+        # Gom nghĩa của MỌI mục danh từ, không chỉ mục được chọn. User chốt
+        # 29/07: mảng ngữ pháp không cần chọn nghĩa nào, *"chỉ cần phần nghĩa
+        # anh việt ghi đủ là được"* — thẻ số nhiều hỏi dạng biến cách chứ không
+        # hỏi nghĩa, nên nghĩa càng đủ càng tốt, không có gì phải chọn.
+        # (Thực tế OpenRussian đã gộp sẵn các nghĩa vào một mục: `мир` ->
+        # "world, peace". Vòng lặp này là bảo hiểm cho trường hợp nó tách mục.)
+        english, thay = [], set()
+        for x in [w] + [o for o in words
+                        if o is not w and o.get("type") == "noun"]:
+            for t in x.get("translations") or []:
+                if not (isinstance(t, dict) and isinstance(t.get("tls"), list)):
+                    continue
+                for s in t["tls"]:
+                    s = s.strip() if isinstance(s, str) else ""
+                    if s and s.lower() not in thay:
+                        thay.add(s.lower())
+                        english.append(s)
         if not english:
             english = ["N/A"]
 

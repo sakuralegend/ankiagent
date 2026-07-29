@@ -335,6 +335,23 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await _add_with_dup_check(query.message, word, context)
         return
 
+    # --- Nút chọn nghĩa khi từ ĐỒNG TỰ (`мочь` động từ / danh từ) ---
+    if data.startswith("dongtu:"):
+        arg = data.split(":", 1)[1]
+        pend = context.user_data.pop("homonym", None)
+        if arg == "cancel":
+            await query.edit_message_text("⏭️ Đã hủy.")
+            return
+        if not pend or not arg.isdigit() or int(arg) >= len(pend["muc"]):
+            await query.edit_message_text("⌛ Phiên đã hết hạn, gõ lại từ nhé.")
+            return
+        m = pend["muc"][int(arg)]
+        await query.edit_message_text(f"🔍 Đang thêm '{pend['word']}' — nghĩa "
+                                      f"[{m['pos']}] {m['en'][:50]}...")
+        await _do_add(query.message, pend["word"], pend["deck"],
+                      pend["forced"], context, chon_id=m["id"])
+        return
+
     # --- Nút trên thẻ AI tạo thiếu nội dung: làm lại thẻ / bỏ qua ---
     if data.startswith("fix:"):
         word = data.split(":", 1)[1]

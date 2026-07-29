@@ -25,12 +25,12 @@ from .core import (
 )
 
 
-async def _do_add(status_msg, word, deck_name, is_forced, context=None):
+async def _do_add(status_msg, word, deck_name, is_forced, context=None, chon_id=None):
     """Chạy pipeline thêm từ (trong thread) rồi cập nhật tin nhắn trạng thái."""
     t0 = time.time()
     await status_msg.edit_text(f"⏳ Đang xử lý '{word}' (cào OpenRussian → AI → Anki)...")
     success, card_info, error_msg = await asyncio.to_thread(
-        process_word, word, deck_name, is_forced, True  # do_sync=True trên VPS
+        process_word, word, deck_name, is_forced, True, chon_id  # do_sync=True trên VPS
     )
     if success:
         markup = None
@@ -39,6 +39,10 @@ async def _do_add(status_msg, word, deck_name, is_forced, context=None):
         await status_msg.edit_text(
             format_card_summary(card_info, time.time() - t0), reply_markup=markup
         )
+    elif (card_info or {}).get("nhieu_muc") and context is not None:
+        # TỪ ĐỒNG TỰ -> hỏi user, chưa bấm thì CHƯA thẻ nào được thêm.
+        await _show_homonym_buttons(status_msg, context, word,
+                                    card_info["nhieu_muc"], deck_name, is_forced)
     elif (card_info or {}).get("not_found") and context is not None:
         # Từ không có trên OpenRussian: có thể sai chính tả hoặc là dạng biến cách
         # -> nhờ AI đoán từ nguyên mẫu rồi hỏi user xác nhận trước khi cào lại.
@@ -80,6 +84,31 @@ async def _suggest_lemma(status_msg, word, context):
     if guess["reason_vi"]:
         lines.append(f"💬 {guess['reason_vi']}")
     await _show_lemma_buttons(status_msg, context, [guess["lemma"]] + guess["alternatives"], lines)
+
+
+async def _show_homonym_buttons(status_msg, context, word, muc, deck_name, is_forced):
+    """Từ ĐỒNG TỰ -> hiện từng mục thành nút để user chọn nghĩa nào.
+
+    `мочь` là động từ *có thể* hay danh từ *sức lực*? Máy không đoán được, mà
+    đoán sai thì SAI CẢ THẺ: nghĩa, badge thể/giống, và cả bảng chia. User chốt
+    29/07: *"nếu tìm ra nhiều từ đồng chính tả, cho tôi chọn"*.
+
+    Nút mang CHỈ SỐ chứ không mang tên từ — `callback_data` trần 64 byte, chữ
+    Cyrillic ăn 2 byte mỗi ký tự nên tên từ dễ vượt (bẫy đã dính, xem
+    `_show_lemma_buttons`).
+    """
+    context.user_data["homonym"] = {"word": word, "muc": muc,
+                                    "deck": deck_name, "forced": is_forced}
+    rows = [[InlineKeyboardButton(f"{m['pos']} — {m['en'][:40]}",
+                                  callback_data=f"dongtu:{i}")]
+            for i, m in enumerate(muc)]
+    rows.append([InlineKeyboardButton("🚫 Hủy", callback_data="dongtu:cancel")])
+    await status_msg.edit_text(
+        "\n".join([f"⚠️ '{word}' có {len(muc)} mục ĐỒNG CHÍNH TẢ trên OpenRussian.",
+                   "Chọn nghĩa bạn muốn học — thẻ sẽ lấy nghĩa, badge và bảng chia "
+                   "theo đúng mục đó:"]),
+        reply_markup=InlineKeyboardMarkup(rows),
+    )
 
 
 async def _show_lemma_buttons(status_msg, context, candidates, lines):

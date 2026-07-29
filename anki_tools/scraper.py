@@ -9,12 +9,15 @@ from . import grammar
 from .utils import log_fail, convert_stress_to_combining_accent
 
 
-def process_pure_next_data(word):
+def process_pure_next_data(word, chon_id=None):
     """Cào dữ liệu từ vựng từ OpenRussian.
     Trả về dict với các khóa cố định (được push_to_anki() sử dụng):
       word, english_meanings, part_of_speech, pos_full, gender, aspect,
-      reflexive, raw_dictionary_examples
+      reflexive, grammar, raw_dictionary_examples
     ⚠️ Nếu đổi tên bất kỳ khóa nào ở đây, phải sửa luôn anki_client.push_to_anki().
+
+    `chon_id`: từ ĐỒNG TỰ (`мочь` động từ / danh từ) thì truyền `id` mục user đã
+    chọn. Không truyền = để luật tự động chọn.
     """
     clean_word = word.strip()
     try:
@@ -22,7 +25,8 @@ def process_pure_next_data(word):
         # File này trước đây tự GET và tự có luật chọn mục riêng; hai luật thì với
         # từ ĐỒNG TỰ (`мочь` động từ / danh từ) có thể chọn hai mục khác nhau,
         # thành ra một thẻ mà nghĩa lấy ở mục này, bảng chia lấy ở mục kia.
-        main_word_obj = grammar.fetch_word_object(clean_word, timeout=15)
+        main_word_obj = grammar.fetch_word_object(clean_word, timeout=15,
+                                                  chon_id=chon_id)
         if not main_word_obj:
             log_fail(f"Từ '{clean_word}' không tồn tại trên OpenRussian.")
             return None

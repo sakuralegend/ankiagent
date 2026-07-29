@@ -213,13 +213,53 @@ def _decl_tu_forms(forms):
     return ra
 
 
+# Số hiệu bản ghi. TĂNG khi `normalize()` bắt đầu giữ thêm/bớt khoá — nhờ nó
+# `cao_nguphap.py --nangcap` biết bản ghi nào cũ mà cào lại, không phải đoán qua
+# việc "thiếu khoá X" (khoá có thể vắng một cách chính đáng: `сожале́ние` không
+# có `usage` thật, chứ không phải chưa cào).
+#   v1 (29/07) bản đầu · v2 (29/07) thêm `usage` + `idioms`
+BAN_GHI_V = 2
+
+
+def _idioms(word_obj):
+    """`expressions` -> [{w, en}] — thành ngữ / cụm cố định chứa từ này.
+
+    Đây đúng loại nội dung ô Hướng dẫn cần: bản mẫu `сожале́ние` mà user chấm là
+    "vừa súc tích vừa đủ ý" có một trong hai ô đỏ chính là **cụm phải thuộc**
+    `к сожале́нию`. Từ điển có sẵn mà trước 29/07 mình vứt đi.
+    """
+    ra = []
+    for it in (word_obj.get("expressions") or []):
+        if not isinstance(it, dict):
+            continue
+        a = acc(it.get("accented") or it.get("bare") or "")
+        tls = [t for tr in (it.get("translations") or []) for t in (tr.get("tls") or [])]
+        if a:
+            ra.append({"w": a, "en": ", ".join(tls[:3])})
+    return ra
+
+
 def normalize(word_obj):
-    """`__NEXT_DATA__` -> bản ghi gọn, CHỈ giữ thứ dùng tới (cache nhẹ, đọc được)."""
+    """`__NEXT_DATA__` -> bản ghi gọn, CHỈ giữ thứ dùng tới (cache nhẹ, đọc được).
+
+    🔴 Đây là TẦNG 2 — nơi quyết định GIỮ GÌ. Tầng 1 (`fetch_page`) lấy đủ.
+    Cố ý KHÔNG giữ: `collocations` (6,8 KB/từ — user đã có `RawExamples` 10 ví dụ
+    rồi, chồng lấn) · `sentences` (đã dùng ở luồng tạo thẻ, không cần lưu lại) ·
+    `contributions` · `externalLinks`.
+    """
     pos = word_obj.get("type") or "unknown"
-    rec = {"acc": acc(word_obj.get("accented") or word_obj.get("bare") or ""),
+    rec = {"v": BAN_GHI_V,
+           "acc": acc(word_obj.get("accented") or word_obj.get("bare") or ""),
            "wc": bare(word_obj.get("bare") or ""),
            "pos": pos, "rank": word_obj.get("rank"),
            "family": _family(word_obj)}
+    # Ghi chú CÁCH DÙNG do người biên tập viết (`по слова́м:` + cách 2). Ngắn,
+    # đắt, và không suy ra được từ bảng chia.
+    if (word_obj.get("usage") or "").strip():
+        rec["usage"] = word_obj["usage"].strip()
+    idi = _idioms(word_obj)
+    if idi:
+        rec["idioms"] = idi
 
     # ĐẠI TỪ + SỐ TỪ — hai nhóm này KHÔNG dùng `noun`/`verb`/`adjective`.
     # Bỏ sót thì 80 từ (22 đại từ + 58 số từ) ra rỗng, mà đó lại đúng là nhóm
@@ -316,13 +356,44 @@ def fetch_page(word, timeout=25, memo=True):
     return info
 
 
-def fetch_word_object(word, timeout=25):
+def cac_muc_dong_tu(info, word):
+    """Mọi mục ĐÚNG CHÍNH TẢ với `word` -> list (rỗng nếu không có mục nào).
+
+    ≥2 mục nghĩa là từ ĐỒNG TỰ: `мочь` (động từ *có thể* / danh từ *sức lực*),
+    `стать` (*trở nên* / *dáng vẻ*), `печь` (*nướng* / *cái lò*), `есть` (*có* /
+    *ăn*). Máy KHÔNG có cách nào biết user định học nghĩa nào — user chốt 29/07:
+    *"nếu tìm ra nhiều từ đồng chính tả, cho tôi chọn"*.
+    """
+    want = bare(word)
+    return [w for w in ((info or {}).get("words") or [])
+            if isinstance(w, dict) and bare(w.get("bare") or "") == want]
+
+
+def tom_tat_muc(w):
+    """Một dòng mô tả mục từ, để in ra cho user chọn."""
+    tls = [t for tr in (w.get("translations") or []) for t in (tr.get("tls") or [])]
+    return {"id": w.get("id"), "pos": w.get("type") or "?",
+            "acc": acc(w.get("accented") or w.get("bare") or ""),
+            "en": ", ".join(tls[:4]) or "(không có nghĩa)"}
+
+
+def fetch_word_object(word, timeout=25, chon_id=None):
     """TẦNG 2 của mảng TỪ VỰNG: cào rồi chọn mục hợp với thẻ `RU_Word`.
+
+    `chon_id` = `id` mục user đã chọn (khi từ đồng tự). Không truyền thì áp luật
+    tự động (`_pick_word_object`: hợp chính tả, ưu tiên mục có bảng chia).
 
     `grammar_forms` KHÔNG dùng hàm này — nó gọi thẳng `fetch_page()` rồi áp luật
     chọn riêng (ép `type == "noun"`).
     """
-    return _pick_word_object(fetch_page(word, timeout=timeout), bare(word))
+    info = fetch_page(word, timeout=timeout)
+    if chon_id is not None:
+        muc = next((w for w in cac_muc_dong_tu(info, word)
+                    if w.get("id") == chon_id), None)
+        if muc:
+            return muc
+        log_warn(f"{word}: khong con muc id={chon_id} -> quay ve luat tu dong")
+    return _pick_word_object(info, bare(word))
 
 
 def fetch_grammar(word, refresh=False, delay=0.5):

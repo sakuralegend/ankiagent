@@ -77,6 +77,21 @@ def va_so_tu():
 
 
 def main():
+    if "--nangcap" in sys.argv:
+        # Cào lại bản ghi CŨ PHIÊN BẢN. Dùng khi `normalize()` bắt đầu giữ thêm
+        # khoá — không thể dò bằng "thiếu khoá X" vì khoá có thể vắng chính đáng
+        # (`сожале́ние` không có `usage` thật), nên dò bằng số hiệu bản ghi.
+        cache = grammar._cache()
+        cu = [w for w, r in sorted(cache.items())
+              if r and r.get("v", 1) < grammar.BAN_GHI_V]
+        print(f"{len(cache)} ban ghi | can nang cap {len(cu)} "
+              f"(len v{grammar.BAN_GHI_V})", flush=True)
+        for i, w in enumerate(cu, 1):
+            grammar.fetch_grammar(w, refresh=True)
+            if i % 25 == 0 or i == len(cu):
+                print(f"  {i}/{len(cu)}", flush=True)
+        print("XONG")
+        return
     if "--sotu" in sys.argv:
         va_so_tu()
         return

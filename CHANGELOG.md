@@ -92,6 +92,33 @@ User: *"sau quá trình học, giờ tôi bị nhầm lẫn từ khá nhiều do
   lưu trước khi đổi schema (52 MB, 3 deck, 0 lỗi). Sau khi Upload phải kiểm `journalctl` trên
   VPS — bẫy cũ: VPS kẹt **im lặng**, không báo Telegram.
 
+## 29/07/2026 — Chọn nghĩa khi TỪ ĐỒNG TỰ + giữ thêm `usage`/`idioms`
+
+Ba chỗ mơ hồ đã báo user hôm nay, user chốt cả ba:
+
+- 🔀 **(1) Từ ĐỒNG TỰ: hỏi user, KHÔNG đoán.** `мочь` là động từ *có thể* hay danh từ *sức lực*?
+  `печь` là *nướng* hay *cái lò*? `стать` là *trở nên* hay *dáng vẻ*? Đoán sai thì **sai cả thẻ**
+  — nghĩa, badge thể/giống, và cả bảng chia đều đi theo mục đã chọn.
+  `process_word()` nay DỪNG LẠI trả `{"nhieu_muc": [...]}` khi trang có >1 mục đúng chính tả;
+  gọi lại với `chon_id` để chạy tiếp. Nối vào cả hai giao diện:
+  · CLI `main.py` in danh sách rồi hỏi số;
+  · bot Telegram nút `dongtu:<i>` — **nút mang CHỈ SỐ**, không mang tên từ, vì `callback_data`
+    trần 64 byte mà chữ Cyrillic ăn 2 byte/ký tự (bẫy đã dính ở luồng lemma).
+  Chưa bấm thì **chưa thẻ nào được thêm**.
+- 📖 **(2) Mảng ngữ pháp KHÔNG hỏi** — user: *"chỉ cần phần nghĩa anh việt ghi đủ là được"*.
+  Đúng: thẻ số nhiều hỏi dạng biến cách chứ không hỏi nghĩa. `fetch_noun()` nay **gom nghĩa của
+  MỌI mục danh từ** thay vì chỉ mục được chọn. (Thực tế OpenRussian đã gộp sẵn: `мир` → "world,
+  peace" trong cùng một mục — vòng lặp này là bảo hiểm.)
+- 🎁 **(3) Mức A: giữ thêm `usage` + `idioms`, KHÔNG lấy `collocations`** — user: *"phần
+  collocations thì tôi đã tạo sẵn RawExamples có 10 ví dụ rồi"*, tức chồng lấn. `usage` là ghi
+  chú cách dùng người biên tập viết (`по слова́м:` + cách 2); `idioms` từ `expressions` cho
+  **`сожале́ние → к сожале́нию` (unfortunately)** — đúng ô đỏ mà user chấm là hay nhất ở thẻ mẫu.
+  Nhẹ (~0,3 MB) so với `collocations` (~6,5 MB).
+- 🔢 **Thêm SỐ HIỆU BẢN GHI (`v`) + `cao_nguphap.py --nangcap`**: khi `normalize()` giữ thêm
+  khoá, không thể dò bản ghi cũ bằng "thiếu khoá X" — khoá có thể vắng chính đáng (`сожале́ние`
+  không có `usage` thật). Dò bằng số hiệu thì dứt khoát, và lệnh chạy lại được: đứt giữa chừng
+  thì lần sau tiếp đúng chỗ.
+
 ## 29/07/2026 — KIẾN TRÚC BA TẦNG: một nơi cào, mỗi mảng một luật bóc
 
 User mô tả lại kiến trúc mình muốn: *"Có 1 scraper cào toàn bộ data về, rồi có từng module nhỏ

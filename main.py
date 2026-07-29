@@ -122,6 +122,22 @@ def main():
             print(f"\n  --- 🔍 Đang xử lý (cào OpenRussian -> AI -> Anki)...", end=" ", flush=True)
             success, card_info, error_msg = process_word(user_input, deck_name, is_forced=is_forced)
 
+            # TỪ ĐỒNG TỰ: pipeline dừng lại và trả danh sách mục để hỏi.
+            # `мочь` là động từ "có thể" hay danh từ "sức lực"? Máy không đoán
+            # được, và đoán sai thì cả thẻ (nghĩa + bảng chia + badge) sai theo.
+            if not success and (card_info or {}).get("nhieu_muc"):
+                muc = card_info["nhieu_muc"]
+                print(f"\n  ⚠️ '{user_input}' có {len(muc)} mục ĐỒNG CHÍNH TẢ:")
+                for i, m in enumerate(muc, 1):
+                    print(f"     {i}. [{m['pos']}] {m['acc']} — {m['en']}")
+                tra_loi = input("  Chọn số (Enter = bỏ qua): ").strip()
+                if not tra_loi.isdigit() or not 1 <= int(tra_loi) <= len(muc):
+                    print("   ⏭️ Đã hủy.")
+                    continue
+                success, card_info, error_msg = process_word(
+                    user_input, deck_name, is_forced=is_forced,
+                    chon_id=muc[int(tra_loi) - 1]["id"])
+
             t_elapsed = time.time() - t_start
 
             if success:
