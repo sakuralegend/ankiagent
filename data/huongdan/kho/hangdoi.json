@@ -25,10 +25,11 @@
     "чек",
     "штука"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k14_tu-moi.py",
    "tuMoi": true,
-   "thucong": "TU MOI user vua them. Chuan: README muc 2 (1 man hinh iPhone, toi da 2 o do) + muc 2c (sua field Vietnamese cho chi co 1 dap an dung). TRUC: DI MUA SAM. Gan het lo nam trong mot canh that — vao sieu thi/ki-ot, can do (gam, cai, goi, chai), xem gia va do tuoi, tra tien o quay roi cam hoa don va tien thoi. Cap the KUPIT/POKUPAT la cap the hoan thanh / chua hoan thanh, phai noi ro trong field Vietnamese."
+   "thucong": "TU MOI user vua them. Chuan: README muc 2 (1 man hinh iPhone, toi da 2 o do) + muc 2c (sua field Vietnamese cho chi co 1 dap an dung). TRUC: DI MUA SAM. Gan het lo nam trong mot canh that — vao sieu thi/ki-ot, can do (gam, cai, goi, chai), xem gia va do tuoi, tra tien o quay roi cam hoa don va tien thoi. Cap the KUPIT/POKUPAT la cap the hoan thanh / chua hoan thanh, phai noi ro trong field Vietnamese.",
+   "daNap": true
   },
   {
    "id": "k48",
@@ -55,10 +56,11 @@
     "тот",
     "устать"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k48_tu-moi.py",
    "tuMoi": true,
-   "thucong": "TU MOI user vua them. Chuan: README muc 2 (1 man hinh iPhone, toi da 2 o do) + muc 2c (sua field Vietnamese cho chi co 1 dap an dung). Lo nay KHONG cung mot ho — soan tung the doc lap, dung ep mot truc chung va dung dung khoi he thong. Chi co hai cum nho dang lien he khi tien tay: trang tu TAN SUAT (vsegda / inogda / regulyarno / redko) va dai tu ves / samyy / tot."
+   "thucong": "TU MOI user vua them. Chuan: README muc 2 (1 man hinh iPhone, toi da 2 o do) + muc 2c (sua field Vietnamese cho chi co 1 dap an dung). Lo nay KHONG cung mot ho — soan tung the doc lap, dung ep mot truc chung va dung dung khoi he thong. Chi co hai cum nho dang lien he khi tien tay: trang tu TAN SUAT (vsegda / inogda / regulyarno / redko) va dai tu ves / samyy / tot.",
+   "daNap": true
   },
   {
    "id": "k13",
