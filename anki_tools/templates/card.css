@@ -41,6 +41,48 @@
 .hd-fam b { color: #58a6ff; font-weight: 700; }
 .hd-warn { margin-top: 9px; padding: 8px 11px; background-color: rgba(248, 81, 73, 0.08); border-left: 3px solid #f85149; border-radius: 5px; font-size: 13px; color: #d0a9a4; line-height: 1.5; font-family: inherit; }
 .hd-warn b { color: #f0a8a2; font-weight: 700; }
+/* --- 🔴 KHÔNG IN NGHIÊNG TRONG Ô HƯỚNG DẪN (29/07/2026) --------------------
+   Chữ nghiêng tiếng Nga KHÔNG phải là chữ đứng nghiêng đi — nó ĐỔI HẲN MẶT CHỮ
+   theo lối viết tay: т trông thành m, п thành n, д thành g, и thành u. User đang
+   học mặt chữ mà đọc phải nó thì thành học nhầm chữ khác:
+       читать (đứng)  ->  читать (nghiêng)   т nhìn ra m
+   User chốt: *"đừng có dùng chữ nghiêng tiếng nga, nó bị khó đọc"*.
+
+   Chữa bằng CSS chứ KHÔNG sửa nội dung: có 1 910 chỗ <i> chứa chữ Nga nằm trong
+   field HuongDan của ~250 thẻ. Một dòng CSS xử lý hết, không đụng note nào, không
+   phải sync lại. Thay việc nghiêng bằng ĐỔI MÀU — thẻ vốn đã phân biệt bằng màu.
+
+   ⚠️ CỐ Ý bó trong `.hd-content`: dòng luyện viết tay `.cursive-word` (phông
+   Propisi, đúng mẫu chữ vở tập viết Nga) PHẢI giữ nguyên — ở đó biến dạng chữ
+   chính là nội dung cần học, không phải lỗi. User dặn riêng chuyện này. */
+.hd-content i, .hd-content em { font-style: normal; color: #9ec7e8; }
+/* --- BẢNG CHIA (máy dựng, tiền tố `gt-` = grammar table) — 29/07/2026 -------
+   Nằm TRONG ô Hướng dẫn, gấp trong <details> LỒNG nên khi đóng không tốn một
+   pixel nào của trần 700px. Dùng <details> thuần HTML y như khối ví dụ, KHÔNG
+   JavaScript — JS trong mặt sau thẻ hay chết lặng trên AnkiMobile.
+   Thu gọn hết mức vì user chốt bảng là SỔ TRA CỨU, thẻ nào cũng có: cỡ chữ 12px,
+   padding 3px, không viền ô, chỉ một đường kẻ mảnh giữa các hàng.
+   Bảng tính từ có 5 cột nên `overflow-x:auto` — tràn thì cuộn ngang TRONG bảng,
+   không đẩy cả thẻ rộng ra. */
+.gt-bang { margin-top: 12px; border-top: 1px dashed #30363d; }
+.gt-sum { padding: 9px 2px 4px; font-size: 11px; color: #8b949e; font-weight: 700; cursor: pointer; outline: none; list-style: none; text-transform: uppercase; letter-spacing: 1px; font-family: inherit; }
+.gt-sum::-webkit-details-marker { display: none; }
+.gt-sum::after { content: "  ▾"; }
+.gt-bang[open] .gt-sum::after { content: "  ▴"; }
+.gt-body { overflow-x: auto; padding-bottom: 4px; }
+.gt-ten { font-size: 10px; color: #8b949e; text-transform: uppercase; letter-spacing: 1px; margin: 9px 0 3px; font-family: inherit; }
+.gt-tbl { border-collapse: collapse; width: 100%; font-size: 12px; font-family: inherit; }
+.gt-tbl td { padding: 3px 7px 3px 0; border-bottom: 1px solid #1c2128; vertical-align: baseline; }
+.gt-h { font-size: 10px; color: #6e7681; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; }
+.gt-k { color: #6e7681; white-space: nowrap; font-size: 11px; }
+.gt-v { color: #c9d1d9; }
+/* ô biến đổi — chỗ user hay sai, phải nhảy ra khỏi bảng khi liếc qua */
+.gt-nong { color: #f0883e; font-weight: 700; }
+.gt-ngo { color: #f85149; font-weight: 700; }
+.gt-phu { font-size: 12px; color: #a8b3bd; margin-top: 6px; line-height: 1.5; }
+/* chú giải NGƯỜI THẬT viết trong từ điển — quý hơn mọi thứ suy ra được */
+.gt-chu { margin-top: 8px; padding: 7px 10px; background-color: rgba(56, 139, 253, 0.08); border-left: 3px solid #388bfd; border-radius: 5px; font-size: 12px; color: #a9c5e0; line-height: 1.5; }
+.gt-nguon { margin-top: 7px; font-size: 10px; color: #6e7681; line-height: 1.45; }
 /* --- DI SẢN thời mnemonic: các div này còn nằm TRONG nội dung field của những
    note chưa soạn lại, nên chưa xoá được. Soạn xong lô cuối thì xoá cả khối. --- */
 .mn-read { font-size: 13px; color: #8b949e; letter-spacing: 0.5px; margin-bottom: 7px; font-family: inherit; }
@@ -106,9 +148,9 @@
 .badge.aspect-pf { background-color: rgba(219, 109, 40, 0.16); color: #f0883e; border: 1px solid rgba(219, 109, 40, 0.5); }
 .badge.aspect-ipf { background-color: rgba(56, 211, 211, 0.13); color: #56d4dd; border: 1px solid rgba(56, 211, 211, 0.45); }
 .badge.aspect-both { background-color: rgba(227, 179, 65, 0.15); color: #e3b341; border: 1px solid rgba(227, 179, 65, 0.45); }
-/* PHẢN THÂN (động từ) — chữ `-ся` giữ nguyên chữ thường giữa một hàng in hoa,
-   nên nó tự nổi lên mà không cần thêm màu thứ chín. */
-.badge.reflexive { background-color: rgba(188, 140, 255, 0.14); color: #bc8cff; border: 1px solid rgba(188, 140, 255, 0.45); text-transform: none; }
+/* PHẢN THÂN (động từ). CHỈ `REF`, cố ý KHÔNG in đuôi `-ся`: badge này nằm ở mặt
+   ĐỀ BÀI, in sẵn đuôi là cho sẵn một phần đáp án user đang phải gõ. */
+.badge.reflexive { background-color: rgba(188, 140, 255, 0.14); color: #bc8cff; border: 1px solid rgba(188, 140, 255, 0.45); }
 .meaning-list { margin: 0; padding-left: 22px; font-size: 17px; color: #ffffff; font-family: inherit; }
 .meaning-list li { margin-bottom: 8px; font-weight: 500; line-height: 1.4; font-family: inherit; }
 .meaning-list li::marker { color: #58a6ff; font-weight: 800; font-size: 16px; }

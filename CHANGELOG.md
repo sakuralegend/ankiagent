@@ -92,6 +92,40 @@ User: *"sau quá trình học, giờ tôi bị nhầm lẫn từ khá nhiều do
   lưu trước khi đổi schema (52 MB, 3 deck, 0 lỗi). Sau khi Upload phải kiểm `journalctl` trên
   VPS — bẫy cũ: VPS kẹt **im lặng**, không báo Telegram.
 
+## 29/07/2026 — PHẦN C xong: 819 thẻ có BẢNG CHIA + bỏ chữ nghiêng Nga
+
+- 📋 **`congcu.py bang [--apply]` nối bảng chia vào MỌI thẻ** — user đổi quyết định giữa chừng:
+  *"toàn bộ từ sẽ có bảng toàn bộ cách chia, làm sao thu gọn nhất có thể; cái này để tiện tra
+  cứu về sau. Các từ nào đặc biệt thì agent nhắc"*. ⇒ Bộ phát hiện bất thường **đổi vai**: nó
+  không còn quyết định CÓ bảng hay không, mà chỉ (a) tô cam ô biến đổi và (b) nhắc người soạn lô
+  viết câu chú ý — *"đọc câu đó là hiểu toàn bộ bảng, cái bảng là để tra cứu"*.
+- 🔁 **Nối bảng là thao tác LẶP ĐƯỢC**: `gan_bang()` luôn GỠ bảng cũ rồi mới nối bảng mới, nên
+  chạy bao nhiêu lần cũng ra một kết quả (chạy lần hai báo đúng `se doi 0`). Sửa cách dựng bảng
+  thì chỉ việc chạy lại, không phải dọn tay.
+- 🤖 **Bảng do MÁY dựng, nối vào lúc GHI — không nằm trong file lô.** Một lô 20 từ × 12 ô = 240
+  dạng có trọng âm; cho agent chép là 240 cơ hội sai mà user KHÔNG tự kiểm được (README §1). Nay
+  các dạng đi thẳng từ từ điển vào HTML, **không qua model lần nào**. `nap` cũng gọi `gan_bang()`
+  nên lô mới soạn có bảng ngay.
+- 📏 **`dodai` phải GỠ bảng trước khi đo** — bảng gấp trong `<details>` lồng, lúc đóng chỉ chiếm
+  một dòng tiêu đề (~30px). Tính cả ruột bảng thì mọi thẻ đều "vỡ trần 700px" và cái trần mất hết
+  ý nghĩa. Trần đo phần user PHẢI đọc; bảng là thứ user chủ động bấm mới xem.
+  🐛 Viết hụt một nhịp: kiểm cờ `co_bang` SAU khi đã gỡ bảng ⇒ cờ luôn False. Bắt được lúc đọc lại.
+- ✅ **819/950 thẻ có bảng**; 131 thẻ còn lại không có là ĐÚNG (trạng từ + hư từ không biến cách).
+  Cỡ bảng: `он` 793 B · `друг` 990 B · `сказа́ть` 1 053 B · `два` 1 139 B · `бе́лый` 1 813 B.
+  Tổng field `HuongDan` cả bộ: 2,66 MB.
+- 🔤 **BỎ CHỮ NGHIÊNG TIẾNG NGA trong ô Hướng dẫn** — user: *"đừng có dùng chữ nghiêng tiếng nga,
+  nó bị khó đọc"*. Đúng: chữ nghiêng Nga KHÔNG phải chữ đứng nghiêng đi mà **đổi hẳn mặt chữ**
+  theo lối viết tay — `т` trông thành *m*, `п` thành *n*, `д` thành *g*, `и` thành *u*. User đang
+  học mặt chữ mà đọc phải nó thì thành học nhầm chữ khác.
+  Có **1 910 chỗ** `<i>` chứa chữ Nga nằm trong `HuongDan` của ~250 thẻ ⇒ chữa bằng **một dòng
+  CSS**, không sửa nội dung, không đụng note nào, **không phải sync lại**. Thay nghiêng bằng đổi
+  màu (thẻ vốn đã phân biệt bằng màu).
+  ⚠️ Luật CỐ Ý bó trong `.hd-content`: dòng luyện viết tay `.cursive-word` (phông Propisi, đúng
+  mẫu vở tập viết Nga) giữ nguyên — user dặn riêng: *"cái field từ viết chính tả để nguyên"*.
+  Ở đó biến dạng chữ chính là nội dung cần học, không phải lỗi.
+- 🏷️ **Badge phản thân rút còn `REF`**, bỏ đuôi `-ся` — user: *"bạn không cần ghi đuôi đâu, cái
+  đó tôi phải nhớ"*. Badge nằm ở mặt ĐỀ BÀI, in sẵn đuôi là cho sẵn một phần đáp án user đang gõ.
+
 ## 29/07/2026 — PHẦN C bước 1: gom ĐỦ dữ liệu bảng chia cho 820/950 thẻ
 
 - 🧩 **Đại từ + số từ nằm ở KHOÁ KHÁC trong `__NEXT_DATA__`** — không phải

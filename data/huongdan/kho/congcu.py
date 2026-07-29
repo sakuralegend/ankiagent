@@ -26,6 +26,9 @@ import re
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, os.path.join(HERE, "..", "..", ".."))
+from anki_tools import grammar                                    # noqa: E402
+
 HANGDOI = os.path.join(HERE, "hangdoi.json")
 TUDIEN = os.path.join(HERE, "tudien.json")
 NOUNS = os.path.join(HERE, "..", "..", "nouns.csv")
@@ -59,6 +62,63 @@ def khoa_note(w):
     thật 28/07: thẻ всё nhận nguyên ô Hướng dẫn của все.
     """
     return w.replace(ACUTE, "").replace(ZWSP, "").replace("'", "").lower()
+
+
+# --------------------------------------------------- nối BẢNG CHIA vào ô Hướng dẫn
+# Bảng do MÁY dựng từ từ điển, KHÔNG do agent soạn (240 dạng có trọng âm mỗi lô
+# đi qua model là 240 cơ hội sai mà user không tự kiểm được — README §1).
+# Vì vậy nó được nối vào lúc GHI, không nằm trong file lô.
+_BANG_RE = re.compile(r'<details class="gt-bang">.*?</details>', re.S)
+
+
+def gan_bang(html, word):
+    """Gắn LẠI bảng chia vào cuối một ô Hướng dẫn.
+
+    Luôn GỠ bảng cũ trước rồi mới nối bảng mới ⇒ chạy bao nhiêu lần cũng ra cùng
+    một kết quả, không đội bảng chồng bảng. Nhờ vậy sửa cách dựng bảng thì chỉ
+    việc chạy lại `bang --apply`, không phải dọn tay.
+    """
+    than = _BANG_RE.sub("", html or "").rstrip()
+    return than + grammar.build_table(grammar.get_cached(word))
+
+
+def cmd_bang():
+    """Nối bảng chia vào MỌI thẻ RU_Word (không chỉ thẻ đã soạn hướng dẫn).
+
+    User chốt 29/07: *"toàn bộ từ sẽ có bảng toàn bộ cách chia... cái này để
+    tiện tra cứu về sau"*. Nên đây là lệnh chạy trên cả bộ sưu tập, khác `nap`
+    (chỉ đụng lô đã duyệt).
+    """
+    apply = "--apply" in sys.argv
+    notes = ac("notesInfo", notes=ac("findNotes", query="note:RU_Word"))
+    doi, giu, khong = [], 0, []
+    for n in notes:
+        f = n["fields"]
+        wc = (f.get("WordClean", {}).get("value") or "").strip()
+        cu = f.get("HuongDan", {}).get("value", "")
+        moi = gan_bang(cu, wc)
+        if moi == cu:
+            giu += 1
+            if 'class="gt-bang"' not in moi:
+                khong.append(wc)
+            continue
+        doi.append((n["noteId"], wc, len(moi) - len(cu)))
+    print(f"{len(notes)} the | se doi {len(doi)} | giu nguyen {giu}")
+    print(f"  trong so giu nguyen, {len(khong)} the KHONG CO BANG (khong bien cach "
+          f"hoac tu dien khong co du lieu)")
+    if khong:
+        print("  " + " ".join(khong[:25]) + (" ..." if len(khong) > 25 else ""))
+    if not apply:
+        print("(CHAY KHAN — them --apply de ghi that)")
+        return
+    for nid, _, _ in doi:
+        # đọc lại field ngay trước khi ghi thì thừa: `notesInfo` ở trên đã là ảnh
+        # chụp mới nhất, và không có ai khác ghi vào giữa chừng.
+        f = next(x for x in notes if x["noteId"] == nid)["fields"]
+        ac("updateNoteFields", note={"id": nid, "fields": {
+            "HuongDan": gan_bang(f.get("HuongDan", {}).get("value", ""),
+                                 f["WordClean"]["value"].strip())}})
+    print(f"da ghi {len(doi)} note")
 
 
 def doc_hangdoi():
@@ -334,7 +394,13 @@ def uoc_cao(html):
     không đổi kết luận, còn byte thì sai hẳn về CHẤT: một bảng 6 dòng và
     một đoạn văn cùng số byte chiếm chiều cao khác nhau tới ba lần.
     """
-    cao = 28  # padding trên+dưới của .hd-content
+    # 🔴 GỠ BẢNG CHIA TRƯỚC KHI ĐO. Bảng gấp trong <details> lồng nên lúc đóng
+    # nó chiếm đúng một dòng tiêu đề — tính cả ruột bảng vào thì mọi thẻ đều
+    # "vỡ trần 700px" và cái trần mất hết ý nghĩa. Trần đo phần user PHẢI đọc,
+    # còn bảng là thứ user chủ động bấm vào mới xem.
+    co_bang = 'class="gt-bang"' in (html or "")     # phải hỏi TRƯỚC khi gỡ
+    html = _BANG_RE.sub("", html or "")
+    cao = 28 + (30 if co_bang else 0)               # thanh tiêu đề bảng lúc đóng
     for m in re.finditer(
             r'<div class="(hd-sec|hd-row|hd-why|hd-fam|hd-warn)"[^>]*>(.*?)</div>\s*(?=<div|$)',
             html, re.S):
@@ -650,6 +716,9 @@ def cmd_nap():
             continue
         if len(nids) > 1:
             doi += 1
+        # Bảng chia nối vào ĐÂY chứ không nằm trong file lô: dạng từ đi thẳng từ
+        # từ điển vào HTML, không qua model lần nào. Agent chỉ lo câu chú ý ở trên.
+        html = gan_bang(html, word)
         for nid in nids:
             if hien_co.get(nid) == html:
                 bo_qua += 1
@@ -681,4 +750,4 @@ if __name__ == "__main__":
     cmd = sys.argv[1] if len(sys.argv) > 1 else "trangthai"
     {"tiep": cmd_tiep, "soat": cmd_soat, "trangthai": cmd_trangthai,
      "xong": cmd_xong, "nap": cmd_nap, "dodai": cmd_dodai,
-     "vacham": cmd_vacham, "moi": cmd_moi}[cmd]()
+     "vacham": cmd_vacham, "moi": cmd_moi, "bang": cmd_bang}[cmd]()

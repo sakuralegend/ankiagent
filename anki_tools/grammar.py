@@ -332,7 +332,10 @@ NHAN_THE = {"perfective": ("pf", "PERF"),
             "imperfective": ("ipf", "IMPF"),
             "both": ("both", "BI-ASP")}
 
-NHAN_PHAN_THAN = "REFL -ся"
+# CHỈ "REF", KHÔNG in kèm đuôi `-ся`. User chốt 29/07: *"bạn không cần ghi đuôi
+# đâu, cái đó tôi phải nhớ"* — badge nằm ở mặt ĐỀ BÀI, mà đề bài thì in sẵn đuôi
+# tức là cho sẵn một phần đáp án user đang phải gõ.
+NHAN_PHAN_THAN = "REF"
 
 
 def aspect_badge_html(aspect):
@@ -723,82 +726,129 @@ def _o(text, nong=False):
     return f'<td class="{lop}">{text or "—"}</td>'
 
 
-def _bang_danh_tu(rec, khoi, nong):
-    d = rec.get("decl") or {}
-    cot = [so for so in ("sg", "pl") if d.get(so)]
+# Nhãn cột. NGẮN hết mức: bảng 5 cột phải lọt bề ngang 368px của .hd-content.
+NHAN_COT = {"sg": "ít", "pl": "nhiều",
+            "m": "он", "f": "она́", "n": "оно́"}
+
+
+def _bang_cach(ten, du_lieu, nong, tien_to=""):
+    """Dựng MỘT bảng 6 cách từ {cột: {cách: dạng}}.
+
+    Dùng chung cho danh từ (ít/nhiều), tính từ · đại từ · số từ (theo giống) —
+    bốn nhóm khác nhau nhưng cùng một hình dạng, nên cùng một hàm. Cột nào cũng
+    trống thì bỏ hẳn bảng, không in khung rỗng.
+    """
+    cot = [c for c in ("sg", "m", "f", "n", "pl")
+           if c in du_lieu and any((du_lieu[c] or {}).values())]
     if not cot:
         return ""
-    dau = "".join(f'<td class="gt-h">{"số ít" if s == "sg" else "số nhiều"}</td>'
-                  for s in cot)
-    rows = [f'<tr><td class="gt-h"></td>{dau}</tr>']
-    for c, nhan in CASES:
-        o = "".join(_o(d[s].get(c), (s, c) in nong) for s in cot)
-        rows.append(f'<tr><td class="gt-k">{nhan}</td>{o}</tr>')
-    return ('<div class="gt-ten">Biến cách</div>'
-            f'<table class="gt-tbl">{"".join(rows)}</table>')
+    # một cột duy nhất thì bỏ luôn hàng tiêu đề — thừa một dòng là thừa
+    dau = ""
+    if len(cot) > 1:
+        dau = ('<tr><td class="gt-h"></td>'
+               + "".join(f'<td class="gt-h">{NHAN_COT.get(c, c)}</td>' for c in cot)
+               + "</tr>")
+    rows = "".join(
+        f'<tr><td class="gt-k">{nhan}</td>'
+        + "".join(_o(du_lieu[c].get(ma), (tien_to + c, ma) in nong or (c, ma) in nong)
+                  for c in cot)
+        + "</tr>"
+        for ma, nhan in CASES)
+    return (f'<div class="gt-ten">{ten}</div>'
+            f'<table class="gt-tbl">{dau}{rows}</table>')
 
 
-def _bang_dong_tu(rec, khoi, nong):
-    ra = ""
-    pf = rec.get("presfut") or []
-    if "presfut" in khoi and len(pf) >= 6:
-        ten = "Tương lai đơn" if rec.get("aspect") == "perfective" else "Hiện tại"
-        rows = "".join(f'<tr><td class="gt-k">{PERSONS[i]}</td>'
-                       f'{_o(pf[i], ("presfut", i) in nong)}</tr>' for i in range(6))
-        ra += (f'<div class="gt-ten">Chia ngôi — {ten}</div>'
-               f'<table class="gt-tbl">{rows}</table>')
-    qk = rec.get("past") or []
-    if "past" in khoi and len(qk) >= 4:
-        rows = "".join(f'<tr><td class="gt-k">{PASTS[i]}</td>'
-                       f'{_o(qk[i], ("past", i) in nong)}</tr>' for i in range(4))
-        ra += ('<div class="gt-ten">Quá khứ</div>'
-               f'<table class="gt-tbl">{rows}</table>')
-    im = rec.get("imper") or []
-    if ra and im:
+def _bang_hang(ten, nhan_o, dang, nong, khoa):
+    """Bảng dạng danh sách (chia ngôi, quá khứ, dạng ngắn) — 2 cột, N hàng."""
+    o = [(nhan_o[i], dang[i], (khoa, i) in nong)
+         for i in range(min(len(nhan_o), len(dang))) if (dang[i] or "").strip()]
+    if not o:
+        return ""
+    rows = "".join(f'<tr><td class="gt-k">{n}</td>{_o(d, hot)}</tr>' for n, d, hot in o)
+    return f'<div class="gt-ten">{ten}</div><table class="gt-tbl">{rows}</table>'
+
+
+def _bang_danh_tu(rec, nong):
+    return _bang_cach("Biến cách", rec.get("decl") or {}, nong)
+
+
+def _bang_dong_tu(rec, nong):
+    # Với thể HOÀN THÀNH, `presfut` là TƯƠNG LAI chứ không phải hiện tại — gọi
+    # sai tên ở đây là dạy sai đúng thứ badge PERF/IMPF vừa dựng lên để phân biệt.
+    ten = "Tương lai đơn" if rec.get("aspect") == "perfective" else "Hiện tại"
+    ra = _bang_hang(f"Chia ngôi — {ten}", PERSONS, rec.get("presfut") or [],
+                    nong, "presfut")
+    ra += _bang_hang("Quá khứ", PASTS, rec.get("past") or [], nong, "past")
+    im = [x for x in (rec.get("imper") or []) if x]
+    if im:
         ra += f'<div class="gt-phu">Mệnh lệnh: {" · ".join(im[:2])}</div>'
     return ra
 
 
-def _bang_tinh_tu(rec, khoi, nong):
-    ra = ""
-    ngan = rec.get("shorts") or []
-    if "shorts" in khoi and ngan:
-        rows = "".join(f'<tr><td class="gt-k">{GIONG_TT[i][1]}</td>'
-                       f'{_o(ngan[i], ("shorts", i) in nong)}</tr>'
-                       for i in range(min(4, len(ngan))))
-        ra += ('<div class="gt-ten">Dạng ngắn</div>'
-               f'<table class="gt-tbl">{rows}</table>')
-    if "comp" in khoi and rec.get("comp"):
-        ra += ('<div class="gt-ten">So sánh</div><div class="gt-phu">hơn: '
-               f'<span class="gt-nong">{" · ".join(rec["comp"][:2])}</span>'
-               + (f' · nhất: {" · ".join(rec["super"][:2])}' if rec.get("super") else "")
-               + "</div>")
+def _bang_tinh_tu(rec, nong):
+    ra = _bang_cach("Biến cách", rec.get("adjDecl") or {}, nong)
+    ra += _bang_hang("Dạng ngắn", [n for _, n in GIONG_TT],
+                     rec.get("shorts") or [], nong, "shorts")
+    phu = []
+    if rec.get("comp"):
+        phu.append("hơn: " + " · ".join(rec["comp"][:3]))
+    if rec.get("super"):
+        phu.append("nhất: " + " · ".join(rec["super"][:2]))
+    if rec.get("adverb"):
+        phu.append("trạng từ: " + rec["adverb"])
+    if rec.get("incomparable"):
+        phu.append("KHÔNG có dạng so sánh")
+    if phu:
+        ra += '<div class="gt-phu">' + " · ".join(phu) + "</div>"
     return ra
 
 
-def build_table(rec, phan_tich=None):
-    """HTML bảng chia (chuỗi rỗng nếu từ này không có gì bất thường).
+def _bang_dai_tu(rec, nong):
+    return _bang_cach("Biến cách", rec.get("proDecl") or {}, nong)
 
-    Chỉ dựng ĐÚNG KHỐI có bất thường — user chốt: "chia ngôi có biến đổi thì vẽ
-    cả bảng chia ngôi; những cái khác không khác biệt thì thôi".
+
+def _bang_so_tu(rec, nong):
+    return _bang_cach("Biến cách", rec.get("numDecl") or {}, nong)
+
+
+_BANG = {"noun": _bang_danh_tu, "verb": _bang_dong_tu, "adjective": _bang_tinh_tu,
+         "pronoun": _bang_dai_tu, "numeral": _bang_so_tu}
+
+
+def build_table(rec, phan_tich=None):
+    """HTML bảng chia ĐẦY ĐỦ ('' nếu từ này không biến cách / không có dữ liệu).
+
+    🔴 MỌI từ có biến cách đều được bảng, không chỉ từ bất thường — user đổi
+    quyết định 29/07: *"toàn bộ từ sẽ có bảng toàn bộ cách chia, làm sao thu gọn
+    nhất có thể; cái này để tiện tra cứu về sau"*. Bộ phát hiện bất thường
+    (`analyze`) đổi vai: nó không còn quyết định CÓ bảng hay không, mà chỉ (a) tô
+    sáng ô biến đổi và (b) nhắc người soạn lô viết câu chú ý ở trên — đọc câu đó
+    là hiểu cả bảng, bảng chỉ để tra cứu chi tiết.
+
+    Bảng gấp trong `<details>` lồng nên KHÔNG tốn pixel nào của trần "vừa một
+    màn hình iPhone" (README §2) khi đang đóng.
     """
     if not rec:
         return ""
-    a = phan_tich or analyze(rec)
-    khoi, nong = a["khoi"], a["nong"]
-    if not khoi:
-        return ""
-    than = {"noun": _bang_danh_tu, "verb": _bang_dong_tu,
-            "adjective": _bang_tinh_tu}.get(rec.get("pos"))
-    ruot = than(rec, khoi, nong) if than else ""
+    nong = (phan_tich or analyze(rec))["nong"]
+    than = _BANG.get(rec.get("pos"))
+    ruot = than(rec, nong) if than else ""
     if not ruot.strip():
         return ""
+
+    if rec.get("declInfo"):
+        # Chú giải NGƯỜI THẬT viết trong từ điển ("The forms with н- are used if
+        # after a preposition") — quý hơn mọi thứ suy ra được, và đúng loại mà
+        # agent tự nghĩ hay nói sai. Giữ nguyên văn, ghi rõ là của từ điển.
+        ruot += f'<div class="gt-chu">📖 {rec["declInfo"]}</div>'
+
     ngo = ('<div class="gt-nguon">⚠️ Ô có dấu <b>?</b>: từ điển KHÔNG ghi trọng âm '
            '— chưa kiểm được, đừng học thuộc chỗ nhấn ở đó.</div>'
-           if '<span class="gt-ngo">' in ruot else "")
+           if 'class="gt-ngo"' in ruot else "")
+    nguon = "Wiktionary tiếng Nga" if rec.get("nguon") == "wiktionary" else "OpenRussian"
     return ('<details class="gt-bang"><summary class="gt-sum">'
-            '📋 Bảng chia đầy đủ — bấm để xem</summary>'
+            '📋 Bảng chia đầy đủ</summary>'
             f'<div class="gt-body">{ruot}{ngo}'
-            '<div class="gt-nguon">Dạng &amp; trọng âm lấy thẳng từ OpenRussian '
-            '(máy dựng, không qua AI). Ô sáng = chỗ biến đổi.</div>'
+            f'<div class="gt-nguon">Nguồn: {nguon} — máy dựng, không qua AI. '
+            'Ô sáng = chỗ biến đổi.</div>'
             '</div></details>')
