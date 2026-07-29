@@ -8,6 +8,8 @@ thì bỏ qua, nên nó tiếp tục đúng chỗ đang dở.
     python data/huongdan/kho/cao_nguphap.py            # cào từ còn thiếu
     python data/huongdan/kho/cao_nguphap.py --anki     # lấy danh sách từ ANKI (kể
                                                        #   cả từ mới chưa vào kho)
+    python data/huongdan/kho/cao_nguphap.py --sotu     # vá SỐ TỪ hụt bảng bằng
+                                                       #   Wiktionary (nguồn 2)
     python data/huongdan/kho/cao_nguphap.py --lai TU   # cào lại một từ
 
 ⚠️ `tudien.json` là ảnh chụp ĐÔNG LẠNH 912 từ, không tự lớn theo bộ sưu tập.
@@ -46,7 +48,38 @@ def tu_tu_anki():
     return ra
 
 
+def va_so_tu():
+    """Vá SỐ TỪ mà OpenRussian chỉ lưu dạng gốc (`formType = ru_base`).
+
+    28 số từ đếm cơ bản (`два · со́рок · сто`…) không có bảng biến cách trên
+    OpenRussian — đúng nhóm user dùng hằng ngày và dễ sai nhất. Lấy bù từ
+    Wiktionary tiếng Nga, ghi kèm `nguon` để bảng dựng ra ghi đúng xuất xứ.
+    """
+    from anki_tools import wiktionary
+    cache = grammar._cache()
+    can = [wc for wc, r in sorted(cache.items())
+           if r and r.get("pos") == "numeral" and not r.get("numDecl")]
+    print(f"{len(can)} so tu chua co bang -> hoi Wiktionary", flush=True)
+    duoc, hong = 0, []
+    for i, wc in enumerate(can, 1):
+        them = wiktionary.fetch_numeral(wc)
+        if not them:
+            hong.append(wc)
+        else:
+            cache[wc].update(them)
+            duoc += 1
+        if i % 10 == 0 or i == len(can):
+            print(f"  {i}/{len(can)}  (duoc {duoc})", flush=True)
+    grammar._save_cache(cache)
+    print(f"XONG: va duoc {duoc}/{len(can)}")
+    if hong:
+        print("  Wiktionary cung khong co: " + " ".join(hong))
+
+
 def main():
+    if "--sotu" in sys.argv:
+        va_so_tu()
+        return
     if "--lai" in sys.argv:
         for w in sys.argv[sys.argv.index("--lai") + 1:]:
             rec = grammar.fetch_grammar(w, refresh=True)

@@ -92,6 +92,35 @@ User: *"sau quá trình học, giờ tôi bị nhầm lẫn từ khá nhiều do
   lưu trước khi đổi schema (52 MB, 3 deck, 0 lỗi). Sau khi Upload phải kiểm `journalctl` trên
   VPS — bẫy cũ: VPS kẹt **im lặng**, không báo Telegram.
 
+## 29/07/2026 — PHẦN C bước 1: gom ĐỦ dữ liệu bảng chia cho 820/950 thẻ
+
+- 🧩 **Đại từ + số từ nằm ở KHOÁ KHÁC trong `__NEXT_DATA__`** — không phải
+  `noun.declension` mà là `pronoun.declension` và mảng `forms[]`. Đọc thiếu thì 84 từ ra rỗng,
+  mà đó đúng là nhóm biến cách bất quy tắc nhất (`он → его́ → ему́`, `три → трёх → тремя́`).
+  Số từ còn có tới **ba dạng** `formType`: `ru_noun_*` (số đếm biến cách như danh từ) ·
+  `ru_adj_*` (số thứ tự `пе́рвый`, chia như tính từ) · `ru_base` (chỉ dạng gốc, KHÔNG có bảng).
+- 🎁 Vớt thêm `declensionInfo` — **câu chú giải người thật viết**, ví dụ ở `он`: *"The forms with
+  н- are used if after a preposition. Ex: пода́рок для него́"*. Đúng thứ đắt nhất của thẻ đó mà
+  agent tự nghĩ rất dễ nói sai. Giữ nguyên văn.
+- 🔴 **28 SỐ TỪ ĐẾM CƠ BẢN không có bảng trên OpenRussian** (`два · четы́ре · со́рок · сто ·
+  пятьсо́т`…) — user nhận xét đúng: *"openrussian được cái dễ cào nhưng đầy đủ thì chưa"*.
+  ❌ **Đã cân nhắc rồi LOẠI `pymorphy3`** (dự án có sẵn cho việc lemma): nó chia được các dạng
+  này nhưng **không có dấu trọng âm**, mà bảng phải *"đầy đủ trọng âm"*. Ghép hai nguồn để đoán
+  chỗ nhấn là đưa trọng âm sai lên thẻ mà user KHÔNG tự kiểm được — ranh giới README §1 cấm.
+- 🆕 **Nguồn thứ hai: `anki_tools/wiktionary.py`** đọc `<table class="morfotable ru">` của
+  ru.wiktionary → **vá 27/28**. ⚠️ Cấu trúc bảng bên đó **không nhất quán**, đo thật thấy 4 kiểu:
+  tên cách viết tắt 4 lối (`Рд.`/`Р.`/`Род.`) ⇒ phải khớp theo TIỀN TỐ · `два` tách CỘT theo
+  giống (`colspan` cho ô dùng chung) · `два`·`четы́ре` tách DÒNG ở cách 4 theo sống/không sống ·
+  biến thể ngăn bằng DẤU CÁCH chứ không phải phẩy (`восьмью́ восемью́`).
+  🐛 Một lỗi hỏng hai chỗ: nhãn `Падеж` bắt đầu bằng "п" nên khớp nhầm vào `пр` = cách 6 ⇒ dòng
+  tiêu đề lọt vào ô cách 6, **và** nhánh nhận cột-theo-giống không bao giờ chạy tới nên `два́` bị
+  gộp làm một với `две́`. Chữa bằng danh sách tiêu đề loại trước khi dò tên cách.
+  Chỉ nhận bảng khi ĐỦ 6 cách — bảng thiếu ô là bảng dạy thiếu mà user không biết chỗ nào thiếu.
+- ✅ **Độ phủ cuối: 820/950 thẻ có bảng** — danh từ 515/515 · động từ 88/88 · tính từ 137/137 ·
+  đại từ 23/26 · số từ 57/58. 130 thẻ còn lại KHÔNG có bảng là **đúng**: 54 trạng từ + 72 hư từ
+  vốn không biến cách, và 3 đại từ `его́ · её · их` là dạng sở hữu cũng không biến cách.
+  Lỗ hổng thật còn đúng **1 từ**: `восемьсо́т` (Wiktionary cũng không có bảng).
+
 ## 28/07/2026 — PHIÊN CHẠY LÔ ĐẦU TIÊN THEO CHUẨN NGẮN: k13 · k51 · k52 · k53 · k54 (78 từ)
 
 User: *"bắt đầu chạy lô, ưu tiên trước vài từ mới tôi mới thêm vào để học luôn, rồi sau đó đến
