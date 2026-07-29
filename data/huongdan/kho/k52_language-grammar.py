@@ -381,8 +381,8 @@ V["щётка"] = "bàn chải (túm lông cứng cắm vào cán)"
 # "lòng thương hại" đụng nghĩa жалость; пощада là việc THA, không ra đòn tới cùng.
 V["пощада"] = "sự tha, sự nương tay (không ra đòn tới cùng)"
 
-# động từ: bắt buộc ghi thể.
-V["объявить"] = "thông báo, tuyên bố công khai (HOÀN THÀNH — một lần, xong việc)"
+# động từ: diễn thể BẰNG LỜI, không chép nhãn — mặt đề bài đã in badge PERF/IMPF.
+V["объявить"] = "thông báo, tuyên bố công khai (một lần, xong việc)"
 
 # "quảng cáo" đụng проспект; đây là tờ/bản thông báo dán lên.
 V["объявление"] = "tờ thông báo, mẩu tin rao vặt (bản dán hoặc đăng công khai)"

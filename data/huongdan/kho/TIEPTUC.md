@@ -4,6 +4,29 @@ Bạn (user) chỉ cần gõ một câu: **"chạy tiếp kho"**. Phần dưới
 
 ---
 
+### ✅ PHIÊN 29/07 (chiều): k13 · k51 · k52 · k53 · k54 XONG & ĐÃ NẠP — lô kế tiếp là **k55**
+
+**7 lô / 116 từ duyệt / 834 chờ.** Không có từ mới (`moi` báo 950 thẻ đều đã trong hàng đợi),
+nên phiên lấy thẳng 5 lô đầu hàng chờ. Cả 5 đều `QUA 1 MAN HINH: 0` và `QUA 2 O DO: 0`,
+khối dùng chung **0%**, `nap` ghi đúng số note = số từ ở cả 5 lô.
+
+🔴 **Bài học lớn nhất của phiên: `AspectBadge` CÓ TỒN TẠI, README §2c đã ghi NGƯỢC suốt.**
+Agent k54 không tin lời nhắn, đi `notesInfo` kiểm thật, và lòi ra `RU_Word` có đủ
+`AspectBadge` (`PERF`/`IMPF`, 88 note) + `ReflexiveBadge`, in ngay mặt đề bài. Sai này đã
+lây ra thẻ thật: 5 note mang `"(HOÀN THÀNH — …)"` trong `Vietnamese` — **lặp đúng thứ user
+đang nhìn**, y hệt lỗi ghi từ loại user bác 28/07. Đã vá cả README §2c, khuôn lời nhắn dưới,
+và 5 note (`купить · показать · встретиться · устать · объявить`).
+⇒ **Lời nhắn cho agent không phải nguồn sự thật.** Chỗ nào lời nhắn nói về *cấu trúc thẻ*
+thì kiểm bằng `notesInfo` / template, đúng như README §2c vẫn dặn cho `oth`.
+
+🔴 **Từ điển nguồn sai ở hai chỗ, agent bắt được — đừng chép `tiep` mù:**
+`tudien.json` dịch `грач` thành **"chim sáo"** (sai loài; rook là quạ đen, chim sáo là
+`скворец`) — **đã vá trong `tudien.json`**, không chỉ trên thẻ. Và khối `CACH DUNG` mà `tiep`
+in cho `объявить` thật ra là của **`объяснить`** (động từ KHÁC), còn `спрягаться` bị gán
+`partners: ["спрятаться"]` (= trốn). Cả ba đều là lỗi dữ liệu nguồn, sẽ còn gặp lại.
+
+---
+
 ## 🔴 QUY HOẠCH LẠI 29/07 — ĐỌC TRƯỚC MỌI THỨ KHÁC, ĐÈ LÊN MỌI MỤC BÊN DƯỚI
 
 User chốt 29/07 sau khi xem bảng trạng thái theo **đời soạn**:
@@ -295,11 +318,16 @@ Khuôn lời nhắn giao cho agent phụ (đổi `kNN` và phần chủ đề):
 > **Việc thứ hai bắt buộc — sửa field `Vietnamese` (§2c):** dòng tiếng Việt là **đề bài của
 > deck `1-go`, user GÕ từ Nga từ nó**, nên nó phải sát tới mức **chỉ có một đáp án đúng**.
 > **Tự nhận ra từ nào dễ nhầm với từ nào** — không có công cụ nào phải chạy. Thêm
-> `V["từ"] = "…"`, luôn ghi rõ **thể** với động từ.
-> 🔴 **ĐỪNG ghi từ loại vào đó** — mặt đề bài đã in sẵn badge `{{PoS}}` + `{{GenderBadge}}`
-> (`n·v·adj·adv·pron` + M/Fe). Viết "(TÍNH TỪ)" hay "(DANH TỪ)" là lặp thứ user đang nhìn.
-> **Ngoại lệ:** từ có `PoS = oth` thì badge vô dụng, vẫn phải ghi. Còn **thể** thì không field
-> nào chứa ⇒ luôn phải ghi. ‹gợi ý hệ thống trục›
+> `V["từ"] = "…"`.
+> 🔴 **ĐỪNG ghi từ loại · giống · THỂ · phản thân vào đó** — mặt đề bài đã in sẵn **bốn** badge
+> `{{PoS}}` + `{{GenderBadge}}` + `{{AspectBadge}}` + `{{ReflexiveBadge}}`
+> (`n·v·adj·adv·pron` + M/Fe/Nt + **PERF/IMPF** + REFL). Viết "(TÍNH TỪ)" hay
+> "(HOÀN THÀNH — …)" là lặp thứ user đang nhìn.
+> ✅ **Thể thì diễn BẰNG LỜI, chỉ khi nó đổi nghĩa tiếng Việt**: `"nói, bảo (một lần rồi xong)"`
+> chứ không phải `"nói, bảo (HOÀN THÀNH)"` — user cần biết chọn `сказа́ть` hay `говори́ть`,
+> không cần đọc lại chữ PERF.
+> **Ngoại lệ:** từ có `PoS = oth` thì badge vô dụng, vẫn phải ghi từ loại. Thứ thật sự không
+> field nào chứa: **so sánh hơn · từ chỉ dùng số nhiều · cách mà động từ chi phối**. ‹gợi ý hệ thống trục›
 > **4. Tự soát:** `… congcu.py soat kNN` — sửa tới khi **cả ba** mục đầu báo `(khong co)`,
 > rồi **đọc bằng mắt** danh sách "PHAI DOC BANG MAT".
 > **Và `… congcu.py dodai kNN` phải báo `QUA 1 MAN HINH (700px): 0` VÀ `QUA 2 O DO: 0`.**

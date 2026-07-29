@@ -168,8 +168,8 @@ nhầm với từ nào chứ"*. Không có bước bắt buộc nào phải ch�
 
 ```python
 V = {
-    "сказать":  "nói, bảo (HOÀN THÀNH — một lần, xong việc)",
-    "говорить": "nói, trò chuyện (chưa hoàn thành — đang/thường xuyên)",
+    "сказать":  "nói, bảo (một lần rồi xong)",
+    "говорить": "nói, trò chuyện (đang nói, thường xuyên nói)",
 }
 ```
 
@@ -178,17 +178,35 @@ ghi đâu, vì thẻ của tôi đã có field đó rồi"*). Front của card g
 `{{GenderBadge}}`, nên viết thêm "(TÍNH TỪ)" · "(DANH TỪ)" · "— ĐỘNG TỪ" · "(giống cái)" là
 **lặp lại thứ user đang nhìn thấy**, chỉ tổ làm đề bài dài ra.
 
-| Badge in sẵn | Không cần ghi lại |
+| Field badge in sẵn | Không cần ghi lại |
 |---|---|
-| `n` `v` `adj` `adv` `pron` + `M`/`Fe`/`Nt` | từ loại, giống |
+| `{{PoS}}` — `n` `v` `adj` `adv` `pron` | từ loại |
+| `{{GenderBadge}}` — `M` / `Fe` / `Nt` | giống |
+| `{{AspectBadge}}` — `PERF` / `IMPF` | **THỂ hoàn thành / chưa hoàn thành** |
+| `{{ReflexiveBadge}}` — `REFL` | dạng phản thân `-ся` |
 
 ⚠️ **Ngoại lệ `oth`**: từ nào có `PoS = oth` thì badge chỉ hiện "oth" — vô dụng. Với chúng
 (`по-ру́сски`, `за`, `про`, `то́лько`…) **vẫn phải ghi** "trạng từ" / "giới từ, đi với cách 4".
 Kiểm bằng `notesInfo` chứ đừng đoán.
 
-⚠️ **THỂ động từ thì KHÔNG có field nào chứa** — badge chỉ nói `v`. Nên *hoàn thành / chưa hoàn
-thành* **vẫn phải ghi**, đây mới là thứ user cần. Tương tự: dạng phản thân `-ся`, so sánh hơn,
-từ chỉ dùng số nhiều — đều không nằm trong field nào.
+🔴 **THỂ CŨNG LÀ BADGE — sửa 29/07, mục này trước đây ghi NGƯỢC.** Bản cũ viết *"thể thì KHÔNG
+có field nào chứa ⇒ vẫn phải ghi"*; sai. `RU_Word` có đủ **`AspectBadge`** (88 note đang mang,
+`PERF`/`IMPF`) và **`ReflexiveBadge`**, `front_template.html` in cả hai ngay mặt đề bài.
+⇒ Viết `"(HOÀN THÀNH — …)"` vào `Vietnamese` là **lặp đúng thứ user đang nhìn**, y hệt lỗi ghi
+từ loại mà user đã bác 28/07.
+
+✅ **Cách đúng: diễn thể BẰNG LỜI, chỉ khi nó đổi nghĩa tiếng Việt.** Nhãn thì bỏ, sắc thái thì
+giữ — vì cái user cần khi gõ không phải chữ "PERF" (đã thấy rồi) mà là *biết chọn `сказа́ть` hay
+`говори́ть`*:
+
+| ❌ Lặp badge | ✅ Diễn bằng lời |
+|---|---|
+| `"nói, bảo (HOÀN THÀNH — một lần)"` | `"nói, bảo (một lần rồi xong)"` |
+| `"lặp lại (CHƯA HOÀN THÀNH)"` | `"lặp lại, ôn lại (đang lặp, lặp nhiều lần)"` |
+| `"gặp nhau (HOÀN THÀNH — phản thân -ся)"` | `"gặp nhau, hẹn gặp (một cuộc gặp)"` |
+
+⚠️ Thứ **thật sự** không field nào chứa, vẫn phải ghi: **so sánh hơn**, **từ chỉ dùng số nhiều**
+(`щи`), và **cách mà động từ chi phối** (`đi với с + cách 5`).
 
 ⇒ Hệ quả cho **hai lớp dưới**: cặp *tính từ vs trạng từ* (`бли́зкий`/`бли́зко`) và cặp *động từ ↔
 danh từ cùng gốc* (`за́втракать`/`за́втрак`) **badge đã tự tách rồi** — chỉ cần lo phần nghĩa.

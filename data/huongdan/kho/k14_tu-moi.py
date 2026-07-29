@@ -112,7 +112,7 @@ S["купить"] = (
     '<div class="hd-fam"><b>покупа́ть</b> mua (chưa hoàn thành) · <b>поку́пка</b> món đồ đã '
     'mua · <b>покупа́тель</b> khách mua</div>'
 )
-V["купить"] = "mua (HOÀN THÀNH — mua xong một lần, đã có món đồ)"
+V["купить"] = "mua (mua xong một lần, đã có món đồ trong tay)"
 
 # ─────────────────────────────────────────────────────────── недорогой
 S["недорогой"] = (
@@ -191,7 +191,7 @@ S["показать"] = (
     '<div class="hd-fam"><b>пока́зывать</b> cho xem (chưa hoàn thành) · <b>сказа́ть</b> nói ra · '
     '<b>рассказа́ть</b> kể · <b>каза́ться</b> có vẻ</div>'
 )
-V["показать"] = "cho (ai) xem, chìa ra cho xem (HOÀN THÀNH — một lần)"
+V["показать"] = "cho (ai) xem, chìa ra cho xem (một lần rồi thôi)"
 
 # ─────────────────────────────────────────────────────────── покупать
 S["покупать"] = (

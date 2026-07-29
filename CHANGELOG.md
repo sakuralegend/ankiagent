@@ -4,6 +4,42 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 29/07/2026 — Chạy 5 lô (k13·k51·k52·k53·k54, 78 từ) + phát hiện `AspectBadge` bị ghi ngược
+
+Phiên chỉ chạy lô, luồng chính đứng im. `congcu.py moi` báo **không có từ mới** (950 thẻ đều đã
+trong hàng đợi) ⇒ lấy thẳng 5 lô đầu hàng chờ. **7 lô / 116 từ duyệt / 834 chờ**, chuẩn **v3**.
+
+- ✅ **Cả 5 lô đạt cả hai trần**: `QUA 1 MAN HINH (700px): 0` và `QUA 2 O DO: 0`, khối dùng chung
+  **0%** ở cả 5. Cao trung bình 396–468px (trần 700). `nap` ghi **đúng số note = số từ** ở từng
+  lô (4·20·21·14·19) — không dính bẫy ё/U+200B.
+- 🔴 **`AspectBadge` CÓ TỒN TẠI — README §2c ghi NGƯỢC suốt từ 28/07.** Mục đó viết *"THỂ động từ
+  thì KHÔNG có field nào chứa ⇒ vẫn phải ghi"*. Sai: `RU_Word` có đủ **`AspectBadge`**
+  (`PERF`/`IMPF`, 88 note đang mang) và **`ReflexiveBadge`**, `front_template.html:36-44` in cả
+  hai **ngay mặt đề bài** — và comment ngay trên đoạn đó còn nói rõ badge tồn tại *chính vì*
+  bài toán `сказа́ть`/`говори́ть`. Tức spec mâu thuẫn thẳng với template mà không ai thấy.
+  - **Đã lây ra thẻ thật**: 5 note mang `"(HOÀN THÀNH — …)"` trong `Vietnamese`
+    (`купить · показать · встретиться · устать · объявить`) — **lặp đúng thứ user đang nhìn**,
+    y hệt lỗi ghi từ loại user đã bác 28/07. Đã vá cả 5 (`nap --tatca` đổi đúng 5 note, ghi 0
+    note HuongDan vì nội dung trùng).
+  - ⚠️ **Hai trong số đó nằm ở `k14`/`k48`** — chính hai lô "đã duyệt" đang làm bản mẫu. Chuẩn
+    v3 sai ở lô mẫu thì mọi lô sau chép theo.
+  - ✅ **Cách đúng: diễn thể BẰNG LỜI, chỉ khi nó đổi nghĩa tiếng Việt** — `"nói, bảo (một lần
+    rồi xong)"` chứ không phải `"(HOÀN THÀNH)"`. Nhãn bỏ, sắc thái giữ.
+  - 🔑 **Bắt được vì agent k54 KHÔNG tin lời nhắn** mà đi `notesInfo` kiểm thật. ⇒ Lời nhắn cho
+    agent không phải nguồn sự thật; chỗ nào nói về *cấu trúc thẻ* thì phải kiểm bằng máy.
+- 🐛 **Ba lỗi DỮ LIỆU NGUỒN, agent bắt được nhờ không chép `tiep` mù**:
+  ① `tudien.json` dịch `грач` = **"chim sáo"** — sai loài (rook là quạ đen; chim sáo là
+  `скворец`). **Đã vá trong `tudien.json`**, không chỉ trên thẻ, nếu không lô sau lại soạn nhầm.
+  ② Khối `CACH DUNG` mà `tiep` in cho `объявить` thật ra là của **`объяснить`** (động từ KHÁC).
+  ③ `спрягаться` bị từ điển gán `partners: ["спрятаться"]` (= *trốn*).
+- 🔍 **Rà tay bằng mắt lại là cửa duy nhất bắt lỗi nội dung** (đúng như tài liệu dặn): k53 viết
+  `ве́тер → ветра́` trong khi `ветра́` là **số nhiều**, cách 2 số ít là `ве́тра`; k13 sửa 3 lời
+  giải thích lệch. Cửa máy không thể thấy loại này. Riêng cửa trọng âm thì có ích thật: bắt
+  `прави́ло` (đúng: `пра́вило`) ở k51.
+- 📝 **Đề bài đụng nhau NGAY TRONG CÙNG MỘT LÔ** là rủi ro thật, không phải lý thuyết: k53 có
+  `о́блачный`/`па́смурный` và `весёлый`/`счастли́вый` gần như chung một dòng tiếng Việt; k51 phải
+  gỡ "tiếng Anh/Pháp/Nga" khỏi các tính từ dân tộc vì đụng chính các trạng từ `по-…-и` cùng lô.
+
 ## 29/07/2026 — GOM ba luồng chạy nền về MỘT bộ chạy chung
 
 User chốt nguyên tắc: *"cùng 1 chức năng chỉ có đúng 1 script nhận nhiệm vụ, không được có 2 cái
