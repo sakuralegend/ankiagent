@@ -18855,6 +18855,7 @@
 "super": [
 "желте́йший"
 ],
+"v": 2,
 "wc": "жёлтый"
 },
 "за": {
@@ -18871,8 +18872,40 @@
 "w": "за́мужем"
 }
 ],
+"idioms": [
+{
+"en": "for nothing at all, for no reason",
+"w": "ни за что ни про что"
+},
+{
+"en": "never (not at any price), for nothing",
+"w": "ни за что"
+},
+{
+"en": "you're welcome, don't mention it, not worth mentioning",
+"w": "не за что"
+},
+{
+"en": "abroad, overseas",
+"w": "за грани́цу"
+},
+{
+"en": "Enough, more than enough, enough for the eyes.",
+"w": "хватит за глаза"
+},
+{
+"en": "to loosen the tongue, to make sb. talk",
+"w": "тяну̀ть за язы̀к"
+},
+{
+"en": "behind someone's back",
+"w": "за глаза́"
+}
+],
 "pos": "other",
 "rank": 17,
+"usage": "за то: for the fact\nза это: for this\nза...До: From...to\n\nis used for:\n(i) Thanking, paying, rewarding, punishing for\n(ii) Identifying, evaluating as\n(iii) Seizing, holding, leading by\n(iv) Feelings experienced on behalf of someone else\n(v) The meaning ‘in favour of’\n\nNote:\n\"Что это за\" in the meaning \"как\u000fой\" does not affect the case of the dependent noun.\n\nto the place behind/beyond (movement) - за + object in accusative case\nseeking advice: за + Noun (Instrumental)",
+"v": 2,
 "wc": "за"
 },
 "забыть": {
@@ -19040,6 +19073,7 @@
 ],
 "rank": 319,
 "reflexive": false,
+"v": 2,
 "wc": "забыть"
 },
 "завод": {
@@ -19130,6 +19164,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 849,
+"v": 2,
 "wc": "завод"
 },
 "завтра": {
@@ -19183,6 +19218,7 @@
 ],
 "pos": "adverb",
 "rank": 537,
+"v": 2,
 "wc": "завтра"
 },
 "завтрак": {
@@ -19238,6 +19274,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 2594,
+"v": 2,
 "wc": "завтрак"
 },
 "завтракать": {
@@ -19295,6 +19332,7 @@
 ],
 "rank": 6624,
 "reflexive": false,
+"v": 2,
 "wc": "завтракать"
 },
 "завтрашний": {
@@ -19372,6 +19410,7 @@
 "за́втрашни"
 ],
 "super": [],
+"v": 2,
 "wc": "завтрашний"
 },
 "зал": {
@@ -19417,6 +19456,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 506,
+"v": 2,
 "wc": "зал"
 },
 "замужем": {
@@ -19455,6 +19495,7 @@
 ],
 "pos": "adverb",
 "rank": 8471,
+"v": 2,
 "wc": "замужем"
 },
 "занятие": {
@@ -19610,6 +19651,7 @@
 "gender": "n",
 "pos": "noun",
 "rank": 1355,
+"v": 2,
 "wc": "занятие"
 },
 "запах": {
@@ -19645,6 +19687,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 759,
+"v": 2,
 "wc": "запах"
 },
 "записывать": {
@@ -19752,6 +19795,7 @@
 ],
 "rank": 3237,
 "reflexive": false,
+"v": 2,
 "wc": "записывать"
 },
 "зачёт": {
@@ -19797,6 +19841,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 10028,
+"v": 2,
 "wc": "зачёт"
 },
 "защита": {
@@ -19872,6 +19917,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 1379,
+"v": 2,
 "wc": "защита"
 },
 "звать": {
@@ -20144,6 +20190,7 @@
 ],
 "rank": 524,
 "reflexive": false,
+"v": 2,
 "wc": "звать"
 },
 "звонить": {
@@ -20281,6 +20328,8 @@
 ],
 "rank": 1022,
 "reflexive": false,
+"usage": "+ dative",
+"v": 2,
 "wc": "звонить"
 },
 "звук": {
@@ -20331,6 +20380,8 @@
 "gender": "m",
 "pos": "noun",
 "rank": 737,
+"usage": "Also. Mute on audio calls.",
+"v": 2,
 "wc": "звук"
 },
 "здание": {
@@ -20389,8 +20440,15 @@
 }
 ],
 "gender": "n",
+"idioms": [
+{
+"en": "high-rise building, high-rise",
+"w": "высо́тное зда́ние"
+}
+],
 "pos": "noun",
 "rank": 966,
+"v": 2,
 "wc": "здание"
 },
 "здесь": {
@@ -20404,6 +20462,7 @@
 ],
 "pos": "other",
 "rank": 94,
+"v": 2,
 "wc": "здесь"
 },
 "здравствовать": {
@@ -20509,6 +20568,7 @@
 ],
 "rank": 1375,
 "reflexive": false,
+"v": 2,
 "wc": "здравствовать"
 },
 "зелёный": {
@@ -20595,6 +20655,7 @@
 "super": [
 "зелене́йший"
 ],
+"v": 2,
 "wc": "зелёный"
 },
 "земля": {
@@ -20743,8 +20804,15 @@
 }
 ],
 "gender": "f",
+"idioms": [
+{
+"en": "excavate",
+"w": "че́рпать зе́млю"
+}
+],
 "pos": "noun",
 "rank": 137,
+"v": 2,
 "wc": "земля"
 },
 "зеркало": {
@@ -20810,6 +20878,7 @@
 "gender": "n",
 "pos": "noun",
 "rank": 968,
+"v": 2,
 "wc": "зеркало"
 },
 "зерно": {
