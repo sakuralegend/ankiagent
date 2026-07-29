@@ -1,0 +1,3 @@
+# Báo cáo do dochuan.py sinh ra — dữ liệu chết, chạy lại lúc nào cũng được.
+# Cùng nếp với kho/.gitignore: file mở đầu bằng "_" là file làm việc, không commit.
+_dochuan.txt

@@ -4,6 +4,35 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 29/07/2026 — Chốt cỡ lô 16–18 (bác "lô càng to càng lợi") + mở sổ đo `dolo.tsv`
+
+User hỏi *"một lô 20 từ thế này đã tối ưu p/p tốt nhất chưa"*. Đo lại thì lời khuyên cũ trong
+`TIEPTUC.md` (*"lô to càng lợi, đừng cắt nhỏ lô"*) **đúng về token nhưng đã mất một nửa căn cứ**.
+
+- ❌ **Một trong hai lý do giữ lô to đã chết**: *"các từ cùng họ thì một khối dùng chung mới gánh
+  được nhiều thẻ"* — chuẩn **v3 cấm khối hệ thống dùng chung**, và cả 5 lô phiên này đều đo ra
+  **`khoi dung chung: 0%`**. Còn đúng một lý do: chia đều 65K cố định mỗi lô.
+- 📉 **Đường chi phí KHÔNG có điểm gãy** để biện minh cho con số 20 — hyperbol trơn:
+  7 từ = 12,0K/từ · 14 = 7,3 · 20 = 5,9 · 22 = 5,6 · 30 = 4,8. Ngay ở 20 từ, **55% chi phí vẫn là
+  phần cố định**. Chỉ nhìn token thì lô **40 từ** mới đáng ⇒ **cỡ lô phải do phía CHẤT LƯỢNG
+  quyết định**, và trước nay chưa ai đo phía đó.
+- 🔴 **Dấu hiệu đầu tiên về phía chất lượng (n=5, chưa chắc)**: **lỗi tự bắt tụt về 0 ở lô 19–21
+  từ.** `k13` 4 từ bắt 3 lỗi · `k53` 14 từ bắt 1 · `k51`/`k52`/`k54` bắt 0. Khó tin bản nháp lô to
+  sạch hơn thật; nhiều khả năng **hết chú ý trước khi hết danh sách** — lô 20 từ đẻ ra **62–87
+  hình thái** phải soi bằng mắt (3–4,6× số từ, lô động từ nặng nhất: k54 19 từ → 87 mục).
+- ✅ **Chốt: giữ nguyên, không chỉnh gì.** Hàng đợi đang trung bình **16,0 từ/lô, trung vị 17** —
+  đúng vùng khuyến nghị. Và **bác phương án "agent soát riêng"**: lô 22 từ + agent rà lại
+  ≈ **7,9K/từ**, *đắt hơn* lô 14 từ tự soát (**7,3K/từ**) mà chưa chắc tốt hơn — người viết biết
+  chỗ mình lăn tăn, người rà phải dựng lại từ đầu.
+- 🆕 **`data/huongdan/kho/dolo.tsv`** — mỗi lô một dòng: `docbangmat · loitubat · loimaybat ·
+  nguonsai · caotb · odotb`. Mở sổ bằng **5 điểm đo của phiên này** chứ không bắt đầu từ 0.
+  Khuôn lời nhắn agent nay **bắt buộc báo ba con số**, kèm lời dặn *đếm thật kể cả khi bằng 0*
+  (báo 0 vì đã rà kỹ là thông tin có ích; báo 0 vì ngại nói thì hỏng phép đo).
+  Sau ~52 lô còn lại là đủ điểm để biết đường cong lỗi/từ có thật dốc hay chỉ là nhiễu.
+  **Không tốn thêm token nào** — ba con số đó agent vốn đã phải tự biết để viết báo cáo.
+- 🧹 `data/huongdan/.gitignore` mới: bỏ qua `_dochuan.txt` (báo cáo `dochuan.py` sinh ra, dữ liệu
+  chết) — cùng nếp với `kho/.gitignore`, để `git status` sạch.
+
 ## 29/07/2026 — Chạy 5 lô (k13·k51·k52·k53·k54, 78 từ) + phát hiện `AspectBadge` bị ghi ngược
 
 Phiên chỉ chạy lô, luồng chính đứng im. `congcu.py moi` báo **không có từ mới** (950 thẻ đều đã

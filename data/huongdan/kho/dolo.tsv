@@ -1,0 +1,26 @@
+# SO DO LO — moi lo mot dong, ghi NGAY sau khi soat xong, truoc khi commit.
+#
+# Cau hoi can tra loi (chot 29/07/2026): so luong loi noi dung tu bat duoc co
+# GIAM khi lo to len khong? Neu co thi tran cong lo phai ha, vi cua may KHONG
+# kiem noi dung — xem CHANGELOG 29/07 muc "p/p cua co lo".
+#
+# Vi sao phai ghi tay: `soat`/`dodai` do duoc px va o do, nhung "so loi tu bat"
+# thi khong may nao dem duoc — no nam trong bao cao cua agent. Bo trong = khong
+# ro, KHAC voi 0 = da ra soat ky ma khong thay loi nao.
+#
+# lo            ma lo
+# tu            so tu trong lo
+# docbangmat    so muc trong danh sach "PHAI DOC BANG MAT" cua `soat`
+# loitubat      loi NOI DUNG agent tu doc lai roi tu sua (khong cua may nao bat)
+# loimaybat     loi do cua `soat`/`dodai` bat (cau truc, trong am lech, qua tran)
+# nguonsai      lan agent BAC du lieu tu dien sai thay vi chep theo
+# caotb         cao trung binh (px), tu `dodai`
+# odotb         so o do trung binh, tu `dodai`
+# ngay          ngay chay
+#
+lo	tu	docbangmat	loitubat	loimaybat	nguonsai	caotb	odotb	ngay
+k13	4	19	3	0	0	434	1.5	2026-07-29
+k53	14	48	1	0	0	403	0.4	2026-07-29
+k54	19	87	0	0	2	468	1.5	2026-07-29
+k51	20	62	0	1	0	417	1.1	2026-07-29
+k52	21	78	0	0	2	396	0.9	2026-07-29

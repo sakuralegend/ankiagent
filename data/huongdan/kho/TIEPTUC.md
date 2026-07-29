@@ -237,7 +237,33 @@ agent biết trục sẵn có, khỏi tự mò một trục khác rồi lô thà
 
 ⚠️ Đổi lại mất thêm **2 lô** (31 → 33). Đó là đánh đổi đã chọn, không phải sơ suất.
 
-### 📏 Cỡ lô: nhắm 20, NHƯNG KHÔNG ÉP
+### 📏 CỠ LÔ — chốt lại 29/07: **GIỮ NGUYÊN 16–18, đừng to thêm**
+
+Trước đây tài liệu khuyên *"lô to càng lợi, đừng cắt nhỏ lô"* — đúng về **token**, nhưng nó dựa
+vào hai lý do mà nay **chỉ còn một**:
+
+| Lý do giữ lô to | Còn đúng? |
+|---|---|
+| Chia đều 65K cố định mỗi lô | ✅ Còn |
+| *"Các từ cùng họ thì một khối dùng chung mới gánh được nhiều thẻ"* | ❌ **Chết rồi** — chuẩn v3 cấm khối dùng chung, cả 5 lô 29/07 đo ra **`khoi dung chung: 0%`** |
+
+Và đường chi phí **không có điểm gãy nào** để mà chọn 20: nó là hyperbol trơn, cứ to lên là rẻ
+đi đều đều (7 từ = 12,0K/từ · 14 = 7,3 · 20 = 5,9 · 30 = 4,8). Nếu chỉ nhìn token thì lô **40 từ**
+mới đáng. ⇒ **Cỡ lô phải do phía CHẤT LƯỢNG quyết định, không phải phía chi phí.**
+
+🔴 **Dấu hiệu 29/07 (n=5, chưa đủ chắc): lỗi tự bắt tụt về 0 ở lô 19–21 từ.**
+`k13` 4 từ bắt **3** lỗi · `k53` 14 từ bắt **1** · `k51`/`k52`/`k54` (19–21 từ) bắt **0**.
+Khó tin bản nháp lô to sạch hơn thật — nhiều khả năng **hết chú ý trước khi hết danh sách**:
+lô 20 từ đẻ ra **62–87 hình thái** phải soi bằng mắt (3–4,6 lần số từ; lô động từ nặng nhất).
+
+⇒ **Hàng đợi hiện tại trung bình 16,0 từ/lô, trung vị 17 — đang ở đúng vùng, KHÔNG chỉnh gì.**
+Và **đừng dựng "agent soát riêng"**: lô 22 từ + agent rà lại ≈ **7,9K/từ**, đắt hơn lô 14 từ tự
+soát (**7,3K/từ**) mà chưa chắc tốt hơn — người viết biết chỗ mình lăn tăn, người rà phải dựng lại.
+
+📓 **Đang đo tiếp ở `dolo.tsv`** — mỗi lô một dòng, sau ~52 lô là đủ điểm để biết đường cong
+lỗi/từ có thật dốc theo cỡ lô hay chỉ là nhiễu của một phiên. Không tốn thêm token nào.
+
+### 📏 Cỡ lô: nhắm 20, NHƯNG KHÔNG ÉP *(mục cũ — phần "nhắm 20" đã bị mục trên đè)*
 
 User chốt 28/07: *"tôi ưu tiên chất lượng cao nhất… nếu từ khác nhau quá, bạn đừng ngại cho
 riêng 1 lô, đừng ép phải khuôn cứng 20"*. `chialai.py` nay `TRAN=20 / TOI_DA=22`, và **đã bỏ
@@ -334,7 +360,13 @@ Khuôn lời nhắn giao cho agent phụ (đổi `kNN` và phần chủ đề):
 > **5. DỪNG** — không sửa `hangdoi.json`, không commit, không `nap`, không đụng Anki.
 > (Ngoại lệ: gặp **từ đồng tự** thật thì được thêm dòng vào `MIEN_TRU` kèm lý do, và phải báo lên.)
 >
-> **Báo cáo:** số từ · kết quả 3 mục soát · **những chỗ KHÔNG chắc đã hạ mức tin**.
+> **Báo cáo — bắt buộc có BA CON SỐ để ghi vào `dolo.tsv`:**
+> ① số mục trong danh sách **"PHẢI ĐỌC BẰNG MẮT"** · ② số **lỗi nội dung bạn tự đọc lại rồi tự
+> sửa** (loại không cửa máy nào bắt: giải thích sai, từ nguyên sai, dạng chia sai) · ③ số lần
+> bạn **bác dữ liệu từ điển sai** thay vì chép theo.
+> 🔴 **Đếm thật, kể cả khi bằng 0.** Đây là số liệu đang dùng để quyết định trần cỡ lô — báo 0
+> vì đã rà kỹ mà không thấy gì là **thông tin có ích**; báo 0 vì ngại nói ra thì làm hỏng phép đo.
+> Kèm theo: kết quả 3 mục soát · kết quả `dodai` · **những chỗ KHÔNG chắc đã hạ mức tin**.
 
 🔴 **MỖI PHIÊN 4 LÔ** (chuẩn §2b), **VÀ PHIÊN ĐÓ CHỈ ĐƯỢC CHẠY LÔ.**
 
@@ -383,10 +415,15 @@ Hết quota thì **dừng và báo cáo**, để user tự quyết.
 
 ```bash
 PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py soat kNN        # tự soát lại, ĐỪNG tin báo cáo suông
+PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py dodai kNN       # phải 0 thẻ quá px, 0 thẻ quá 2 ô đỏ
+#  → ghi MỘT DÒNG vào data/huongdan/kho/dolo.tsv (ba con số trong báo cáo agent)
 PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py xong kNN        # chỉ luồng chính được gọi
 PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py nap --apply     # đẩy vào Anki ngay + sync
-git add data/huongdan/kho/kNN_*.py data/huongdan/kho/hangdoi.json && git commit …
+git add data/huongdan/kho/kNN_*.py data/huongdan/kho/hangdoi.json data/huongdan/kho/dolo.tsv && git commit …
 ```
+
+⚠️ **Sau `nap`, đối chiếu "ghi vào N note" với số từ của lô.** Lệch là có chuyện — chính con số
+33-note-cho-32-từ đã tố giác bug khoá `ё` hồi 28/07.
 
 **Nạp NGAY sau mỗi lô, không gom một cục cuối đường** (user chốt 27/07). Ba chốt giữ cho
 tiến trình không loạn:
