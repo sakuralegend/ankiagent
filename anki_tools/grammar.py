@@ -132,39 +132,22 @@ def _pick_word_object(info, want_bare):
     return sorted(khop, key=lambda w: (-diem(w), w.get("rank") or 10 ** 9))[0]
 
 
-def _family(word_obj):
-    """Word family của OpenRussian -> list phẳng. Dữ liệu biên tập tay của từ điển.
-
-    🔴 **Không nơi nào ĐỌC khoá này nữa** (user chốt 29/07) — nó chỉ còn nằm
-    trong cache và field `GrammarJSON`. Lý do bỏ nằm ở đầu mục "DỮ LIỆU TỪ ĐIỂN
-    in kèm cho agent" trong `data/huongdan/kho/congcu.py`, đọc trước khi định
-    dùng lại.
-
-    ⚠️ Hàm này GỘP hai khoá KHÁC HẲN NHAU vào một rổ, và đó chính là chỗ hỏng:
-      · `groups[groupType="family"]` — **cùng gốc** (`целова́ть` → целов-…)
-      · `relateds`                   — **nghĩa gần, khác gốc hẳn**
-                                       (`ги́бкий` → `мя́гкий`; `о́блако` → `ту́ча`)
-    Muốn dùng lại thì phải TÁCH đôi ở đây, tăng `BAN_GHI_V` và cào lại 950 từ —
-    cache hiện tại đã gộp nên không lọc ngược ra được.
-    """
-    ra, thay = [], set()
-    nhom = [g for g in (word_obj.get("groups") or []) if g.get("groupType") == "family"]
-    nguon = [m.get("word") or {} for g in nhom for m in (g.get("groupMembers") or [])]
-    nguon += [r.get("word") or {} for r in (word_obj.get("relateds") or [])]
-    for w in nguon:
-        a = acc(w.get("accented") or "")
-        if not a or bare(a) in thay:
-            continue
-        thay.add(bare(a))
-        tls = []
-        for t in (w.get("translations") or []):
-            tls += t.get("tls") or []
-        # `pos` rỗng ở mọi mục lấy từ `relateds` — KHÔNG phải đọc sai khoá. Đã
-        # soi trang thật (`блю́до`, 29/07): `groupMembers[].word` có `type`, còn
-        # `relateds[].word` chỉ có `id/bare/accented/translations`.
-        ra.append({"w": a, "pos": (w.get("type") or "")[:3],
-                   "en": ", ".join(tls[:3])})
-    return ra
+# 🔴 KHÔNG BÓC WORD FAMILY — đã có `_family()` ở đây, gỡ hẳn 29/07 (v3).
+#
+# Trang OpenRussian có sẵn hai khoá họ từ và ĐỪNG đọc lại chúng một cách ngây thơ:
+#   · `groups[groupType="family"]` -> `groupMembers[].word`  = **cùng gốc**
+#   · `relateds[].word`                                      = **nghĩa gần, KHÁC GỐC HẲN**
+# `_family()` cũ gộp cả hai vào một rổ, nên `ги́бкий` kéo theo `мя́гкий`/`бога́тый`
+# và `о́блако` kéo theo `ту́ча`/`не́бо`. Danh sách đó vào ô "Họ hàng" là thẻ dạy sai
+# từ nguyên — đúng loại lỗi 28/07 (`о́блако`↔`во́лос`, `целова́ть`↔`цель`).
+#
+# Đã đo trước khi bỏ: dùng nó làm CỬA SOÁT thì kêu oan 65% (2 069 cụm / 301 thẻ),
+# và `цель`/`во́лос` không có họ từ nào nên cửa cũng chỉ bắt được 1 trong 2 lỗi.
+# User chốt: *"không lấy family word từ openrussian nữa"*.
+#
+# ⇒ Mục "Họ hàng" do agent tự nghĩ, README §2 dặn "không chắc thì bỏ mục đó".
+# Muốn khôi phục thì phải bóc RIÊNG `groups` (bỏ `relateds`), tăng `BAN_GHI_V`
+# và cào lại — không phải khôi phục hàm cũ. Xem [[ho-tu-openrussian-da-bac]].
 
 
 def _adj_declension(adj):
@@ -231,8 +214,12 @@ def _decl_tu_forms(forms):
 # `cao_nguphap.py --nangcap` biết bản ghi nào cũ mà cào lại, không phải đoán qua
 # việc "thiếu khoá X" (khoá có thể vắng một cách chính đáng: `сожале́ние` không
 # có `usage` thật, chứ không phải chưa cào).
-#   v1 (29/07) bản đầu · v2 (29/07) thêm `usage` + `idioms`
-BAN_GHI_V = 2
+#   v1 (29/07) bản đầu · v2 (29/07) thêm `usage` + `idioms` · v3 (29/07) BỎ `family`
+#
+# ⚠️ v3 là lần BỚT khoá đầu tiên, và bớt thì KHÔNG cần cào lại mạng — dữ liệu mới
+# là tập con của dữ liệu cũ. `xoa_family_khoi_cache.py` gỡ khoá ngay trên file
+# cache rồi đặt `v=3`, chạy trong vài giây. Chỉ lần THÊM khoá mới phải `--nangcap`.
+BAN_GHI_V = 3
 
 
 def _idioms(word_obj):
@@ -265,8 +252,8 @@ def normalize(word_obj):
     rec = {"v": BAN_GHI_V,
            "acc": acc(word_obj.get("accented") or word_obj.get("bare") or ""),
            "wc": bare(word_obj.get("bare") or ""),
-           "pos": pos, "rank": word_obj.get("rank"),
-           "family": _family(word_obj)}
+           "pos": pos, "rank": word_obj.get("rank")}
+    # KHÔNG có `family` ở đây — cố ý, xem khối comment chỗ `_adj_declension`.
     # Ghi chú CÁCH DÙNG do người biên tập viết (`по слова́м:` + cách 2). Ngắn,
     # đắt, và không suy ra được từ bảng chia.
     if (word_obj.get("usage") or "").strip():

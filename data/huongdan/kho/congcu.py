@@ -172,14 +172,16 @@ def nap_lo_da_soan(chi=None, lay_v=False):
 #    `relateds` (nghĩa gần, KHÁC GỐC HẲN) bị `grammar._family()` gộp một rổ, nên
 #    `ги́бкий` kéo theo `мя́гкий`/`бога́тый`, `о́блако` kéo theo `ту́ча`/`не́бо`.
 #    Đưa cái rổ đó cho agent là công cụ TỰ ĐẺ RA đúng loại lỗi nó sinh ra để chặn.
-#  ③ Tách hai khoá thì sạch, nhưng cache đã gộp mất phân biệt ⇒ phải cào lại 950
-#    từ. User cân giữa "cào lại 30 phút" và "agent tự nghĩ vẫn đang làm khá tốt"
-#    rồi chọn BỎ HẲN: *"phần family này chỉ để AI tham khảo thôi"* → *"nếu nguy
-#    hiểm vậy thì thôi bỏ đi, không lấy family word từ openrussian nữa"*.
+#  ③ Tách hai khoá thì sạch, nhưng phải bóc lại. User chốt BỎ HẲN:
+#    *"phần family này chỉ để AI tham khảo thôi"* → *"nếu nguy hiểm vậy thì thôi
+#    bỏ đi"* → *"xoá để nó hoạt động như ban đầu, không động gì vào phần họ hàng
+#    từ nữa"*.
 #
-# `rec["family"]` vẫn nằm nguyên trong cache và trong field `GrammarJSON` — bỏ đi
-# phải cào lại 950 từ chỉ để XOÁ dữ liệu, không đáng. Nó chỉ không được in ra.
-# Muốn dùng lại thì việc phải làm là ③, không phải bỏ comment dòng nào.
+# ⇒ Đã gỡ TẬN GỐC (v3, 29/07), không chỉ thôi in: `grammar.normalize()` không bóc
+# `family` nữa · `xoa_family_khoi_cache.py` gỡ khoá khỏi cả 951 bản ghi (0,86 ->
+# 0,37 MB) · `backfill_grammar_json.py --apply` ghi lại `GrammarJSON` 950 thẻ.
+# **Không còn `rec["family"]` ở bất kỳ đâu.** Mục "Họ hàng" agent tự nghĩ, và
+# KHÔNG có cửa soát nào chặn chỗ đó — README §2 dặn "không chắc thì bỏ mục đó".
 
 TRAN_EN = 46          # cắt phần nghĩa Anh cho gọn một dòng
 TRAN_IDIOM = 4

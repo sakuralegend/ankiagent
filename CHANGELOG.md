@@ -31,8 +31,16 @@ Phần B **không đụng thẻ nào** — nó chỉ đổi thứ agent NHÌN TH
      **cào lại 950 từ (~30 phút)**. User cân với *"phần thêm từ họ hàng của agent làm khá tốt"*
      rồi chốt: *"nếu nguy hiểm vậy thì thôi bỏ đi, không lấy family word từ openrussian nữa"*.
   ⇒ Mục **Họ hàng agent vẫn tự nghĩ như trước**, và **không có cửa soát nào** chặn chỗ đó.
-  `rec["family"]` vẫn nằm trong cache + `GrammarJSON` (xoá đi phải cào lại 950 từ chỉ để **xoá**
-  dữ liệu, không đáng) — chỉ là không in ra. Muốn dùng lại thì việc phải làm là **(3)**.
+- 🧹 **Gỡ TẬN GỐC, không chỉ thôi in** (user: *"xoá để nó hoạt động như ban đầu, không động gì
+  vào phần họ hàng từ nữa"*) — **bản ghi `v3`**:
+  `grammar.normalize()` không bóc `family` nữa (hàm `_family()` xoá hẳn, thay bằng khối comment
+  ghi rõ hai khoá `groups`/`relateds` khác nhau ra sao để đừng ai đọc lại một cách ngây thơ) ·
+  `xoa_family_khoi_cache.py` gỡ khoá khỏi **951/951** bản ghi (**0,86 → 0,37 MB**) ·
+  `backfill_grammar_json.py --apply` ghi lại `GrammarJSON` **950 thẻ** (0,36 MB, tb 399 B/thẻ).
+  ✅ Kiểm sau khi gỡ: `congcu.py bang` báo **0 thẻ đổi** — `family` không dính gì tới bảng chia.
+  📌 **Bài học về `BAN_GHI_V`**: tăng số hiệu thường có nghĩa "cào lại 950 lượt", nhưng lần này
+  là lần **BỚT** khoá đầu tiên — dữ liệu mới là **tập con** của dữ liệu cũ nên sửa thẳng trên
+  file cache là đủ và đúng, vài giây thay vì 30 phút. **Chỉ lần THÊM khoá mới phải `--nangcap`.**
 - 📌 **`pos` rỗng ở mục lấy từ `relateds` KHÔNG phải lỗi đọc khoá** (soi trang thật `блю́до`):
   `groupMembers[].word` có `type`, `relateds[].word` chỉ có `id/bare/accented/translations`.
 - 📄 README §2 + `TIEPTUC.md` (khuôn lời nhắn giao agent) đã ghi đúng hai khối còn lại.
