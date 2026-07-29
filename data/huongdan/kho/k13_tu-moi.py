@@ -1,85 +1,90 @@
 # -*- coding: utf-8 -*-
 """k13 — tu-moi: 4 từ user vừa thêm, KHÔNG cùng họ nhau.
 
-Không có trục chung, không có khối hệ thống dùng chung (README §3):
-mỗi thẻ tự đứng, chỉ nói kiến thức dính TRỰC TIẾP vào chính từ đó.
+Mỗi thẻ soạn độc lập, không ép một trục chung, không khối hệ thống dùng chung.
+Chuẩn v3: một màn hình iPhone (≤700px), tối đa 2 ô đỏ, Họ hàng được phép vắng.
 """
 
 S = {}
-V = {}
 
-# ─────────────────────────────────────────────────────────── здание
 S["здание"] = (
     '<div class="hd-sec">Chẻ từ</div>'
     '<div class="hd-row"><span class="hd-piece">зд-</span>'
-    '<span class="hd-gloss">gốc cổ XÂY, NẶN (đắp từ đất sét)</span></div>'
-    '<div class="hd-row"><span class="hd-piece">-а́ние</span>'
-    '<span class="hd-gloss">đuôi biến việc làm thành DANH TỪ, luôn giống TRUNG</span></div>'
+    '<span class="hd-gloss">XÂY, ĐẮP (gốc cổ)</span></div>'
+    '<div class="hd-row"><span class="hd-piece">-ание</span>'
+    '<span class="hd-gloss">đuôi tạo danh từ giống TRUNG</span></div>'
     '<div class="hd-sec">Cách nhớ</div>'
-    '<div class="hd-why">Cái được dựng lên — cùng gốc với <b>созда́ть</b> (tạo ra). '
-    'Nói về <b>khối công trình</b>; còn nhà theo nghĩa chỗ ở, tổ ấm là <b>дом</b>.</div>'
-    '<div class="hd-warn">Danh từ đuôi <b>-ие</b> vào cách 6 thành <b>-ии</b>: '
-    '<b>в зда́нии</b> (trong toà nhà), không phải -е.</div>'
-    '<div class="hd-warn">Trông giống <b>здра́вствуйте</b>, <b>здоро́вье</b> nhưng KHÔNG '
-    'họ hàng: hai từ kia từ gốc "khoẻ", <b>зда́ние</b> từ gốc "xây".</div>'
+    '<div class="hd-why">«Cái được dựng lên». Gốc <b>зд-</b> nghĩa cổ là đắp, xây — '
+    'nay chỉ còn sống trong <b>созда́ть</b> (tạo ra) và <b>зо́дчий</b> (kiến trúc sư). '
+    'Đuôi <b>-ание</b> cho biết đây là danh từ giống TRUNG.</div>'
+    '<div class="hd-warn">🏢 <b>зда́ние</b> là công trình xây (trường, bệnh viện, cao ốc); '
+    '<b>дом</b> mới là nhà để ở. Cụm phải thuộc: <b>высо́тное зда́ние</b> nhà cao tầng.</div>'
     '<div class="hd-sec">Họ hàng</div>'
-    '<div class="hd-fam"><b>созда́ть</b> tạo ra · <b>созда́ние</b> sự tạo ra; sinh vật · '
-    '<b>зо́дчий</b> kiến trúc sư (từ cổ)</div>'
+    '<div class="hd-fam"><b>созда́ть</b> tạo ra · <b>созда́ние</b> sự tạo ra, tạo vật · '
+    '<b>созда́тель</b> người tạo ra · <b>зо́дчий</b> kiến trúc sư (từ cổ)</div>'
 )
-V["здание"] = "tòa nhà, khối công trình xây dựng (không phải nhà ở, tổ ấm)"
 
-# ─────────────────────────────────────────────────────────── лучше
 S["лучше"] = (
     '<div class="hd-sec">Chẻ từ</div>'
     '<div class="hd-row"><span class="hd-piece">луч-</span>'
-    '<span class="hd-gloss">gốc cổ "tốt hơn", không đứng riêng (còn trong <b>лу́чший</b>)</span></div>'
+    '<span class="hd-gloss">gốc riêng, không phải хорош-</span></div>'
     '<div class="hd-row"><span class="hd-piece">-ше</span>'
-    '<span class="hd-gloss">đuôi SO SÁNH HƠN: <b>да́льше</b>, <b>ра́ньше</b></span></div>'
+    '<span class="hd-gloss">đuôi so sánh hơn</span></div>'
     '<div class="hd-sec">Cách nhớ</div>'
-    '<div class="hd-why"><b>хорошо́</b> / <b>хоро́ший</b> không tự làm ra dạng so sánh — '
-    'tiếng Nga đổi hẳn sang gốc khác, y như tiếng Anh <i>good → better</i>.</div>'
-    '<div class="hd-warn">Một mặt chữ gánh cả hai vai và không bao giờ đổi đuôi: '
-    '"hay hơn" cho động từ (<b>говори́ть лу́чше</b>) và "tốt hơn" cho tính từ '
-    '(<b>э́тот оте́ль лу́чше</b>).</div>'
-    '<div class="hd-warn">So với ai: <b>лу́чше меня́</b> (cách 2) hoặc '
-    '<b>лу́чше, чем я</b>.</div>'
+    '<div class="hd-why">Nhớ cả bộ đuôi <b>-ше</b>: <b>ра́но</b> → <b>ра́ньше</b>, '
+    '<b>далеко́</b> → <b>да́льше</b>, <b>мно́го</b> → <b>бо́льше</b>, '
+    '<b>хорошо́</b> → <b>лу́чше</b>. Hai cái cuối đổi hẳn gốc nên phải thuộc, không suy ra '
+    'được; gốc <b>луч-</b> ở đây không dính gì tới луч «tia sáng».</div>'
+    '<div class="hd-warn">⚠️ Tính từ <b>хоро́ший</b> và trạng từ <b>хорошо́</b> dùng CHUNG '
+    'đúng một dạng so sánh hơn là <b>лу́чше</b> — không bên nào có dạng riêng.</div>'
+    '<div class="hd-warn">💡 <b>лу́чше</b> + nguyên thể = «tốt hơn là nên…»: '
+    '<b>Лу́чше пойти́ домо́й</b>. Còn <b>Мне лу́чше</b> = tôi đỡ hơn rồi.</div>'
     '<div class="hd-sec">Họ hàng</div>'
-    '<div class="hd-fam"><b>лу́чший</b> tốt nhất · <b>ху́же</b> tệ hơn (cũng đổi gốc, '
-    'từ <b>пло́хо</b>) · <b>Лу́чше по́здно, чем никогда́</b> muộn còn hơn không</div>'
+    '<div class="hd-fam"><b>лу́чший</b> tốt nhất · <b>улучша́ть</b> – <b>улу́чшить</b> '
+    'cải thiện · <b>улучше́ние</b> sự cải thiện</div>'
 )
-V["лучше"] = "tốt hơn, hay hơn (dạng SO SÁNH HƠN của “tốt”)"
 
-# ─────────────────────────────────────────────────────────── отель
+# Từ mượn đứng một mình: KHÔNG có mục "Họ hàng" — tiếng Nga không đẻ ra từ phái
+# sinh nào từ `отель` (mọi thứ quanh nó đều dựng trên gốc Nga `гость`).
 S["отель"] = (
     '<div class="hd-sec">Chẻ từ</div>'
-    '<div class="hd-why">Không chẻ được: mượn nguyên khối tiếng Pháp <i>hôtel</i> '
-    '(chữ h câm nên tiếng Nga không có х-).</div>'
+    '<div class="hd-why">Không chẻ được — mượn nguyên tiếng Pháp <i>hôtel</i> '
+    '(h câm, nên vào tiếng Nga chỉ còn <b>оте́ль</b>).</div>'
     '<div class="hd-sec">Cách nhớ</div>'
-    '<div class="hd-why">Nhận mặt ngay qua tiếng Anh <i>hotel</i>. Xa hơn: La Tinh '
-    '<i>hospes</i> = chủ nhà đón khách, cùng ổ với <i>hospital</i>, <i>hostel</i>.</div>'
-    '<div class="hd-warn">Đuôi <b>-ь</b> thường báo giống CÁI, nhưng <b>оте́ль</b> là giống '
-    'ĐỰC — chia như <b>слова́рь</b>: <b>большо́й оте́ль</b>, <b>в оте́ле</b>.</div>'
-    '<div class="hd-warn">Từ Nga thuần là <b>гости́ница</b> (từ <b>гость</b> = khách) và đó '
-    'mới là từ trung tính hay gặp; <b>оте́ль</b> nghiêng về khách sạn kiểu Tây.</div>'
-    '<div class="hd-sec">Họ hàng</div>'
-    '<div class="hd-fam"><b>гости́ница</b> khách sạn (từ Nga) · <b>гость</b> khách · '
-    '<b>но́мер</b> phòng khách sạn (cũng nghĩa "số")</div>'
+    '<div class="hd-why">Biết chữ <i>hotel</i> là biết từ này: chỉ đọc lại theo lối Nga, '
+    'trọng âm rơi vào âm cuối như hầu hết từ mượn phương Tây — <b>бале́т</b>, '
+    '<b>биле́т</b>, <b>музе́й</b>.</div>'
+    '<div class="hd-warn">⚠️ Đuôi <b>-ь</b> thường báo giống CÁI, nhưng <b>оте́ль</b> là '
+    'giống ĐỰC: <b>в но́вом оте́ле</b>. Từ mượn không chịu luật đuôi <b>-ь</b>.</div>'
+    '<div class="hd-warn">🏨 Từ Nga gốc cho «khách sạn» là <b>гости́ница</b> '
+    '(từ <b>гость</b> khách) và vẫn phổ biến hơn; <b>оте́ль</b> nghiêng về khách sạn lớn, '
+    'kiểu quốc tế.</div>'
 )
-V["отель"] = "khách sạn (dùng từ mượn quốc tế, không phải từ Nga thuần)"
 
-# ─────────────────────────────────────────────────────────── столица
 S["столица"] = (
     '<div class="hd-sec">Chẻ từ</div>'
     '<div class="hd-row"><span class="hd-piece">стол-</span>'
-    '<span class="hd-gloss">nghĩa CỔ là ngai vua (nay <b>стол</b> = cái bàn)</span></div>'
-    '<div class="hd-row"><span class="hd-piece">-и́ца</span>'
-    '<span class="hd-gloss">đuôi tạo danh từ giống CÁI</span></div>'
+    '<span class="hd-gloss">NGAI VUA (nghĩa cổ của стол)</span></div>'
+    '<div class="hd-row"><span class="hd-piece">-ица</span>'
+    '<span class="hd-gloss">đuôi danh từ giống CÁI</span></div>'
     '<div class="hd-sec">Cách nhớ</div>'
-    '<div class="hd-why">Thành phố đặt ngai vua = thủ đô. Nghĩa "ngai" nay chỉ còn trong '
-    '<b>престо́л</b> (ngai vàng). Anh <i>stool</i> (ghế đẩu) là họ hàng xa của <b>стол</b>.</div>'
-    '<div class="hd-warn">"Thủ đô CỦA nước nào" đi cách 2: <b>столи́ца Росси́и</b>, '
-    '<b>столи́ца Вьетна́ма</b>.</div>'
+    '<div class="hd-why">Thành phố đặt ngai vua = thủ đô. Nghĩa «ngai» của <b>стол</b> nay '
+    'chỉ còn thấy trong ít từ như <b>престо́л</b> (ngai vàng); nghĩa thường ngày «cái bàn» '
+    'là lớp nghĩa mới hơn.</div>'
+    '<div class="hd-warn">⚠️ Hai nghĩa của <b>стол</b> rẽ hai ngả: <b>столи́ца</b> ← «ngai» '
+    '(thủ đô), còn <b>столо́вая</b> ← «bàn ăn» (nhà ăn). Nhìn gần giống nhau, đừng lẫn.</div>'
     '<div class="hd-sec">Họ hàng</div>'
-    '<div class="hd-fam"><b>столи́чный</b> thuộc thủ đô · <b>престо́л</b> ngai vàng · '
-    '<b>столо́вая</b> phòng ăn, căng-tin (cùng <b>стол</b> nhưng theo nghĩa "cái bàn")</div>'
+    '<div class="hd-fam"><b>стол</b> cái bàn · <b>престо́л</b> ngai vàng · '
+    '<b>столи́чный</b> thuộc về thủ đô</div>'
 )
+
+
+# --- Field Vietnamese: đề bài của deck 1-go, phải chỉ có MỘT đáp án đúng ------
+# `лучше` (tốt hơn) và `столица` (thủ đô) đã đủ sát, không đụng từ nào khác
+# trong kho -> giữ nguyên.
+V = {
+    # "tòa nhà" trần trụi dễ bị gõ thành `дом` (nhà, ngôi nhà, tổ ấm)
+    "здание": "tòa nhà, công trình xây (trường, cao ốc — không phải nhà để ở)",
+    # tiếng Nga có hai từ cho "khách sạn": отель (mượn) và гостиница (gốc Nga)
+    "отель": "khách sạn (từ mượn, kiểu quốc tế)",
+}

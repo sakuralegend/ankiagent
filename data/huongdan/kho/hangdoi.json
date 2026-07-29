@@ -71,10 +71,11 @@
     "отель",
     "столица"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k13_tu-moi.py",
    "tuMoi": true,
-   "thucong": "TU MOI user vua them. Cac tu co the KHONG cung ho nhau — soan tung the doc lap, dung ep mot truc chung va dung dung khoi he thong. Chuan: README muc 2 (1 man hinh iPhone, toi da 2 o do) + muc 2c (sua field Vietnamese cho chi co 1 dap an dung)."
+   "thucong": "TU MOI user vua them. Cac tu co the KHONG cung ho nhau — soan tung the doc lap, dung ep mot truc chung va dung dung khoi he thong. Chuan: README muc 2 (1 man hinh iPhone, toi da 2 o do) + muc 2c (sua field Vietnamese cho chi co 1 dap an dung).",
+   "daNap": true
   },
   {
    "id": "k51",
