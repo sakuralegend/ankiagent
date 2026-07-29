@@ -64,9 +64,29 @@ User: *"sau quá trình học, giờ tôi bị nhầm lẫn từ khá nhiều do
   **không có số ít** trong tiếng Nga hiện đại. Badge sai kiểu đó **tệ hơn không có badge**: nó
   dạy user nói "э́та де́ньга". Vá bằng cột `pl_only` của `data/nouns.csv` (nguồn dứt khoát, đè lên
   OpenRussian) → 4 thẻ thành `PL 👥` (2 đang sai + 2 đang trống: `щи`, `ребя́та`).
-- ⚠️ **Còn 6 danh từ KHÔNG nguồn nào cho biết giống** ⇒ badge để trống, chưa xử lý:
-  `да́чка · быль · хек · колле́га · дикта́нт · проше́дшее`. (`колле́га` là **giống chung** —
-  m hay f tuỳ người được nói tới; hiện chưa có nhãn cho loại này.)
+- 🧩 **Vá nốt 6 danh từ hụt giống — bằng LUẬT, không bằng bảng chép tay.** User bảo *"điền tay
+  toàn bộ những chỗ bị lỗi đi rồi tôi sync một thể"*. Mở dữ liệu ra thì hoá ra **không cần đoán
+  chữ nào**: cả hai nguồn bỏ trống `gender` nhưng **bảng biến cách vẫn đủ**, mà giống của danh
+  từ Nga được xác định hoàn toàn bởi mẫu biến cách ⇒ việc TẤT ĐỊNH, giao cho máy (cùng lý lẽ
+  `lemma.py`). `grammar.suy_giong()` đọc CÁCH 5 số ít — ô tách được cả ba giống:
+
+  | Từ | Căn cứ | Kết luận |
+  |---|---|---|
+  | `да́чка` | cách 5 `да́чкой` đuôi `-ой` | FEM ♀ |
+  | `быль` | cách 5 `бы́лью` đuôi `-ью` (đực mềm sẽ là `-ем`) | FEM ♀ |
+  | `хек` · `дикта́нт` | cách 1 kết thúc phụ âm + cách 5 `-ом` | MASC ♂ |
+  | `проше́дшее` | cách 1 `-ее` + cách 5 `-им` (tính từ danh từ hoá) | NEUT ⚧ |
+
+  Bảng chỉ định tay chỉ chữa đúng 6 thẻ này; luật chữa luôn mọi từ về sau rơi vào cùng lỗ hổng.
+  Mỗi lần suy đều **in bằng chứng ra để soát** — máy suy thay từ điển thì phải chìa ra căn cứ,
+  không được im lặng. Và luật trả rỗng khi không chắc (`дя́дя`, `мужчи́на` đuôi `-а` mà giống đực
+  ⇒ đòi từ điển), vì badge sai tệ hơn badge trống.
+- 🆕 **Nhãn `M/F ⚥` cho GIỐNG CHUNG** — `колле́га` không hề thiếu dữ liệu: **cả hai nguồn đều
+  ghi `gender='both'`**, chỉ là bảng ánh xạ của tôi thiếu mục đó nên thẻ ra badge trống. Màu hổ
+  phách dùng chung với `BI-ASP`, cùng mang nghĩa *"cả hai cùng lúc, không chọn bên nào"*.
+- ✅ **Soát lại toàn bộ 950 thẻ: 0 danh từ hụt giống · 0 động từ hụt thể · 0 nhãn lạ · 0 badge
+  đặt nhầm từ loại.** Phân bố cuối: 265 MASC · 182 FEM · 63 NEUT · 4 PL · 1 M/F · 55 IMPF ·
+  31 PERF · 2 BI-ASP · 9 REFL.
 - 🔴 **`Sync status 2` đúng như dự báo** — thêm field là schema mod, AnkiWeb đòi full sync và
   AnkiConnect không làm được (phải bấm từ giao diện Anki, chọn **Upload to AnkiWeb**). Đã sao
   lưu trước khi đổi schema (52 MB, 3 deck, 0 lỗi). Sau khi Upload phải kiểm `journalctl` trên

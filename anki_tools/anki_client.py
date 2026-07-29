@@ -382,6 +382,8 @@ def build_card_fields(word, data):
         elif gender_lower in ["f", "feminine"]: gender_label = "FEM ♀"
         elif gender_lower in ["n", "neuter"]: gender_label = "NEUT ⚧"
         elif gender_lower in ["pl", "plural"]: gender_label = "PL 👥"
+        # giống CHUNG: `колле́га` là мой колле́га hay моя́ колле́га tuỳ người
+        elif gender_lower in ["both", "common"]: gender_label = "M/F ⚥"
 
     gender_badge_html = f'<div class="badge {gender_lower}">{gender_label}</div>' if gender_label else ""
 

@@ -95,6 +95,11 @@
 .badge.feminine { background-color: rgba(247, 120, 186, 0.15); color: #f778ba; border: 1px solid rgba(247, 120, 186, 0.45); }
 .badge.neuter { background-color: rgba(210, 168, 255, 0.15); color: #d2a8ff; border: 1px solid rgba(210, 168, 255, 0.45); }
 .badge.plural { background-color: rgba(63, 185, 80, 0.15); color: #56d364; border: 1px solid rgba(63, 185, 80, 0.45); }
+/* Hổ phách = "CẢ HAI CÙNG LÚC" — dùng cho `M/F ⚥` (giống chung: `колле́га` là
+   мой hay моя tuỳ người được nói tới) và cho `BI-ASP` bên dưới. Hai thứ hiếm,
+   cùng một ý nghĩa "không chọn một bên", nên cùng một màu là có lý chứ không
+   phải hết màu. */
+.badge.common { background-color: rgba(227, 179, 65, 0.15); color: #e3b341; border: 1px solid rgba(227, 179, 65, 0.45); }
 /* THỂ (động từ) — hai màu phải KHÁC HẲN nhau chứ không phải hai sắc độ của một
    màu: user báo đang nhầm chính cặp này, mà cặp thể hay đứng cạnh nhau trong
    cùng buổi học (сказа́ть/говори́ть). */

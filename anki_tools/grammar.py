@@ -295,6 +295,40 @@ def reflexive_badge_html(phan_than):
     return f'<div class="badge reflexive">{NHAN_PHAN_THAN}</div>' if phan_than else ""
 
 
+def suy_giong(rec):
+    """Suy GIỐNG từ đuôi biến cách khi từ điển không ghi -> (mã, lý do) / (None, None).
+
+    Cả OpenRussian lẫn `nouns.csv` đều bỏ trống `gender` ở một số danh từ, nhưng
+    **bảng biến cách thì vẫn đủ** — mà giống của danh từ Nga được xác định hoàn
+    toàn bởi mẫu biến cách. Đây là việc TẤT ĐỊNH, đúng loại nên giao cho máy chứ
+    không phải cho AI đoán (cùng lý lẽ với `lemma.py`).
+
+    Ô chẩn đoán tốt nhất là CÁCH 5 số ít, vì nó tách được cả ba giống:
+        -ой/-ей/-ою/-ею  giống cái, biến cách I   (да́чкой)
+        -ью              giống cái, biến cách III (бы́лью)  ← giống đực mềm là -ем
+        -ом/-ем/-ём      đực hay trung, phân biệt bằng đuôi cách 1
+        -ым/-им          tính từ danh từ hoá, cũng phân biệt bằng cách 1
+
+    🔴 Trả (None, None) khi KHÔNG chắc. Badge sai tệ hơn badge trống — xem
+    `chi_so_nhieu()`: `де́ньги` từng hiện "FEM ♀" và dạy user nói "э́та де́ньга".
+    """
+    sg = (rec.get("decl") or {}).get("sg") or {}
+    nom, inst = bare(sg.get("nom") or ""), bare(sg.get("inst") or "").split(",")[0].strip()
+    if not nom or not inst:
+        return None, None
+    if inst.endswith(("ой", "ей", "ою", "ею", "ёй", "ёю")):
+        return "f", f"cách 5 «{sg['inst']}» đuôi -ой/-ей ⇒ giống cái biến cách I"
+    if inst.endswith("ью"):
+        return "f", f"cách 5 «{sg['inst']}» đuôi -ью ⇒ giống cái biến cách III"
+    if inst.endswith(("ом", "ем", "ём", "ым", "им")):
+        if nom.endswith(("о", "е", "ё")):
+            return "n", f"cách 1 «{sg['nom']}» đuôi -о/-е + cách 5 «{sg['inst']}» ⇒ giống trung"
+        if nom.endswith(("а", "я")):
+            return None, None                     # `дя́дя`, `мужчи́на` — phải có từ điển
+        return "m", f"cách 1 «{sg['nom']}» kết thúc phụ âm/-ь/-й + cách 5 «{sg['inst']}» ⇒ giống đực"
+    return None, None
+
+
 _PL_ONLY = None
 
 

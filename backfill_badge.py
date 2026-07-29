@@ -31,9 +31,13 @@ from anki_tools.config import ANKI_CONNECT_URL, MODEL_NAME
 
 # Nhãn giống — giữ ĐỒNG BỘ với anki_client.build_card_fields(). Phải có ở hai
 # nơi vì thẻ cũ chỉ còn chuỗi HTML đã dựng, không giữ lại mã giống gốc.
-GIONG = {"masculine": "MASC ♂", "feminine": "FEM ♀",
-         "neuter": "NEUT ⚧", "plural": "PL 👥"}
-MA_GIONG = {"m": "masculine", "f": "feminine", "n": "neuter", "pl": "plural"}
+GIONG = {"masculine": "MASC ♂", "feminine": "FEM ♀", "neuter": "NEUT ⚧",
+         "plural": "PL 👥", "common": "M/F ⚥"}
+MA_GIONG = {"m": "masculine", "f": "feminine", "n": "neuter", "pl": "plural",
+            # `both` = giống CHUNG (общий род): `колле́га` là мой hay моя́ tuỳ
+            # người được nói tới. CẢ HAI nguồn đều ghi `both`, chỉ là bảng ánh
+            # xạ trước đây thiếu mục này nên thẻ ra badge trống.
+            "both": "common", "common": "common"}
 
 
 def ac(action, **params):
@@ -65,12 +69,27 @@ def gender_badge(rec, badge_cu):
     return f'<div class="badge {ma}">{GIONG[ma]}</div>' if ma else ""
 
 
-def gender_badge_wc(wc, rec, badge_cu):
-    """Như trên, nhưng luật CHỈ DÙNG SỐ NHIỀU đè lên tất cả — xem
-    grammar.chi_so_nhieu(): `де́ньги` không có số ít nên badge "FEM ♀" là dạy sai."""
+def gender_badge_wc(wc, rec, badge_cu, suy_ra):
+    """Badge giống, ba tầng theo thứ tự tin cậy giảm dần:
+
+      1. luật CHỈ DÙNG SỐ NHIỀU (`nouns.csv pl_only`) — đè lên tất cả, vì
+         `де́ньги` không có số ít nên badge "FEM ♀" của từ điển là dạy sai;
+      2. `gender` của từ điển, hoặc nhãn CŨ đang có trên thẻ;
+      3. SUY từ đuôi biến cách (`grammar.suy_giong`) — chỉ khi hai tầng trên
+         đều trống. Mọi lần suy đều ghi vào `suy_ra` để in bằng chứng cho user
+         soát: máy suy thay từ điển thì phải chìa ra căn cứ, không được im lặng.
+    """
     if grammar.chi_so_nhieu(wc):
         return f'<div class="badge plural">{GIONG["plural"]}</div>'
-    return gender_badge(rec, badge_cu)
+    co = gender_badge(rec, badge_cu)
+    if co:
+        return co
+    ma, ly_do = grammar.suy_giong(rec)
+    if not ma:
+        return ""
+    lop = MA_GIONG[ma]
+    suy_ra.append((wc, GIONG[lop], ly_do))
+    return f'<div class="badge {lop}">{GIONG[lop]}</div>'
 
 
 def main():
@@ -86,7 +105,7 @@ def main():
     notes = ac("notesInfo", notes=ac("findNotes", query=f'note:"{MODEL_NAME}"'))
     print(f"{len(notes)} thẻ {MODEL_NAME}")
 
-    doi, giu, ngo, goi_mang = [], 0, [], 0
+    doi, giu, ngo, goi_mang, suy_ra = [], 0, [], 0, []
     for n in notes:
         f = n["fields"]
         wc = (f.get("WordClean", {}).get("value") or "").strip()
@@ -101,7 +120,8 @@ def main():
         la_danh_tu = rec.get("pos") == "noun" or pos_the in ("n", "noun")
 
         moi = {
-            "GenderBadge": (gender_badge_wc(wc, rec, f.get("GenderBadge", {}).get("value", ""))
+            "GenderBadge": (gender_badge_wc(wc, rec,
+                                            f.get("GenderBadge", {}).get("value", ""), suy_ra)
                             if la_danh_tu else ""),
             "AspectBadge": (grammar.aspect_badge_html(rec.get("aspect"))
                             if la_dong_tu else ""),
@@ -129,8 +149,15 @@ def main():
     for mo_ta, sl in sorted(dem.items(), key=lambda x: (-x[1], x[0])):
         print(f"  {sl:4d}×  {mo_ta}")
 
+    if suy_ra:
+        print(f"\n🔎 {len(suy_ra)} thẻ TỪ ĐIỂN KHÔNG GHI GIỐNG — máy suy từ đuôi biến cách."
+              f"\n   (đọc bằng chứng rồi hãy cho chạy --apply)")
+        for wc, nhan, ly_do in suy_ra:
+            print(f"   {wc:14s} -> {nhan:10s} {ly_do}")
+
     if ngo:
-        print(f"\n⚠️ {len(ngo)} thẻ từ điển KHÔNG cho biết -> badge để trống:")
+        print(f"\n⚠️ {len(ngo)} thẻ KHÔNG nguồn nào cho biết, cũng không suy được "
+              f"-> badge để trống:")
         print("   " + " · ".join(ngo[:40]))
     if goi_mang:
         print(f"\n({goi_mang} từ chưa có trong cache, đã gọi mạng lấy về)")
