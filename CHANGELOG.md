@@ -92,6 +92,37 @@ User: *"sau quá trình học, giờ tôi bị nhầm lẫn từ khá nhiều do
   lưu trước khi đổi schema (52 MB, 3 deck, 0 lỗi). Sau khi Upload phải kiểm `journalctl` trên
   VPS — bẫy cũ: VPS kẹt **im lặng**, không báo Telegram.
 
+## 29/07/2026 — SOÁT CHỒNG CHÉO: gộp về một đường cào, vá 12 script lô cũ
+
+User hỏi thẳng: *"triết lí lúc tôi xây nên cái scraper để các cái khác cần thì gọi, sao giờ đẻ ra
+nhiều chồng chéo vậy?"* — soi lại toàn bộ và trả lời bằng số.
+
+- ✅ **Triết lý VẪN GIỮ ở chỗ quan trọng nhất**: tạo thẻ chỉ **một** lượt cào.
+  `grammar.normalize()` nhận đúng object mà scraper đã có, không thêm request nào.
+- 🔴 **Nhưng có MỘT chỗ chồng thật, do tôi đẻ ra**: `grammar.fetch_grammar()` cũng tự
+  GET + BeautifulSoup + moi `__NEXT_DATA__` + chọn mục từ. Hai bản của cùng 25 dòng, và tệ hơn
+  là **HAI LUẬT CHỌN MỤC khác nhau** — `find_word_object` quét đệ quy lấy dict đầu tiên có
+  `type`+`translations`, còn `_pick_word_object` lọc theo chính tả rồi ưu tiên mục có bảng chia.
+  Với từ ĐỒNG TỰ (`мочь` động từ / `мочь` danh từ) hai luật có thể chọn hai mục khác nhau ⇒ một
+  thẻ mà **nghĩa lấy ở mục này, bảng chia lấy ở mục kia**.
+  📏 Đo 6 từ đồng tự (`мочь · мир · стать · пол · три · его́`): **6/6 trùng khớp** — tức chưa
+  hỏng, nhưng đó là may chứ không phải thiết kế.
+  ⇒ Gộp còn `grammar.fetch_word_object()` là **nơi duy nhất chạm OpenRussian**; `scraper.py` nay
+  chỉ còn việc bóc field của thẻ. Xoá được `find_word_object` + 3 import thừa.
+- 🔴 **12 script lô cũ `lo01…lo12_*.py` ghi thẳng `HuongDan`** — viết 27/07, trước khi ô Hướng
+  dẫn có bảng chia ở cuối. Chạy lại bất kỳ script nào là **XOÁ MẤT bảng, im lặng**, chỉ phát
+  hiện khi mở thẻ ra xem. Vá cả 12 sang `grammar.attach_table()`; chạy khan lô 01 kiểm lại:
+  `khop: 17/17`.
+- 🧹 **`backfill_badge.py` vẫn giữ bản sao bảng nhãn giống** dù CHANGELOG hôm nay đã tuyên bố
+  gộp rồi — gộp nốt về `grammar.NHAN_GIONG`/`MA_GIONG`. Bằng chứng không đổi hành vi: chạy lại
+  báo **"SẼ ĐỔI 0 thẻ"**.
+- 📌 **Còn một chỗ chồng CỐ Ý, không đụng**: `grammar_forms/` có scraper riêng cùng trỏ
+  OpenRussian. Đó là ranh giới user đã chốt từ trước (mảng thẻ ngữ pháp tách hẳn khỏi
+  `anki_tools`), không phải chồng chéo phát sinh.
+- ✅ Soát cuối: 0 nơi tự GET OpenRussian ngoài `fetch_word_object` (trừ `grammar_forms/`) ·
+  0 nơi ghi `HuongDan` không qua `attach_table` (trừ `build_card_fields`, chỉ dùng cho `addNote`
+  thẻ mới tinh nên không có gì để giữ) · 0 bản sao bảng nhãn badge.
+
 ## 29/07/2026 — Field `GrammarJSON` + TỰ ĐỘNG HOÁ cho từ mới
 
 - 🗄️ **Field `GrammarJSON`** (ẩn, JSON, cùng khuôn `RawExamples`) — user: *"những thứ cào được

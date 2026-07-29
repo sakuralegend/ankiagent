@@ -13,6 +13,10 @@ Chạy: python data/huongdan/lo10_hoctap_2026-07-27.py [--apply]
 import json
 import sys
 import urllib.request
+import os
+import sys
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
+from anki_tools import grammar
 
 ANKI = "http://127.0.0.1:8765"
 
@@ -242,7 +246,12 @@ def main():
             miss.append((word, len(ids)))
             continue
         if apply:
-            ac("updateNoteFields", note={"id": ids[0], "fields": {"HuongDan": html}})
+            # 🔴 GIỮ BẢNG CHIA. Script này viết 27/07, trước khi ô Hướng dẫn có
+            # bảng chia máy dựng ở cuối. Ghi thẳng `html` là XOÁ MẤT bảng, im
+            # lặng, chỉ phát hiện khi mở thẻ ra xem. `attach_table` nối lại bảng
+            # từ dữ liệu từ điển nên chạy lại script cũ cũng không phá gì.
+            ac("updateNoteFields", note={"id": ids[0], "fields": {
+                "HuongDan": grammar.attach_table(html, grammar.get_cached(word))}})
         ok.append(word)
     print(f"khop: {len(ok)}/{len(S)}")
     for w, n in miss:

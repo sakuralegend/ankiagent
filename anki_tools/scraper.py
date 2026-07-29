@@ -1,11 +1,10 @@
 # ==============================================================================
 # --- CÀO DỮ LIỆU TỪ OPENRUSSIAN ---
+# File này lo phần BÓC FIELD CỦA THẺ (nghĩa, từ loại, giống, ví dụ) từ mục từ.
+# Phần gọi mạng + chọn mục từ nằm ở `grammar.fetch_word_object()` — nơi duy nhất
+# chạm tới OpenRussian, để hai luồng (tạo thẻ / cào hàng loạt) không bao giờ
+# chọn hai mục khác nhau cho cùng một từ.
 # ==============================================================================
-import json
-import urllib.parse
-import requests
-from bs4 import BeautifulSoup
-
 from . import grammar
 from .utils import log_fail, convert_stress_to_combining_accent
 
@@ -18,40 +17,12 @@ def process_pure_next_data(word):
     ⚠️ Nếu đổi tên bất kỳ khóa nào ở đây, phải sửa luôn anki_client.push_to_anki().
     """
     clean_word = word.strip()
-    url = f"https://en.openrussian.org/ru/{urllib.parse.quote(clean_word, safe='')}"
-    headers = {"User-Agent": "Mozilla/5.0"}
-
     try:
-        res = requests.get(url, headers=headers, timeout=15)
-        if res.status_code != 200:
-            log_fail(f"Server trả về status {res.status_code}.")
-            return None
-
-        soup = BeautifulSoup(res.text, "html.parser")
-        script_tag = soup.find("script", id="__NEXT_DATA__")
-        if not script_tag:
-            log_fail("Không tìm thấy dữ liệu từ vựng (trang có thể đã đổi cấu trúc).")
-            return None
-
-        json_data = json.loads(script_tag.get_text(strip=True))
-        pageProps = json_data.get("props", {}).get("pageProps", {})
-
-        def find_word_object(data):
-            if isinstance(data, dict):
-                if 'type' in data and 'translations' in data:
-                    return data
-                for val in data.values():
-                    result = find_word_object(val)
-                    if result:
-                        return result
-            elif isinstance(data, list):
-                for item in data:
-                    result = find_word_object(item)
-                    if result:
-                        return result
-            return None
-
-        main_word_obj = find_word_object(pageProps)
+        # Gọi mạng + chọn mục từ nằm ở grammar.fetch_word_object() — NƠI DUY NHẤT.
+        # File này trước đây tự GET và tự có luật chọn mục riêng; hai luật thì với
+        # từ ĐỒNG TỰ (`мочь` động từ / danh từ) có thể chọn hai mục khác nhau,
+        # thành ra một thẻ mà nghĩa lấy ở mục này, bảng chia lấy ở mục kia.
+        main_word_obj = grammar.fetch_word_object(clean_word, timeout=15)
         if not main_word_obj:
             log_fail(f"Từ '{clean_word}' không tồn tại trên OpenRussian.")
             return None

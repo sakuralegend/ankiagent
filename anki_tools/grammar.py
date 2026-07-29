@@ -267,6 +267,36 @@ def normalize(word_obj):
     return rec
 
 
+def fetch_word_object(word, timeout=25):
+    """Tải trang OpenRussian -> MỤC TỪ đã chọn (dict `__NEXT_DATA__`), None nếu hụt.
+
+    🔴 ĐÂY LÀ NƠI DUY NHẤT gọi mạng tới OpenRussian. `scraper.py` (tạo thẻ) và
+    `fetch_grammar()` (cào hàng loạt) đều đi qua hàm này.
+
+    Trước 29/07 mỗi bên tự GET + tự moi `__NEXT_DATA__` + tự có LUẬT CHỌN MỤC
+    RIÊNG (`find_word_object` quét đệ quy lấy dict đầu tiên có `type`+`translations`;
+    `_pick_word_object` lọc theo chính tả rồi ưu tiên mục có bảng chia). Với từ
+    ĐỒNG TỰ (`мочь` động từ / `мочь` danh từ) hai luật có thể chọn hai mục khác
+    nhau ⇒ một thẻ mà nghĩa lấy ở mục này, bảng chia lấy ở mục kia. Đo thử 6 từ
+    đồng tự thì cả 6 đều trùng — tức chưa hỏng, nhưng đó là may chứ không phải
+    thiết kế. Gộp lại còn MỘT luật thì hết cửa lệch.
+    """
+    import requests
+    from bs4 import BeautifulSoup
+    url = "https://en.openrussian.org/ru/" + urllib.parse.quote(word.strip(), safe="")
+    res = requests.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=timeout)
+    if res.status_code != 200:
+        log_fail(f"{word}: HTTP {res.status_code}")
+        return None
+    tag = BeautifulSoup(res.text, "html.parser").find("script", id="__NEXT_DATA__")
+    if not tag:
+        log_fail(f"{word}: khong tim thay __NEXT_DATA__ (trang doi cau truc?)")
+        return None
+    info = json.loads(tag.get_text(strip=True)).get(
+        "props", {}).get("pageProps", {}).get("info", {})
+    return _pick_word_object(info, bare(word))
+
+
 def fetch_grammar(word, refresh=False, delay=0.5):
     """Bản ghi ngữ pháp của một từ ({} nếu không có trên OpenRussian).
 
@@ -278,24 +308,9 @@ def fetch_grammar(word, refresh=False, delay=0.5):
     cache = _cache()
     if not refresh and key in cache:
         return cache[key]
-
-    import requests
-    from bs4 import BeautifulSoup
-    url = "https://en.openrussian.org/ru/" + urllib.parse.quote(word.strip(), safe="")
     try:
-        res = requests.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=25)
-        if res.status_code != 200:
-            log_fail(f"{word}: HTTP {res.status_code}")
-            return {}
-        soup = BeautifulSoup(res.text, "html.parser")
-        tag = soup.find("script", id="__NEXT_DATA__")
-        if not tag:
-            log_fail(f"{word}: khong tim thay __NEXT_DATA__")
-            return {}
-        info = json.loads(tag.get_text(strip=True)).get(
-            "props", {}).get("pageProps", {}).get("info", {})
-        obj = _pick_word_object(info, key)
-        rec = normalize(obj) if obj else {}
+        obj = fetch_word_object(word)
+        rec = bo_sung(normalize(obj), word) if obj else {}
     except Exception as e:                      # mạng chập -> KHÔNG cache, thử lại sau
         log_fail(f"{word}: {e}")
         return {}

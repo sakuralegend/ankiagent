@@ -29,15 +29,11 @@ import urllib.request
 from anki_tools import grammar
 from anki_tools.config import ANKI_CONNECT_URL, MODEL_NAME
 
-# Nhãn giống — giữ ĐỒNG BỘ với anki_client.build_card_fields(). Phải có ở hai
-# nơi vì thẻ cũ chỉ còn chuỗi HTML đã dựng, không giữ lại mã giống gốc.
-GIONG = {"masculine": "MASC ♂", "feminine": "FEM ♀", "neuter": "NEUT ⚧",
-         "plural": "PL 👥", "common": "M/F ⚥"}
-MA_GIONG = {"m": "masculine", "f": "feminine", "n": "neuter", "pl": "plural",
-            # `both` = giống CHUNG (общий род): `колле́га` là мой hay моя́ tuỳ
-            # người được nói tới. CẢ HAI nguồn đều ghi `both`, chỉ là bảng ánh
-            # xạ trước đây thiếu mục này nên thẻ ra badge trống.
-            "both": "common", "common": "common"}
+# 🔴 KHÔNG khai lại bảng nhãn ở đây. Nó từng có bản sao riêng trong file này và
+# một bản trong `anki_client.build_card_fields()` — hai bản thì sớm muộn lệch
+# nhau, mà lệch nghĩa là thẻ MỚI và thẻ CŨ hiện hai kiểu badge cho cùng một
+# giống. Nguồn duy nhất nay là `grammar.NHAN_GIONG` / `grammar.gender_badge_html`.
+GIONG = grammar.NHAN_GIONG
 
 
 def ac(action, **params):
@@ -54,42 +50,41 @@ def chu(html):
     return re.sub(r"<[^>]+>", "", html or "").strip()
 
 
-def gender_badge(rec, badge_cu):
-    """Badge giống. Ưu tiên từ điển; từ điển thiếu thì đọc lại NHÃN CŨ trên thẻ.
-
-    Vì sao cần nhánh thứ hai: có danh từ OpenRussian không ghi `noun.gender`
-    nhưng thẻ đang hiện giống đúng (lúc tạo thẻ lấy được, hoặc sửa tay). Dựng
-    lại một cách máy móc từ từ điển sẽ XOÁ MẤT badge đang đúng — đổi nhãn cho
-    đẹp mà làm mất thông tin thì là lỗ, không phải lãi.
-    """
-    ma = MA_GIONG.get((rec.get("gender") or "").strip().lower())
-    if not ma:
-        cu = chu(badge_cu).lower()
-        ma = next((k for k in GIONG if cu.startswith(k[:4])), None)
-    return f'<div class="badge {ma}">{GIONG[ma]}</div>' if ma else ""
+def _badge(lop):
+    return f'<div class="badge {lop}">{GIONG[lop]}</div>' if lop else ""
 
 
 def gender_badge_wc(wc, rec, badge_cu, suy_ra):
-    """Badge giống, ba tầng theo thứ tự tin cậy giảm dần:
+    """Badge giống, BỐN tầng theo thứ tự tin cậy giảm dần.
 
-      1. luật CHỈ DÙNG SỐ NHIỀU (`nouns.csv pl_only`) — đè lên tất cả, vì
-         `де́ньги` không có số ít nên badge "FEM ♀" của từ điển là dạy sai;
-      2. `gender` của từ điển, hoặc nhãn CŨ đang có trên thẻ;
-      3. SUY từ đuôi biến cách (`grammar.suy_giong`) — chỉ khi hai tầng trên
-         đều trống. Mọi lần suy đều ghi vào `suy_ra` để in bằng chứng cho user
-         soát: máy suy thay từ điển thì phải chìa ra căn cứ, không được im lặng.
+    Dùng chung `grammar.NHAN_GIONG` / `MA_GIONG` / `suy_giong` với luồng tạo thẻ
+    mới — file này CHỈ thêm hai việc mà luồng kia không cần:
+      · tầng 3 đọc lại NHÃN CŨ trên thẻ (thẻ mới tinh thì làm gì có nhãn cũ);
+      · ghi bằng chứng vào `suy_ra` để in cho user soát.
+
+      1. CHỈ DÙNG SỐ NHIỀU (`nouns.csv pl_only`) — đè lên tất cả, vì `де́ньги`
+         không có số ít nên badge "FEM ♀" của từ điển là dạy sai;
+      2. `gender` của từ điển;
+      3. nhãn CŨ đang có trên thẻ — có danh từ OpenRussian không ghi giống nhưng
+         thẻ đang hiện đúng (lúc tạo thẻ lấy được, hoặc user sửa tay). Dựng lại
+         máy móc từ từ điển sẽ XOÁ MẤT badge đang đúng: đổi nhãn cho đẹp mà làm
+         mất thông tin thì là lỗ, không phải lãi;
+      4. SUY từ đuôi biến cách. Máy suy thay từ điển thì phải chìa ra căn cứ,
+         không được im lặng.
     """
     if grammar.chi_so_nhieu(wc):
-        return f'<div class="badge plural">{GIONG["plural"]}</div>'
-    co = gender_badge(rec, badge_cu)
-    if co:
-        return co
+        return _badge("plural")
+    lop = grammar.MA_GIONG.get((rec.get("gender") or "").strip().lower())
+    if not lop:
+        cu = chu(badge_cu).lower()
+        lop = next((k for k in GIONG if cu.startswith(k[:4])), None)
+    if lop:
+        return _badge(lop)
     ma, ly_do = grammar.suy_giong(rec)
-    if not ma:
-        return ""
-    lop = MA_GIONG[ma]
-    suy_ra.append((wc, GIONG[lop], ly_do))
-    return f'<div class="badge {lop}">{GIONG[lop]}</div>'
+    lop = grammar.MA_GIONG.get(ma or "")
+    if lop:
+        suy_ra.append((wc, GIONG[lop], ly_do))
+    return _badge(lop)
 
 
 def main():
