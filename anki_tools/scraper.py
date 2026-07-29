@@ -6,6 +6,7 @@ import urllib.parse
 import requests
 from bs4 import BeautifulSoup
 
+from . import grammar
 from .utils import log_fail, convert_stress_to_combining_accent
 
 
@@ -71,6 +72,20 @@ def process_pure_next_data(word):
         aspect = verb_obj.get("aspect") or "" if isinstance(verb_obj, dict) else ""
         reflexive = bool(verb_obj.get("isReflexive")) if isinstance(verb_obj, dict) else False
 
+        # Toàn bộ dữ liệu ngữ pháp (bảng chia, họ từ...) -> field GrammarJSON.
+        # Dùng ĐÚNG `main_word_obj` mà các field khác của thẻ vừa lấy ra, nên
+        # KHÔNG tốn thêm một lượt gọi mạng nào và nội dung trong một thẻ luôn
+        # nhất quán với nhau (không có chuyện nghĩa lấy ở mục này, bảng chia lấy
+        # ở mục đồng tự khác).
+        try:
+            # `bo_sung` vá nốt chỗ OpenRussian thiếu (số từ chỉ có dạng gốc ->
+            # hỏi Wiktionary). Hỏng ở bước này KHÔNG được làm hỏng cả việc tạo
+            # thẻ: thà thẻ thiếu bảng còn hơn không có thẻ.
+            grammar_rec = grammar.bo_sung(grammar.normalize(main_word_obj), clean_word)
+        except Exception as e:
+            log_fail(f"khong dung duoc GrammarJSON cho '{clean_word}': {e}")
+            grammar_rec = {}
+
         meanings = []
         trans_data = main_word_obj.get("translations")
         if isinstance(trans_data, dict) and "en" in trans_data:
@@ -95,6 +110,7 @@ def process_pure_next_data(word):
             "gender": gender,
             "aspect": aspect,
             "reflexive": reflexive,
+            "grammar": grammar_rec,
             "raw_dictionary_examples": raw_examples
         }
     except Exception as e:

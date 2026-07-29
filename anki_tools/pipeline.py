@@ -6,6 +6,7 @@
 # ==============================================================================
 import re
 
+from . import grammar
 from .scraper import process_pure_next_data
 from .utils import strip_accents_perfectly
 from .anki_client import (
@@ -92,6 +93,14 @@ def redo_note_id(note_id, do_sync=False):
 
     built = build_card_fields(clean_word, data)
     new_fields = dict(built["fields"])
+
+    # 🔴 GIỮ phần chữ của ô Hướng dẫn. `build_card_fields()` dựng `HuongDan` chỉ
+    # gồm BẢNG CHIA (đúng cho thẻ mới tinh), nhưng ở đây thẻ đã tồn tại và có thể
+    # đã được soạn kỹ phần chẻ từ / cách nhớ / họ hàng. Ghi thẳng là user bấm
+    # "làm lại thẻ" rồi mất trắng nội dung mà không ai báo. `attach_table` chỉ
+    # thay đúng cái bảng, chừa nguyên phần chữ.
+    new_fields["HuongDan"] = grammar.attach_table(
+        fields.get("HuongDan") or "", data.get("grammar") or {})
 
     # Audio: chỉ tải khi thẻ ĐANG THIẾU tiếng. "Thiếu" = ô Audio không có tag
     # [sound:...] hợp lệ — gồm cả thẻ trống LẪN thẻ mà AnkiConnect từng ghi câu

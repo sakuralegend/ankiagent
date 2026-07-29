@@ -437,6 +437,76 @@ def aspect_of(word):
     return rec.get("aspect") or "" if rec.get("pos") == "verb" else ""
 
 
+# 🔴 NGUỒN CHÂN LÝ DUY NHẤT của nhãn giống. Trước đây bảng này có ở hai nơi
+# (anki_client.build_card_fields cho thẻ MỚI, backfill_badge.py cho thẻ CŨ) —
+# hai nơi thì sớm muộn lệch nhau, và lệch ở đây nghĩa là thẻ mới với thẻ cũ hiện
+# hai kiểu badge khác nhau cho cùng một giống.
+NHAN_GIONG = {"masculine": "MASC ♂", "feminine": "FEM ♀", "neuter": "NEUT ⚧",
+              "plural": "PL 👥", "common": "M/F ⚥"}
+MA_GIONG = {"m": "masculine", "f": "feminine", "n": "neuter", "pl": "plural",
+            "both": "common", "common": "common",
+            # chấp nhận cả tên đầy đủ vì scraper.py trả về "Masculine"/"Feminine"
+            "masculine": "masculine", "feminine": "feminine",
+            "neuter": "neuter", "plural": "plural"}
+
+
+def gender_badge_html(word, ma_giong=None, rec=None):
+    """Badge giống cho MỘT danh từ. Ba tầng theo độ tin cậy giảm dần:
+
+      1. luật CHỈ DÙNG SỐ NHIỀU (`nouns.csv pl_only`) — đè lên tất cả, vì
+         `де́ньги` không có số ít nên `FEM ♀` của từ điển là dạy sai;
+      2. mã giống từ điển đưa (`m`/`f`/`n`/`pl`/`both`);
+      3. SUY từ đuôi biến cách (`suy_giong`) khi từ điển bỏ trống.
+
+    Trả "" khi không chắc — badge sai tệ hơn badge trống.
+    """
+    if chi_so_nhieu(word):
+        return f'<div class="badge plural">{NHAN_GIONG["plural"]}</div>'
+    rec = get_cached(word) if rec is None else rec
+    lop = MA_GIONG.get(str(ma_giong or rec.get("gender") or "").strip().lower())
+    if not lop:
+        ma, _ = suy_giong(rec)
+        lop = MA_GIONG.get(ma or "")
+    return f'<div class="badge {lop}">{NHAN_GIONG[lop]}</div>' if lop else ""
+
+
+def bo_sung(rec, word):
+    """Vá những chỗ OpenRussian thiếu, NGAY TRONG LUỒNG TẠO THẺ.
+
+    Hiện chỉ có một chỗ: **số từ** mà OpenRussian chỉ lưu dạng gốc
+    (`formType = "ru_base"`) — `со́рок`, `сто`, `два`… Không vá ở đây thì từ mới
+    user thêm sẽ ra thẻ không có bảng, trong khi 27 từ cùng loại thêm trước đó
+    lại có (vì được vá riêng một lượt) — cùng một loại từ mà hai kiểu thẻ.
+
+    User chốt: *"những cái này cũng phải làm để tự động lấy khi lấy từ mới, vì
+    những cái này thuần cào data"*.
+
+    Import wiktionary Ở TRONG HÀM: `wiktionary.py` import ngược lại module này,
+    để ở đầu file là vòng tròn.
+    """
+    if not rec or rec.get("pos") != "numeral" or rec.get("numDecl"):
+        return rec
+    from . import wiktionary
+    them = wiktionary.fetch_numeral(word, delay=0)
+    if them:
+        rec.update(them)
+    return rec
+
+
+def remember(word, rec):
+    """Ghi một bản ghi vào cache (dùng khi vừa cào xong ở luồng tạo thẻ).
+
+    Nhờ vậy thẻ user thêm hằng ngày tự có mặt trong cache, không phải chạy
+    `cao_nguphap.py --anki` bù về sau — user chốt: *"những cái này cũng phải làm
+    để tự động lấy khi lấy từ mới, vì những cái này thuần cào data"*.
+    """
+    if not rec:
+        return
+    cache = _cache()
+    cache[bare(word)] = rec
+    _save_cache(cache)
+
+
 # ==============================================================================
 # --- PHÁT HIỆN BẤT THƯỜNG ---
 # User chốt 29/07: bảng chia CHỈ đính kèm khi từ có bất thường, và chỉ đính
@@ -813,6 +883,25 @@ def _bang_so_tu(rec, nong):
 
 _BANG = {"noun": _bang_danh_tu, "verb": _bang_dong_tu, "adjective": _bang_tinh_tu,
          "pronoun": _bang_dai_tu, "numeral": _bang_so_tu}
+
+
+_BANG_RE = re.compile(r'<details class="gt-bang">.*?</details>', re.S)
+
+
+def attach_table(html, rec):
+    """Gắn LẠI bảng chia vào cuối một ô Hướng dẫn — NGUỒN CHÂN LÝ DUY NHẤT.
+
+    Luôn GỠ bảng cũ trước rồi mới nối bảng mới ⇒ gọi bao nhiêu lần cũng ra một
+    kết quả, không đội bảng chồng bảng.
+
+    🔴 Phải dùng hàm này ở MỌI chỗ ghi `HuongDan`, đặc biệt là luồng LÀM LẠI THẺ
+    (`pipeline.redo_note_id`): ở đó `build_card_fields()` dựng lại toàn bộ field
+    từ dữ liệu cào mới, nên nếu ghi thẳng thì phần chữ do lô soạn (chẻ từ · cách
+    nhớ · họ hàng) **bị xoá sạch** — người dùng bấm "làm lại thẻ" cho một từ đã
+    soạn kỹ và mất trắng nội dung mà không ai báo.
+    """
+    than = _BANG_RE.sub("", html or "").rstrip()
+    return than + build_table(rec)
 
 
 def build_table(rec, phan_tich=None):

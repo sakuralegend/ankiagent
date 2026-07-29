@@ -6146,6 +6146,114 @@
 "rank": 141,
 "wc": "вода"
 },
+"возвращаться": {
+"acc": "возвраща́ться",
+"aspect": "imperfective",
+"family": [
+{
+"en": "revolve, rotate, turn",
+"pos": "ver",
+"w": "враща́ть"
+},
+{
+"en": "rotation, revolution, gyration",
+"pos": "nou",
+"w": "враще́ние"
+},
+{
+"en": "revolve, rotate, turn",
+"pos": "ver",
+"w": "враща́ться"
+},
+{
+"en": "pervert, misinterpret, misconstrue",
+"pos": "ver",
+"w": "извраща́ть"
+},
+{
+"en": "avert",
+"pos": "ver",
+"w": "отвраща́ть"
+},
+{
+"en": "seduce, pervert",
+"pos": "ver",
+"w": "совраща́ть"
+},
+{
+"en": "return, give back, bring back",
+"pos": "ver",
+"w": "возвраща́ть"
+},
+{
+"en": "turn into, transform, convert",
+"pos": "ver",
+"w": "превраща́ть"
+},
+{
+"en": "corrupt, deprave, debauch",
+"pos": "ver",
+"w": "развраща́ть"
+},
+{
+"en": "return, go back, revert",
+"pos": "ver",
+"w": "возвраща́ться"
+},
+{
+"en": "turn into, become, change",
+"pos": "ver",
+"w": "превраща́ться"
+},
+{
+"en": "to return, come back (from), to revert (to)",
+"pos": "",
+"w": "верну́ться"
+},
+{
+"en": "return, give back, bring back",
+"pos": "",
+"w": "верну́ть"
+},
+{
+"en": "return, recurrence",
+"pos": "",
+"w": "возвраще́ние"
+},
+{
+"en": "return repayment or refund",
+"pos": "",
+"w": "возвра́т"
+}
+],
+"imper": [
+"возвраща́йся",
+"возвраща́йтесь"
+],
+"motion": null,
+"partners": [
+"верну́ться",
+"возврати́ться"
+],
+"past": [
+"возвраща́лся",
+"возвраща́лась",
+"возвраща́лось",
+"возвраща́лись"
+],
+"pos": "verb",
+"presfut": [
+"возвраща́юсь",
+"возвраща́ешься",
+"возвраща́ется",
+"возвраща́емся",
+"возвраща́етесь",
+"возвраща́ются"
+],
+"rank": 666,
+"reflexive": true,
+"wc": "возвращаться"
+},
 "войти": {
 "acc": "войти́",
 "aspect": "perfective",

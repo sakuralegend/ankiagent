@@ -92,6 +92,39 @@ User: *"sau quá trình học, giờ tôi bị nhầm lẫn từ khá nhiều do
   lưu trước khi đổi schema (52 MB, 3 deck, 0 lỗi). Sau khi Upload phải kiểm `journalctl` trên
   VPS — bẫy cũ: VPS kẹt **im lặng**, không báo Telegram.
 
+## 29/07/2026 — Field `GrammarJSON` + TỰ ĐỘNG HOÁ cho từ mới
+
+- 🗄️ **Field `GrammarJSON`** (ẩn, JSON, cùng khuôn `RawExamples`) — user: *"những thứ cào được
+  này nên đặt vào một field nào đó trong thẻ, để sau này muốn lấy để xử lí cũng dễ"*. Trước đó
+  dữ liệu chỉ nằm ở `data/grammar_cache.json` **trên laptop** ⇒ bot trên VPS không với tới, mất
+  file là mất trắng phải cào lại 950 lượt mạng, và thẻ không tự chứa.
+  Đo thật: **0,80 MB cho 950 thẻ** (trung bình 888 B, to nhất `дава́ть` 6 132 B). Giữ nguyên cả
+  `family` dù nó chiếm 60% — phần B (họ từ) cần đúng nó.
+- 🔁 **Từ mới tự có ĐỦ mọi thứ** — user nhắc: *"những cái này cũng phải làm để tự động lấy khi
+  lấy từ mới, vì những cái này thuần cào data"*. Đúng, và đang thiếu ở ba chỗ, vá cả ba:
+  · `scraper` trả thêm `grammar` = `normalize(main_word_obj)` — dùng ĐÚNG object mà các field
+    khác của thẻ vừa lấy ra ⇒ **không tốn thêm một lượt gọi mạng nào**, và nội dung trong một
+    thẻ luôn nhất quán (không có chuyện nghĩa lấy ở mục này, bảng chia lấy ở mục đồng tự khác).
+  · `build_card_fields` ghi luôn `HuongDan` = bảng chia ⇒ thẻ có bảng tra cứu ngay, không phải
+    đợi tới lượt lô của từ đó.
+  · `grammar.remember()` ghi vào cache ngay ⇒ không phải chạy `cao_nguphap.py --anki` bù về sau.
+- 🐛 **`со́рок` mới cào vẫn ra 68 B, không bảng** — bản vá Wiktionary chỉ nằm trong cache chứ
+  không nằm trong ĐƯỜNG CÀO, nên từ số mới thêm sẽ khác hẳn 27 từ cùng loại thêm trước đó.
+  Thêm `grammar.bo_sung()` gọi Wiktionary ngay trong luồng tạo thẻ. Sau khi vá: `со́рок` 204 B +
+  bảng 696 B, `два` 347 B + bảng 1 139 B.
+- 🔴 **BUG MẤT DỮ LIỆU suýt gây ra, bắt được lúc rà lại luồng gọi**: `pipeline.redo_note_id`
+  (nút "làm lại thẻ" của bot) ghi đè TOÀN BỘ field từ `build_card_fields()`. `HuongDan` nay có
+  giá trị (bảng chia) ⇒ user bấm làm lại một thẻ đã soạn kỹ sẽ **mất trắng phần chẻ từ / cách
+  nhớ / họ hàng**, mà không có gì báo. Chữa bằng `grammar.attach_table()` — chỉ thay đúng cái
+  bảng, chừa nguyên phần chữ.
+- 🧹 **Gộp về NGUỒN CHÂN LÝ DUY NHẤT** hai chỗ đang trùng lặp, vì trùng thì sớm muộn lệch:
+  · nhãn giống (`NHAN_GIONG`) — trước ở cả `build_card_fields` (thẻ mới) lẫn `backfill_badge.py`
+    (thẻ cũ); lệch ở đây nghĩa là thẻ mới và thẻ cũ hiện hai kiểu badge cho cùng một giống.
+  · nối bảng (`attach_table`) — trước có riêng ở `congcu.py`; ba luồng tự nối theo ba kiểu thì
+    sớm muộn có luồng quên gỡ bảng cũ và thẻ mọc hai bảng chồng nhau.
+  Kiểm: gọi `attach_table` ba lần liên tiếp ra cùng một kết quả, và giữ nguyên phần chữ.
+- ⚠️ Thêm field = schema mod thứ hai trong ngày ⇒ **cần Upload to AnkiWeb thêm một lần nữa**.
+
 ## 29/07/2026 — PHẦN C xong: 819 thẻ có BẢNG CHIA + bỏ chữ nghiêng Nga
 
 - 📋 **`congcu.py bang [--apply]` nối bảng chia vào MỌI thẻ** — user đổi quyết định giữa chừng:

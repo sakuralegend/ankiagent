@@ -68,18 +68,17 @@ def khoa_note(w):
 # Bảng do MÁY dựng từ từ điển, KHÔNG do agent soạn (240 dạng có trọng âm mỗi lô
 # đi qua model là 240 cơ hội sai mà user không tự kiểm được — README §1).
 # Vì vậy nó được nối vào lúc GHI, không nằm trong file lô.
-_BANG_RE = re.compile(r'<details class="gt-bang">.*?</details>', re.S)
+_BANG_RE = grammar._BANG_RE          # dùng chung, đừng viết lại regex ở hai nơi
 
 
 def gan_bang(html, word):
-    """Gắn LẠI bảng chia vào cuối một ô Hướng dẫn.
+    """Gắn lại bảng chia — vỏ mỏng quanh `grammar.attach_table()`.
 
-    Luôn GỠ bảng cũ trước rồi mới nối bảng mới ⇒ chạy bao nhiêu lần cũng ra cùng
-    một kết quả, không đội bảng chồng bảng. Nhờ vậy sửa cách dựng bảng thì chỉ
-    việc chạy lại `bang --apply`, không phải dọn tay.
+    Logic thật nằm ở `grammar.py` để luồng soạn lô, luồng tạo thẻ mới và luồng
+    làm lại thẻ dùng CHUNG một hàm. Ba nơi tự nối bảng theo ba kiểu thì sớm muộn
+    có nơi quên gỡ bảng cũ và thẻ mọc hai bảng chồng nhau.
     """
-    than = _BANG_RE.sub("", html or "").rstrip()
-    return than + grammar.build_table(grammar.get_cached(word))
+    return grammar.attach_table(html, grammar.get_cached(word))
 
 
 def cmd_bang():

@@ -288,7 +288,16 @@ def setup_anki_environment():
                     # ReflexiveBadge: động từ phản thân (-ся) — thêm 29/07/2026
                     #   cùng đợt với AspectBadge. Nó gỡ chỗ badge thể KHÔNG cứu
                     #   được: `учи́ть`/`учи́ться` cùng `v`, cùng chưa hoàn thành.
-                    "inOrderFields": ["Word", "WordClean", "Meaning", "Vietnamese", "PoS", "PoSFull", "GenderBadge", "AspectBadge", "ReflexiveBadge", "ExamplesHTML", "RawExamples", "Audio", "HuongDan", "Stage"],
+                    # GrammarJSON: TOÀN BỘ dữ liệu ngữ pháp cào được, dạng JSON,
+                    #   ẨN (không template nào hiện). Cùng khuôn với `RawExamples`
+                    #   vốn đã lưu JSON câu gốc. User chốt 29/07: *"cào rồi đặt
+                    #   vào một field nào đó trong thẻ, để sau này muốn lấy để xử
+                    #   lí cũng dễ"* — trước đó dữ liệu chỉ nằm ở
+                    #   `data/grammar_cache.json` trên laptop nên bot trên VPS
+                    #   không với tới. Để trong thẻ thì nó tự sync đi khắp nơi và
+                    #   thẻ trở thành tự chứa, không phụ thuộc file ngoài.
+                    #   Đo thật: 0,8 MB cho 950 thẻ (trung bình 888 B, to nhất 6 KB).
+                    "inOrderFields": ["Word", "WordClean", "Meaning", "Vietnamese", "PoS", "PoSFull", "GenderBadge", "AspectBadge", "ReflexiveBadge", "ExamplesHTML", "RawExamples", "GrammarJSON", "Audio", "HuongDan", "Stage"],
                     "css": shared_css, "cardTemplates": [{"Name": "Pure Engine Typing Card v25", "Front": front_template, "Back": back_template}]
                 }
             }, timeout=5)
@@ -308,7 +317,8 @@ def setup_anki_environment():
                 "action": "modelFieldNames", "version": 6,
                 "params": {"modelName": MODEL_NAME}}, timeout=5)
             dang_co = res_f.json().get("result") or []
-            for ten, vi_tri in (("AspectBadge", 7), ("ReflexiveBadge", 8)):
+            for ten, vi_tri in (("AspectBadge", 7), ("ReflexiveBadge", 8),
+                                ("GrammarJSON", 11)):
                 if ten in dang_co:
                     continue
                 res_add = requests.post(ANKI_CONNECT_URL, json={
@@ -374,22 +384,18 @@ def build_card_fields(word, data):
     pos_full = data["pos_full"]
     gender_lower = str(data["gender"]).lower().strip()
 
-    # Nhãn VIẾT TẮT tiếng Anh — thống nhất với `n`/`v`/`adj` và với PERF/IMPF.
-    # (Trước 29/07 là "Masculine ♂"; dài gấp ba mà không nói thêm gì.)
-    gender_label = ""
-    if pos_clean in ["n", "noun"] and gender_lower != "none":
-        if gender_lower in ["m", "masculine"]: gender_label = "MASC ♂"
-        elif gender_lower in ["f", "feminine"]: gender_label = "FEM ♀"
-        elif gender_lower in ["n", "neuter"]: gender_label = "NEUT ⚧"
-        elif gender_lower in ["pl", "plural"]: gender_label = "PL 👥"
-        # giống CHUNG: `колле́га` là мой колле́га hay моя́ колле́га tuỳ người
-        elif gender_lower in ["both", "common"]: gender_label = "M/F ⚥"
-
-    gender_badge_html = f'<div class="badge {gender_lower}">{gender_label}</div>' if gender_label else ""
-
-    # Thể động từ + phản thân — hai badge riêng, chỉ động từ mới có.
+    # Ba badge ngữ pháp. Dựng qua grammar.* để thẻ MỚI và thẻ CŨ (backfill_badge.py)
+    # luôn ra cùng một thứ — nhãn giống nay chỉ còn MỘT bảng, ở grammar.NHAN_GIONG.
+    grammar_rec = data.get("grammar") or {}
+    if grammar_rec:
+        # ghi vào cache ngay: từ user thêm hằng ngày tự có mặt, không phải chạy
+        # `cao_nguphap.py --anki` bù về sau
+        grammar.remember(clean_word, grammar_rec)
+    gender_badge_html = (grammar.gender_badge_html(clean_word, gender_lower, grammar_rec)
+                         if pos_clean in ("n", "noun") else "")
     aspect_badge_html = grammar.aspect_badge_html(data.get("aspect", ""))
     reflexive_badge_html = grammar.reflexive_badge_html(data.get("reflexive"))
+    gender_label = re.sub(r"<[^>]+>", "", gender_badge_html)
 
     meaning_html = '<ol class="meaning-list">'
     for m in data["english_meanings"]: meaning_html += f"<li>{m}</li>"
@@ -407,6 +413,14 @@ def build_card_fields(word, data):
         "GenderBadge": gender_badge_html, "AspectBadge": aspect_badge_html,
         "ReflexiveBadge": reflexive_badge_html, "ExamplesHTML": examples_html,
         "RawExamples": json.dumps(data.get("raw_dictionary_examples", []), ensure_ascii=False),
+        # separators gọn: field này thuần máy đọc, không ai mở ra ngắm.
+        "GrammarJSON": (json.dumps(grammar_rec, ensure_ascii=False,
+                                   separators=(",", ":")) if grammar_rec else ""),
+        # BẢNG CHIA có ngay từ lúc tạo thẻ. Nó thuần dữ liệu cào được nên không
+        # có lý do gì bắt user đợi tới lượt lô của từ đó mới có bảng tra cứu.
+        # Phần chữ (chẻ từ / cách nhớ / họ hàng) vẫn do lô soạn sau; lúc đó
+        # `nap` gọi gan_bang() gỡ bảng này ra rồi nối lại bảng mới -> không đội.
+        "HuongDan": grammar.build_table(grammar_rec),
     }
 
     # Thẻ "khuyết": AI thất bại -> không ví dụ, hoặc ví dụ thô thiếu tiếng Việt.
