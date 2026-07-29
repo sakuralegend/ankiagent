@@ -285,7 +285,10 @@ def setup_anki_environment():
                     #   vào GenderBadge: user chốt "làm hẳn 1 field mới cho dễ bảo
                     #   trì". Danh từ/tính từ để trống -> khối điều kiện trong
                     #   template làm badge biến mất, không có ô rỗng lơ lửng.
-                    "inOrderFields": ["Word", "WordClean", "Meaning", "Vietnamese", "PoS", "PoSFull", "GenderBadge", "AspectBadge", "ExamplesHTML", "RawExamples", "Audio", "HuongDan", "Stage"],
+                    # ReflexiveBadge: động từ phản thân (-ся) — thêm 29/07/2026
+                    #   cùng đợt với AspectBadge. Nó gỡ chỗ badge thể KHÔNG cứu
+                    #   được: `учи́ть`/`учи́ться` cùng `v`, cùng chưa hoàn thành.
+                    "inOrderFields": ["Word", "WordClean", "Meaning", "Vietnamese", "PoS", "PoSFull", "GenderBadge", "AspectBadge", "ReflexiveBadge", "ExamplesHTML", "RawExamples", "Audio", "HuongDan", "Stage"],
                     "css": shared_css, "cardTemplates": [{"Name": "Pure Engine Typing Card v25", "Front": front_template, "Back": back_template}]
                 }
             }, timeout=5)
@@ -305,7 +308,7 @@ def setup_anki_environment():
                 "action": "modelFieldNames", "version": 6,
                 "params": {"modelName": MODEL_NAME}}, timeout=5)
             dang_co = res_f.json().get("result") or []
-            for ten, vi_tri in (("AspectBadge", 7),):
+            for ten, vi_tri in (("AspectBadge", 7), ("ReflexiveBadge", 8)):
                 if ten in dang_co:
                     continue
                 res_add = requests.post(ANKI_CONNECT_URL, json={
@@ -371,17 +374,20 @@ def build_card_fields(word, data):
     pos_full = data["pos_full"]
     gender_lower = str(data["gender"]).lower().strip()
 
+    # Nhãn VIẾT TẮT tiếng Anh — thống nhất với `n`/`v`/`adj` và với PERF/IMPF.
+    # (Trước 29/07 là "Masculine ♂"; dài gấp ba mà không nói thêm gì.)
     gender_label = ""
     if pos_clean in ["n", "noun"] and gender_lower != "none":
-        if gender_lower in ["m", "masculine"]: gender_label = "Masculine ♂"
-        elif gender_lower in ["f", "feminine"]: gender_label = "Feminine ♀"
-        elif gender_lower in ["n", "neuter"]: gender_label = "Neuter ⚧"
-        elif gender_lower in ["pl", "plural"]: gender_label = "Plural 👥"
+        if gender_lower in ["m", "masculine"]: gender_label = "MASC ♂"
+        elif gender_lower in ["f", "feminine"]: gender_label = "FEM ♀"
+        elif gender_lower in ["n", "neuter"]: gender_label = "NEUT ⚧"
+        elif gender_lower in ["pl", "plural"]: gender_label = "PL 👥"
 
     gender_badge_html = f'<div class="badge {gender_lower}">{gender_label}</div>' if gender_label else ""
 
-    # Thể động từ — badge riêng, chỉ động từ mới có. Xem grammar.aspect_badge_html.
+    # Thể động từ + phản thân — hai badge riêng, chỉ động từ mới có.
     aspect_badge_html = grammar.aspect_badge_html(data.get("aspect", ""))
+    reflexive_badge_html = grammar.reflexive_badge_html(data.get("reflexive"))
 
     meaning_html = '<ol class="meaning-list">'
     for m in data["english_meanings"]: meaning_html += f"<li>{m}</li>"
@@ -397,7 +403,7 @@ def build_card_fields(word, data):
         "Word": data["word"], "WordClean": clean_word, "Meaning": meaning_html,
         "Vietnamese": vi_meaning, "PoS": pos_clean, "PoSFull": pos_full,
         "GenderBadge": gender_badge_html, "AspectBadge": aspect_badge_html,
-        "ExamplesHTML": examples_html,
+        "ReflexiveBadge": reflexive_badge_html, "ExamplesHTML": examples_html,
         "RawExamples": json.dumps(data.get("raw_dictionary_examples", []), ensure_ascii=False),
     }
 
@@ -415,6 +421,7 @@ def build_card_fields(word, data):
         "gender_label": gender_label,
         "aspect_label": grammar.NHAN_THE.get(
             (data.get("aspect") or "").strip().lower(), ("", ""))[1],
+        "reflexive_label": grammar.NHAN_PHAN_THAN if data.get("reflexive") else "",
         "pos_full": pos_full,
         "en_meanings": data["english_meanings"],
         "ai_degraded": ai_degraded,
@@ -445,6 +452,7 @@ def note_to_card_info(dup):
         "pos": fields.get("PoSFull", "") or fields.get("PoS", ""),
         "gender": parse_gender_badge(fields.get("GenderBadge", "")),
         "aspect": parse_aspect_badge(fields.get("AspectBadge", "")),
+        "reflexive": parse_aspect_badge(fields.get("ReflexiveBadge", "")),
         "deck": dup.get("deck", "?"),
         "is_forced": False,
         "simplified_examples": examples,
@@ -515,6 +523,7 @@ def push_to_anki(word, data, deck_name, is_forced=False):
         "pos": built["pos_full"],
         "gender": built["gender_label"],
         "aspect": built["aspect_label"],
+        "reflexive": built["reflexive_label"],
         "deck": deck_name,
         "is_forced": is_forced,
         "simplified_examples": built["simplified_examples"],

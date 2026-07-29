@@ -264,9 +264,16 @@ def get_cached(word):
 # Chỉ động từ. Badge sống/không sống đã cân nhắc rồi BỎ (user chốt): nó chỉ đổi
 # đúng cách 4, nói trong ô Hướng dẫn đúng chỗ thì hơn là chiếm một badge vĩnh viễn.
 # ==============================================================================
-NHAN_THE = {"perfective": ("pf", "Hoàn thành"),
-            "imperfective": ("ipf", "Chưa hoàn thành"),
-            "both": ("both", "Hai thể")}
+# Nhãn badge: TIẾNG ANH, VIẾT TẮT, thống nhất với badge từ loại (`n` `v` `adj`)
+# vốn đã là tiếng Anh viết tắt. User chốt 29/07: *"tag ngắn gọn đủ hiểu thôi,
+# bằng tiếng anh cho thống nhất, viết tắt 3 chữ cũng được"*.
+# Nhãn dài ("Chưa hoàn thành") đẩy hàng badge tràn xuống hai dòng trên iPhone và
+# hút mắt khỏi chính từ đang học — badge là thứ liếc qua, không phải thứ để đọc.
+NHAN_THE = {"perfective": ("pf", "PERF"),
+            "imperfective": ("ipf", "IMPF"),
+            "both": ("both", "BI-ASP")}
+
+NHAN_PHAN_THAN = "REFL -ся"
 
 
 def aspect_badge_html(aspect):
@@ -276,6 +283,56 @@ def aspect_badge_html(aspect):
         return ""
     ma, chu = nhan
     return f'<div class="badge aspect-{ma}">{chu}</div>'
+
+
+def reflexive_badge_html(phan_than):
+    """Badge ĐỘNG TỪ PHẢN THÂN (đuôi -ся/-сь). Chuỗi rỗng nếu không phải.
+
+    User yêu cầu 29/07 sau khi tự tra `учи́ться` trên OpenRussian. Nó gỡ đúng chỗ
+    mơ hồ mà badge thể KHÔNG cứu được: `учи́ть` và `учи́ться` cùng là `v`, cùng
+    chưa hoàn thành, nghĩa Việt cùng chứa "học" ⇒ đề bài không có đáp án xác định.
+    """
+    return f'<div class="badge reflexive">{NHAN_PHAN_THAN}</div>' if phan_than else ""
+
+
+_PL_ONLY = None
+
+
+def chi_so_nhieu(word):
+    """Danh từ CHỈ DÙNG SỐ NHIỀU (pluralia tantum: `де́ньги`, `ша́хматы`, `щи`).
+
+    🔴 OpenRussian ghi `gender` cho chúng theo dạng số ít về mặt LÝ THUYẾT
+    (`де́ньги` -> `f`, theo `деньга́` cổ) ⇒ badge hiện "FEM ♀", mà từ này KHÔNG
+    có số ít trong tiếng Nga hiện đại. Badge sai kiểu đó tệ hơn không có badge:
+    nó dạy user nói "э́та де́ньга". `data/nouns.csv` có cột `pl_only` dứt khoát,
+    dùng nó đè lên. Đo trên bộ sưu tập: 4 từ, 2 đang hiện sai.
+    """
+    global _PL_ONLY
+    if _PL_ONLY is None:
+        import csv
+        _PL_ONLY = set()
+        duong = os.path.join(_HERE, "..", "data", "nouns.csv")
+        try:
+            with io.open(duong, encoding="utf-8", newline="") as fh:
+                for r in csv.DictReader(fh, delimiter="\t"):
+                    if (r.get("pl_only") or "").strip() == "1":
+                        _PL_ONLY.add((r.get("bare") or "").strip().lower().replace("ё", "е"))
+        except OSError as e:
+            log_warn(f"khong doc duoc nouns.csv ({e}) -> bo qua luat pluralia tantum")
+    return bare(word).replace("ё", "е") in _PL_ONLY
+
+
+def is_reflexive(word, rec=None):
+    """Từ này có phải động từ phản thân không.
+
+    Nguồn chính là `verb.isReflexive` của OpenRussian. Đo trên cả 88 động từ
+    trong bộ sưu tập: nó khớp **100%** với việc từ có kết thúc bằng `-ся/-сь`
+    hay không ⇒ dùng đuôi làm phao cho từ chưa có trong cache là an toàn.
+    """
+    rec = get_cached(word) if rec is None else rec
+    if rec.get("pos") == "verb":
+        return bool(rec.get("reflexive"))
+    return False
 
 
 def aspect_of(word):

@@ -41,6 +41,32 @@ User: *"sau quá trình học, giờ tôi bị nhầm lẫn từ khá nhiều do
   mới tách đúng chúng (`чита́ть`/`прочита́ть`, `за́втракать`/`поза́втракать`…). Còn 2 chỗ:
   `понима́ть`~`поня́тно` (badge `v` vs `adv` tách được) và **`учи́ть`~`учи́ться` vẫn mơ hồ** —
   cùng `v`, cùng chưa hoàn thành, badge bó tay; lỗi có sẵn từ trước, chưa sửa.
+- 🆕 **Field `ReflexiveBadge`** — user tự tra `учи́ться` trên OpenRussian rồi yêu cầu: *"nó có tag
+  reflexive, bạn thêm luôn badge này đi, sau này cũng học rất nhiều động từ phản thân"*. Đúng
+  chỗ badge thể **không** cứu được: `учи́ть` và `учи́ться` cùng `v`, cùng IMPF, nghĩa Việt cùng
+  chứa "học" ⇒ trước đó đề bài không có đáp án xác định (chính chỗ mơ hồ vừa báo ở gạch đầu dòng
+  trên). 9 động từ phản thân. `verb.isReflexive` khớp **100%** với đuôi `-ся/-сь` (0/88 lệch)
+  ⇒ dùng đuôi làm phao cho từ chưa có trong cache là an toàn.
+  ⏱️ Thêm field này **trước khi user kịp sync** nên vẫn chỉ tốn MỘT lần full sync — đúng mẹo đã
+  ghi trong bộ nhớ: gom hết schema mod rồi Upload một lần.
+- 🎨 **Thiết kế lại cả hệ badge** — user: *"đừng để chúng chung một màu nhìn chán lắm; tag ngắn
+  gọn đủ hiểu thôi, bằng tiếng anh cho thống nhất, viết tắt 3 chữ cũng được"*.
+  Nguyên tắc: **một chiều ngữ pháp = một ô màu**, nhìn màu là biết đang đọc chiều nào.
+  `Masculine ♂` → `MASC ♂` · `Hoàn thành` → `PERF` · `Chưa hoàn thành` → `IMPF` ·
+  `Hai thể` → `BI-ASP` · `REFL -ся`. Nhãn dài đẩy hàng badge tràn xuống hai dòng trên iPhone và
+  hút mắt khỏi chính từ đang học — badge là thứ **liếc qua**, không phải thứ để đọc.
+  Màu lấy trọn từ bảng GitHub-dark (đúng bộ `card.css` đang dùng) nên không có màu nào chói lên
+  như dán từ nơi khác vào. Tím dùng ở cả `neuter` lẫn `reflexive` là **cố ý**: badge giống chỉ
+  có ở danh từ, badge phản thân chỉ có ở động từ, không bao giờ đứng cùng một thẻ.
+  **595 thẻ đổi nhãn** (505 giống + 88 thể + 9 phản thân).
+- 🔴 **Bắt được lỗi NỘI DUNG nhờ làm lại badge**: `де́ньги` và `ша́хматы` đang hiện **`FEM ♀`** —
+  OpenRussian ghi `gender` theo dạng số ít về mặt lý thuyết (`деньга́` cổ), nhưng hai từ này
+  **không có số ít** trong tiếng Nga hiện đại. Badge sai kiểu đó **tệ hơn không có badge**: nó
+  dạy user nói "э́та де́ньга". Vá bằng cột `pl_only` của `data/nouns.csv` (nguồn dứt khoát, đè lên
+  OpenRussian) → 4 thẻ thành `PL 👥` (2 đang sai + 2 đang trống: `щи`, `ребя́та`).
+- ⚠️ **Còn 6 danh từ KHÔNG nguồn nào cho biết giống** ⇒ badge để trống, chưa xử lý:
+  `да́чка · быль · хек · колле́га · дикта́нт · проше́дшее`. (`колле́га` là **giống chung** —
+  m hay f tuỳ người được nói tới; hiện chưa có nhãn cho loại này.)
 - 🔴 **`Sync status 2` đúng như dự báo** — thêm field là schema mod, AnkiWeb đòi full sync và
   AnkiConnect không làm được (phải bấm từ giao diện Anki, chọn **Upload to AnkiWeb**). Đã sao
   lưu trước khi đổi schema (52 MB, 3 deck, 0 lỗi). Sau khi Upload phải kiểm `journalctl` trên

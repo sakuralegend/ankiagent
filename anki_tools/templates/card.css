@@ -62,20 +62,48 @@
 .audio-box a, .replay-button, .anki-audio-button { background-color: #1f242c !important; border: 1px solid #30363d !important; padding: 8px 18px !important; border-radius: 20px !important; color: #58a6ff !important; text-decoration: none !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; gap: 6px !important; font-size: 13px !important; font-weight: 600 !important; font-family: inherit; }
 .audio-box a::after { content: " Phát lại âm thanh" !important; color: #58a6ff !important; }
 .badge-container { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-bottom: 20px; font-family: inherit; }
-.badge { background-color: #21262d; color: #8b949e; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; text-transform: uppercase; border: 1px solid #30363d; font-family: inherit; }
-.badge.masculine { background-color: rgba(56, 139, 253, 0.15); color: #58a6ff; border: 1px solid rgba(56, 139, 253, 0.4); }
-.badge.feminine { background-color: rgba(244, 143, 177, 0.15); color: #f48fbb; border: 1px solid rgba(244, 143, 177, 0.4); }
-.badge.neuter { background-color: rgba(210, 168, 255, 0.15); color: #d2a8ff; border: 1px solid rgba(210, 168, 255, 0.4); }
-.badge.plural { background-color: rgba(52, 211, 153, 0.15); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.4); }
-/* --- BADGE THỂ ĐỘNG TỪ (field AspectBadge) — 29/07/2026 --------------------
-   Hai màu phải KHÁC HẲN nhau chứ không phải hai sắc độ của một màu: user báo
-   đang nhầm chính cặp này, mà cặp thể thì hay đứng cạnh nhau trong cùng buổi
-   học (сказа́ть/говори́ть). Cam = xong việc, xanh lơ = còn đang chạy.
-   .badge-container để `flex-wrap` vì "Chưa hoàn thành" đứng cạnh badge giống
-   có thể vượt bề ngang iPhone — tràn thì xuống hàng, không bị cắt cụt. */
-.badge.aspect-pf { background-color: rgba(219, 109, 40, 0.16); color: #f0883e; border: 1px solid rgba(219, 109, 40, 0.45); }
-.badge.aspect-ipf { background-color: rgba(56, 211, 211, 0.13); color: #56d4dd; border: 1px solid rgba(56, 211, 211, 0.4); }
-.badge.aspect-both { background-color: rgba(163, 113, 247, 0.15); color: #a371f7; border: 1px solid rgba(163, 113, 247, 0.4); }
+/* --- HỆ BADGE NGỮ PHÁP — thiết kế lại 29/07/2026 ---------------------------
+   User: *"đừng để chúng chung một màu nhìn chán lắm; tag ngắn gọn đủ hiểu thôi,
+   bằng tiếng anh cho thống nhất"*.
+
+   NGUYÊN TẮC: MỘT CHIỀU NGỮ PHÁP = MỘT Ô MÀU. Nhìn màu là biết đang đọc chiều
+   nào, chưa cần đọc chữ — badge là thứ LIẾC QUA, không phải thứ để đọc.
+
+     xám thép   TỪ LOẠI     neo của cả hàng, thẻ nào cũng có -> để trầm nhất
+     xanh dương GIỐNG       masc / fem / neut / pl
+     hồng
+     tím
+     lục
+     cam        THỂ         perf = việc đã xong  (màu ấm, dứt khoát)
+     lơ         THỂ         impf = còn đang chạy (màu lạnh, chưa dứt)
+     hổ phách   THỂ         bi-asp (hiếm: `быть`, `испо́льзовать`)
+     tím oải    PHẢN THÂN   refl -ся
+
+   ⚠️ Tím dùng ở CẢ `neuter` lẫn `reflexive` — CỐ Ý, không phải trùng nhầm:
+   badge giống chỉ có ở DANH TỪ, badge phản thân chỉ có ở ĐỘNG TỪ, hai cái không
+   bao giờ đứng cùng một thẻ. Bảng màu GitHub-dark chỉ có chừng đó sắc đủ tương
+   phản trên nền #0d1117; ép thêm hue nữa thì bắt đầu có cặp nhìn giống nhau,
+   mà hai badge giống nhau trên CÙNG một thẻ mới là thứ gây nhầm thật.
+
+   Toàn bộ lấy từ bảng màu GitHub dark (đúng bộ mà card.css đang dùng) nên chúng
+   hoà nhau, không có màu nào chói lên như dán từ nơi khác vào. */
+.badge { background-color: #21262d; color: #8b949e; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; letter-spacing: 0.6px; text-transform: uppercase; border: 1px solid #30363d; font-family: inherit; }
+/* từ loại: neo trầm, hơi ngả xanh thép để không phải là "xám chết" */
+.badge.accent { background-color: #1c2333; color: #9aa7b8; border: 1px solid #33415c; }
+/* GIỐNG (danh từ) */
+.badge.masculine { background-color: rgba(56, 139, 253, 0.15); color: #58a6ff; border: 1px solid rgba(56, 139, 253, 0.45); }
+.badge.feminine { background-color: rgba(247, 120, 186, 0.15); color: #f778ba; border: 1px solid rgba(247, 120, 186, 0.45); }
+.badge.neuter { background-color: rgba(210, 168, 255, 0.15); color: #d2a8ff; border: 1px solid rgba(210, 168, 255, 0.45); }
+.badge.plural { background-color: rgba(63, 185, 80, 0.15); color: #56d364; border: 1px solid rgba(63, 185, 80, 0.45); }
+/* THỂ (động từ) — hai màu phải KHÁC HẲN nhau chứ không phải hai sắc độ của một
+   màu: user báo đang nhầm chính cặp này, mà cặp thể hay đứng cạnh nhau trong
+   cùng buổi học (сказа́ть/говори́ть). */
+.badge.aspect-pf { background-color: rgba(219, 109, 40, 0.16); color: #f0883e; border: 1px solid rgba(219, 109, 40, 0.5); }
+.badge.aspect-ipf { background-color: rgba(56, 211, 211, 0.13); color: #56d4dd; border: 1px solid rgba(56, 211, 211, 0.45); }
+.badge.aspect-both { background-color: rgba(227, 179, 65, 0.15); color: #e3b341; border: 1px solid rgba(227, 179, 65, 0.45); }
+/* PHẢN THÂN (động từ) — chữ `-ся` giữ nguyên chữ thường giữa một hàng in hoa,
+   nên nó tự nổi lên mà không cần thêm màu thứ chín. */
+.badge.reflexive { background-color: rgba(188, 140, 255, 0.14); color: #bc8cff; border: 1px solid rgba(188, 140, 255, 0.45); text-transform: none; }
 .meaning-list { margin: 0; padding-left: 22px; font-size: 17px; color: #ffffff; font-family: inherit; }
 .meaning-list li { margin-bottom: 8px; font-weight: 500; line-height: 1.4; font-family: inherit; }
 .meaning-list li::marker { color: #58a6ff; font-weight: 800; font-size: 16px; }

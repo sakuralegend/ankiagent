@@ -13,7 +13,7 @@ def process_pure_next_data(word):
     """Cào dữ liệu từ vựng từ OpenRussian.
     Trả về dict với các khóa cố định (được push_to_anki() sử dụng):
       word, english_meanings, part_of_speech, pos_full, gender, aspect,
-      raw_dictionary_examples
+      reflexive, raw_dictionary_examples
     ⚠️ Nếu đổi tên bất kỳ khóa nào ở đây, phải sửa luôn anki_client.push_to_anki().
     """
     clean_word = word.strip()
@@ -69,6 +69,7 @@ def process_pure_next_data(word):
         # Chỉ có ở mục động từ; danh từ/tính từ trả về "" và badge biến mất.
         verb_obj = main_word_obj.get("verb")
         aspect = verb_obj.get("aspect") or "" if isinstance(verb_obj, dict) else ""
+        reflexive = bool(verb_obj.get("isReflexive")) if isinstance(verb_obj, dict) else False
 
         meanings = []
         trans_data = main_word_obj.get("translations")
@@ -93,6 +94,7 @@ def process_pure_next_data(word):
             "pos_full": pos_full,
             "gender": gender,
             "aspect": aspect,
+            "reflexive": reflexive,
             "raw_dictionary_examples": raw_examples
         }
     except Exception as e:
