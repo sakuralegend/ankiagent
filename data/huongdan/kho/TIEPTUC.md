@@ -34,6 +34,9 @@ khi tới lượt. 🔴 **Đừng mở file cũ ra xem lúc soạn lại** — v
 nhỏ mỗi ngày), nên chỉ cần chạy nó rồi lấy lô đầu danh sách là đúng thứ tự.
 ⚠️ Luật này **thay** luật cũ "ưu tiên deck 0-quen → 1-go" ở mục bên dưới.
 
+📕 **Bộ tiêu chuẩn đầy đủ: `data/huongdan/CHUAN.md`** (chuẩn hiện hành **v3**). Thẻ đã đạt
+mang tag `chuan::3` — `congcu.py nap` tự gắn, `dochuan.py` đo theo dấu đó chứ không đoán.
+
 **Điều kiện đạt chuẩn của một thẻ** (ngoài hai trần px/ô đỏ):
 từ nào `congcu.py tiep` in khối `BAT THUONG` thì **bắt buộc có MỘT CÂU chú ý** trên bảng chia —
 đọc câu đó là hiểu cả bảng. **364/950 từ (38%) rơi vào diện này.**

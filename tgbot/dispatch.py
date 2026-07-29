@@ -22,6 +22,7 @@ from anki_tools.backup import human_size, list_backups, run_backup
 
 from .commands import _don_report, run_don, thongke_report
 from .core import (
+    dang_chay_hang_loat,
     HELP_TEXT,
     TOOLS_TEXT,
     _current_deck,
@@ -283,6 +284,10 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if context.bot_data.get("sd_running"):
             await query.edit_message_text("⏳ Đang có một đợt làm lại deck khác chạy dở.")
             return
+        ban = dang_chay_hang_loat(context, bo_qua="sd_running")
+        if ban:
+            await query.edit_message_text(f"⏳ Đang chạy đợt '{ban}' — chờ xong rồi bấm lại nhé.")
+            return
         _sd_clear(context.user_data)
         await query.edit_message_text(f"🔄 Bắt đầu làm lại deck '{deck}' ({len(note_ids)} thẻ)...")
         # Task riêng để bot vẫn nhận update (đặc biệt là nút ⏹ Dừng) trong lúc chạy
@@ -306,9 +311,11 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if not words:
             await query.edit_message_text("⌛ Danh sách quét đã hết hạn, gửi lại ảnh nhé.")
             return
-        if context.bot_data.get("scan_running") or context.bot_data.get("sd_running"):
+        ban = dang_chay_hang_loat(context)
+        if ban:
             # Trả lời bằng tin mới để GIỮ danh sách + nút (bấm lại sau được)
-            await query.message.reply_text("⏳ Đang có một đợt chạy hàng loạt khác — chờ xong rồi bấm lại nhé.")
+            await query.message.reply_text(
+                f"⏳ Đang chạy đợt '{ban}' — chờ xong rồi bấm lại nhé.")
             return
         _scan_clear(context.user_data)
         await query.edit_message_text(f"🔄 Bắt đầu thêm {len(words)} từ đã duyệt...")

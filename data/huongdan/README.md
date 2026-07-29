@@ -21,6 +21,12 @@ Và:
 
 ## 2. Nội dung — ba mục, đúng thứ tự, và NGẮN
 
+> 📕 **Bộ tiêu chuẩn có SỐ HIỆU — xem `data/huongdan/CHUAN.md`.** Chuẩn hiện hành là
+> **`v3`**; thẻ đạt mang tag `chuan::3` (tra trong app Anki: `tag:chuan::3`). File này
+> dạy CÁCH soạn, `CHUAN.md` là bản kiểm ĐẠT hay CHƯA. Đổi chuẩn thì sửa ở đó, không
+> phải ở đây.
+
+
 ### 🧭 Nguyên tắc gốc — đọc câu này trước, mọi con số bên dưới chỉ là cách thi hành nó
 
 > *"Tôi muốn **mỗi từ chỉ tiết lộ một ít kiến thức liên quan TRỰC TIẾP đến nó** thôi, đừng bê

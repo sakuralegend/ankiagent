@@ -743,6 +743,40 @@ def cmd_moi():
     print(f"DA GHI ca hai file | hang doi: {q['tong_lo']} lo / {q['tong_tu']} tu")
 
 
+# ==============================================================================
+# --- DẤU ĐẠT CHUẨN: `chuan::<N>` ghi thẳng lên TAG của thẻ ---
+#
+# 🔴 Vì sao dấu phải mang SỐ HIỆU, không phải chỉ "đạt": nhãn `dat` cũ nằm trong
+# `hangdoi.json` chỉ ghi "thẻ này đạt" mà không ghi **đạt theo chuẩn nào**. Chuẩn
+# đổi bên dưới nó thì nhãn HẾT HẠN MÀ KHÔNG AI BIẾT — đo lại 29/07 thì 7/75 thẻ
+# mang nhãn đó đã vỡ trần. Cả một phiên bị loạn vì chuyện này. User chốt: *"phải
+# có cách đánh dấu từ nào đã đạt chuẩn để không bị loạn nữa"*.
+#
+# Vì sao dùng TAG chứ không phải field mới: thêm field là **schema mod** ⇒ Anki
+# đòi full sync, mà [[vps-ket-sync-im-lang]] ghi rõ mỗi lần như vậy VPS kẹt im
+# lặng. Tag thì sync thường, lại **tra được ngay trong app Anki** (`tag:chuan::3`)
+# nên user tự kiểm được, không phải tin lời tôi.
+#
+# 📕 ĐỊNH NGHĨA TỪNG SỐ HIỆU NẰM Ở `data/huongdan/CHUAN.md` — con số ở đây vô
+# nghĩa nếu không có file đó. Tóm tắt để khỏi phải mở:
+#   v1  chuẩn dài (6–10 KB, không đếm ô đỏ)          — không thẻ nào được gắn
+#   v2  §2b ngắn gọn: 1 màn hình iPhone + ≤2 ô đỏ    — không thẻ nào được gắn
+#   v3  (29/07) v2 + BẮT BUỘC câu chú ý cho từ mà `tiep` in khối BAT THUONG,
+#       + mục "Họ hàng" được phép vắng khi từ thật sự không có
+#
+# 🔴 ĐỔI CHUẨN THÌ LÀM ĐỦ BA BƯỚC (xem mục "Quy trình ĐỔI CHUẨN" trong CHUAN.md):
+# ① thêm mục `## v<N+1>` vào CHUAN.md, ghi ĐỦ tiêu chuẩn chứ không chỉ phần đổi
+# ② tăng số dưới đây  ③ hết — không phải đụng thẻ nào, mọi thẻ cũ tự thành
+# "đạt chuẩn CŨ" và `dochuan.py` xếp chúng vào diện phải soạn lại. Đó chính là
+# thứ đáng lẽ đã chặn được mớ lộn xộn hôm nay.
+CHUAN_V = 3
+TAG_CHUAN = "chuan"
+
+
+def tag_chuan(v=None):
+    return f"{TAG_CHUAN}::{CHUAN_V if v is None else v}"
+
+
 # --------------------------------------------------------------- lệnh: nap
 def ac(action, **params):
     import urllib.request
@@ -816,6 +850,7 @@ def cmd_nap():
         print(f"  -> doi tieng Viet {n_vi} note")
 
     ok, bo_qua, miss, doi = 0, 0, [], 0
+    can_tag = []          # note vừa nhận nội dung của lô -> gắn dấu đạt chuẩn
     for word, html in gop.items():
         nids = ban_do.get(khoa_note(word), [])
         if not nids:
@@ -823,6 +858,7 @@ def cmd_nap():
             continue
         if len(nids) > 1:
             doi += 1
+        can_tag += nids
         # Bảng chia nối vào ĐÂY chứ không nằm trong file lô: dạng từ đi thẳng từ
         # từ điển vào HTML, không qua model lần nào. Agent chỉ lo câu chú ý ở trên.
         html = gan_bang(html, word)
@@ -845,6 +881,16 @@ def cmd_nap():
         # sẽ chôn luôn những từ chưa vào -> để nguyên, chạy lại sau khi đã hiểu.
         print("  !! CO TU KHONG TIM THAY -> KHONG danh dau daNap. Xu ly roi chay lai.")
         return
+
+    # DẤU ĐẠT CHUẨN. Gỡ mọi `chuan::*` cũ trước rồi mới gắn số hiện hành — nếu chỉ
+    # thêm thì một thẻ soạn lại sẽ đeo cả `chuan::2` lẫn `chuan::3` và câu hỏi
+    # "thẻ này đạt chuẩn nào" lại không có đáp án duy nhất, tức quay về đúng chỗ
+    # lộn xộn mà cái dấu này sinh ra để dẹp.
+    if can_tag:
+        for v in range(1, CHUAN_V + 1):
+            ac("removeTags", notes=can_tag, tags=tag_chuan(v))
+        ac("addTags", notes=can_tag, tags=tag_chuan())
+        print(f"gan dau {tag_chuan()} cho {len(set(can_tag))} note")
     for l in q["lo"]:
         if l["id"] in ids_lo:
             l["daNap"] = True

@@ -47,6 +47,18 @@ def ac(action, **params):
     return out["result"]
 
 
+def doc_dau(tags):
+    """Số hiệu chuẩn ghi trên tag `chuan::<N>` -> int, hoặc None nếu chưa có dấu.
+
+    Đây là NGUỒN SỰ THẬT về "thẻ này đạt chuẩn nào" — nằm trên chính thẻ nên
+    không lệch được với bộ sưu tập, và tra thẳng trong app Anki bằng
+    `tag:chuan::3`. Xem khối comment ở `congcu.py` để biết vì sao phải có số hiệu.
+    """
+    so = [int(t.split("::")[1]) for t in (tags or [])
+          if t.startswith(congcu.TAG_CHUAN + "::") and t.split("::")[1].isdigit()]
+    return max(so) if so else None
+
+
 def phan_loai(html):
     """-> ('trong'|'mn_cu'|'dat'|'vo', chi_tiet)"""
     # Bảng chia máy nối vào MỌI thẻ, kể cả thẻ chưa soạn chữ nào. Nên "rỗng"
@@ -71,11 +83,13 @@ def phan_loai(html):
 def main():
     notes = ac("notesInfo", notes=ac("findNotes", query=f'note:"{MODEL}"'))
     nhom = {"dat": [], "vo": [], "trong": [], "mn_cu": []}
+    dau = {}
     for n in notes:
         f = n["fields"]
         wc = (f.get("WordClean", {}).get("value") or "").strip()
         loai, ct = phan_loai(f.get("HuongDan", {}).get("value", ""))
         nhom[loai].append((wc, ct))
+        dau[wc] = doc_dau(n.get("tags"))
 
     tong = len(notes)
     soan = len(nhom["dat"]) + len(nhom["vo"])
@@ -83,8 +97,23 @@ def main():
     def pc(n, mau=tong):
         return f"{n * 100 / mau:5.1f}%" if mau else "  n/a"
 
-    print(f"BO SUU TAP: {tong} the model {MODEL}\n")
-    print(f"  DAT CHUAN MOI      {len(nhom['dat']):4d}  {pc(len(nhom['dat']))}"
+    # ---- DẤU ĐẠT CHUẨN: câu trả lời CHÍNH cho "bao nhiêu thẻ đã đạt" ----
+    # Đặt lên trên phần đo px/ô đỏ vì hai thứ đo hai câu hỏi khác nhau:
+    # dấu trả lời "soạn theo chuẩn NÀO", px/ô đỏ chỉ trả lời "có quá dài không".
+    # Một thẻ chuẩn cũ vẫn có thể lọt hai trần — đó đúng là chỗ đã gây loạn.
+    hien = sum(1 for v in dau.values() if v == congcu.CHUAN_V)
+    cu = sorted({v for v in dau.values() if v is not None and v < congcu.CHUAN_V})
+    print(f"BO SUU TAP: {tong} the model {MODEL}")
+    print(f"\n=== DAU DAT CHUAN (tag `{congcu.tag_chuan()}`) — chuan hien hanh v{congcu.CHUAN_V} ===")
+    print(f"  DAT CHUAN HIEN HANH  {hien:4d}  {pc(hien)}   tra trong Anki: tag:{congcu.tag_chuan()}")
+    for v in cu:
+        n = sum(1 for x in dau.values() if x == v)
+        print(f"  dat chuan CU v{v}      {n:4d}  {pc(n)}   -> phai soan lai")
+    chua = sum(1 for v in dau.values() if v is None)
+    print(f"  chua co dau          {chua:4d}  {pc(chua)}")
+    print()
+    print(f"=== DO DAI / O DO (do rieng, KHONG thay cho dau o tren) ===")
+    print(f"  lot ca hai tran    {len(nhom['dat']):4d}  {pc(len(nhom['dat']))}"
           f"   <= {congcu.TRAN_CAO}px va <= {congcu.TRAN_WARN} o do")
     print(f"  da soan nhung VO   {len(nhom['vo']):4d}  {pc(len(nhom['vo']))}")
     print(f"  chua soan (trong)  {len(nhom['trong']):4d}  {pc(len(nhom['trong']))}")

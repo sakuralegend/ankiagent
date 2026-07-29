@@ -18,6 +18,7 @@ from anki_tools.pipeline import redo_note, redo_note_id
 from anki_tools.anki_client import get_deck_names, get_deck_note_ids, trigger_sync
 
 from .core import (
+    dang_chay_hang_loat,
     _PROJECT_ROOT,
     MAX_DECK_BUTTONS,
     SYNC_FAIL_TEXT,
@@ -262,6 +263,12 @@ async def cmd_suadeck(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if context.bot_data.get("sd_running"):
         await update.message.reply_text(
             "⏳ Đang có một đợt làm lại deck chạy dở — chờ xong hoặc bấm ⏹ Dừng ở tin tiến độ nhé."
+        )
+        return
+    ban = dang_chay_hang_loat(context, bo_qua="sd_running")
+    if ban:
+        await update.message.reply_text(
+            f"⏳ Đang chạy đợt '{ban}' — chờ xong rồi gọi /suadeck lại nhé."
         )
         return
 

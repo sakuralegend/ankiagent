@@ -18,7 +18,7 @@ from grammar_forms import cards as gcards
 from grammar_forms.config import PLURAL_DECK
 from grammar_forms.pipeline import load_word_list, process_word, redo_note, redo_word
 
-from .core import SYNC_FAIL_TEXT, SYNC_OK_TEXT, _reset_idle_timer
+from .core import dang_chay_hang_loat, SYNC_FAIL_TEXT, SYNC_OK_TEXT, _reset_idle_timer
 from .flow_edit import SUADECK_DELAY_SECONDS
 
 SPECIAL_TEXT = (
@@ -243,9 +243,10 @@ async def on_special_callback(query, context, data):
         if not rows:
             await query.edit_message_text("⌛ Danh sách đã cũ, bấm lại /dacbiet nhé.")
             return True
-        if context.bot_data.get("sp_running") or context.bot_data.get("sd_running") \
-                or context.bot_data.get("scan_running"):
-            await query.message.reply_text("⏳ Đang có một đợt chạy hàng loạt khác — chờ xong rồi bấm lại nhé.")
+        ban = dang_chay_hang_loat(context)
+        if ban:
+            await query.message.reply_text(
+                f"⏳ Đang chạy đợt '{ban}' — chờ xong rồi bấm lại nhé.")
             return True
         context.user_data.pop("sp_rows", None)
         await query.edit_message_text(f"🔄 Bắt đầu thêm {len(rows)} thẻ số nhiều...")

@@ -255,6 +255,40 @@ def _reset_idle_timer(context, chat_id):
     context.bot_data["idle_task"] = asyncio.create_task(_idle_reset_job(context, chat_id))
 
 
+# --------------------------------------------------------------------------
+# CHỐT CHỐNG HAI ĐỢT HÀNG LOẠT CHẠY CHỒNG NHAU
+#
+# Bot có BA luồng chạy nền dài, cả ba đều ghi vào Anki, đều gọi AI và đều
+# `trigger_sync()`:
+#     `sd_*`   /suadeck   — làm lại cả deck
+#     `scan_*` quét ảnh   — thêm loạt từ đã duyệt
+#     `sp_*`   /dacbiet   — thêm loạt thẻ số nhiều
+#
+# 🔴 Trước 29/07 mỗi luồng tự kiểm một tập cờ KHÁC NHAU, và bảng kiểm chéo bị
+# thủng: `/dacbiet` kiểm cả ba · quét ảnh kiểm hai (quên `sp_`) · `/suadeck`
+# **chỉ kiểm chính nó**. Nên bấm `/suadeck` giữa lúc đang quét ảnh thì hai đợt
+# cùng ghi Anki, cùng đốt hạn mức AI, cùng sync, và hai tin nhắn tiến độ đè nhau.
+#
+# Gom về MỘT hàm để không thể thủng lại: thêm luồng nền thứ tư thì chỉ cần thêm
+# một dòng vào `_LUONG_NEN` là mọi lối vào có nó, khỏi phải nhớ đi vá ba chỗ.
+# --------------------------------------------------------------------------
+
+_LUONG_NEN = (("sd_running", "làm lại deck"),
+              ("scan_running", "thêm từ đã quét từ ảnh"),
+              ("sp_running", "thêm thẻ số nhiều"))
+
+
+def dang_chay_hang_loat(context, bo_qua=None):
+    """Tên đợt hàng loạt đang chạy (str) — None nếu đang rảnh.
+
+    `bo_qua` = cờ của chính luồng đang hỏi, khi nó muốn báo riêng một câu khác.
+    """
+    for co, ten in _LUONG_NEN:
+        if co != bo_qua and context.bot_data.get(co):
+            return ten
+    return None
+
+
 def _card_body_lines(card_info):
     """Phần RUỘT của thẻ (nghĩa, từ loại, chủ đề, 3 ví dụ) — dùng CHUNG cho thẻ vừa
     thêm (format_card_summary) và thẻ đã có sẵn (format_dictionary_entry), để hai

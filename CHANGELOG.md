@@ -4,6 +4,55 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 29/07/2026 — DẤU ĐẠT CHUẨN có số hiệu + sổ chuẩn `CHUAN.md` + rà soát lệnh bot
+
+User: *"phải có cách đánh dấu từ nào đã đạt chuẩn để không bị loạn nữa"* và *"chuẩn cũng phải
+có một series… phải ghi rõ ra 1 file là chuẩn này có những tiêu chuẩn nào"*.
+
+- 🏷️ **Dấu `chuan::<N>` ghi thẳng lên TAG của thẻ.** `congcu.py nap` tự gắn khi ghi nội dung,
+  và **gỡ mọi `chuan::*` cũ trước** nên một thẻ luôn mang đúng một số hiệu.
+  Dùng tag chứ không phải field mới vì **thêm field là schema mod ⇒ full sync**, mà mỗi lần như
+  vậy VPS kẹt im lặng. Tag lại **tra được ngay trong app Anki**: `tag:chuan::3` — user tự kiểm
+  được, không phải tin lời tôi. Đã gắn cho **38 note** (k14 + k48).
+- 🔴 **Vì sao phải có SỐ HIỆU, không chỉ "đạt"**: nhãn `dat` cũ trong `hangdoi.json` ghi *"thẻ
+  này đạt"* mà không ghi **đạt theo chuẩn nào**, nên chuẩn đổi bên dưới thì nhãn **hết hạn mà
+  không ai biết** — 7/75 thẻ mang nhãn đó đã vỡ trần, và cả một phiên bị loạn vì chuyện này.
+- 📕 **`data/huongdan/CHUAN.md`** — sổ chuẩn: mỗi số hiệu một mục ghi **đủ** tiêu chuẩn (không
+  chỉ phần thay đổi, để đọc một mục là biết trọn bộ), kèm cách kiểm từng điều. Có sẵn v1 (chuẩn
+  dài), v2 (§2b ngắn gọn), **v3 hiện hành**. Kèm **quy trình đổi chuẩn ba bước** — và bước ③ là
+  *"hết, không phải đụng thẻ nào"*: mọi thẻ cũ tự thành "đạt chuẩn CŨ" và `dochuan.py` xếp chúng
+  vào diện soạn lại. Đó chính là thứ đáng lẽ đã chặn mớ lộn xộn hôm nay.
+  README §2 và `TIEPTUC.md` đều trỏ về đây; `CHUAN_V` trong `congcu.py` trỏ ngược lại.
+- 📊 **`dochuan.py` nay đọc DẤU chứ không đoán theo đời soạn**, và tách hẳn hai câu hỏi khác
+  nhau: *"soạn theo chuẩn nào"* (dấu) vs *"có quá dài không"* (px/ô đỏ). Một thẻ chuẩn cũ vẫn có
+  thể lọt hai trần — **đó đúng là chỗ đã gây loạn**.
+
+### Rà soát lệnh bot — tìm chỗ gọi chồng chéo
+
+- ✅ **Sạch**: 9 lệnh + 1 callback, **0 hàm trùng tên** giữa các file, **0 lệnh gọi thẳng lệnh
+  khác**. Ba lối vào `/don` (lệnh · nút 🧹 · job đêm) đều dùng chung `run_don()` + `_don_report()`.
+- 🐛 **BẢNG KIỂM CHÉO BỊ THỦNG — đã vá.** Bot có ba luồng chạy nền dài, cả ba đều ghi Anki, gọi
+  AI và `trigger_sync()`. Mỗi luồng lại tự kiểm một tập cờ **khác nhau**:
+
+  | Luồng | kiểm `sd_running` | kiểm `scan_running` | kiểm `sp_running` |
+  |---|---|---|---|
+  | `/dacbiet` số nhiều | ✅ | ✅ | ✅ |
+  | quét ảnh | ✅ | ✅ | ❌ |
+  | **`/suadeck`** | ✅ | ❌ | ❌ |
+
+  ⇒ bấm `/suadeck` giữa lúc đang quét ảnh thì **hai đợt cùng chạy**: cùng ghi Anki, cùng đốt hạn
+  mức AI, cùng sync, hai tin tiến độ đè nhau. Nay gom về **một hàm `core.dang_chay_hang_loat()`**
+  dùng cho cả bốn lối vào — thêm luồng nền thứ tư chỉ cần thêm một dòng vào `_LUONG_NEN`, khỏi
+  phải nhớ đi vá ba chỗ.
+- ⚠️ **CÒN NỢ — ba script cùng làm một việc** (user chốt nguyên tắc: *"cùng 1 chức năng chỉ có
+  đúng 1 script nhận nhiệm vụ… nếu xảy ra thì phải quy về mô hình nhiều tầng"*):
+  `_run_suadeck` (87 dòng) · `_run_scan_add` (76) · `_run_batch` (72) — **cả ba đều có đủ 11
+  bước giống nhau** (bật cờ · vòng lặp · kiểm nút Dừng · đẩy đồng hồ idle · chạy trong thread ·
+  sửa tin tiến độ · nuốt lỗi edit · nghỉ giữa hai mục · `finally` hạ cờ · sync · dựng tóm tắt).
+  Phần KHÁC nhau là: làm gì với mỗi mục, nhãn hiển thị, và câu chữ tóm tắt.
+  ⇒ Việc phải làm: một **hàm chạy nền dùng chung** ở `core.py`, ba nơi gọi chỉ truyền phần khác.
+  **Chưa làm** — viết lại ba luồng bot đang chạy thật, để phiên riêng cho an toàn.
+
 ## 29/07/2026 — GOM `/sua` vào chung lõi với luồng thêm thẻ mới
 
 User: *"nút /sua cơ chế giống y như thêm một thẻ mới, nếu được hãy gom chúng với luồng tạo thẻ
