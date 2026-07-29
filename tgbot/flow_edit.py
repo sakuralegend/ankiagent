@@ -30,12 +30,22 @@ SUADECK_QUOTA_WARN = 400   # gần trần ~500 lượt AI/ngày (làm lại tố
 SUADECK_DELAY_SECONDS = 3  # nghỉ giữa 2 thẻ để không dồn dập chạm giới hạn RPM
 
 
-async def _do_redo(status_msg, word):
-    """Làm lại 1 thẻ (trong thread) rồi cập nhật tin nhắn trạng thái."""
+async def _do_redo(status_msg, word, context=None, chon_id=None):
+    """Làm lại 1 thẻ (trong thread) rồi cập nhật tin nhắn trạng thái.
+
+    Dừng lại HỎI khi từ đồng tự, y như luồng thêm thẻ mới — vì `/sua` chạy đúng
+    lõi đó (xem `pipeline.cao_mot_tu`). Trước 29/07 `/sua` tự chọn mục có bảng
+    chia dày nhất, tức có thể ghi đè thẻ đang học bằng nghĩa của TỪ KHÁC.
+    """
     t0 = time.time()
     await status_msg.edit_text(f"⏳ Đang làm lại thẻ '{word}' (cào lại → AI → audio)...")
-    success, result, error_msg = await asyncio.to_thread(redo_note, word, True)
+    success, result, error_msg = await asyncio.to_thread(redo_note, word, True, chon_id)
     if not success:
+        if (result or {}).get("nhieu_muc") and context is not None:
+            from .flow_add import _show_homonym_buttons     # tránh import vòng
+            await _show_homonym_buttons(status_msg, context, word,
+                                        result["nhieu_muc"], che_do="sua")
+            return
         await status_msg.edit_text(f"❌ {error_msg}")
         return
     lines = [f"🔄 ĐÃ LÀM LẠI THẺ: {hl_to_bracket(result['word'])}", f"🇻🇳 {result['vi']}"]
@@ -65,7 +75,7 @@ async def cmd_sua(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
     word = context.args[0]
     msg = await update.message.reply_text("⏳ Chuẩn bị làm lại thẻ...")
-    await _do_redo(msg, word)
+    await _do_redo(msg, word, context)
 
 
 # ---------------------------------------------------------------------------
@@ -147,7 +157,7 @@ async def _run_suadeck(context, chat_id, msg, deck, note_ids):
     context.bot_data["sd_running"] = True
     context.bot_data["sd_stop"] = False
     total = len(note_ids)
-    done, failed_words, failed_ids = 0, [], []
+    done, failed_words, failed_ids, homonym_words = 0, [], [], []
     attempted = 0
     stop_kb = InlineKeyboardMarkup([[InlineKeyboardButton("⏹ Dừng", callback_data="sdstop")]])
     stopped = False
@@ -166,6 +176,12 @@ async def _run_suadeck(context, chat_id, msg, deck, note_ids):
             if success:
                 done += 1
             else:
+                # TỪ ĐỒNG TỰ: chạy hàng loạt thì không hỏi từng thẻ được, mà đoán
+                # bừa là ghi đè thẻ đang học bằng nghĩa của TỪ KHÁC. Để thẻ nguyên
+                # và tách riêng ra báo, kèm lời nhắc /sua thủ công — nếu gộp chung
+                # "lỗi" thì user không biết vì sao và cứ bấm Làm tiếp mãi.
+                if (result or {}).get("nhieu_muc"):
+                    homonym_words.append(word)
                 failed_words.append(word)
                 failed_ids.append(note_id)
 
@@ -204,6 +220,13 @@ async def _run_suadeck(context, chat_id, msg, deck, note_ids):
         shown = ", ".join(failed_words[:10])
         more = f" (+{len(failed_words) - 10} từ nữa)" if len(failed_words) > 10 else ""
         lines.append(f"❌ Từ bị lỗi (thẻ giữ nguyên): {shown}{more}")
+    if homonym_words:
+        lines.append(
+            f"⚠️ {len(homonym_words)} từ ĐỒNG CHÍNH TẢ nên bỏ qua có chủ đích "
+            f"({', '.join(homonym_words[:6])}) — chạy hàng loạt thì không hỏi được "
+            "nghĩa nào, mà đoán sai là ghi đè bằng nghĩa của từ khác. "
+            "Làm lại từng từ bằng /sua để tự chọn."
+        )
     if leftover_ids:
         lines.append(
             f"💾 Đã lưu {len(leftover_ids)} thẻ còn dở — gọi /suadeck sẽ có nút ▶️ Làm tiếp."

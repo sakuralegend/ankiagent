@@ -4,6 +4,39 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 29/07/2026 — GOM `/sua` vào chung lõi với luồng thêm thẻ mới
+
+User: *"nút /sua cơ chế giống y như thêm một thẻ mới, nếu được hãy gom chúng với luồng tạo thẻ
+mới. Phần hướng dẫn kia nếu có thì không đụng vào. Cái này chủ yếu dùng khi có một lỗi bất định
+nào đó khiến việc lấy từ tự động bị mất một field nào đó (bảng, nghĩa…)"*.
+
+- 🆕 **`pipeline.cao_mot_tu(word, chon_id)`** — lõi cào dùng chung, trả `(data, dung_lai)`.
+  Cả `process_word` (thêm mới) lẫn `redo_note_id` (`/sua`) đều đi qua đây.
+- 🐛 **Lỗi thật đã lộ ra khi gom: `/sua` KHÔNG hỏi từ đồng tự.** Chốt "gặp từ đồng tự thì HỎI,
+  không đoán" chỉ nằm ở `process_word`, nên `/sua` trên `мочь` / `печь` lặng lẽ lấy mục có bảng
+  chia dày nhất — **ghi đè thẻ đang học bằng nghĩa của TỪ KHÁC** (nghĩa, badge thể/giống và bảng
+  chia đều đi theo mục đã chọn). Nay `/sua` dừng lại hỏi y như thêm thẻ mới; chưa bấm thì thẻ
+  chưa bị đụng gì. Bộ nút `dongtu:` dùng chung cho cả hai luồng qua khoá `che_do`.
+  📌 Đây đúng loại lỗi mà việc gom sinh ra để chặn: hai bộ mã song song thì sớm muộn một bên
+  được vá còn bên kia không — mà bên không vá lại là bên **ghi đè thẻ đang học**.
+- 🔧 **`/suadeck`** chạy hàng loạt nên không hỏi được từng thẻ ⇒ **bỏ qua có chủ đích** các từ
+  đồng tự, giữ thẻ nguyên, và báo riêng một dòng kèm lời nhắc dùng `/sua` cho từng từ. Trước đây
+  chúng sẽ lẫn vào đống "❌ lỗi" mà không ai biết vì sao.
+- ✅ **Ba chỗ CỐ Ý khác nhau giữa hai luồng**, đã ghi thành danh sách ngay trong mã để lần sau
+  không ai thêm chỗ thứ tư một cách lặng lẽ:
+  ① `HuongDan` — làm lại thì **giữ phần chữ**, chỉ thay bảng chia (phần đó soạn tay qua Claude,
+  máy không dựng lại được) · ② `Stage` + deck + `note_id` — không đụng, giữ tiến trình học ·
+  ③ `Audio` — chỉ tải khi thẻ **đang thiếu** tiếng, vì `/suadeck` tải lại cả deck là vô ích.
+- 🧪 **Kiểm bằng cách chặn hàm ghi rồi soi field dựng ra** (không đụng bộ sưu tập): thẻ `чек`
+  giữ nguyên `HuongDan` **665 B → 665 B**, bảng chia dựng lại, `Audio` không bị ghi đè,
+  `Stage`/deck không nằm trong danh sách ghi.
+- ⚠️ **`Vietnamese` BỊ ghi đè bằng bản AI mới — đúng ý đồ** (*"giống y như thêm một thẻ mới"*),
+  nhưng phải biết: `чек` từ `"biên lai, tờ giấy máy tính tiền in ra sau khi đã trả tiền"` về
+  `"hóa đơn (thanh toán)"`, tức mất phần chỉnh tay theo §2c làm cho đề bài deck `1-go` chỉ có
+  **một đáp án đúng**. ✅ **Phục hồi được**: các sửa `V[...]` nằm trong file `kNN_*.py` (git),
+  chạy `congcu.py nap --tatca` là ghi lại. Chỉ lô `xong` mới có dữ liệu này — hiện là k14 + k48,
+  cũng đúng là những từ duy nhất từng được chỉnh tay.
+
 ## 29/07/2026 — QUY HOẠCH LẠI: chỉ 38 từ được tính là xong, 912 từ về hàng chờ
 
 User xem bảng trạng thái chia theo **đời soạn** rồi chốt: *"những từ được như lô vừa làm là đạt

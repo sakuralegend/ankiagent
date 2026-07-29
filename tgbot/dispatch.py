@@ -76,7 +76,7 @@ async def on_word(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if context.user_data.get("awaiting") == "sua_word":
         context.user_data.pop("awaiting", None)
         msg = await update.message.reply_text("⏳ Chuẩn bị làm lại thẻ...")
-        await _do_redo(msg, text)
+        await _do_redo(msg, text, context)
         return
 
     # --- Đang chờ TỪ để tạo thẻ SỐ NHIỀU bất quy tắc (mục ⭐ đặc biệt) ---
@@ -346,6 +346,13 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await query.edit_message_text("⌛ Phiên đã hết hạn, gõ lại từ nhé.")
             return
         m = pend["muc"][int(arg)]
+        # `che_do` quyết định chạy tiếp bằng luồng nào — hai luồng dùng chung bộ
+        # nút này vì chúng dùng chung lõi cào (`pipeline.cao_mot_tu`).
+        if pend.get("che_do") == "sua":
+            await query.edit_message_text(f"🔍 Đang làm lại '{pend['word']}' — nghĩa "
+                                          f"[{m['pos']}] {m['en'][:50]}...")
+            await _do_redo(query.message, pend["word"], context, chon_id=m["id"])
+            return
         await query.edit_message_text(f"🔍 Đang thêm '{pend['word']}' — nghĩa "
                                       f"[{m['pos']}] {m['en'][:50]}...")
         await _do_add(query.message, pend["word"], pend["deck"],
@@ -361,7 +368,7 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             except Exception:
                 pass
             return
-        await _do_redo(query.message, word)
+        await _do_redo(query.message, word, context)
         return
 
     # --- Luồng từ trùng (sel:/act:) ---

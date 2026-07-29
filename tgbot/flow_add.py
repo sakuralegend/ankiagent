@@ -86,8 +86,13 @@ async def _suggest_lemma(status_msg, word, context):
     await _show_lemma_buttons(status_msg, context, [guess["lemma"]] + guess["alternatives"], lines)
 
 
-async def _show_homonym_buttons(status_msg, context, word, muc, deck_name, is_forced):
+async def _show_homonym_buttons(status_msg, context, word, muc, deck_name=None,
+                                is_forced=False, che_do="them"):
     """Từ ĐỒNG TỰ -> hiện từng mục thành nút để user chọn nghĩa nào.
+
+    Dùng chung cho CẢ HAI luồng (`che_do="them"` và `"sua"`) vì chúng chạy cùng
+    một lõi cào (`pipeline.cao_mot_tu`). Hai bộ nút riêng thì sớm muộn một bên
+    được vá còn bên kia không — mà bên không vá lại là bên GHI ĐÈ thẻ đang học.
 
     `мочь` là động từ *có thể* hay danh từ *sức lực*? Máy không đoán được, mà
     đoán sai thì SAI CẢ THẺ: nghĩa, badge thể/giống, và cả bảng chia. User chốt
@@ -97,16 +102,18 @@ async def _show_homonym_buttons(status_msg, context, word, muc, deck_name, is_fo
     Cyrillic ăn 2 byte mỗi ký tự nên tên từ dễ vượt (bẫy đã dính, xem
     `_show_lemma_buttons`).
     """
-    context.user_data["homonym"] = {"word": word, "muc": muc,
-                                    "deck": deck_name, "forced": is_forced}
+    context.user_data["homonym"] = {"word": word, "muc": muc, "deck": deck_name,
+                                    "forced": is_forced, "che_do": che_do}
     rows = [[InlineKeyboardButton(f"{m['pos']} — {m['en'][:40]}",
                                   callback_data=f"dongtu:{i}")]
             for i, m in enumerate(muc)]
     rows.append([InlineKeyboardButton("🚫 Hủy", callback_data="dongtu:cancel")])
+    dau = ("Chọn nghĩa bạn muốn học — thẻ sẽ lấy nghĩa, badge và bảng chia "
+           "theo đúng mục đó:") if che_do == "them" else (
+          "Chọn nghĩa đúng của thẻ ĐANG CÓ — chọn sai là ghi đè thẻ bằng nghĩa "
+          "của từ khác. Chưa bấm thì thẻ chưa bị đụng gì:")
     await status_msg.edit_text(
-        "\n".join([f"⚠️ '{word}' có {len(muc)} mục ĐỒNG CHÍNH TẢ trên OpenRussian.",
-                   "Chọn nghĩa bạn muốn học — thẻ sẽ lấy nghĩa, badge và bảng chia "
-                   "theo đúng mục đó:"]),
+        "\n".join([f"⚠️ '{word}' có {len(muc)} mục ĐỒNG CHÍNH TẢ trên OpenRussian.", dau]),
         reply_markup=InlineKeyboardMarkup(rows),
     )
 
