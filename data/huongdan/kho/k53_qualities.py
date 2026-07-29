@@ -1,325 +1,270 @@
 # -*- coding: utf-8 -*-
-"""k53 — qualities: LÔ SỬA. Giữ phần đang tốt của 14 thẻ tính từ, thêm mục
-"Họ hàng" cho thẻ thiếu, hạ xuống tối đa 2 ô đỏ, và BỎ HẲN mọi khối hệ thống
-dùng chung (luật -н-, biến âm г·к·х, so sánh hơn, dạng ngắn) — chúng lặp ở
-8/14 thẻ và nuốt quá nửa chiều cao. Mỗi thẻ giờ đứng một mình."""
+"""k53 — qualities: tính từ chỉ tính chất, trục chính là DANH TỪ + hậu tố thành
+TÍNH TỪ (-н-, -лив-) và chỗ dạng ngắn lệch khỏi dạng dài.
 
-# 🔴 KHÔNG dựng biến khối dùng chung rồi cộng vào mọi thẻ — xem README §3.
+Không có khối dùng chung: luật -н-/-лив- và luật biến âm được nói bằng MỘT câu
+về chính từ đó trên mỗi thẻ (README §3).
+"""
 
 S = {}
 V = {}
 
+# ---------------------------------------------------------------- thời tiết
 S["будничный"] = (
     '<div class="hd-sec">Chẻ từ</div>'
     '<div class="hd-row"><span class="hd-piece">будн-</span>'
-    '<span class="hd-gloss">бу́дни — ngày thường, ngày phải đi làm</span></div>'
+    '<span class="hd-gloss">ngày thường trong tuần (бу́дни)</span></div>'
     '<div class="hd-row"><span class="hd-piece">-ичн-</span>'
-    '<span class="hd-gloss">hậu tố tạo tính từ</span></div>'
+    '<span class="hd-gloss">thuộc về, mang tính</span></div>'
     '<div class="hd-row"><span class="hd-piece">-ый</span>'
-    '<span class="hd-gloss">đuôi tính từ</span></div>'
+    '<span class="hd-gloss">đuôi tính từ giống đực</span></div>'
     '<div class="hd-sec">Cách nhớ</div>'
-    '<div class="hd-why">Tiếng Nga chia tuần làm hai nửa có tên riêng: '
-    '<b>бу́дни</b> (ngày phải đi làm) và <b>выходны́е</b> (ngày nghỉ). '
-    '<b>Бу́дничный</b> = thuộc về nửa phải đi làm.</div>'
-    '<div class="hd-why">Từ đó ra nghĩa bóng rất hay dùng: <b>đều đều, tẻ nhạt, '
-    'không có gì đặc biệt</b> — <b>бу́дничный го́лос</b> = giọng dửng dưng như mọi ngày.</div>'
-    '<div class="hd-warn"><b>Nối với thẻ bạn đã có:</b> <b>выходно́й</b> (ngày nghỉ) '
-    'chính là vế đối của từ này. Học cặp đối rẻ hơn học hai từ rời.</div>'
+    '<div class="hd-why">Ngày của người Nga chia hai loại: <b>бу́дни</b> ngày đi làm và '
+    '<b>пра́здник</b> ngày lễ. Cái gì mang tính <b>бу́дни</b> thì đều đều, không có gì '
+    'đáng nhớ — từ đó ra nghĩa tẻ nhạt, xám xịt.</div>'
     '<div class="hd-sec">Họ hàng</div>'
-    '<div class="hd-fam"><b>бу́дни</b> ngày thường trong tuần (chỉ có số nhiều) · '
-    '<b>бу́днично</b> (trạng từ) một cách tẻ nhạt · gần nghĩa nhưng khác gốc: '
-    '<b>повседне́вный</b> thường nhật</div>'
+    '<div class="hd-fam"><b>бу́дни</b> ngày thường (chỉ có số nhiều) · '
+    '<b>бу́дний</b> thuộc ngày trong tuần (<b>бу́дний день</b>)</div>'
 )
+V["будничный"] = "tẻ nhạt, đơn điệu như ngày thường (trái với ngày lễ)"
 
 S["ветреный"] = (
     '<div class="hd-sec">Chẻ từ</div>'
     '<div class="hd-row"><span class="hd-piece">ветр-</span>'
-    '<span class="hd-gloss">ве́тер (gió) — chữ <b>е</b> rụng khi thêm hậu tố</span></div>'
+    '<span class="hd-gloss">gió — gốc của <b>ве́тер</b></span></div>'
     '<div class="hd-row"><span class="hd-piece">-ен-</span>'
-    '<span class="hd-gloss">hậu tố tạo tính từ</span></div>'
+    '<span class="hd-gloss">có, đầy cái đó</span></div>'
     '<div class="hd-row"><span class="hd-piece">-ый</span>'
     '<span class="hd-gloss">đuôi tính từ</span></div>'
     '<div class="hd-sec">Cách nhớ</div>'
-    '<div class="hd-why">Nghĩa đen là <b>lộng gió</b>. Nhưng chỗ đáng học là nghĩa bóng: '
-    '<b>ве́треный челове́к</b> = người <b>nông nổi, đứng núi này trông núi nọ</b> — '
-    'đầu óc bị gió thổi bay. Tiếng Việt có hình ảnh gần y hệt: "gió chiều nào theo chiều ấy".</div>'
-    '<div class="hd-warn"><b>Ngoại lệ chính tả nổi tiếng:</b> <b>ве́треный</b> viết MỘT chữ '
-    '<b>н</b>, trong khi hầu hết tính từ cùng lớp viết hai (<b>-енный</b>). Hễ thêm tiền tố '
-    'thì lại quay về hai <b>н</b>: <b>безве́тренный</b> (lặng gió).</div>'
+    '<div class="hd-why">Chữ <b>е</b> trong <b>ве́тер</b> là nguyên âm chạy: thêm đuôi vào '
+    'là nó rụng (<b>ве́тер</b> nhưng <b>ве́тра</b>, <b>ве́треный</b>). Nghĩa bóng đi thẳng từ '
+    'nghĩa đen: trong đầu người ấy chỉ có gió thổi qua ⇒ nhẹ dạ, hay đổi ý.</div>'
+    '<div class="hd-warn">✍️ Viết <b>ве́треный</b> MỘT chữ <b>н</b> — ngoại lệ nổi tiếng; '
+    'hễ thêm tiền tố thì lại thành hai <b>н</b> (<b>безве́тренный</b> lặng gió).</div>'
     '<div class="hd-sec">Họ hàng</div>'
     '<div class="hd-fam"><b>ве́тер</b> gió · <b>ветеро́к</b> làn gió nhẹ · '
-    '<b>ветряно́й</b> chạy bằng sức gió (cối xay gió) · <b>прове́трить</b> mở cửa cho thoáng</div>'
+    '<b>ве́трено</b> trời có gió (trạng từ)</div>'
 )
+V["ветреный"] = "trời có gió, lộng gió; (người) nhẹ dạ, hay thay đổi"
 
 S["дождливый"] = (
     '<div class="hd-sec">Chẻ từ</div>'
     '<div class="hd-row"><span class="hd-piece">дожд-</span>'
-    '<span class="hd-gloss">дождь (mưa)</span></div>'
+    '<span class="hd-gloss">mưa — gốc của <b>дождь</b></span></div>'
     '<div class="hd-row"><span class="hd-piece">-лив-</span>'
-    '<span class="hd-gloss">HAY, ĐẦY, dễ bị — hậu tố chỉ khuynh hướng</span></div>'
+    '<span class="hd-gloss">hay có, đầy cái đó</span></div>'
     '<div class="hd-row"><span class="hd-piece">-ый</span>'
     '<span class="hd-gloss">đuôi tính từ</span></div>'
     '<div class="hd-sec">Cách nhớ</div>'
-    '<div class="hd-why">Không phải <b>-ный</b> mà là <b>-ливый</b>, nên nghĩa không phải '
-    '"thuộc về mưa" mà là <b>mưa dai, mưa nhiều</b> — nói về cả một mùa, một vùng.</div>'
-    '<div class="hd-why">Nắm <b>-ливый</b> là mở khoá cả lớp tính từ tả tính cách: '
-    '<b>терпели́вый</b> kiên nhẫn · <b>тала́нтливый</b> có tài · <b>лени́вый</b> lười · '
-    '<b>молчали́вый</b> ít nói.</div>'
-    '<div class="hd-warn"><b>Bẫy chính tả:</b> cụm <b>-ждь</b> trong <b>дождь</b> mỗi vùng '
-    'đọc một kiểu. Cứ viết đúng mặt chữ, đừng suy chính tả từ cái tai nghe được.</div>'
+    '<div class="hd-why">Hậu tố <b>-лив-</b> gắn vào danh từ để nói "hay có cái đó", cùng '
+    'khuôn với <b>счастли́вый</b> trong lô này. Nên <b>дождли́вый</b> tả cả một mùa hay đổ '
+    'mưa, không phải một cơn mưa cụ thể.</div>'
     '<div class="hd-sec">Họ hàng</div>'
-    '<div class="hd-fam"><b>дождь</b> mưa · <b>до́ждик</b> mưa nhỏ · '
-    '<b>дождево́й</b> thuộc về mưa (<b>дождева́я вода́</b> nước mưa) · '
-    '<b>дождеви́к</b> áo mưa</div>'
+    '<div class="hd-fam"><b>дождь</b> mưa · <b>дождеви́к</b> áo mưa · '
+    '<b>дождево́й</b> thuộc về mưa</div>'
 )
+V["дождливый"] = "mưa nhiều, hay mưa (nói về thời tiết, mùa)"
 
 S["морозный"] = (
     '<div class="hd-sec">Chẻ từ</div>'
     '<div class="hd-row"><span class="hd-piece">мороз-</span>'
-    '<span class="hd-gloss">моро́з — băng giá, rét cắt da (dưới 0°C)</span></div>'
+    '<span class="hd-gloss">cái rét đóng băng (<b>моро́з</b>)</span></div>'
     '<div class="hd-row"><span class="hd-piece">-н-</span>'
-    '<span class="hd-gloss">hậu tố tạo tính từ</span></div>'
+    '<span class="hd-gloss">thuộc về</span></div>'
     '<div class="hd-row"><span class="hd-piece">-ый</span>'
     '<span class="hd-gloss">đuôi tính từ</span></div>'
     '<div class="hd-sec">Cách nhớ</div>'
-    '<div class="hd-why">Danh từ ghép thẳng với <b>-н-</b>, không đổi chữ nào — lấy từ này '
-    'làm mẫu chuẩn rồi soi các từ khác lệch chỗ nào.</div>'
-    '<div class="hd-why"><b>Моро́з</b> là một trong những từ Nga nhất: <b>Дед Моро́з</b> = '
-    'Ông già Tuyết (nghĩa đen "Ông Nội Băng Giá"), nhân vật Năm Mới thay cho ông già Noel.</div>'
-    '<div class="hd-warn"><b>Phân biệt sắc thái:</b> <b>моро́зный</b> = rét ÂM ĐỘ, đóng băng. '
-    'Còn <b>холо́дный</b> chỉ là lạnh nói chung. Người Nga tách bạch hai mức này rất rõ.</div>'
+    '<div class="hd-why">Danh từ + <b>-н-</b> là lối dựng tính từ hay gặp nhất, lô này còn '
+    '<b>сне́жный</b> và <b>со́лнечный</b>. <b>моро́з</b> không phải cái lạnh chung chung mà '
+    'là rét dưới 0 độ, đóng băng — nên <b>моро́зный</b> mạnh hơn <b>холо́дный</b>.</div>'
     '<div class="hd-sec">Họ hàng</div>'
-    '<div class="hd-fam"><b>моро́з</b> băng giá · <b>моро́женое</b> kem (nghĩa đen: thứ đã bị '
-    'làm đông) · <b>морози́льник</b> tủ đông · <b>замёрзнуть</b> chết cóng, đóng băng</div>'
+    '<div class="hd-fam"><b>моро́з</b> rét đóng băng · <b>моро́женое</b> kem · '
+    '<b>Дед Моро́з</b> Ông già Tuyết</div>'
+    '<div class="hd-why">📋 Dạng ngắn giống đực chèn thêm <b>-е-</b> cho đọc được: '
+    '<b>моро́зен</b>; ba dạng kia đều đặn, trọng âm đứng yên cả bảng.</div>'
 )
+V["морозный"] = "giá buốt, có sương giá (nói về thời tiết)"
 
 S["облачный"] = (
     '<div class="hd-sec">Chẻ từ</div>'
-    '<div class="hd-row"><span class="hd-piece">облач-</span>'
-    '<span class="hd-gloss">о́блако (đám mây) — chữ <b>к</b> đã mềm thành <b>ч</b></span></div>'
+    '<div class="hd-row"><span class="hd-piece">облак-</span>'
+    '<span class="hd-gloss">mây (<b>о́блако</b>) → <b>облач-</b></span></div>'
     '<div class="hd-row"><span class="hd-piece">-н-</span>'
-    '<span class="hd-gloss">hậu tố tạo tính từ</span></div>'
+    '<span class="hd-gloss">thuộc về, có</span></div>'
     '<div class="hd-row"><span class="hd-piece">-ый</span>'
     '<span class="hd-gloss">đuôi tính từ</span></div>'
     '<div class="hd-sec">Cách nhớ</div>'
-    '<div class="hd-why">Chỗ phải để mắt là chữ <b>к</b> của <b>о́блако</b> mềm thành <b>ч</b> '
-    'khi gặp hậu tố. Biết vậy thì <b>о́блачный</b> không còn là từ mới, chỉ là từ cũ mặc áo khác.</div>'
-    '<div class="hd-why">Nghĩa hiện đại dùng y như tiếng Anh: <b>о́блачное хране́ние</b> = '
-    'lưu trữ đám mây.</div>'
-    '<div class="hd-warn">⚠️ Mức tin: <b>о́блако</b> vốn là <b>об-</b> (quanh) + gốc '
-    '<b>-волок-</b> (bọc, kéo phủ) — cùng họ với <b>оболо́чка</b> (lớp vỏ bọc). Đây là từ '
-    'nguyên, không phải luật suy ra được; người Nga hôm nay không còn cảm thấy nó nữa.</div>'
+    '<div class="hd-why">Chữ <b>к</b> của <b>о́блако</b> không đứng nổi trước <b>-н-</b> nên '
+    'đổi thành <b>ч</b> — đúng luật г/к/х → ж/ч/ш. Nghĩa gốc là "trời có mây", nghĩa tin '
+    'học "đám mây" đi theo tiếng Anh sau này.</div>'
     '<div class="hd-sec">Họ hàng</div>'
-    '<div class="hd-fam"><b>о́блако</b> đám mây · <b>о́блачность</b> lượng mây, độ che phủ · '
-    '<b>безо́блачный</b> quang mây, không một gợn mây · <b>о́блачно</b> (trạng từ) trời nhiều mây</div>'
+    '<div class="hd-fam"><b>о́блако</b> đám mây · <b>безо́блачный</b> không một gợn mây, '
+    'quang đãng</div>'
+    '<div class="hd-why">📋 Dạng ngắn giống đực chèn <b>-е-</b>: <b>о́блачен</b>; trọng âm '
+    'bám chặt <b>о́-</b> ở mọi dạng.</div>'
 )
+V["облачный"] = "có mây, trời nhiều mây; (tin học) đám mây"
 
 S["пасмурный"] = (
-    '<div class="hd-sec">Chẻ từ</div>'
-    '<div class="hd-row"><span class="hd-piece">па-</span>'
-    '<span class="hd-gloss">tiền tố cổ, ý "phủ lên, hơi hướng"</span></div>'
-    '<div class="hd-row"><span class="hd-piece">-смур-</span>'
-    '<span class="hd-gloss">U ÁM, tối sầm</span></div>'
-    '<div class="hd-row"><span class="hd-piece">-н-ый</span>'
-    '<span class="hd-gloss">hậu tố + đuôi tính từ</span></div>'
     '<div class="hd-sec">Cách nhớ</div>'
-    '<div class="hd-why">Trời <b>xám xịt kín mây, không thấy mặt trời</b>. Nặng hơn '
-    '<b>о́блачный</b> (chỉ là có mây, vẫn hửng nắng) — <b>па́смурный</b> là kín đặc, tối trời.</div>'
-    '<div class="hd-why">Dùng cho cả người: <b>па́смурное лицо́</b> = gương mặt rầu rĩ. Tiếng Nga '
-    'rất hay mượn thời tiết để tả tâm trạng, và bạn cũng dùng được luôn kiểu đó.</div>'
-    '<div class="hd-warn">⚠️ Mức tin: cách chẻ <b>па- + -смур-</b> là lối phân tích từ nguyên, '
-    'không phải thứ người Nga hôm nay còn cảm thấy. Nhớ nó gắn với <b>хму́рый</b> (cau có, ảm đạm) '
-    'là đủ dùng.</div>'
-    '<div class="hd-sec">Họ hàng</div>'
-    '<div class="hd-fam"><b>па́смурно</b> (trạng từ) trời u ám · gần nghĩa, khác gốc: '
-    '<b>хму́рый</b> cau có, ảm đạm · <b>су́мрачный</b> tối mờ · <b>я́сный</b> quang đãng (vế đối)</div>'
+    '<div class="hd-why"><b>па́смурный</b> KHÔNG chẻ được bằng từ tiếng Nga hôm nay — gốc '
+    '<b>смур-</b> "xám xịt" nay không còn đứng một mình. Nhớ bằng cặp đối lập với '
+    '<b>со́лнечный</b> trong lô này.</div>'
+    '<div class="hd-warn">⚠️ Mức tin: chỗ "gốc <b>смур-</b>" là từ nguyên, không phải luật '
+    'suy ra được — dùng để nhớ, đừng đem áp cho từ khác.</div>'
+    '<div class="hd-why">Khác <b>о́блачный</b>: <b>о́блачный</b> chỉ nói trên trời CÓ mây, '
+    'còn <b>па́смурный</b> là cả bầu trời xám kín không thấy nắng; nói về người thì là vẻ '
+    'mặt ủ rũ.</div>'
+    '<div class="hd-why">📋 Dạng ngắn giống đực chèn <b>-е-</b>: <b>па́смурен</b>; trọng âm '
+    'không dịch đi đâu.</div>'
 )
+V["пасмурный"] = "âm u, xám xịt không thấy nắng (thời tiết); (người) ủ rũ"
 
 S["положительный"] = (
     '<div class="hd-sec">Chẻ từ</div>'
     '<div class="hd-row"><span class="hd-piece">по-</span>'
-    '<span class="hd-gloss">tiền tố thể hoàn thành — ở đây không mang nghĩa riêng</span></div>'
+    '<span class="hd-gloss">tiền tố, ở đây không mang nghĩa riêng</span></div>'
     '<div class="hd-row"><span class="hd-piece">-лож-</span>'
-    '<span class="hd-gloss">ĐẶT, ĐỂ (положи́ть = đặt xuống)</span></div>'
+    '<span class="hd-gloss">ĐẶT, để (như <b>положи́ть</b>)</span></div>'
     '<div class="hd-row"><span class="hd-piece">-тельн-</span>'
-    '<span class="hd-gloss">biến động từ → tính từ: "có tính chất làm việc đó"</span></div>'
-    '<div class="hd-row"><span class="hd-piece">-ый</span>'
-    '<span class="hd-gloss">đuôi tính từ</span></div>'
+    '<span class="hd-gloss">động từ → tính từ "có tính…"</span></div>'
     '<div class="hd-sec">Cách nhớ</div>'
-    '<div class="hd-why">Cái gì đã được <b>đặt xuống</b>, đã chốt rồi, thì là <b>khẳng định</b>. '
-    'Tiếng Anh đi đúng con đường ấy: <i>positive</i> ← Latin <i>ponere</i> = <b>đặt</b>.</div>'
-    '<div class="hd-why">Đuôi <b>-тельный</b> báo hiệu <b>tính từ sinh ra từ động từ</b>: '
-    '<b>внима́тельный</b> chăm chú · <b>обяза́тельный</b> bắt buộc.</div>'
-    '<div class="hd-warn"><b>Cặp đối:</b> <b>отрица́тельный</b> tiêu cực, phủ định — <b>от-</b> '
-    '(rời ra) + <b>-риц-</b> (NÓI) → "nói ngược lại". Lại trùng tiếng Anh: <i>negative</i> ← '
-    '<i>negare</i> = nói không.</div>'
-    '<div class="hd-sec">Họ hàng — gốc лож- / лаг- / леж- (đặt, nằm)</div>'
-    '<div class="hd-fam"><b>положи́ть</b> đặt · <b>предложе́ние</b> câu; lời đề nghị · '
-    '<b>положе́ние</b> vị trí, tình thế · <b>приложе́ние</b> ứng dụng · <b>лежа́ть</b> nằm</div>'
-    '<div class="hd-warn"><b>Bẫy:</b> <b>ложь</b> (lời nói dối) KHÔNG cùng gốc — nó ra từ '
-    '<b>лгать</b>. Giống mặt chữ, khác hẳn họ.</div>'
+    '<div class="hd-why">Gốc <b>-лож-</b> là "đặt xuống". Cái gì đã được đặt ra, khẳng định '
+    'thì là <b>положи́тельный</b>: <b>положи́тельный отве́т</b> câu trả lời đồng ý, và trong '
+    'toán là số dương.</div>'
+    '<div class="hd-sec">Họ hàng</div>'
+    '<div class="hd-fam"><b>положи́ть</b> đặt xuống · <b>положе́ние</b> vị trí, tình thế · '
+    '<b>отрица́тельный</b> tiêu cực, phủ định (cùng đuôi <b>-тельный</b>, nghĩa ngược)</div>'
+    '<div class="hd-why">📋 Dạng ngắn giống đực rút <b>-льный</b> thành <b>-лен</b>: '
+    '<b>положи́телен</b>; các dạng kia giữ nguyên thân.</div>'
 )
+V["положительный"] = "tích cực, mang tính khẳng định; (toán) dương"
 
 S["снежный"] = (
     '<div class="hd-sec">Chẻ từ</div>'
-    '<div class="hd-row"><span class="hd-piece">снеж-</span>'
-    '<span class="hd-gloss">снег (tuyết) — chữ <b>г</b> đã mềm thành <b>ж</b></span></div>'
+    '<div class="hd-row"><span class="hd-piece">снег-</span>'
+    '<span class="hd-gloss">tuyết (<b>снег</b>) → <b>снеж-</b></span></div>'
     '<div class="hd-row"><span class="hd-piece">-н-</span>'
-    '<span class="hd-gloss">hậu tố tạo tính từ</span></div>'
+    '<span class="hd-gloss">thuộc về, phủ đầy</span></div>'
     '<div class="hd-row"><span class="hd-piece">-ый</span>'
     '<span class="hd-gloss">đuôi tính từ</span></div>'
     '<div class="hd-sec">Cách nhớ</div>'
-    '<div class="hd-why">Đây là <b>ví dụ mẫu</b> của luật <b>г → ж</b>. Không biết luật thì bạn '
-    'tưởng <b>снег</b> và <b>сне́жный</b> là hai từ phải học riêng; biết rồi thì chỉ còn một từ.</div>'
-    '<div class="hd-why">Nghĩa là "thuộc về tuyết, đầy tuyết": <b>сне́жная зима́</b> = mùa đông '
-    'nhiều tuyết.</div>'
+    '<div class="hd-why">Cùng một luật với <b>о́блачный</b> trong lô: phụ âm cuối gốc mềm đi '
+    'trước <b>-н-</b>, ở đây là <b>г → ж</b> (<b>снег</b> → <b>сне́жный</b>). Thấy <b>ж</b> '
+    'là đoán được gốc có <b>г</b>.</div>'
     '<div class="hd-sec">Họ hàng</div>'
     '<div class="hd-fam"><b>снег</b> tuyết · <b>снежи́нка</b> bông tuyết · '
-    '<b>снегови́к</b> người tuyết · <b>Снегу́рочка</b> Cô Bé Tuyết (cháu gái ông già Tuyết, '
-    'nhân vật Năm Mới của Nga)</div>'
+    '<b>снегови́к</b> người tuyết</div>'
+    '<div class="hd-why">📋 Dạng ngắn giống đực chèn <b>-е-</b>: <b>сне́жен</b>; trọng âm '
+    'giữ nguyên ở <b>сне́-</b>.</div>'
 )
 
 S["солнечный"] = (
     '<div class="hd-sec">Chẻ từ</div>'
     '<div class="hd-row"><span class="hd-piece">солн-</span>'
-    '<span class="hd-gloss">со́лнце (mặt trời)</span></div>'
+    '<span class="hd-gloss">mặt trời — gốc của <b>со́лнце</b></span></div>'
     '<div class="hd-row"><span class="hd-piece">-ечн-</span>'
-    '<span class="hd-gloss">hậu tố tính từ, chữ <b>ц</b> mềm thành <b>ч</b></span></div>'
+    '<span class="hd-gloss">thuộc về (chữ <b>ц</b> đổi thành <b>ч</b>)</span></div>'
     '<div class="hd-row"><span class="hd-piece">-ый</span>'
     '<span class="hd-gloss">đuôi tính từ</span></div>'
     '<div class="hd-sec">Cách nhớ</div>'
-    '<div class="hd-why">Thêm một nhánh của luật biến âm bạn đã gặp: <b>ц → ч</b>. So cả bộ: '
-    'снег → сне́<b>ж</b>ный · о́блако → о́бла<b>ч</b>ный · со́лнце → со́лне<b>ч</b>ный.</div>'
-    '<div class="hd-warn"><b>Bẫy chính tả kinh điển:</b> chữ <b>л</b> trong <b>со́лнце</b> KHÔNG '
-    'được đọc — người Nga nói "SON-tse". Nhưng viết thì bắt buộc phải có <b>л</b>. Đúng loại lỗi '
-    'bạn sẽ mắc ở ô gõ nếu chép theo tai.</div>'
+    '<div class="hd-why">Nhìn <b>со́лнце</b> → <b>со́лнечный</b> là thấy <b>ц → ч</b>, cùng '
+    'họ biến âm với <b>к → ч</b> của <b>о́блачный</b>. Từ này ôm cả nghĩa thường ngày '
+    '(<b>со́лнечный день</b> ngày nắng) lẫn nghĩa thiên văn (<b>со́лнечная систе́ма</b>).</div>'
     '<div class="hd-sec">Họ hàng</div>'
-    '<div class="hd-fam"><b>со́лнце</b> mặt trời · <b>со́лнечно</b> (trạng từ) trời nắng · '
-    '<b>подсо́лнух</b> hoa hướng dương (nghĩa đen: cái dưới mặt trời) · <b>со́лнышко</b> '
-    'mặt trời bé bỏng — cách gọi âu yếm người thân, y như "cục vàng" tiếng Việt</div>'
+    '<div class="hd-fam"><b>со́лнце</b> mặt trời · <b>подсо́лнух</b> hoa hướng dương '
+    '(quay theo mặt trời)</div>'
+    '<div class="hd-why">📋 Dạng ngắn giống đực chèn <b>-е-</b>: <b>со́лнечен</b>; trọng âm '
+    'không rời <b>со́-</b>.</div>'
 )
 
 S["близкий"] = (
     '<div class="hd-sec">Chẻ từ</div>'
     '<div class="hd-row"><span class="hd-piece">близ-</span>'
-    '<span class="hd-gloss">GẦN (<b>близ</b> cũng là một giới từ cổ: gần bên)</span></div>'
-    '<div class="hd-row"><span class="hd-piece">-к-ий</span>'
-    '<span class="hd-gloss">hậu tố + đuôi tính từ</span></div>'
+    '<span class="hd-gloss">GẦN</span></div>'
+    '<div class="hd-row"><span class="hd-piece">-к-</span>'
+    '<span class="hd-gloss">hậu tố tính từ, rụng khi so sánh hơn</span></div>'
+    '<div class="hd-row"><span class="hd-piece">-ий</span>'
+    '<span class="hd-gloss">đuôi tính từ (sau <b>к</b> viết <b>и</b>)</span></div>'
     '<div class="hd-sec">Cách nhớ</div>'
-    '<div class="hd-why">Không chỉ gần về khoảng cách mà còn <b>gần về tình cảm</b>: '
-    '<b>бли́зкий друг</b> = bạn thân · <b>бли́зкие</b> (dùng như danh từ) = những người thân '
-    'thiết. Tiếng Việt cũng gộp chung hai nghĩa đó — "gần gũi".</div>'
-    '<div class="hd-warn"><b>Đừng lẫn với thẻ trạng từ bạn đã có:</b> <b>бли́зкий</b> đứng trước '
-    'danh từ (bạn thân, người thân), còn <b>бли́зко</b> đi với động từ (đứng ở gần). '
-    'Cùng gốc, chỉ khác đuôi: <b>-ий</b> tính từ, <b>-о</b> trạng từ.</div>'
-    '<div class="hd-warn"><b>So sánh hơn:</b> <b>бли́же</b> (gần hơn) — <b>з</b> đổi thành '
-    '<b>ж</b> đúng luật biến âm. Cặp đối: <b>бли́зкий</b> gần ↔ <b>далёкий</b> xa.</div>'
-    '<div class="hd-sec">Họ hàng — gốc близ</div>'
-    '<div class="hd-fam"><b>бли́зко</b> ở gần · <b>бли́зость</b> sự gần gũi · '
-    '<b>прибли́зиться</b> tiến lại gần · <b>приблизи́тельно</b> xấp xỉ · '
-    '<b>бли́жний</b> lân cận</div>'
+    '<div class="hd-why">Một gốc dùng cho cả khoảng cách lẫn tình cảm: <b>бли́зкий дом</b> '
+    'nhà ở gần, <b>бли́зкий друг</b> bạn thân. Bỏ <b>-к-</b> đi và đổi <b>з → ж</b> thì ra '
+    'so sánh hơn <b>бли́же</b> — dạng này phải thuộc, không suy ra được.</div>'
+    '<div class="hd-sec">Họ hàng</div>'
+    '<div class="hd-fam"><b>бли́зко</b> ở gần (trạng từ) · <b>бли́же</b> gần hơn · '
+    '<b>приблизи́тельно</b> khoảng chừng</div>'
+    '<div class="hd-why">📋 Dạng ngắn lệch hai chỗ: giống đực chèn <b>-о-</b> '
+    '(<b>бли́зок</b>), giống cái dồn trọng âm ra đuôi (<b>близка́</b>).</div>'
 )
 
 S["весёлый"] = (
     '<div class="hd-sec">Chẻ từ</div>'
-    '<div class="hd-row"><span class="hd-piece">весел-</span>'
-    '<span class="hd-gloss">VUI, hớn hở</span></div>'
+    '<div class="hd-row"><span class="hd-piece">весёл-</span>'
+    '<span class="hd-gloss">VUI, phấn khởi — gốc trơn, không chẻ nhỏ hơn</span></div>'
     '<div class="hd-row"><span class="hd-piece">-ый</span>'
     '<span class="hd-gloss">đuôi tính từ</span></div>'
     '<div class="hd-sec">Cách nhớ</div>'
-    '<div class="hd-why">Sắc thái quyết định: <b>весёлый</b> là <b>vui ra ngoài</b> — cười nói, '
-    'hoạt náo, làm người khác cũng vui lây. Khác <b>счастли́вый</b> (hạnh phúc, sâu và lặng bên '
-    'trong). Một người có thể счастли́вый mà không весёлый.</div>'
-    '<div class="hd-warn"><b>Trọng âm:</b> chữ <b>ё</b> luôn mang trọng âm → <b>весёлый</b> nhấn '
-    'ở <b>ё</b>. Nhưng dạng ngắn giống cái lại dời chỗ nhấn ra đuôi: <b>весела́</b>.</div>'
-    '<div class="hd-sec">Họ hàng — gốc весел</div>'
-    '<div class="hd-fam"><b>весе́лье</b> niềm vui, cuộc vui · <b>весели́ться</b> vui chơi · '
-    '<b>ве́село</b> (trạng từ) vui vẻ · <b>развесели́ть</b> làm cho ai đó vui lên · '
-    '<b>весельча́к</b> người vui tính</div>'
-)
-
-S["каждый"] = (
-    '<div class="hd-sec">Chẻ từ</div>'
-    '<div class="hd-row"><span class="hd-piece">кажд-</span>'
-    '<span class="hd-gloss">MỖI, từng cái một</span></div>'
-    '<div class="hd-row"><span class="hd-piece">-ый</span>'
-    '<span class="hd-gloss">đuôi tính từ</span></div>'
-    '<div class="hd-sec">Cách nhớ</div>'
-    '<div class="hd-why">Về mặt hình thức nó là <b>tính từ</b> — hợp giống, hợp cách với danh từ '
-    'đi sau, y như <b>но́вый</b>. Nên đừng coi nó là từ đặc biệt: biết chia tính từ là biết chia nó.</div>'
-    '<div class="hd-warn"><b>Cụm chỉ thời gian dùng hằng ngày</b> — luôn ở <b>cách 4</b>: '
-    '<b>ка́ждый день</b> mỗi ngày · <b>ка́ждую неде́лю</b> mỗi tuần · <b>ка́ждый год</b> mỗi năm · '
-    '<b>ка́ждое у́тро</b> mỗi sáng.</div>'
-    '<div class="hd-warn"><b>Phân biệt:</b> <b>ка́ждый</b> = mỗi, từng cái RIÊNG LẺ · '
-    '<b>весь / все</b> = tất cả, GỘP CHUNG. <i>ка́ждый студе́нт</i> = từng sinh viên một; '
-    '<i>все студе́нты</i> = toàn thể sinh viên.</div>'
+    '<div class="hd-why">Chữ <b>ё</b> LUÔN mang trọng âm. Nên hễ trọng âm rời khỏi gốc là '
+    '<b>ё</b> tự động thành <b>е</b>: <b>весёлый</b> → <b>весела́</b>. Thấy <b>е</b> ở đó '
+    'thì biết ngay trọng âm đã nhảy ra sau.</div>'
+    '<div class="hd-warn">✍️ Gõ đủ hai chấm: <b>весёлый</b>, không phải "веселый" — thiếu '
+    '<b>ё</b> là sai chính tả chứ không phải viết tắt.</div>'
     '<div class="hd-sec">Họ hàng</div>'
-    '<div class="hd-fam">Gốc <b>кажд-</b> hầu như không đẻ ra từ phái sinh nào — nhưng ba từ này '
-    'luôn đứng cùng chỗ với nó: <b>вся́кий</b> mọi loại, đủ thứ · <b>любо́й</b> bất kỳ cái nào '
-    'cũng được · <b>все</b> tất cả (gộp chung)</div>'
+    '<div class="hd-fam"><b>ве́село</b> vui (<b>мне ве́село</b> tôi thấy vui) · '
+    '<b>весе́лье</b> niềm vui · <b>весели́ться</b> vui chơi</div>'
+    '<div class="hd-why">📋 Dạng ngắn: <b>ве́сел</b> · <b>весела́</b> · <b>ве́село</b> — chỉ '
+    'giống cái nhấn ở đuôi, và đúng chỗ đó <b>ё</b> hoá <b>е</b>.</div>'
 )
+V["весёлый"] = "vui nhộn, tươi vui (tính cách, không khí)"
+
+# Họ hàng: CỐ Ý BỎ. `ка́ждый` là đại từ cổ, các từ trông giống gốc đều là ghép
+# hiện đại hiếm dùng — viết vào chỉ để lấp ô (README §2, CHUAN v3 mục D).
+S["каждый"] = (
+    '<div class="hd-sec">Cách nhớ</div>'
+    '<div class="hd-why"><b>ка́ждый</b> là đại từ cổ, không chẻ được thành mảnh có nghĩa. '
+    'Chỗ đáng nhớ là nó chia y hệt một tính từ: <b>ка́ждый день</b> mỗi ngày, '
+    '<b>ка́ждую неде́лю</b> mỗi tuần (cách 4 chỉ thời gian lặp lại).</div>'
+    '<div class="hd-warn">📌 Đi với danh từ SỐ ÍT — <b>ка́ждый день</b>, không phải "каждые '
+    'дни".</div>'
+    '<div class="hd-warn">⚠️ Ba từ hay lẫn: <b>ка́ждый</b> từng cái một · <b>все</b> cả nhóm '
+    'gộp lại · <b>любо́й</b> cái nào cũng được.</div>'
+)
+V["каждый"] = "mỗi, từng cái một (đi với danh từ số ít)"
 
 S["слабый"] = (
     '<div class="hd-sec">Chẻ từ</div>'
     '<div class="hd-row"><span class="hd-piece">слаб-</span>'
-    '<span class="hd-gloss">YẾU, lỏng lẻo</span></div>'
+    '<span class="hd-gloss">YẾU, ít sức — gốc trơn</span></div>'
     '<div class="hd-row"><span class="hd-piece">-ый</span>'
     '<span class="hd-gloss">đuôi tính từ</span></div>'
     '<div class="hd-sec">Cách nhớ</div>'
-    '<div class="hd-why">Phủ khắp mọi kiểu "yếu", không chỉ sức người: <b>сла́бый чай</b> = '
-    'trà nhạt · <b>сла́бый сигна́л</b> = sóng yếu · <b>сла́бый у́зел</b> = nút thắt lỏng.</div>'
-    '<div class="hd-why">Nối với thứ bạn đã học: hậu tố <b>-ость</b> biến tính từ thành danh từ '
-    '— <b>сла́бость</b> = sự yếu ớt, điểm yếu. Trọng âm đứng nguyên chỗ cũ.</div>'
-    '<div class="hd-warn"><b>Cặp đối:</b> <b>сла́бый</b> yếu ↔ <b>си́льный</b> mạnh. So sánh hơn '
-    'thì hiền, chỉ thêm <b>-ее</b>, không biến âm gì: <b>слабе́е</b> yếu hơn.</div>'
-    '<div class="hd-sec">Họ hàng — gốc слаб</div>'
-    '<div class="hd-fam"><b>сла́бость</b> điểm yếu, sự yếu ớt · <b>ослабе́ть</b> yếu đi · '
-    '<b>слабе́ть</b> đang yếu dần · <b>слабе́е</b> yếu hơn</div>'
+    '<div class="hd-why">Một nghĩa "ít sức" trải ra thành cả nghĩa "ít đậm đặc": '
+    '<b>сла́бый ве́тер</b> gió nhẹ, <b>сла́бый ко́фе</b> cà phê loãng. Cứ hình dung cái gì đó '
+    'thiếu độ mạnh, không riêng con người.</div>'
+    '<div class="hd-sec">Họ hàng</div>'
+    '<div class="hd-fam"><b>сла́бость</b> sự yếu, điểm yếu (đuôi <b>-ость</b> dựng danh từ '
+    'trừu tượng) · <b>слабе́ть</b> yếu dần đi</div>'
+    '<div class="hd-why">📋 Dạng ngắn chỉ lệch ở giống cái: trọng âm dồn ra đuôi '
+    '(<b>слаба́</b>), còn <b>слаб</b> · <b>сла́бо</b> · <b>сла́бы</b> vẫn nhấn gốc.</div>'
 )
+V["слабый"] = "yếu, không có sức; (trà, cà phê) loãng, nhạt"
 
 S["счастливый"] = (
     '<div class="hd-sec">Chẻ từ</div>'
     '<div class="hd-row"><span class="hd-piece">с-</span>'
-    '<span class="hd-gloss">CÙNG, tốt lành</span></div>'
-    '<div class="hd-row"><span class="hd-piece">-часть-</span>'
-    '<span class="hd-gloss">PHẦN, suất được chia</span></div>'
-    '<div class="hd-row"><span class="hd-piece">-лив-ый</span>'
-    '<span class="hd-gloss">hậu tố "đầy, hay có" + đuôi tính từ</span></div>'
+    '<span class="hd-gloss">có, được cùng</span></div>'
+    '<div class="hd-row"><span class="hd-piece">-част-</span>'
+    '<span class="hd-gloss">PHẦN được chia (như <b>часть</b>)</span></div>'
+    '<div class="hd-row"><span class="hd-piece">-лив-</span>'
+    '<span class="hd-gloss">đầy, hay có</span></div>'
     '<div class="hd-sec">Cách nhớ</div>'
-    '<div class="hd-why">Nghĩa đen rất đẹp: <b>có được phần tốt của mình</b>. <b>сча́стье</b> = '
-    '<b>с</b> (tốt) + <b>часть</b> (phần) — người Slav xưa hình dung vận may là <b>được chia phần</b>.</div>'
-    '<div class="hd-why">Hậu tố <b>-ливый</b> đúng cái bạn gặp ở <b>дождли́вый</b>: "đầy, hay có". '
-    'Счастли́вый = <b>đầy phần may</b>.</div>'
-    '<div class="hd-warn"><b>Bẫy chính tả:</b> viết <b>сч</b> nhưng đọc như <b>щ</b> — "щас-ЛИ-вый", '
-    'và chữ <b>т</b> câm hoàn toàn. Đừng bao giờ chép từ này theo tai.</div>'
-    '<div class="hd-warn"><b>Câu chúc phải thuộc:</b> <b>Счастли́вого пути́!</b> = Thượng lộ bình an. '
-    'Nghe suốt khi ai đó lên đường.</div>'
-    '<div class="hd-sec">Họ hàng — gốc счаст</div>'
-    '<div class="hd-fam"><b>сча́стье</b> hạnh phúc, vận may · <b>сча́стлив</b> (dạng ngắn) '
-    'đang hạnh phúc · <b>несча́стье</b> bất hạnh, tai hoạ · <b>несчастли́вый</b> không may mắn</div>'
+    '<div class="hd-why">Theo từ nguyên, nghĩa đen là "được chia phần tốt" — nên từ này ôm '
+    'cả hạnh phúc lẫn may mắn. Đuôi <b>-лив-</b> giống hệt <b>дождли́вый</b> trong lô. Chữ '
+    '<b>т</b> của <b>часть</b> vẫn viết dù không đọc: nhớ cụm <b>-стл-</b>.</div>'
+    '<div class="hd-warn">🗣 Câu chúc phải thuộc: <b>Счастли́вого пути́!</b> — thượng lộ bình '
+    'an, nói khi tiễn ai đi.</div>'
+    '<div class="hd-sec">Họ hàng</div>'
+    '<div class="hd-fam"><b>сча́стье</b> hạnh phúc · <b>часть</b> phần</div>'
 )
-
-
-# --------------------------------------------------------------------------
-# V — sửa field Vietnamese (§2c). Dòng này là ĐỀ BÀI của deck 1-go: user nhìn
-# nó rồi GÕ từ Nga, nên phải sát tới mức chỉ có MỘT đáp án đúng.
-# Ba cặp phải tách bạch trong lô này:
-#   облачный (có mây, vẫn hửng nắng) ↔ пасмурный (xám kín, không thấy trời)
-#   весёлый (vui ra ngoài)          ↔ счастливый (hạnh phúc bên trong)
-#   близкий (TÍNH TỪ)               ↔ близко (TRẠNG TỪ, đã có thẻ riêng)
-# Và ba chỗ nghĩa Việt cũ đang trùng với từ Nga KHÁC:
-#   "bình thường" -> обычный · "tất cả" -> все · "tích cực" -> активный
-# --------------------------------------------------------------------------
-
-V["будничный"]     = "thuộc ngày thường phải đi làm; đều đều, tẻ nhạt"
-V["ветреный"]      = "lộng gió, nhiều gió; (nói về người) nông nổi, hay thay đổi"
-V["дождливый"]     = "mưa nhiều, mưa dai dẳng (nói về thời tiết, mùa)"
-V["морозный"]      = "băng giá, rét dưới 0 độ (không phải \"lạnh\" nói chung)"
-V["облачный"]      = "có mây, nhiều mây (trời vẫn hửng); (công nghệ) đám mây"
-V["пасмурный"]     = "xám kín mây, âm u không thấy mặt trời; (mặt người) rầu rĩ"
-V["положительный"] = "tích cực, khẳng định, dương (kết quả, câu trả lời)"
-V["близкий"]       = "gần, thân thiết (bạn thân, người thân)"
-V["весёлый"]       = "vui vẻ, tươi tắn, hoạt náo (vui ra ngoài)"
-V["каждый"]        = "mỗi, từng cái một (riêng lẻ — không phải \"tất cả\" gộp chung)"
-V["слабый"]        = "yếu, ốm yếu; nhạt (trà, màu); lỏng lẻo"
-V["счастливый"]    = "hạnh phúc, may mắn (niềm vui sâu bên trong)"
+V["счастливый"] = "hạnh phúc; may mắn"
