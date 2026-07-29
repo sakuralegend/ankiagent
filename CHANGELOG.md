@@ -4,6 +4,41 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 29/07/2026 — Phần B: giữ CHỖ BẤT THƯỜNG + CỤM CỐ ĐỊNH, **bác họ từ** sau khi đo
+
+Phần B **không đụng thẻ nào** — nó chỉ đổi thứ agent NHÌN THẤY lúc soạn lô.
+
+- ✅ **Nợ phần A trả xong trước**: cache đã lên `v2` đủ **951/951** bản ghi, và
+  `backfill_grammar_json.py --apply` ghi `GrammarJSON` cho **950 thẻ** (0,85 MB, tb 933 B/thẻ).
+  Không phải schema mod ⇒ không kích hoạt full sync.
+- 🆕 **`congcu.py tiep` in kèm hai khối từ điển cho mỗi từ** (`khoi_nguphap`):
+  `BAT THUONG` (câu mô tả chỗ bảng chia lệch quy tắc, từ `grammar.analyze()["flags"]` — user
+  chốt *"đọc câu đó là hiểu toàn bộ bảng"*) và `CUM CO DINH` + `CACH DUNG` (`idioms`/`usage`,
+  cào về sáng nay nhưng tới giờ **chưa ai nhìn thấy**; `к сожале́нию` của bản mẫu chính từ đây).
+- 🔴 **BỎ HẲN việc lấy họ từ OpenRussian — thiết kế xong, đo, rồi bác.** Ba phép đo:
+  1. **Làm CỬA SOÁT không được.** Trên **2 069 cụm in đậm** ở mục Họ hàng của 301 thẻ đã soạn:
+     nghiêm ngặt kêu **65%**, nới hai bước 59%, lọc hai tầng chặt nhất vẫn 33% — gần hết chỗ kêu
+     là **họ hàng thật** mà từ điển xếp thiếu (`идти́` không có `похо́д`/`вход`, `знать` không có
+     `знак`). Và **`цель`, `во́лос` không có họ từ nào**, nên đúng hai lỗi 28/07 cần bắt thì cửa
+     cũng chỉ bắt được `о́блако`↔`во́лос`, còn `целова́ть`↔`цель` lọt.
+     ⇒ **`family` là nguồn KHẲNG ĐỊNH, không phải nguồn PHỦ ĐỊNH.**
+  2. **Làm nguồn THAM KHẢO cũng không xong.** `grammar._family()` gộp hai khoá khác hẳn nhau:
+     `groups[groupType="family"]` (**cùng gốc**) và `relateds` (**nghĩa gần, khác gốc**). Hệ quả:
+     `ги́бкий` kéo theo `мя́гкий`/`бога́тый`, `о́блако` kéo theo `ту́ча`/`не́бо`. Đưa cái rổ đó cho
+     agent là công cụ **tự đẻ ra đúng loại lỗi nó sinh ra để chặn**.
+  3. **Tách hai khoá thì sạch** (`целова́ть` ra đúng họ целов-, không có `цель`; `о́блако` ra
+     **rỗng** = từ điển tự khai không có dữ liệu) — nhưng cache đã gộp mất phân biệt nên phải
+     **cào lại 950 từ (~30 phút)**. User cân với *"phần thêm từ họ hàng của agent làm khá tốt"*
+     rồi chốt: *"nếu nguy hiểm vậy thì thôi bỏ đi, không lấy family word từ openrussian nữa"*.
+  ⇒ Mục **Họ hàng agent vẫn tự nghĩ như trước**, và **không có cửa soát nào** chặn chỗ đó.
+  `rec["family"]` vẫn nằm trong cache + `GrammarJSON` (xoá đi phải cào lại 950 từ chỉ để **xoá**
+  dữ liệu, không đáng) — chỉ là không in ra. Muốn dùng lại thì việc phải làm là **(3)**.
+- 📌 **`pos` rỗng ở mục lấy từ `relateds` KHÔNG phải lỗi đọc khoá** (soi trang thật `блю́до`):
+  `groupMembers[].word` có `type`, `relateds[].word` chỉ có `id/bare/accented/translations`.
+- 📄 README §2 + `TIEPTUC.md` (khuôn lời nhắn giao agent) đã ghi đúng hai khối còn lại.
+- 💰 Chi phí in thêm: **+549 B/từ** đo trên cả 912 từ hàng đợi (trước khi bỏ họ từ; sau khi bỏ
+  còn thấp hơn) — lô nặng nhất ~6% ngân sách một lô. Không phải bận tâm.
+
 ## 29/07/2026 — BADGE THỂ ĐỘNG TỪ (phần A của đợt nâng cấp ngữ pháp)
 
 User: *"sau quá trình học, giờ tôi bị nhầm lẫn từ khá nhiều do không có đủ badge"* — kèm link

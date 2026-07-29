@@ -154,6 +154,88 @@ def nap_lo_da_soan(chi=None, lay_v=False):
     return (gop, nguon, vi) if lay_v else (gop, nguon)
 
 
+# ------------------------------------------- DỮ LIỆU TỪ ĐIỂN in kèm cho agent
+# Hai khối dưới đây KHÔNG đụng thẻ — chúng chỉ đổi thứ agent NHÌN THẤY lúc soạn.
+#
+# 🔴 KHÔNG in HỌ TỪ ra đây — user chốt 29/07 SAU KHI ĐO, đừng thêm lại.
+#
+# Ý định ban đầu đúng: agent tự nghĩ từ nguyên đã sai thật hai lần
+# (`о́блако`↔`во́лос`, `целова́ть`↔`цель`, CHANGELOG 28/07), nên đưa danh sách họ
+# từ của từ điển ra để agent CHỌN thay vì ĐOÁN. Ba phép đo giết ý định đó:
+#
+#  ① Làm CỬA SOÁT thì không được. Trên 2 069 cụm in đậm ở mục "Họ hàng" của 301
+#    thẻ đã soạn: bắt buộc phải có trong `family` thì kêu 65%, nới hai bước 59%,
+#    lọc hai tầng chặt nhất vẫn 33% — gần hết chỗ kêu là họ hàng THẬT mà từ điển
+#    xếp thiếu (`идти́` không có `похо́д`/`вход`, `знать` không có `знак`).
+#    `family` là nguồn KHẲNG ĐỊNH, KHÔNG phải nguồn PHỦ ĐỊNH.
+#  ② Làm nguồn THAM KHẢO cũng không xong: `groups[family]` (cùng gốc) và
+#    `relateds` (nghĩa gần, KHÁC GỐC HẲN) bị `grammar._family()` gộp một rổ, nên
+#    `ги́бкий` kéo theo `мя́гкий`/`бога́тый`, `о́блако` kéo theo `ту́ча`/`не́бо`.
+#    Đưa cái rổ đó cho agent là công cụ TỰ ĐẺ RA đúng loại lỗi nó sinh ra để chặn.
+#  ③ Tách hai khoá thì sạch, nhưng cache đã gộp mất phân biệt ⇒ phải cào lại 950
+#    từ. User cân giữa "cào lại 30 phút" và "agent tự nghĩ vẫn đang làm khá tốt"
+#    rồi chọn BỎ HẲN: *"phần family này chỉ để AI tham khảo thôi"* → *"nếu nguy
+#    hiểm vậy thì thôi bỏ đi, không lấy family word từ openrussian nữa"*.
+#
+# `rec["family"]` vẫn nằm nguyên trong cache và trong field `GrammarJSON` — bỏ đi
+# phải cào lại 950 từ chỉ để XOÁ dữ liệu, không đáng. Nó chỉ không được in ra.
+# Muốn dùng lại thì việc phải làm là ③, không phải bỏ comment dòng nào.
+
+TRAN_EN = 46          # cắt phần nghĩa Anh cho gọn một dòng
+TRAN_IDIOM = 4
+
+
+def _gon(s, n):
+    s = re.sub(r"\s+", " ", (s or "")).strip()
+    return s if len(s) <= n else s[:n - 1].rstrip() + "…"
+
+
+def _dong_bat_thuong(rec):
+    """Câu mô tả chỗ BẤT THƯỜNG của bảng chia (`grammar.analyze`).
+
+    User chốt 29/07: *"đọc câu đó là hiểu toàn bộ bảng"*. Bảng chia do máy dựng
+    nằm gấp trong `<details>`, nên phần duy nhất user đọc ngay là câu chú ý phía
+    trên — mà chỉ agent viết được câu đó. Máy chỉ trỏ chỗ, KHÔNG viết hộ: các
+    câu dưới đây là mô tả thô, đưa thẳng lên thẻ thì khô và dài.
+    """
+    flags = grammar.analyze(rec).get("flags") or []
+    flags = [(ma, c) for ma, c in flags if ma not in ("khongbien",)]
+    if not flags:
+        return []
+    return ["###   BAT THUONG trong bang chia (viet 1 cau chu y, DUNG chep nguyen):"] + \
+           [f"###     - {c}" for _, c in flags]
+
+
+def _dong_them(rec):
+    """`usage` (ghi chú cách dùng người thật viết) + `idioms` (cụm cố định).
+
+    Cào về 29/07 nhưng tới giờ chưa ai nhìn thấy. `idioms` đúng loại nội dung ô
+    đỏ user chấm là hay nhất: bản mẫu `сожале́ние` có ô `к сожале́нию`.
+    """
+    ra = []
+    if rec.get("usage"):
+        # NGUYÊN VĂN từ điển, có mục là ghi chú nội bộ của người biên tập
+        # (`быть`: "This page needs fixing…"). Không lọc được bằng máy — agent
+        # đọc rồi tự bỏ, đừng chép mù.
+        ra.append(f"###   CACH DUNG (tu dien ghi): {_gon(rec['usage'], 150)}")
+    idi = rec.get("idioms") or []
+    if idi:
+        ra.append("###   CUM CO DINH:")
+        for m in idi[:TRAN_IDIOM]:
+            ra.append(f"###     {m['w']:24s} {_gon(m.get('en'), TRAN_EN)}".rstrip())
+        if len(idi) > TRAN_IDIOM:
+            ra.append(f"###     ... con {len(idi) - TRAN_IDIOM} cum")
+    return ra
+
+
+def khoi_nguphap(wc):
+    """Toàn bộ phần từ điển in kèm một từ. Rỗng nếu chưa cào được từ đó."""
+    rec = grammar.get_cached(wc)
+    if not rec:
+        return ["###   (KHONG CO du lieu ngu phap — chay cao_nguphap.py cho tu nay)"]
+    return _dong_bat_thuong(rec) + _dong_them(rec)
+
+
 # --------------------------------------------------------------- lệnh: tiep
 def cmd_tiep():
     """In dữ liệu thô của một lô — đây là input để soạn.
@@ -210,6 +292,7 @@ def cmd_tiep():
                                         re.sub(r"</li>\s*<li>", " / ", w.get("en", "")))).strip()
         out.append(f'S["{wc}"]   {w.get("w","?")}   ({w.get("pos","?")})   '
                    f'{en}   |   {w.get("vi","")}{cu}')
+        out += khoi_nguphap(wc)
         if lo.get("sua"):
             hd = cu_hd.get(khoa_note(wc), "")
             out.append(f"### NOI DUNG HIEN TAI cua {wc} ({len(hd)} byte) — GIU LAI phan dang "

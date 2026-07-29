@@ -133,9 +133,20 @@ def _pick_word_object(info, want_bare):
 
 
 def _family(word_obj):
-    """Word family của OpenRussian -> list phẳng. Đây là DỮ LIỆU BIÊN TẬP TAY của
-    từ điển, không phải suy đoán từ nguyên — chính thứ đã bắt hụt hai lần khi để
-    agent tự nghĩ (`о́блако`↔`во́лос`, `целова́ть`↔`цель`, xem CHANGELOG 28/07)."""
+    """Word family của OpenRussian -> list phẳng. Dữ liệu biên tập tay của từ điển.
+
+    🔴 **Không nơi nào ĐỌC khoá này nữa** (user chốt 29/07) — nó chỉ còn nằm
+    trong cache và field `GrammarJSON`. Lý do bỏ nằm ở đầu mục "DỮ LIỆU TỪ ĐIỂN
+    in kèm cho agent" trong `data/huongdan/kho/congcu.py`, đọc trước khi định
+    dùng lại.
+
+    ⚠️ Hàm này GỘP hai khoá KHÁC HẲN NHAU vào một rổ, và đó chính là chỗ hỏng:
+      · `groups[groupType="family"]` — **cùng gốc** (`целова́ть` → целов-…)
+      · `relateds`                   — **nghĩa gần, khác gốc hẳn**
+                                       (`ги́бкий` → `мя́гкий`; `о́блако` → `ту́ча`)
+    Muốn dùng lại thì phải TÁCH đôi ở đây, tăng `BAN_GHI_V` và cào lại 950 từ —
+    cache hiện tại đã gộp nên không lọc ngược ra được.
+    """
     ra, thay = [], set()
     nhom = [g for g in (word_obj.get("groups") or []) if g.get("groupType") == "family"]
     nguon = [m.get("word") or {} for g in nhom for m in (g.get("groupMembers") or [])]
@@ -148,6 +159,9 @@ def _family(word_obj):
         tls = []
         for t in (w.get("translations") or []):
             tls += t.get("tls") or []
+        # `pos` rỗng ở mọi mục lấy từ `relateds` — KHÔNG phải đọc sai khoá. Đã
+        # soi trang thật (`блю́до`, 29/07): `groupMembers[].word` có `type`, còn
+        # `relateds[].word` chỉ có `id/bare/accented/translations`.
         ra.append({"w": a, "pos": (w.get("type") or "")[:3],
                    "en": ", ".join(tls[:3])})
     return ra

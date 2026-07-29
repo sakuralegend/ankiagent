@@ -37,6 +37,23 @@ chung?* Loại thứ hai bỏ đi. **Đúng không phải lý do để cho vào 
 | **Cách nhớ** | `hd-why` | **Chủ yếu suy thẳng ra TỪ các mảnh vừa chẻ.** Bắc cầu sang tiếng Anh khi thật sự cùng gốc (`совреме́нный` ↔ *contemporary*). |
 | **Họ hàng** | `hd-sec` + `hd-fam` | Từ cùng gốc / cùng phụ tố, **luôn kèm nghĩa tiếng Việt**. |
 
+🆕 **`congcu.py tiep` in sẵn hai khối từ điển (29/07)** — đọc trước khi tự nghĩ:
+
+| Khối in ra | Dùng vào đâu |
+|---|---|
+| `BAT THUONG` — chỗ bảng chia lệch quy tắc | viết **một câu chú ý** phía trên bảng: đọc câu đó là hiểu cả bảng |
+| `CUM CO DINH` / `CACH DUNG` | ứng viên ô đỏ (`к сожале́нию` của bản mẫu chính từ đây ra) |
+
+🔴 **Đừng chép nguyên văn** — đây là văn từ điển thô (tiếng Anh, có mục là ghi chú
+nội bộ kiểu *"This page needs fixing"*). Máy chỉ trỏ chỗ, câu chú ý là bạn viết.
+
+🔴 **Mục "Họ hàng" KHÔNG có dữ liệu máy, và đó là chủ ý** (user chốt 29/07): danh
+sách họ từ của OpenRussian trộn từ **cùng gốc** với từ **đồng nghĩa khác gốc**
+(`ги́бкий` → `мя́гкий`, `бога́тый`), nên đưa ra là mời gọi đúng loại lỗi cần tránh.
+Bạn tự nghĩ như trước — nhưng **chỉ viết khi chắc**; hai lỗi đã bắt được là
+`о́блако`↔`во́лос` và `целова́ть`↔`цель` (nhìn giống gốc mà không cùng gốc). Không
+chắc thì bỏ mục đó, đừng đoán.
+
 ### 🔴 Ba con số cứng
 
 1. **VỪA ĐÚNG MỘT MÀN HÌNH iPHONE — trần 700px, nhắm dưới 600px.** User chốt:

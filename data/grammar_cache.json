@@ -20969,6 +20969,7 @@
 "gender": "n",
 "pos": "noun",
 "rank": 3583,
+"v": 2,
 "wc": "зерно"
 },
 "зима": {
@@ -21034,6 +21035,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 940,
+"v": 2,
 "wc": "зима"
 },
 "зимний": {
@@ -21136,6 +21138,8 @@
 "зи́мни"
 ],
 "super": [],
+"usage": "Adjective of зима, i.e. winter clothing.",
+"v": 2,
 "wc": "зимний"
 },
 "зимой": {
@@ -21149,6 +21153,7 @@
 ],
 "pos": "adverb",
 "rank": 38458,
+"v": 2,
 "wc": "зимой"
 },
 "злой": {
@@ -21245,6 +21250,7 @@
 "super": [
 "зле́йший"
 ],
+"v": 2,
 "wc": "злой"
 },
 "знакомиться": {
@@ -21327,6 +21333,7 @@
 ],
 "rank": 5320,
 "reflexive": true,
+"v": 2,
 "wc": "знакомиться"
 },
 "знакомство": {
@@ -21412,6 +21419,7 @@
 "gender": "n",
 "pos": "noun",
 "rank": 2339,
+"v": 2,
 "wc": "знакомство"
 },
 "знать": {
@@ -21644,6 +21652,7 @@
 ],
 "rank": 40,
 "reflexive": false,
+"v": 2,
 "wc": "знать"
 },
 "золото": {
@@ -21749,6 +21758,7 @@
 "gender": "n",
 "pos": "noun",
 "rank": 2186,
+"v": 2,
 "wc": "золото"
 },
 "зяблик": {
@@ -21778,13 +21788,49 @@
 "gender": "m",
 "pos": "noun",
 "rank": 30994,
+"v": 2,
 "wc": "зяблик"
 },
 "и": {
 "acc": "и",
 "family": [],
+"idioms": [
+{
+"en": "and the like, and such like",
+"w": "и тому́ подо́бное"
+},
+{
+"en": "completely and fully, fully, utterly",
+"w": "целико́м и по́лностью"
+},
+{
+"en": "and so forth, and so on, etc",
+"w": "и так да́лее"
+},
+{
+"en": "lengthwise and crosswise",
+"w": "вдоль и поперёк"
+},
+{
+"en": "the same, one and the same",
+"w": "одно́ и то же"
+},
+{
+"en": "from everlasting to everlasting, from century to century",
+"w": "от ве́ка и до ве́ка"
+},
+{
+"en": "never",
+"w": "так и не"
+},
+{
+"en": "but also",
+"w": "но и"
+}
+],
 "pos": "other",
 "rank": 1,
+"v": 2,
 "wc": "и"
 },
 "игра": {
@@ -21893,8 +21939,15 @@
 }
 ],
 "gender": "f",
+"idioms": [
+{
+"en": "Off side",
+"w": "вне игры́"
+}
+],
 "pos": "noun",
 "rank": 644,
+"v": 2,
 "wc": "игра"
 },
 "играть": {
@@ -22064,6 +22117,7 @@
 ],
 "rank": 405,
 "reflexive": false,
+"v": 2,
 "wc": "играть"
 },
 "идти": {
@@ -22241,6 +22295,12 @@
 "w": "е́хать"
 }
 ],
+"idioms": [
+{
+"en": "it’s about, we're talking about",
+"w": "речь идёт"
+}
+],
 "imper": [
 "иди́",
 "иди́те"
@@ -22266,6 +22326,8 @@
 ],
 "rank": 82,
 "reflexive": false,
+"usage": "(1) Unidirectional verb of motion\n(2) Travel by foot, especially in the past tense.\n(3) Note: used with trains  'Поезд идет': 'The train is travelling along'",
+"v": 2,
 "wc": "идти"
 },
 "извинить": {
@@ -22343,6 +22405,7 @@
 ],
 "rank": 1261,
 "reflexive": false,
+"v": 2,
 "wc": "извинить"
 },
 "изюм": {
@@ -22393,6 +22456,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 21608,
+"v": 2,
 "wc": "изюм"
 },
 "икра": {
@@ -22422,6 +22486,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 4924,
+"v": 2,
 "wc": "икра"
 },
 "или": {
@@ -22433,8 +22498,23 @@
 "w": "ли́бо"
 }
 ],
+"idioms": [
+{
+"en": "one way or another, anyway",
+"w": "так и́ли ина́че"
+},
+{
+"en": "all or nothing",
+"w": "пан или пропа́л"
+},
+{
+"en": "all or nothing",
+"w": "всё или ничего"
+}
+],
 "pos": "other",
 "rank": 44,
+"v": 2,
 "wc": "или"
 },
 "императив": {
@@ -22475,6 +22555,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 31848,
+"v": 2,
 "wc": "императив"
 },
 "имя": {
@@ -22575,6 +22656,8 @@
 "gender": "n",
 "pos": "noun",
 "rank": 246,
+"usage": "Stem: имен-\n+ c мировым именем: with world famous\n+ от имени: on behalf of\n+ во имя: in the name of\n+ на имя( письмо, документ или заявление): directed to or meant for a particular person, typically in formal or official contexts",
+"v": 2,
 "wc": "имя"
 },
 "индия": {
@@ -22625,6 +22708,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 5795,
+"v": 2,
 "wc": "индия"
 },
 "инженер": {
@@ -22705,6 +22789,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 1083,
+"v": 2,
 "wc": "инженер"
 },
 "иногда": {
@@ -22723,6 +22808,8 @@
 ],
 "pos": "other",
 "rank": 318,
+"usage": "The construction: adverb of frequency + adjective or verb + perfective infinitive reflects standard practice.\nНапример: Вы всегда можете (impf.) взять (pf.) у меня\u000bсловарь - You can always get a dictionary from me",
+"v": 2,
 "wc": "иногда"
 },
 "иностранный": {
@@ -22820,6 +22907,7 @@
 "иностра́нны"
 ],
 "super": [],
+"v": 2,
 "wc": "иностранный"
 },
 "институт": {
@@ -22895,6 +22983,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 671,
+"v": 2,
 "wc": "институт"
 },
 "интересный": {
@@ -22997,6 +23086,7 @@
 "са́мый интере́сный",
 "интере́снейший"
 ],
+"v": 2,
 "wc": "интересный"
 },
 "инфинитив": {
@@ -23026,6 +23116,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 38903,
+"v": 2,
 "wc": "инфинитив"
 },
 "испанец": {
@@ -23076,6 +23167,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 13087,
+"v": 2,
 "wc": "испанец"
 },
 "испанка": {
@@ -23116,6 +23208,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 29453,
+"v": 2,
 "wc": "испанка"
 },
 "испанский": {
@@ -23193,6 +23286,7 @@
 ""
 ],
 "super": [],
+"v": 2,
 "wc": "испанский"
 },
 "использовать": {
@@ -23293,6 +23387,7 @@
 ],
 "rank": 791,
 "reflexive": false,
+"v": 2,
 "wc": "использовать"
 },
 "итальянец": {
@@ -23368,6 +23463,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 6387,
+"v": 2,
 "wc": "итальянец"
 },
 "итальянка": {
@@ -23428,6 +23524,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 27237,
+"v": 2,
 "wc": "итальянка"
 },
 "итальянский": {
@@ -23505,6 +23602,7 @@
 ""
 ],
 "super": [],
+"v": 2,
 "wc": "итальянский"
 },
 "их": {
@@ -23513,6 +23611,7 @@
 "pos": "pronoun",
 "proDecl": {},
 "rank": 84,
+"v": 2,
 "wc": "их"
 },
 "июль": {
@@ -23553,6 +23652,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 2459,
+"v": 2,
 "wc": "июль"
 },
 "июнь": {
@@ -23593,6 +23693,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 2293,
+"v": 2,
 "wc": "июнь"
 },
 "к": {
@@ -23604,8 +23705,24 @@
 "w": "ко"
 }
 ],
+"idioms": [
+{
+"en": "unfortunately",
+"w": "к сожале́нию"
+},
+{
+"en": "close to heart",
+"w": "бли́зко к се́рдцу"
+},
+{
+"en": "by the way",
+"w": "к сло́ву"
+}
+],
 "pos": "other",
 "rank": 14,
+"usage": "к до́му - towards the house \nко мне - towards me\nидти к + Dative = go to someone's place\n\n(i) To relate a part, component or supplement to the whole:\n(ii) With nouns that denote emotional reaction to an event or\nimpression:",
+"v": 2,
 "wc": "к"
 },
 "каждый": {
@@ -23658,6 +23775,7 @@
 }
 },
 "rank": 101,
+"v": 2,
 "wc": "каждый"
 },
 "как": {
@@ -23669,8 +23787,56 @@
 "w": "сло́вно"
 }
 ],
+"idioms": [
+{
+"en": "since..., inasmuch as..., because",
+"w": "Так как"
+},
+{
+"en": "at that moment, as soon as",
+"w": "как то́лько"
+},
+{
+"en": "here, be right there",
+"w": "тут как тут"
+},
+{
+"en": "to live in clover (i.e. carelessly), (to live) off the fat of the land",
+"w": "как сыр в ма́сле"
+},
+{
+"en": "behave like a bull in a china shop",
+"w": "вести́ себя́ как медве́дь"
+},
+{
+"en": "The best of the bunch",
+"w": "как на подбор"
+},
+{
+"en": "spindly, (as) thin as a rail",
+"w": "то́щий как жердь"
+},
+{
+"en": "as a (general) rule",
+"w": "как пра́вило"
+},
+{
+"en": "dumb as a post, extremely stupid, thick as two short planks",
+"w": "тупо́й как сиби́рский ва́ленок"
+},
+{
+"en": "(fit) like a glove",
+"w": "как влито́й"
+},
+{
+"en": "",
+"w": "как назло́"
+}
+],
 "pos": "other",
 "rank": 11,
+"usage": "Visit en.wiktionary.org/wiki/как#Russian to see when the different meanings should be used. This little word has many different meanings!\nкак можно: as...possible. For example: как можно меньшее время: as little time as possible",
+"v": 2,
 "wc": "как"
 },
 "какой": {
@@ -23680,6 +23846,12 @@
 "en": "which, that, any",
 "pos": "",
 "w": "кой"
+}
+],
+"idioms": [
+{
+"en": "what the fuck",
+"w": "какого чёрта"
 }
 ],
 "pos": "pronoun",
@@ -23718,6 +23890,8 @@
 }
 },
 "rank": 32,
+"usage": "по какому - on any",
+"v": 2,
 "wc": "какой"
 },
 "капуста": {
@@ -23768,6 +23942,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 4029,
+"v": 2,
 "wc": "капуста"
 },
 "карандаш": {
@@ -23828,6 +24003,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 2642,
+"v": 2,
 "wc": "карандаш"
 },
 "карман": {
@@ -23908,6 +24084,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 457,
+"v": 2,
 "wc": "карман"
 },
 "карта": {
@@ -23966,8 +24143,15 @@
 }
 ],
 "gender": "f",
+"idioms": [
+{
+"en": "cartomancy",
+"w": "гада́ние на ка́ртах"
+}
+],
 "pos": "noun",
 "rank": 836,
+"v": 2,
 "wc": "карта"
 },
 "картина": {
@@ -24093,6 +24277,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 599,
+"v": 2,
 "wc": "картина"
 },
 "картофель": {
@@ -24163,6 +24348,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 8988,
+"v": 2,
 "wc": "картофель"
 },
 "картошка": {
@@ -24213,6 +24399,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 1978,
+"v": 2,
 "wc": "картошка"
 },
 "касса": {
@@ -24283,6 +24470,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 4428,
+"v": 2,
 "wc": "касса"
 },
 "кататься": {
@@ -24455,6 +24643,8 @@
 ],
 "rank": 4595,
 "reflexive": true,
+"usage": "разница между «кататься» и «катиться» \n\nКатиться означает движение в один приём и в одном направлении. Пример: мяч катится с горы. \n\nКататься, в свою очередь, обозначает движение, повторяющееся и совершающееся в разное время, в разных направлениях. Пример: мяч катается по полу. Также «кататься» может означать ездить на чём-либо для развлечения или упражнения: кататься на машине, на лыжах, на велосипеде.",
+"v": 2,
 "wc": "кататься"
 },
 "катер": {
@@ -24495,6 +24685,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 4681,
+"v": 2,
 "wc": "катер"
 },
 "квартира": {
@@ -24640,6 +24831,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 335,
+"v": 2,
 "wc": "квартира"
 },
 "кеды": {
@@ -24675,6 +24867,8 @@
 "gender": "m",
 "pos": "noun",
 "rank": 39373,
+"usage": "Similar to sneakers/trainers, but not designed to absorb shock. The style is similar to converse trainers. They are a fashion item rather than a piece of sports kit.",
+"v": 2,
 "wc": "кеды"
 },
 "кепка": {
@@ -24704,6 +24898,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 5548,
+"v": 2,
 "wc": "кепка"
 },
 "киев": {
@@ -24759,6 +24954,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 5437,
+"v": 2,
 "wc": "киев"
 },
 "килограмм": {
@@ -24804,6 +25000,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 3667,
+"v": 2,
 "wc": "килограмм"
 },
 "кино": {
@@ -24924,6 +25121,7 @@
 "gender": "n",
 "pos": "noun",
 "rank": 1507,
+"v": 2,
 "wc": "кино"
 },
 "кинотеатр": {
@@ -24959,6 +25157,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 7137,
+"v": 2,
 "wc": "кинотеатр"
 },
 "киоск": {
@@ -24999,6 +25198,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 6452,
+"v": 2,
 "wc": "киоск"
 },
 "кислый": {
@@ -25108,6 +25308,7 @@
 "ки́слы, киcлы́"
 ],
 "super": [],
+"v": 2,
 "wc": "кислый"
 },
 "китаец": {
@@ -25168,6 +25369,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 3845,
+"v": 2,
 "wc": "китаец"
 },
 "китай": {
@@ -25233,6 +25435,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 2884,
+"v": 2,
 "wc": "китай"
 },
 "китайски": {
@@ -25261,6 +25464,7 @@
 ],
 "pos": "other",
 "rank": 21758,
+"v": 2,
 "wc": "китайски"
 },
 "китайский": {
@@ -25353,6 +25557,7 @@
 ""
 ],
 "super": [],
+"v": 2,
 "wc": "китайский"
 },
 "китаянка": {
@@ -25398,6 +25603,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 20250,
+"v": 2,
 "wc": "китаянка"
 },
 "класс": {
@@ -25468,6 +25674,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 559,
+"v": 2,
 "wc": "класс"
 },
 "клуб": {
@@ -25538,6 +25745,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 1134,
+"v": 2,
 "wc": "клуб"
 },
 "книга": {
@@ -25613,6 +25821,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 220,
+"v": 2,
 "wc": "книга"
 },
 "князь": {
@@ -25693,6 +25902,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 2317,
+"v": 2,
 "wc": "князь"
 },
 "ковёр": {
@@ -25753,13 +25963,25 @@
 "gender": "m",
 "pos": "noun",
 "rank": 2518,
+"v": 2,
 "wc": "ковёр"
 },
 "когда": {
 "acc": "когда́",
 "family": [],
+"idioms": [
+{
+"en": "till the cows come home, when hell freezes over",
+"w": "когда́ рак сви́стнет"
+},
+{
+"en": "",
+"w": "когда́ рак на горе́ сви́стнет"
+}
+],
 "pos": "other",
 "rank": 35,
+"v": 2,
 "wc": "когда"
 },
 "коза": {
@@ -25810,6 +26032,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 4285,
+"v": 2,
 "wc": "коза"
 },
 "колбаса": {
@@ -25860,6 +26083,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 3125,
+"v": 2,
 "wc": "колбаса"
 },
 "коллега": {
@@ -25930,6 +26154,8 @@
 "gender": "both",
 "pos": "noun",
 "rank": 1779,
+"usage": "Personal designation in which the natural gender dominates the grammatical gender!\n\nIn other words, decline the word itself as feminine, but when using prepositions, use the form appropriate to the person referred to. «Мой» коллега referring to a male colleague, «моя» to a female colleague in this nominative example.",
+"v": 2,
 "wc": "коллега"
 },
 "колледж": {
@@ -25965,6 +26191,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 11279,
+"v": 2,
 "wc": "колледж"
 },
 "кольцо": {
@@ -26025,6 +26252,7 @@
 "gender": "n",
 "pos": "noun",
 "rank": 1817,
+"v": 2,
 "wc": "кольцо"
 },
 "коммуникативный": {
@@ -26097,6 +26325,7 @@
 "коммуникати́вны"
 ],
 "super": [],
+"v": 2,
 "wc": "коммуникативный"
 },
 "комната": {
@@ -26217,6 +26446,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 214,
+"v": 2,
 "wc": "комната"
 },
 "компания": {
@@ -26277,6 +26507,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 625,
+"v": 2,
 "wc": "компания"
 },
 "компьютер": {
@@ -26332,6 +26563,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 2070,
+"v": 2,
 "wc": "компьютер"
 },
 "конечно": {
@@ -26395,6 +26627,8 @@
 ],
 "pos": "adverb",
 "rank": 123,
+"usage": "конечно же: of course",
+"v": 2,
 "wc": "конечно"
 },
 "конструкция": {
@@ -26440,6 +26674,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 4344,
+"v": 2,
 "wc": "конструкция"
 },
 "конфета": {
@@ -26495,6 +26730,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 4920,
+"v": 2,
 "wc": "конфета"
 },
 "кореец": {
@@ -26540,6 +26776,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 6182,
+"v": 2,
 "wc": "кореец"
 },
 "кореянка": {
@@ -26590,6 +26827,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 28684,
+"v": 2,
 "wc": "кореянка"
 },
 "корзина": {
@@ -26645,6 +26883,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 3902,
+"v": 2,
 "wc": "корзина"
 },
 "коричневый": {
@@ -26726,6 +26965,7 @@
 "super": [
 "кори́чневейший"
 ],
+"v": 2,
 "wc": "коричневый"
 },
 "короткий": {
@@ -26860,6 +27100,12 @@
 "w": "прекраща́ться"
 }
 ],
+"idioms": [
+{
+"en": "",
+"w": "быть на коро́ткой ноге́"
+}
+],
 "incomparable": false,
 "pos": "adjective",
 "rank": 483,
@@ -26872,6 +27118,7 @@
 "super": [
 "кратча́йший"
 ],
+"v": 2,
 "wc": "короткий"
 },
 "коса": {
@@ -26917,6 +27164,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 4710,
+"v": 2,
 "wc": "коса"
 },
 "костюм": {
@@ -26972,6 +27220,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 1162,
+"v": 2,
 "wc": "костюм"
 },
 "кот": {
@@ -27037,6 +27286,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 1268,
+"v": 2,
 "wc": "кот"
 },
 "кошка": {
@@ -27097,6 +27347,8 @@
 "gender": "f",
 "pos": "noun",
 "rank": 1389,
+"usage": "кошка = female cat\nкот = male cat",
+"v": 2,
 "wc": "кошка"
 },
 "край": {
@@ -27185,8 +27437,15 @@
 }
 ],
 "gender": "m",
+"idioms": [
+{
+"en": "",
+"w": "слу́шать кра́ем у́ха"
+}
+],
 "pos": "noun",
 "rank": 489,
+"v": 2,
 "wc": "край"
 },
 "красивый": {
@@ -27279,6 +27538,7 @@
 "super": [
 "краси́вейший"
 ],
+"v": 2,
 "wc": "красивый"
 },
 "красный": {
@@ -27475,6 +27735,7 @@
 "super": [
 "красне́йший"
 ],
+"v": 2,
 "wc": "красный"
 },
 "кровать": {
@@ -27525,6 +27786,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 952,
+"v": 2,
 "wc": "кровать"
 },
 "круг": {
@@ -27625,6 +27887,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 875,
+"v": 2,
 "wc": "круг"
 },
 "крупный": {
@@ -27781,6 +28044,8 @@
 "super": [
 "крупне́йший"
 ],
+"usage": "Крупный разговор-unpleasent conversation \nКрупная дрожь- major tremor that shakes body\nКрупные деньги- about large banknotes\nКрупный рогатый скот- bulls cows etc\nСъемка крупным планом- film style",
+"v": 2,
 "wc": "крупный"
 },
 "кто": {
@@ -27804,6 +28069,8 @@
 }
 },
 "rank": 36,
+"usage": "кто же: who",
+"v": 2,
 "wc": "кто"
 },
 "куда": {
@@ -27817,6 +28084,7 @@
 ],
 "pos": "other",
 "rank": 147,
+"v": 2,
 "wc": "куда"
 },
 "купить": {
@@ -27914,6 +28182,7 @@
 ],
 "rank": 554,
 "reflexive": false,
+"v": 2,
 "wc": "купить"
 },
 "куриный": {
@@ -27986,6 +28255,7 @@
 "кури́ны"
 ],
 "super": [],
+"v": 2,
 "wc": "куриный"
 },
 "курить": {
@@ -28115,6 +28385,7 @@
 ],
 "rank": 1179,
 "reflexive": false,
+"v": 2,
 "wc": "курить"
 },
 "курс": {
@@ -28190,6 +28461,8 @@
 "gender": "m",
 "pos": "noun",
 "rank": 989,
+"usage": "в курсе: up to date",
+"v": 2,
 "wc": "курс"
 },
 "ладонь": {
@@ -28230,6 +28503,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 668,
+"v": 2,
 "wc": "ладонь"
 },
 "лампа": {
@@ -28259,6 +28533,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 2079,
+"v": 2,
 "wc": "лампа"
 },
 "лев": {
@@ -28309,6 +28584,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 2245,
+"v": 2,
 "wc": "лев"
 },
 "легко": {
@@ -28347,6 +28623,7 @@
 ],
 "pos": "adverb",
 "rank": 615,
+"v": 2,
 "wc": "легко"
 },
 "лексика": {
@@ -28397,6 +28674,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 21536,
+"v": 2,
 "wc": "лексика"
 },
 "лекция": {
@@ -28472,6 +28750,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 2558,
+"v": 2,
 "wc": "лекция"
 },
 "лес": {
@@ -28677,6 +28956,8 @@
 "gender": "m",
 "pos": "noun",
 "rank": 263,
+"usage": "Certain masculine nouns take the ending -у after the prepositions в and на, though not after other prepositions taking the prepositional case. These nouns include: лес – в лесу ‘in the forest’; берег – на берегу ‘on the bank’; пол – на полу ‘on the floor’; сад – в саду ‘in the garden’; угол – в углу ‘in the corner’; год – в прошлом году ‘last year’; шкаф – в шкафу ‘in the cupboard’; Крым – в Крыму ‘in the Crimea’.",
+"v": 2,
 "wc": "лес"
 },
 "летний": {
@@ -28774,6 +29055,7 @@
 "ле́тни"
 ],
 "super": [],
+"v": 2,
 "wc": "летний"
 },
 "лето": {
@@ -28844,6 +29126,7 @@
 "gender": "n",
 "pos": "noun",
 "rank": 851,
+"v": 2,
 "wc": "лето"
 },
 "липа": {
@@ -28879,6 +29162,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 7141,
+"v": 2,
 "wc": "липа"
 },
 "листва": {
@@ -28919,6 +29203,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 4750,
+"v": 2,
 "wc": "листва"
 },
 "ложка": {
@@ -28989,6 +29274,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 2267,
+"v": 2,
 "wc": "ложка"
 },
 "лук": {
@@ -29074,6 +29360,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 2308,
+"v": 2,
 "wc": "лук"
 },
 "луна": {
@@ -29199,6 +29486,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 1751,
+"v": 2,
 "wc": "луна"
 },
 "луч": {
@@ -29319,6 +29607,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 1871,
+"v": 2,
 "wc": "луч"
 },
 "лучше": {
@@ -29357,6 +29646,7 @@
 ],
 "pos": "adverb",
 "rank": 1802,
+"v": 2,
 "wc": "лучше"
 },
 "любить": {
@@ -29520,6 +29810,8 @@
 ],
 "rank": 177,
 "reflexive": false,
+"usage": "The verb \"любить\" (to love) is typically followed by a direct object in the accusative case.",
+"v": 2,
 "wc": "любить"
 },
 "любовь": {
@@ -29665,6 +29957,8 @@
 "gender": "f",
 "pos": "noun",
 "rank": 374,
+"usage": "любо́вь + к + [dat.] = a love of/for something\n\nThe name Любовь is not declinated the same way as the word for love !\ne.g. \"Он говорил о Любови\" = He was talking about Lyubov.\n\"Он говорил о любви\" = He was talking about love.\nЛюбовь as the girl's name :\nhttps://ru.wiktionary.org/wiki/%D0%9B%D1%8E%D0%B1%D0%BE%D0%B2%D1%8C",
+"v": 2,
 "wc": "любовь"
 },
 "лёгкий": {
@@ -29756,6 +30050,7 @@
 "super": [
 "легча́йший"
 ],
+"v": 2,
 "wc": "лёгкий"
 },
 "лёд": {
@@ -29811,6 +30106,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 1765,
+"v": 2,
 "wc": "лёд"
 },
 "лён": {
@@ -29840,6 +30136,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": null,
+"v": 2,
 "wc": "лён"
 },
 "магазин": {
@@ -29890,6 +30187,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 751,
+"v": 2,
 "wc": "магазин"
 },
 "май": {
@@ -29935,6 +30233,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 2224,
+"v": 2,
 "wc": "май"
 },
 "майский": {
@@ -30002,6 +30301,7 @@
 ""
 ],
 "super": [],
+"v": 2,
 "wc": "майский"
 },
 "маленький": {
@@ -30124,6 +30424,7 @@
 "super": [
 "наиме́ньший"
 ],
+"v": 2,
 "wc": "маленький"
 },
 "мало": {
@@ -30182,6 +30483,8 @@
 ],
 "pos": "adverb",
 "rank": 362,
+"usage": "The words много, мало, немного, немало, сколько, несколько are used with different grammatical cases depending whether the object is countable or not: With genitive plural with countables and genitive singular with non-countables.",
+"v": 2,
 "wc": "мало"
 },
 "малыш": {
@@ -30242,6 +30545,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 2064,
+"v": 2,
 "wc": "малыш"
 },
 "мама": {
@@ -30317,6 +30621,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 295,
+"v": 2,
 "wc": "мама"
 },
 "марка": {
@@ -30372,6 +30677,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 2232,
+"v": 2,
 "wc": "марка"
 },
 "март": {
@@ -30407,6 +30713,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 2322,
+"v": 2,
 "wc": "март"
 },
 "масло": {
@@ -30530,8 +30837,15 @@
 }
 ],
 "gender": "n",
+"idioms": [
+{
+"en": "to live in clover (i.e. carelessly), (to live) off the fat of the land",
+"w": "как сыр в ма́сле"
+}
+],
 "pos": "noun",
 "rank": 1361,
+"v": 2,
 "wc": "масло"
 },
 "мать": {
@@ -30627,6 +30941,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 202,
+"v": 2,
 "wc": "мать"
 },
 "машина": {
@@ -30677,6 +30992,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 150,
+"v": 2,
 "wc": "машина"
 },
 "медицинский": {
@@ -30744,6 +31060,7 @@
 ""
 ],
 "super": [],
+"v": 2,
 "wc": "медицинский"
 },
 "медленно": {
@@ -30777,6 +31094,7 @@
 ],
 "pos": "adverb",
 "rank": 513,
+"v": 2,
 "wc": "медленно"
 },
 "медленный": {
@@ -30888,6 +31206,7 @@
 "super": [
 "ме́дленнейший"
 ],
+"v": 2,
 "wc": "медленный"
 },
 "между": {
@@ -30971,6 +31290,8 @@
 ],
 "pos": "other",
 "rank": 171,
+"usage": "Preposition",
+"v": 2,
 "wc": "между"
 },
 "мел": {
@@ -31036,6 +31357,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 6771,
+"v": 2,
 "wc": "мел"
 },
 "менеджер": {
@@ -31076,6 +31398,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 7302,
+"v": 2,
 "wc": "менеджер"
 },
 "место": {
@@ -31266,6 +31589,7 @@
 "gender": "n",
 "pos": "noun",
 "rank": 92,
+"v": 2,
 "wc": "место"
 },
 "месяц": {
@@ -31341,6 +31665,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 285,
+"v": 2,
 "wc": "месяц"
 },
 "метр": {
@@ -31401,6 +31726,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 686,
+"v": 2,
 "wc": "метр"
 },
 "метро": {
@@ -31436,6 +31762,7 @@
 "gender": "n",
 "pos": "noun",
 "rank": 2418,
+"v": 2,
 "wc": "метро"
 },
 "мир": {
@@ -31549,8 +31876,15 @@
 }
 ],
 "gender": "m",
+"idioms": [
+{
+"en": "afterworld",
+"w": "загро́бный мир"
+}
+],
 "pos": "noun",
 "rank": 151,
+"v": 2,
 "wc": "мир"
 },
 "много": {
@@ -31624,6 +31958,8 @@
 ],
 "pos": "adverb",
 "rank": 173,
+"usage": "\\+ genetive plural - if countable\n\n\\+ genetive singular - if uncountable\n\nThe words много, мало, немного, немало, сколько, несколько are used with different grammatical cases depending whether the object is countable or not\n\nСлово «много» обозначает большое количество чего-либо. Например: «В магазине было много товаров». \n\nСлово «многие» используется для обозначения неопределённо большого числа кого-либо или чего-либо, значительной части кого-либо или чего-либо. Например:  Многие студенты не посещают лекций",
+"v": 2,
 "wc": "много"
 },
 "множественный": {
@@ -31701,6 +32037,7 @@
 "мно́жественны"
 ],
 "super": [],
+"v": 2,
 "wc": "множественный"
 },
 "модель": {
@@ -31756,6 +32093,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 2182,
+"v": 2,
 "wc": "модель"
 },
 "модный": {
@@ -31843,6 +32181,7 @@
 "мо́дны, мо́дны́"
 ],
 "super": [],
+"v": 2,
 "wc": "модный"
 },
 "можно": {
@@ -31866,6 +32205,8 @@
 ],
 "pos": "adverb",
 "rank": 89,
+"usage": "можно  + any verb => add be to the meaning. Ex: можно достичь: can be achieved\nвсе чаще можно:   it is increasingly possible",
+"v": 2,
 "wc": "можно"
 },
 "мой": {
@@ -31924,6 +32265,7 @@
 }
 },
 "rank": 45,
+"v": 2,
 "wc": "мой"
 },
 "молодой": {
@@ -32040,6 +32382,7 @@
 "super": [
 "мла́дший"
 ],
+"v": 2,
 "wc": "молодой"
 },
 "молодёжь": {
@@ -32090,6 +32433,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 2096,
+"v": 2,
 "wc": "молодёжь"
 },
 "молоко": {
@@ -32140,6 +32484,7 @@
 "gender": "n",
 "pos": "noun",
 "rank": 1618,
+"v": 2,
 "wc": "молоко"
 },
 "мопед": {
@@ -32169,6 +32514,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 41389,
+"v": 2,
 "wc": "мопед"
 },
 "море": {
@@ -32244,6 +32590,7 @@
 "gender": "n",
 "pos": "noun",
 "rank": 505,
+"v": 2,
 "wc": "море"
 },
 "мороз": {
@@ -32409,6 +32756,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 1480,
+"v": 2,
 "wc": "мороз"
 },
 "морозный": {
@@ -32561,6 +32909,7 @@
 "моро́зны"
 ],
 "super": [],
+"v": 2,
 "wc": "морозный"
 },
 "москва": {
@@ -32656,6 +33005,8 @@
 "gender": "f",
 "pos": "noun",
 "rank": 205,
+"usage": "@mirco.deckers: Many Russian words that are exclusively singular in English or German have a plural in Russian. This plural is used above all in enumerations! Please only change declensions if you really know what you're doing.\n\nFor instance: Накидайте варианты ресторанов в центре страны, подходящих очень искушенному Европами, Пеки'нами, Москвами гурману.",
+"v": 2,
 "wc": "москва"
 },
 "мотоцикл": {
@@ -32696,6 +33047,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 3684,
+"v": 2,
 "wc": "мотоцикл"
 },
 "мочь": {
@@ -32743,6 +33095,7 @@
 ],
 "rank": 24,
 "reflexive": false,
+"v": 2,
 "wc": "мочь"
 },
 "муж": {
@@ -32828,6 +33181,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 412,
+"v": 2,
 "wc": "муж"
 },
 "мужской": {
@@ -32905,6 +33259,7 @@
 ""
 ],
 "super": [],
+"v": 2,
 "wc": "мужской"
 },
 "музей": {
@@ -32950,6 +33305,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 1427,
+"v": 2,
 "wc": "музей"
 },
 "музыка": {
@@ -33005,6 +33361,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 846,
+"v": 2,
 "wc": "музыка"
 },
 "муха": {
@@ -33065,6 +33422,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 1613,
+"v": 2,
 "wc": "муха"
 },
 "мы": {
@@ -33118,6 +33476,7 @@
 }
 },
 "rank": null,
+"v": 2,
 "wc": "мы"
 },
 "мыло": {
@@ -33163,6 +33522,7 @@
 "gender": "n",
 "pos": "noun",
 "rank": 2985,
+"v": 2,
 "wc": "мыло"
 },
 "мышь": {
@@ -33218,6 +33578,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 3795,
+"v": 2,
 "wc": "мышь"
 },
 "мягкий": {
@@ -33340,6 +33701,7 @@
 "мягча́йший",
 "наимягча́йший"
 ],
+"v": 2,
 "wc": "мягкий"
 },
 "мясной": {
@@ -33417,6 +33779,7 @@
 ""
 ],
 "super": [],
+"v": 2,
 "wc": "мясной"
 },
 "мясо": {
@@ -33472,6 +33835,7 @@
 "gender": "n",
 "pos": "noun",
 "rank": 1282,
+"v": 2,
 "wc": "мясо"
 },
 "мята": {
@@ -33507,6 +33871,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 28392,
+"v": 2,
 "wc": "мята"
 },
 "мяч": {
@@ -33547,6 +33912,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 4192,
+"v": 2,
 "wc": "мяч"
 },
 "мёд": {
@@ -33576,6 +33942,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 4697,
+"v": 2,
 "wc": "мёд"
 },
 "на": {
@@ -33602,8 +33969,92 @@
 "w": "наблюда́ть"
 }
 ],
+"idioms": [
+{
+"en": "actually, as a matter of fact, in fact",
+"w": "на са́мом де́ле"
+},
+{
+"en": "despite, in spite of, notwithstanding",
+"w": "несмотря́ на"
+},
+{
+"en": "clavus, corn",
+"w": "мозо́ль на ноге́"
+},
+{
+"en": "outside",
+"w": "на у́лице"
+},
+{
+"en": "around the corner",
+"w": "на носу́"
+},
+{
+"en": "ready for sex quickly (female), weak up front",
+"w": "слаба́ на передо́к"
+},
+{
+"en": "take (on) / take over",
+"w": "брать на себя́"
+},
+{
+"en": "take (on) / take over",
+"w": "взять на себя́"
+},
+{
+"en": "despite, in spite of, notwithstanding",
+"w": "не смотря́ на"
+},
+{
+"en": "flawless / perfect, fine",
+"w": "на ять"
+},
+{
+"en": "The best of the bunch",
+"w": "как на подбор"
+},
+{
+"en": "to one's misfortune, unfortunately",
+"w": "на беду́"
+},
+{
+"en": "cartomancy",
+"w": "гада́ние на ка́ртах"
+},
+{
+"en": "lead pouring",
+"w": "гада́ние на расто́пленном свинце́"
+},
+{
+"en": "forever and ever, for all time",
+"w": "на ве́ки веко́в"
+},
+{
+"en": "",
+"w": "когда́ рак на горе́ сви́стнет"
+},
+{
+"en": "",
+"w": "стоя́ть на своём"
+},
+{
+"en": "",
+"w": "быть на коро́ткой ноге́"
+},
+{
+"en": "piggyback, on your back, on your shoulders",
+"w": "на зако́рках"
+},
+{
+"en": "by a hair's breadth",
+"w": "на волосо́к"
+}
+],
 "pos": "other",
 "rank": 4,
+"usage": "+ accusative: motion, direction\n+ prepositional: location, situation\n\n(i) На has many literal and figurative meanings which denote various forms of direction, allocation, expenditure etc.:\n(ii) The main verb or adjective may denote resolve:\n(iii) Follows the main verb, adjective or noun may express reaction:",
+"v": 2,
 "wc": "на"
 },
 "назад": {
@@ -33652,6 +34103,7 @@
 ],
 "pos": "other",
 "rank": 247,
+"v": 2,
 "wc": "назад"
 },
 "налево": {
@@ -33668,8 +34120,19 @@
 "w": "напра́во"
 }
 ],
+"idioms": [
+{
+"en": "to moonlight",
+"w": "рабо́тать нале́во"
+},
+{
+"en": "to cheat (on one's partner), to two-time",
+"w": "ходи́ть нале́во"
+}
+],
 "pos": "other",
 "rank": 3676,
+"v": 2,
 "wc": "налево"
 },
 "написать": {
@@ -33817,6 +34280,7 @@
 ],
 "rank": 279,
 "reflexive": false,
+"v": 2,
 "wc": "написать"
 },
 "направо": {
@@ -33845,6 +34309,7 @@
 ],
 "pos": "other",
 "rank": 3671,
+"v": 2,
 "wc": "направо"
 },
 "напротив": {
@@ -33863,6 +34328,8 @@
 ],
 "pos": "other",
 "rank": 1397,
+"usage": "+ genitive case",
+"v": 2,
 "wc": "напротив"
 },
 "народ": {
@@ -33933,6 +34400,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 228,
+"v": 2,
 "wc": "народ"
 },
 "настоящий": {
@@ -34035,6 +34503,8 @@
 ""
 ],
 "super": [],
+"usage": "В настоящий момент: at the moment\nВ настоящее время: Currently",
+"v": 2,
 "wc": "настоящий"
 },
 "натуральный": {
@@ -34101,6 +34571,7 @@
 "super": [
 "натура́льнейший"
 ],
+"v": 2,
 "wc": "натуральный"
 },
 "находиться": {
@@ -34273,6 +34744,7 @@
 ],
 "rank": 328,
 "reflexive": true,
+"v": 2,
 "wc": "находиться"
 },
 "национальность": {
@@ -34323,6 +34795,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 4895,
+"v": 2,
 "wc": "национальность"
 },
 "национальный": {
@@ -34395,6 +34868,7 @@
 "национа́льны"
 ],
 "super": [],
+"v": 2,
 "wc": "национальный"
 },
 "начало": {
@@ -34475,6 +34949,8 @@
 "gender": "n",
 "pos": "noun",
 "rank": 971,
+"usage": "в самом начале: at the very beginning\nдля начала: to start",
+"v": 2,
 "wc": "начало"
 },
 "наш": {
@@ -34516,6 +34992,7 @@
 }
 },
 "rank": 63,
+"v": 2,
 "wc": "наш"
 },
 "не": {
@@ -34557,8 +35034,55 @@
 "w": "тем не ме́нее"
 }
 ],
+"idioms": [
+{
+"en": "to lack, be shy of, run short",
+"w": "не хвата́ть"
+},
+{
+"en": "not even",
+"w": "даже не"
+},
+{
+"en": "you're welcome, don't mention it, not worth mentioning",
+"w": "не за что"
+},
+{
+"en": "despite, in spite of, notwithstanding",
+"w": "не смотря́ на"
+},
+{
+"en": "not worth a straw (worthless, valueless)",
+"w": "ничего́ не стоя́щий"
+},
+{
+"en": "willy-nilly",
+"w": "рад не рад"
+},
+{
+"en": "never",
+"w": "так и не"
+},
+{
+"en": "not any more, no longer",
+"w": "бо́льше не"
+},
+{
+"en": "not to one's liking, dislike",
+"w": "не по нра́ву"
+},
+{
+"en": "",
+"w": "не перестава́я"
+},
+{
+"en": "(one) should not",
+"w": "не следует"
+}
+],
 "pos": "other",
 "rank": 3,
+"v": 2,
 "wc": "не"
 },
 "небо": {
@@ -34659,6 +35183,7 @@
 "gender": "n",
 "pos": "noun",
 "rank": 321,
+"v": 2,
 "wc": "небо"
 },
 "небольшой": {
@@ -34756,6 +35281,7 @@
 ""
 ],
 "super": [],
+"v": 2,
 "wc": "небольшой"
 },
 "недалеко": {
@@ -34809,6 +35335,7 @@
 ],
 "pos": "other",
 "rank": 2696,
+"v": 2,
 "wc": "недалеко"
 },
 "неделя": {
@@ -34919,6 +35446,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 378,
+"v": 2,
 "wc": "неделя"
 },
 "недорогой": {
@@ -34991,6 +35519,7 @@
 "недо́роги"
 ],
 "super": [],
+"v": 2,
 "wc": "недорогой"
 },
 "неинтересный": {
@@ -35053,6 +35582,7 @@
 "неинтере́сны"
 ],
 "super": [],
+"v": 2,
 "wc": "неинтересный"
 },
 "некоторый": {
@@ -35125,6 +35655,12 @@
 "w": "определённый"
 }
 ],
+"idioms": [
+{
+"en": "some time, for a while",
+"w": "не́которое вре́мя"
+}
+],
 "incomparable": false,
 "pos": "adjective",
 "rank": 210,
@@ -35135,6 +35671,7 @@
 ""
 ],
 "super": [],
+"v": 2,
 "wc": "некоторый"
 },
 "некрасивый": {
@@ -35207,6 +35744,7 @@
 "некраси́вы"
 ],
 "super": [],
+"v": 2,
 "wc": "некрасивый"
 },
 "нельзя": {
@@ -35230,6 +35768,8 @@
 ],
 "pos": "other",
 "rank": 260,
+"usage": "Always use нельзя́ to negate мо́жно (never не мо́жно)\na) Using perfective with нельзя means that the action is impossible: Дверь нельзя открыть = The door cannot be opened (it doesn't open).\nb) Using imperfective with нельзя means that the action is prohibited or undesirable: Здесь нельзя курить = No smoking.",
+"v": 2,
 "wc": "нельзя"
 },
 "немец": {
@@ -35290,6 +35830,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 434,
+"v": 2,
 "wc": "немец"
 },
 "немецкий": {
@@ -35377,6 +35918,7 @@
 ""
 ],
 "super": [],
+"v": 2,
 "wc": "немецкий"
 },
 "немка": {
@@ -35427,6 +35969,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 12219,
+"v": 2,
 "wc": "немка"
 },
 "немного": {
@@ -35495,6 +36038,8 @@
 ],
 "pos": "adverb",
 "rank": 404,
+"usage": "The words много, мало, немного, немало, сколько, несколько are used with different grammatical cases depending whether the object is countable or not: With genitive plural with countables and genitive singular with non-countables.",
+"v": 2,
 "wc": "немного"
 },
 "неплохо": {
@@ -35518,6 +36063,7 @@
 ],
 "pos": "adverb",
 "rank": 2136,
+"v": 2,
 "wc": "неплохо"
 },
 "непонятно": {
@@ -35576,6 +36122,7 @@
 ],
 "pos": "adverb",
 "rank": 2192,
+"v": 2,
 "wc": "непонятно"
 },
 "нет": {
@@ -35592,8 +36139,19 @@
 "w": "быть"
 }
 ],
+"idioms": [
+{
+"en": "no more",
+"w": "бо́льше нет"
+},
+{
+"en": "but no",
+"w": "да нет же"
+}
+],
 "pos": "other",
 "rank": 49,
+"v": 2,
 "wc": "нет"
 },
 "низкий": {
@@ -35706,6 +36264,8 @@
 "ни́зший",
 "нижа́йший"
 ],
+"usage": "самый низкий: lowest",
+"v": 2,
 "wc": "низкий"
 },
 "низко": {
@@ -35909,6 +36469,7 @@
 ],
 "pos": "adverb",
 "rank": 4149,
+"v": 2,
 "wc": "низко"
 },
 "никогда": {
@@ -35927,6 +36488,8 @@
 ],
 "pos": "other",
 "rank": 190,
+"usage": "When used, it is required to use double negation: никогда не\n\nEx: \nЯ никогда не занимаюсь спортом; у меня никогда нет время!\nI never play sports; I never have the time!",
+"v": 2,
 "wc": "никогда"
 },
 "ничего": {
@@ -35943,8 +36506,20 @@
 "w": "ничего́шеньки"
 }
 ],
+"idioms": [
+{
+"en": "not worth a straw (worthless, valueless)",
+"w": "ничего́ не стоя́щий"
+},
+{
+"en": "all or nothing",
+"w": "всё или ничего"
+}
+],
 "pos": "other",
 "rank": 1300,
+"usage": "+ genitive",
+"v": 2,
 "wc": "ничего"
 },
 "но": {
@@ -35961,8 +36536,15 @@
 "w": "пра́вда"
 }
 ],
+"idioms": [
+{
+"en": "but also",
+"w": "но и"
+}
+],
 "pos": "other",
 "rank": 13,
+"v": 2,
 "wc": "но"
 },
 "новый": {
@@ -36114,6 +36696,7 @@
 "super": [
 "нове́йший"
 ],
+"v": 2,
 "wc": "новый"
 },
 "нога": {
@@ -36182,8 +36765,24 @@
 }
 ],
 "gender": "f",
+"idioms": [
+{
+"en": "From head to toe",
+"w": "От головы́ до ног"
+},
+{
+"en": "clavus, corn",
+"w": "мозо́ль на ноге́"
+},
+{
+"en": "",
+"w": "быть на коро́ткой ноге́"
+}
+],
 "pos": "noun",
 "rank": 113,
+"usage": "вверх ногами - upside down",
+"v": 2,
 "wc": "нога"
 },
 "нож": {
@@ -36264,6 +36863,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 1069,
+"v": 2,
 "wc": "нож"
 },
 "ноль": {
@@ -36300,6 +36900,7 @@
 },
 "pos": "numeral",
 "rank": 3485,
+"v": 2,
 "wc": "ноль"
 },
 "нормально": {
@@ -36333,6 +36934,8 @@
 ],
 "pos": "adverb",
 "rank": 2801,
+"usage": "Is often used as an answer to \"как дела?\"/\"how are you?\" and basically means \"I'm fine\".",
+"v": 2,
 "wc": "нормально"
 },
 "нормальный": {
@@ -36424,6 +37027,8 @@
 "super": [
 "норма́льнейший"
 ],
+"usage": "Если погода будет норм, я с утра пойду в парк",
+"v": 2,
 "wc": "нормальный"
 },
 "ночной": {
@@ -36496,6 +37101,8 @@
 ""
 ],
 "super": [],
+"usage": "Dene",
+"v": 2,
 "wc": "ночной"
 },
 "ночь": {
@@ -36566,6 +37173,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 152,
+"v": 2,
 "wc": "ночь"
 },
 "ноябрь": {
@@ -36606,6 +37214,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 2193,
+"v": 2,
 "wc": "ноябрь"
 },
 "нравиться": {
@@ -36663,6 +37272,8 @@
 ],
 "rank": 605,
 "reflexive": true,
+"usage": "For Russian learners: think of the construction 'Мне нра́вится' as meaning literally 'Me it pleases' > 'It pleases me'. It is much easier to remember that way.",
+"v": 2,
 "wc": "нравиться"
 },
 "нужно": {
@@ -36686,6 +37297,8 @@
 ],
 "pos": "adverb",
 "rank": 32304,
+"usage": "• Ну́жен (masc), Нужна́ (fem), Ну́жно (neu), Нужны́ (plu)\n• Dative + ну́жно* + infinitive (example: ему нужно читать)\n* as adverb, not short neuter adjective",
+"v": 2,
 "wc": "нужно"
 },
 "нужный": {
@@ -36780,6 +37393,8 @@
 "нужны́"
 ],
 "super": [],
+"usage": "Dative + нужно + infinitive\nDative + short form + nominative",
+"v": 2,
 "wc": "нужный"
 },
 "няня": {
@@ -36830,6 +37445,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 6525,
+"v": 2,
 "wc": "няня"
 },
 "нёбо": {
@@ -36870,6 +37486,7 @@
 "gender": "n",
 "pos": "noun",
 "rank": 58172,
+"v": 2,
 "wc": "нёбо"
 },
 "о": {
@@ -36881,8 +37498,20 @@
 "w": "об"
 }
 ],
+"idioms": [
+{
+"en": "about",
+"w": "о чём"
+},
+{
+"en": "Oh nooo!",
+"w": "О не-е-ет!"
+}
+],
 "pos": "other",
 "rank": 25,
+"usage": "о is written as об before а, э, и, о, у\nО + accusative denotes the object of collision, friction, pressure etc.: has the meaning \"against\", \"over\"",
+"v": 2,
 "wc": "о"
 },
 "обед": {
@@ -36933,6 +37562,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 1155,
+"v": 2,
 "wc": "обед"
 },
 "обедать": {
@@ -37040,6 +37670,8 @@
 ],
 "rank": 3844,
 "reflexive": false,
+"usage": "+ instrumental\nЯ обедаю рисом и салатом",
+"v": 2,
 "wc": "обедать"
 },
 "обида": {
@@ -37105,6 +37737,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 2032,
+"v": 2,
 "wc": "обида"
 },
 "облако": {
@@ -37170,6 +37803,7 @@
 "gender": "n",
 "pos": "noun",
 "rank": 1706,
+"v": 2,
 "wc": "облако"
 },
 "облачный": {
@@ -37272,6 +37906,7 @@
 "о́блачны"
 ],
 "super": [],
+"v": 2,
 "wc": "облачный"
 },
 "образец": {
@@ -37402,6 +38037,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 3204,
+"v": 2,
 "wc": "образец"
 },
 "образование": {
@@ -37492,6 +38128,7 @@
 "gender": "n",
 "pos": "noun",
 "rank": 1232,
+"v": 2,
 "wc": "образование"
 },
 "общежитие": {
@@ -37557,6 +38194,7 @@
 "gender": "n",
 "pos": "noun",
 "rank": 3294,
+"v": 2,
 "wc": "общежитие"
 },
 "объявить": {
@@ -37634,6 +38272,8 @@
 ],
 "rank": 1028,
 "reflexive": false,
+"usage": "объяснить кому? о чём ?",
+"v": 2,
 "wc": "объявить"
 },
 "объявление": {
@@ -37739,6 +38379,7 @@
 "gender": "n",
 "pos": "noun",
 "rank": 3890,
+"v": 2,
 "wc": "объявление"
 },
 "объём": {
@@ -37804,6 +38445,8 @@
 "gender": "m",
 "pos": "noun",
 "rank": 2895,
+"usage": "Both объём and количество can mean \"quantity\", but объём is used for uncountable nouns, while количество is for countable nouns.",
+"v": 2,
 "wc": "объём"
 },
 "овощ": {
@@ -37844,6 +38487,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 5141,
+"v": 2,
 "wc": "овощ"
 },
 "огурец": {
@@ -37884,6 +38528,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 4604,
+"v": 2,
 "wc": "огурец"
 },
 "одежда": {
@@ -37959,6 +38604,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 984,
+"v": 2,
 "wc": "одежда"
 },
 "одеяло": {
@@ -38009,6 +38655,7 @@
 "gender": "n",
 "pos": "noun",
 "rank": 1950,
+"v": 2,
 "wc": "одеяло"
 },
 "один": {
@@ -38043,6 +38690,12 @@
 "en": "one sided unilateral (adj)",
 "pos": "",
 "w": "односторо́нний"
+}
+],
+"idioms": [
+{
+"en": "not a single one",
+"w": "ни одной нетути"
 }
 ],
 "numDecl": {
@@ -38081,6 +38734,7 @@
 },
 "pos": "numeral",
 "rank": null,
+"v": 2,
 "wc": "один"
 },
 "одиннадцатый": {
@@ -38148,6 +38802,7 @@
 },
 "pos": "numeral",
 "rank": 7212,
+"v": 2,
 "wc": "одиннадцатый"
 },
 "одиннадцать": {
@@ -38196,6 +38851,7 @@
 },
 "pos": "numeral",
 "rank": 3374,
+"v": 2,
 "wc": "одиннадцать"
 },
 "озеро": {
@@ -38236,6 +38892,7 @@
 "gender": "n",
 "pos": "noun",
 "rank": 1503,
+"v": 2,
 "wc": "озеро"
 },
 "ой": {
@@ -38243,6 +38900,7 @@
 "family": [],
 "pos": "other",
 "rank": 1209,
+"v": 2,
 "wc": "ой"
 },
 "окно": {
@@ -38293,6 +38951,7 @@
 "gender": "n",
 "pos": "noun",
 "rank": 200,
+"v": 2,
 "wc": "окно"
 },
 "октябрь": {
@@ -38333,6 +38992,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 103,
+"v": 2,
 "wc": "октябрь"
 },
 "окунь": {
@@ -38368,6 +39028,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 15075,
+"v": 2,
 "wc": "окунь"
 },
 "он": {
@@ -38422,6 +39083,7 @@
 }
 },
 "rank": null,
+"v": 2,
 "wc": "он"
 },
 "она": {
@@ -38476,6 +39138,7 @@
 }
 },
 "rank": null,
+"v": 2,
 "wc": "она"
 },
 "они": {
@@ -38530,6 +39193,7 @@
 }
 },
 "rank": null,
+"v": 2,
 "wc": "они"
 },
 "оранжевый": {
@@ -38592,6 +39256,7 @@
 "ора́нжевы"
 ],
 "super": [],
+"v": 2,
 "wc": "оранжевый"
 },
 "орех": {
@@ -38652,6 +39317,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 4591,
+"v": 2,
 "wc": "орех"
 },
 "орёл": {
@@ -38692,6 +39358,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 3425,
+"v": 2,
 "wc": "орёл"
 },
 "осенний": {
@@ -38779,6 +39446,7 @@
 "осе́нни"
 ],
 "super": [],
+"v": 2,
 "wc": "осенний"
 },
 "осень": {
@@ -38834,6 +39502,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 1454,
+"v": 2,
 "wc": "осень"
 },
 "осенью": {
@@ -38852,6 +39521,7 @@
 ],
 "pos": "other",
 "rank": 43756,
+"v": 2,
 "wc": "осенью"
 },
 "особенность": {
@@ -38962,6 +39632,8 @@
 "gender": "f",
 "pos": "noun",
 "rank": 2002,
+"usage": "в осо́бенность: especially/ in particular",
+"v": 2,
 "wc": "особенность"
 },
 "остановка": {
@@ -39012,6 +39684,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 2663,
+"v": 2,
 "wc": "остановка"
 },
 "остров": {
@@ -39082,6 +39755,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 1026,
+"v": 2,
 "wc": "остров"
 },
 "острый": {
@@ -39213,6 +39887,7 @@
 "super": [
 "остре́йший"
 ],
+"v": 2,
 "wc": "острый"
 },
 "ответ": {
@@ -39323,6 +39998,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 383,
+"v": 2,
 "wc": "ответ"
 },
 "ответить": {
@@ -39395,6 +40071,7 @@
 ],
 "rank": 172,
 "reflexive": false,
+"v": 2,
 "wc": "ответить"
 },
 "ответный": {
@@ -39472,6 +40149,7 @@
 "отве́тны"
 ],
 "super": [],
+"v": 2,
 "wc": "ответный"
 },
 "отвечать": {
@@ -39564,6 +40242,7 @@
 ],
 "rank": 375,
 "reflexive": false,
+"v": 2,
 "wc": "отвечать"
 },
 "отдыхать": {
@@ -39721,6 +40400,8 @@
 ],
 "rank": 2090,
 "reflexive": false,
+"usage": "От = away/off\nВдыхать - вдохнуть - Breath in\nВыдыхать - выдохнуть - Breath out\nОт - Think of like to take a breather away/off from work",
+"v": 2,
 "wc": "отдыхать"
 },
 "отель": {
@@ -39756,6 +40437,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 2348,
+"v": 2,
 "wc": "отель"
 },
 "отец": {
@@ -39866,6 +40548,8 @@
 "gender": "m",
 "pos": "noun",
 "rank": 160,
+"usage": "This word has a related vocative form \"о'тче\", which is considered archaic and is commonly used to address a church priest or God himself (in which case it will start with a capital letter to denote reverence).",
+"v": 2,
 "wc": "отец"
 },
 "открытка": {
@@ -39926,6 +40610,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 5919,
+"v": 2,
 "wc": "открытка"
 },
 "отлично": {
@@ -40019,6 +40704,7 @@
 ],
 "pos": "adverb",
 "rank": 2001,
+"v": 2,
 "wc": "отлично"
 },
 "отрицательный": {
@@ -40096,6 +40782,7 @@
 "отрица́тельны"
 ],
 "super": [],
+"v": 2,
 "wc": "отрицательный"
 },
 "отчество": {
@@ -40151,6 +40838,7 @@
 "gender": "n",
 "pos": "noun",
 "rank": 5317,
+"v": 2,
 "wc": "отчество"
 },
 "офис": {
@@ -40216,6 +40904,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 4491,
+"v": 2,
 "wc": "офис"
 },
 "охота": {
@@ -40311,6 +41000,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 1611,
+"v": 2,
 "wc": "охота"
 },
 "очень": {
@@ -40339,6 +41029,7 @@
 ],
 "pos": "adverb",
 "rank": 73,
+"v": 2,
 "wc": "очень"
 },
 "очередь": {
@@ -40419,6 +41110,8 @@
 "gender": "f",
 "pos": "noun",
 "rank": 440,
+"usage": "в свою очередь: firstly",
+"v": 2,
 "wc": "очередь"
 },
 "пакет": {
@@ -40469,6 +41162,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 2137,
+"v": 2,
 "wc": "пакет"
 },
 "палка": {
@@ -40524,6 +41218,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 1876,
+"v": 2,
 "wc": "палка"
 },
 "пальто": {
@@ -40569,6 +41264,7 @@
 "gender": "n",
 "pos": "noun",
 "rank": 1907,
+"v": 2,
 "wc": "пальто"
 },
 "папа": {
@@ -40699,6 +41395,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 963,
+"v": 2,
 "wc": "папа"
 },
 "парк": {
@@ -40749,6 +41446,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 1723,
+"v": 2,
 "wc": "парк"
 },
 "пасмурный": {
@@ -40816,6 +41514,7 @@
 "па́смурны"
 ],
 "super": [],
+"v": 2,
 "wc": "пасмурный"
 },
 "пачка": {
@@ -40866,6 +41565,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 1934,
+"v": 2,
 "wc": "пачка"
 },
 "певец": {
@@ -40981,6 +41681,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 5049,
+"v": 2,
 "wc": "певец"
 },
 "певица": {
@@ -41021,6 +41722,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 8619,
+"v": 2,
 "wc": "певица"
 },
 "педагогический": {
@@ -41088,6 +41790,7 @@
 ""
 ],
 "super": [],
+"v": 2,
 "wc": "педагогический"
 },
 "первый": {
@@ -41117,6 +41820,12 @@
 "en": "primitive, primordial, primeval",
 "pos": "",
 "w": "первобы́тный"
+}
+],
+"idioms": [
+{
+"en": "first aid",
+"w": "пе́рвая по́мощь"
 }
 ],
 "numDecl": {
@@ -41155,6 +41864,7 @@
 },
 "pos": "numeral",
 "rank": 67,
+"v": 2,
 "wc": "первый"
 },
 "переводчик": {
@@ -41220,6 +41930,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 4297,
+"v": 2,
 "wc": "переводчик"
 },
 "перерыв": {
@@ -41290,6 +42001,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 3531,
+"v": 2,
 "wc": "перерыв"
 },
 "пересадка": {
@@ -41355,6 +42067,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 32697,
+"v": 2,
 "wc": "пересадка"
 },
 "переход": {
@@ -41435,6 +42148,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 2143,
+"v": 2,
 "wc": "переход"
 },
 "песня": {
@@ -41495,6 +42209,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 1524,
+"v": 2,
 "wc": "песня"
 },
 "петь": {
@@ -41738,6 +42453,7 @@
 ],
 "rank": 750,
 "reflexive": false,
+"v": 2,
 "wc": "петь"
 },
 "пешком": {
@@ -41776,6 +42492,8 @@
 ],
 "pos": "other",
 "rank": 3446,
+"usage": "Adverb",
+"v": 2,
 "wc": "пешком"
 },
 "пиво": {
@@ -41826,6 +42544,7 @@
 "gender": "n",
 "pos": "noun",
 "rank": 1367,
+"v": 2,
 "wc": "пиво"
 },
 "писать": {
@@ -42094,6 +42813,7 @@
 ],
 "rank": 206,
 "reflexive": false,
+"v": 2,
 "wc": "писать"
 },
 "письменно": {
@@ -42132,6 +42852,7 @@
 ],
 "pos": "adverb",
 "rank": 20797,
+"v": 2,
 "wc": "письменно"
 },
 "письмо": {
@@ -42257,6 +42978,7 @@
 "gender": "n",
 "pos": "noun",
 "rank": 305,
+"v": 2,
 "wc": "письмо"
 },
 "пить": {
@@ -42359,6 +43081,12 @@
 "w": "млекопита́ющий"
 }
 ],
+"idioms": [
+{
+"en": "to down a drink, to chug sth. down, to consume (a drink) in one gulp",
+"w": "пить до дна"
+}
+],
 "imper": [
 "пей",
 "пе́йте"
@@ -42385,6 +43113,7 @@
 ],
 "rank": 565,
 "reflexive": false,
+"v": 2,
 "wc": "пить"
 },
 "платье": {
@@ -42430,6 +43159,7 @@
 "gender": "n",
 "pos": "noun",
 "rank": 1541,
+"v": 2,
 "wc": "платье"
 },
 "плач": {
@@ -42480,6 +43210,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 3742,
+"v": 2,
 "wc": "плач"
 },
 "плащ": {
@@ -42545,6 +43276,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 1657,
+"v": 2,
 "wc": "плащ"
 },
 "плохо": {
@@ -42568,6 +43300,7 @@
 ],
 "pos": "adverb",
 "rank": 541,
+"v": 2,
 "wc": "плохо"
 },
 "плохой": {
@@ -42721,6 +43454,7 @@
 "ху́дший",
 "наиху́дший"
 ],
+"v": 2,
 "wc": "плохой"
 },
 "площадь": {
@@ -42781,6 +43515,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 783,
+"v": 2,
 "wc": "площадь"
 },
 "по": {
@@ -42792,8 +43527,40 @@
 "w": "Так как"
 }
 ],
+"idioms": [
+{
+"en": "as compared with",
+"w": "по сравне́нию с"
+},
+{
+"en": "about, regarding, concerning",
+"w": "по по́воду"
+},
+{
+"en": "by last name",
+"w": "по фами́лии"
+},
+{
+"en": "at least",
+"w": "по кра́йней ме́ре"
+},
+{
+"en": "light insanity",
+"w": "сдвиг по фа́зе"
+},
+{
+"en": "not to one's liking, dislike",
+"w": "не по нра́ву"
+},
+{
+"en": "",
+"w": "по итогам"
+}
+],
 "pos": "other",
 "rank": 12,
+"usage": "По + dative:\n(i) With nouns that denote means of communication\n(ii) In the meaning ‘according to’, ‘by’ etc\n(iii) To denote a criterion for judgment\n(iv) To denote a target, especially a moving or diffuse target\n(v) To define the ‘frame of reference’ of persons, groups, objects etc.:\n(vi) With ordinal numerals, to denote position in a scale of dimensions\nor priorities:",
+"v": 2,
 "wc": "по"
 },
 "по-английски": {
@@ -42817,6 +43584,7 @@
 ],
 "pos": "other",
 "rank": 32473,
+"v": 2,
 "wc": "по-английски"
 },
 "по-испански": {
@@ -42845,6 +43613,7 @@
 ],
 "pos": "other",
 "rank": 52155,
+"v": 2,
 "wc": "по-испански"
 },
 "по-китайски": {
@@ -42878,6 +43647,7 @@
 ],
 "pos": "other",
 "rank": 52367,
+"v": 2,
 "wc": "по-китайски"
 },
 "по-немецки": {
@@ -42891,6 +43661,7 @@
 ],
 "pos": "other",
 "rank": 32646,
+"v": 2,
 "wc": "по-немецки"
 },
 "по-русски": {
@@ -42959,6 +43730,7 @@
 ],
 "pos": "other",
 "rank": 32373,
+"v": 2,
 "wc": "по-русски"
 },
 "по-французски": {
@@ -42992,6 +43764,7 @@
 ],
 "pos": "other",
 "rank": 32620,
+"v": 2,
 "wc": "по-французски"
 },
 "повторять": {
@@ -43069,6 +43842,7 @@
 ],
 "rank": 1222,
 "reflexive": false,
+"v": 2,
 "wc": "повторять"
 },
 "поговорить": {
@@ -43257,6 +44031,7 @@
 ],
 "rank": 1013,
 "reflexive": false,
+"v": 2,
 "wc": "поговорить"
 },
 "погода": {
@@ -43322,6 +44097,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 1960,
+"v": 2,
 "wc": "погода"
 },
 "подруга": {
@@ -43377,6 +44153,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 1834,
+"v": 2,
 "wc": "подруга"
 },
 "подушка": {
@@ -43427,6 +44204,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 2169,
+"v": 2,
 "wc": "подушка"
 },
 "подъезд": {
@@ -43477,6 +44255,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 1720,
+"v": 2,
 "wc": "подъезд"
 },
 "подъём": {
@@ -43597,6 +44376,8 @@
 "gender": "m",
 "pos": "noun",
 "rank": 3074,
+"usage": "Подъём! Time to get up!",
+"v": 2,
 "wc": "подъём"
 },
 "поезд": {
@@ -43762,6 +44543,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 804,
+"v": 2,
 "wc": "поезд"
 },
 "пожалуйста": {
@@ -43790,6 +44572,7 @@
 ],
 "pos": "other",
 "rank": 808,
+"v": 2,
 "wc": "пожалуйста"
 },
 "пожар": {
@@ -43865,6 +44648,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 1933,
+"v": 2,
 "wc": "пожар"
 },
 "позавтракать": {
@@ -43922,6 +44706,7 @@
 ],
 "rank": 9208,
 "reflexive": false,
+"v": 2,
 "wc": "позавтракать"
 },
 "позавчера": {
@@ -43955,6 +44740,7 @@
 ],
 "pos": "other",
 "rank": 7015,
+"v": 2,
 "wc": "позавчера"
 },
 "поздний": {
@@ -44047,6 +44833,7 @@
 "super": [
 "поздне́йший"
 ],
+"v": 2,
 "wc": "поздний"
 },
 "познакомиться": {
@@ -44129,6 +44916,8 @@
 ],
 "rank": 1662,
 "reflexive": true,
+"usage": "с + Instrumental",
+"v": 2,
 "wc": "познакомиться"
 },
 "пока": {
@@ -44152,6 +44941,8 @@
 ],
 "pos": "other",
 "rank": 133,
+"usage": "пока не - (not) yet",
+"v": 2,
 "wc": "пока"
 },
 "показать": {
@@ -44284,6 +45075,8 @@
 ],
 "rank": 331,
 "reflexive": false,
+"usage": "+ dative",
+"v": 2,
 "wc": "показать"
 },
 "покупать": {
@@ -44436,6 +45229,7 @@
 ],
 "rank": 1903,
 "reflexive": false,
+"v": 2,
 "wc": "покупать"
 },
 "пол": {
@@ -44521,6 +45315,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 225,
+"v": 2,
 "wc": "пол"
 },
 "поле": {
@@ -44566,6 +45361,7 @@
 "gender": "n",
 "pos": "noun",
 "rank": 828,
+"v": 2,
 "wc": "поле"
 },
 "полка": {
@@ -44621,6 +45417,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 32359,
+"v": 2,
 "wc": "полка"
 },
 "положительный": {
@@ -44713,6 +45510,7 @@
 "положи́тельны"
 ],
 "super": [],
+"v": 2,
 "wc": "положительный"
 },
 "поляна": {
@@ -44763,6 +45561,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 4972,
+"v": 2,
 "wc": "поляна"
 },
 "помидор": {
@@ -44798,6 +45597,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 6354,
+"v": 2,
 "wc": "помидор"
 },
 "помнить": {
@@ -44881,6 +45681,8 @@
 ],
 "rank": 226,
 "reflexive": false,
+"usage": "A note before diving in: these two are not a true aspectual pair. По́мнить has no perfective counterpart — it describes a state, not an action. Вспо́мнить is the perfective of вспомина́ть. They are paired here because they are semantically close and frequently confused.\n\nПо́мнить is a stative verb. It describes an ongoing condition — the fact that something exists in your memory right now. Because it's a state rather than a process or event, it has no perfective and resists progressive readings.",
+"v": 2,
 "wc": "помнить"
 },
 "помощь": {
@@ -44984,8 +45786,15 @@
 }
 ],
 "gender": "f",
+"idioms": [
+{
+"en": "first aid",
+"w": "пе́рвая по́мощь"
+}
+],
 "pos": "noun",
 "rank": 389,
+"v": 2,
 "wc": "помощь"
 },
 "понедельник": {
@@ -45021,6 +45830,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 4334,
+"v": 2,
 "wc": "понедельник"
 },
 "понимать": {
@@ -45208,6 +46018,7 @@
 ],
 "rank": 124,
 "reflexive": false,
+"v": 2,
 "wc": "понимать"
 },
 "понятно": {
@@ -45281,6 +46092,7 @@
 ],
 "pos": "adverb",
 "rank": 949,
+"v": 2,
 "wc": "понятно"
 },
 "портрет": {
@@ -45346,6 +46158,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 1552,
+"v": 2,
 "wc": "портрет"
 },
 "порядок": {
@@ -45476,6 +46289,8 @@
 "gender": "m",
 "pos": "noun",
 "rank": 401,
+"usage": "In everyday Russian, **поря́дка** is a very common way to estimate a number or quantity. It is a preposition and takes the genitive case.\nРасхо́ды поря́дка 5000 ₽. (пяти́ ты́сяч рубле́й)\nExpensives are about 5000 rubles.\nУ него́ поря́дка двадцати́ книг.\nHe has around twenty books.",
+"v": 2,
 "wc": "порядок"
 },
 "послезавтра": {
@@ -45494,6 +46309,7 @@
 ],
 "pos": "other",
 "rank": 6055,
+"v": 2,
 "wc": "послезавтра"
 },
 "посмотреть": {
@@ -45646,6 +46462,8 @@
 ],
 "rank": 188,
 "reflexive": false,
+"usage": "It's occasionally translated to \"to see.\" For example:\n«Мы посмотрим» translates to \"We will see.\"\n«Я не мог посмотреть название этой улицы» translates to \"I couldn't see the name of this street.\"",
+"v": 2,
 "wc": "посмотреть"
 },
 "посольство": {
@@ -45701,6 +46519,7 @@
 "gender": "n",
 "pos": "noun",
 "rank": 3809,
+"v": 2,
 "wc": "посольство"
 },
 "поставить": {
@@ -45964,6 +46783,7 @@
 ],
 "rank": 354,
 "reflexive": false,
+"v": 2,
 "wc": "поставить"
 },
 "потолок": {
@@ -46009,6 +46829,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 1376,
+"v": 2,
 "wc": "потолок"
 },
 "потом": {
@@ -46047,6 +46868,7 @@
 ],
 "pos": "other",
 "rank": 72,
+"v": 2,
 "wc": "потом"
 },
 "потому": {
@@ -46073,8 +46895,15 @@
 "w": "заче́м"
 }
 ],
+"idioms": [
+{
+"en": "because",
+"w": "потому́ что"
+}
+],
 "pos": "other",
 "rank": 105,
+"v": 2,
 "wc": "потому"
 },
 "почему": {
@@ -46103,6 +46932,8 @@
 ],
 "pos": "other",
 "rank": 104,
+"usage": "Difference in usage between \"заче́м & почему́\"::\nThink of почему as focusing on past or present circumstances, looking for an explanation of a cause.\nThink of зачем as focusing on future-oriented reasoning, looking for intent or purpose.",
+"v": 2,
 "wc": "почему"
 },
 "почта": {
@@ -46158,6 +46989,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 3012,
+"v": 2,
 "wc": "почта"
 },
 "пощада": {
@@ -46198,6 +47030,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 11991,
+"v": 2,
 "wc": "пощада"
 },
 "правда": {
@@ -46293,6 +47126,8 @@
 "gender": "f",
 "pos": "noun",
 "rank": 187,
+"usage": "по правде говоря - to tell the truth",
+"v": 2,
 "wc": "правда"
 },
 "правильно": {
@@ -46321,6 +47156,7 @@
 ],
 "pos": "adverb",
 "rank": 863,
+"v": 2,
 "wc": "правильно"
 },
 "прекрасный": {
@@ -46447,6 +47283,7 @@
 "super": [
 "прекра́снейший"
 ],
+"v": 2,
 "wc": "прекрасный"
 },
 "преподаватель": {
@@ -46522,6 +47359,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 3543,
+"v": 2,
 "wc": "преподаватель"
 },
 "привет": {
@@ -46595,8 +47433,15 @@
 }
 ],
 "gender": "m",
+"idioms": [
+{
+"en": "warmest regards",
+"w": "с горя́чим приве́том"
+}
+],
 "pos": "noun",
 "rank": 2150,
+"v": 2,
 "wc": "привет"
 },
 "приехать": {
@@ -46704,6 +47549,7 @@
 ],
 "rank": 423,
 "reflexive": false,
+"v": 2,
 "wc": "приехать"
 },
 "прийти": {
@@ -46881,6 +47727,7 @@
 ],
 "rank": 238,
 "reflexive": false,
+"v": 2,
 "wc": "прийти"
 },
 "приятно": {
@@ -46929,6 +47776,7 @@
 ],
 "pos": "adverb",
 "rank": 1505,
+"v": 2,
 "wc": "приятно"
 },
 "про": {
@@ -46945,8 +47793,20 @@
 "w": "произво́дство"
 }
 ],
+"idioms": [
+{
+"en": "for nothing at all, for no reason",
+"w": "ни за что ни про что"
+},
+{
+"en": "to oneself, inwarrdly",
+"w": "про себя́"
+}
+],
 "pos": "other",
 "rank": 189,
+"usage": "+ accusative\nпро то: about the fact",
+"v": 2,
 "wc": "про"
 },
 "проверять": {
@@ -47029,6 +47889,7 @@
 ],
 "rank": 2145,
 "reflexive": false,
+"v": 2,
 "wc": "проверять"
 },
 "программист": {
@@ -47134,6 +47995,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 9668,
+"v": 2,
 "wc": "программист"
 },
 "продавец": {
@@ -47449,6 +48311,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 4080,
+"v": 2,
 "wc": "продавец"
 },
 "продавщица": {
@@ -47499,6 +48362,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 5956,
+"v": 2,
 "wc": "продавщица"
 },
 "прослушать": {
@@ -47657,6 +48521,7 @@
 ],
 "rank": 15494,
 "reflexive": false,
+"v": 2,
 "wc": "прослушать"
 },
 "проспект": {
@@ -47686,6 +48551,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 3062,
+"v": 2,
 "wc": "проспект"
 },
 "профессия": {
@@ -47736,6 +48602,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 2033,
+"v": 2,
 "wc": "профессия"
 },
 "профессор": {
@@ -47801,6 +48668,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 680,
+"v": 2,
 "wc": "профессор"
 },
 "прочитать": {
@@ -47959,6 +48827,7 @@
 ],
 "rank": 1430,
 "reflexive": false,
+"v": 2,
 "wc": "прочитать"
 },
 "прошедшее": {
@@ -47999,6 +48868,7 @@
 "gender": null,
 "pos": "noun",
 "rank": 54758,
+"v": 2,
 "wc": "прошедшее"
 },
 "прошедший": {
@@ -48211,6 +49081,7 @@
 ""
 ],
 "super": [],
+"v": 2,
 "wc": "прошедший"
 },
 "прыжок": {
@@ -48256,6 +49127,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 3331,
+"v": 2,
 "wc": "прыжок"
 },
 "прямо": {
@@ -48319,6 +49191,8 @@
 ],
 "pos": "adverb",
 "rank": 257,
+"usage": "Adverb / прямо сейчас - right now",
+"v": 2,
 "wc": "прямо"
 },
 "пюре": {
@@ -48348,6 +49222,7 @@
 "gender": "n",
 "pos": "noun",
 "rank": 18836,
+"v": 2,
 "wc": "пюре"
 },
 "пятидесятый": {
@@ -48405,6 +49280,7 @@
 },
 "pos": "numeral",
 "rank": 11146,
+"v": 2,
 "wc": "пятидесятый"
 },
 "пятнадцать": {
@@ -48443,6 +49319,7 @@
 },
 "pos": "numeral",
 "rank": 1402,
+"v": 2,
 "wc": "пятнадцать"
 },
 "пятница": {
@@ -48493,6 +49370,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 4808,
+"v": 2,
 "wc": "пятница"
 },
 "пятно": {
@@ -48548,6 +49426,7 @@
 "gender": "n",
 "pos": "noun",
 "rank": 1559,
+"v": 2,
 "wc": "пятно"
 },
 "пятый": {
@@ -48625,6 +49504,7 @@
 },
 "pos": "numeral",
 "rank": 1234,
+"v": 2,
 "wc": "пятый"
 },
 "пять": {
@@ -48668,6 +49548,7 @@
 },
 "pos": "numeral",
 "rank": null,
+"v": 2,
 "wc": "пять"
 },
 "пятьдесят": {
@@ -48692,6 +49573,7 @@
 },
 "pos": "numeral",
 "rank": 1171,
+"v": 2,
 "wc": "пятьдесят"
 },
 "пятьсот": {
@@ -48710,6 +49592,8 @@
 },
 "pos": "numeral",
 "rank": 4684,
+"usage": "nominative: пятьсо́т\ngenitive: пятисо́т\ndative: пятиста́м\naccusative: пятьсо́т\ninstrumental: пятьюста́ми\nprepositional: пятиста́х",
+"v": 2,
 "wc": "пятьсот"
 },
 "пёс": {
@@ -48785,6 +49669,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 1839,
+"v": 2,
 "wc": "пёс"
 },
 "работа": {
@@ -49033,8 +49918,16 @@
 }
 ],
 "gender": "f",
+"idioms": [
+{
+"en": "moonlighting, black labour (BE), black labor (AE)",
+"w": "ле́вая рабо́та"
+}
+],
 "pos": "noun",
 "rank": 118,
+"usage": "диссертационная работа: dissertation work",
+"v": 2,
 "wc": "работа"
 },
 "работать": {
@@ -49468,6 +50361,7 @@
 ],
 "rank": 163,
 "reflexive": false,
+"v": 2,
 "wc": "работать"
 },
 "раз": {
@@ -49568,6 +50462,8 @@
 "gender": "m",
 "pos": "noun",
 "rank": 63,
+"usage": "один раз - once\nдва ра́за - twice\nшесть раз - six times\nне раз - more than once\nкак раз:  just\nни разу: not once",
+"v": 2,
 "wc": "раз"
 },
 "разговаривать": {
@@ -49760,6 +50656,7 @@
 ],
 "rank": 822,
 "reflexive": false,
+"v": 2,
 "wc": "разговаривать"
 },
 "размер": {
@@ -49915,6 +50812,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 1178,
+"v": 2,
 "wc": "размер"
 },
 "разъезд": {
@@ -49975,6 +50873,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 11084,
+"v": 2,
 "wc": "разъезд"
 },
 "разъём": {
@@ -50004,6 +50903,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": null,
+"v": 2,
 "wc": "разъём"
 },
 "ранний": {
@@ -50085,6 +50985,7 @@
 "super": [
 "не раньше чем"
 ],
+"v": 2,
 "wc": "ранний"
 },
 "раньше": {
@@ -50103,6 +51004,7 @@
 ],
 "pos": "other",
 "rank": 32853,
+"v": 2,
 "wc": "раньше"
 },
 "рассказ": {
@@ -50213,6 +51115,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 714,
+"v": 2,
 "wc": "рассказ"
 },
 "рассказать": {
@@ -50420,6 +51323,8 @@
 ],
 "rank": 345,
 "reflexive": false,
+"usage": "расскажи́ =  tell me\n+dative",
+"v": 2,
 "wc": "рассказать"
 },
 "ребята": {
@@ -50490,6 +51395,7 @@
 "gender": null,
 "pos": "noun",
 "rank": 333,
+"v": 2,
 "wc": "ребята"
 },
 "ребёнок": {
@@ -50575,6 +51481,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 157,
+"v": 2,
 "wc": "ребёнок"
 },
 "регулярно": {
@@ -50603,6 +51510,7 @@
 ],
 "pos": "adverb",
 "rank": 5273,
+"v": 2,
 "wc": "регулярно"
 },
 "редко": {
@@ -50621,6 +51529,7 @@
 ],
 "pos": "adverb",
 "rank": 1697,
+"v": 2,
 "wc": "редко"
 },
 "реплика": {
@@ -50650,6 +51559,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 5676,
+"v": 2,
 "wc": "реплика"
 },
 "ресторан": {
@@ -50700,6 +51610,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 1332,
+"v": 2,
 "wc": "ресторан"
 },
 "речка": {
@@ -50780,6 +51691,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 2606,
+"v": 2,
 "wc": "речка"
 },
 "речь": {
@@ -50843,8 +51755,16 @@
 }
 ],
 "gender": "f",
+"idioms": [
+{
+"en": "it’s about, we're talking about",
+"w": "речь идёт"
+}
+],
 "pos": "noun",
 "rank": 495,
+"usage": "идёт речь: is being talked about",
+"v": 2,
 "wc": "речь"
 },
 "рис": {
@@ -50890,6 +51810,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 3284,
+"v": 2,
 "wc": "рис"
 },
 "рисовать": {
@@ -51127,6 +52048,7 @@
 ],
 "rank": 2920,
 "reflexive": false,
+"v": 2,
 "wc": "рисовать"
 },
 "рисунок": {
@@ -51372,6 +52294,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 2855,
+"v": 2,
 "wc": "рисунок"
 },
 "род": {
@@ -51572,6 +52495,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 695,
+"v": 2,
 "wc": "род"
 },
 "родитель": {
@@ -51827,6 +52751,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 727,
+"v": 2,
 "wc": "родитель"
 },
 "родиться": {
@@ -51994,6 +52919,7 @@
 ],
 "rank": 1228,
 "reflexive": true,
+"v": 2,
 "wc": "родиться"
 },
 "родной": {
@@ -52286,6 +53212,7 @@
 ""
 ],
 "super": [],
+"v": 2,
 "wc": "родной"
 },
 "рожь": {
@@ -52315,6 +53242,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 21215,
+"v": 2,
 "wc": "рожь"
 },
 "розовый": {
@@ -52406,6 +53334,7 @@
 "super": [
 "розове́йший"
 ],
+"v": 2,
 "wc": "розовый"
 },
 "роман": {
@@ -52476,6 +53405,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 738,
+"v": 2,
 "wc": "роман"
 },
 "россия": {
@@ -52541,6 +53471,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 201,
+"v": 2,
 "wc": "россия"
 },
 "рубашка": {
@@ -52581,6 +53512,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 1603,
+"v": 2,
 "wc": "рубашка"
 },
 "рубль": {
@@ -52626,6 +53558,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 568,
+"v": 2,
 "wc": "рубль"
 },
 "рука": {
@@ -52731,6 +53664,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 47,
+"v": 2,
 "wc": "рука"
 },
 "русски": {
@@ -52799,6 +53733,7 @@
 ],
 "pos": "other",
 "rank": 2626,
+"v": 2,
 "wc": "русски"
 },
 "русский": {
@@ -52926,6 +53861,7 @@
 ""
 ],
 "super": [],
+"v": 2,
 "wc": "русский"
 },
 "ручка": {
@@ -52976,6 +53912,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 1496,
+"v": 2,
 "wc": "ручка"
 },
 "рыба": {
@@ -53036,6 +53973,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 956,
+"v": 2,
 "wc": "рыба"
 },
 "рынок": {
@@ -53081,6 +54019,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 1071,
+"v": 2,
 "wc": "рынок"
 },
 "рюмка": {
@@ -53191,6 +54130,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 3014,
+"v": 2,
 "wc": "рюмка"
 },
 "рядом": {
@@ -53214,6 +54154,8 @@
 ],
 "pos": "adverb",
 "rank": 32306,
+"usage": "+ с + Instr. -> Example: Ты бы узнал, как я хочу рядом быть с тобою.\n  example: рядом с машиной = next to the car\n  example: рядом с киоском = next to the kiosk",
+"v": 2,
 "wc": "рядом"
 },
 "рёв": {
@@ -53254,6 +54196,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 3395,
+"v": 2,
 "wc": "рёв"
 },
 "с": {
@@ -53290,8 +54233,56 @@
 "w": "сверну́ться"
 }
 ],
+"idioms": [
+{
+"en": "since then, since",
+"w": "с тех пор"
+},
+{
+"en": "(to have) lost one`s mind, gone crazy, (literally) - gone out of (one's) mind",
+"w": "с ума сошёл"
+},
+{
+"en": "as compared with",
+"w": "по сравне́нию с"
+},
+{
+"en": "countersunk screw",
+"w": "винт с потайно́й голо́вкой"
+},
+{
+"en": "warmest regards",
+"w": "с горя́чим приве́том"
+},
+{
+"en": "with difficulty, barely",
+"w": "с го́рем попола́м"
+},
+{
+"en": "with great difficulty, narrowly, barely",
+"w": "с грехо́м попола́м"
+},
+{
+"en": "to confuse, to muddle",
+"w": "сбить с то́лку"
+},
+{
+"en": "without a word, right away",
+"w": "с полусло́ва"
+},
+{
+"en": "with difficulty (hardly, scarcely)",
+"w": "с трудо́м"
+},
+{
+"en": "from scratch, from the ground up, anew",
+"w": "с нуля́"
+}
+],
 "pos": "other",
 "rank": 8,
+"usage": "с всего: 'from' not \"down from\" or \"with\" + genitive\n(*) С + genitive expresses (a) cause(s) of an event",
+"v": 2,
 "wc": "с"
 },
 "сад": {
@@ -53372,6 +54363,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 903,
+"v": 2,
 "wc": "сад"
 },
 "салат": {
@@ -53417,6 +54409,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 7312,
+"v": 2,
 "wc": "салат"
 },
 "сам": {
@@ -53489,6 +54482,8 @@
 }
 },
 "rank": 61,
+"usage": "\"сам\" is not an adjective. Instead, it is a reflexive pronoun used for emphasis.",
+"v": 2,
 "wc": "сам"
 },
 "самолёт": {
@@ -53549,6 +54544,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 595,
+"v": 2,
 "wc": "самолёт"
 },
 "самый": {
@@ -53563,6 +54559,12 @@
 "en": "the most",
 "pos": "",
 "w": "наибо́лее"
+}
+],
+"idioms": [
+{
+"en": "actually, as a matter of fact, in fact",
+"w": "на са́мом де́ле"
 }
 ],
 "pos": "pronoun",
@@ -53601,6 +54603,8 @@
 }
 },
 "rank": 48,
+"usage": "на са́мом де́ле: In fact\nтем самым: thereby\nсамый лучший: the best\nту же самую: the same",
+"v": 2,
 "wc": "самый"
 },
 "сапог": {
@@ -53656,6 +54660,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 771,
+"v": 2,
 "wc": "сапог"
 },
 "сахар": {
@@ -53741,6 +54746,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 2718,
+"v": 2,
 "wc": "сахар"
 },
 "свежий": {
@@ -53827,6 +54833,7 @@
 "super": [
 "свежа́йший"
 ],
+"v": 2,
 "wc": "свежий"
 },
 "светло": {
@@ -53855,6 +54862,7 @@
 ],
 "pos": "adverb",
 "rank": 3765,
+"v": 2,
 "wc": "светло"
 },
 "светофор": {
@@ -53895,6 +54903,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 8785,
+"v": 2,
 "wc": "светофор"
 },
 "свидание": {
@@ -53938,8 +54947,15 @@
 }
 ],
 "gender": "n",
+"idioms": [
+{
+"en": "bye (formal)",
+"w": "до свида́ния"
+}
+],
 "pos": "noun",
 "rank": 2772,
+"v": 2,
 "wc": "свидание"
 },
 "связь": {
@@ -54350,6 +55366,8 @@
 "gender": "f",
 "pos": "noun",
 "rank": 466,
+"usage": "На связи: In touch\nобратная связь: feedback\nподдерживать связь: keep in touch",
+"v": 2,
 "wc": "связь"
 },
 "свёкла": {
@@ -54410,6 +55428,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 11207,
+"v": 2,
 "wc": "свёкла"
 },
 "сдача": {
@@ -54470,6 +55489,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 5387,
+"v": 2,
 "wc": "сдача"
 },
 "себя": {
@@ -54480,6 +55500,28 @@
 "en": "to oneself, onto oneself",
 "pos": "",
 "w": "себе́"
+}
+],
+"idioms": [
+{
+"en": "take (on) / take over",
+"w": "брать на себя́"
+},
+{
+"en": "take (on) / take over",
+"w": "взять на себя́"
+},
+{
+"en": "to behave",
+"w": "вести́ себя́"
+},
+{
+"en": "behave like a bull in a china shop",
+"w": "вести́ себя́ как медве́дь"
+},
+{
+"en": "to oneself, inwarrdly",
+"w": "про себя́"
 }
 ],
 "pos": "pronoun",
@@ -54494,6 +55536,8 @@
 }
 },
 "rank": 31,
+"usage": "по себе: in (one) self\nне по себе: unconfortable\n(Найти) Самого себя: to find yourself",
+"v": 2,
 "wc": "себя"
 },
 "сегодня": {
@@ -54532,6 +55576,8 @@
 ],
 "pos": "adverb",
 "rank": 218,
+"usage": "pronunciation incorrect, г is pronounced as в\nthis is because it is derived from the phrase \"сего дня\" (meaning \"of this day\") and the genitive adjective ending \"-его\" is pronounced as \"-ево\"",
+"v": 2,
 "wc": "сегодня"
 },
 "сегодняшний": {
@@ -54699,6 +55745,8 @@
 "сего́дняшни"
 ],
 "super": [],
+"usage": "на сегодняшний день: for today; at present; at the moment; for the moment",
+"v": 2,
 "wc": "сегодняшний"
 },
 "седьмой": {
@@ -54751,6 +55799,7 @@
 },
 "pos": "numeral",
 "rank": 2132,
+"v": 2,
 "wc": "седьмой"
 },
 "сейчас": {
@@ -54764,6 +55813,7 @@
 ],
 "pos": "adverb",
 "rank": 84,
+"v": 2,
 "wc": "сейчас"
 },
 "секретарь": {
@@ -54824,6 +55874,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 1095,
+"v": 2,
 "wc": "секретарь"
 },
 "село": {
@@ -54934,6 +55985,7 @@
 "gender": "n",
 "pos": "noun",
 "rank": 3786,
+"v": 2,
 "wc": "село"
 },
 "семидесятый": {
@@ -54991,6 +56043,7 @@
 },
 "pos": "numeral",
 "rank": 10620,
+"v": 2,
 "wc": "семидесятый"
 },
 "семнадцать": {
@@ -55030,6 +56083,7 @@
 },
 "pos": "numeral",
 "rank": 5087,
+"v": 2,
 "wc": "семнадцать"
 },
 "семь": {
@@ -55054,6 +56108,8 @@
 },
 "pos": "numeral",
 "rank": null,
+"usage": "Nominative Семь \nGenitive\tсеми́\t\nDative семи́\t\nAccusative семь\t\nInstrumental\tсемью́\t\nPrepositional семи́",
+"v": 2,
 "wc": "семь"
 },
 "семьдесят": {
@@ -55063,6 +56119,12 @@
 "en": "dozen, decade, ten (set of ten)",
 "pos": "",
 "w": "деся́ток"
+}
+],
+"idioms": [
+{
+"en": "seventy percent (70%)",
+"w": "се́мьдесят проце́нтов"
 }
 ],
 "nguon": "wiktionary",
@@ -55078,6 +56140,7 @@
 },
 "pos": "numeral",
 "rank": 3328,
+"v": 2,
 "wc": "семьдесят"
 },
 "семьсот": {
@@ -55096,6 +56159,8 @@
 },
 "pos": "numeral",
 "rank": 10315,
+"usage": "Nominative семьсо́т\t\nGenitive       семисо́т\t\nDative           семиста́м\t\nAccusative    семьсо́т\t\nInstrumental семьюста́ми\t\nPrepositional семиста́х",
+"v": 2,
 "wc": "семьсот"
 },
 "семья": {
@@ -55166,6 +56231,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 402,
+"v": 2,
 "wc": "семья"
 },
 "сентябрь": {
@@ -55206,6 +56272,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 1804,
+"v": 2,
 "wc": "сентябрь"
 },
 "серный": {
@@ -55278,6 +56345,7 @@
 "се́рны"
 ],
 "super": [],
+"v": 2,
 "wc": "серный"
 },
 "сестра": {
@@ -55333,6 +56401,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 807,
+"v": 2,
 "wc": "сестра"
 },
 "сильный": {
@@ -55479,6 +56548,7 @@
 "super": [
 "сильне́йший"
 ],
+"v": 2,
 "wc": "сильный"
 },
 "синий": {
@@ -55590,6 +56660,7 @@
 "super": [
 "сине́йший"
 ],
+"v": 2,
 "wc": "синий"
 },
 "сказать": {
@@ -55813,6 +56884,8 @@
 ],
 "rank": 20,
 "reflexive": false,
+"usage": "скажи́те, пожа́луйста - tell me, please",
+"v": 2,
 "wc": "сказать"
 },
 "сказка": {
@@ -55998,6 +57071,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 2043,
+"v": 2,
 "wc": "сказка"
 },
 "скобка": {
@@ -56033,6 +57107,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 11132,
+"v": 2,
 "wc": "скобка"
 },
 "сколько": {
@@ -56091,6 +57166,8 @@
 }
 },
 "rank": 227,
+"usage": "The words много, мало, немного, немало, сколько, несколько are used with different grammatical cases depending whether the object is countable or not: With genitive plural with countables and genitive singular with non-countables.\n\nстолько, сколько - as much as",
+"v": 2,
 "wc": "сколько"
 },
 "скучный": {
@@ -56213,6 +57290,7 @@
 "са́мый ску́чный",
 "скучне́йший"
 ],
+"v": 2,
 "wc": "скучный"
 },
 "слабый": {
@@ -56332,6 +57410,12 @@
 "w": "сла́бенький"
 }
 ],
+"idioms": [
+{
+"en": "ready for sex quickly (female), weak up front",
+"w": "слаба́ на передо́к"
+}
+],
 "incomparable": false,
 "pos": "adjective",
 "rank": 834,
@@ -56344,6 +57428,7 @@
 "super": [
 "слабе́йший"
 ],
+"v": 2,
 "wc": "слабый"
 },
 "сладкий": {
@@ -56495,6 +57580,7 @@
 "super": [
 "сладча́йший"
 ],
+"v": 2,
 "wc": "сладкий"
 },
 "слева": {
@@ -56513,6 +57599,7 @@
 ],
 "pos": "other",
 "rank": 2014,
+"v": 2,
 "wc": "слева"
 },
 "слеза": {
@@ -56563,6 +57650,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 712,
+"v": 2,
 "wc": "слеза"
 },
 "словарь": {
@@ -56633,6 +57721,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 6043,
+"v": 2,
 "wc": "словарь"
 },
 "слово": {
@@ -56988,6 +58077,12 @@
 "w": "слух"
 }
 ],
+"idioms": [
+{
+"en": "",
+"w": "слу́шать кра́ем у́ха"
+}
+],
 "imper": [
 "слу́шай",
 "слу́шайте"
@@ -57014,6 +58109,7 @@
 ],
 "rank": 256,
 "reflexive": false,
+"v": 2,
 "wc": "слушать"
 },
 "слышать": {
@@ -57146,6 +58242,8 @@
 ],
 "rank": 250,
 "reflexive": false,
+"usage": "слушать is about the action of listening \nслышать is about the result of hearing",
+"v": 2,
 "wc": "слышать"
 },
 "сметана": {
@@ -57175,6 +58273,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 8781,
+"v": 2,
 "wc": "сметана"
 },
 "смотреть": {
@@ -57472,6 +58571,12 @@
 "w": "несмотря́"
 }
 ],
+"idioms": [
+{
+"en": "despite, in spite of, notwithstanding",
+"w": "не смотря́ на"
+}
+],
 "imper": [
 "смотри́",
 "смотри́те"
@@ -57497,6 +58602,7 @@
 ],
 "rank": 107,
 "reflexive": false,
+"v": 2,
 "wc": "смотреть"
 },
 "сначала": {
@@ -57560,6 +58666,7 @@
 ],
 "pos": "other",
 "rank": 463,
+"v": 2,
 "wc": "сначала"
 },
 "снег": {
@@ -57665,6 +58772,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 436,
+"v": 2,
 "wc": "снег"
 },
 "снежный": {
@@ -57767,6 +58875,7 @@
 "сне́жны"
 ],
 "super": [],
+"v": 2,
 "wc": "снежный"
 },
 "собор": {
@@ -57862,6 +58971,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 4713,
+"v": 2,
 "wc": "собор"
 },
 "современный": {
@@ -57944,6 +59054,7 @@
 "совреме́нны"
 ],
 "super": [],
+"v": 2,
 "wc": "современный"
 },
 "сожаление": {
@@ -58056,6 +59167,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 3110,
+"v": 2,
 "wc": "сок"
 },
 "солнечный": {
@@ -58125,6 +59237,7 @@
 "со́лнечны"
 ],
 "super": [],
+"v": 2,
 "wc": "солнечный"
 },
 "солнце": {
@@ -58225,6 +59338,7 @@
 "gender": "n",
 "pos": "noun",
 "rank": 373,
+"v": 2,
 "wc": "солнце"
 },
 "соль": {
@@ -58320,6 +59434,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 2573,
+"v": 2,
 "wc": "соль"
 },
 "сорок": {
@@ -58338,6 +59453,8 @@
 },
 "pos": "numeral",
 "rank": 710,
+"usage": "Nominative со́рок\nAccusative со́рок\t\nGenitive сорока́\t\nDative сорока́\t\nInstrumental сорока́\t\nPrepositional сорока́",
+"v": 2,
 "wc": "сорок"
 },
 "сороковой": {
@@ -58395,6 +59512,7 @@
 },
 "pos": "numeral",
 "rank": 10221,
+"v": 2,
 "wc": "сороковой"
 },
 "составить": {
@@ -58657,6 +59775,7 @@
 ],
 "rank": 1668,
 "reflexive": false,
+"v": 2,
 "wc": "составить"
 },
 "сотый": {
@@ -58698,6 +59817,7 @@
 },
 "pos": "numeral",
 "rank": 10961,
+"v": 2,
 "wc": "сотый"
 },
 "спорт": {
@@ -58773,6 +59893,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 2951,
+"v": 2,
 "wc": "спорт"
 },
 "спортивный": {
@@ -58850,6 +59971,7 @@
 "спорти́вны"
 ],
 "super": [],
+"v": 2,
 "wc": "спортивный"
 },
 "справа": {
@@ -58900,6 +60022,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 1891,
+"v": 2,
 "wc": "справа"
 },
 "спрашивать": {
@@ -59012,6 +60135,8 @@
 ],
 "rank": 350,
 "reflexive": false,
+"usage": "+accusative",
+"v": 2,
 "wc": "спрашивать"
 },
 "спросить": {
@@ -59119,6 +60244,8 @@
 ],
 "rank": 95,
 "reflexive": false,
+"usage": "спросить кого \n\nспро́сит у + Person (Genitive Case)\n\nThis verb is commonly used to ask for information, while просить - попросить to make a request of some sort, to ask somebody to do something, to obtain something. out of the request.\n\nBu fiil genellikle bilgi istemek için kullanılırken, просить - попросить bir tür istekte bulunmak, birinden bir şey yapmasını istemek, bir şey elde etmek için kullanılır. İsteği dışında.",
+"v": 2,
 "wc": "спросить"
 },
 "спрягаться": {
@@ -59166,6 +60293,7 @@
 ],
 "rank": 49293,
 "reflexive": true,
+"v": 2,
 "wc": "спрягаться"
 },
 "спряжение": {
@@ -59201,6 +60329,7 @@
 "gender": "n",
 "pos": "noun",
 "rank": 49294,
+"v": 2,
 "wc": "спряжение"
 },
 "среда": {
@@ -59266,6 +60395,8 @@
 "gender": "f",
 "pos": "noun",
 "rank": 1650,
+"usage": "When it means Wednesday, the accusative is сре́ду\nWhen it means environment, the accusative is среду́",
+"v": 2,
 "wc": "среда"
 },
 "средний": {
@@ -59363,6 +60494,8 @@
 ""
 ],
 "super": [],
+"usage": "в среднем:  on average",
+"v": 2,
 "wc": "средний"
 },
 "стадион": {
@@ -59403,6 +60536,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 5366,
+"v": 2,
 "wc": "стадион"
 },
 "станция": {
@@ -59473,6 +60607,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 858,
+"v": 2,
 "wc": "станция"
 },
 "старый": {
@@ -59696,6 +60831,7 @@
 "старе́йший",
 "ста́рший"
 ],
+"v": 2,
 "wc": "старый"
 },
 "стена": {
@@ -59751,6 +60887,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 272,
+"v": 2,
 "wc": "стена"
 },
 "степь": {
@@ -59796,6 +60933,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 2352,
+"v": 2,
 "wc": "степь"
 },
 "стих": {
@@ -59846,6 +60984,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 1052,
+"v": 2,
 "wc": "стих"
 },
 "сто": {
@@ -59885,6 +61024,8 @@
 },
 "pos": "numeral",
 "rank": 623,
+"usage": "nominative: сто\ngenitive: ста, сот\ndative: ста, стам\naccusative: сто\ninstrumental: ста, ста́ми\nprepositional: ста, стах",
+"v": 2,
 "wc": "сто"
 },
 "стол": {
@@ -59980,6 +61121,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 149,
+"v": 2,
 "wc": "стол"
 },
 "столица": {
@@ -60060,6 +61202,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 1154,
+"v": 2,
 "wc": "столица"
 },
 "стоянка": {
@@ -60125,6 +61268,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 4411,
+"v": 2,
 "wc": "стоянка"
 },
 "стоять": {
@@ -60377,6 +61521,12 @@
 "w": "расстоя́ние"
 }
 ],
+"idioms": [
+{
+"en": "",
+"w": "стоя́ть на своём"
+}
+],
 "imper": [
 "стой",
 "сто́йте"
@@ -60402,6 +61552,7 @@
 ],
 "rank": 85,
 "reflexive": false,
+"v": 2,
 "wc": "стоять"
 },
 "страна": {
@@ -60507,6 +61658,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 169,
+"v": 2,
 "wc": "страна"
 },
 "строительный": {
@@ -60594,6 +61746,7 @@
 ""
 ],
 "super": [],
+"v": 2,
 "wc": "строительный"
 },
 "студент": {
@@ -60644,6 +61797,8 @@
 "gender": "m",
 "pos": "noun",
 "rank": 1073,
+"usage": "Ученик is for high school students.  If you are talking about some who attends university then use студент",
+"v": 2,
 "wc": "студент"
 },
 "стул": {
@@ -60684,6 +61839,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 882,
+"v": 2,
 "wc": "стул"
 },
 "суббота": {
@@ -60734,6 +61890,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 2981,
+"v": 2,
 "wc": "суббота"
 },
 "сумка": {
@@ -60794,6 +61951,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 1506,
+"v": 2,
 "wc": "сумка"
 },
 "суп": {
@@ -60849,6 +62007,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 2752,
+"v": 2,
 "wc": "суп"
 },
 "супермаркет": {
@@ -60884,6 +62043,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 12928,
+"v": 2,
 "wc": "супермаркет"
 },
 "суффикс": {
@@ -60913,6 +62073,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 49640,
+"v": 2,
 "wc": "суффикс"
 },
 "схема": {
@@ -60993,6 +62154,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 3065,
+"v": 2,
 "wc": "схема"
 },
 "сцена": {
@@ -61063,6 +62225,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 1182,
+"v": 2,
 "wc": "сцена"
 },
 "счастливый": {
@@ -61149,6 +62312,7 @@
 "super": [
 "счастли́вейший"
 ],
+"v": 2,
 "wc": "счастливый"
 },
 "счастье": {
@@ -61259,6 +62423,7 @@
 "gender": "n",
 "pos": "noun",
 "rank": 591,
+"v": 2,
 "wc": "счастье"
 },
 "счёт": {
@@ -61352,8 +62517,16 @@
 }
 ],
 "gender": "m",
+"idioms": [
+{
+"en": "bank account",
+"w": "счёт в ба́нке"
+}
+],
 "pos": "noun",
 "rank": 639,
+"usage": "за счет: at the expense, due to, at the cost",
+"v": 2,
 "wc": "счёт"
 },
 "съезд": {
@@ -61459,6 +62632,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 2997,
+"v": 2,
 "wc": "съезд"
 },
 "сын": {
@@ -61514,6 +62688,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 265,
+"v": 2,
 "wc": "сын"
 },
 "сыпь": {
@@ -61554,6 +62729,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 11740,
+"v": 2,
 "wc": "сыпь"
 },
 "сыр": {
@@ -61609,6 +62785,8 @@
 "gender": "m",
 "pos": "noun",
 "rank": 4970,
+"usage": "The genitive is sometimes used to indicate \"some\". This is called \"partitive\" genitive. Most nouns use genitive for partitive, but this noun has a special \"partitive\" genitive ending -у, as well as сахар - сахару, чай - чаю. E. g. Питер купит сыру. \"Peter will buy some cheese.\" Πитер кyпит килограмм сыру \"Peter will buy a kilogram of cheese.\" However, the ordinary genitive may also be used in such sentences as the latter: Πитер кyпит килограмм сыра.",
+"v": 2,
 "wc": "сыр"
 },
 "такси": {
@@ -61638,6 +62816,7 @@
 "gender": "n",
 "pos": "noun",
 "rank": 2729,
+"v": 2,
 "wc": "такси"
 },
 "там": {
@@ -61651,6 +62830,7 @@
 ],
 "pos": "other",
 "rank": 65,
+"v": 2,
 "wc": "там"
 },
 "танцевать": {
@@ -61755,6 +62935,8 @@
 ],
 "rank": 2364,
 "reflexive": false,
+"usage": "Major difference between 'пляса́ть' and 'танцева́ть':\nпляса́ть = dance (hop/waltz around) -> without rules // танцева́ть = dance -> according to rules\n\nUsage examples:\nРебенок от радости плясал по комнате. = The child danced happily in the room.\nМы пили шампанское а танцевали танго. = We drank champagne and danced a tango.\n\nSandy",
+"v": 2,
 "wc": "танцевать"
 },
 "твой": {
@@ -61796,6 +62978,7 @@
 }
 },
 "rank": 170,
+"v": 2,
 "wc": "твой"
 },
 "твёрдый": {
@@ -61947,6 +63130,7 @@
 "super": [
 "тверде́йший"
 ],
+"v": 2,
 "wc": "твёрдый"
 },
 "театр": {
@@ -61997,6 +63181,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 1030,
+"v": 2,
 "wc": "театр"
 },
 "текст": {
@@ -62052,6 +63237,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 1256,
+"v": 2,
 "wc": "текст"
 },
 "телевизор": {
@@ -62112,6 +63298,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 1562,
+"v": 2,
 "wc": "телевизор"
 },
 "телефон": {
@@ -62202,6 +63389,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 624,
+"v": 2,
 "wc": "телефон"
 },
 "темно": {
@@ -62285,6 +63473,7 @@
 ],
 "pos": "adverb",
 "rank": 1700,
+"v": 2,
 "wc": "темно"
 },
 "теплоход": {
@@ -62365,6 +63554,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 8274,
+"v": 2,
 "wc": "теплоход"
 },
 "тест": {
@@ -62425,6 +63615,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 12694,
+"v": 2,
 "wc": "тест"
 },
 "тетрадь": {
@@ -62460,6 +63651,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 3714,
+"v": 2,
 "wc": "тетрадь"
 },
 "тип": {
@@ -62505,6 +63697,8 @@
 "gender": "m",
 "pos": "noun",
 "rank": 768,
+"usage": "типа того: sort of",
+"v": 2,
 "wc": "тип"
 },
 "тихий": {
@@ -62616,6 +63810,7 @@
 "super": [
 "тиша́йший"
 ],
+"v": 2,
 "wc": "тихий"
 },
 "тихо": {
@@ -62664,6 +63859,7 @@
 ],
 "pos": "adverb",
 "rank": 414,
+"v": 2,
 "wc": "тихо"
 },
 "ткань": {
@@ -62734,6 +63930,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 2088,
+"v": 2,
 "wc": "ткань"
 },
 "тоже": {
@@ -62741,6 +63938,8 @@
 "family": [],
 "pos": "other",
 "rank": 87,
+"usage": "в тоже время: at the same time",
+"v": 2,
 "wc": "тоже"
 },
 "только": {
@@ -62772,13 +63971,39 @@
 "w": "лишь"
 }
 ],
+"idioms": [
+{
+"en": "at that moment, as soon as",
+"w": "как то́лько"
+},
+{
+"en": "only if, solely, no sooner",
+"w": "лишь то́лько"
+},
+{
+"en": "if only as long as, just to",
+"w": "то́лько бы"
+}
+],
 "pos": "other",
 "rank": 30,
+"usage": "Только бы - Just to\nско́лько / то́лько + genitive case.",
+"v": 2,
 "wc": "только"
 },
 "тот": {
 "acc": "тот",
 "family": [],
+"idioms": [
+{
+"en": "since then, since",
+"w": "с тех пор"
+},
+{
+"en": "besides, moreover, furthermore",
+"w": "бо́лее того́"
+}
+],
 "pos": "pronoun",
 "proDecl": {
 "f": {
@@ -62815,6 +64040,8 @@
 }
 },
 "rank": 6,
+"usage": "1) с тем: in addition to that\n2) то, что: for, by, of, on, to... + V-ing. For example за то, что разби́л = for breaking\n3) то, как how\n4) то, где: where\n5) то, когда: when\n6) с тем, какую: which\n7) одной и той: the same\n8) То st, то st: Sometimes thing(s)..., sometimes another thing (s)... => For example То тепло, то очень холодно: Sometimes it's warm, sometimes it's freezing\n9) Перед тем: before\n10) всё те же: All the same\n11) а то: or\n\nAdjective and pronoun",
+"v": 2,
 "wc": "тот"
 },
 "точка": {
@@ -62895,6 +64122,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 678,
+"v": 2,
 "wc": "точка"
 },
 "трава": {
@@ -62970,6 +64198,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 717,
+"v": 2,
 "wc": "трава"
 },
 "трамвай": {
@@ -63015,6 +64244,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 3323,
+"v": 2,
 "wc": "трамвай"
 },
 "транспорт": {
@@ -63075,6 +64305,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 2661,
+"v": 2,
 "wc": "транспорт"
 },
 "третий": {
@@ -63132,6 +64363,7 @@
 },
 "pos": "numeral",
 "rank": 342,
+"v": 2,
 "wc": "третий"
 },
 "три": {
@@ -63165,6 +64397,8 @@
 },
 "pos": "numeral",
 "rank": null,
+"usage": "nominative - три\ngenitive - трёх\ndative - трём\naccusative - три / трёх\ninstrumental - тремя́\nprepositional - трёх",
+"v": 2,
 "wc": "три"
 },
 "тридцать": {
@@ -63212,6 +64446,7 @@
 },
 "pos": "numeral",
 "rank": 719,
+"v": 2,
 "wc": "тридцать"
 },
 "тринадцать": {
@@ -63246,6 +64481,7 @@
 },
 "pos": "numeral",
 "rank": 6265,
+"v": 2,
 "wc": "тринадцать"
 },
 "триста": {
@@ -63264,6 +64500,8 @@
 },
 "pos": "numeral",
 "rank": 2897,
+"usage": "nominative: три́ста\ngenitive: трёхсот\ndative: трёмстам\naccusative: три́ста\ninstrumental: тремяста́ми\nprepositional: трёхстах",
+"v": 2,
 "wc": "триста"
 },
 "троллейбус": {
@@ -63304,6 +64542,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 6295,
+"v": 2,
 "wc": "троллейбус"
 },
 "трудно": {
@@ -63392,6 +64631,7 @@
 ],
 "pos": "adverb",
 "rank": 596,
+"v": 2,
 "wc": "трудно"
 },
 "трудный": {
@@ -63558,6 +64798,7 @@
 "super": [
 "трудне́йший"
 ],
+"v": 2,
 "wc": "трудный"
 },
 "туда": {
@@ -63565,6 +64806,7 @@
 "family": [],
 "pos": "other",
 "rank": 360,
+"v": 2,
 "wc": "туда"
 },
 "тут": {
@@ -63625,6 +64867,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": null,
+"v": 2,
 "wc": "тут"
 },
 "ты": {
@@ -63666,6 +64909,12 @@
 "w": "они́"
 }
 ],
+"idioms": [
+{
+"en": "WOW!",
+"w": "ух ты!"
+}
+],
 "pos": "pronoun",
 "proDecl": {
 "m": {
@@ -63678,6 +64927,7 @@
 }
 },
 "rank": null,
+"v": 2,
 "wc": "ты"
 },
 "тысяча": {
@@ -63714,6 +64964,8 @@
 },
 "pos": "numeral",
 "rank": 267,
+"usage": "ты́сяча as a noun of quantity. ты́сячей + genitive plural. Ex: с ты́сячей друз\fей\nты́сяча as a numeral:  ты́сячью + instrumental plural. Ex: с ты́сячью рабочими\nлюде́й is preferred when  qualified by an adjective. Ex: ты́сяча че́стных люде́й \nлюде́й is also preferred with ты́сячи\n\nNote: ты́сяча = specific while ты́сячи = a mass of quantity",
+"v": 2,
 "wc": "тысяча"
 },
 "тысячный": {
@@ -63766,6 +65018,7 @@
 },
 "pos": "numeral",
 "rank": 12215,
+"v": 2,
 "wc": "тысячный"
 },
 "тяжело": {
@@ -63884,6 +65137,7 @@
 ],
 "pos": "adverb",
 "rank": 1238,
+"v": 2,
 "wc": "тяжело"
 },
 "тяжёлый": {
@@ -63995,6 +65249,7 @@
 "super": [
 "тяжеле́йший"
 ],
+"v": 2,
 "wc": "тяжёлый"
 },
 "тёплый": {
@@ -64066,6 +65321,7 @@
 "super": [
 "тепле́йший"
 ],
+"v": 2,
 "wc": "тёплый"
 },
 "тётя": {
@@ -64111,6 +65367,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 1196,
+"v": 2,
 "wc": "тётя"
 },
 "у": {
@@ -64124,6 +65381,8 @@
 ],
 "pos": "other",
 "rank": 15,
+"usage": "у окна́ - by the window\nУ Ива́на есть маши́на - Ivan has a car\n\nThis last example shows that it is imperative for learners of Russian to know that the construction literally means: 'At/near/on ... Ivan is a car'. Otherwise, people who have just the one verb for 'to have' in their native languages (and express possession in an SVO-manner) can't make head nor tail of this most Russian of ways of expressing possession ('име́ть' admittedly means 'to have', but not usually in the literal sense).",
+"v": 2,
 "wc": "у"
 },
 "угол": {
@@ -64189,6 +65448,8 @@
 "gender": "m",
 "pos": "noun",
 "rank": 426,
+"usage": "The singular prepositional  form depends on the preposition: It is \"о угле́\" and \"в/на углу́\"",
+"v": 2,
 "wc": "угол"
 },
 "ужасный": {
@@ -64300,6 +65561,7 @@
 "super": [
 "ужа́снейший"
 ],
+"v": 2,
 "wc": "ужасный"
 },
 "уже": {
@@ -64307,6 +65569,8 @@
 "family": [],
 "pos": "other",
 "rank": 34,
+"usage": "used only in statement or questions not in negative sentences.",
+"v": 2,
 "wc": "уже"
 },
 "ужинать": {
@@ -64365,6 +65629,7 @@
 ],
 "rank": 6505,
 "reflexive": false,
+"v": 2,
 "wc": "ужинать"
 },
 "узкий": {
@@ -64449,6 +65714,12 @@
 "w": "у́зенький"
 }
 ],
+"idioms": [
+{
+"en": "in the narrow sense, in a strict sense",
+"w": "в у́зком смы́сле"
+}
+],
 "incomparable": false,
 "pos": "adjective",
 "rank": 1029,
@@ -64461,6 +65732,7 @@
 "super": [
 "узча́йший"
 ],
+"v": 2,
 "wc": "узкий"
 },
 "улица": {
@@ -64514,8 +65786,15 @@
 }
 ],
 "gender": "f",
+"idioms": [
+{
+"en": "outside",
+"w": "на у́лице"
+}
+],
 "pos": "noun",
 "rank": 207,
+"v": 2,
 "wc": "улица"
 },
 "умный": {
@@ -64602,6 +65881,7 @@
 "super": [
 "умне́йший"
 ],
+"v": 2,
 "wc": "умный"
 },
 "университет": {
@@ -64652,6 +65932,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 1610,
+"v": 2,
 "wc": "университет"
 },
 "упражнение": {
@@ -64702,6 +65983,7 @@
 "gender": "n",
 "pos": "noun",
 "rank": 6239,
+"v": 2,
 "wc": "упражнение"
 },
 "урок": {
@@ -64742,6 +66024,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 1573,
+"v": 2,
 "wc": "урок"
 },
 "устать": {
@@ -64844,6 +66127,8 @@
 ],
 "rank": 1970,
 "reflexive": false,
+"usage": "Я устал тебя - I got tired of you\nЯ утомил тебя - I tired you",
+"v": 2,
 "wc": "устать"
 },
 "утренний": {
@@ -64916,6 +66201,7 @@
 ""
 ],
 "super": [],
+"v": 2,
 "wc": "утренний"
 },
 "утро": {
@@ -64984,8 +66270,16 @@
 }
 ],
 "gender": "n",
+"idioms": [
+{
+"en": "good morning",
+"w": "до́брое у́тро"
+}
+],
 "pos": "noun",
 "rank": 215,
+"usage": "Normally the stress falls on the first syllable, but in many set phrases, the stress shifts to the case ending.\nпо утра́м ― mornings\nк утру́ ― by morning\nдо утра́ ― till morning\nс утра́ ― from morning\nот утра́ ― from morning\nот утра́ до утра́ ― from morning to morning\nде́сять часо́в утра́  ― 10:00 a.m.",
+"v": 2,
 "wc": "утро"
 },
 "утром": {
@@ -64999,6 +66293,7 @@
 ],
 "pos": "other",
 "rank": 50327,
+"v": 2,
 "wc": "утром"
 },
 "утюг": {
@@ -65039,6 +66334,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 7656,
+"v": 2,
 "wc": "утюг"
 },
 "ухо": {
@@ -65114,6 +66410,7 @@
 "gender": "n",
 "pos": "noun",
 "rank": 376,
+"v": 2,
 "wc": "ухо"
 },
 "учебник": {
@@ -65164,6 +66461,8 @@
 "gender": "m",
 "pos": "noun",
 "rank": 3962,
+"usage": "по учебникам: from textbooks",
+"v": 2,
 "wc": "учебник"
 },
 "учитель": {
@@ -65254,6 +66553,8 @@
 "gender": "m",
 "pos": "noun",
 "rank": 944,
+"usage": "Names of professions and some other words can also be used collectively => genitive singular still consider as plural in some cases Дом учителя = Teachers club",
+"v": 2,
 "wc": "учитель"
 },
 "учительница": {
@@ -65329,6 +66630,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 3316,
+"v": 2,
 "wc": "учительница"
 },
 "учить": {
@@ -65628,6 +66930,8 @@
 ],
 "rank": 1253,
 "reflexive": false,
+"usage": "Я учу математику - I am learning maths (to learn something in particular + accusative)\nЯ вчера учила новые слова - Yesterday, I learnt new words\n\nЯ учу ученика - I am teaching a student (to teach something to somebody + accusative animate/dative)\nМой брат учил меня кататься на велосипеде - my brother taught me to ride a bike",
+"v": 2,
 "wc": "учить"
 },
 "учиться": {
@@ -65816,6 +67120,8 @@
 ],
 "rank": 881,
 "reflexive": true,
+"usage": "Focus on where one acquires knowledge (a) learn a skill (b)",
+"v": 2,
 "wc": "учиться"
 },
 "учёный": {
@@ -65913,6 +67219,7 @@
 "учёны"
 ],
 "super": [],
+"v": 2,
 "wc": "учёный"
 },
 "фабрика": {
@@ -65978,6 +67285,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 3332,
+"v": 2,
 "wc": "фабрика"
 },
 "факт": {
@@ -66033,6 +67341,8 @@
 "gender": "m",
 "pos": "noun",
 "rank": 877,
+"usage": "- По фа́кту, ...: In fact, ...",
+"v": 2,
 "wc": "факт"
 },
 "фамилия": {
@@ -66096,8 +67406,15 @@
 }
 ],
 "gender": "f",
+"idioms": [
+{
+"en": "by last name",
+"w": "по фами́лии"
+}
+],
 "pos": "noun",
 "rank": 736,
+"v": 2,
 "wc": "фамилия"
 },
 "февраль": {
@@ -66138,6 +67455,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 3353,
+"v": 2,
 "wc": "февраль"
 },
 "физик": {
@@ -66193,6 +67511,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 6337,
+"v": 2,
 "wc": "физик"
 },
 "физика": {
@@ -66248,6 +67567,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 3458,
+"v": 2,
 "wc": "физика"
 },
 "фильм": {
@@ -66286,8 +67606,16 @@
 }
 ],
 "gender": "m",
+"idioms": [
+{
+"en": "action movie",
+"w": "остросюже́тный фильм"
+}
+],
 "pos": "noun",
 "rank": 1227,
+"usage": "~ про кого?",
+"v": 2,
 "wc": "фильм"
 },
 "фиолетовый": {
@@ -66339,6 +67667,7 @@
 ""
 ],
 "super": [],
+"v": 2,
 "wc": "фиолетовый"
 },
 "фирма": {
@@ -66384,6 +67713,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 1002,
+"v": 2,
 "wc": "фирма"
 },
 "фон": {
@@ -66429,6 +67759,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 1304,
+"v": 2,
 "wc": "фон"
 },
 "фонтан": {
@@ -66469,6 +67800,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 4823,
+"v": 2,
 "wc": "фонтан"
 },
 "форма": {
@@ -66599,6 +67931,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 442,
+"v": 2,
 "wc": "форма"
 },
 "фото": {
@@ -66684,6 +68017,7 @@
 "gender": "n",
 "pos": "noun",
 "rank": 7391,
+"v": 2,
 "wc": "фото"
 },
 "фотограф": {
@@ -66749,6 +68083,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 8266,
+"v": 2,
 "wc": "фотограф"
 },
 "франция": {
@@ -66799,6 +68134,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 2113,
+"v": 2,
 "wc": "франция"
 },
 "француженка": {
@@ -66849,6 +68185,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 15409,
+"v": 2,
 "wc": "француженка"
 },
 "француз": {
@@ -66914,6 +68251,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 3927,
+"v": 2,
 "wc": "француз"
 },
 "французский": {
@@ -67001,6 +68339,7 @@
 ""
 ],
 "super": [],
+"v": 2,
 "wc": "французский"
 },
 "фрукт": {
@@ -67046,6 +68385,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 4055,
+"v": 2,
 "wc": "фрукт"
 },
 "футбол": {
@@ -67116,6 +68456,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 5607,
+"v": 2,
 "wc": "футбол"
 },
 "хвощ": {
@@ -67145,6 +68486,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": null,
+"v": 2,
 "wc": "хвощ"
 },
 "хек": {
@@ -67174,6 +68516,7 @@
 "gender": null,
 "pos": "noun",
 "rank": 26121,
+"v": 2,
 "wc": "хек"
 },
 "химик": {
@@ -67239,6 +68582,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 7511,
+"v": 2,
 "wc": "химик"
 },
 "химия": {
@@ -67299,6 +68643,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 6093,
+"v": 2,
 "wc": "химия"
 },
 "хитрый": {
@@ -67396,6 +68741,7 @@
 "super": [
 "хитре́йший"
 ],
+"v": 2,
 "wc": "хитрый"
 },
 "хлеб": {
@@ -67516,6 +68862,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 656,
+"v": 2,
 "wc": "хлеб"
 },
 "холод": {
@@ -67641,6 +68988,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 1670,
+"v": 2,
 "wc": "холод"
 },
 "холодно": {
@@ -67704,6 +69052,7 @@
 ],
 "pos": "adverb",
 "rank": 2172,
+"v": 2,
 "wc": "холодно"
 },
 "холодный": {
@@ -67840,6 +69189,7 @@
 "super": [
 "холодне́йший"
 ],
+"v": 2,
 "wc": "холодный"
 },
 "хороший": {
@@ -67954,6 +69304,12 @@
 "w": "плохо́й"
 }
 ],
+"idioms": [
+{
+"en": "Have a nice day!, All the best for you!",
+"w": "Всего́ хоро́шего!"
+}
+],
 "incomparable": false,
 "pos": "adjective",
 "rank": 102,
@@ -67967,6 +69323,7 @@
 "лу́чший",
 "наилу́чший"
 ],
+"v": 2,
 "wc": "хороший"
 },
 "хорошо": {
@@ -67995,6 +69352,7 @@
 ],
 "pos": "adverb",
 "rank": 138,
+"v": 2,
 "wc": "хорошо"
 },
 "хотеть": {
@@ -68082,6 +69440,8 @@
 ],
 "rank": 76,
 "reflexive": false,
+"usage": "хоте́л бы: I would like to",
+"v": 2,
 "wc": "хотеть"
 },
 "хотя": {
@@ -68095,6 +69455,8 @@
 ],
 "pos": "other",
 "rank": 139,
+"usage": "хотя́ бы: at least",
+"v": 2,
 "wc": "хотя"
 },
 "художник": {
@@ -68160,6 +69522,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 988,
+"v": 2,
 "wc": "художник"
 },
 "цвет": {
@@ -68240,6 +69603,8 @@
 "gender": "m",
 "pos": "noun",
 "rank": 870,
+"usage": "Don't confuse this word with flower which is very similar (sing. цвето́к; pl. цветы́).",
+"v": 2,
 "wc": "цвет"
 },
 "целовать": {
@@ -68327,6 +69692,7 @@
 ],
 "rank": 3108,
 "reflexive": false,
+"v": 2,
 "wc": "целовать"
 },
 "центр": {
@@ -68392,6 +69758,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 561,
+"v": 2,
 "wc": "центр"
 },
 "центральный": {
@@ -68469,6 +69836,8 @@
 "центра́льны"
 ],
 "super": [],
+"usage": "Центральная часть Вьетнама: Central Vietnam",
+"v": 2,
 "wc": "центральный"
 },
 "цирк": {
@@ -68579,6 +69948,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 3764,
+"v": 2,
 "wc": "цирк"
 },
 "цифра": {
@@ -68624,6 +69994,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 2069,
+"v": 2,
 "wc": "цифра"
 },
 "чай": {
@@ -68699,6 +70070,8 @@
 "gender": "m",
 "pos": "noun",
 "rank": 742,
+"usage": "The partitive variant is preferred with verbs: выпить чаю, výpit' cháyu, \"to have a drink of tea\". The genitive variant is used more frequently when the mass noun is modified by an adjective: чашка горячего чая cháshka goryáchevo cháya, \"a cup of hot tea\".",
+"v": 2,
 "wc": "чай"
 },
 "час": {
@@ -68794,6 +70167,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 132,
+"v": 2,
 "wc": "час"
 },
 "часто": {
@@ -68832,6 +70206,7 @@
 ],
 "pos": "adverb",
 "rank": 458,
+"v": 2,
 "wc": "часто"
 },
 "часть": {
@@ -68917,6 +70292,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 192,
+"v": 2,
 "wc": "часть"
 },
 "чашка": {
@@ -68962,6 +70338,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 2945,
+"v": 2,
 "wc": "чашка"
 },
 "чей": {
@@ -69003,6 +70380,7 @@
 }
 },
 "rank": 773,
+"v": 2,
 "wc": "чей"
 },
 "чек": {
@@ -69053,6 +70431,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 13148,
+"v": 2,
 "wc": "чек"
 },
 "человек": {
@@ -69188,6 +70567,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 26,
+"v": 2,
 "wc": "человек"
 },
 "четверг": {
@@ -69261,8 +70641,15 @@
 }
 ],
 "gender": "m",
+"idioms": [
+{
+"en": "in a month of Sundays, * After the rain on a Thursday",
+"w": "по́сле до́ждичка в четве́рг"
+}
+],
 "pos": "noun",
 "rank": 7313,
+"v": 2,
 "wc": "четверг"
 },
 "четвёртый": {
@@ -69345,6 +70732,7 @@
 },
 "pos": "numeral",
 "rank": 1055,
+"v": 2,
 "wc": "четвёртый"
 },
 "четыре": {
@@ -69389,6 +70777,8 @@
 },
 "pos": "numeral",
 "rank": null,
+"usage": "Nominative: четы́ре\nGenitive: четырёх\nDative: четырём\nAccusative: четы́ре (inanimate) / четырёх (animate)\nInstrumental: четырьмя́\nPrepositional: четырёх",
+"v": 2,
 "wc": "четыре"
 },
 "четыреста": {
@@ -69428,6 +70818,8 @@
 },
 "pos": "numeral",
 "rank": 7095,
+"usage": "четы́реста\nчетырёхсо́т\nчетырёмста́м\nчеты́реста\nчетырьмяста́ми\nчетырёхста́х",
+"v": 2,
 "wc": "четыреста"
 },
 "четырнадцать": {
@@ -69462,6 +70854,7 @@
 },
 "pos": "numeral",
 "rank": 5373,
+"v": 2,
 "wc": "четырнадцать"
 },
 "чех": {
@@ -69512,6 +70905,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 5807,
+"v": 2,
 "wc": "чех"
 },
 "число": {
@@ -69647,6 +71041,8 @@
 "gender": "n",
 "pos": "noun",
 "rank": 520,
+"usage": "в том числе́: including\nцелое число: integer",
+"v": 2,
 "wc": "число"
 },
 "чистый": {
@@ -69808,6 +71204,7 @@
 "super": [
 "чистейший"
 ],
+"v": 2,
 "wc": "чистый"
 },
 "читать": {
@@ -70052,6 +71449,7 @@
 ],
 "rank": 282,
 "reflexive": false,
+"v": 2,
 "wc": "читать"
 },
 "что": {
@@ -70073,6 +71471,36 @@
 "w": "чего́-то"
 }
 ],
+"idioms": [
+{
+"en": "because",
+"w": "потому́ что"
+},
+{
+"en": "alright, all right, (oh) well",
+"w": "Ну что ж"
+},
+{
+"en": "except",
+"w": "разве что"
+},
+{
+"en": "for nothing at all, for no reason",
+"w": "ни за что ни про что"
+},
+{
+"en": "never (not at any price), for nothing",
+"w": "ни за что"
+},
+{
+"en": "you're welcome, don't mention it, not worth mentioning",
+"w": "не за что"
+},
+{
+"en": "alright, all right, (oh) well",
+"w": "ну что же"
+}
+],
 "pos": "pronoun",
 "proDecl": {
 "m": {
@@ -70085,6 +71513,7 @@
 }
 },
 "rank": 5,
+"v": 2,
 "wc": "что"
 },
 "чудо": {
@@ -70170,6 +71599,7 @@
 "gender": "n",
 "pos": "noun",
 "rank": 996,
+"v": 2,
 "wc": "чудо"
 },
 "чёрный": {
@@ -70262,6 +71692,12 @@
 "w": "черну́шка"
 }
 ],
+"idioms": [
+{
+"en": "ebony (black wood)",
+"w": "чёрное дерево"
+}
+],
 "incomparable": false,
 "pos": "adjective",
 "rank": 315,
@@ -70274,6 +71710,7 @@
 "super": [
 "черне́йший"
 ],
+"v": 2,
 "wc": "чёрный"
 },
 "шапка": {
@@ -70309,6 +71746,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 1587,
+"v": 2,
 "wc": "шапка"
 },
 "шар": {
@@ -70359,6 +71797,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 2207,
+"v": 2,
 "wc": "шар"
 },
 "шарф": {
@@ -70404,6 +71843,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 8385,
+"v": 2,
 "wc": "шарф"
 },
 "шахматы": {
@@ -70449,6 +71889,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 6154,
+"v": 2,
 "wc": "шахматы"
 },
 "шестидесятый": {
@@ -70501,6 +71942,7 @@
 },
 "pos": "numeral",
 "rank": 11036,
+"v": 2,
 "wc": "шестидесятый"
 },
 "шестнадцать": {
@@ -70535,6 +71977,7 @@
 },
 "pos": "numeral",
 "rank": 4206,
+"v": 2,
 "wc": "шестнадцать"
 },
 "шестой": {
@@ -70582,6 +72025,7 @@
 },
 "pos": "numeral",
 "rank": 2058,
+"v": 2,
 "wc": "шестой"
 },
 "шесть": {
@@ -70621,6 +72065,8 @@
 },
 "pos": "numeral",
 "rank": null,
+"usage": "nominative: шесть\ngenitive: шести́\ndative: шести́\naccusative: шесть\ninstrumental: шестью́\nprepositional: шести́",
+"v": 2,
 "wc": "шесть"
 },
 "шестьдесят": {
@@ -70665,6 +72111,7 @@
 },
 "pos": "numeral",
 "rank": 2825,
+"v": 2,
 "wc": "шестьдесят"
 },
 "шестьсот": {
@@ -70704,6 +72151,7 @@
 },
 "pos": "numeral",
 "rank": 9157,
+"v": 2,
 "wc": "шестьсот"
 },
 "широкий": {
@@ -70805,6 +72253,7 @@
 "super": [
 "широча́йший"
 ],
+"v": 2,
 "wc": "широкий"
 },
 "шкаф": {
@@ -70860,6 +72309,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 1707,
+"v": 2,
 "wc": "шкаф"
 },
 "школа": {
@@ -70950,6 +72400,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 363,
+"v": 2,
 "wc": "школа"
 },
 "шоколад": {
@@ -70995,6 +72446,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 7379,
+"v": 2,
 "wc": "шоколад"
 },
 "шофёр": {
@@ -71035,6 +72487,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 1531,
+"v": 2,
 "wc": "шофёр"
 },
 "штука": {
@@ -71075,6 +72528,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 1612,
+"v": 2,
 "wc": "штука"
 },
 "шуба": {
@@ -71115,6 +72569,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 3797,
+"v": 2,
 "wc": "шуба"
 },
 "шутка": {
@@ -71215,6 +72670,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 1338,
+"v": 2,
 "wc": "шутка"
 },
 "щепка": {
@@ -71244,6 +72700,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 7972,
+"v": 2,
 "wc": "щепка"
 },
 "щи": {
@@ -71273,6 +72730,7 @@
 "gender": null,
 "pos": "noun",
 "rank": 6905,
+"v": 2,
 "wc": "щи"
 },
 "щит": {
@@ -71333,6 +72791,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 3508,
+"v": 2,
 "wc": "щит"
 },
 "щука": {
@@ -71373,6 +72832,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 10468,
+"v": 2,
 "wc": "щука"
 },
 "щётка": {
@@ -71408,6 +72868,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 8752,
+"v": 2,
 "wc": "щётка"
 },
 "экономист": {
@@ -71463,6 +72924,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 8776,
+"v": 2,
 "wc": "экономист"
 },
 "этаж": {
@@ -71523,6 +72985,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 767,
+"v": 2,
 "wc": "этаж"
 },
 "это": {
@@ -71530,6 +72993,8 @@
 "family": [],
 "pos": "other",
 "rank": 13,
+"usage": "э́то is both a form of the pronoun э́тот but also a stand-alone word meaning \"this is\". Examples:\n\nAs a form of э́тот: э́то письмо́ - this letter.\n\nAs this stand-alone word: э́то интере́сно - this is interesting.",
+"v": 2,
 "wc": "это"
 },
 "этот": {
@@ -71571,6 +73036,8 @@
 }
 },
 "rank": 22,
+"usage": "При этом: mean while/ At the same time\nПо этой: for this\n\nэ́то is both a form of э́тот but also a stand-alone word meaning \"this is\", example: э́то интере́сно - this is interesting.",
+"v": 2,
 "wc": "этот"
 },
 "юбка": {
@@ -71600,6 +73067,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 3439,
+"v": 2,
 "wc": "юбка"
 },
 "юг": {
@@ -71645,6 +73113,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 2036,
+"v": 2,
 "wc": "юг"
 },
 "юридический": {
@@ -71707,6 +73176,12 @@
 "w": "зако́н"
 }
 ],
+"idioms": [
+{
+"en": "legal entity",
+"w": "юриди́ческое лицо́"
+}
+],
 "incomparable": false,
 "pos": "adjective",
 "rank": 4885,
@@ -71717,6 +73192,7 @@
 ""
 ],
 "super": [],
+"v": 2,
 "wc": "юридический"
 },
 "юрист": {
@@ -71752,6 +73228,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 5359,
+"v": 2,
 "wc": "юрист"
 },
 "я": {
@@ -71803,6 +73280,20 @@
 "w": "мно́ю"
 }
 ],
+"idioms": [
+{
+"en": "I have no time, I had no time (было), I am busy",
+"w": "мне не́когда"
+},
+{
+"en": "Woe is me!",
+"w": "Го́ре мне!"
+},
+{
+"en": "woe is me",
+"w": "го́ре мне"
+}
+],
 "pos": "pronoun",
 "proDecl": {
 "m": {
@@ -71815,6 +73306,7 @@
 }
 },
 "rank": null,
+"v": 2,
 "wc": "я"
 },
 "яблоко": {
@@ -71860,6 +73352,7 @@
 "gender": "n",
 "pos": "noun",
 "rank": 2446,
+"v": 2,
 "wc": "яблоко"
 },
 "язык": {
@@ -71958,8 +73451,15 @@
 }
 ],
 "gender": "m",
+"idioms": [
+{
+"en": "to loosen the tongue, to make sb. talk",
+"w": "тяну̀ть за язы̀к"
+}
+],
 "pos": "noun",
 "rank": 294,
+"v": 2,
 "wc": "язык"
 },
 "яйцо": {
@@ -72055,6 +73555,7 @@
 "gender": "n",
 "pos": "noun",
 "rank": 2345,
+"v": 2,
 "wc": "яйцо"
 },
 "январь": {
@@ -72095,6 +73596,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 2506,
+"v": 2,
 "wc": "январь"
 },
 "ярко": {
@@ -72113,6 +73615,7 @@
 ],
 "pos": "adverb",
 "rank": 2497,
+"v": 2,
 "wc": "ярко"
 },
 "ясно": {
@@ -72161,6 +73664,7 @@
 ],
 "pos": "adverb",
 "rank": 514,
+"v": 2,
 "wc": "ясно"
 },
 "ёж": {
@@ -72196,6 +73700,7 @@
 "gender": "m",
 "pos": "noun",
 "rank": 9459,
+"v": 2,
 "wc": "ёж"
 },
 "ёлка": {
@@ -72251,6 +73756,7 @@
 "gender": "f",
 "pos": "noun",
 "rank": 4559,
+"v": 2,
 "wc": "ёлка"
 }
 }

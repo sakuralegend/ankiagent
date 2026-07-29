@@ -246,6 +246,10 @@ Khuôn lời nhắn giao cho agent phụ (đổi `kNN` và phần chủ đề):
 > KHÔNG có khối hệ thống dùng chung**. Biến cách/số nhiều **theo đúng quy tắc thì BỎ**, chỉ liệt
 > kê khi bất thường. Ba mục cốt lõi giữ nguyên: **Chẻ từ → Cách nhớ → Họ hàng**.
 > **2. Đề bài:** `PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py tiep kNN`
+> Mỗi từ nay in kèm **hai khối từ điển** (§2 README): `BAT THUONG` (chỗ bảng chia
+> lệch quy tắc → viết **một câu chú ý**, đọc câu đó là hiểu cả bảng) và
+> `CUM CO DINH`/`CACH DUNG` (ứng viên ô đỏ). Là văn từ điển thô — **đừng chép nguyên**.
+> Mục **"Họ hàng" vẫn tự nghĩ, cố ý không có dữ liệu máy** — xem §2.
 > **3. Soạn** `data/huongdan/kho/kNN_<topic>.py`, chứa `S = {...}` và (nếu cần) `V = {...}`.
 > **Việc thứ hai bắt buộc — sửa field `Vietnamese` (§2c):** dòng tiếng Việt là **đề bài của
 > deck `1-go`, user GÕ từ Nga từ nó**, nên nó phải sát tới mức **chỉ có một đáp án đúng**.
