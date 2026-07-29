@@ -35,7 +35,7 @@ chung?* Loại thứ hai bỏ đi. **Đúng không phải lý do để cho vào 
 |---|---|---|
 | **Chẻ từ** | `hd-sec` + `hd-row`(`hd-piece`/`hd-gloss`) | Từng mảnh **kèm nghĩa của mảnh**. Mảnh không mang nghĩa riêng (tiền tố thể) thì **nói thẳng là không**, đừng bịa. Từ gốc trơn thì bỏ hẳn phần chẻ, thay bằng một câu `hd-why` nói rõ "không chẻ được". |
 | **Cách nhớ** | `hd-why` | **Chủ yếu suy thẳng ra TỪ các mảnh vừa chẻ.** Bắc cầu sang tiếng Anh khi thật sự cùng gốc (`совреме́нный` ↔ *contemporary*). |
-| **Họ hàng** | `hd-sec` + `hd-fam` | Từ cùng gốc / cùng phụ tố, **luôn kèm nghĩa tiếng Việt**. |
+| **Họ hàng** | `hd-sec` + `hd-fam` | Từ cùng gốc / cùng phụ tố, **luôn kèm nghĩa tiếng Việt**. **Mục DUY NHẤT được phép vắng** — xem ngay dưới. |
 
 🆕 **`congcu.py tiep` in sẵn hai khối từ điển (29/07)** — đọc trước khi tự nghĩ:
 
@@ -51,8 +51,17 @@ nội bộ kiểu *"This page needs fixing"*). Máy chỉ trỏ chỗ, câu chú
 sách họ từ của OpenRussian trộn từ **cùng gốc** với từ **đồng nghĩa khác gốc**
 (`ги́бкий` → `мя́гкий`, `бога́тый`), nên đưa ra là mời gọi đúng loại lỗi cần tránh.
 Bạn tự nghĩ như trước — nhưng **chỉ viết khi chắc**; hai lỗi đã bắt được là
-`о́блако`↔`во́лос` và `целова́ть`↔`цель` (nhìn giống gốc mà không cùng gốc). Không
-chắc thì bỏ mục đó, đừng đoán.
+`о́блако`↔`во́лос` và `целова́ть`↔`цель` (nhìn giống gốc mà không cùng gốc).
+
+✅ **Từ nào thật sự không có họ hàng thì BỎ HẲN MỤC ĐÓ — bạn quyết định, không ai
+chặn.** User chốt 29/07: *"những từ thực sự không có như vậy thì không cần họ hàng,
+cái này để agent quyết định"*. Trước đó `congcu.py soat` coi thiếu `.hd-fam` là lỗi
+cấu trúc, và hậu quả thấy ngay: `бассе́йн` (mượn thẳng Pháp `bassin`, không có từ
+phái sinh Nga nào) buộc phải có một ô Họ hàng mà nội dung chỉ là lời thú nhận
+"không có họ hàng gốc Nga" — viết ra để im cửa chứ không phải để dạy.
+`soat` nay chỉ **đếm và in** số thẻ không có mục này, **không chặn**.
+🔴 Nhưng vắng phải là **lựa chọn có ý thức**, không phải chỗ bạn quên: từ gốc trơn,
+hư từ, từ mượn đứng một mình thì bỏ là đúng; còn lại thì phải có.
 
 ### 🔴 Ba con số cứng
 
@@ -363,7 +372,8 @@ python data/huongdan/kho/congcu.py tiep k07
 python data/huongdan/kho/congcu.py soat k07
 
 # 4. SỬA cho tới khi CẢ BA mục đầu đều báo "(khong co)":
-#      · CAU TRUC HTML                        (thẻ mở/đóng lệch, thiếu .hd-sec/.hd-fam)
+#      · CAU TRUC HTML                        (thẻ mở/đóng lệch, thiếu .hd-sec)
+#        (thiếu .hd-fam KHÔNG phải lỗi — in ra để đọc, bạn quyết định, xem §2)
 #      · TU NGA IN DAM MA THIEU DAU TRONG AM  (xem vạch đỏ bên dưới)
 #      · TRONG AM LECH so voi tu dien
 #    rồi ĐỌC BẰNG MẮT danh sách "PHAI DOC BANG MAT" (§5 — chính nó bắt được từ bịa)

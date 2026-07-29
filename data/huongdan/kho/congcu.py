@@ -342,7 +342,7 @@ def cmd_soat():
     print(f"tu dien: {len(nouns)} danh tu | dang soat: {len(gop)} tu"
           f"{' (lo ' + ' '.join(chi) + ')' if chi else ''}\n")
 
-    sai, chua_tra, khong_dau, hong = [], set(), [], []
+    sai, chua_tra, khong_dau, hong, khong_ho = [], set(), [], [], []
     for word, html in gop.items():
         # (a) CẤU TRÚC: thẻ mở/đóng phải cân, và phải có đủ mục
         # Đếm theo CẶP là chưa đủ: <b>…<b>…</b>…</b> vẫn cân bằng nhưng thẻ đóng
@@ -357,9 +357,24 @@ def cmd_soat():
                     break
             if sau > 0:
                 hong.append((word, nguon[word], f"thieu {sau} the dong </{tag}>"))
-        for lop in ("hd-sec", "hd-fam"):
-            if lop not in html:
-                hong.append((word, nguon[word], f"thieu .{lop}"))
+        if "hd-sec" not in html:
+            hong.append((word, nguon[word], "thieu .hd-sec"))
+        # 🔴 THIẾU `.hd-fam` KHÔNG PHẢI LỖI — user chốt 29/07: *"những từ thực sự
+        # không có như vậy thì không cần họ hàng, cái này để agent quyết định"*.
+        #
+        # Trước đó đây là lỗi cấu trúc, và lô phải sạch cửa này mới được duyệt.
+        # Hậu quả thấy ngay ở k48: `бассе́йн` mượn thẳng tiếng Pháp `bassin`, không
+        # có từ phái sinh Nga nào, agent buộc phải dựng một ô `.hd-fam` mà nội dung
+        # chỉ là lời thú nhận "không có họ hàng gốc Nga" — viết ra để im cửa chứ
+        # không phải để dạy. Lần đó agent trung thực nên vô hại; lần sau nó có thể
+        # chọn cách rẻ hơn là BỊA một từ cùng gốc, đúng thứ README §2 cấm.
+        # Đây chính là cơ chế "cửa kêu oan ⇒ lô sau thêm nội dung giả cho im cửa"
+        # đã ghi ở cửa (b) — nay áp cho cả cửa này.
+        #
+        # Vẫn ĐẾM và in ra, chỉ không chặn: mục Họ hàng vắng phải là một lựa chọn
+        # có ý thức của agent, không phải chỗ nó quên.
+        if "hd-fam" not in html:
+            khong_ho.append((word, nguon[word]))
 
         # (c) CHỮ TRỘN CYRILLIC + LATIN — lỗi gõ MẮT KHÔNG THẤY.
         # `а о е р с х у` Nga và Latin vẽ giống hệt nhau. Một chữ lọt vào giữa
@@ -419,6 +434,14 @@ def cmd_soat():
         print(f"  [{f}] the {w:16s} -> {t}")
     if len(set(khong_dau)) > 40:
         print(f"  ... con {len(set(khong_dau)) - 40}")
+
+    # KHÔNG nằm trong "ba mục phải sạch" — đây là dòng để ĐỌC, không phải cửa.
+    print(f"\n=== KHONG CO MUC HO HANG: {len(khong_ho)} the (khong phai loi) ===")
+    if khong_ho:
+        print("  " + " · ".join(w for w, _ in khong_ho[:25])
+              + (" ..." if len(khong_ho) > 25 else ""))
+        print("  -> Dung neu tu do that su khong co ho hang chac chan (tu goc tron,")
+        print("     hu tu, tu muon dung mot minh). SAI neu chi la quen. Agent quyet dinh.")
 
     print("\n=== TRONG AM LECH so voi tu dien ===")
     if not sai:

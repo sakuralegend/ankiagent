@@ -30,11 +30,19 @@
 - 💎 **33 field `Vietnamese` được sửa** — phần đắt nhất của hai lô. Đáng chú ý: `люби́ть` và
   `нра́виться` trước đây **cùng ra "thích"** nên deck `1-go` không thể gõ đúng; nay tách bằng
   CHỦ NGỮ (người thích vs vật làm mình ưng). Cặp thể `купи́ть`/`покупа́ть` cũng vậy.
-- ⚠️ **Mâu thuẫn còn treo, cần user quyết**: README §2 cho phép **bỏ** mục Họ hàng khi không
-  chắc, nhưng cửa (a) của `congcu.py soat` vẫn coi **thiếu `.hd-fam` là lỗi cấu trúc**. Agent
-  k48 đâm đúng chỗ này ở `бассе́йн` (mượn Pháp, không có phái sinh Nga) và phải viết một ô
-  `.hd-fam` nội dung là *lời thú nhận* cho im cửa. Lần này vô hại vì agent trung thực, nhưng
-  đó đúng cơ chế "cửa kêu oan ⇒ lô sau thêm nội dung giả" mà README cảnh báo ở chỗ khác.
+- 🔧 **HẠ CỬA `.hd-fam`: thiếu mục Họ hàng KHÔNG còn là lỗi.** README §2 cho phép bỏ mục này khi
+  không chắc, nhưng cửa (a) của `congcu.py soat` vẫn coi thiếu `.hd-fam` là **lỗi cấu trúc** —
+  hai chỗ mâu thuẫn nhau. Agent k48 đâm đúng vào đó ở `бассе́йн` (mượn thẳng Pháp `bassin`,
+  không có từ phái sinh Nga nào) và buộc phải viết một ô Họ hàng mà nội dung chỉ là **lời thú
+  nhận** "không có họ hàng gốc Nga" — viết để im cửa chứ không phải để dạy. Lần này vô hại vì
+  agent trung thực; lần sau nó có thể chọn cách rẻ hơn là **bịa một từ cùng gốc**, đúng thứ
+  README §2 cấm. Đây là cơ chế *"cửa kêu oan ⇒ lô sau thêm nội dung giả cho im cửa"* đã ghi ở
+  cửa (b), nay áp cho cả cửa này.
+  User chốt: *"những từ thực sự không có như vậy thì không cần họ hàng, cái này để agent quyết
+  định"*. ⇒ `soat` nay **đếm và in** số thẻ không có mục Họ hàng nhưng **không chặn**; vắng phải
+  là lựa chọn có ý thức, không phải chỗ quên. README §2 + §7 và `TIEPTUC.md` đã sửa theo.
+  📌 Cả kho hiện **0 thẻ** rơi vào diện này — cửa cũ đã ép hết, nên dòng mới chỉ hiện từ lô sau.
+  Ô `.hd-fam` của `бассе́йн` **giữ nguyên**: nội dung bắc cầu sang tiếng Anh *basin* vẫn dùng được.
 
 ## 29/07/2026 — Phần B: giữ CHỖ BẤT THƯỜNG + CỤM CỐ ĐỊNH, **bác họ từ** sau khi đo
 

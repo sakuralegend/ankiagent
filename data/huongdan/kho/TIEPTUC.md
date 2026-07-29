@@ -249,7 +249,9 @@ Khuôn lời nhắn giao cho agent phụ (đổi `kNN` và phần chủ đề):
 > Mỗi từ nay in kèm **hai khối từ điển** (§2 README): `BAT THUONG` (chỗ bảng chia
 > lệch quy tắc → viết **một câu chú ý**, đọc câu đó là hiểu cả bảng) và
 > `CUM CO DINH`/`CACH DUNG` (ứng viên ô đỏ). Là văn từ điển thô — **đừng chép nguyên**.
-> Mục **"Họ hàng" vẫn tự nghĩ, cố ý không có dữ liệu máy** — xem §2.
+> Mục **"Họ hàng" vẫn tự nghĩ, cố ý không có dữ liệu máy** — xem §2. Từ nào **thật sự
+> không có** họ hàng (gốc trơn, hư từ, từ mượn đứng một mình) thì **bỏ hẳn mục đó**,
+> `soat` không chặn; nhưng vắng phải là lựa chọn có ý thức chứ không phải chỗ quên.
 > **3. Soạn** `data/huongdan/kho/kNN_<topic>.py`, chứa `S = {...}` và (nếu cần) `V = {...}`.
 > **Việc thứ hai bắt buộc — sửa field `Vietnamese` (§2c):** dòng tiếng Việt là **đề bài của
 > deck `1-go`, user GÕ từ Nga từ nó**, nên nó phải sát tới mức **chỉ có một đáp án đúng**.
