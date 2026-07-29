@@ -8206,5 +8206,347 @@
   "pos": "n",
   "topic": "places::city",
   "cu": false
+ },
+ {
+  "wc": "апельсин",
+  "w": "апельси́н",
+  "en": "<ol class=\"meaning-list\"><li>orange</li><li>orange-tree</li></ol>",
+  "vi": "quả cam",
+  "pos": "n",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "бассейн",
+  "w": "бассе́йн",
+  "en": "<ol class=\"meaning-list\"><li>pool</li><li>basin</li><li>swimming pool</li></ol>",
+  "vi": "hồ bơi",
+  "pos": "n",
+  "topic": "places::city",
+  "cu": false
+ },
+ {
+  "wc": "болеть",
+  "w": "боле́ть",
+  "en": "<ol class=\"meaning-list\"><li>to be sick</li><li>to be painful</li><li>to cheer on</li></ol>",
+  "vi": "bị ốm, bị đau, cổ vũ",
+  "pos": "v",
+  "topic": "people::body",
+  "cu": false
+ },
+ {
+  "wc": "бутылка",
+  "w": "буты́лка",
+  "en": "<ol class=\"meaning-list\"><li>bottle</li></ol>",
+  "vi": "cái chai",
+  "pos": "n",
+  "topic": "life::home",
+  "cu": false
+ },
+ {
+  "wc": "весь",
+  "w": "весь",
+  "en": "<ol class=\"meaning-list\"><li>all</li><li>entire</li><li>whole</li></ol>",
+  "vi": "tất cả, toàn bộ",
+  "pos": "pron",
+  "topic": "language::grammar",
+  "cu": false
+ },
+ {
+  "wc": "всегда",
+  "w": "всегда́",
+  "en": "<ol class=\"meaning-list\"><li>always</li></ol>",
+  "vi": "luôn luôn",
+  "pos": "oth",
+  "topic": "time",
+  "cu": false
+ },
+ {
+  "wc": "встретиться",
+  "w": "встре́титься",
+  "en": "<ol class=\"meaning-list\"><li>meet</li><li>encounter</li><li>see</li><li>be found</li><li>be met with</li><li>to occur</li></ol>",
+  "vi": "gặp gỡ",
+  "pos": "v",
+  "topic": "people::family",
+  "cu": false
+ },
+ {
+  "wc": "грамм",
+  "w": "грамм",
+  "en": "<ol class=\"meaning-list\"><li>gramme</li><li>gram</li></ol>",
+  "vi": "gam (đơn vị đo khối lượng)",
+  "pos": "n",
+  "topic": "numbers",
+  "cu": false
+ },
+ {
+  "wc": "для",
+  "w": "для",
+  "en": "<ol class=\"meaning-list\"><li>for (the benefit of)</li><li>to</li></ol>",
+  "vi": "cho, dành cho",
+  "pos": "oth",
+  "topic": "language::grammar",
+  "cu": false
+ },
+ {
+  "wc": "ждать",
+  "w": "ждать",
+  "en": "<ol class=\"meaning-list\"><li>to wait</li><li>expect</li></ol>",
+  "vi": "đợi, chờ, mong đợi",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "иногда",
+  "w": "иногда́",
+  "en": "<ol class=\"meaning-list\"><li>sometimes</li><li>at times</li></ol>",
+  "vi": "thỉnh thoảng, đôi khi",
+  "pos": "oth",
+  "topic": "time",
+  "cu": false
+ },
+ {
+  "wc": "касса",
+  "w": "ка́сса",
+  "en": "<ol class=\"meaning-list\"><li>checkout</li><li>till</li><li>ticket window</li><li>box office</li><li>cash</li><li>bank</li><li>fund</li><li>cash register</li><li>case (polygraphy)</li></ol>",
+  "vi": "quầy thanh toán, quầy vé, két tiền",
+  "pos": "n",
+  "topic": "places::city",
+  "cu": false
+ },
+ {
+  "wc": "кататься",
+  "w": "ката́ться",
+  "en": "<ol class=\"meaning-list\"><li>to ride</li><li>to skate</li></ol>",
+  "vi": "đi dạo bằng phương tiện (xe đạp, ván trượt, thuyền...), trượt (băng, tuyết)",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "киоск",
+  "w": "кио́ск",
+  "en": "<ol class=\"meaning-list\"><li>kiosk</li><li>booth</li></ol>",
+  "vi": "ki-ốt, sạp hàng, quầy bán hàng nhỏ",
+  "pos": "n",
+  "topic": "places::city",
+  "cu": false
+ },
+ {
+  "wc": "купить",
+  "w": "купи́ть",
+  "en": "<ol class=\"meaning-list\"><li>buy</li><li>purchase</li></ol>",
+  "vi": "mua",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "любить",
+  "w": "люби́ть",
+  "en": "<ol class=\"meaning-list\"><li>love</li></ol>",
+  "vi": "yêu, thích",
+  "pos": "v",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "неделя",
+  "w": "неде́ля",
+  "en": "<ol class=\"meaning-list\"><li>week</li></ol>",
+  "vi": "tuần",
+  "pos": "n",
+  "topic": "time",
+  "cu": false
+ },
+ {
+  "wc": "недорогой",
+  "w": "недорого́й",
+  "en": "<ol class=\"meaning-list\"><li>inexpensive</li></ol>",
+  "vi": "rẻ, không đắt",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "нравиться",
+  "w": "нра́виться",
+  "en": "<ol class=\"meaning-list\"><li>to like</li><li>enjoy</li><li>to please</li></ol>",
+  "vi": "thích, cảm thấy hài lòng",
+  "pos": "v",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "овощ",
+  "w": "о́вощ",
+  "en": "<ol class=\"meaning-list\"><li>vegetable</li></ol>",
+  "vi": "rau, củ",
+  "pos": "n",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "пачка",
+  "w": "па́чка",
+  "en": "<ol class=\"meaning-list\"><li>packet</li><li>bundle</li><li>batch</li><li>sheaf</li><li>pack</li><li>parcel</li><li>tutu</li></ol>",
+  "vi": "gói, bao, xấp, tập",
+  "pos": "n",
+  "topic": "life::home",
+  "cu": false
+ },
+ {
+  "wc": "показать",
+  "w": "показа́ть",
+  "en": "<ol class=\"meaning-list\"><li>to show</li><li>to display</li><li>to reveal</li><li>to point</li><li>to depose</li><li>to testify against</li></ol>",
+  "vi": "cho xem, chỉ cho",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "покупать",
+  "w": "покупа́ть",
+  "en": "<ol class=\"meaning-list\"><li>buy</li><li>purchase</li></ol>",
+  "vi": "mua",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "помнить",
+  "w": "по́мнить",
+  "en": "<ol class=\"meaning-list\"><li>to remember</li></ol>",
+  "vi": "nhớ, ghi nhớ",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "портрет",
+  "w": "портре́т",
+  "en": "<ol class=\"meaning-list\"><li>portrait</li><li>likeness</li></ol>",
+  "vi": "chân dung, ảnh chân dung",
+  "pos": "n",
+  "topic": "concepts::misc",
+  "cu": false
+ },
+ {
+  "wc": "размер",
+  "w": "разме́р",
+  "en": "<ol class=\"meaning-list\"><li>size</li><li>dimensions</li><li>measure</li><li>magnitude of things</li><li>time signature (mus.)</li><li>metre</li></ol>",
+  "vi": "kích cỡ, kích thước",
+  "pos": "n",
+  "topic": "concepts::misc",
+  "cu": false
+ },
+ {
+  "wc": "регулярно",
+  "w": "регуля́рно",
+  "en": "<ol class=\"meaning-list\"><li>regularly</li></ol>",
+  "vi": "thường xuyên, đều đặn",
+  "pos": "adv",
+  "topic": "time",
+  "cu": false
+ },
+ {
+  "wc": "редко",
+  "w": "ре́дко",
+  "en": "<ol class=\"meaning-list\"><li>rarely</li><li>seldom</li></ol>",
+  "vi": "hiếm khi",
+  "pos": "adv",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "самый",
+  "w": "са́мый",
+  "en": "<ol class=\"meaning-list\"><li>the most</li><li>the very (same)</li></ol>",
+  "vi": "nhất, chính là",
+  "pos": "pron",
+  "topic": "language::grammar",
+  "cu": false
+ },
+ {
+  "wc": "свежий",
+  "w": "све́жий",
+  "en": "<ol class=\"meaning-list\"><li>fresh</li><li>latest</li></ol>",
+  "vi": "tươi, mới",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "сдача",
+  "w": "сда́ча",
+  "en": "<ol class=\"meaning-list\"><li>change</li><li>surrender</li><li>check-in</li></ol>",
+  "vi": "tiền thừa",
+  "pos": "n",
+  "topic": "concepts::misc",
+  "cu": false
+ },
+ {
+  "wc": "слышать",
+  "w": "слы́шать",
+  "en": "<ol class=\"meaning-list\"><li>to hear</li><li>(colloquial, transitive) to smell</li><li>feel (a smell)</li></ol>",
+  "vi": "nghe thấy",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "супермаркет",
+  "w": "суперма́ркет",
+  "en": "<ol class=\"meaning-list\"><li>supermarket</li></ol>",
+  "vi": "siêu thị",
+  "pos": "n",
+  "topic": "places::city",
+  "cu": false
+ },
+ {
+  "wc": "тот",
+  "w": "тот",
+  "en": "<ol class=\"meaning-list\"><li>that</li></ol>",
+  "vi": "đó, ấy (chỉ người hoặc vật ở xa hoặc đã nhắc đến)",
+  "pos": "pron",
+  "topic": "language::grammar",
+  "cu": false
+ },
+ {
+  "wc": "устать",
+  "w": "уста́ть",
+  "en": "<ol class=\"meaning-list\"><li>get tired</li><li>be tired</li></ol>",
+  "vi": "mệt, thấm mệt",
+  "pos": "v",
+  "topic": "people::body",
+  "cu": false
+ },
+ {
+  "wc": "фрукт",
+  "w": "фрукт",
+  "en": "<ol class=\"meaning-list\"><li>fruit</li></ol>",
+  "vi": "trái cây, hoa quả",
+  "pos": "n",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "чек",
+  "w": "чек",
+  "en": "<ol class=\"meaning-list\"><li>cheque</li><li>check</li><li>receipt</li><li>bill</li></ol>",
+  "vi": "hóa đơn (tính tiền), biên lai",
+  "pos": "n",
+  "topic": "concepts::misc",
+  "cu": false
+ },
+ {
+  "wc": "штука",
+  "w": "шту́ка",
+  "en": "<ol class=\"meaning-list\"><li>piece</li><li>each</li><li>trick</li><li>shtick</li><li>thing</li></ol>",
+  "vi": "cái, món, thứ (dùng để gọi tên vật khi không nhớ tên cụ thể, hoặc dùng để đếm)",
+  "pos": "n",
+  "topic": "concepts::misc",
+  "cu": false
  }
 ]
