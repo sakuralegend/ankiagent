@@ -267,34 +267,62 @@ def normalize(word_obj):
     return rec
 
 
-def fetch_word_object(word, timeout=25):
-    """Tải trang OpenRussian -> MỤC TỪ đã chọn (dict `__NEXT_DATA__`), None nếu hụt.
+# ==============================================================================
+# --- TẦNG 1: CÀO ---
+# 🔴 NƠI DUY NHẤT trong toàn dự án gọi mạng tới OpenRussian và biết đường dẫn
+# JSON `props.pageProps.info`. Trả về NGUYÊN `info`, KHÔNG cắt, KHÔNG chọn sẵn.
+#
+# Vì sao không chọn sẵn: mỗi mảng cần một mục khác nhau. Mảng từ vựng cần mục
+# hợp chính tả nhất; mảng thẻ ngữ pháp (`grammar_forms`) BẮT BUỘC phải là danh
+# từ (thẻ số nhiều chỉ có nghĩa với danh từ). Chọn sẵn ở tầng này là ép cả hai
+# theo một luật, mà luật nào cũng sai với một trong hai bên.
+#
+# Và không cắt: `normalize()` bỏ đi `collocations` (6,8 KB), `sentences`,
+# `expressions`, `usage`… — đều là dữ liệu người biên tập, có thể mảng khác cần.
+# Cắt ở tầng 1 thì mảng đó phải cào lại lần nữa. Tầng 1 lấy đủ, TẦNG 2 quyết
+# định giữ gì.
+# ==============================================================================
 
-    🔴 ĐÂY LÀ NƠI DUY NHẤT gọi mạng tới OpenRussian. `scraper.py` (tạo thẻ) và
-    `fetch_grammar()` (cào hàng loạt) đều đi qua hàm này.
+# Bộ nhớ tạm TRONG MỘT LẦN CHẠY. Trong cùng một luồng tạo thẻ, `scraper.py` và
+# `grammar.py` cùng cần một từ -> không tải hai lần. CÓ CHẶN SỐ LƯỢNG: mỗi trang
+# vài chục KB, cào cả kho 950 từ mà giữ hết là ngốn vô ích. Không ghi ra đĩa —
+# cache lâu dài là `grammar_cache.json` (bản đã gọn), không phải trang thô.
+_PAGE_MEMO = {}
+_PAGE_MEMO_TRAN = 16
 
-    Trước 29/07 mỗi bên tự GET + tự moi `__NEXT_DATA__` + tự có LUẬT CHỌN MỤC
-    RIÊNG (`find_word_object` quét đệ quy lấy dict đầu tiên có `type`+`translations`;
-    `_pick_word_object` lọc theo chính tả rồi ưu tiên mục có bảng chia). Với từ
-    ĐỒNG TỰ (`мочь` động từ / `мочь` danh từ) hai luật có thể chọn hai mục khác
-    nhau ⇒ một thẻ mà nghĩa lấy ở mục này, bảng chia lấy ở mục kia. Đo thử 6 từ
-    đồng tự thì cả 6 đều trùng — tức chưa hỏng, nhưng đó là may chứ không phải
-    thiết kế. Gộp lại còn MỘT luật thì hết cửa lệch.
-    """
+
+def fetch_page(word, timeout=25, memo=True):
+    """Trang OpenRussian -> NGUYÊN `info` ({} nếu hụt). Đây là TẦNG 1."""
+    key = bare(word)
+    if memo and key in _PAGE_MEMO:
+        return _PAGE_MEMO[key]
     import requests
     from bs4 import BeautifulSoup
     url = "https://en.openrussian.org/ru/" + urllib.parse.quote(word.strip(), safe="")
     res = requests.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=timeout)
     if res.status_code != 200:
         log_fail(f"{word}: HTTP {res.status_code}")
-        return None
+        return {}
     tag = BeautifulSoup(res.text, "html.parser").find("script", id="__NEXT_DATA__")
     if not tag:
         log_fail(f"{word}: khong tim thay __NEXT_DATA__ (trang doi cau truc?)")
-        return None
+        return {}
     info = json.loads(tag.get_text(strip=True)).get(
         "props", {}).get("pageProps", {}).get("info", {})
-    return _pick_word_object(info, bare(word))
+    if memo:
+        if len(_PAGE_MEMO) >= _PAGE_MEMO_TRAN:
+            _PAGE_MEMO.pop(next(iter(_PAGE_MEMO)))
+        _PAGE_MEMO[key] = info
+    return info
+
+
+def fetch_word_object(word, timeout=25):
+    """TẦNG 2 của mảng TỪ VỰNG: cào rồi chọn mục hợp với thẻ `RU_Word`.
+
+    `grammar_forms` KHÔNG dùng hàm này — nó gọi thẳng `fetch_page()` rồi áp luật
+    chọn riêng (ép `type == "noun"`).
+    """
+    return _pick_word_object(fetch_page(word, timeout=timeout), bare(word))
 
 
 def fetch_grammar(word, refresh=False, delay=0.5):

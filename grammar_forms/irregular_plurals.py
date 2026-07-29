@@ -16,11 +16,12 @@
 import csv
 import json
 import os
-import urllib.parse
 from concurrent.futures import ThreadPoolExecutor
 
+# `requests` ở đây CHỈ để tải dump `nouns.csv` từ GitHub (NOUNS_URL) — nguồn khác
+# hẳn OpenRussian. Phần cào trang OpenRussian đã chuyển sang `grammar.fetch_page()`,
+# nên `BeautifulSoup`/`urllib.parse` không còn dùng ở file này nữa.
 import requests
-from bs4 import BeautifulSoup
 
 from anki_tools.utils import log_warn, strip_accents_perfectly
 
@@ -219,18 +220,13 @@ def _save_cache(cache):
 def fetch_word_meta(word):
     """Cào level (A1..C2) + số nhiều + giống của 1 từ từ trang OpenRussian.
     Dump không có cột level nên phải lấy từ web. Trả về dict (rỗng nếu hụt)."""
-    url = f"https://en.openrussian.org/ru/{urllib.parse.quote(word, safe='')}"
     try:
-        r = requests.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=20)
-        if r.status_code != 200:
-            return {}
-        soup = BeautifulSoup(r.text, "html.parser")
-        tag = soup.find("script", id="__NEXT_DATA__")
-        if not tag:
-            return {}
-        words = json.loads(tag.get_text()).get("props", {}).get("pageProps", {}) \
-                    .get("info", {}).get("words", [])
-        w = next((x for x in words if x.get("type") == "noun"), None)
+        # Tải trang qua TẦNG 1 dùng chung, chọn mục bằng LUẬT CỦA MẢNG NÀY
+        # (`scraper.pick_noun`) — trước đây file này có bản sao thứ ba của cả
+        # hai việc, tức OpenRussian đổi cấu trúc là phải sửa ba chỗ.
+        from anki_tools.grammar import fetch_page
+        from .scraper import pick_noun
+        w = pick_noun((fetch_page(word, timeout=20) or {}).get("words") or [])
         if not w:
             return {}
         noun = w.get("noun") or {}

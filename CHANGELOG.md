@@ -92,6 +92,50 @@ User: *"sau quá trình học, giờ tôi bị nhầm lẫn từ khá nhiều do
   lưu trước khi đổi schema (52 MB, 3 deck, 0 lỗi). Sau khi Upload phải kiểm `journalctl` trên
   VPS — bẫy cũ: VPS kẹt **im lặng**, không báo Telegram.
 
+## 29/07/2026 — KIẾN TRÚC BA TẦNG: một nơi cào, mỗi mảng một luật bóc
+
+User mô tả lại kiến trúc mình muốn: *"Có 1 scraper cào toàn bộ data về, rồi có từng module nhỏ
+xử lí cho từng field. Russian có module riêng, ngữ pháp có module riêng, cần cái nào dùng cái đó.
+Còn lúc scrape data về vẫn lấy đủ."* — đúng, và gọn hơn đề xuất tôi đưa trước đó.
+
+⚠️ User cũng đã cân nhắc **tách hẳn project làm hai** (russian / grammar). Đã can, kèm số đo:
+hai mảng **đã tách sẵn và rất sạch** — `anki_tools` không có **0 dòng** nào biết tới
+`grammar_forms`; chiều ngược lại 13 import, toàn hạ tầng dùng chung; một file nối
+(`tgbot/flow_special.py`, chỉ lo giao diện). Chỗ chồng đến từ hướng NGƯỢC LẠI — hai mảng tách
+tới mức mỗi bên tự viết lại cái ống nước. Tách sâu hơn thì phải nhân đôi cào/audio/media/AI/
+AnkiConnect, hoặc đẻ package thứ ba dùng chung = quay lại chỗ cũ. Nguyên nhân thật là **tôi
+viết `grammar.py` với đường cào riêng thay vì dùng lại `scraper.py`** — lỗi lúc viết, không
+phải nợ kiến trúc. User đồng ý làm theo hướng ba tầng.
+
+```
+TẦNG 1 · CÀO   grammar.fetch_page()  — NƠI DUY NHẤT gọi mạng + biết đường dẫn JSON,
+                                       trả NGUYÊN `info`, không cắt, không chọn sẵn
+TẦNG 2 · BÓC   mỗi mảng một luật chọn mục + parser riêng
+TẦNG 3 · DỰNG  html_builder / cards.py
+```
+
+- 🔴 **Tầng 1 KHÔNG chọn sẵn mục từ** — mỗi mảng cần mục khác nhau: mảng từ vựng lấy mục hợp
+  chính tả + ưu tiên có bảng chia; mảng ngữ pháp **bắt buộc** `type == "noun"` (thẻ số nhiều chỉ
+  có nghĩa với danh từ). Chọn ở tầng 1 là ép cả hai theo một luật, mà luật nào cũng sai với một bên.
+- 🔴 **Tầng 1 KHÔNG cắt dữ liệu.** Đo trên `сло́во`: `normalize()` đang vứt `collocations`
+  (6 786 B, cụm từ do người biên tập) · `sentences` (4 703 B) · `expressions` · `translations` ·
+  `usage` · `level`. Riêng `usage` chứa đúng loại nội dung ô Hướng dẫn cần
+  (`по слова́м:` + cách 2 · `к сло́ву:` nhân tiện) — bản mẫu `сожале́ние` user khen có một ô đỏ
+  chính là "cụm phải thuộc", mà từ điển **đã có sẵn** và mình đang vứt đi.
+  ⚠️ "Cào đủ" KHÔNG có nghĩa nhét hết vào thẻ (riêng `collocations` × 950 ≈ 6,5 MB). Tầng 1 lấy
+  đủ, **tầng 2 quyết định giữ gì** — hai việc khác nhau.
+- 🗑️ **Xoá bản cào thứ ba**: `grammar_forms/irregular_plurals.fetch_word_meta()` cũng tự
+  GET + moi `__NEXT_DATA__`. Cộng `grammar_forms/scraper.fetch_noun()` là **ba nơi** cùng biết
+  `props.pageProps.info.words` ⇒ OpenRussian đổi cấu trúc phải sửa ba chỗ, hai chỗ dễ quên.
+  Loại lỗi này ĐÃ xảy ra ở chính `grammar_forms/scraper.py` (chú thích ghi rõ: dùng nhầm khoá
+  `tl` thay vì `tls` làm **mọi thẻ ra "N/A"**, dính 20/07/2026).
+- 🧠 **Memo tầng 1, CÓ CHẶN SỐ LƯỢNG (16)**: trong cùng một luồng, hai module cùng cần một từ
+  thì không tải hai lần. Không ghi ra đĩa — cache lâu dài là `grammar_cache.json` (bản đã gọn),
+  không phải trang thô vài chục KB.
+- ✅ Soát cuối: **0 nơi** ngoài `grammar.fetch_page()` còn gọi OpenRussian hay biết đường dẫn
+  JSON (chỉ còn chú thích). Đúng **2 luật chọn mục**, mỗi mảng một cái, đều có ghi lý do.
+  Mảng ngữ pháp chạy lại đúng: `брат→бра́тья`, `стул→сту́лья`, `у́хо→у́ши`, `мир→миры́`.
+
 ## 29/07/2026 — SOÁT CHỒNG CHÉO: gộp về một đường cào, vá 12 script lô cũ
 
 User hỏi thẳng: *"triết lí lúc tôi xây nên cái scraper để các cái khác cần thì gọi, sao giờ đẻ ra
