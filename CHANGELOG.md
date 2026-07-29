@@ -4,6 +4,38 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 29/07/2026 — 38 từ mới: k14 (mua sắm) + k48, và bộ đo TỈ LỆ ĐẠT CHUẨN
+
+- 🆕 **`data/huongdan/dochuan.py`** — user hỏi *"tỉ lệ phần trăm những thẻ đã đạt chuẩn mới nhất
+  / toàn bộ"*. Đo trên **thẻ thật**, theo hai con số cứng của §2b đo được bằng máy: cao ≤700px
+  (đã gỡ bảng chia vì nó gấp trong `<details>`) và ≤2 ô đỏ.
+  🔴 **Cố ý KHÔNG đòi thẻ phải có mục Họ hàng** — từ gốc trơn và hư từ (`пока́`, `не`, `для`)
+  không có họ hàng chắc chắn, ép có `.hd-fam` là ép bịa từ nguyên.
+- 📊 **Kết quả 29/07: 188/950 = 19,8% đạt chuẩn** (trước khi nạp hai lô là 150 = 15,8%).
+  245 đã soạn nhưng vỡ trần · 466 chưa soạn · 51 còn mnemonic cũ. Riêng trong **433 thẻ đã có
+  nội dung** thì đạt **43,4%**. Kéo tỉ lệ xuống là 245 thẻ chuẩn cũ — `реплика` 6 335px/12 ô đỏ,
+  tức **9 lần** trần một màn hình; 20/21 thẻ đó nằm ở k03+k04+k06 đã có trong sổ nợ.
+- 🆕 **38 từ mới vào hàng đợi** (`congcu.py moi --apply`), vượt trần 22 nên **chia tay làm hai
+  lô** thay vì để máy gom theo hậu tố (hậu tố không phải họ hàng với hư từ — bài học k16):
+  **k14** 18 từ trục **ĐI MUA SẮM** (gần hết nằm trong một cảnh thật: siêu thị/ki-ốt → cân đo →
+  xem giá và độ tươi → trả tiền → hoá đơn và tiền thối) · **k48** 20 từ **không cùng họ**, soạn
+  từng thẻ độc lập, chỉ hai cụm nhỏ liên hệ nhẹ (trạng từ tần suất, đại từ `весь/са́мый/тот`).
+- ✅ **Cả hai lô sạch ba cửa soát, 0 thẻ vượt trần**: k14 cao tb 400px / đỉnh 477px / ô đỏ tb
+  1,1 · k48 cao tb 518px / đỉnh 596px / ô đỏ tb 1,5 · khối dùng chung **0%** ở cả hai.
+  `nap` ghi vào **đúng 38 note** = 38 từ, không lệch.
+- 🎯 **Rà tay bằng mắt lại trả công**: bắt 2 lỗi trọng âm **động từ/trạng từ** mà máy không thể
+  bắt (`nouns.csv` chỉ có danh từ) — `изме́рить` (viết nhầm nhấn đuôi; chỉ `измеря́ть` mới nhấn
+  đuôi) và `и́зредка` (viết nhầm `изре́дка`). Luồng chính đã **kiểm chéo lại với OpenRussian**:
+  cả hai bản sửa đều đúng. Giữ lời dặn rà tay trong mọi lời nhắn về sau.
+- 💎 **33 field `Vietnamese` được sửa** — phần đắt nhất của hai lô. Đáng chú ý: `люби́ть` và
+  `нра́виться` trước đây **cùng ra "thích"** nên deck `1-go` không thể gõ đúng; nay tách bằng
+  CHỦ NGỮ (người thích vs vật làm mình ưng). Cặp thể `купи́ть`/`покупа́ть` cũng vậy.
+- ⚠️ **Mâu thuẫn còn treo, cần user quyết**: README §2 cho phép **bỏ** mục Họ hàng khi không
+  chắc, nhưng cửa (a) của `congcu.py soat` vẫn coi **thiếu `.hd-fam` là lỗi cấu trúc**. Agent
+  k48 đâm đúng chỗ này ở `бассе́йн` (mượn Pháp, không có phái sinh Nga) và phải viết một ô
+  `.hd-fam` nội dung là *lời thú nhận* cho im cửa. Lần này vô hại vì agent trung thực, nhưng
+  đó đúng cơ chế "cửa kêu oan ⇒ lô sau thêm nội dung giả" mà README cảnh báo ở chỗ khác.
+
 ## 29/07/2026 — Phần B: giữ CHỖ BẤT THƯỜNG + CỤM CỐ ĐỊNH, **bác họ từ** sau khi đo
 
 Phần B **không đụng thẻ nào** — nó chỉ đổi thứ agent NHÌN THẤY lúc soạn lô.
