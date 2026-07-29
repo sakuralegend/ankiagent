@@ -169,6 +169,50 @@ def _adj_declension(adj):
                 for c, _ in CASES} for g, v in ext.items()}
 
 
+def _decl_dai_tu(pr):
+    """Đại từ: `pronoun.declension` = {giống: {cách: [dạng]}}, ô rỗng thì bỏ.
+
+    `он` chỉ có cột `m` (vì `она́`/`они́` là mục từ riêng), `мой` có đủ bốn cột.
+    """
+    d = pr.get("declension") or {}
+    ra = {}
+    for g, v in d.items():
+        cot = {c: ", ".join(acc(x) for x in (v.get(c) or []) if x) for c, _ in CASES}
+        if any(cot.values()):
+            ra[g] = cot
+    return ra
+
+
+def _decl_tu_forms(forms):
+    """Số từ: mảng `forms` phẳng -> {cột: {cách: dạng}}.
+
+    Số từ Nga KHÔNG nằm ở `noun.declension` như danh từ mà ở mảng này, và mảng
+    này có tới BA dạng — bỏ sót dạng nào là mất trắng cả nhóm từ đó:
+
+      `ru_noun_sg_gen`  số từ đếm biến cách như danh từ  (`пять`→`пяти́`, `три`→`трёх`)
+      `ru_adj_m_gen`    số từ THỨ TỰ, biến cách như tính từ (`пе́рвый`→`пе́рвого`)
+      `ru_base`         CHỈ có dạng gốc, KHÔNG có bảng     (`со́рок`, `де́вять`, `сто`)
+
+    ⚠️ Nhóm `ru_base` là lỗ hổng THẬT của từ điển, không phải lỗi đọc: `со́рок`
+    có biến cách trong tiếng Nga (`сорока́`) nhưng OpenRussian không lưu. Trả
+    rỗng để chỗ khác biết là KHÔNG CÓ DỮ LIỆU, đừng dựng bảng nửa vời.
+    """
+    ra = {}
+    for f in forms or []:
+        loai = f.get("formType") or ""
+        dang = (f.get("form") or "").strip()
+        if not dang:
+            continue
+        m = re.fullmatch(r"ru_noun_(sg|pl)_(nom|gen|dat|acc|inst|prep)", loai)
+        if m:
+            ra.setdefault(m.group(1), {})[m.group(2)] = acc(dang)
+            continue
+        m = re.fullmatch(r"ru_adj_(m|f|n|pl)_(nom|gen|dat|acc|inst|prep)", loai)
+        if m:
+            ra.setdefault(m.group(1), {})[m.group(2)] = acc(dang)
+    return ra
+
+
 def normalize(word_obj):
     """`__NEXT_DATA__` -> bản ghi gọn, CHỈ giữ thứ dùng tới (cache nhẹ, đọc được)."""
     pos = word_obj.get("type") or "unknown"
@@ -176,6 +220,21 @@ def normalize(word_obj):
            "wc": bare(word_obj.get("bare") or ""),
            "pos": pos, "rank": word_obj.get("rank"),
            "family": _family(word_obj)}
+
+    # ĐẠI TỪ + SỐ TỪ — hai nhóm này KHÔNG dùng `noun`/`verb`/`adjective`.
+    # Bỏ sót thì 80 từ (22 đại từ + 58 số từ) ra rỗng, mà đó lại đúng là nhóm
+    # biến cách bất quy tắc nhất (`он → его́ → ему́`, `три → трёх → тремя́`).
+    pr = word_obj.get("pronoun")
+    if isinstance(pr, dict) and pr:
+        rec["proDecl"] = _decl_dai_tu(pr)
+        if pr.get("declensionInfo"):
+            # câu chú giải NGƯỜI THẬT viết ("The forms with н- are used if after
+            # a preposition") — quý hơn mọi thứ suy ra được, giữ nguyên văn.
+            rec["declInfo"] = pr["declensionInfo"]
+    if word_obj.get("forms"):
+        numDecl = _decl_tu_forms(word_obj["forms"])
+        if numDecl:
+            rec["numDecl"] = numDecl
 
     n = word_obj.get("noun")
     if isinstance(n, dict) and n:
