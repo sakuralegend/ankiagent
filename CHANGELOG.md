@@ -4,6 +4,39 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 30/07/2026 (đêm) — Plan dọn dẹp `_fable_plan.md` (Fable 5 soạn, Opus 5 sẽ thi hành)
+
+Chiến lược dọn **cái đã tồn tại**, nhất quán với `CACHLAM.md` (L1–L5, QD-01). Chẩn đoán: dự án
+bị CHIA ĐÔI — nửa có cửa soát máy (dây chuyền kho) sạch, nửa không có (3 gói code) trôi; bệnh là
+thiếu cửa soát cho code. 5 giai đoạn, mỗi giai đoạn 1 phiên context trắng + 1 commit, lọt khe
+giữa lô: **G0** tháo ngòi 12 file lô thế hệ 1 (guard `SystemExit`) + gộp `MIEN_TRU` về
+`mientru.py` (hết kêu oan 4 từ) · **G1** `soat.py` S1–S8 (stdlib, ast+regex, không import dự án)
++ ratchet `soat_baseline.json` + cửa chặn trong `deploy.ps1` · **G2** `KIENTRUC.md` (khối
+`soat-manifest` máy so được, phép thử "còn đúng sau 10 lô mới?") + cắt README gốc còn ~60 dòng ·
+**G3** dọn gốc (`_daxong/`, giữ `vnc.bat` làm công cụ cứu hộ) · **G4** tuỳ chọn: alias public
+cho 3 tên private bị gọi xuyên module. KHÔNG tách `grammar.py` (điều kiện mở lại: xong 61 lô +
+soat xanh 14 ngày + S2=0). Không giai đoạn nào chạm thẻ/schema/dây chuyền. Vì sao: user yêu cầu
+plan trước khi chuyển sang Opus 5 thi hành cho rẻ.
+
+## 30/07/2026 (đêm) — User duyệt sổ tay → `CACHLAM.md` chính thức + `CLAUDE.md` + `QUYETDINH.md` + `SONO.md` (QD-01)
+
+User đồng ý đề xuất: đổi tên `_fable_cachlamviec.md` → **`CACHLAM.md`** (chính thức, v1);
+viết **`CLAUDE.md`** ~40 dòng (5 luật L1–L5, 5 cửa DỪNG LẠI HỎI, bản đồ 4 mảng, mục nghiệm thu,
+7 bẫy đã trả học phí) — từ nay mọi phiên Claude Code TỰ ĐỘNG đọc, hết cảnh "nhân viên mới không
+được dặn"; dựng **`QUYETDINH.md`** với mục đầu tiên `QD-01` (nhận hệ CACHLAM + đóng băng ngoại lệ
+wrapper `kho/` đến khi xong 61 lô) và **`SONO.md`** (sổ nợ trống — nợ tồn đọng do plan dọn riêng lo).
+
+## 30/07/2026 (đêm) — Soạn sổ tay CÁCH LÀM VIỆC `CACHLAM.md` (Fable 5)
+
+Sổ tay **quy trình từ nay về sau** (không trùng plan dọn dẹp cái đã tồn tại): 5 luật có số hiệu
+`L1`–`L5` (một cửa cho tài nguyên ngoài · khai tử script một lần · lệnh nghiệm thu · vùng im lặng
+đứng riêng · `QUYETDINH.md` với `QD-nn`), checklist 6 bước thêm chức năng + phép thử chép-dán
+("bản chép không sửa theo bản gốc là LỖI hay Ý ĐỒ?"), ngưỡng cảnh báo bằng con số, mục làm việc
+với AI. **Phát hiện chính khi khảo sát: repo CHƯA có `CLAUDE.md`** — mọi phiên AI là "nhân viên
+mới ngày đầu" không được dặn gì; đề xuất đắt giá nhất là viết nó (~40 dòng, một lần, mọi phiên
+tự tuân). Vì sao: user hỏi "làm dần dần mà không loạn thì làm thế nào" — kết luận: chỗ nào luật
+nằm trong file + máy canh (CHUAN.md) thì không loạn, chỗ nào luật nằm trong đầu (code) thì loạn.
+
 ## 30/07/2026 (tối) — 27 từ mới vào hàng đợi (k59+k60) · đo va chạm đề bài · `па́па`/`оте́ц`
 
 **27 từ mới** user thêm qua bot (gần như toàn động từ thể hoàn thành) → `moi --apply` mở lô `k59`

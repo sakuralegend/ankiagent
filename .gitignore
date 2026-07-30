@@ -32,3 +32,7 @@ data/huongdan/kho/_input_*.txt
 data/huongdan/kho/_phaidocbangmat.txt
 data/huongdan/kho/_vacham_vi.txt
 data/huongdan/kho/*.bak
+
+# File tam cua dot don du an G0-G4
+_fable_plan.md
+_baseline_don.md

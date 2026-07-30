@@ -1,5 +1,9 @@
 # Chạy tiếp kho — đọc file này là đủ
 
+> ⛔ **ĐANG ĐÓNG BĂNG (30/07/2026).** Kho tạm dừng để làm đợt dọn dự án G0→G4.
+> **Đừng soạn lô mới** dù bên dưới ghi lô kế tiếp là `k17`. Xem mục "VIỆC KẾ TIẾP" đầu `CLAUDE.md`.
+> Chỉ mở băng khi user nói rõ **"mở lại lô"** — lúc đó xoá dòng này và mục kia đi.
+
 Bạn (user) chỉ cần gõ một câu: **"chạy tiếp kho"**. Phần dưới là cho tôi.
 
 ---
