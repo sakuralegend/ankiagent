@@ -1788,7 +1788,7 @@
 },
 "быть": {
 "acc": "быть",
-"aspect": "both",
+"aspect": "imperfective",
 "idioms": [
 {
 "en": "once there lived, once there was",
@@ -1807,7 +1807,6 @@
 "будь",
 "бу́дьте"
 ],
-"motion": "multidirectional",
 "partners": [],
 "past": [
 "был",

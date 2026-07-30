@@ -52,12 +52,68 @@ nhất** (10/11 ca):
 - **Dạng mệnh lệnh giả**: `хоте́ть` → `imper: ["хоти́", "хоти́те"]`; `хоти́те` là ngôi "các bạn" hiện
   tại. Agent ghi thẳng vào câu chú ý rằng dòng mệnh lệnh trong bảng gần như không ai dùng.
 
-### 🔴 NỢ MỚI: `BAT THUONG` bỏ sót động từ đổi hẳn thân quá khứ
+### ✅ ĐÃ VÁ: `BAT THUONG` bỏ sót quá khứ của động từ `-ти` và động từ phản thân
 
-`congcu.py tiep` chỉ gắn cờ 5/15 từ ở k01, **bỏ sót đúng ba dạng bất thường nặng nhất**:
-`идти → шёл/шла/шли`, `войти → вошёл`, `вы́йти → вы́шел` (rụng `й`, đổi hẳn thân). Agent tự viết câu
-chú ý nên thẻ không hổng, nhưng lô nào chỉ dựa vào cờ máy thì ba loại này lên thẻ mà không ai nhắc
-quá khứ. **Đáng vá `grammar.analyze()` — để phiên riêng, không trộn vào phiên chạy lô.**
+Commit `e83350e`. Phát hiện khi soạn k01: `tiep` chỉ gắn cờ **5/15 từ**, bỏ sót đúng ba dạng bất
+thường nặng nhất — `идти → шёл/шла/шли`, `войти → вошёл`, `вы́йти → вы́шел`.
+
+Nguyên nhân trong `_soi_dong_tu`: gốc quá khứ tính bằng
+`goc = bare(inf); goc = goc[:-2] if goc.endswith("ть") else None` — **trên chuỗi thô**, nên
+**hai lớp động từ lọt sạch cửa**:
+
+| Lớp lọt | Vì sao | Hậu quả |
+|---|---|---|
+| Đuôi **`-ти`** (`идти·войти·выйти·дойти·прийти`) | không endswith `ть` ⇒ `goc=None` | đúng nhóm quá khứ bất thường nhất tiếng Nga |
+| **Mọi động từ phản thân** (`встретиться`, `находиться`…) | chuỗi kết thúc bằng `ся` | 10 từ chưa từng được soi quá khứ |
+
+Đã tách thành `_goc_qua_khu()`: **bóc hậu tố phản thân TRƯỚC**, rồi mới bóc đuôi nguyên thể
+(`ть`/`ти`/`чь`). Đo trên cả 89 động từ trong cache:
+
+- động từ **được soi** quá khứ: **73 → 89** (+16: 10 phản thân · 5 đuôi `-ти` · `мочь`)
+- cờ **mới xuất hiện: 5** (`идти войти выйти дойти прийти`) — **cả 5 đều thật**
+- cờ **cũ bị mất: 0** — không kêu oan, không tụt độ phủ
+
+Cờ `qkla` cũng tham gia `nong` (ô tô sáng trong bảng chia), nên đẩy lại bằng `nap --tatca`:
+**ghi vào đúng 3 note, bỏ qua 167 vì trùng nội dung** — xác nhận vá đúng chỗ, không thẻ nào khác bị
+xê dịch. `дойти`/`прийти` nằm ở k49 còn `cho` nên sẽ tự có ô tô sáng khi tới lượt.
+
+🔍 **Bài học đo lường:** con số đáng tin không phải "5 cờ mới" mà là **"73 → 89 từ được soi"** —
+cờ mới chỉ đếm được cái nổi lên, còn hiệu số kia mới cho biết **cửa đã mù với bao nhiêu từ**.
+
+### 🔴 LUẬT MỚI, USER CHỐT 30/07: vá xong PHẢI kiểm ngược lô cũ và BÁO
+
+> *"Mỗi khi bạn nhận ra lỗi mới và update một cái gì đó, bạn phải bảo đảm toàn bộ lô trước có chất
+> lượng giống vậy, tôi sẵn sàng làm lại. Đừng im lặng."*
+
+User **không tự kiểm được nội dung thẻ**, nên chuẩn nâng mà lô cũ không đo lại thì kho **âm thầm
+chia thành hai đời chất lượng** — đúng thứ đã xảy ra với nhãn `dat` gán 28/07. Quyết định làm lại
+hay không là của user, không phải của tôi. Đã kiểm ngược ngay:
+
+| Kiểm | Kết quả |
+|---|---|
+| Từ **đã nạp** mà cửa mới gắn cờ | **3** (`идти·войти·выйти`, đều ở k01) |
+| Ba từ đó có câu chú ý quá khứ chưa? | **Có cả ba** — agent k01 tự bắt bằng tay, đọc thật trong file để kiểm |
+| Từ phản thân đã nạp, giờ mới được soi | 5 (`встретиться·кататься·нравиться·спрягаться·учиться`) — quá khứ đều đúng quy tắc, **0 cờ** |
+| Dấu thừa trên `ё` có chảy vào thẻ nào? | **Không** — `зачёт` (k56) và `она` (k12) đều còn `cho`; `шофёр` được vá TRƯỚC khi nạp k55 |
+
+⇒ **Không lô nào cần soạn lại vì hai vá này.** Kết luận có bằng chứng, không phải phỏng đoán.
+
+### 🔴 Lỗi ở MỘT từ thường là lỗi của MỘT LỚP — badge `BI-ASP`
+
+Agent k03 báo `быть` có `aspect: "both"` ⇒ badge in **BI-ASP** sai. Thay vì sửa một thẻ, đếm toàn bộ
+950 thẻ: `AspectBadge` = trống 862 · IMPF 55 · PERF 31 · **BI-ASP 2**. Hai từ đó là **`быть`** (sai —
+từ điển Nga ghi *несов.*, cặp hoàn thành là `побы́ть/пробы́ть`) và **`использовать`** (đúng — động từ
+song thể thật, chính agent k01 đã dùng badge này làm nội dung một ô đỏ).
+
+Vá tại nguồn `grammar_cache.json`: `быть.aspect: both → imperfective`, và **bỏ luôn
+`motion: "multidirectional"`** (vô nghĩa với `быть`, agent k03 báo). `backfill_badge.py --apply` đổi
+**đúng 1 thẻ, giữ nguyên 949** — [[he-badge-ngu-phap]] đã ghi *badge SAI tệ hơn badge trống*.
+
+🔧 **Bẫy đã dính rồi tự sửa trong phiên:** lần đầu vá cache tôi ghi lại bằng `json.dumps(indent=1)`
+⇒ **diff 29 274 dòng cho một thay đổi 2 dòng**, che sạch thứ cần review. Định dạng gốc là
+`json.dumps(obj, ensure_ascii=False, indent=0)` — kiểm bằng round-trip so byte trước khi ghi
+(`out == s` phải True), rồi diff mới còn đúng 2 dòng. **Sửa file dữ liệu lớn thì xác nhận định dạng
+gốc trước, đừng dump theo ý mình.**
 
 ### Miễn trừ mới + hai họ hàng giả bị chặn
 

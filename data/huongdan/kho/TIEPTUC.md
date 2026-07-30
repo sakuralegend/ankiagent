@@ -27,10 +27,13 @@ in **BI-ASP** sai, `motion=multidirectional` vô nghĩa. **Lô động từ là 
 `делать` ghi chi phối cách 5 (thật ra cách 4), `буфет` sai chính tả `шведский`, `смотреть` có idiom
 `не смотря на` viết tách (đúng: `несмотря на` viết LIỀN), `хотеть` có dạng mệnh lệnh giả.
 
-🔴 **NỢ MỚI — `BAT THUONG` bỏ sót động từ đổi hẳn thân quá khứ.** `tiep` chỉ gắn cờ 5/15 từ ở k01,
-bỏ sót `идти → шёл/шла/шли`, `войти → вошёл`, `вы́йти → вы́шел`. Agent tự viết câu chú ý nên thẻ
-không hổng, nhưng lô nào chỉ dựa vào cờ máy thì ba loại này lên thẻ mà không ai nhắc quá khứ.
-**Đáng vá `grammar.analyze()` — để phiên riêng, đừng trộn vào phiên chạy lô.**
+✅ **ĐÃ VÁ NGAY TRONG PHIÊN (`e83350e`) — `BAT THUONG` từng bỏ sót quá khứ của hai lớp động từ.**
+`tiep` chỉ gắn cờ 5/15 từ ở k01, bỏ sót `идти → шёл`, `войти → вошёл`, `вы́йти → вы́шел`. Gốc quá khứ
+tính trên chuỗi thô nên **đuôi `-ти` và MỌI động từ phản thân** (`ся`) lọt sạch cửa. Nay có
+`_goc_qua_khu()` bóc `ся` trước rồi mới bóc `ть`/`ти`/`чь`: **73 → 89 động từ được soi**, 5 cờ mới
+(đều thật), **0 cờ cũ bị mất**. `nap --tatca` ghi đúng 3 note / bỏ qua 167 ⇒ vá đúng chỗ.
+⇒ **Lô động từ từ nay tin cờ máy được hơn trước, nhưng vẫn không được tin MỘT MÌNH** — xem mục
+`быть` ở trên: nguồn sai thì cờ đúng cũng vô nghĩa.
 
 ---
 
