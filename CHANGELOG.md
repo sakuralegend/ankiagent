@@ -4,6 +4,54 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 30/07/2026 — Soi lại ĐỘ PHỦ của bảng chia so với JSON OpenRussian (user hỏi, chưa vá)
+
+User hỏi: *"phần bảng từ bạn có kéo toàn bộ bảng xuất hiện trên OpenRussian về chưa hay chỉ kéo vài
+cái ngẫu nhiên?"* Đã cào lại 8 trang thật và so từng khoá với `normalize()`.
+
+**Không ngẫu nhiên** — mọi bảng đều dựng bằng vòng lặp qua toàn bộ `CASES`, và các nhóm đặc biệt
+(đại từ `proDecl`, số từ `numDecl`) đã có đường riêng. **Đủ**: biến cách danh từ (6 cách × ít/nhiều),
+biến cách tính từ theo giống, dạng ngắn, so sánh hơn/nhất, trạng từ, chia ngôi, quá khứ, mệnh lệnh.
+
+🔴 **Nhưng có bốn khoá OpenRussian CÓ mà `normalize()` bỏ — ba trong đó đáng lấy:**
+
+| Khoá bị bỏ | Nội dung thật | Đáng lấy? |
+|---|---|---|
+| **`verb.participles`** | `activePresent`/`activePast`… kèm bản dịch (`иду́щий` = "going, coming") | 🔴 **Có** — OpenRussian hiển thị, ta mất trắng ở **mọi** động từ |
+| **`usage2.markdown`** | ghi chú người biên tập, **khác** `usage`: `идти` có *"(1) Unidirectional verb of motion (2) Travel by foot…"* | 🔴 **Có** — dữ liệu người thật, không suy ra được |
+| **`verb.aspectPartner`** | MỘT cặp thể có thẩm quyền, thay vì mảng `partners` lẫn rác | 🟡 **Một nửa** — xem đo dưới |
+| `verb.future` | `бу́ду + nguyên thể` cho thể chưa hoàn thành | ❌ **Không** — suy ra bằng máy được, thêm là phình bảng |
+
+### 📐 Đo `aspectPartner` trên đúng 4 từ agent đã bác — nó chỉ chữa được một nửa
+
+| Từ | `partners` (đang dùng) | `aspectPartner` | Có chữa? |
+|---|---|---|---|
+| `брать` | `взять · побра́ть` | `взять` | ✅ bỏ được rác `побрать` |
+| `рабо́тать` | `порабо́тать · срабо́тать` | `порабо́тать` | 🟡 gọn hơn, nhưng `поработать` **vẫn không phải cặp thể thật** |
+| `разгова́ривать` | `разговори́ть` | `разговори́ть` | ❌ **y hệt** — nguồn thật sự tin sai |
+| `знать` | `узна́ть` | `узна́ть` | ❌ **y hệt** |
+
+⇒ `aspectPartner` chữa được loại *"mảng lẫn thêm từ không dùng được"*, **không** chữa được loại
+*"nguồn tin sai về ngữ nghĩa"*. Đổi sang nó là cải thiện thật nhưng **không bỏ được việc agent kiểm
+chéo** — xem [[lo-dong-tu-nguon-sai-nhieu-nhat]].
+
+### ⚠️ SỬA LẠI ĐIỀU TÔI BÁO SAI TRONG PHIÊN NÀY
+
+Tôi đã ghi *"bảng chia `быть` thiếu hẳn thời tương lai"* và quy cho nguồn hỏng. Đo thật thì **hai
+điều cùng đúng, và cách tôi mô tả sai**: ① ta **không bao giờ lấy** khoá `future` (nên bảng trên thẻ
+tất nhiên không có tương lai — đó là lựa chọn của `normalize()`, không phải nguồn thiếu); ② nhưng
+`быть.future` của nguồn là **`бу́ду быть · бу́дешь быть …`** — sinh bằng máy và **không phải tiếng Nga
+thật** (tương lai của `быть` là `бу́ду · бу́дешь` đứng một mình). Vậy lấy `future` về cũng **không**
+cứu được `быть`. Kết luận của agent k03 (tự viết `бу́ду·бу́дешь…` vào câu chú ý) vẫn đúng; chỉ lời
+giải thích của tôi là sai.
+
+Đồng thời: `быть.partners = []` và `aspectPartner = null` — câu *"cặp hoàn thành là побы́ть/пробы́ть"*
+là **kiến thức của agent**, không phải dữ liệu nguồn. Và nguồn thật sự ghi `aspect: "both"`, nên việc
+tôi sửa thành `imperfective` là **một phán đoán**, không phải sửa lỗi sao chép — ghi rõ ở đây để sau
+này không ai tưởng đó là dữ liệu nguồn.
+
+**Chưa vá gì** — ba việc trên là nợ, chờ user quyết vì chúng đổi nội dung bảng trên **cả 950 thẻ**.
+
 ## 30/07/2026 — Chạy 4 lô (k55·k01·k02·k03, 54 từ) + vá dấu trọng âm thừa trên `ё` trong cache
 
 Commit `046fb0f` (k55+k01+k03) và `3ccecb7` (k02). **Hàng đợi: 11/59 lô · 170/950 từ duyệt · 780 chờ ·
