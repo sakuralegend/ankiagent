@@ -22,6 +22,7 @@ import io
 import json
 import os
 import re
+import sys
 import time
 import urllib.parse
 
@@ -52,6 +53,12 @@ def acc(word):
     if not word:
         return ""
     out = convert_stress_to_combining_accent(word.strip())
+    # 🔴 `ё` LUÔN mang trọng âm sẵn, nên `ё` + dấu là SAI CHÍNH TẢ, không phải một
+    # cách viết. Nguồn vẫn ghi thế ở vài từ (`шофё́р` 12 ô, `зачё́там`, `неё́`).
+    # Vá ở ĐÂY chứ không vá file cache: 30/07 tôi sửa thẳng `grammar_cache.json`
+    # rồi `--nangcap` cào lại là dấu thừa quay về đủ 15 chỗ, và một thẻ đã nạp
+    # bản sai. Sửa dữ liệu thì lần cào sau mất; sửa phép biến đổi thì vĩnh viễn.
+    out = out.replace("ё" + ACUTE, "ё").replace("Ё" + ACUTE, "Ё")
     # Ô có nhiều biến thể: "лю'ди, челове'ки" -> xử lý từng biến thể một
     parts = [p.strip() for p in out.split(",")]
     fixed = []
@@ -215,11 +222,29 @@ def _decl_tu_forms(forms):
 # việc "thiếu khoá X" (khoá có thể vắng một cách chính đáng: `сожале́ние` không
 # có `usage` thật, chứ không phải chưa cào).
 #   v1 (29/07) bản đầu · v2 (29/07) thêm `usage` + `idioms` · v3 (29/07) BỎ `family`
+#   v4 (30/07) thêm `present` · `future` · `parts` — user chốt: bảng trên thẻ phải có
+#              ĐỦ mọi thứ OpenRussian hiện ở khối bảng (Present/Future · Participles
+#              gồm cả Gerund). KHÔNG lấy `usage2`/`aspectPartner` (user chốt bỏ).
 #
 # ⚠️ v3 là lần BỚT khoá đầu tiên, và bớt thì KHÔNG cần cào lại mạng — dữ liệu mới
 # là tập con của dữ liệu cũ. `xoa_family_khoi_cache.py` gỡ khoá ngay trên file
 # cache rồi đặt `v=3`, chạy trong vài giây. Chỉ lần THÊM khoá mới phải `--nangcap`.
-BAN_GHI_V = 3
+BAN_GHI_V = 4
+
+
+def ban_ghi_cu(rec):
+    """Bản ghi cào theo `normalize()` ĐỜI CŨ, thiếu khoá mà đời nay có.
+
+    🔴 MỘT chỗ duy nhất định nghĩa "cũ", vì trước 30/07 việc này bị rải ba nơi
+    (`fetch_grammar` trả cache bất kể phiên bản · `get_cached` im lặng ·
+    `cao_nguphap --nangcap` tự dò riêng) ⇒ tăng `BAN_GHI_V` mà quên một nơi là
+    thẻ nhận bảng thiếu mục, không ai báo.
+
+    ⚠️ Bản ghi RỖNG `{}` không phải cũ — đó là "từ này OpenRussian không có",
+    cache lại cố ý để khỏi thử lại vô ích. Coi nó là cũ thì mỗi lần đọc lại gọi
+    mạng một lần cho một từ vĩnh viễn không có trang.
+    """
+    return bool(rec) and (rec.get("v") or 0) < BAN_GHI_V
 
 
 def _idioms(word_obj):
@@ -237,6 +262,51 @@ def _idioms(word_obj):
         tls = [t for tr in (it.get("translations") or []) for t in (tr.get("tls") or [])]
         if a:
             ra.append({"w": a, "en": ", ".join(tls[:3])})
+    return ra
+
+
+# Sáu ô của khối "Participles" trên OpenRussian, giữ ĐÚNG thứ tự trang hiện —
+# hai ô cuối là Gerund (trạng động từ), trang gộp chung khối nên ta cũng gộp.
+PHAN_TU_KHOA = ("activePresent", "activePast", "passivePresent", "passivePast",
+                "gerundPresent", "gerundPast")
+
+
+def _dang(x):
+    """Một ô dạng từ. Gạch `-` của từ điển = KHÔNG CÓ, phải về rỗng.
+
+    Thể hoàn thành có `present = ["-","-","-","-","-","-"]` (gạch giả, không phải
+    thiếu dữ liệu). Để nguyên thì bảng in ra sáu ô gạch, nhìn như lỗi.
+    """
+    s = acc(x or "").strip()
+    return "" if s in ("-", "—", "–") else s
+
+
+def _boc_phan_tu(pp):
+    """`verb.participles` -> {ô: [{'f': dạng, 'en': nghĩa}]}, bỏ ô rỗng.
+
+    Gerund chỉ có `accented`, không có `translations` — nên `en` vắng là bình
+    thường, đừng coi là hụt dữ liệu.
+    """
+    if not isinstance(pp, dict):
+        return {}
+    ra = {}
+    for k in PHAN_TU_KHOA:
+        ds = []
+        for x in (pp.get(k) or []):
+            if not isinstance(x, dict):
+                continue
+            f = _dang(x.get("accented"))
+            if not f:
+                continue
+            en = ""
+            for t in (x.get("translations") or []):
+                tls = [s for s in (t.get("tls") or []) if (s or "").strip()]
+                if tls:
+                    en = tls[0].strip()
+                    break
+            ds.append({"f": f, "en": en} if en else {"f": f})
+        if ds:
+            ra[k] = ds
     return ra
 
 
@@ -296,6 +366,16 @@ def normalize(word_obj):
         rec["past"] = [acc(x) for x in (v.get("pasts") or [])]
         rec["imper"] = [acc(x) for x in (v.get("imperatives") or [])]
         rec["motion"] = v.get("motionDirectionality")
+        # HAI CỘT Present/Future y như OpenRussian hiện. `presfut` giữ nguyên vì
+        # `analyze()` neo chỉ số `nong` vào nó — đừng thay, chỉ thêm.
+        #   · thể CHƯA hoàn thành: present = dạng thật, future = `бу́ду` + nguyên thể
+        #   · thể HOÀN THÀNH: present = ["-","-",…] (gạch giả), future = dạng thật
+        # ⇒ phải quy gạch "-" về rỗng, nếu không bảng in ra sáu ô gạch.
+        rec["present"] = [_dang(x) for x in (v.get("present") or [])]
+        rec["future"] = [_dang(x) for x in (v.get("future") or [])]
+        parts = _boc_phan_tu(v.get("participles"))
+        if parts:
+            rec["parts"] = parts
 
     a = word_obj.get("adjective")
     if isinstance(a, dict) and a:
@@ -406,7 +486,7 @@ def fetch_grammar(word, refresh=False, delay=0.5):
     """
     key = bare(word)
     cache = _cache()
-    if not refresh and key in cache:
+    if not refresh and key in cache and not ban_ghi_cu(cache[key]):
         return cache[key]
     try:
         obj = fetch_word_object(word)
@@ -422,9 +502,26 @@ def fetch_grammar(word, refresh=False, delay=0.5):
     return rec
 
 
+_DA_KEU = set()
+
+
 def get_cached(word):
-    """Chỉ đọc cache, KHÔNG gọi mạng. Dùng ở luồng soạn lô / dựng thẻ hàng loạt."""
-    return _cache().get(bare(word)) or {}
+    """Chỉ đọc cache, KHÔNG gọi mạng. Dùng ở luồng soạn lô / dựng thẻ hàng loạt.
+
+    🔴 KÊU khi bản ghi cũ phiên bản. Hàm này không được gọi mạng (luồng hàng loạt
+    950 từ), nên nó KHÔNG tự chữa được — mà im lặng thì thẻ nhận bảng thiếu mục
+    đúng lúc `nap` tưởng mình vừa ghi bản mới nhất. Đã dính thật 30/07: thêm
+    `present`/`future`/`parts` vào `normalize()` mà cache còn v3, mọi đường đọc
+    cache vẫn dựng bảng cũ không một tiếng nào.
+    Kêu MỘT lần mỗi từ — 950 dòng giống nhau thì rồi chính mình sẽ bỏ qua.
+    """
+    rec = _cache().get(bare(word)) or {}
+    if ban_ghi_cu(rec) and bare(word) not in _DA_KEU:
+        _DA_KEU.add(bare(word))
+        print(f"[grammar] '{word}': ban ghi v{rec.get('v', 0)} < v{BAN_GHI_V} "
+              f"-> bang chia THIEU muc moi. Chay: python "
+              f"data/huongdan/kho/cao_nguphap.py --nangcap", file=sys.stderr)
+    return rec
 
 
 # ==============================================================================
@@ -976,16 +1073,69 @@ def _bang_danh_tu(rec, nong):
     return _bang_cach("Biến cách", rec.get("decl") or {}, nong)
 
 
+# Nhãn sáu ô "Participles" của OpenRussian. Ngắn hết mức: bảng 2 cột phải lọt bề
+# ngang 368px của `.hd-content`, mà cột nhãn đây dài hơn mọi bảng khác.
+NHAN_PHAN_TU = (("activePresent", "chủ động · hiện tại"),
+                ("activePast", "chủ động · quá khứ"),
+                ("passivePresent", "bị động · hiện tại"),
+                ("passivePast", "bị động · quá khứ"),
+                ("gerundPresent", "trạng đt · hiện tại"),
+                ("gerundPast", "trạng đt · quá khứ"))
+
+
+def _o_phan_tu(ds):
+    """Ô phân từ: các dạng cách nhau ` · `, kèm nghĩa Anh ở dòng nhỏ bên dưới.
+
+    🔴 Soi `thieu_dau` cho TỪNG dạng, không soi trên chuỗi đã nối — nguồn có ô
+    hai dạng mà chỉ dạng đầu được đánh trọng âm (`прочита́в · прочитавши`), nối
+    lại rồi soi thì chuỗi "có dấu" nên cái thiếu dấu lọt im lặng.
+    """
+    dang = " · ".join(
+        (f['f'] + '<span class="gt-ngo">?</span>') if thieu_dau(f["f"]) else f["f"]
+        for f in ds)
+    en = next((f["en"] for f in ds if f.get("en")), "")
+    chu = f'<div class="gt-chu">{en}</div>' if en else ""
+    return f'<td class="gt-v">{dang}{chu}</td>'
+
+
+def _bang_phan_tu(rec):
+    """Khối Participles (gồm cả Gerund) — ô nào nguồn để trống thì bỏ hẳn hàng.
+
+    Thể hoàn thành gần như không có phân từ hiện tại, thể chưa hoàn thành gần như
+    không có phân từ bị động quá khứ ⇒ in khung rỗng là dạy sai rằng "có mà chưa
+    lấy về". Bảng nằm trong `<details>` gấp lại nên KHÔNG tốn pixel nào của trần
+    700px (README §2) — đó là lý do lấy đủ được mà không phá chuẩn ngắn gọn.
+    """
+    parts = rec.get("parts") or {}
+    rows = "".join(f'<tr><td class="gt-k">{nhan}</td>{_o_phan_tu(parts[k])}</tr>'
+                   for k, nhan in NHAN_PHAN_TU if parts.get(k))
+    if not rows:
+        return ""
+    return f'<div class="gt-ten">Phân từ</div><table class="gt-tbl">{rows}</table>'
+
+
 def _bang_dong_tu(rec, nong):
     # Với thể HOÀN THÀNH, `presfut` là TƯƠNG LAI chứ không phải hiện tại — gọi
     # sai tên ở đây là dạy sai đúng thứ badge PERF/IMPF vừa dựng lên để phân biệt.
-    ten = "Tương lai đơn" if rec.get("aspect") == "perfective" else "Hiện tại"
+    hoan_thanh = rec.get("aspect") == "perfective"
+    ten = "Tương lai đơn" if hoan_thanh else "Hiện tại"
     ra = _bang_hang(f"Chia ngôi — {ten}", PERSONS, rec.get("presfut") or [],
                     nong, "presfut")
+    # Cột CÒN LẠI của khối Conjugation trên OpenRussian (trang hiện Present và
+    # Future cạnh nhau). Ở đây xếp DỌC vì bề ngang chỉ có 368px.
+    # 🔴 Truyền mảng THÔ, đừng lọc ô rỗng trước: `_bang_hang` bỏ ô rỗng theo CHỈ SỐ
+    # để khớp nhãn ngôi; lọc trước là nhãn lệch hàng mà nhìn vẫn thấy có vẻ đúng.
+    khac = rec.get("present") if hoan_thanh else rec.get("future")
+    khac = khac or []
+    co = [x for x in khac if x]
+    if co and co != [x for x in (rec.get("presfut") or []) if x]:
+        ra += _bang_hang("Hiện tại" if hoan_thanh else "Tương lai (ghép)",
+                         PERSONS, khac, nong, "future")
     ra += _bang_hang("Quá khứ", PASTS, rec.get("past") or [], nong, "past")
     im = [x for x in (rec.get("imper") or []) if x]
     if im:
         ra += f'<div class="gt-phu">Mệnh lệnh: {" · ".join(im[:2])}</div>'
+    ra += _bang_phan_tu(rec)
     return ra
 
 

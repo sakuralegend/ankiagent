@@ -4,6 +4,94 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 30/07/2026 — ÔM ĐỦ khối bảng của OpenRussian: thêm Present/Future + Participles (bản ghi v4)
+
+User chốt sau khi xem bản đo độ phủ, và chốt bằng một luật **đơn giản hơn mọi thứ tôi đề xuất**:
+
+> *"Cái gì có trên OpenRussian thì ôm về thôi, đừng làm gì khác."*
+> *"Bất cứ cái gì xuất hiện dạng bảng/liệt kê dạng từ thì bạn lấy cho tôi."*
+
+⇒ Phạm vi là **khối bảng/liệt kê dạng từ**, và trong phạm vi đó thì **lấy đúng như trang hiện, không
+tự gọt**. Hai chỗ tôi định "tối ưu" đều bị bác, và bác đúng: ① bảng tương lai ghép của thể chưa hoàn
+thành giữ **đủ 6 hàng** (dù `бу́ду` + nguyên thể là máy suy được) · ② phân từ **giữ nghĩa tiếng Anh**
+vì trang hiện nó. **Đừng nén, đừng chọn hộ.**
+
+### Quét toàn bộ từ loại — nay không còn khoá dạng từ nào bị bỏ
+
+| Từ loại | Khoá chứa dạng từ | Trạng thái |
+|---|---|---|
+| Danh từ | `declension` (6 cách × ít/nhiều) | ✅ có sẵn |
+| **Động từ** | `present` · `future` · `presfut` · `pasts` · `imperatives` · **`participles`** (gồm cả Gerund) | 🆕 **thêm `present`+`future`+`participles`** |
+| Tính từ | `declension` (4 giống × 6 cách, **giữ cả dạng song song**) · `shorts` · `comparatives` · `superlatives` · `adverb` | ✅ có sẵn |
+| Đại từ | `declension` + `declensionInfo` | ✅ có sẵn |
+| Số từ | `forms` (3 kiểu) | ✅ có sẵn |
+| Trạng từ · giới từ · liên từ | **không có khối bảng nào** trên OpenRussian | — không phải lỗ hổng |
+
+✅ Đã xác nhận **không mất dạng song song**: `_adj_declension` và `_decl_dai_tu` nối mọi dạng bằng
+`", "` — `acc: [краси́вый, краси́вого]` và `gen: [его́, него́]` đều đủ.
+❌ Vẫn **không** lấy (là *từ liên quan*, không phải dạng của chính từ đó): `genderPartner`/`partner`
+(`учитель`→`учительница`) · `aspectPartner` · `adverbs` · audio/metadata. `usage2` cũng bỏ (user chốt).
+
+### Ba cái bẫy của dữ liệu này, đều đã xử lý
+
+1. 🔴 **Thể HOÀN THÀNH có `present = ["-","-","-","-","-","-"]`** — gạch *giả*, không phải thiếu dữ
+   liệu. Để nguyên thì bảng in ra sáu ô gạch, nhìn như lỗi. `_dang()` quy `-`/`—`/`–` về rỗng, và
+   `_bang_hang` tự bỏ hàng rỗng ⇒ `прочитать` chỉ hiện "Tương lai đơn", không có bảng hiện tại rỗng.
+2. 🔴 **`presfut` KHÔNG được thay** dù nay đã có `present`/`future` riêng — `analyze()` neo chỉ số
+   `nong` (ô tô sáng) vào `presfut`. Chỉ **thêm** bảng thứ hai, không sửa bảng cũ.
+3. 🔴 **Soi `thieu_dau` cho TỪNG dạng, không soi chuỗi đã nối.** Ô `gerundPast` của `прочитать` có
+   hai dạng `прочита́в · прочитавши` và nguồn **quên đánh trọng âm cho dạng thứ hai**; nối lại rồi soi
+   thì chuỗi "có dấu" nên cái thiếu lọt im lặng. Nay dấu `?` hiện đúng ở dạng thứ hai.
+
+Bảng nằm trong `<details>` gấp lại ⇒ **không tốn pixel nào** của trần 700px, nên ôm đủ mà không phá
+[[chuan-noi-dung-ngan-gon]]. Đo thật: `идти` 2 002 byte HTML, `прочитать` 1 641.
+
+**Bản ghi `BAN_GHI_V` 3 → 4**, cào lại toàn kho bằng `cao_nguphap.py --nangcap` (cơ chế có sẵn, dò
+theo số hiệu bản ghi nên ngắt giữa chừng chạy lại là tiếp đúng chỗ). Cào **951/951**, 0 bản ghi còn
+cũ. 89 động từ: **89 có `future`, 88 có `parts`** — từ duy nhất không có (`ужинать`) đã kiểm nguồn
+thật, OpenRussian trả sáu ô rỗng, **không phải ta bóc hụt**.
+
+### 🔴 MỘT LỖI TÔI TỰ GÂY RA RỒI TỰ BẮT: vá DỮ LIỆU thì lần cào sau mất sạch
+
+Nạp lại dự đoán **67 note đổi** (đúng số động từ trong 170 từ đã nạp) nhưng thật ra **68**. Lệch một
+— truy bằng cách diff cache cũ trong git với cache mới thì lòi ra thủ phạm: **`шофёр`**, một danh từ.
+
+Nguyên nhân: sáng nay tôi vá dấu trọng âm thừa trên `ё` bằng cách **sửa thẳng `grammar_cache.json`**.
+`--nangcap` cào lại từ mạng ⇒ nguồn ghi đè lại **đủ 15 chỗ**, và thẻ `шофёр` bị nạp lại **bản sai**.
+
+⇒ Đã chuyển phép vá vào **`acc()`** — tầng biến đổi, nơi mọi lần cào đều đi qua:
+`out.replace("ё" + ACUTE, "ё")`. `ё` luôn mang trọng âm sẵn nên `ё` + dấu là **sai chính tả, không
+phải một cách viết**. Cào lại 3 từ, cache về **0 chỗ**, `nap --tatca` ghi **đúng 1 note** (`шофёр`) /
+bỏ qua 169.
+
+🔍 **Bài học, và là lần thứ hai trong ngày cùng một hình dạng:** sửa **dữ liệu** thì mất ở lần cào
+sau; phải sửa **phép biến đổi**. Cùng họ với việc gom `ban_ghi_cu()` — xem
+[[mot-chuc-nang-mot-script]].
+🔍 **Và phép đo cứu được nó**: nếu tôi không ghi con số dự đoán ra TRƯỚC khi nạp thì "68" chỉ là một
+con số trông hợp lý, không ai truy. Dự đoán trước — đúng luật user chốt ở
+[[va-loi-thi-phai-kiem-nguoc-lo-cu]].
+
+### Cửa chống lặp lại: `grammar.ban_ghi_cu()` — MỘT định nghĩa "bản ghi cũ"
+
+User nhắc giữa lúc tôi **sắp** vá ba chỗ: *"1 chức năng thì chỉ có 1 file làm, vậy tại sao giờ tôi
+vẫn phải sửa nhiều nơi?"* — và "sắp phải sửa nhiều nơi" chính là dấu hiệu thiếu cửa chung.
+
+"Bản ghi cũ phiên bản" từng có **ba** định nghĩa: `fetch_grammar` trả cache **bất kể** `v` ·
+`get_cached` phục vụ bản cũ **im lặng** · `cao_nguphap --nangcap` tự dò. Nay một hàm, hai chỗ kia gọi
+vào nó:
+
+- `fetch_grammar` **tự chữa** — bản ghi cũ ⇒ coi như cache miss, cào lại.
+- `get_cached` không được gọi mạng (luồng 950 từ) nên **kêu ra stderr kèm đúng lệnh phải chạy**, một
+  lần mỗi từ (950 dòng giống nhau thì rồi chính mình bỏ qua).
+- ⚠️ Bản ghi **rỗng `{}` KHÔNG phải cũ** — là "OpenRussian không có từ này", cache cố ý để khỏi thử
+  lại; coi là cũ thì mỗi lần đọc lại gọi mạng cho một từ vĩnh viễn không có trang.
+
+💡 **Hai đường user lo nhất lại KHÔNG cần sửa gì**: thêm thẻ mới (`scraper.py:59`) và `/sua`
+(`pipeline.py` → `cao_mot_tu`) đều cào lại từ mạng rồi đi qua `normalize()`, nên bảng luôn theo bản
+ghi mới nhất. **Kiểm mã trước khi sửa** thì tránh được hai lần sửa sai chỗ.
+🐛 Bẫy tự đặt tự bắt: cảnh báo mới dùng `sys.stderr` mà `grammar.py` **chưa `import sys`** — chỉ nổ
+lúc gặp bản ghi cũ thật, tức đúng lúc cần nó nhất. Đã vá và thử thật.
+
 ## 30/07/2026 — Soi lại ĐỘ PHỦ của bảng chia so với JSON OpenRussian (user hỏi, chưa vá)
 
 User hỏi: *"phần bảng từ bạn có kéo toàn bộ bảng xuất hiện trên OpenRussian về chưa hay chỉ kéo vài

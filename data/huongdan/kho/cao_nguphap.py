@@ -82,8 +82,9 @@ def main():
         # khoá — không thể dò bằng "thiếu khoá X" vì khoá có thể vắng chính đáng
         # (`сожале́ние` không có `usage` thật), nên dò bằng số hiệu bản ghi.
         cache = grammar._cache()
-        cu = [w for w, r in sorted(cache.items())
-              if r and r.get("v", 1) < grammar.BAN_GHI_V]
+        # Dùng CHUNG cửa `grammar.ban_ghi_cu()` — trước 30/07 chỗ này tự dò
+        # `r.get("v",1) < BAN_GHI_V`, tức định nghĩa "cũ" nằm ở hai nơi.
+        cu = [w for w, r in sorted(cache.items()) if grammar.ban_ghi_cu(r)]
         print(f"{len(cache)} ban ghi | can nang cap {len(cu)} "
               f"(len v{grammar.BAN_GHI_V})", flush=True)
         for i, w in enumerate(cu, 1):
