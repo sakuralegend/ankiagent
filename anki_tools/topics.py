@@ -2,7 +2,7 @@
 # --- ĐỊNH NGHĨA CHỦ ĐỀ TỪ VỰNG (tag topic::...) — CÂY 2 TẦNG, 10 GỐC ---
 # Đây là NGUỒN CHÂN LÝ DUY NHẤT về danh sách chủ đề:
 # - ai_client.py nhét danh sách này vào prompt để AI chọn topic khi tạo thẻ mới
-# - tag_topics.py (gắn/sửa tag hàng loạt) và build_subdecks.py (dựng cây deck)
+# - scripts/tag_topics.py (gắn/sửa tag hàng loạt) và scripts/build_subdecks.py (dựng cây deck)
 #   cũng đọc từ đây
 #
 # THIẾT KẾ (chốt với user 18/07/2026):
@@ -14,7 +14,7 @@
 #   "topic::" + slug; deck Anki = TOPIC_DECK_PARENT + "::" + slug. Cả tag lẫn
 #   deck đều phân cấp bằng "::" nên cây tự rẽ nhánh, thẻ luôn chỉ có 1 tag.
 # - Đổi tên/tách slug: thêm dòng vào LEGACY_ALIASES rồi chạy
-#   `python tag_topics.py --fix --apply` + `python build_subdecks.py --apply`.
+#   `python scripts/tag_topics.py --fix --apply` + `python scripts/build_subdecks.py --apply`.
 # ==============================================================================
 
 TOPIC_TAG_PREFIX = "topic::"
@@ -52,7 +52,7 @@ TOPICS = {
 # Slug mặc định khi AI trả sai/thiếu hoặc không xếp được vào đâu
 FALLBACK_TOPIC = "concepts::misc"
 
-# Tên slug CŨ -> MỚI. Dùng khi đổi tên/tách chủ đề: tag_topics.py --fix dựa vào
+# Tên slug CŨ -> MỚI. Dùng khi đổi tên/tách chủ đề: scripts/tag_topics.py --fix dựa vào
 # đây để dịch tag cũ trên thẻ (kể cả thẻ do AI phân loại) sang tên mới;
 # normalize_topic() cũng dùng để "đỡ" nếu AI lỡ trả tên cũ.
 LEGACY_ALIASES = {

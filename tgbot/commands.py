@@ -147,7 +147,7 @@ async def thongke_report():
         warns.append(f"⚠️ '{FALLBACK_TOPIC}' chiếm {other_pct}% kho (>{OTHER_WARN_PCT}%) — trong đó chắc "
                      "đã có cụm từ đủ lớn để thành chủ đề riêng.")
     if untagged:
-        warns.append(f"⚠️ {untagged} thẻ CHƯA có tag chủ đề — chạy `python tag_topics.py --missing` trên PC.")
+        warns.append(f"⚠️ {untagged} thẻ CHƯA có tag chủ đề — chạy `python scripts/tag_topics.py --missing` trên PC.")
 
     lines.append("─" * 22)
     if warns:

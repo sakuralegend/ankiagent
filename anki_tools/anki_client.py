@@ -384,7 +384,7 @@ def build_card_fields(word, data):
     pos_full = data["pos_full"]
     gender_lower = str(data["gender"]).lower().strip()
 
-    # Ba badge ngữ pháp. Dựng qua grammar.* để thẻ MỚI và thẻ CŨ (backfill_badge.py)
+    # Ba badge ngữ pháp. Dựng qua grammar.* để thẻ MỚI và thẻ CŨ (scripts/backfill_badge.py)
     # luôn ra cùng một thứ — nhãn giống nay chỉ còn MỘT bảng, ở grammar.NHAN_GIONG.
     grammar_rec = data.get("grammar") or {}
     if grammar_rec:

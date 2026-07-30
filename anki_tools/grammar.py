@@ -650,7 +650,7 @@ def aspect_of(word):
 
 
 # 🔴 NGUỒN CHÂN LÝ DUY NHẤT của nhãn giống. Trước đây bảng này có ở hai nơi
-# (anki_client.build_card_fields cho thẻ MỚI, backfill_badge.py cho thẻ CŨ) —
+# (anki_client.build_card_fields cho thẻ MỚI, scripts/backfill_badge.py cho thẻ CŨ) —
 # hai nơi thì sớm muộn lệch nhau, và lệch ở đây nghĩa là thẻ mới với thẻ cũ hiện
 # hai kiểu badge khác nhau cho cùng một giống.
 NHAN_GIONG = {"masculine": "MASC ♂", "feminine": "FEM ♀", "neuter": "NEUT ⚧",

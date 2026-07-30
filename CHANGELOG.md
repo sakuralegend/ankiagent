@@ -4,6 +4,33 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 31/07/2026 — **G3 mở rộng**: gốc còn ĐÚNG BA file `.py`
+
+Luật `L2` nói *"gốc chỉ chứa điểm vào đang sống"* nhưng chính repo của nó phá luật — mà luật bị phá
+ngay ngày đầu bởi chính repo của mình là luật chết (đúng bệnh đã giết README). Nay gốc còn đúng
+`bot.py` · `main.py` · `soatkientruc.py`. Sáu script vận hành xuống **`scripts/`**, hai script
+chạy-một-lần vào **`_daxong/`** — chia theo **tuổi thọ**, không theo chức năng.
+
+**Cái bẫy phải trả ngay khi dời**: cả 8 script đều **thiếu `sys.path` bootstrap** — chúng import
+`anki_tools` và trước đây chạy được *chỉ nhờ nằm ở gốc*. Dời mà quên là gãy lúc cần dùng thật, tức
+đúng lúc đang chữa cháy. Đã thêm 3 dòng vào mỗi file và **chạy import-check từng cái từ vị trí mới**.
+Kèm theo: sửa mọi chỗ nhắc đường dẫn cũ, trong đó có một chuỗi **bot nói với user trên Telegram**
+(`tgbot/commands.py` — "chạy `python tag_topics.py --missing` trên PC") nay đã trỏ `scripts/`.
+
+Danh sách trắng S6 thu từ 11 tên về **đúng 3** — từ nay thêm tên vào đó là **nới luật**, phải ghi
+`QUYETDINH.md` trước.
+
+**Hai chỗ plan bảo xoá mà thực tế phải GIỮ** (đã kiểm từng file thay vì tin mô tả):
+① `data/openrussian_cache.json` — plan ghi "0 tham chiếu", nhưng `grammar_forms/irregular_plurals.py`
+đang dùng nó làm `CACHE_FILE`; ② `data/anki_baseline_2026-07-25.json` — plan xếp vào loại rác, mở ra
+thì đó là **mốc đo Difficulty** có chủ đích, tự ghi *"lần đo sau phải so từ 3 âm tiết với từ 3 âm
+tiết"*, tức còn giá trị cho lần đo tiếp theo. Cả hai giữ nguyên.
+
+**Nghiệm thu thang Q6 tới bậc 4, khớp `_baseline_don.md` tuyệt đối**: cửa soát xanh · `import bot,
+main` sạch · dây chuyền kho y nguyên · `backfill_badge.py` chạy từ chỗ mới cho ra **đúng** kết quả
+baseline (976 thẻ, sẽ đổi 1, cùng 2 thẻ `дачка`/`быль`) · số note theo model và tag `chuan::3` **bằng
+đúng baseline** ⇒ đợt dọn không chạm thẻ nào.
+
 ## 31/07/2026 — **G2**: `KIENTRUC.md` + cắt `README.md` + bật S8
 
 Viết `KIENTRUC.md` — file trả lời câu *"hệ thống là gì, chạy thế nào, **sửa ở đâu**"*. Tám mục:

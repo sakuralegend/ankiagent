@@ -171,7 +171,7 @@ def nap_lo_da_soan(chi=None, lay_v=False):
 #
 # ⇒ Đã gỡ TẬN GỐC (v3, 29/07), không chỉ thôi in: `grammar.normalize()` không bóc
 # `family` nữa · `xoa_family_khoi_cache.py` gỡ khoá khỏi cả 951 bản ghi (0,86 ->
-# 0,37 MB) · `backfill_grammar_json.py --apply` ghi lại `GrammarJSON` 950 thẻ.
+# 0,37 MB) · `scripts/backfill_grammar_json.py --apply` ghi lại `GrammarJSON` 950 thẻ.
 # **Không còn `rec["family"]` ở bất kỳ đâu.** Mục "Họ hàng" agent tự nghĩ, và
 # KHÔNG có cửa soát nào chặn chỗ đó — README §2 dặn "không chắc thì bỏ mục đó".
 

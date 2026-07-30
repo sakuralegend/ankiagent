@@ -32,6 +32,12 @@ import re
 import sys
 import urllib.request
 
+# Chay duoc tu bat cu dau: file nay khong con nam o goc repo nen phai tu tro
+# duong dan goc vao sys.path truoc khi import anki_tools (G3, 31/07/2026).
+import os
+import sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from anki_tools.config import ANKI_CONNECT_URL, MODEL_NAME
 
 # {WordClean: dòng tiếng Việt MỚI}. Soạn tay sau khi đọc cả 88 động từ.

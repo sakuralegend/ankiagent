@@ -41,12 +41,11 @@
       nghi ngờ chưa từng xảy ra trên dữ liệu thật hiện có — code vẫn khác hàm nhau (KHÔNG gộp, đúng
       dặn dò), chỉ là chưa có từ nào chạm trúng khác biệt đó. Đo lại nếu sau này nạp dữ liệu từ nguồn
       copy-paste không rõ chuẩn hoá (vd dán trực tiếp từ web ngoài OpenRussian).
-- [ ] **Thư mục gốc vi phạm chính luật L2 bảy lần.** L2: *"gốc chỉ chứa điểm vào đang sống"*. Sau G3
-      của Fable, gốc vẫn còn **9 file `.py`** (S6 hợp thức bằng danh sách trắng = ghi nhận vi phạm chứ
-      không sửa). Luật bị phá ngay ngày đầu bởi chính repo của nó là luật chết — đúng bệnh đã giết
-      README. **Trả:** mở rộng G3 — dời 6 script còn lại xuống `scripts/` kèm 3 dòng bootstrap
-      `sys.path` mỗi file (chúng thiếu, nên hiện chạy được chỉ nhờ nằm ở gốc); gốc còn đúng
-      `bot.py`, `main.py`, `soatkientruc.py`. (31/07/2026)
+- [x] **Thư mục gốc vi phạm chính luật L2 — ĐÃ TRẢ 31/07/2026 (G3 mở rộng).** Gốc nay còn **đúng ba**
+      file `.py` (`bot.py`, `main.py`, `soatkientruc.py`); 6 script vận hành xuống `scripts/`, 2 script
+      chạy-một-lần vào `_daxong/`, mỗi file thêm 3 dòng bootstrap `sys.path` (chúng đều thiếu, trước
+      đây chạy được chỉ nhờ nằm ở gốc). Danh sách trắng S6 thu về đúng 3 tên — thêm tên vào đó từ nay
+      là **nới luật**, phải ghi `QUYETDINH.md` trước. (31/07/2026)
 
 ## Ý TƯỞNG (chưa làm, chờ xong 61 lô)
 

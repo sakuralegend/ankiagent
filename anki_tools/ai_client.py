@@ -331,7 +331,7 @@ def call_claude_lemma(word):
 
 
 def call_claude_topic(word, english_meanings):
-    """Phân loại CHỦ ĐỀ cho 1 từ (không sinh ví dụ) — dùng cho script tag_topics.py
+    """Phân loại CHỦ ĐỀ cho 1 từ (không sinh ví dụ) — dùng cho script scripts/tag_topics.py
     khi gặp thẻ chưa có tag topic:: (vd thẻ tạo lúc AI hỏng nên thiếu topic).
     Trả về slug hợp lệ trong TOPICS, hoặc None nếu AI không trả lời được."""
     en_str = ", ".join(english_meanings) if english_meanings else "N/A"

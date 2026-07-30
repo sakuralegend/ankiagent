@@ -10,7 +10,7 @@
 này thì không: v3 chỉ **BỚT** một khoá, dữ liệu mới là **tập con** của dữ liệu cũ
 nên gỡ ngay trên file là đủ và đúng. Chỉ lần THÊM khoá mới bắt buộc gọi mạng.
 
-Sau khi chạy file này, chạy tiếp `backfill_grammar_json.py --apply` để field
+Sau khi chạy file này, chạy tiếp `scripts/backfill_grammar_json.py --apply` để field
 `GrammarJSON` trên thẻ cũng sạch theo (không phải schema mod, không full sync).
 
 Lý do bỏ `family`: xem khối comment trong `anki_tools/grammar.py` (chỗ
@@ -20,6 +20,12 @@ import io
 import json
 import os
 import sys
+
+# Chay duoc tu bat cu dau: file nay khong con nam o goc repo nen phai tu tro
+# duong dan goc vao sys.path truoc khi import anki_tools (G3, 31/07/2026).
+import os
+import sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from anki_tools import grammar
 
@@ -60,7 +66,7 @@ def main():
         json.dump(d, fh, ensure_ascii=False, sort_keys=True, indent=0)
     os.replace(tam, CACHE)
     print(f"\n✅ Da ghi {CACHE}")
-    print("   Chay tiep: python backfill_grammar_json.py --apply")
+    print("   Chay tiep: python scripts/backfill_grammar_json.py --apply")
 
 
 if __name__ == "__main__":

@@ -69,7 +69,7 @@ def build_examples_html(word_clean, raw_examples, english_meanings):
     """Trả về (examples_html, vi_meaning, simplified_examples_list, topic_slug).
     topic_slug: chủ đề AI chọn (slug trong topics.TOPICS) hoặc None ở các nhánh
     fallback không có AI — khi đó thẻ KHÔNG được gắn tag topic:: (gắn bù sau
-    bằng: python tag_topics.py --missing).
+    bằng: python scripts/tag_topics.py --missing).
     Thứ tự ưu tiên:
     1. Gọi call_claude_ai với raw examples (rewrite + dịch)
     2. Nếu thất bại hoặc không có raw examples -> call_claude_ai_freestyle (AI tự sinh)

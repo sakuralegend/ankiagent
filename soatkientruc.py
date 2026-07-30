@@ -46,15 +46,11 @@ def inn(msg=""):
 # làm gì), còn lại là rác công cụ.
 BO_QUA_THU_MUC = {".git", "__pycache__", "venv", ".venv", "_daxong", "node_modules"}
 
-# Điểm vào sống được phép nằm ở gốc (L2). `soatkientruc.py` là điểm vào thứ 3 —
-# ngoại lệ L2 đã hợp thức bằng QD-02.
-GOC_HOP_LE = {
-    "bot.py", "main.py", "soatkientruc.py",
-    "build_subdecks.py", "setup_inbox.py", "fix_audio.py", "tag_topics.py",
-    "backfill_badge.py", "backfill_grammar_json.py",
-    # Hai file dưới đây G3 sẽ chuyển vào `_daxong/`; tới lúc đó xoá khỏi đây.
-    "don_vietnamese_the.py", "xoa_family_khoi_cache.py",
-}
+# Điểm vào sống được phép nằm ở gốc (L2) — ĐÚNG BA FILE, từ G3 (31/07/2026).
+# `soatkientruc.py` là điểm vào thứ 3, ngoại lệ L2 hợp thức bằng QD-02.
+# Script vận hành ở `scripts/`, script chạy-một-lần đã khai tử ở `_daxong/`.
+# 🔴 Thêm tên vào đây là NỚI LUẬT — phải có lý do trong QUYETDINH.md trước.
+GOC_HOP_LE = {"bot.py", "main.py", "soatkientruc.py"}
 
 HTML_DAC_TRUNG = ("example-toggle", "meaning-list")
 

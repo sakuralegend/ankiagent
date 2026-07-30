@@ -133,6 +133,8 @@ chia do máy nối vào lúc ghi thẻ nằm ngoài tầm nhìn của nó.
 
 ## 8. Điểm vào — cái gì chạy được
 
+Thư mục gốc chứa **đúng ba** file `.py` — không hơn (`L2`, canh bằng mục S6):
+
 | Chạy cái gì | Để làm gì |
 |---|---|
 | `python bot.py` | Bot Telegram (bản chạy 24/7 trên VPS) |
@@ -140,8 +142,15 @@ chia do máy nối vào lúc ghi thẻ nằm ngoài tầm nhìn của nó.
 | `python soatkientruc.py` | Cửa soát kiến trúc — bậc 1 của mọi lệnh nghiệm thu |
 | `.\deploy.ps1` | Soát → import-check → push → VPS kéo code → restart bot |
 
-Thư mục gốc **chỉ chứa điểm vào đang sống** (`L2`). Script chạy một lần phải khai tử vào `_daxong/`
-trong cùng commit. `soatkientruc.py` mục S6 canh điều này.
+Mọi thứ khác nằm ở hai thư mục theo **tuổi thọ**, không theo chức năng:
+
+- **`scripts/`** — script vận hành còn dùng lại (gắn tag, dựng cây deck, vá audio, điền badge…).
+  Đều **idempotent** và mặc định chạy khan, phải thêm `--apply` mới ghi thật.
+- **`_daxong/`** — script sinh ra để chạy **một lần**, đã khai tử. Giữ để đọc lại, không để chạy lại.
+
+⚠️ Script ở hai thư mục này **phải tự chèn đường dẫn gốc vào `sys.path`** (ba dòng đầu file) —
+chúng import `anki_tools`, mà thư mục cha không nằm sẵn trên đường tìm module như hồi còn ở gốc.
+Thêm script mới vào đây mà quên ba dòng đó thì nó chạy được trên máy bạn đúng một lần, rồi gãy.
 
 ---
 
