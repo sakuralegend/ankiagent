@@ -4,7 +4,37 @@ Bạn (user) chỉ cần gõ một câu: **"chạy tiếp kho"**. Phần dưới
 
 ---
 
-### ✅ PHIÊN 30/07: k55 · k01 · k02 · k03 XONG & ĐÃ NẠP — lô kế tiếp là **k04**
+### ✅ PHIÊN 30/07 (chiều): k04 · k05 · k06 · k07 · k08 XONG & ĐÃ NẠP — lô kế tiếp là **k17**
+
+**16 lô / 233 từ duyệt / 716 chờ.** Kho nay **949 từ** (xoá thẻ `китайски`, xem dưới).
+`moi --apply` báo không có từ mới → lấy thẳng 5 lô đầu hàng chờ. Cả 5 lô `QUA 1 MAN HINH: 0` ·
+`QUA 2 O DO: 0` · khối dùng chung **0%**; `nap` khớp tuyệt đối ở cả 5 lần.
+✅ **Hết nợ "gọt k04 + k06"** — hai lô đó chính là hai lô vượt trần của chuẩn cũ, soạn lại là xong.
+
+🔴 **Bài học lớn nhất: `soat` chỉ soi cụm in đậm `<b>`.** Chữ Nga trong ví dụ `<i>` hoặc trong câu
+giải thích **không được soi trọng âm gì cả**. Hai lỗi lọt trong phiên đều nằm đúng chỗ đó:
+`о де́ньгах` → `о деньга́х` (k06, agent tự bắt) và `на свя́зи` → **`на связи́`** (k05, **luồng chính
+bắt** — agent đã nêu đúng chỗ nghi nhưng kết luận ngược).
+📌 Kèm theo một luật đáng nhớ: danh từ giống cái đuôi `-ь` có **cách vị trí** (второй предложный) —
+với `в`/`на` chỉ trạng thái thì trọng âm nhảy xuống đuôi (`в связи́ с`, `на связи́`, `в тени́`,
+`на печи́`), còn bảng máy nối chỉ in `о свя́зи`. **Hai dạng KHÔNG mâu thuẫn**, đừng "sửa" bảng.
+
+🔴 **Bài học thứ hai: hai nguồn CÙNG THƯỢNG NGUỒN thì trùng nhau không chứng minh gì.**
+`фон` bị nguồn gán khuôn trọng âm di động (`фоны́ · фоно́в`); thật ra là loại **1a đứng yên**
+(`фо́ны · фо́нов`). Đã vá `grammar_cache.json` **trước khi nap** và kiểm trên thẻ thật.
+Kiểm ngược 496 danh từ có bảng số nhiều với `nouns.csv`: 7 chỗ lệch nhưng **không chỗ nào là lỗi
+mới** (5 ca chỉ là quy ước bỏ dấu trên từ một nguyên âm; `клуб` là hai nghĩa khác nhau).
+⚠️ **Trước khi vá thì CẢ HAI nguồn đều in `фоны́`** — `nouns.csv` cũng là ảnh chụp OpenRussian,
+nên đối chiếu chéo **không bắt được lớp lỗi này**. Cửa duy nhất vẫn là agent đọc bằng mắt.
+📌 **15 danh từ không có đối chứng nào** trong `nouns.csv`, 5 đã nạp: `весь · разъём · фото ·
+хвощ · шофёр`.
+
+🗑️ **Đã xoá thẻ `китайски` (user duyệt) — kho 950 → 949.** Nó chỉ sống trong `по-кита́йски`, mà kho
+đã có sẵn thẻ đó. Dọn cả bốn chỗ (note Anki + `tudien.json` + `hangdoi.json` + file lô); sao lưu
+note/card/13 lượt ôn ở `backups/_backup_the_xoa_kitayski.json`.
+⇒ **Gặp thẻ kiểu "dạng ràng buộc" nữa thì hỏi user, đừng cố soạn cho hay hơn.**
+
+### ✅ PHIÊN 30/07 (sáng): k55 · k01 · k02 · k03 XONG & ĐÃ NẠP (mốc cũ)
 
 **11 lô / 170 từ duyệt / 780 chờ.** `moi --apply` báo không có từ mới → lấy thẳng 4 lô đầu hàng
 chờ. Cả 4 lô `QUA 1 MAN HINH: 0` · `QUA 2 O DO: 0` · khối dùng chung **0%**; `nap` ghi đúng

@@ -4,6 +4,84 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 30/07/2026 (chiều) — chạy 5 lô k04·k05·k06·k07·k08 · xoá thẻ `китайски` · vá bảng chia `фон`
+
+Commit `7a3cdf6` · `edd48b3` · `9951f14` · `0b79861` · `d02b26f`.
+
+**5 lô / 64 từ soạn, cả 5 sạch cả hai trần, khối dùng chung 0% ở cả 5.**
+Hàng đợi: **16/59 lô · 233/949 từ duyệt**, lô kế tiếp `k17`. Không có từ mới (`moi` báo
+950 thẻ đều đã trong hàng đợi) nên phiên lấy thẳng 5 lô đầu hàng chờ.
+
+| Lô | Từ | Đọc bằng mắt | Lỗi agent tự bắt | Bác nguồn | Cao TB |
+|---|---|---|---|---|---|
+| k04 `concepts::abstract` | 15 | 44 | 4 | 2 | 435px |
+| k05 `concepts::abstract` | 15 | 68 | 3 | 5 | 468px |
+| k06 `concepts::abstract` | 4 | 28 | 2 | 3 | 581px |
+| k07 `concepts::misc` | 15 | 44 | 4 | 2 | 430px |
+| k08 `concepts::misc` | 15 | 41 | 2 | 2 | 463px |
+
+✅ **Hết nợ "gọt thẻ vượt trần chuẩn cũ"** — k04 và k06 chính là hai lô đó, soạn lại là xong.
+
+### 🔴 Bài học 1 — `soat` chỉ soi cụm in đậm `<b>`, chữ Nga trong ví dụ `<i>` KHÔNG được soi
+
+Hai lỗi trọng âm lọt qua mọi cửa máy trong phiên này đều nằm ngoài `<b>`:
+`о де́ньгах` (đúng: **`о деньга́х`**, k06 — agent tự bắt) và `на свя́зи` (đúng: **`на связи́`**,
+k05 — **luồng chính bắt**, agent đã tự nêu là "chỗ chữ và bảng lệch nhau" nhưng kết luận ngược).
+
+📌 Kiến thức đi kèm, đáng nhớ cho các lô sau: danh từ giống cái đuôi `-ь` có **cách vị trí**
+(второй предложный) — với `в`/`на` chỉ trạng thái thì trọng âm nhảy xuống đuôi
+(`в связи́ с`, `на связи́`, `в тени́`, `на печи́`), trong khi bảng chia máy nối chỉ in dạng
+`о свя́зи`. **Hai dạng đó không mâu thuẫn nhau** — `grammar_cache` không lưu cách vị trí,
+nên đừng "sửa" bảng.
+
+### 🔴 Bài học 2 — hai nguồn CÙNG THƯỢNG NGUỒN thì trùng nhau không chứng minh gì
+
+`фон` bị OpenRussian gán khuôn trọng âm di động (`фоны́ · фоно́в · фона́м`); thật ra nó là
+loại **1a — trọng âm đứng yên**: `фо́ны · фо́нов · фо́нам`. Đã vá `data/grammar_cache.json`
+**trước khi `nap`** và kiểm trên thẻ thật (bảng máy nối nay in `фо́ны`).
+`grammar.py:357` chép nguyên si `noun.declension` ⇒ **lỗi dữ liệu nguồn**, cùng loại `быть`,
+không phải lỗi tầng Bóc/Dựng.
+
+**Kiểm ngược** (luật user chốt 30/07) — đối chiếu **toàn bộ 496 danh từ** có bảng số nhiều
+trong `grammar_cache` với `nouns.csv` (26 856 danh từ):
+
+- 7 chỗ lệch, **không chỗ nào là lỗi mới**: 5 ca (`лев·лёд·лён·пёс·рожь`) chỉ là **quy ước**
+  — cache bỏ dấu trên từ một nguyên âm (`львы`, `псы`) vì một nguyên âm thì không thể nhầm;
+  `клуб` là `клу́бы` (câu lạc bộ) vs `клубы́` (cuộn khói) — **hai nghĩa khác nhau**, cache đúng
+  cho nghĩa chính; còn lại đúng là `фон` vừa vá.
+- 🔴 **Điều phải nhớ: TRƯỚC khi vá, CẢ HAI nguồn đều in `фоны́`.** `nouns.csv` cũng chỉ là một
+  ảnh chụp của OpenRussian, nên **đối chiếu chéo không bắt được lớp lỗi này**. Cửa duy nhất
+  bắt được vẫn là agent đọc bằng mắt và dám bác nguồn.
+- **15 danh từ không có đối chứng nào** trong `nouns.csv`, 5 trong số đó đã nạp:
+  `весь · разъём · фото · хвощ · шофёр` (chính `шофёр` là từ dính lỗi dấu thừa trên `ё`
+  phiên trước). Nhóm này chỉ còn mắt người soi.
+
+### Xoá thẻ `китайски` — kho 950 → **949 từ**
+
+`кита́йски` không phải từ đứng một mình: nó chỉ sống trong `по-кита́йски`, mà kho **đã có sẵn**
+thẻ `по-кита́йски` đúng nghĩa đó. Giữ lại thì đề bài buộc phải nói vòng *"gõ phần SAU dấu gạch
+nối, KHÔNG có по-"* — tức bắt user gõ một mảnh không dùng được trong câu nào. Agent k07 phát
+hiện và đề nghị, **user duyệt xoá**. Đã dọn cả bốn chỗ: note Anki (+ sync) · `tudien.json`
+(950→949) · `hangdoi.json` (`tong_tu` 949, k07 15→14 từ) · `k07_concepts-misc.py`.
+Sao lưu note + card + 13 lượt ôn ở `backups/_backup_the_xoa_kitayski.json` (gitignore).
+
+### Các ca bác nguồn đáng nhớ của phiên (16 ca / 5 lô)
+
+| Từ | Nguồn ghi | Thật ra |
+|---|---|---|
+| `оби́да` | "đố kỵ" | nỗi tủi / phật lòng — đố kỵ là `за́висть` |
+| `рабо́та` | "công việc, **làm việc**" | "làm việc" là `рабо́тать`, lấn từ loại |
+| `извини́ть` | "**xin lỗi**, tha lỗi" | **sai vai**: THA lỗi cho ai; xin lỗi là `извиня́ться` |
+| `часть` | "phần, **miếng, mảnh**" | miếng cắt ra là `кусо́к` |
+| `речь идёт` | idiom cụt | phải là `речь идёт о` + cách 6 |
+| `в свою очередь` | "firstly" | "đến lượt mình / về phần mình" |
+| `за́пах` | "smell / wrap over" | hai từ đồng tự khác trọng âm: `за́пах` mùi ≠ `запа́х` vạt áo |
+| `газ` | "gas / gauze" | hai từ đồng tự (vải the mượn từ Pháp *gaze*) |
+| `быль` | `gender: null` | giống cái |
+| `китайски` | nghĩa của TÍNH TỪ `китайский` bị dán nhầm | dạng ràng buộc, đã xoá thẻ |
+| `у́гол` | `"о угле́"` | `об угле́` (`об` trước nguyên âm) |
+| `поря́док` | `поря́дка` "is a preposition" | cách 2 của chính danh từ dùng như trạng ngữ |
+
 ## 30/07/2026 — ÔM ĐỦ khối bảng của OpenRussian: thêm Present/Future + Participles (bản ghi v4)
 
 User chốt sau khi xem bản đo độ phủ, và chốt bằng một luật **đơn giản hơn mọi thứ tôi đề xuất**:
