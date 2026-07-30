@@ -6,90 +6,34 @@ dùng AI (Gemini, qua endpoint OpenAI-compatible) dịch nghĩa + viết ví d�
 rồi tự sync lên AnkiWeb để điện thoại kéo về. Toàn bộ thao tác hằng ngày làm qua **bot Telegram** —
 kể cả **chụp ảnh trang sách để thêm từ hàng loạt** — không cần mở máy tính.
 
-## ✨ Tính năng chính
+## ✨ Làm được gì
 
-- **Thêm từ**: gõ 1 từ tiếng Nga → cào + AI → thẻ đẹp có phát âm, nghĩa, 3 ví dụ song ngữ.
-- **📷 Quét ảnh trang sách**: gửi ảnh → AI đọc mọi từ Nga, đưa về nguyên thể, lọc từ đã có →
-  bạn **duyệt** danh sách rồi bot mới thêm hàng loạt (bot không bao giờ tự thêm).
-- **Tag chủ đề + cây deck**: mỗi thẻ được AI gắn 1 tag `topic::<chủ đề>` (địa chỉ nhà), xếp vào
-  cây deck `RUSSIAN::<chủ đề>` (vd `RUSSIAN::life::food`).
-- **📥 Deck inbox**: từ mới gom vào `RUSSIAN::0-inbox` học một chỗ; thẻ tốt nghiệp learning thì
-  job 3h sáng (hoặc `/don`) tự chuyển về deck chủ đề theo tag.
-- **🔄 Làm lại thẻ (`/sua`)**: cào lại + AI sinh lại y như thẻ mới, **giữ nguyên tiến trình học**.
-- **⭐ Thẻ ngữ pháp (`/dacbiet`)**: mảng thứ hai, tách hẳn — deck `GRAMMAR::plural-irregular`,
-  124 danh từ có **số nhiều bất quy tắc**. Mặt trước hỏi số ít → bạn gõ dạng số nhiều.
-- **🔊 Âm thanh có phao dự phòng**: OpenRussian trước, lỗi 500 thì tự sinh giọng chuẩn tiếng Nga
-  bằng Google Cloud TTS.
-- **🛡 Tự bảo vệ dữ liệu**: sync 2 chiều mỗi 30 phút + sao lưu 3h30 sáng (giữ 7 bản, `/backup`
-  để sao lưu ngay).
-- **Chống hết quota AI**: model chính 429 → tự chuyển model dự phòng.
+- **Thêm từ**: gõ 1 từ tiếng Nga → cào + AI → thẻ có phát âm, nghĩa, 3 ví dụ song ngữ, tag chủ đề.
+- **📷 Quét ảnh trang sách**: gửi ảnh → AI đọc mọi từ Nga, đưa về nguyên thể, lọc từ đã có → bạn
+  **duyệt** rồi bot mới thêm (bot không bao giờ tự thêm).
+- **📥 Inbox + cây deck theo chủ đề**: từ mới gom một chỗ để học; thẻ tốt nghiệp learning thì tự
+  chuyển về deck chủ đề theo tag.
+- **🔄 Làm lại thẻ** (`/sua`, `/suadeck`): cào lại + AI sinh lại, **giữ nguyên tiến trình học**.
+- **⭐ Thẻ ngữ pháp** (`/dacbiet`): mảng thứ hai, tách hẳn — dạng số nhiều bất quy tắc, model riêng.
+- **📖 Field hướng dẫn**: mỗi thẻ có phần chẻ gốc từ · cách nhớ · họ hàng, soạn theo lô có chuẩn
+  và có cửa soát bằng máy.
+- **🛡 Tự bảo vệ**: sync 2 chiều định kỳ + sao lưu `.apkg` hằng đêm (kèm lịch ôn), `/backup` để
+  sao lưu ngay. Hỏng thì nhắn Telegram; thành công thì im lặng.
+- **Chống hết quota AI**: model chính trả 429 → tự chuyển model dự phòng.
 
-## 🏗 Kiến trúc
+## 📚 Tài liệu — ai trả lời câu hỏi nào
 
-```
-iPhone (Telegram) ──> tgbot/ ─────> pipeline.py ──> scraper (OpenRussian)
-   │              (VPS, systemd)        │      ├──> ai_client (Gemini + fallback model)
-   │                                    │      └──> audio (OpenRussian → Google TTS)
-   │                                    └──> anki_client ──> AnkiConnect :8765 (nội bộ)
-   │                                                            │
-   │                                                Anki desktop headless (Docker
-   │                                                thisisnttheway/headless-anki)
-   │                                                            │ sync
-   └───────── app Anki (bấm sync) <──────── AnkiWeb <───────────┘
-```
+Mỗi câu hỏi có **đúng một** file sở hữu nó. Đừng tìm câu trả lời ở hai nơi.
 
-- AnkiConnect (8765) và VNC (5900) chỉ bind `127.0.0.1` trên VPS — **không mở ra internet**.
-- Bot dùng long-polling + whitelist đúng 1 Telegram user ID → không cần domain/SSL/port.
-- Sau mỗi lần thêm/sửa thẻ, bot gọi sync → AnkiWeb → iPhone chỉ việc bấm sync trong app Anki.
-
-## 📁 Cấu trúc project
-
-```
-bot.py               # Điểm vào bot Telegram (~10 dòng) — systemd chạy `python bot.py`
-main.py              # CLI trên PC (python main.py — thêm từ bằng dòng lệnh)
-tgbot/               # Ruột bot Telegram, tách theo luồng (một chiều core←flows←dispatch←app)
-  core.py            #   phiên, deck hiện tại, menu 2 tầng, đồng hồ reset 3 phút, format thẻ
-  commands.py        #   lệnh 1 phát + job nền: 3h dọn inbox, 3h30 backup, 30' sync
-  flow_add.py        #   thêm từ: dò trùng, AI đoán từ nguyên mẫu
-  flow_edit.py       #   /sua (làm lại 1 thẻ) + /suadeck (làm lại cả deck)
-  flow_scan.py       #   📷 quét ảnh trang sách → duyệt → thêm loạt
-  flow_special.py    #   ⭐ /dacbiet — giao diện mảng thẻ ngữ pháp (chỉ UI, nghiệp vụ ở grammar_forms/)
-  dispatch.py        #   bộ chia tin nhắn/nút bấm (on_word + on_callback), không chứa nghiệp vụ
-  app.py             #   lắp handler + khởi động (long-polling, trần chờ HTTP nới rộng)
-anki_tools/
-  config.py          # Đọc cấu hình từ .env (KHÔNG còn secret nào nằm trong code)
-  topics.py          # Nguồn chân lý danh sách chủ đề (TOPICS) + chuẩn hóa slug
-  pipeline.py        # Logic dùng chung: process_word() thêm từ, redo_note() làm lại thẻ
-  ai_client.py       # Gọi AI: sinh ví dụ, phân loại topic, đoán lemma, quét ảnh; chuỗi model 429
-  lemma.py           # Đưa từ về dạng từ điển bằng pymorphy3 (offline) — TRỌNG TÀI cho AI khi quét ảnh
-  scraper.py         # Cào dữ liệu OpenRussian
-  audio.py           # Lấy phát âm: OpenRussian → Google Cloud TTS (phao dự phòng khi 500)
-  html_builder.py    # NƠI DUY NHẤT dựng HTML khối ví dụ
-  anki_client.py     # Giao tiếp AnkiConnect (deck/model/note/media/tag/sync)
-  backup.py          # Sao lưu collection ra .apkg + xoay vòng giữ N bản
-  templates/         # CSS + HTML thẻ (tĩnh thuần — không có JS gọi AI trong thẻ)
-grammar_forms/       # ⭐ MẢNG THỨ HAI: thẻ biến cách. Phụ thuộc MỘT CHIỀU vào anki_tools
-  config.py          #   deck/model/nhãn kiểu — nơi duy nhất cần sửa khi thêm loại biến cách mới
-  irregular_plurals.py #  Dựng danh sách từ bất quy tắc từ dump OpenRussian -> data/*.tsv
-  scraper.py         #   Cào số nhiều + giống + level (riêng, không đụng scraper từ vựng)
-  ai.py              #   Prompt riêng: ép AI dùng ĐÚNG nominative số nhiều + hậu kiểm
-  cards.py           #   Dựng field + mọi lệnh AnkiConnect của mảng này
-  pipeline.py        #   process_word() / redo_word() — cào → AI → audio → Anki
-  setup.py           #   Tạo/cập nhật model + deck (chạy 1 lần, idempotent)
-  backfill.py        #   Chạy loạt trên PC: add (thêm) / fix (vá thẻ thiếu)
-  templates/         #   Mặt trước/sau + CSS riêng của thẻ số nhiều
-data/                # Dữ liệu sinh ra (gitignore dump 8MB): irregular_plurals.tsv
-tag_topics.py        # Gắn/đổi tag topic:: cho thẻ (bảng tra thủ công + AI cho thẻ lẻ)
-build_subdecks.py    # Dựng cây deck RUSSIAN::<topic> + dọn thẻ về đúng deck con
-setup_inbox.py       # Tạo deck inbox + ép luật ôn-trước-học-sau + gom thẻ chưa học vào inbox
-fix_audio.py         # Vá thẻ đang thiếu tiếng (tải lại OpenRussian → Google TTS)
-docker-compose.yml   # Container Anki headless trên VPS
-setup_vps.sh         # Cài VPS lần đầu (Docker, swap, addon AnkiConnect, venv, systemd)
-anki-bot.service     # systemd unit: bot tự chạy khi VPS khởi động, tự restart khi crash
-deploy.ps1 / .bat    # Deploy từ PC: push GitHub → VPS pull → restart bot (1 lệnh)
-VPS_SETUP.md         # Hướng dẫn cài VPS từng bước + xử lý lỗi thường gặp
-CHANGELOG.md         # Nhật ký thay đổi (mỗi lần sửa gì đều ghi vào đây)
-```
+| Bạn muốn biết | Đọc |
+|---|---|
+| Hệ thống là gì, chạy thế nào, **sửa ở đâu** | **[KIENTRUC.md](KIENTRUC.md)** |
+| Luật làm việc trong repo (đọc trước khi sửa bất cứ gì) | [CLAUDE.md](CLAUDE.md) · sổ tay đầy đủ [CACHLAM.md](CACHLAM.md) |
+| Vì sao chọn A mà không chọn B | [QUYETDINH.md](QUYETDINH.md) (`QD-nn`) |
+| Nợ kỹ thuật đang có, điều kiện trả | [SONO.md](SONO.md) |
+| Hôm qua/tuần trước đã đổi gì | [CHANGELOG.md](CHANGELOG.md) |
+| Cài VPS lần đầu · lỗi thường gặp · khôi phục backup | [VPS_SETUP.md](VPS_SETUP.md) |
+| Soạn một lô hướng dẫn thế nào, chuẩn nội dung ra sao | `data/huongdan/README.md` + `CHUAN.md` |
 
 ## ⚙️ Cấu hình — file `.env` (không đưa lên git)
 
@@ -97,136 +41,34 @@ Tạo từ mẫu: copy `.env.example` → `.env` rồi điền. `config.py` ch�
 
 | Biến | Ý nghĩa |
 |---|---|
-| `CLAUDE_API_URL` | Endpoint chat completions OpenAI-compatible (đang dùng lớp OpenAI của Gemini) |
-| `CLAUDE_API_KEY` | API key AI ([Google AI Studio](https://aistudio.google.com/apikey)) |
-| `CLAUDE_MODEL` | Model chính (đang dùng `gemini-3.1-flash-lite` — 500 lượt free/ngày) |
-| `CLAUDE_FALLBACK_MODELS` | Model dự phòng, tự chuyển khi model chính hết quota (lỗi 429) |
-| `ANKI_CONNECT_URL` | Địa chỉ AnkiConnect (mặc định `http://127.0.0.1:8765`) |
-| `TELEGRAM_BOT_TOKEN` | Token bot từ @BotFather |
-| `TELEGRAM_USER_ID` | Telegram user ID duy nhất được phép dùng bot |
-| `GOOGLE_TTS_API_KEY` | (tuỳ chọn) Key **Google Cloud** đã bật *Cloud Text-to-Speech API* — phao audio dự phòng. ⚠️ KHÁC key Gemini AI Studio; để trống thì bỏ qua phao |
-| `GOOGLE_TTS_VOICE` | (tuỳ chọn) Giọng đọc, mặc định `ru-RU-Standard-A` (nữ). **Chỉ dùng giọng `*-Standard-*`** để nằm trong hạn mức miễn phí 4tr ký tự/tháng |
-| `TOPIC_DECK_PARENT` | (tuỳ chọn) Tên deck kho, mặc định `RUSSIAN` |
-| `BACKUP_DIR` | (tuỳ chọn) Thư mục chứa bản sao lưu, mặc định `backups/` trong project |
-| `BACKUP_KEEP` | (tuỳ chọn) Số bản sao lưu giữ lại, mặc định `7` (~36 MB/bản) |
+| `CLAUDE_API_URL` · `CLAUDE_API_KEY` | Endpoint chat completions OpenAI-compatible + API key |
+| `CLAUDE_MODEL` · `CLAUDE_FALLBACK_MODELS` | Model chính + model dự phòng (tự chuyển khi 429) |
+| `ANKI_CONNECT_URL` | Địa chỉ AnkiConnect |
+| `TELEGRAM_BOT_TOKEN` · `TELEGRAM_USER_ID` | Token bot + user ID **duy nhất** được phép dùng |
+| `GOOGLE_TTS_API_KEY` · `GOOGLE_TTS_VOICE` | (tuỳ chọn) Phao audio. ⚠️ Key **Google Cloud** đã bật *Cloud Text-to-Speech API* — KHÁC key Gemini. Chỉ dùng giọng `*-Standard-*` để nằm trong hạn mức miễn phí |
+| `TOPIC_DECK_PARENT` · `BACKUP_DIR` · `BACKUP_KEEP` | (tuỳ chọn) Tên deck kho, chỗ lưu và số bản backup |
 
-## 📱 Dùng hằng ngày (trong Telegram)
+## 🚀 Chạy
 
-| Muốn làm gì | Thao tác |
-|---|---|
-| Thêm từ | Gõ thẳng từ tiếng Nga, vd `хороший` → thẻ vào 📥 `RUSSIAN::0-inbox`, AI gắn tag chủ đề |
-| Thêm hàng loạt từ sách | Gửi 📷 **ảnh** trang sách (dạng photo) → bot quét từ mới → bạn duyệt (nhắn `bỏ 3 7` để loại) → bấm ✅ Thêm |
-| Từ không có trên OpenRussian | AI đoán từ nguyên mẫu (biến cách/sai chính tả) → bấm nút ✅ xác nhận hoặc 🚫 Hủy |
-| Từ bị trùng | Bot hiện nút: Hủy / Chuyển deck / Xóa cũ + thêm mới / Vẫn thêm trùng |
-| Thẻ AI bị khuyết (thiếu ví dụ) | Bot cảnh báo kèm 2 nút: 🔄 Làm lại thẻ / ⏭ Bỏ qua |
-| Chọn deck cố định | `/deck` (hoặc nút 📚) → 🤖 tự động theo chủ đề / 🕘 deck gần nhất / 📂 có sẵn / ➕ mới |
-| Làm lại 1 thẻ | `/sua` → gõ từ → bot cào lại + AI sinh lại (giữ nguyên tiến trình học), vá audio nếu thiếu |
-| Làm lại cả deck | `/suadeck` → chọn deck → xác nhận → chạy nền có tin tiến độ + nút ⏹ Dừng (tốn nhiều AI) |
-| Dọn inbox | `/don` — chuyển ngay thẻ tốt nghiệp learning từ inbox về deck chủ đề (job 3h sáng tự làm) |
-| Thống kê chủ đề | `/thongke` — phân bố thẻ theo chủ đề + cảnh báo khi cần tách deck |
-| Thẻ ngữ pháp | `/dacbiet` → ➕ thêm 1 từ / 📋 thêm loạt từ danh sách / 🔄 làm lại thẻ / 🩹 vá thẻ thiếu |
-| Sao lưu ngay | `/backup` — nên bấm **trước** khi làm gì mạo hiểm (đổi model, full sync) |
-| Menu / ép sync | `/menu` / `/sync` |
-
-**Menu 2 tầng**: `/menu` chỉ hiện 3 nút hay dùng (📚 Đổi deck │ ⭐ Ngữ pháp │ 🛠 Sửa chữa & công
-cụ); mọi công cụ sửa lỗi nằm sau nút 🛠. Danh sách lệnh `/` cố ý chỉ đăng ký 4 lệnh — các lệnh
-khác vẫn chạy khi gõ tay. Lý do: việc dùng hằng ngày (gõ từ) **không cần nút nào cả**, nên mặt
-tiền phải nhường đường cho nó.
-
-Ghi chú: nghỉ >3 phút → bot **quên deck đang chọn** (về chế độ tự động — thẻ trong Anki không mất
-gì) và gửi đúng 1 tin menu. Triết lý giao diện: **bấm chức năng trước, bot hỏi, rồi mới gõ từ** —
-để dùng bàn phím tiếng Nga suốt phiên, không phải đổi bàn phím gõ lệnh Latin.
-
-## ⭐ Mảng thẻ ngữ pháp (`grammar_forms/`)
-
-Mảng **thứ hai**, cố ý tách rời khỏi mảng từ vựng để sửa/nâng cấp bên này không bao giờ làm hỏng
-deck `RUSSIAN` đang chạy. Quan hệ **một chiều**: `grammar_forms` → `anki_tools` (chỉ mượn hạ tầng
-dùng chung: tiện ích chữ, tải audio, lưu media, gọi AI). Xóa cả thư mục đi thì deck từ vựng vẫn
-chạy nguyên vẹn.
-
-- **Deck** `GRAMMAR::plural-irregular`, model `RU_Plural`, tag `grammar::plural-irregular`.
-- **Danh sách từ** không chép từ giáo trình mà **suy ra từ dữ liệu OpenRussian**: dự đoán số nhiều
-  chuẩn theo quy tắc rồi so với số nhiều thật — lệch nhau = bất quy tắc. Thân từ suy từ *genitive*
-  số ít nên nguyên âm chạy (`отец/отцы`) không bị coi nhầm.
-- **Mặt sau có nhãn KIỂU** bất quy tắc (vd "Giống đực → -а́/-я́ nhấn vào đuôi" — chiếm 38% deck) để
-  nhận ra quy luật thay vì học vẹt từng từ.
-- ⚠️ Tag `level` (A1–C2) của OpenRussian **không dùng lọc trình độ được** (`паспорт`/`яблоко`/
-  `сахар` bị gắn C1). Dùng **thứ hạng tần suất** thay thế: top 2500 danh từ ≈ A1→B2.
-- Một từ có **cả** thẻ từ vựng lẫn thẻ ngữ pháp là bình thường, không phải trùng — nên mọi truy vấn
-  dò trùng đều phải kèm `note:"<model>"`.
-
-```
-python -m grammar_forms.irregular_plurals   # dựng lại data/irregular_plurals.tsv
-python -m grammar_forms.setup               # tạo/cập nhật model + deck (idempotent)
-python -m grammar_forms.backfill add        # thêm thẻ cho mọi từ chưa có
-python -m grammar_forms.backfill fix        # vá thẻ thiếu ví dụ/audio/nghĩa
+```bash
+python bot.py            # bot Telegram (systemd chạy cái này trên VPS)
+python main.py           # thêm từ bằng dòng lệnh trên PC (cần Anki desktop đang mở)
+python soatkientruc.py   # cửa soát kiến trúc — bậc 1 của mọi lệnh nghiệm thu
+.\deploy.ps1             # soát → import-check → push → VPS kéo code → restart bot
 ```
 
-## 🛡 Sao lưu & sync
-
-- **Sync 2 chiều mỗi 30 phút** + sync ngay sau mọi thao tác thêm/sửa thẻ.
-- **Sao lưu 3h30 sáng**: xuất từng deck gốc ra `.apkg` kèm lịch ôn, giữ 7 bản gần nhất
-  (~36 MB/bản), tự xóa bản cũ. Thành công thì im lặng, **thất bại mới nhắn Telegram**.
-- ❌ **KHÔNG** đặt VPS tự động "Download from AnkiWeb". Lệnh đó **ghi đè sạch** collection trên VPS
-  chứ không phải tải thêm — chạy định kỳ là xóa mất thẻ bot vừa thêm. Nó cũng không cứu được gì:
-  khi quên sync điện thoại, thứ mất là tiến trình ôn **nằm trong điện thoại**, AnkiWeb cũng chưa có.
-  Cách đúng: bật **tự động sync trong app Anki trên điện thoại**.
-- Rủi ro thật cần đề phòng là **một lần full sync chọn nhầm chiều** — nó ghi đè cả bản trên
-  AnkiWeb, không lùi được. Đó là lý do có backup. Đổi field của model = đổi schema = buộc full
-  sync một lần.
-
-## 📥 Tag chủ đề, cây deck & inbox
-
-- **Tag = địa chỉ nhà**: mỗi thẻ đúng 1 tag `topic::<slug>` do AI chọn (nguồn chân lý là
-  `anki_tools/topics.py`). Deck chỉ là chỗ ở tạm; đổi cây deck không mất "địa chỉ".
-- **Cây deck kho**: `RUSSIAN::<chủ đề>` (vd `RUSSIAN::life::food`), dựng bằng `build_subdecks.py`.
-- **Inbox**: từ mới vào `RUSSIAN::0-inbox` (ưu tiên từ thêm gần nhất, 50 từ mới/ngày) để học gom
-  một chỗ. Thẻ tốt nghiệp learning → `/don` hoặc job 3h sáng chuyển về `RUSSIAN::<tag>` để ôn.
-- **Luật ôn tập**: ôn HẾT thẻ cũ (hạn cũ nhất trước) rồi mới hiện thẻ mới — ép trong `setup_inbox.py`.
-- **Scripts vận hành** (chạy trên PC có Anki mở, mặc định dry-run, thêm `--apply` để làm thật):
-  `tag_topics.py` (gắn/đổi tag), `build_subdecks.py` (dựng cây deck), `setup_inbox.py` (1 lần).
-
-## 🔊 Âm thanh (phao dự phòng Google Cloud TTS)
-
-Bot tự tải mp3 phát âm rồi lưu vào Anki: thử OpenRussian trước, nếu lỗi 500 thì gọi **Google Cloud
-TTS** giọng Standard tiếng Nga. Điều kiện: điền `GOOGLE_TTS_API_KEY` (key Google Cloud, đã bật
-*Cloud Text-to-Speech API* — **không** dùng được key Gemini AI Studio). Giọng Standard miễn phí
-4 triệu ký tự/tháng nên với nhu cầu học từ thực tế là $0. Vá thẻ cũ đang thiếu tiếng:
-`python fix_audio.py --apply`.
-
-## 🤖 Luồng AI
-
-- **Một nguồn chân lý duy nhất**: system prompt ở `_CORE_SYSTEM_PROMPT` (`ai_client.py`),
-  HTML khối ví dụ ở `html_builder.py`. Không còn nơi thứ 2 phải đồng bộ.
-- **Thêm & làm lại thẻ dùng chung** `build_card_fields()`: `/sua` tạo lại thẻ y hệt lúc thêm mới,
-  chỉ khác là ghi đè cùng note nên tiến trình học không đổi. Kết quả AI được validate phía Python,
-  thiếu ví dụ thì rơi về AI tự sinh (freestyle) rồi ví dụ thô — không để thẻ trắng.
-- **Quét ảnh**: 1 request Gemini/trang (ảnh base64) OCR + đưa mọi từ về lemma; lọc từ đã có bằng
-  danh sách `WordClean` toàn kho trước khi hỏi người dùng duyệt.
-- **Hết quota không chết**: model chính 429 → tự thử lần lượt `CLAUDE_FALLBACK_MODELS`.
-
-## 🔁 Quy trình phát triển
-
-```
-PC:  sửa code (Claude Code) → test → double-click deploy.bat (hoặc .\deploy.ps1)
-     (tự động: git push → VPS git pull → pip install nếu cần → restart bot, ~10 giây)
-```
-
-- Không bị hỏi mật khẩu VPS: PC đã cài SSH key (`~/.ssh/id_ed25519`) chép lên VPS.
-- Container Anki không bị đụng tới khi deploy — không downtime.
-- Cài VPS lần đầu: xem [VPS_SETUP.md](VPS_SETUP.md) (7 bước + mục "Lỗi thường gặp").
+Bảng lệnh Telegram dùng hằng ngày nằm ở [VPS_SETUP.md](VPS_SETUP.md#dùng-hằng-ngày).
 
 ## 🔐 Bảo mật
 
-- Secrets chỉ nằm trong `.env` (bị `.gitignore` chặn) — code trên GitHub sạch key.
-- API key **không còn bị nhúng vào thẻ Anki** (đã gỡ nút AI trong thẻ — mọi thao tác qua bot).
-- AnkiConnect không có mật khẩu → tuyệt đối không mở port 8765/5900 ra internet;
-  bot là cổng duy nhất, whitelist đúng 1 user ID.
-- Key Google Cloud TTS nên **Restrict** chỉ cho *Cloud Text-to-Speech API* + đặt quota ký tự/ngày
-  dưới ngưỡng free để không bao giờ phát sinh phí.
+- Secrets chỉ nằm trong `.env` (đã `.gitignore`) — code trên GitHub sạch key.
+- AnkiConnect và VNC chỉ bind `127.0.0.1` trên VPS, **không mở ra internet**. Bot dùng long-polling
+  + whitelist đúng 1 user ID nên không cần domain/SSL/mở port.
+- Key Google Cloud TTS nên **Restrict** đúng một API + đặt quota dưới ngưỡng free.
 
-## 💻 Chạy CLI trên PC (tuỳ chọn)
+---
 
-1. Mở Anki desktop (có addon AnkiConnect).
-2. `pip install -r requirements.txt`
-3. `python main.py` → nhập deck → nhập từng từ (gõ `c` đổi deck, `exit` thoát).
+📌 **Một điểm cần biết khi sửa code**: HTML mặt thẻ **đáng lẽ** chỉ dựng ở `anki_tools/html_builder.py`,
+nhưng hiện thực tế còn hai nơi khác cũng tự dựng — đây là nợ đã ghi trong [SONO.md](SONO.md), và
+`soatkientruc.py` mục S5 chặn không cho mọc thêm nơi thứ tư. Đừng tin câu "nơi duy nhất" ở bất cứ
+đâu mà không chạy cửa soát.

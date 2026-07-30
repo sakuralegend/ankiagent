@@ -56,6 +56,8 @@ vòng** gỡ lỗi `soatkientruc.py` thì dừng phiên, commit thứ đang có 
 
 Sổ tay đầy đủ: `CACHLAM.md` (luật `L1`–`L5`, có số hiệu để viện dẫn). Quyết định kỹ thuật: `QUYETDINH.md` (`QD-nn`). Nợ kỹ thuật: `SONO.md`. Mọi lần sửa xong: ghi `CHANGELOG.md` (mới nhất trên cùng, kèm **vì sao**).
 
+**Sửa việc XUYÊN MẢNG, hoặc đụng file đã ghi nợ trong `SONO.md` → đọc `KIENTRUC.md` TRƯỚC.** Nó giữ: bản đồ 4 mảng + chiều import một chiều · các cửa L1 · **coupling ẩn qua file dữ liệu** (thứ grep `import` không thấy) · vòng `grammar↔wiktionary` đang bẻ bằng import-trong-hàm · vùng im lặng + công cụ cứu hộ · 5 bất biến dây chuyền kho.
+
 ## 5 luật
 
 - **L1 — Một cửa cho tài nguyên ngoài.** AnkiConnect → `anki_tools/anki_client.py`; cào OpenRussian → `grammar.fetch_page`; AI API → `ai_client`. CẤM viết wrapper mới / trỏ thẳng `:8765`. Ngoại lệ duy nhất: `data/huongdan/kho/` cố tình đóng băng (QD-01).

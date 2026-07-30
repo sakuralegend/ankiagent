@@ -4,6 +4,33 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 31/07/2026 — **G2**: `KIENTRUC.md` + cắt `README.md` + bật S8
+
+Viết `KIENTRUC.md` — file trả lời câu *"hệ thống là gì, chạy thế nào, **sửa ở đâu**"*. Tám mục:
+bản đồ 4 mảng + chiều import một chiều · dòng dữ liệu từ OpenRussian tới iPhone · các cửa L1 và
+ngoại lệ QD-01 · **coupling ẩn qua file dữ liệu** · vòng `grammar↔wiktionary` và cách đang bẻ ·
+vùng im lặng + triệu chứng + `vnc.bat` · 5 bất biến dây chuyền kho · khối máy đọc `soat-manifest`.
+
+**Ba cơ chế ép nó sang phía tài liệu SỐNG** (học từ đối chứng trong chính repo: `CHUAN.md` bị bắt
+đọc mỗi lô thì sống, `README.md` không nằm trên đường đi nào nên chết 9 ngày): ① `CLAUDE.md` thêm
+dòng *"sửa việc xuyên mảng hoặc đụng file có nợ → đọc `KIENTRUC.md` trước"* — AI bị nạp CLAUDE.md
+mỗi phiên nên nó được đọc đúng lúc cần; ② **cấm mọi con số đếm được** (số dòng/file/lô/thẻ), mỗi
+dòng phải qua phép thử *"còn đúng nguyên văn sau 10 lô mới và 5 lệnh bot mới không?"* — con số trôi
+từng ngày chính là thứ đã giết README; ③ khối ` ```soat-manifest ` cuối file để **S8 so tài liệu
+với thực tế** — đã thử: khai một gói không có thật và quên khai một gói có thật đều ra ĐỎ.
+
+Xác minh lại bằng code trước khi viết (đây là chỗ README cũ chết): chiều import một chiều **còn
+nguyên** (`anki_tools` không import ngược mảng nào); vòng `grammar↔wiktionary` **có thật** —
+`wiktionary` import `grammar` ở mức module, `grammar` import ngược **trong hàm** để bẻ, đừng "dọn"
+bằng cách kéo lên đầu file; `nouns.csv` là coupling qua **file** chứ không qua import —
+`grammar_forms` tải về, `anki_tools` đọc, dây chuyền kho cũng đọc, nên đổi định dạng nó là chạm cả
+ba mảng cùng lúc.
+
+`README.md` cắt 232 → 74 dòng: còn giới thiệu + **bảng trỏ "ai trả lời câu hỏi nào"** + `.env` +
+cách chạy. Bỏ phần mô tả cấu trúc/kiến trúc trùng với `KIENTRUC.md`. **Xoá khẳng định sai**
+*"`html_builder.py` — NƠI DUY NHẤT dựng HTML"* (thực tế có 3 nơi), thay bằng mô tả đúng + trỏ
+`SONO.md` và mục S5 của cửa soát.
+
 ## 31/07/2026 — **G1 (QD-02)**: `soatkientruc.py` — cửa soát kiến trúc bằng máy
 
 Thứ đắt giá nhất của đợt dọn: từ nay luật kiến trúc **có máy canh**, không trông vào tự giác nữa.
