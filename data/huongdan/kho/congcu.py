@@ -44,6 +44,8 @@ MIEN_TRU = {
              "thẻ k05 dạy đúng cặp trọng âm này, từ điển chỉ có за́пах",
     "помо́чь": "ĐỘNG TỪ помо́чь = giúp đỡ (thể hoàn thành của помога́ть); từ điển chỉ có danh từ "
               "phương ngữ по́мочь = buổi làm giúp tập thể (số nhiều по́мочи = dây đeo quần)",
+    "у́ха": "cách 2 của у́хо (cái tai), dùng trong thành ngữ слу́шать кра́ем у́ха (thẻ k02); "
+           "từ điển chỉ có danh từ đồng tự уха́ = canh cá",
 }
 
 
