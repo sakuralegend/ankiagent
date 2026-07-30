@@ -4,6 +4,77 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 30/07/2026 — Chạy 4 lô (k55·k01·k02·k03, 54 từ) + vá dấu trọng âm thừa trên `ё` trong cache
+
+Commit `046fb0f` (k55+k01+k03) và `3ccecb7` (k02). **Hàng đợi: 11/59 lô · 170/950 từ duyệt · 780 chờ ·
+lô kế tiếp `k04`.** `moi --apply` báo không có từ mới, nên phiên lấy thẳng 4 lô đầu hàng chờ —
+đúng luật thứ tự chốt 29/07.
+
+| Lô | Từ | Cao tb | Cao nhất | Ô đỏ tb | Đọc bằng mắt | Lỗi tự bắt | Bác nguồn |
+|---|---|---|---|---|---|---|---|
+| k55 `doisong-thiennhien` | 19 | 395px | 447 | 1,1 | 47 | 2 | 3 |
+| k01 `actions` | 15 | 489px | 519 | 1,9 | 93 | 1 | 5 |
+| k02 `actions` | 14 | 489px | 599 | 1,6 | 91 | 1 | 2 |
+| k03 `actions` | 6 | 530px | 591 | 2,0 | 46 | 2 | 3 |
+
+Cả 4 lô: ba cửa soát `(khong co)`, `QUA 1 MAN HINH: 0`, `QUA 2 O DO: 0`, **khối dùng chung 0%**.
+`nap` ghi **40 note cho 40 từ** rồi **14 note cho 14 từ** — khớp tuyệt đối, không có ca `ё` nào lệch.
+Luồng chính tự chạy lại `soat` + `dodai` cả 4 lô, không tin báo cáo suông; khớp từng con số.
+
+### 🔴 Vá dữ liệu: chữ `ё` bị đóng thêm dấu trọng âm trong `grammar_cache.json`
+
+Agent k55 phát hiện bảng chia cache in `шофё́р · шофё́ра · шофё́рам…` — **`ё` trong tiếng Nga luôn
+mang trọng âm, viết thêm dấu là sai**. Nguy hiểm vì `congcu.py bang` nối bảng chia vào MỌI thẻ lúc
+ghi, nên lỗi này chảy thẳng ra mặt thẻ mà không cửa nào chặn. Soi toàn cache: **15 chỗ / 3 từ**
+(`шофёр` 12 · `зачёт` 2 · `она` 1 → `неё́`). Đã bỏ hết dấu thừa, cache đọc lại sạch (951 từ).
+⇒ Bài học: **lỗi ở tầng Bóc/Dựng thì cửa soát nội dung không thấy** — chúng chỉ đo phần agent viết,
+không đo phần máy nối vào.
+
+### 🔴 11 lần bác dữ liệu từ điển sai — nặng nhất là `быть`
+
+Lời cảnh báo 29/07 ("đừng chép `tiep` mù") tiếp tục trả công, và **lô động từ là nơi nguồn sai nhiều
+nhất** (10/11 ca):
+
+- **`быть` — ba lỗi cùng một từ**: ① bảng chia máy dựng **thiếu hẳn thời tương lai** và in `есть`
+  cho cả sáu ngôi hiện tại (chính trang nguồn tự thú *"This page needs fixing… я бу'ду"*);
+  ② `aspect: "both"` ⇒ badge in **BI-ASP** sai (thực chất chưa hoàn thành, cặp hoàn thành là
+  `побы́ть/пробы́ть`); ③ `motion: "multidirectional"` vô nghĩa với `быть`. Agent không dựa vào bảng,
+  tự viết `бу́ду · бу́дешь …` vào câu chú ý **và nói rõ trên thẻ là bảng dưới thiếu tương lai**.
+- **Gán cặp thể sai** (đúng loại `спрягаться`→`спрятаться` của 29/07): `разгова́ривать` →
+  `partners: ["разговори́ть"]` (= *làm cho ai chịu nói*, từ khác hẳn); `знать` → `partners: ["узна́ть"]`
+  (là thể hoàn thành của `узнава́ть`); `брать` → `побра́ть` (không dùng được); `рабо́тать` →
+  `порабо́тать`/`срабо́тать` (không phải cặp thể thật).
+- **Chi phối cách sai**: `де́лать` ghi `+ instrumental` — thật ra cách 4; cách 5 chỉ đúng ở
+  `рабо́тать учи́телем`, agent chuyển thông tin sang đúng từ đó.
+- **Sai chính tả trong nguồn**: `буфет` → `"швегский стол"` (đúng: `шве́дский`); `смотре́ть` →
+  idiom `"не смотря́ на"` viết TÁCH (đúng: `несмотря́ на` viết LIỀN — viết tách chỉ còn nghĩa
+  "không nhìn vào"). Agent biến cả hai thành ô đỏ dạy đúng.
+- **Dạng mệnh lệnh giả**: `хоте́ть` → `imper: ["хоти́", "хоти́те"]`; `хоти́те` là ngôi "các bạn" hiện
+  tại. Agent ghi thẳng vào câu chú ý rằng dòng mệnh lệnh trong bảng gần như không ai dùng.
+
+### 🔴 NỢ MỚI: `BAT THUONG` bỏ sót động từ đổi hẳn thân quá khứ
+
+`congcu.py tiep` chỉ gắn cờ 5/15 từ ở k01, **bỏ sót đúng ba dạng bất thường nặng nhất**:
+`идти → шёл/шла/шли`, `войти → вошёл`, `вы́йти → вы́шел` (rụng `й`, đổi hẳn thân). Agent tự viết câu
+chú ý nên thẻ không hổng, nhưng lô nào chỉ dựa vào cờ máy thì ba loại này lên thẻ mà không ai nhắc
+quá khứ. **Đáng vá `grammar.analyze()` — để phiên riêng, không trộn vào phiên chạy lô.**
+
+### Miễn trừ mới + hai họ hàng giả bị chặn
+
+- `MIEN_TRU` thêm **`у́ха`**: thành ngữ `слу́шать кра́ем у́ха` dùng cách 2 của `у́хо` (cái tai), còn
+  `nouns.csv` chỉ có từ đồng tự `уха́` = canh cá. Đúng loại máy không phân biệt được.
+- Agent k03 tự chặn hai **họ hàng giả** trước khi chúng lọt vào file: `стол` (bàn) ← `*stel-` chứ
+  không phải `*steh₂-` của `стоя́ть`; `ку́рица` (con gà, `*kurъ` tượng thanh) ← không cùng gốc
+  `кури́ть` (`*kuriti` bốc khói) — và **đảo nó thành một ô đỏ dặn KHÔNG nối hai từ này**.
+- Agent k55 sửa `борщ` ("trọng âm không bao giờ ở gốc" — sai ở cách 1, từ chỉ có một nguyên âm) và
+  `картошка` ("làm mềm ф thành ш" — ф→ш không phải phép làm mềm, chỉ là đổi phụ âm khi dựng từ).
+
+### 📊 `dolo.tsv` — chưa đủ điểm để bác cỡ lô 16–18, nhưng dấu hiệu 29/07 đang YẾU đi
+
+Giả thuyết 29/07 là *lỗi tự bắt tụt về 0 khi lô ≥19 từ*. Phiên này **k55 (19 từ) bắt 2 lỗi** và
+**k01 (15) bắt 1**, còn k02 (14) bắt 1 — tức lô to vẫn bắt được lỗi. 9 điểm đo, chưa kết luận;
+tiếp tục ghi.
+
 ## 29/07/2026 — Chốt cỡ lô 16–18 (bác "lô càng to càng lợi") + mở sổ đo `dolo.tsv`
 
 User hỏi *"một lô 20 từ thế này đã tối ưu p/p tốt nhất chưa"*. Đo lại thì lời khuyên cũ trong

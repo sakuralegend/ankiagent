@@ -4,7 +4,37 @@ Bạn (user) chỉ cần gõ một câu: **"chạy tiếp kho"**. Phần dưới
 
 ---
 
-### ✅ PHIÊN 29/07 (chiều): k13 · k51 · k52 · k53 · k54 XONG & ĐÃ NẠP — lô kế tiếp là **k55**
+### ✅ PHIÊN 30/07: k55 · k01 · k02 · k03 XONG & ĐÃ NẠP — lô kế tiếp là **k04**
+
+**11 lô / 170 từ duyệt / 780 chờ.** `moi --apply` báo không có từ mới → lấy thẳng 4 lô đầu hàng
+chờ. Cả 4 lô `QUA 1 MAN HINH: 0` · `QUA 2 O DO: 0` · khối dùng chung **0%**; `nap` ghi đúng
+40 note / 40 từ rồi 14 / 14.
+
+⚠️ **Anki trên PC KHÔNG tự chạy** — `moi`/`nap` chết ngay với `WinError 10061`. Mở bằng
+`C:\Users\Asus\AppData\Local\Programs\Anki\anki.exe` rồi chờ ~10 s là AnkiConnect lên. Đừng mất
+thời gian nghĩ đó là lỗi cấu hình.
+
+🔴 **Bài học lớn nhất của phiên: cửa soát KHÔNG đo phần máy nối vào thẻ.** Agent k55 bắt được
+`grammar_cache.json` in `шофё́р` — **`ё` bị đóng thêm dấu trọng âm**, mà `ё` thì luôn mang trọng âm
+sẵn. Vì `congcu.py bang` nối bảng chia vào MỌI thẻ lúc ghi, lỗi tầng Bóc/Dựng chảy thẳng ra mặt thẻ
+mà `soat`/`dodai` không thấy (chúng chỉ đo phần agent viết). Đã vá 15 chỗ / 3 từ
+(`шофёр` 12 · `зачёт` 2 · `она` 1).
+
+🔴 **`быть` cho thấy nguồn có thể sai BA lần trên cùng một từ**: bảng chia thiếu hẳn thời tương lai
++ in `есть` cho cả sáu ngôi (trang nguồn tự thú *"This page needs fixing"*), `aspect=both` ⇒ badge
+in **BI-ASP** sai, `motion=multidirectional` vô nghĩa. **Lô động từ là nơi nguồn sai nhiều nhất:
+10/11 ca của phiên.** Cùng loạt: `разговаривать`/`знать`/`брать`/`работать` bị gán cặp thể sai,
+`делать` ghi chi phối cách 5 (thật ra cách 4), `буфет` sai chính tả `шведский`, `смотреть` có idiom
+`не смотря на` viết tách (đúng: `несмотря на` viết LIỀN), `хотеть` có dạng mệnh lệnh giả.
+
+🔴 **NỢ MỚI — `BAT THUONG` bỏ sót động từ đổi hẳn thân quá khứ.** `tiep` chỉ gắn cờ 5/15 từ ở k01,
+bỏ sót `идти → шёл/шла/шли`, `войти → вошёл`, `вы́йти → вы́шел`. Agent tự viết câu chú ý nên thẻ
+không hổng, nhưng lô nào chỉ dựa vào cờ máy thì ba loại này lên thẻ mà không ai nhắc quá khứ.
+**Đáng vá `grammar.analyze()` — để phiên riêng, đừng trộn vào phiên chạy lô.**
+
+---
+
+### ✅ PHIÊN 29/07 (chiều): k13 · k51 · k52 · k53 · k54 XONG & ĐÃ NẠP (mốc cũ)
 
 **7 lô / 116 từ duyệt / 834 chờ.** Không có từ mới (`moi` báo 950 thẻ đều đã trong hàng đợi),
 nên phiên lấy thẳng 5 lô đầu hàng chờ. Cả 5 đều `QUA 1 MAN HINH: 0` và `QUA 2 O DO: 0`,
