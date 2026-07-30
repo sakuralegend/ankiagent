@@ -37,9 +37,29 @@ chỉ đúng **3/13**. `по-` trong `погуля́ть`/`потанцева́�
 ("have a dance", "to wait for a while"). Bài học: **đặt trục lô bằng hình thức tiền tố thì dễ sai**,
 agent chia lại thành bốn nhóm là đúng.
 
-📌 **Hai lỗi dữ liệu ngoài phạm vi lô, chờ user quyết**: `есть` đang mang `pos=oth` nghĩa `"có, ăn"`
-(gộp hai động từ khác hẳn nhau), và `слу́шать` nghĩa `"nghe (tập trung chú ý), nghe thấy"` (gộp luôn
-`слы́шать`).
+### 🧹 Dọn nốt 8 thẻ còn lặp badge · vá nghĩa `слу́шать` ở `tudien.json` (commit `e33e842`)
+
+Hai lỗi dữ liệu agent nêu, **user đã quyết**:
+
+- **`есть` giữ nguyên** — user xác nhận hai nghĩa "có" / "ăn" là **đúng**: đó là hai động từ đồng tự
+  thật trong tiếng Nga, không phải lỗi gộp nghĩa. Đừng nêu lại ở phiên sau.
+- **`слу́шать`**: thẻ **đã đúng sẵn** (lô trước sửa rồi), chuỗi sai nằm ở **`tudien.json`** — tức
+  nguồn vẫn sẽ lừa agent các lô sau. Vá: `"nghe (tập trung chú ý), nghe thấy (nhận biết âm thanh)"`
+  → `"nghe, lắng nghe (chủ ý hướng tai về)"`. 📌 **Bài học: agent báo "thẻ sai" thì kiểm xem sai ở
+  THẺ hay ở NGUỒN** — sửa thẻ mà bỏ nguồn là lỗi sẽ mọc lại.
+
+Nhân đó quét cả **976 thẻ** tìm dấu hiệu lặp badge trong `Vietnamese`: 23 khớp, nhưng phần lớn là
+**dương tính giả** — `глаго́л` = "động từ" chính là *nghĩa* của nó; `по-ру́сски · по-францу́зски ·
+иногда́ · всегда́` đều `PoS=oth` nên ghi "trạng từ:" là **đúng theo ngoại lệ đã chốt**. Còn **8 thẻ
+lặp thật**, cùng loại lỗi user bác 29/07 mà đợt đó dọn sót:
+
+`слы́шать · покупа́ть · нра́виться · люби́ть · ждать · боле́ть · ката́ться · по́мнить`
+
+Tất cả ghi `"(chưa hoàn thành — …)"` trong khi badge IMPF đã in sẵn ngay mặt đề bài; `ката́ться` lặp
+cả badge REFL. Đã **bỏ phần nhãn, GIỮ phần giải thích thật sự có ích** (`VẬT làm chủ ngữ`,
+`không tiền tố`, `không có bản hoàn thành`…).
+
+✅ Sau khi sửa: **0 thẻ lặp badge · 0 va chạm đề bài** trên toàn kho 976 thẻ.
 
 ✅ **Không có lỗ hổng cửa soát**: cả hai agent báo `<b>` lồng trong `<b>` lọt cửa — **sai**, cửa (a)
 của `soat` quét theo **độ sâu** và báo `long/lech` khi `sau > 1` (`congcu.py:356`). Đừng ghi nhận
