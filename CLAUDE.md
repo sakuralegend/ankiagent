@@ -24,8 +24,12 @@ Cuối phiên A′ thêm ~20 phút: script CHỈ ĐỌC đo bất đồng 4 lu�
 2. `C:\Users\Asus\.claude\plans\c-v-sau-m-t-linear-emerson.md` — chia phiên A/B/C, thứ tự từng bước, trần chi phí
 
 **Biết đang ở đâu:** `git log --oneline -20 | Select-String "\(G[0-4]\)"` — G nào đã có commit là đã
-xong. Chưa có gì ⇒ chạy **phiên A, bước A1**: chụp baseline vào `_baseline_don.md` **TRƯỚC khi sửa
-bất cứ thứ gì**.
+xong.
+
+> ✅ **31/07/2026 (Sonnet 5): hai vá 🔴 + G0 (QD-03) + đo bất đồng chuẩn hoá đã XONG, đã commit**
+> (`b8fef49`, `470af8d`). `_baseline_don.md` đã chụp. **Việc kế tiếp: G1 (viết `soatkientruc.py`)
+> — bảng model dưới đây yêu cầu Opus.** Phiên đang chạy Sonnet thì DỪNG LẠI ở đây, nói user gõ
+> `/model opus` trước khi làm G1, đừng tự hạ chuẩn xuống làm bằng Sonnet.
 
 **Hai trần cứng của phiên A:** ① đọc 12 file `data/huongdan/lo01…lo12_*.py` bằng `limit=15`, **đừng
 đọc cả file** (chúng chứa ~270 KB nội dung thẻ ≈ 70K token, mà ta chỉ chèn 3 dòng đầu); ② quá **4
