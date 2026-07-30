@@ -213,26 +213,6 @@ S["деньги"] = (
     '<b>деньга́х</b>.</div>'
 )
 
-S["китайски"] = (
-    '<div class="hd-sec">Chẻ từ</div>'
-    '<div class="hd-row"><span class="hd-piece">кита́й-</span>'
-    '<span class="hd-gloss">TRUNG QUỐC</span></div>'
-    '<div class="hd-row"><span class="hd-piece">-ск-</span>'
-    '<span class="hd-gloss">hậu tố "thuộc về, theo lối"</span></div>'
-    '<div class="hd-row"><span class="hd-piece">-и</span>'
-    '<span class="hd-gloss">đuôi trạng từ của khuôn по-…-ски</span></div>'
-    '<div class="hd-sec">Cách nhớ</div>'
-    '<div class="hd-why">Dạng này <b>không đứng một mình</b> — nó chỉ sống bên trong '
-    '<b>по-кита́йски</b> = theo lối Trung Quốc, bằng tiếng Trung: '
-    '<i>говори́ть по-кита́йски</i>.</div>'
-    '<div class="hd-warn"><b>Cặp tính từ ↔ trạng từ, đúng khuôn ру́сский / по-ру́сски:</b> '
-    'có chữ "tiếng" thì dùng tính từ — <i>кита́йский язы́к</i>; nói/viết/đọc bằng thứ tiếng '
-    'đó thì dùng trạng từ — <i>по-кита́йски</i>, không kèm danh từ nào.</div>'
-    '<div class="hd-sec">Họ hàng</div>'
-    '<div class="hd-fam"><b>Кита́й</b> Trung Quốc · <b>кита́ец</b> người TQ (nam) · '
-    '<b>китая́нка</b> người TQ (nữ) · <b>кита́йский</b> thuộc Trung Quốc</div>'
-)
-
 S["край"] = (
     '<div class="hd-sec">Chẻ từ</div>'
     '<div class="hd-row"><span class="hd-piece">край</span>'
@@ -284,4 +264,3 @@ V["край"]     = "mép, rìa, bờ ngoài cùng; vùng đất, miền"
 V["прыжок"]   = "cú nhảy (một lần nhảy)"
 # PoS = oth ⇒ badge vô dụng, phải ghi rõ từ loại. Và phải tách khỏi hai thẻ khác
 # trong bộ sưu tập: по-кита́йски ("bằng tiếng Trung") và кита́йский (tính từ).
-V["китайски"] = '(trạng từ) "bằng tiếng Trung" — gõ phần SAU dấu gạch nối, KHÔNG có по-'
