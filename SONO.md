@@ -32,14 +32,15 @@
 
 ### 🟡 Code — rơi giữa hai ghế, không plan nào quản
 
-- [ ] **4 luật chuẩn hoá tiếng Nga khác nhau.** `_fable_plan.md` nhắc đúng một lần ở dòng chẩn đoán
-      rồi bỏ: không có trong G0–G4, không có trong bảng Q5 "cái không làm". `ai_client.py:422` có
-      `unicodedata.normalize("NFC")`, `utils.py:24 strip_accents_perfectly` thì KHÔNG ⇒ hai hàm cùng
-      mục đích cho **kết quả khác nhau với chữ `ё` dạng tổ hợp**. Đây là món **hỏng im lặng** duy nhất
-      còn lại: không giết bot, chỉ làm thẻ sai âm thầm.
-      **Trả (rẻ, rủi ro 0):** script CHỈ ĐỌC gom mọi từ Nga thật (`grammar_cache.json` + `tudien.json`
-      + `WordClean` của thẻ), chạy cả 4 luật, in tập BẤT ĐỒNG. Rỗng ⇒ đóng nợ. Không rỗng ⇒ đó là lỗi
-      thật, vá theo luật "kiểm ngược lô cũ" (CACHLAM). **KHÔNG gộp hàm trước khi đo.** (31/07/2026)
+- [x] **4 luật chuẩn hoá tiếng Nga khác nhau — ĐÃ ĐO 31/07/2026, ĐÓNG NỢ.** Script chỉ đọc
+      `_daxong/_va_do_bat_dong_chuan_hoa.py` gom 1748 từ Nga thật (`grammar_cache.json` 978 +
+      `tudien.json` 976 + `Word`/`WordClean` của mọi thẻ RU_Word qua AnkiConnect), chạy cả 4 hàm:
+      **A/B** (`utils.strip_accents_perfectly` vs công thức NFC-normalize của `ai_client._clean_scan_word`,
+      cùng mục đích) → **0 bất đồng**; **C/D** (`bare()` của `congcu.py` vs `kiemtra.py`, cùng mục
+      đích tra `nouns.csv`) → **0 bất đồng**. Rủi ro `ё` dạng tổ hợp (е + U+0308) mà `_fable_plan.md`
+      nghi ngờ chưa từng xảy ra trên dữ liệu thật hiện có — code vẫn khác hàm nhau (KHÔNG gộp, đúng
+      dặn dò), chỉ là chưa có từ nào chạm trúng khác biệt đó. Đo lại nếu sau này nạp dữ liệu từ nguồn
+      copy-paste không rõ chuẩn hoá (vd dán trực tiếp từ web ngoài OpenRussian).
 - [ ] **Thư mục gốc vi phạm chính luật L2 bảy lần.** L2: *"gốc chỉ chứa điểm vào đang sống"*. Sau G3
       của Fable, gốc vẫn còn **9 file `.py`** (S6 hợp thức bằng danh sách trắng = ghi nhận vi phạm chứ
       không sửa). Luật bị phá ngay ngày đầu bởi chính repo của nó là luật chết — đúng bệnh đã giết

@@ -4,6 +4,16 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 31/07/2026 — Phiên A′ (cuối): đo bất đồng 4 luật chuẩn hoá tiếng Nga — đóng nợ SONO.md
+
+Script chỉ đọc `_daxong/_va_do_bat_dong_chuan_hoa.py` (L2: script một lần, chạy xong chuyển thẳng
+vào `_daxong/`) gom 1748 từ Nga thật từ `grammar_cache.json` + `tudien.json` + field `Word`/
+`WordClean` mọi thẻ RU_Word (AnkiConnect, chỉ đọc), chạy 2 cặp hàm chuẩn hoá cùng mục đích: A/B
+(`utils.strip_accents_perfectly` vs công thức NFC-normalize trong `ai_client._clean_scan_word`) và
+C/D (`bare()` của `congcu.py` vs `kiemtra.py`, sau khi đã gộp `MIEN_TRU` ở G0). Cả hai cặp **0 bất
+đồng** trên dữ liệu thật — đóng nợ, KHÔNG gộp hàm (đúng luật "đo trước khi gộp" ở SONO.md). Kết thúc
+phiên A′: 2 vá 🔴 + G0 (QD-03) + đo bất đồng chuẩn hoá, đúng nguyên bản `_fable_plan.md`.
+
 ## 31/07/2026 — Phiên A′: 2 vá 🔴 + `_baseline_don.md` + **G0** (QD-03)
 
 Ba việc, đúng thứ tự CLAUDE.md quy định trước khi mở lô soạn kho lại:
