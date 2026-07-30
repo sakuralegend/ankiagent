@@ -9,6 +9,7 @@ dùng đúng cả đời; không nắm thì sai mãi.
 
 Chạy: python data/huongdan/lo02_quoctich_tinhtu_2026-07-27.py [--apply]
 """
+raise SystemExit("KHAI TU 30/07/2026: chuan v1 — chay lai se XOA BANG CHIA the that. Xem QD-03.")
 import json
 import sys
 import urllib.request

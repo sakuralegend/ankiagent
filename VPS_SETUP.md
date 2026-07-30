@@ -151,6 +151,19 @@ bản gần nhất. Thành công thì im lặng; **thất bại sẽ nhắn Tele
 ngay, vì lúc đó kho đang không có bản sao lưu mới. Đổi chỗ lưu/số bản: `BACKUP_DIR`, `BACKUP_KEEP`
 trong `.env`.
 
+**Khôi phục thử một bản `.apkg` (đã kiểm chứng thật 31/07/2026 — 950/950 note phục hồi đúng):**
+1. Đóng Anki đang chạy (Task Manager hoặc `taskkill /IM anki.exe`) — nó tự lưu, không mất gì.
+2. Mở lại: `anki.exe -p "RestoreTest"` (hoặc mở Anki thường rồi ở màn hình chọn profile bấm
+   **Add**, gõ tên bất kỳ) — bấm **Add** để tạo profile MỚI RỖNG, đừng chọn profile thật.
+3. Đợi AnkiConnect sống lại (`curl 127.0.0.1:8765` trả `version`), gọi `importPackage` với
+   `path` là đường dẫn file `.apkg` cần kiểm (vd `backups/2026-07-29_1225/RUSSIAN.apkg`).
+4. Kiểm bằng AnkiConnect: `findNotes deck:*` (so số note với lúc backup) + `notesInfo` một note
+   bất kỳ, đọc field xem chữ Nga/tiếng Việt còn nguyên không.
+5. Đóng Anki, xoá thư mục profile test (`%APPDATA%\Anki2\RestoreTest`), mở lại đúng profile
+   thật (`anki.exe -p "User 1"`) — kiểm `deckNames` phải thấy đủ deck cũ (RUSSIAN + GRAMMAR).
+6. Không đụng gì tới file backup gốc hay profile thật trong lúc test — toàn bộ diễn ra trong
+   profile rỗng riêng, xoá đi là sạch, không rủi ro với dữ liệu đang học.
+
 **❌ Đừng đặt VPS tự động "Download from AnkiWeb" theo lịch.** Lệnh đó ghi đè sạch collection trên
 VPS (xóa thẻ bot vừa thêm chưa kịp đẩy lên), và cũng không cứu được gì khi bạn quên sync điện
 thoại — dữ liệu ôn tập lúc đó nằm trong điện thoại chứ không phải trên AnkiWeb.

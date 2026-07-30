@@ -4,6 +4,33 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 31/07/2026 — Phiên A′: 2 vá 🔴 + `_baseline_don.md` + **G0** (QD-03)
+
+Ba việc, đúng thứ tự CLAUDE.md quy định trước khi mở lô soạn kho lại:
+
+1. **2 vá 🔴 trong `SONO.md`** (bảo hiểm cho chính đợt dọn): `requirements.txt` ghim `==` theo
+   đúng bản `pip freeze` thật trên VPS (trước đó `>=` cả 6 gói, mà `deploy.ps1` tự `pip install`
+   mỗi lần deploy — một bản mới có breaking change sẽ giết bot mà nguyên nhân không nằm trong diff
+   của người sửa); khôi phục thử `backups/2026-07-29_1225/RUSSIAN.apkg` vào profile Anki RỖNG qua
+   AnkiConnect — 950/950 note đúng, xem tận field thẻ `да`, các bước ghi vào `VPS_SETUP.md` (trước
+   đó KHÔNG có đường khôi phục nào đã thử thật).
+2. **`_baseline_don.md`**: chụp số nền (trạng thái dây chuyền kho, `soat`/`dodai` trên k48,
+   `kiemtra.py`, `backfill_badge.py` dry-run, đếm note theo tag/model) để so lại sau mỗi giai
+   đoạn G. Phát hiện ngoài phạm vi (không sửa): `backfill_badge.py` giờ báo "SẼ ĐỔI 1 thẻ" thay vì
+   "0 thẻ" như 29/07 — 1 thẻ `AspectBadge` lệch, để lại cho việc khác.
+3. **G0 (QD-03)**: chèn `raise SystemExit("KHAI TU…")` sau docstring của 12 file
+   `lo01…lo12_*.py` — tháo ngòi bom im lặng (chạy nhầm lại xoá bảng chia thẻ thật, đã nổ 29/07),
+   giữ file làm tham chiếu nội dung cho tới khi 168 thẻ phủ hết tag `chuan::3`. Gộp `MIEN_TRU`
+   (từ đồng tự miễn trừ soát trọng âm) từ 2 nơi lệch nhau (`kiemtra.py` 1 mục vs `kho/congcu.py`
+   5 mục) về một file `data/huongdan/mientru.py`, cả hai cùng import — `kiemtra.py` hết kêu oan
+   (2 dòng "TRONG AM LECH" giả → 0). Vá đường dẫn cứng `d:\Desktop\ANKI\data\nouns.csv` trong
+   `kiemtra.py` thành `Path(__file__).resolve().parent.parent / "nouns.csv"`. Nghiệm thu: `soat`/
+   `dodai` k48 y hệt baseline, `import bot, main` sạch.
+
+Vì sao làm trước G0: hai vá 🔴 là bảo hiểm cho chính đợt dọn (lib mới hoặc mất sạch dữ liệu có thể
+xảy ra BẤT CỨ LÚC NÀO, không đợi hết dọn); MIEN_TRU/lo01-12 đúng là bug ĐANG tồn tại loại im lặng,
+xếp trước "nợ" theo tiêu chí ở `_fable_plan.md` Q4.
+
 ## 30/07/2026 (đêm) — Plan dọn dẹp `_fable_plan.md` (Fable 5 soạn, Opus 5 sẽ thi hành)
 
 Chiến lược dọn **cái đã tồn tại**, nhất quán với `CACHLAM.md` (L1–L5, QD-01). Chẩn đoán: dự án

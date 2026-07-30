@@ -10,6 +10,7 @@ mở khoá cả chục từ nền tảng, kể cả thuật ngữ ngữ pháp "g
 
 Chạy: python data/huongdan/lo10_hoctap_2026-07-27.py [--apply]
 """
+raise SystemExit("KHAI TU 30/07/2026: chuan v1 — chay lai se XOA BANG CHIA the that. Xem QD-03.")
 import json
 import sys
 import urllib.request

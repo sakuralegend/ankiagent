@@ -9,6 +9,7 @@ Ba hệ thống dạy kèm, dùng được rất xa:
 
 Chạy: python data/huongdan/lo08_tinhtu_mota_2026-07-27.py [--apply]
 """
+raise SystemExit("KHAI TU 30/07/2026: chuan v1 — chay lai se XOA BANG CHIA the that. Xem QD-03.")
 import json
 import sys
 import urllib.request

@@ -8,6 +8,7 @@ Nhóm này ít chẻ được nên trục là ba thứ khác, đều dùng suố
 
 Chạy: python data/huongdan/lo09_doisong_2026-07-27.py [--apply]
 """
+raise SystemExit("KHAI TU 30/07/2026: chuan v1 — chay lai se XOA BANG CHIA the that. Xem QD-03.")
 import json
 import sys
 import urllib.request

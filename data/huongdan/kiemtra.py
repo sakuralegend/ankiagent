@@ -24,9 +24,12 @@ import json
 import re
 import sys
 import urllib.request
+from pathlib import Path
+
+from mientru import MIEN_TRU
 
 ANKI = "http://127.0.0.1:8765"
-NOUNS = r"d:\Desktop\ANKI\data\nouns.csv"
+NOUNS = Path(__file__).resolve().parent.parent / "nouns.csv"
 ACUTE = "\u0301"          # dấu trọng âm tổ hợp, đứng SAU nguyên âm
 ZWSP = "\u200b"
 
@@ -38,14 +41,6 @@ def ac(action, **params):
     if out.get("error"):
         raise RuntimeError(f"{action}: {out['error']}")
     return out["result"]
-
-
-# Từ ĐỒNG TỰ: hai từ khác nhau viết giống hệt, từ điển chỉ giữ được một.
-# Máy không thể phân biệt, nên phải miễn trừ TAY và ghi rõ lý do — một bộ soát
-# kêu nhầm mãi thì rồi chính mình sẽ bỏ qua cả tiếng kêu thật.
-MIEN_TRU = {
-    "ви́на": "số nhiều của вино́ (rượu vang); từ điển chỉ có вина́ = lỗi lầm",
-}
 
 
 def bare(w):

@@ -27,7 +27,9 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, "..", "..", ".."))
+sys.path.insert(0, os.path.join(HERE, ".."))
 from anki_tools import grammar                                    # noqa: E402
+from mientru import MIEN_TRU                                      # noqa: E402
 
 HANGDOI = os.path.join(HERE, "hangdoi.json")
 TUDIEN = os.path.join(HERE, "tudien.json")
@@ -35,18 +37,6 @@ NOUNS = os.path.join(HERE, "..", "..", "nouns.csv")
 ANKI = "http://127.0.0.1:8765"
 ACUTE = "́"
 ZWSP = "​"
-
-# Từ ĐỒNG TỰ — máy không phân biệt được, miễn trừ tay, mỗi mục ghi rõ lý do.
-MIEN_TRU = {
-    "ви́на": "số nhiều của вино́ (rượu vang); từ điển chỉ có вина́ = lỗi lầm",
-    "жила́": "quá khứ giống cái của động từ жить (sống); từ điển chỉ có danh từ жи́ла = gân, mạch",
-    "запа́х": "đồng tự với за́пах (mùi): запа́х = vạt áo choàng chồng lên nhau (từ запахну́ть); "
-             "thẻ k05 dạy đúng cặp trọng âm này, từ điển chỉ có за́пах",
-    "помо́чь": "ĐỘNG TỪ помо́чь = giúp đỡ (thể hoàn thành của помога́ть); từ điển chỉ có danh từ "
-              "phương ngữ по́мочь = buổi làm giúp tập thể (số nhiều по́мочи = dây đeo quần)",
-    "у́ха": "cách 2 của у́хо (cái tai), dùng trong thành ngữ слу́шать кра́ем у́ха (thẻ k02); "
-           "từ điển chỉ có danh từ đồng tự уха́ = canh cá",
-}
 
 
 def bare(w):

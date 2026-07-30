@@ -1,0 +1,22 @@
+# -*- coding: utf-8 -*-
+"""Từ ĐỒNG TỰ miễn trừ khỏi soát trọng âm — CỬA DUY NHẤT (G0, 31/07/2026, QD-03).
+
+Vì sao tách riêng: `congcu.py` và `kiemtra.py` từng tự giữ hai bản `MIEN_TRU`
+lệch nhau (5 mục vs 1 mục) — bản thiếu của `kiemtra.py` khiến nó kêu oan 4 từ
+đúng chính tả (жила́, запа́х, помо́чь, у́ха) là "trọng âm lệch". Một bộ soát kêu
+oan là bộ soát chết, nên gộp về MỘT nơi, cả hai script cùng import.
+
+Máy không phân biệt được hai từ khác nhau viết giống hệt (đồng tự) — mỗi mục
+phải miễn trừ TAY và ghi rõ lý do, học từ chính `MIEN_TRU` gốc của `congcu.py`.
+"""
+
+MIEN_TRU = {
+    "ви́на": "số nhiều của вино́ (rượu vang); từ điển chỉ có вина́ = lỗi lầm",
+    "жила́": "quá khứ giống cái của động từ жить (sống); từ điển chỉ có danh từ жи́ла = gân, mạch",
+    "запа́х": "đồng tự với за́пах (mùi): запа́х = vạt áo choàng chồng lên nhau (từ запахну́ть); "
+             "thẻ k05 dạy đúng cặp trọng âm này, từ điển chỉ có за́пах",
+    "помо́чь": "ĐỘNG TỪ помо́чь = giúp đỡ (thể hoàn thành của помога́ть); từ điển chỉ có danh từ "
+              "phương ngữ по́мочь = buổi làm giúp tập thể (số nhiều по́мочи = dây đeo quần)",
+    "у́ха": "cách 2 của у́хо (cái tai), dùng trong thành ngữ слу́шать кра́ем у́ха (thẻ k02); "
+           "từ điển chỉ có danh từ đồng tự уха́ = canh cá",
+}

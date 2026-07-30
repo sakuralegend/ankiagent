@@ -12,6 +12,7 @@ KHÔNG phiên âm, KHÔNG mnemonic — user đã bỏ hẳn hướng đó 27/07/
 Chạy: python data/huongdan/lo01_quoctich_2026-07-27.py [--apply]
 Không có --apply thì chỉ đối chiếu key, không ghi gì.
 """
+raise SystemExit("KHAI TU 30/07/2026: chuan v1 — chay lai se XOA BANG CHIA the that. Xem QD-03.")
 import json
 import sys
 import urllib.request

@@ -9,17 +9,14 @@
 > Nợ **cấu trúc code** tồn đọng trước 30/07/2026 do `_fable_plan.md` (G0–G4) quản, không chép lại đây.
 > Bên dưới là các món **plan đó KHÔNG quản** — phát hiện khi rà lại 31/07/2026.
 
-### 🔴 Vận hành — hỏng thì mất dữ liệu hoặc mất nhiều giờ truy lỗi
+### 🔴 Vận hành — hỏng thì mất dữ liệu hoặc mất nhiều giờ truy lỗi (ĐÃ TRẢ 31/07/2026)
 
-- [ ] **Sao lưu chưa từng khôi phục thử.** `anki_tools/backup.py` chỉ biết TẠO `.apkg` + xoay vòng;
-      grep `restore|khoi_phuc|importPackage` toàn repo = **rỗng**. Một bản sao lưu chưa khôi phục thử
-      thì không phải bản sao lưu. Rủi ro lớn nhất đã tự nhận diện (full sync nhầm chiều) chính là loại
-      xoá sạch. **Trả:** khôi phục 1 bản vào profile Anki RỖNG trên PC, đếm thẻ, mở 1 thẻ nhìn tận mắt,
-      ghi 6 dòng các bước vào `VPS_SETUP.md`. (31/07/2026)
-- [ ] **`requirements.txt` không ghim phiên bản** (`>=` cả 6 gói) mà `deploy.ps1` lại chạy
-      `pip install -r requirements.txt` MỖI lần deploy ⇒ một bản `python-telegram-bot` mới có breaking
-      change sẽ giết bot, **và nguyên nhân không nằm trong diff của bạn**. **Trả:** `pip freeze` trên
-      VPS, ghim `==`. Nâng cấp phải là hành động có chủ đích. (31/07/2026)
+- [x] **Sao lưu chưa từng khôi phục thử.** Đã khôi phục `backups/2026-07-29_1225/RUSSIAN.apkg` vào
+      profile Anki RỖNG trên PC qua AnkiConnect: 950/950 note phục hồi đúng, xem tận field 1 thẻ
+      (`да`) còn nguyên chữ Nga/tiếng Việt. Các bước ghi ở `VPS_SETUP.md` mục "Khôi phục thử một bản
+      `.apkg`". (31/07/2026)
+- [x] **`requirements.txt` không ghim phiên bản.** Đã `pip freeze` trên VPS lấy đúng bản đang chạy
+      thật, ghim `==` cho cả 6 gói. Nâng cấp từ nay là hành động có chủ đích. (31/07/2026)
 
 ### 🟡 Vận hành — cần thiết kế riêng, ĐỪNG làm trong đợt dọn G0–G4
 
