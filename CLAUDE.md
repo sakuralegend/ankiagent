@@ -9,9 +9,15 @@
 
 | Phiên | Nội dung |
 |---|---|
-| **A = G0 + G1** | ← **BẮT ĐẦU TỪ ĐÂY** nếu chưa có commit nào mang `(G0)` |
-| B = G2 + G3 | tài liệu (`KIENTRUC.md`) + dọn thư mục gốc |
+| **A′ = 2 vá 🔴 + G0 + G1** | ← **BẮT ĐẦU TỪ ĐÂY** nếu chưa có commit nào mang `(G0)` |
+| B = G2 + G3 mở rộng | tài liệu (`KIENTRUC.md`) + dọn gốc **về đúng 3 file `.py`** |
 | C = G4 + tổng kết | phiên duy nhất chạm bot 24/7 |
+
+**Phiên A′ mở đầu bằng hai món 🔴 trong `SONO.md`** — làm TRƯỚC G0 (~40 phút), vì cả hai là bảo hiểm
+cho chính đợt dọn: ① ghim `requirements.txt` bằng `==` (deploy đang tự `pip install` mỗi lần ⇒ một bản
+lib mới có thể giết bot mà nguyên nhân không nằm trong diff của bạn); ② khôi phục thử một `.apkg` vào
+profile Anki RỖNG rồi ghi các bước vào `VPS_SETUP.md` (hiện **không có đường khôi phục nào**).
+Cuối phiên A′ thêm ~20 phút: script CHỈ ĐỌC đo bất đồng 4 luật chuẩn hoá tiếng Nga (xem `SONO.md`).
 
 **Hai file phải đọc trước khi bắt tay:**
 1. `_fable_plan.md` — đặc tả G0–G4: làm gì, file nào, kiểm chứng thế nào, cái gì KHÔNG làm
