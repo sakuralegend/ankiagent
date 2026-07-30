@@ -4,6 +4,85 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 30/07/2026 (tối) — 27 từ mới vào hàng đợi (k59+k60) · đo va chạm đề bài · `па́па`/`оте́ц`
+
+**27 từ mới** user thêm qua bot (gần như toàn động từ thể hoàn thành) → `moi --apply` mở lô `k59`
+ở đầu hàng đợi, nhưng **vượt trần 22 nên chia tay làm hai**, giữ họ từ chung một lô:
+
+| Lô | Từ | Trục |
+|---|---|---|
+| `k59` | 13 | tiền tố **rỗng** tạo thể hoàn thành (вы-/на-/по-/с-/у-/подо-) — nghĩa giữ nguyên, chỉ đổi thể |
+| `k60` | 14 | phần còn lại: `за-` khởi phát · động từ phản thân · cặp `изуча́ть/изучи́ть` · họ `гото́вить·пригото́вить·подгото́вка` · bất quy tắc `поня́ть/смочь` |
+
+**Cả hai lô soạn xong và đã nạp**, `nap` ghi **27 note / 27 từ** (khớp tuyệt đối), gắn `chuan::3`
+⇒ kho có **260 thẻ đạt chuẩn**. Hàng đợi: **18/61 lô · 260/976 từ duyệt**, lô kế tiếp `k17`.
+
+| Lô | Từ | Đọc bằng mắt | Lỗi agent tự bắt | Bác nguồn | Cao TB | Cao nhất |
+|---|---|---|---|---|---|---|
+| `k59` | 13 | 42 | 1 | **4** | 524px | 623px (`уви́деть`) |
+| `k60` | 14 | 75 | 1 | **6** | 550px | 597px (`научи́ться`) |
+
+Cả hai `QUA 1 MAN HINH: 0` · `QUA 2 O DO: 0` · khối dùng chung **0%**. Luồng chính chạy lại cả hai
+cửa, số khớp báo cáo từng con.
+
+🔴 **Lô động từ lại đúng là nơi nguồn sai nhiều nhất: 10 lần bác nguồn / 27 từ.** Nặng nhất là
+**`partners` gán cặp thể sai** (`вспо́мнить` bị ghép với `по́мнить`, cặp thật là `вспомина́ть`;
+`гото́вить` gộp bốn tiền tố như thể đều là cặp thể, chỉ `пригото́вить` mới đúng), **dạng mệnh lệnh
+giả** (`уви́дь`, `смоги́`, `захоти́`), và **bảng chia chỉ phủ một nghĩa** (`заболе́ть` không có nhánh
+ngôi ba `заболи́т` "bộ phận cơ thể bắt đầu đau").
+
+⚠️ **Trục lô k59 tôi đặt là SAI như phát biểu** — agent bác lại: "tiền tố rỗng, nghĩa giữ nguyên"
+chỉ đúng **3/13**. `по-` trong `погуля́ть`/`потанцева́ть`/`подожда́ть` là **delimitative** ("một lát"),
+`вы-`/`с-` mang "hết sạch", `у-` mang "bắt được" — chính English gloss của nguồn đã tự mâu thuẫn
+("have a dance", "to wait for a while"). Bài học: **đặt trục lô bằng hình thức tiền tố thì dễ sai**,
+agent chia lại thành bốn nhóm là đúng.
+
+📌 **Hai lỗi dữ liệu ngoài phạm vi lô, chờ user quyết**: `есть` đang mang `pos=oth` nghĩa `"có, ăn"`
+(gộp hai động từ khác hẳn nhau), và `слу́шать` nghĩa `"nghe (tập trung chú ý), nghe thấy"` (gộp luôn
+`слы́шать`).
+
+✅ **Không có lỗ hổng cửa soát**: cả hai agent báo `<b>` lồng trong `<b>` lọt cửa — **sai**, cửa (a)
+của `soat` quét theo **độ sâu** và báo `long/lech` khi `sau > 1` (`congcu.py:356`). Đừng ghi nhận
+đây là lỗ hổng.
+
+📊 `dolo.tsv` nay **17 điểm đo**. Cột `loimaybat` để **trống** cho hai lô này (= không rõ), vì không
+agent nào báo con số đó — khác với `0`. Và cột `loitubat` ghi **1** cho k59 dù agent báo 2: mục thứ
+hai là lỗi **định dạng**, không phải nội dung, k60 đã tự tách đúng nên phải tách cho khớp.
+
+### 🔴 Bài học — badge đã lo phần thể, ĐỪNG ép field `Vietnamese` phân biệt thể nữa
+
+Tôi giao lô kèm lời dặn *"đề bài phải phân biệt được thể, không thì user gõ đáp án kia cũng đúng"*
+và nêu ba cặp "đâm nhau" (`гото́вить`/`пригото́вить`, `изуча́ть`/`изучи́ть`, `поката́ться`/`погуля́ть`).
+**User bác**: *"dịch giống nhau cũng được tại có badge imf rồi"*.
+
+Đo thật thay vì cãi — gom cả **976 thẻ** theo `Vietnamese` + `PoS` + cả ba badge:
+
+| | Trước | Sau |
+|---|---|---|
+| Cụm đề bài còn va chạm | **1** (`па́па`/`оте́ц` — "bố, cha" + MASC) | **0** |
+
+**Cả ba cặp tôi nêu đều được badge tách sạch; 0 va chạm nào là cặp thể.** Câu chốt 28/07 *"phải chỉ
+ra thể hoàn thành hay chưa"* ra đời **trước** khi thẻ có `AspectBadge` (29/07) — nay nó đã lỗi thời,
+và cách duy nhất để ép phân biệt thể là viết "(HOÀN THÀNH)" vào dòng tiếng Việt, đúng thứ user đã
+bác. Đã `SendMessage` sửa chỉ thị cho cả hai agent giữa chừng.
+
+⇒ **`па́па`/`оте́ц` sửa tay** (user duyệt: *"trường hợp thế này ít lắm… nếu lọt qua ta làm thủ công"*):
+`bố, cha` → `bố, ba (cách con gọi bố trong nhà)` và `cha, người cha (từ trang trọng, khi nói VỀ
+người cha)`. Cả hai thuộc `k33`/`k34` còn `cho`, nên lô sẽ soi lại khi tới lượt.
+📌 Phép đo này rẻ và lặp lại được — **hỏi "còn va chạm không" thì đi đo**, đừng liệt kê cặp trông
+giống nhau bằng mắt.
+
+### 🔍 Dữ liệu ngữ pháp nằm ở HAI nơi giống hệt nhau
+
+`congcu.py tiep` in `KHONG CO du lieu ngu phap` cho cả 27 từ mới ⇒ tưởng thiếu. Thật ra **không
+thiếu**: bot khi thêm thẻ đã cào và ghi vào field ẩn `GrammarJSON` (cả 27 thẻ đều đủ, kèm audio).
+So `json.loads(GrammarJSON)` với `grammar_cache["выпить"]`: **giống hệt từng khoá** (`==` → `True`).
+
+Bot chạy trên **VPS**, `grammar_cache.json` nằm trên **laptop** ⇒ phía cache luôn hụt đúng bằng số
+từ mới. Đã chạy `cao_nguphap.py` cho xong việc (0 hỏng, cache 949 → 978 từ). **Việc nợ:** cho
+`congcu.py` đọc thẳng `GrammarJSON` từ thẻ và bỏ `grammar_cache.json` — không làm trong phiên chạy
+lô. Trước khi bỏ nhớ luật *hai nguồn cùng thượng nguồn thì trùng nhau không chứng minh đúng*.
+
 ## 30/07/2026 (chiều) — chạy 5 lô k04·k05·k06·k07·k08 · xoá thẻ `китайски` · vá bảng chia `фон`
 
 Commit `7a3cdf6` · `edd48b3` · `9951f14` · `0b79861` · `d02b26f`.

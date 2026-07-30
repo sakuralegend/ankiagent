@@ -4,7 +4,43 @@ Bạn (user) chỉ cần gõ một câu: **"chạy tiếp kho"**. Phần dưới
 
 ---
 
-### ✅ PHIÊN 30/07 (chiều): k04 · k05 · k06 · k07 · k08 XONG & ĐÃ NẠP — lô kế tiếp là **k17**
+### ✅ PHIÊN 30/07 (tối): k59 · k60 XONG & ĐÃ NẠP — lô kế tiếp là **k17**
+
+**18 lô / 260 từ duyệt / 716 chờ.** Kho nay **976 từ** (user thêm **27 từ mới** qua bot).
+`moi --apply` mở lô `k59` nhưng **27 từ vượt trần 22** ⇒ luồng chính chia tay làm hai, **giữ họ từ
+chung một lô** (`гото́вить·пригото́вить·подгото́вка` cùng ở k60) thay vì cắt cho đều số.
+Cả hai lô `QUA 1 MAN HINH: 0` · `QUA 2 O DO: 0` · khối dùng chung **0%**; `nap` ghi **27/27**.
+
+🔴 **Bài học 1: badge đã lo phần thể — ĐỪNG ép field `Vietnamese` phân biệt thể.**
+Tôi giao lô kèm lời dặn "đề bài phải phân biệt được thể" và nêu ba cặp "đâm nhau"
+(`гото́вить`/`пригото́вить`, `изуча́ть`/`изучи́ть`, `поката́ться`/`погуля́ть`). **User bác**: *"dịch giống
+nhau cũng được tại có badge imf rồi"*. Đo cả **976 thẻ** (nhóm theo `Vietnamese` + `PoS` + 3 badge):
+**đúng 1 cụm** còn va chạm thật (`па́па`/`оте́ц`), **0 cụm là cặp thể** — cả ba cặp tôi nêu đều được
+badge tách sạch. Đã `SendMessage` sửa chỉ thị giữa chừng, và sửa tay `па́па`/`оте́ц` ⇒ **nay 0 va
+chạm toàn kho**. Câu chốt 28/07 *"phải chỉ ra thể hoàn thành hay chưa"* ra đời **trước** khi có
+`AspectBadge` (29/07), nay đã lỗi thời.
+⇒ **Hỏi "còn va chạm không" thì ĐI ĐO** (một lần `notesInfo` + gom nhóm, rẻ), đừng liệt kê cặp
+trông giống nhau bằng mắt. Lọt cửa thì **sửa tay**, user chốt: *"trường hợp thế này ít lắm"*.
+
+🔴 **Bài học 2: đặt trục lô bằng HÌNH THỨC tiền tố thì dễ sai.** Tôi đặt trục k59 là "tiền tố rỗng,
+nghĩa giữ nguyên, chỉ đổi thể" — agent bác, **chỉ đúng 3/13**: `по-` trong `погуля́ть`/`потанцева́ть`
+là delimitative ("một lát"), `вы-`/`с-` mang "hết sạch", `у-` mang "bắt được". Chính English gloss
+của nguồn đã tự mâu thuẫn. Agent chia lại thành bốn nhóm — đúng.
+
+🔍 **Từ mới thêm qua bot KHÔNG thiếu dữ liệu ngữ pháp.** `tiep` in `KHONG CO du lieu ngu phap` cho
+cả 27 từ, nhưng dữ liệu **đã nằm sẵn** ở field ẩn `GrammarJSON` trong thẻ (bot ghi lúc thêm) —
+so với `grammar_cache["выпить"]` thì **giống hệt từng khoá**. Bot chạy trên VPS, cache nằm trên
+laptop nên phía cache luôn hụt đúng bằng số từ mới. Cứ chạy `cao_nguphap.py --anki` cho xong việc;
+**việc nợ** là cho `congcu.py` đọc thẳng `GrammarJSON` và bỏ `grammar_cache.json`.
+
+⚠️ **Cả hai agent báo nhầm một "lỗ hổng cửa soát"**: `<b>` lồng trong `<b>` **KHÔNG** lọt — cửa (a)
+của `soat` quét theo độ sâu, báo `long/lech` khi `sau > 1` (`congcu.py:356`). Đừng tin báo cáo agent
+về **cấu trúc công cụ** mà không mở mã ra xem — đúng bài học `AspectBadge` hồi 29/07.
+
+📌 **Hai lỗi dữ liệu ngoài phạm vi lô, CHỜ USER QUYẾT**: `есть` mang `pos=oth` nghĩa `"có, ăn"`
+(gộp hai động từ khác hẳn nhau); `слу́шать` nghĩa gộp luôn `слы́шать`.
+
+### ✅ PHIÊN 30/07 (chiều): k04 · k05 · k06 · k07 · k08 XONG & ĐÃ NẠP (mốc cũ)
 
 **16 lô / 233 từ duyệt / 716 chờ.** Kho nay **949 từ** (xoá thẻ `китайски`, xem dưới).
 `moi --apply` báo không có từ mới → lấy thẳng 5 lô đầu hàng chờ. Cả 5 lô `QUA 1 MAN HINH: 0` ·

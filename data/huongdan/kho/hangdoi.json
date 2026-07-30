@@ -1,7 +1,56 @@
 {
- "tong_tu": 949,
- "tong_lo": 59,
+ "tong_tu": 976,
+ "tong_lo": 61,
  "lo": [
+  {
+   "id": "k59",
+   "topic": "tu-moi",
+   "tu": [
+    "выпить",
+    "выучить",
+    "нарисовать",
+    "погулять",
+    "позвонить",
+    "потанцевать",
+    "послушать",
+    "подождать",
+    "сделать",
+    "съесть",
+    "увидеть",
+    "услышать",
+    "смочь"
+   ],
+   "trangthai": "xong",
+   "file": "k59_tu-moi.py",
+   "tuMoi": true,
+   "thucong": "TU MOI user them 30/07 — truc: TIEN TO RONG tao the hoan thanh (вы-/на-/по-/с-/у-/подо-). Moi tu la ban hoan thanh cua mot dong tu chua hoan thanh da co trong kho: nghia GIU NGUYEN, chi doi the. Soan tung the doc lap, KHONG dung khoi he thong dung chung. Chuan v3 (data/huongdan/CHUAN.md).",
+   "daNap": true
+  },
+  {
+   "id": "k60",
+   "topic": "tu-moi",
+   "tu": [
+    "вспомнить",
+    "встречаться",
+    "готовить",
+    "приготовить",
+    "подготовка",
+    "заболеть",
+    "захотеть",
+    "изучать",
+    "изучить",
+    "научиться",
+    "покататься",
+    "понравиться",
+    "понять",
+    "рассказывать"
+   ],
+   "trangthai": "xong",
+   "file": "k60_tu-moi.py",
+   "tuMoi": true,
+   "thucong": "TU MOI user them 30/07 — phan con lai: tien to MANG NGHIA (за- bat dau: заболеть/захотеть), dong tu PHAN THAN (встречаться/научиться/покататься/понравиться), cap the изучать/изучить, ho tu готовить·приготовить·подготовка, va hai dong tu bat quy tac понять/смочь. Cac tu KHONG cung mot truc — soan tung the doc lap, dung ep truc chung, KHONG dung khoi he thong. Chuan v3.",
+   "daNap": true
+  },
   {
    "id": "k14",
    "topic": "tu-moi",

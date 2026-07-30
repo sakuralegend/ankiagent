@@ -8539,5 +8539,248 @@
   "pos": "n",
   "topic": "concepts::misc",
   "cu": false
+ },
+ {
+  "wc": "вспомнить",
+  "w": "вспо́мнить",
+  "en": "<ol class=\"meaning-list\"><li>to recall</li><li>remember</li></ol>",
+  "vi": "nhớ lại, gợi nhớ",
+  "pos": "v",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "встречаться",
+  "w": "встреча́ться",
+  "en": "<ol class=\"meaning-list\"><li>meet</li><li>encounter</li><li>be found</li><li>be met with</li><li>rendez-vous</li><li>rendezvous</li><li>to date</li><li>to see</li><li>to occur</li></ol>",
+  "vi": "gặp gỡ, hẹn hò",
+  "pos": "v",
+  "topic": "people::family",
+  "cu": false
+ },
+ {
+  "wc": "выпить",
+  "w": "вы́пить",
+  "en": "<ol class=\"meaning-list\"><li>to drink</li></ol>",
+  "vi": "uống (thường dùng cho đồ uống, trà, cà phê hoặc đồ uống có cồn)",
+  "pos": "v",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "выучить",
+  "w": "вы́учить",
+  "en": "<ol class=\"meaning-list\"><li>to learn something by heart</li><li>memorize</li></ol>",
+  "vi": "học thuộc lòng, học xong (cái gì đó)",
+  "pos": "v",
+  "topic": "language::education",
+  "cu": false
+ },
+ {
+  "wc": "готовить",
+  "w": "гото́вить",
+  "en": "<ol class=\"meaning-list\"><li>to cook</li><li>to prepare</li><li>make ready</li></ol>",
+  "vi": "nấu ăn, chuẩn bị",
+  "pos": "v",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "заболеть",
+  "w": "заболе́ть",
+  "en": "<ol class=\"meaning-list\"><li>get sick</li><li>fall ill</li><li>come down with</li></ol>",
+  "vi": "bị ốm, đổ bệnh",
+  "pos": "v",
+  "topic": "people::body",
+  "cu": false
+ },
+ {
+  "wc": "захотеть",
+  "w": "захоте́ть",
+  "en": "<ol class=\"meaning-list\"><li>want</li><li>like</li></ol>",
+  "vi": "muốn, nảy sinh mong muốn",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "изучать",
+  "w": "изуча́ть",
+  "en": "<ol class=\"meaning-list\"><li>study</li><li>learn</li><li>examine</li></ol>",
+  "vi": "học, nghiên cứu",
+  "pos": "v",
+  "topic": "language::education",
+  "cu": false
+ },
+ {
+  "wc": "изучить",
+  "w": "изучи́ть",
+  "en": "<ol class=\"meaning-list\"><li>study</li><li>learn</li><li>examine</li></ol>",
+  "vi": "học, nghiên cứu, tìm hiểu kỹ",
+  "pos": "v",
+  "topic": "language::education",
+  "cu": false
+ },
+ {
+  "wc": "нарисовать",
+  "w": "нарисова́ть",
+  "en": "<ol class=\"meaning-list\"><li>to draw</li><li>to paint</li></ol>",
+  "vi": "vẽ",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "научиться",
+  "w": "научи́ться",
+  "en": "<ol class=\"meaning-list\"><li>to learn a skill</li><li>acquire the ability to do something</li></ol>",
+  "vi": "học được (một kỹ năng, một cách làm gì đó)",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "погулять",
+  "w": "погуля́ть",
+  "en": "<ol class=\"meaning-list\"><li>walk</li></ol>",
+  "vi": "đi dạo, đi chơi",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "подготовка",
+  "w": "подгото́вка",
+  "en": "<ol class=\"meaning-list\"><li>preparation</li><li>grounding</li><li>schooling</li><li>training</li><li>skill</li><li>knowledge</li></ol>",
+  "vi": "sự chuẩn bị, sự tập luyện",
+  "pos": "n",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "подождать",
+  "w": "подожда́ть",
+  "en": "<ol class=\"meaning-list\"><li>to wait for a while</li></ol>",
+  "vi": "đợi một lát, chờ một chút",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "позвонить",
+  "w": "позвони́ть",
+  "en": "<ol class=\"meaning-list\"><li>to call</li></ol>",
+  "vi": "gọi điện thoại",
+  "pos": "v",
+  "topic": "life::home",
+  "cu": false
+ },
+ {
+  "wc": "покататься",
+  "w": "поката́ться",
+  "en": "<ol class=\"meaning-list\"><li>go for a drive</li><li>drive</li><li>to ride</li><li>ski</li></ol>",
+  "vi": "đi dạo, đi chơi (bằng phương tiện/trên băng/trên tuyết)",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "понравиться",
+  "w": "понра́виться",
+  "en": "<ol class=\"meaning-list\"><li>enjoy</li><li>like</li></ol>",
+  "vi": "thích, cảm thấy ưng ý",
+  "pos": "v",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "понять",
+  "w": "поня́ть",
+  "en": "<ol class=\"meaning-list\"><li>to understand</li><li>comprehend</li><li>realize</li><li>realise</li><li>navigate</li><li>clear</li></ol>",
+  "vi": "hiểu, nắm bắt được",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "послушать",
+  "w": "послу́шать",
+  "en": "<ol class=\"meaning-list\"><li>to listen</li><li>to hear</li></ol>",
+  "vi": "nghe, lắng nghe",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "потанцевать",
+  "w": "потанцева́ть",
+  "en": "<ol class=\"meaning-list\"><li>have a dance</li><li>dance</li></ol>",
+  "vi": "nhảy, khiêu vũ (một lát)",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "приготовить",
+  "w": "пригото́вить",
+  "en": "<ol class=\"meaning-list\"><li>to cook</li><li>to prepare</li><li>make ready</li></ol>",
+  "vi": "nấu ăn, chuẩn bị",
+  "pos": "v",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "рассказывать",
+  "w": "расска́зывать",
+  "en": "<ol class=\"meaning-list\"><li>to tell</li><li>to relate</li><li>narrate</li><li>recount</li></ol>",
+  "vi": "kể, kể lại, thuật lại",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "сделать",
+  "w": "сде́лать",
+  "en": "<ol class=\"meaning-list\"><li>to do</li><li>to make</li></ol>",
+  "vi": "làm, thực hiện",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "смочь",
+  "w": "смочь",
+  "en": "<ol class=\"meaning-list\"><li>to be able</li><li>can</li></ol>",
+  "vi": "có thể, làm được",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "съесть",
+  "w": "съесть",
+  "en": "<ol class=\"meaning-list\"><li>to eat</li><li>to eat up</li><li>to consume</li><li>to devour</li></ol>",
+  "vi": "ăn hết, ăn sạch",
+  "pos": "v",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "увидеть",
+  "w": "уви́деть",
+  "en": "<ol class=\"meaning-list\"><li>to see</li></ol>",
+  "vi": "nhìn thấy, gặp",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "услышать",
+  "w": "услы́шать",
+  "en": "<ol class=\"meaning-list\"><li>to hear</li></ol>",
+  "vi": "nghe thấy",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
  }
 ]
