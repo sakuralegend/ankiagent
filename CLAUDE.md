@@ -26,10 +26,10 @@ Cuối phiên A′ thêm ~20 phút: script CHỈ ĐỌC đo bất đồng 4 lu�
 **Biết đang ở đâu:** `git log --oneline -20 | Select-String "\(G[0-4]\)"` — G nào đã có commit là đã
 xong.
 
-> ✅ **31/07/2026 (Sonnet 5): hai vá 🔴 + G0 (QD-03) + đo bất đồng chuẩn hoá đã XONG, đã commit**
-> (`b8fef49`, `470af8d`). `_baseline_don.md` đã chụp. **Việc kế tiếp: G1 (viết `soatkientruc.py`)
-> — bảng model dưới đây yêu cầu Opus.** Phiên đang chạy Sonnet thì DỪNG LẠI ở đây, nói user gõ
-> `/model opus` trước khi làm G1, đừng tự hạ chuẩn xuống làm bằng Sonnet.
+> ✅ **31/07/2026: PHIÊN A′ XONG TRỌN** — hai vá 🔴 + G0 (QD-03) + đo bất đồng chuẩn hoá (Sonnet 5)
+> + **G1 (QD-02)**: `soatkientruc.py` S1–S7 xanh, `soat_baseline.json` ratchet, cửa chặn trong
+> `deploy.ps1` (Opus 5). S8 tự bật khi G2 viết xong `KIENTRUC.md`.
+> **Việc kế tiếp: PHIÊN B = G2 + G3.** G2 (viết `KIENTRUC.md`) cần **Opus**; G3 (dọn gốc) Sonnet.
 
 **Hai trần cứng của phiên A:** ① đọc 12 file `data/huongdan/lo01…lo12_*.py` bằng `limit=15`, **đừng
 đọc cả file** (chúng chứa ~270 KB nội dung thẻ ≈ 70K token, mà ta chỉ chèn 3 dòng đầu); ② quá **4
@@ -60,7 +60,7 @@ Sổ tay đầy đủ: `CACHLAM.md` (luật `L1`–`L5`, có số hiệu để v
 
 - **L1 — Một cửa cho tài nguyên ngoài.** AnkiConnect → `anki_tools/anki_client.py`; cào OpenRussian → `grammar.fetch_page`; AI API → `ai_client`. CẤM viết wrapper mới / trỏ thẳng `:8765`. Ngoại lệ duy nhất: `data/huongdan/kho/` cố tình đóng băng (QD-01).
 - **L2 — Script một lần phải chết trong cùng commit.** Đặt tên `_va_<việc>.py`, chạy xong chuyển vào `_daxong/` ngay. Thư mục gốc chỉ chứa điểm vào đang sống (`bot.py`, `main.py`).
-- **L3 — Mọi việc sửa code kết thúc bằng mục "Lệnh nghiệm thu:" và CHẠY nó.** Tối thiểu: `python -c "import bot, main"`.
+- **L3 — Mọi việc sửa code kết thúc bằng mục "Lệnh nghiệm thu:" và CHẠY nó.** Tối thiểu: `python soatkientruc.py` (cửa soát kiến trúc — ĐỎ là dừng, xem `soat_baseline.json`) rồi `python -c "import bot, main"`. Cả hai đã cắm sẵn vào `deploy.ps1` nên không deploy được khi ĐỎ.
 - **L4 — Vùng im lặng đứng riêng một mình** (danh sách bên dưới): không gộp việc khác, backup trước, kiểm sau.
 - **L5 — Rẽ nhánh thì ghi `QUYETDINH.md`**: mục 4 dòng (Chọn / Thay vì / Vì / Hết hạn), số hiệu `QD-nn`, commit thi hành nhắc số hiệu.
 

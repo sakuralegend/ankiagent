@@ -4,6 +4,40 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 31/07/2026 — **G1 (QD-02)**: `soatkientruc.py` — cửa soát kiến trúc bằng máy
+
+Thứ đắt giá nhất của đợt dọn: từ nay luật kiến trúc **có máy canh**, không trông vào tự giác nữa.
+
+`soatkientruc.py` ở gốc (điểm vào thứ 3 — ngoại lệ L2 hợp thức bằng QD-02), **stdlib thuần**,
+`ast` + regex, **KHÔNG import module nào của dự án** (import là kéo theo `telegram`, đọc CSV 8,4 MB,
+tệ nhất là chạm `setup_anki_environment` — bộ soát có tác dụng phụ thì không ai dám chạy). Bảy mục:
+S1 cửa lậu tới AnkiConnect · S2 gọi tên private xuyên gói · S3 `tgbot` flow import ngang flow ·
+S4 `MIEN_TRU` mọc nơi thứ hai · S5 HTML thẻ dựng ngoài `html_builder` · S6 file `.py` lạ ở gốc ·
+S7 lô thế hệ 1 mất guard `KHAI TU`. S8 (`KIENTRUC.md` nói dối) **ngủ tới khi G2 viết file đó**.
+
+**Chống báo động giả** (bộ soát kêu oan là bộ soát chết): nợ tồn đọng là 🟡 VÀNG, im lặng cho tới
+khi TĂNG; chỉ 🔴 ĐỎ với vi phạm MỚI hoặc lỗi một-lần-là-hại (S4, S7). `soat_baseline.json` tách rõ
+**miễn trừ** (đúng thiết kế — `anki_tools/config.py` là cửa thật của L1; `kho/` đóng băng theo QD-01)
+khỏi **nợ** (ratchet), mỗi mục kèm một câu *vì sao*. `--chot` **chỉ ghi được số THẤP HƠN** — đã thử
+thật cả hai chiều: thêm vi phạm → `✋ TU CHOI`, gỡ vi phạm → `↓ 1 -> 0`.
+
+**Cắm vào `deploy.ps1` làm bậc 1–2 trước `git push`** — đây là câu trả lời cho "cái gì canh lúc 11
+giờ đêm": không phải tự giác, mà là đường deploy duy nhất đi qua cửa.
+
+Ba chỗ **plan G1 ghi sai/thiếu so với repo thật**, đã sửa theo thực tế: ① cửa L1 nằm ở
+`anki_tools/config.py` chứ không phải `anki_client.py` (file đó không chứa `8765`, nó import hằng);
+② guard `KHAI TU` nằm dòng 10–15 sau docstring chứ không "≤5 dòng đầu" ⇒ S7 đo bằng `ast` (guard
+phải là **câu lệnh thực thi đầu tiên**) — đúng bản chất hơn đếm dòng; ③ S2 lòi thêm
+`dochuan.py:67 congcu._BANG_RE` mà plan bỏ sót. Ngược lại, `congcu.py:164` và `scraper.py:24` chỉ là
+chữ trong **comment** — `ast` tự loại, đúng lý do plan cấm dùng grep.
+
+Hai lỗi tự-gây phải sửa trong lúc dựng: bộ soát **tự tố chính mình** (nó phải chứa `8765` và
+`meaning-list` làm mẫu để đi tìm) và **chết vì console cp1252** không in nổi emoji/tiếng Việt —
+đúng lỗi đã giết `congcu.py` sáng nay; nay mọi output đi qua `inn()`, đã thử chạy không set
+`PYTHONIOENCODING` vẫn ra exit code đúng. **Nghiệm thu**: 6 phép thử (thêm file gốc chứa `8765` →
+ĐỎ đúng 2 mục; xoá → xanh; gỡ guard lô → S7 ĐỎ; `MIEN_TRU` thứ hai → S4 ĐỎ; ratchet cả hai chiều),
+repo phục hồi nguyên trạng sau mỗi phép thử.
+
 ## 31/07/2026 — Phiên A′ (cuối): đo bất đồng 4 luật chuẩn hoá tiếng Nga — đóng nợ SONO.md
 
 Script chỉ đọc `_daxong/_va_do_bat_dong_chuan_hoa.py` (L2: script một lần, chạy xong chuyển thẳng
