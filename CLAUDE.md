@@ -32,6 +32,20 @@ bất cứ thứ gì**.
 vòng** gỡ lỗi `soatkientruc.py` thì dừng phiên, commit thứ đang có — nó là file độc lập, phiên sau
 đọc lại làm tiếp không mất gì.
 
+### 🔀 Model nào cho bước nào — AI PHẢI TỰ NHẮC, user không cần nhớ
+
+| Bước | Model | Vì sao |
+|---|---|---|
+| Ghim `requirements.txt` · khôi phục thử backup · **G0** | **Sonnet** | thi hành theo spec, sửa cơ học |
+| **G1** viết `soatkientruc.py` | **Opus** | thiết kế + gỡ lỗi nhiều vòng; cửa soát kêu oan còn tệ hơn không có cửa |
+| Đo bất đồng chuẩn hoá | **Sonnet** | script chỉ đọc |
+| **G2** viết `KIENTRUC.md` | **Opus** | việc khó là quyết định cái gì KHÔNG viết vào; sai tầng là đẻ ra README thứ hai |
+| **G3** dọn gốc · **G4** alias + deploy | **Sonnet** | `git mv` + diff nhỏ; an toàn nằm ở canary chứ không ở model |
+
+**Luật cho AI:** trước khi bắt tay MỖI bước trên, tự đối chiếu model đang chạy với bảng này. Lệch thì
+**DỪNG LẠI, nói user gõ `/model` đổi trước**, đừng làm rồi mới báo. Nguyên tắc chung ngoài bảng:
+**Opus khi việc là QUYẾT ĐỊNH, Sonnet khi việc là THI HÀNH theo spec đã có.**
+
 **Xong đợt dọn thì xoá nguyên mục này** và trả `TIEPTUC.md` về vai trò cũ.
 
 ---
