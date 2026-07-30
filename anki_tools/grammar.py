@@ -785,6 +785,26 @@ def _than_tu_nguyen_the(inf):
     return {x for x in ra if x}
 
 
+def _goc_qua_khu(inf):
+    """Thân mà quá khứ ĐÚNG QUY TẮC phải bắt đầu bằng (nguyên thể bỏ đuôi).
+
+    🔴 Phải bóc hậu tố phản thân TRƯỚC, rồi mới bóc đuôi nguyên thể. Bản cũ chỉ
+    nhận đuôi `ть` trên chuỗi thô, nên **hai lớp động từ lọt sạch cửa**:
+      · đuôi `-ти` — `идти́ → шёл`, `войти́ → вошёл`, `вы́йти → вы́шел`
+      · mọi động từ **phản thân** (`встре́титься`), vì chuỗi kết thúc bằng `ся`
+    Mà đuôi `-ти` đúng là nhóm quá khứ bất thường nhất tiếng Nga. Bỏ sót này bắt
+    được 30/07/2026 khi soạn lô k01: `tiep` chỉ gắn cờ 5/15 từ, ba từ chuyển động
+    lên thẻ mà không cờ nào nhắc quá khứ.
+    """
+    g = bare(inf)
+    if g.endswith(("ся", "сь")):
+        g = g[:-2]
+    for duoi in ("ть", "ти", "чь"):
+        if g.endswith(duoi) and len(g) - len(duoi) >= 2:
+            return g[: -len(duoi)]
+    return None
+
+
 def _soi_dong_tu(rec):
     co, flags, nong = set(), [], set()
     pf = [f for f in (rec.get("presfut") or []) if f]
@@ -814,8 +834,7 @@ def _soi_dong_tu(rec):
 
     qk = [f for f in (rec.get("past") or []) if f]
     if len(qk) >= 4:
-        goc = bare(inf)
-        goc = goc[:-2] if goc.endswith("ть") else None
+        goc = _goc_qua_khu(inf)
         if goc and not all(_yo(bare(p)).startswith(_yo(goc)) for p in qk):
             co.add("past")
             nong.update(("past", i) for i, p in enumerate(qk)
