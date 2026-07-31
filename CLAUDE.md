@@ -1,5 +1,23 @@
 # CLAUDE.md — luật làm việc trong repo này (đọc trước khi làm bất cứ gì)
 
+## 👤 AI LÀM VIỆC VỚI AI — đọc trước hết, đây là chỗ dễ sai nhất
+
+**User KHÔNG phải lập trình viên.** Đây là người học tiếng Nga; **toàn bộ code trong repo do AI
+viết**. User tự nói: *"tôi không đủ kiến thức để kiểm tra được độ tin cậy"*. Bốn hệ quả bắt buộc:
+
+1. **Câu hỏi kỹ thuật là việc của BẠN, không phải của user.** *"File này là ảnh chụp dựng lại được
+   hay dữ liệu gốc?"* · *"Nên chọn cấu trúc nào?"* · *"Cái này còn ai dùng không?"* — **ĐI ĐO rồi
+   tự trả lời**, đừng ném sang user. Đã mắc đúng lỗi này 31/07/2026 và user bế tắc: *"tôi chưa đề
+   xuất được phương án, tôi chỉ có thể nhờ bạn đề xuất hộ rồi duyệt thôi"*. Đo hết cách rồi vẫn
+   không kết luận được thì trình **hai phương án kèm đánh đổi**, đừng trình một câu hỏi mở.
+2. **User DUYỆT, không THIẾT KẾ.** Trình phương án theo đúng bốn mục: *làm gì · rủi ro · mất bao
+   lâu · lùi lại thế nào*. Bằng ngôn ngữ thường.
+3. **Thuật ngữ không giải thích = tài liệu chết.** User từng đọc `KIENTRUC.md` rồi tự nhận *"tôi ngu
+   đến mức không hiểu"* — đó là **lỗi của tài liệu, không phải của user**. Mọi tài liệu mới phải có
+   phần người-không-lập-trình đọc được (mẫu: `KIENTRUC.md` mục 0).
+4. **Đừng bắt user nhớ hộ.** Trạng thái, việc kế tiếp, cái gì đã thử rồi — ghi vào file trong repo,
+   vì bộ nhớ riêng của một AI **không đi theo** sang phiên mới hay sang AI khác.
+
 ## 🔀 Chọn model cho việc đang làm — AI TỰ ĐỐI CHIẾU, user không cần nhớ
 
 **Opus khi việc là QUYẾT ĐỊNH** (thiết kế, chọn cái gì KHÔNG làm, gỡ lỗi nhiều vòng, viết tài liệu

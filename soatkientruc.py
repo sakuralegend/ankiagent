@@ -25,6 +25,7 @@ Ratchet: `soat_baseline.json` ghi số hiện tại của từng mục VÀNG; v�
 import ast
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -331,6 +332,78 @@ def s8_manifest():
 
 
 # ---------------------------------------------------------------------------
+# S9 — sửa code mà quên ghi CHANGELOG
+# ---------------------------------------------------------------------------
+def s9_quen_changelog():
+    """`CLAUDE.md`: "mọi lần sửa xong ghi CHANGELOG kèm VÌ SAO". Luật đó trước
+    nay dựa vào việc AI nhớ — mà user đã phải nhắc tay đúng một lần (31/07/2026),
+    tức nó KHÔNG tự thi hành. Nay máy canh: loạt commit CHƯA PUSH mà có đụng code
+    nhưng không đụng `CHANGELOG.md` thì chặn ngay tại cửa deploy.
+
+    Chỉ soi phần chưa push — code đã rời PC rồi thì kêu cũng muộn, còn commit đang
+    làm dở trên máy thì không phải việc của nó."""
+    try:
+        r = subprocess.run(
+            ["git", "log", "origin/main..HEAD", "--name-only", "--pretty=format:"],
+            cwd=str(GOC), capture_output=True, text=True, timeout=20)
+    except (OSError, subprocess.SubprocessError):
+        return []                                  # không có git -> không kêu
+    if r.returncode != 0:
+        return []                                  # chưa có origin/main -> bỏ qua
+
+    da_doi = {d.strip() for d in r.stdout.splitlines() if d.strip()}
+    if not da_doi or "CHANGELOG.md" in da_doi:
+        return []
+
+    la_code = sorted(
+        f for f in da_doi
+        if f.endswith((".py", ".ps1", ".sh", ".service"))
+        and not f.startswith("_daxong/")           # script đã khai tử, không tính
+    )
+    if not la_code:
+        return []                                  # chỉ sửa tài liệu -> không bắt buộc
+    return [PhatHien("CHANGELOG.md", 0,
+                     f"da sua {len(la_code)} file code ({', '.join(la_code[:3])}"
+                     f"{'...' if len(la_code) > 3 else ''}) ma CHUA ghi CHANGELOG")]
+
+
+# ---------------------------------------------------------------------------
+# S10 — file trí nhớ phình quá trần
+# ---------------------------------------------------------------------------
+# Trần dòng cho các file BỊ BẮT ĐỌC. Vì sao cần: `CHANGELOG.md` đã phình tới mức
+# không ai đọc ngược nữa — nó vô hại vì là biên niên, CỐ Ý không nén (QD trong
+# `_fable_plan.md`). Nhưng file mà AI phải đọc MỖI PHIÊN thì phình = bị lướt =
+# chết y hệt README cũ. Chạm trần KHÔNG có nghĩa "cấm viết thêm": nghĩa là phải
+# dừng lại chọn — cắt mục đã hết giá trị, hay nâng trần một cách có ý thức (ghi
+# `QD-nn`). `CHANGELOG.md` cố ý KHÔNG có trong bảng này.
+TRAN_DONG = {
+    "CLAUDE.md": 90,        # tự nạp mỗi phiên -> phải ngắn nhất
+    "KIENTRUC.md": 260,
+    "QUYETDINH.md": 130,
+    "SONO.md": 100,
+    "CACHLAM.md": 240,
+    "README.md": 110,
+}
+
+
+def s10_tri_nho_phinh():
+    ra = []
+    for ten, tran in sorted(TRAN_DONG.items()):
+        p = GOC / ten
+        if not p.exists():
+            continue
+        try:
+            so_dong = len(p.read_text(encoding="utf-8").splitlines())
+        except OSError:
+            continue
+        if so_dong > tran:
+            ra.append(PhatHien(ten, so_dong,
+                               f"{so_dong} dong > tran {tran} — cat muc het gia tri, "
+                               f"hoac nang tran co y thuc (ghi QD-nn)"))
+    return ra
+
+
+# ---------------------------------------------------------------------------
 # Khung chạy
 # ---------------------------------------------------------------------------
 # `luon_do=True`: mục mà MỘT lần lọt là đã hại, không có khái niệm "nợ chấp nhận
@@ -344,6 +417,8 @@ MUC = [
     ("S6", "FILE .PY LA O THU MUC GOC (L2)", s6_goc_sach, True),
     ("S7", "LO THE HE 1 MAT GUARD KHAI TU (QD-03)", s7_lo_da_khai_tu, True),
     ("S8", "KIENTRUC.md LECH THUC TE", s8_manifest, True),
+    ("S9", "SUA CODE MA QUEN GHI CHANGELOG", s9_quen_changelog, True),
+    ("S10", "FILE TRI NHO PHINH QUA TRAN", s10_tri_nho_phinh, True),
 ]
 
 
