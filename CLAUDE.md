@@ -45,7 +45,7 @@ Sổ tay đầy đủ: `CACHLAM.md` (luật `L1`–`L5`, có số hiệu để v
 
 - **L1 — Một cửa cho tài nguyên ngoài.** AnkiConnect → `anki_tools/anki_client.py`; cào OpenRussian → `grammar.fetch_page`; AI API → `ai_client`. CẤM viết wrapper mới / trỏ thẳng `:8765`. Ngoại lệ duy nhất: `data/huongdan/kho/` cố tình đóng băng (QD-01).
 - **L2 — Script một lần phải chết trong cùng commit.** Đặt tên `_va_<việc>.py`, chạy xong chuyển vào `_daxong/` ngay. Thư mục gốc chứa **đúng ba** file `.py`: `bot.py`, `main.py`, `soatkientruc.py` — script vận hành còn dùng lại thì để `scripts/` (nhớ 3 dòng bootstrap `sys.path`). Thêm tên vào danh sách trắng S6 là **nới luật**, phải ghi `QD-nn` trước.
-- **L3 — Mọi việc sửa code kết thúc bằng mục "Lệnh nghiệm thu:" và CHẠY nó.** Tối thiểu: `python soatkientruc.py` (cửa soát kiến trúc — ĐỎ là dừng, xem `soat_baseline.json`) rồi `python -c "import bot, main"`. Cả hai đã cắm sẵn vào `deploy.ps1` nên không deploy được khi ĐỎ.
+- **L3 — Mọi việc sửa code kết thúc bằng mục "Lệnh nghiệm thu:" và CHẠY nó.** Tối thiểu: `python soatkientruc.py` (kiến trúc) · `python -c "import bot, main"` (chết-lúc-khởi-động) · `python -m unittest discover -s tests` (**lỗi LOGIC** — thứ duy nhất bắt được badge sai giống, `ё` hỏng im lặng, regex nuốt chữ). Cả ba cắm sẵn trong `deploy.ps1`. **Sửa xong một bug thì viết thêm MỘT test cho nó** — đó là cách bug không quay lại lần thứ hai.
 - **L4 — Vùng im lặng đứng riêng một mình** (danh sách bên dưới): không gộp việc khác, backup trước, kiểm sau.
 - **L5 — Rẽ nhánh thì ghi `QUYETDINH.md`**: mục 4 dòng (Chọn / Thay vì / Vì / Hết hạn), số hiệu `QD-nn`, commit thi hành nhắc số hiệu.
 

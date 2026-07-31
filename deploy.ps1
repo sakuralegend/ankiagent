@@ -22,6 +22,14 @@ if ($LASTEXITCODE -ne 0) {
     Write-Host "IMPORT GAY - dung deploy. Loi nay se giet bot ngay khi khoi dong." -ForegroundColor Red
     exit 1
 }
+# Test cho cac bug DA TRA HOC PHI. Cua soat kien truc chi bat loi CAU TRUC; day
+# la thu duy nhat bat loi LOGIC (badge sai giong, `ё` hong im lang, regex nuot
+# chu). Chay offline, ~0,1 giay — khong co ly do gi de bo qua.
+python -m unittest discover -s tests -q
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "TEST DO - dung deploy. Loi logic se lam hong THE THAT ma khong ai bao." -ForegroundColor Red
+    exit 1
+}
 
 Write-Host "== [2/3] Day code len GitHub ==" -ForegroundColor Cyan
 git push

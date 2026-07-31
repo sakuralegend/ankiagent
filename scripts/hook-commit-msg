@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# ==============================================================================
+# GIT HOOK `commit-msg` — chặn commit đụng code mà không khai VÌ SAO.
+#
+# Cài (một lần, trên mỗi máy):  bash scripts/caidat_hook.sh
+#
+# Vì sao có file này: `soatkientruc.py` mục S9 đã canh việc này, NHƯNG nó chỉ kêu
+# lúc deploy — muộn hơn nhiều so với lúc gõ `git commit`, và sửa lúc đó phải
+# `--amend` cả loạt. Git có sẵn cơ chế chặn ngay tại chỗ, dùng nó là đúng bài
+# (chính bài học QD-06: đừng dựng cơ chế mới khi công cụ có sẵn đã lo).
+#
+# Hai lớp KHÔNG thừa: hook chặn SỚM nhưng nằm ngoài repo (không tự đi theo sang
+# máy khác); S9 chặn MUỘN nhưng đi cùng repo tới mọi máy, mọi AI. Giữ cả hai.
+# ==============================================================================
+MSG_FILE="$1"
+[ -f "$MSG_FILE" ] || exit 0
+
+# Bỏ dòng chú thích của git, lấy phần thân (từ dòng 3 trở đi).
+THAN=$(grep -v '^#' "$MSG_FILE" | tail -n +3 | tr -d '[:space:]')
+
+# Commit này có đụng file code không? (chỉ xét thứ ĐANG được commit)
+CODE=$(git diff --cached --name-only \
+       | grep -E '\.(py|ps1|sh|service)$' \
+       | grep -v '^_daxong/' \
+       | head -5)
+
+[ -z "$CODE" ] && exit 0                 # chỉ sửa tài liệu -> không bắt buộc
+
+if [ ${#THAN} -lt 40 ]; then
+    echo "" >&2
+    echo "❌ COMMIT BI CHAN: dung file code ma message khong khai VI SAO." >&2
+    echo "   File code trong commit nay:" >&2
+    echo "$CODE" | sed 's/^/     /' >&2
+    echo "" >&2
+    echo "   Tieu de mot dong chi noi DA LAM GI. Phan than phai noi VI SAO —" >&2
+    echo "   6 thang sau doc lai diff, thu duy nhat khong suy ra duoc la ly do." >&2
+    echo "   Viet them vai dong sau mot dong trong roi commit lai." >&2
+    echo "" >&2
+    exit 1
+fi
+exit 0

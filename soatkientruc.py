@@ -133,6 +133,11 @@ def s2_private_xuyen_goi():
     tay vào ruột gói khác — đó là chỗ sẽ gãy khi gói kia được dọn."""
     ra = []
     for p in cac_file_py():
+        # `tests/` được phép thò tay vào ruột — đó chính là VIỆC của test: kiểm
+        # nội bộ, và canh giúp cho alias public (`grammar.BANG_RE is _BANG_RE`)
+        # không ai lỡ xoá. Bắt test vì "gọi private" là kêu oan đúng nghĩa.
+        if duong_dan(p).startswith("tests/"):
+            continue
         src, cay = doc_cay(p)
         if cay is None:
             continue
@@ -384,25 +389,33 @@ def s9_quen_changelog():
 # ---------------------------------------------------------------------------
 # S10 — file trí nhớ phình quá trần
 # ---------------------------------------------------------------------------
-# Trần dòng cho các file BỊ BẮT ĐỌC. Vì sao cần: `CHANGELOG.md` đã phình tới mức
-# không ai đọc ngược nữa — nó vô hại vì là biên niên, CỐ Ý không nén (QD trong
-# `_fable_plan.md`). Nhưng file mà AI phải đọc MỖI PHIÊN thì phình = bị lướt =
-# chết y hệt README cũ. Chạm trần KHÔNG có nghĩa "cấm viết thêm": nghĩa là phải
-# dừng lại chọn — cắt mục đã hết giá trị, hay nâng trần một cách có ý thức (ghi
-# `QD-nn`). `CHANGELOG.md` cố ý KHÔNG có trong bảng này.
-TRAN_DONG = {
-    "CLAUDE.md": 90,        # tự nạp mỗi phiên -> phải ngắn nhất
-    "KIENTRUC.md": 260,
-    "QUYETDINH.md": 130,
-    "SONO.md": 100,
-    "CACHLAM.md": 240,
-    "README.md": 110,
+# Trần cho các file BỊ BẮT ĐỌC. Vì sao cần: `CHANGELOG.md` đã phình tới mức không
+# ai đọc ngược nữa (phải đóng sổ, QD-06). File mà AI phải đọc MỖI PHIÊN thì phình
+# = bị lướt = chết y hệt README cũ.
+#
+# 🔴 ĐƠN VỊ LÀ **PHÚT ĐỌC**, KHÔNG PHẢI SỐ DÒNG. Bản đầu (31/07 sáng) đặt trần
+# bằng số dòng lấy từ "hiện tại + biên độ" — chính AI tự soi ra đó là con số tuỳ
+# tiện, đúng loại "con số đếm được" mà `KIENTRUC.md` tự cấm (SONO.md). Nay quy về
+# thứ có nghĩa thật: **file này phải đọc hết trong bao nhiêu phút?** Con số phút
+# do người đặt và bảo vệ được; số dòng chỉ là phép quy đổi máy tự làm.
+PHUT_DOC = {
+    "CLAUDE.md": 3,         # nạp MỖI phiên -> phải đọc xong trước khi bắt tay
+    "KIENTRUC.md": 8,       # chỉ đọc khi sửa việc xuyên mảng
+    "QUYETDINH.md": 5,      # tra cứu, ít khi đọc từ đầu tới cuối
+    "SONO.md": 4,
+    "CACHLAM.md": 8,
+    "README.md": 3,         # người lạ ghé 30 giây + người mới đọc kỹ 3 phút
 }
+# Tốc độ đọc tài liệu kỹ thuật có dấu, đọc HIỂU chứ không lướt. Đo thô nhưng
+# trung thực hơn một con số dòng bịa ra: ~30 dòng/phút.
+DONG_MOI_PHUT = 30
 
 
 def s10_tri_nho_phinh():
+    """Chạm trần KHÔNG có nghĩa "cấm viết thêm" — nghĩa là phải dừng lại CHỌN:
+    cắt mục đã hết giá trị, hay nâng ngân sách phút một cách có ý thức (ghi QD)."""
     ra = []
-    for ten, tran in sorted(TRAN_DONG.items()):
+    for ten, phut in sorted(PHUT_DOC.items()):
         p = GOC / ten
         if not p.exists():
             continue
@@ -410,10 +423,12 @@ def s10_tri_nho_phinh():
             so_dong = len(p.read_text(encoding="utf-8").splitlines())
         except OSError:
             continue
+        tran = phut * DONG_MOI_PHUT
         if so_dong > tran:
-            ra.append(PhatHien(ten, so_dong,
-                               f"{so_dong} dong > tran {tran} — cat muc het gia tri, "
-                               f"hoac nang tran co y thuc (ghi QD-nn)"))
+            ra.append(PhatHien(
+                ten, so_dong,
+                f"doc het mat ~{so_dong / DONG_MOI_PHUT:.0f} phut, ngan sach {phut} phut "
+                f"({so_dong} dong > {tran}) — cat muc het gia tri, hoac nang ngan sach kem QD-nn"))
     return ra
 
 

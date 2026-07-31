@@ -607,6 +607,18 @@ def suy_giong(rec):
     if not nom or not inst:
         return None, None
     if inst.endswith(("ой", "ей", "ою", "ею", "ёй", "ёю")):
+        # 🔴 BẪY: `дя́дя`, `па́па`, `де́душка` là giống ĐỰC nhưng biến cách Y HỆT
+        # giống cái (`дя́дей`) — hình thái KHÔNG phân biệt nổi. Bản đầu trả "f"
+        # cho cả nhóm này; comment cảnh báo `дя́дя` lại nằm nhầm ở nhánh -ом/-ем
+        # bên dưới nên vô tác dụng. Test `test_KHONG_DOAN_BUA_voi_dya_dya` bắt
+        # được 31/07/2026 (đo: chưa thẻ nào sai vì từ điển đã ghi giống cho cả
+        # nhóm, nhưng sẽ nổ ngay khi user thêm một từ như vậy).
+        # Dấu hiệu DUY NHẤT dùng được: đồ vật đuôi -а/-я thì luôn giống cái;
+        # chỉ NGƯỜI mới có ngoại lệ giống đực ⇒ animate rõ ràng False mới dám
+        # kết luận. Thiếu dữ liệu animate cũng không kết luận — badge sai tệ hơn
+        # badge trống.
+        if nom.endswith(("а", "я")) and rec.get("animate") is not False:
+            return None, None
         return "f", f"cách 5 «{sg['inst']}» đuôi -ой/-ей ⇒ giống cái biến cách I"
     if inst.endswith("ью"):
         return "f", f"cách 5 «{sg['inst']}» đuôi -ью ⇒ giống cái biến cách III"

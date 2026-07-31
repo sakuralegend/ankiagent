@@ -36,29 +36,28 @@
 
 ### 🔴 Tự soi 31/07/2026 — AI tự tìm ra, user KHÔNG phải người phát hiện
 
-- [ ] **DỰ ÁN KHÔNG CÓ MỘT TEST NÀO** — và đây là **gốc rễ** của việc user phải là người phát hiện
-      lỗi. `soatkientruc.py` chỉ bắt lỗi **CẤU TRÚC** (ai gọi ai, file nằm đâu). Lỗi **LOGIC** —
-      thẻ sai nghĩa, badge sai giống, bảng chia sai, `ё` hỏng âm thầm — **không có gì bắt ngoài mắt
-      user**. Mọi bug đắt nhất trong lịch sử dự án đều thuộc loại này. `CACHLAM.md` Q8 bác "test
-      suite/pytest/CI" là hợp lý cho dự án một người, nhưng **"không test nào cả" là cực đoan ngược**.
-      **Trả (vừa sức, dùng `unittest` có sẵn trong stdlib, KHÔNG thêm phụ thuộc):** viết test cho
-      đúng những chỗ **ĐÃ TỪNG HỎNG THẬT** — chuẩn hoá `ё`, suy badge giống/thể, bóc bảng chia,
-      `_BANG_RE`. Mỗi bug đã trả học phí = một test. (31/07/2026)
+- [x] **DỰ ÁN KHÔNG CÓ TEST NÀO → ĐÃ CÓ `tests/`, và nó BẮT ĐƯỢC BUG THẬT NGAY LẦN CHẠY ĐẦU.**
+      20 test bằng `unittest` (stdlib, không thêm phụ thuộc), chạy offline ~0,1 giây, cắm vào
+      `deploy.ps1`. Nguyên tắc cố ý HẸP: **chỉ test chỗ ĐÃ HỎNG THẬT một lần**, không đuổi độ phủ.
+      **Thu hoạch ngay:** `suy_giong()` phán `дя́дя` (giống ĐỰC, biến cách như giống cái) là `'f'` —
+      comment cảnh báo đúng ca này lại nằm nhầm nhánh nên vô tác dụng. Đo ra **chưa thẻ nào sai**
+      (từ điển đã ghi giống cho cả nhóm) nhưng sẽ nổ ngay khi user thêm `дя́дя`/`па́па`/`де́душка`.
+      Đã vá bằng cờ `animate`: đồ vật đuôi -а/-я thì kết luận giống cái, **người thì im lặng**.
+      Kiểm ngược trên thẻ thật: badge không đổi ca nào. (31/07/2026)
 - [ ] **`soatkientruc.py` đã 578 dòng — vượt ngưỡng 400 dòng do CHÍNH `CLAUDE.md` đặt**, và **không
       có gì canh chính nó**: S10 chỉ canh file `.md`, S6 chỉ canh tên file ở gốc. Thứ đang chặn
       deploy mà sai thì hoặc chặn oan hoặc bỏ lọt, không ai biết. Liên quan trực tiếp món trên: cách
       canh nó đúng nhất là **test cho chính nó** (cho một repo giả, kỳ vọng đúng mục nào ĐỎ).
       (31/07/2026)
-- [ ] **S9 lẽ ra phải là `commit-msg` hook của git, không phải mục trong cửa soát.** Git có sẵn cơ
-      chế chặn ngay lúc `git commit` — sửa lúc đó rẻ hơn nhiều so với đợi tới `deploy.ps1`. Đây
-      **đúng lỗi vừa phê phán ở QD-06** (dựng cơ chế mới trong khi công cụ có sẵn đã lo), tái phạm
-      trong cùng một ngày. Giữ S9 vẫn có lý (hook không đi theo repo sang máy khác), nhưng **hook là
-      lớp chặn sớm còn thiếu**. (31/07/2026)
-- [ ] **Trần dòng trong S10 là con số tự đặt, không có căn cứ** (`CLAUDE.md` 90, `KIENTRUC.md` 260…)
-      — lấy từ "hiện tại + biên độ". Đúng loại **con số đếm được** mà `KIENTRUC.md` tự cấm. Nó sẽ
-      chặn oan hoặc quá rộng mà không ai biết mức nào đúng. Cần thay bằng tiêu chí đo được thật, ví
-      dụ *"đọc hết trong N phút"*, hoặc chấp nhận nó là ngưỡng cảnh báo chứ không phải luật.
-      (31/07/2026)
+- [x] **Thiếu lớp chặn sớm của git → ĐÃ CÓ `commit-msg` hook.** `scripts/hook-commit-msg` +
+      `scripts/caidat_hook.sh` (cài một lần mỗi máy). Chặn NGAY lúc `git commit` thay vì đợi tới
+      deploy. Giữ cả S9: hook nằm ngoài repo nên không tự đi theo sang máy/AI khác, S9 thì đi cùng
+      repo — hai lớp không thừa. Đã thử: commit "sua linh tinh" bị chặn. (31/07/2026)
+- [x] **Trần S10 hết tuỳ tiện → đổi đơn vị sang PHÚT ĐỌC.** Trước là số dòng lấy từ "hiện tại +
+      biên độ" (đúng loại con số đếm được mà `KIENTRUC.md` tự cấm). Nay đặt **ngân sách phút** —
+      `CLAUDE.md` 3 phút (nạp mỗi phiên), `KIENTRUC.md`/`CACHLAM.md` 8, `SONO.md` 4, `QUYETDINH.md`
+      5, `README.md` 3 — máy tự quy ra dòng (~30 dòng/phút). Con số phút thì người đặt và bảo vệ
+      được; số dòng thì không. (31/07/2026)
 
 ### 🟡 Vận hành — còn lại, chưa cấp thiết
 
