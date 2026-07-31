@@ -1,8 +1,9 @@
 # Chạy tiếp kho — đọc file này là đủ
 
-> ⛔ **ĐANG ĐÓNG BĂNG (30/07/2026).** Kho tạm dừng để làm đợt dọn dự án G0→G4.
-> **Đừng soạn lô mới** dù bên dưới ghi lô kế tiếp là `k17`. Xem mục "VIỆC KẾ TIẾP" đầu `CLAUDE.md`.
-> Chỉ mở băng khi user nói rõ **"mở lại lô"** — lúc đó xoá dòng này và mục kia đi.
+> ✅ **Đợt dọn dự án G0→G4 đã XONG (31/07/2026)** — kho **hết đóng băng**, chạy tiếp bình thường.
+> Lô kế tiếp là `k17`. Kiến trúc dự án nay có tài liệu riêng (`KIENTRUC.md`) và cửa soát bằng máy
+> (`python soatkientruc.py`); dây chuyền kho **không đổi gì** ngoài việc `MIEN_TRU` nay nằm ở
+> `data/huongdan/mientru.py` (một nơi duy nhất, `congcu.py` và `kiemtra.py` cùng import).
 
 Bạn (user) chỉ cần gõ một câu: **"chạy tiếp kho"**. Phần dưới là cho tôi.
 

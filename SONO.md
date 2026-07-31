@@ -20,6 +20,17 @@
 
 ### 🟡 Vận hành — cần thiết kế riêng, ĐỪNG làm trong đợt dọn G0–G4
 
+- [ ] **`data/grammar_cache.json` vừa được git quản vừa bị bot ghi lúc chạy** ⇒ `git pull` trên VPS
+      **bỏ cuộc mỗi lần deploy** nếu user có thêm từ mới kể từ lần trước (đã xảy ra thật khi deploy
+      G4, 31/07/2026: VPS có 978 khoá, bản git lúc đó 951 — 27 từ mới bot tự cào). Lần này an toàn
+      vì laptop đã commit đủ 978 khoá nên bản git **bao trùm** bản VPS, nhưng đó là **may**, không
+      phải thiết kế: nếu user thêm từ qua bot mà laptop chưa cào lại thì `git checkout` là **mất**
+      dữ liệu cào được. **Đã vá phần ngọn:** `deploy.ps1` nay bắt được lỗi này thay vì in "Xong!"
+      (xem mục dưới). **Gốc phải xử:** hoặc bỏ file khỏi git và cho hai bên cào độc lập, hoặc để
+      `congcu.py` đọc thẳng field `GrammarJSON` trong thẻ rồi **bỏ hẳn** file cache — hướng thứ hai
+      đã ghi trong `TIEPTUC.md`. **Trước khi làm phải quyết định**: cache là *ảnh chụp dựng lại
+      được* hay là *dữ liệu gốc*? Trả lời xong mới chọn được hướng. (31/07/2026)
+
 - [ ] **Không có logging.** `logging.basicConfig` không tồn tại ở đâu; bot chỉ `print` ra journalctl,
       mà journalctl xoay vòng theo mặc định systemd ⇒ lỗi tuần trước có thể đã mất. (31/07/2026)
 - [ ] **Không ai báo khi BOT chết.** `tgbot/alerts.py` gửi cảnh báo QUA CHÍNH BOT ⇒ bot chết thì im

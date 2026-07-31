@@ -1,61 +1,11 @@
 # CLAUDE.md — luật làm việc trong repo này (đọc trước khi làm bất cứ gì)
 
-## ⛔ VIỆC KẾ TIẾP — đọc mục này trước mọi thứ khác (đặt 30/07/2026)
+## 🔀 Chọn model cho việc đang làm — AI TỰ ĐỐI CHIẾU, user không cần nhớ
 
-**LÔ SOẠN KHO ĐANG ĐÓNG BĂNG.** Đừng chạy `congcu.py tiep`, đừng soạn lô mới, kể cả khi
-`data/huongdan/kho/TIEPTUC.md` nói lô kế tiếp là `k17`. Chỉ mở băng khi user nói rõ **"mở lại lô"**.
-
-Đang thi hành **đợt dọn dự án G0→G4**, chia làm 3 phiên:
-
-| Phiên | Nội dung |
-|---|---|
-| **A′ = 2 vá 🔴 + G0 + G1** | ← **BẮT ĐẦU TỪ ĐÂY** nếu chưa có commit nào mang `(G0)` |
-| B = G2 + G3 mở rộng | tài liệu (`KIENTRUC.md`) + dọn gốc **về đúng 3 file `.py`** |
-| C = G4 + tổng kết | phiên duy nhất chạm bot 24/7 |
-
-**Phiên A′ mở đầu bằng hai món 🔴 trong `SONO.md`** — làm TRƯỚC G0 (~40 phút), vì cả hai là bảo hiểm
-cho chính đợt dọn: ① ghim `requirements.txt` bằng `==` (deploy đang tự `pip install` mỗi lần ⇒ một bản
-lib mới có thể giết bot mà nguyên nhân không nằm trong diff của bạn); ② khôi phục thử một `.apkg` vào
-profile Anki RỖNG rồi ghi các bước vào `VPS_SETUP.md` (hiện **không có đường khôi phục nào**).
-Cuối phiên A′ thêm ~20 phút: script CHỈ ĐỌC đo bất đồng 4 luật chuẩn hoá tiếng Nga (xem `SONO.md`).
-
-**Hai file phải đọc trước khi bắt tay:**
-1. `_fable_plan.md` — đặc tả G0–G4: làm gì, file nào, kiểm chứng thế nào, cái gì KHÔNG làm
-2. `C:\Users\Asus\.claude\plans\c-v-sau-m-t-linear-emerson.md` — chia phiên A/B/C, thứ tự từng bước, trần chi phí
-
-**Biết đang ở đâu:** `git log --oneline -20 | Select-String "\(G[0-4]\)"` — G nào đã có commit là đã
-xong.
-
-> ✅ **31/07/2026: G0 → G4 ĐÃ XONG PHẦN CODE.** Hai vá 🔴 · G0 (QD-03) · đo bất đồng chuẩn hoá ·
-> G1 (QD-02) `soatkientruc.py` S1–S8 xanh + ratchet + cửa chặn `deploy.ps1` · G2 `KIENTRUC.md` +
-> README cắt còn bảng trỏ · G3 gốc còn **đúng 3 file `.py`** (`scripts/` + `_daxong/`) · G4 alias
-> public + xoá comment nói dối.
->
-> ⏸ **CÒN ĐÚNG MỘT VIỆC: DEPLOY + CANARY cho G4** — thay đổi duy nhất chạm bot 24/7, bậc 5 chưa
-> chạy. Làm: `.\deploy.ps1` → `ssh root@161.248.146.56 "journalctl -u anki-bot -n 20 --no-pager"`
-> → gửi một lệnh thật từ iPhone (vd `/backup`). Xong thì **xoá nguyên mục ⛔ này** và trả
-> `TIEPTUC.md` về vai trò cũ; lô soạn kho mở lại khi user nói **"mở lại lô"**.
-
-**Hai trần cứng của phiên A:** ① đọc 12 file `data/huongdan/lo01…lo12_*.py` bằng `limit=15`, **đừng
-đọc cả file** (chúng chứa ~270 KB nội dung thẻ ≈ 70K token, mà ta chỉ chèn 3 dòng đầu); ② quá **4
-vòng** gỡ lỗi `soatkientruc.py` thì dừng phiên, commit thứ đang có — nó là file độc lập, phiên sau
-đọc lại làm tiếp không mất gì.
-
-### 🔀 Model nào cho bước nào — AI PHẢI TỰ NHẮC, user không cần nhớ
-
-| Bước | Model | Vì sao |
-|---|---|---|
-| Ghim `requirements.txt` · khôi phục thử backup · **G0** | **Sonnet** | thi hành theo spec, sửa cơ học |
-| **G1** viết `soatkientruc.py` | **Opus** | thiết kế + gỡ lỗi nhiều vòng; cửa soát kêu oan còn tệ hơn không có cửa |
-| Đo bất đồng chuẩn hoá | **Sonnet** | script chỉ đọc |
-| **G2** viết `KIENTRUC.md` | **Opus** | việc khó là quyết định cái gì KHÔNG viết vào; sai tầng là đẻ ra README thứ hai |
-| **G3** dọn gốc · **G4** alias + deploy | **Sonnet** | `git mv` + diff nhỏ; an toàn nằm ở canary chứ không ở model |
-
-**Luật cho AI:** trước khi bắt tay MỖI bước trên, tự đối chiếu model đang chạy với bảng này. Lệch thì
-**DỪNG LẠI, nói user gõ `/model` đổi trước**, đừng làm rồi mới báo. Nguyên tắc chung ngoài bảng:
-**Opus khi việc là QUYẾT ĐỊNH, Sonnet khi việc là THI HÀNH theo spec đã có.**
-
-**Xong đợt dọn thì xoá nguyên mục này** và trả `TIEPTUC.md` về vai trò cũ.
+**Opus khi việc là QUYẾT ĐỊNH** (thiết kế, chọn cái gì KHÔNG làm, gỡ lỗi nhiều vòng, viết tài liệu
+tầng kiến trúc). **Sonnet khi việc là THI HÀNH theo spec đã có** (sửa cơ học, `git mv`, script chỉ
+đọc, diff nhỏ có sẵn lệnh nghiệm thu). Lệch thì **DỪNG LẠI, nói user gõ `/model` đổi trước**, đừng
+làm rồi mới báo — trừ khi lệch theo hướng mạnh hơn mức cần, lúc đó chỉ cần nói một câu rồi làm tiếp.
 
 ---
 
@@ -66,7 +16,7 @@ Sổ tay đầy đủ: `CACHLAM.md` (luật `L1`–`L5`, có số hiệu để v
 ## 5 luật
 
 - **L1 — Một cửa cho tài nguyên ngoài.** AnkiConnect → `anki_tools/anki_client.py`; cào OpenRussian → `grammar.fetch_page`; AI API → `ai_client`. CẤM viết wrapper mới / trỏ thẳng `:8765`. Ngoại lệ duy nhất: `data/huongdan/kho/` cố tình đóng băng (QD-01).
-- **L2 — Script một lần phải chết trong cùng commit.** Đặt tên `_va_<việc>.py`, chạy xong chuyển vào `_daxong/` ngay. Thư mục gốc chỉ chứa điểm vào đang sống (`bot.py`, `main.py`).
+- **L2 — Script một lần phải chết trong cùng commit.** Đặt tên `_va_<việc>.py`, chạy xong chuyển vào `_daxong/` ngay. Thư mục gốc chứa **đúng ba** file `.py`: `bot.py`, `main.py`, `soatkientruc.py` — script vận hành còn dùng lại thì để `scripts/` (nhớ 3 dòng bootstrap `sys.path`). Thêm tên vào danh sách trắng S6 là **nới luật**, phải ghi `QD-nn` trước.
 - **L3 — Mọi việc sửa code kết thúc bằng mục "Lệnh nghiệm thu:" và CHẠY nó.** Tối thiểu: `python soatkientruc.py` (cửa soát kiến trúc — ĐỎ là dừng, xem `soat_baseline.json`) rồi `python -c "import bot, main"`. Cả hai đã cắm sẵn vào `deploy.ps1` nên không deploy được khi ĐỎ.
 - **L4 — Vùng im lặng đứng riêng một mình** (danh sách bên dưới): không gộp việc khác, backup trước, kiểm sau.
 - **L5 — Rẽ nhánh thì ghi `QUYETDINH.md`**: mục 4 dòng (Chọn / Thay vì / Vì / Hết hạn), số hiệu `QD-nn`, commit thi hành nhắc số hiệu.

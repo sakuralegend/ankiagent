@@ -25,8 +25,24 @@ if ($LASTEXITCODE -ne 0) {
 
 Write-Host "== [2/3] Day code len GitHub ==" -ForegroundColor Cyan
 git push
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "GIT PUSH HONG - dung deploy." -ForegroundColor Red
+    exit 1
+}
 
+# --- BUOC NAY TUNG THAT BAI TRONG IM LANG (31/07/2026) --------------------
+# `git pull` tren VPS bo cuoc khi file du lieu bi bot ghi de len (vd
+# data/grammar_cache.json), nhung script van in "Xong!" mau xanh => nguoi deploy
+# tuong da xong, thuc te bot chay CODE CU. Nay bat loi that: kiem ma thoat cua
+# ssh, va in ro dieu can lam. Xem muc "cache tracked" trong SONO.md.
 Write-Host "== [3/3] Cap nhat VPS + restart bot ==" -ForegroundColor Cyan
-ssh $VPS "cd /root/ankiagent && git pull && venv/bin/pip install -q -r requirements.txt && systemctl restart anki-bot && sleep 3 && systemctl --no-pager status anki-bot | head -12"
+ssh $VPS "set -e; cd /root/ankiagent && git pull && venv/bin/pip install -q -r requirements.txt && systemctl restart anki-bot && sleep 3 && systemctl is-active anki-bot"
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "VPS KHONG CAP NHAT DUOC - bot van chay CODE CU." -ForegroundColor Red
+    Write-Host "Hay xem: ssh $VPS 'cd /root/ankiagent && git status'" -ForegroundColor Yellow
+    Write-Host "Neu ket vi file du lieu bi sua tai cho: sao luu file do ra /root/ TRUOC," -ForegroundColor Yellow
+    Write-Host "doi chieu no voi ban trong git roi moi checkout - dung de git de mu." -ForegroundColor Yellow
+    exit 1
+}
 
 Write-Host "Xong! Kiem tra bot trong Telegram." -ForegroundColor Green

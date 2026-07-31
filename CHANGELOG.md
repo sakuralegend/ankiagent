@@ -4,6 +4,24 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 31/07/2026 — **G4 deploy + canary XONG** · vá lỗi im lặng của chính `deploy.ps1`
+
+Deploy chạy qua cửa soát vừa dựng (soát xanh → import-check → push). Bot trên VPS khởi động sạch:
+AnkiConnect ✅ · AI ✅ · sync kéo về và đẩy lên ✅ · `🚀 Bot đang chạy` — **không `ImportError` nào**,
+đúng như dự đoán cho thay đổi thuần cộng thêm. Canary phía server PASS.
+
+🔴 **Lần deploy này lộ ra một lỗi IM LẶNG của chính `deploy.ps1`** — đúng loại bệnh cả đợt dọn nhắm
+vào: `git pull` trên VPS **bỏ cuộc** (file `data/grammar_cache.json` bị bot ghi đè tại chỗ), nhưng
+script vẫn in **"Xong!"** màu xanh. Nếu không đọc kỹ output thì đã tưởng deploy xong trong khi bot
+chạy **code cũ**. Đã vá: kiểm mã thoát của `git push` và của `ssh` (`set -e` phía VPS), hỏng thì in
+đỏ kèm đúng việc cần làm.
+
+Xử lý xung đột **không đè mù**: sao lưu bản VPS ra `/root/` trước, rồi so **từng khoá** hai bản —
+VPS có 978, bản git lúc đó 951, chênh đúng **27 từ mới bot tự cào**; kiểm tiếp thì commit vừa push
+**đã chứa đủ 978** nên checkout là an toàn, và cache sau pull vẫn đủ 978 khoá. Nguyên nhân gốc (một
+file vừa do git quản vừa bị runtime ghi) **ghi `SONO.md`**, không sửa vội: phải quyết định trước
+*"cache là ảnh chụp dựng lại được hay dữ liệu gốc?"* rồi mới chọn được hướng.
+
 ## 31/07/2026 — **G4 (phần code)**: alias public + xoá comment nói dối · CHỜ DEPLOY
 
 Hai việc nhỏ, đều **thuần cộng thêm** nên không thể làm hỏng caller đang chạy:
