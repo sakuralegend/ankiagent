@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python .claude/hooks/nhac_ba_cua.py",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -10,8 +10,13 @@ venv/
 # Dữ liệu Anki của container trên VPS (nếu lỡ chạy compose ngay trong repo)
 anki-data/
 
-# Cấu hình cục bộ của Claude Code
-.claude/
+# Claude Code: chặn phần CỤC BỘ, GIỮ phần là luật chung của repo (QD-09/QD-10).
+# Nếu chặn cả .claude/ thì ba cửa + hook chỉ sống trên máy này — sang máy khác
+# hay AI khác là mất sạch, đúng thứ QD-09 sinh ra để chống.
+.claude/*
+!.claude/commands/
+!.claude/hooks/
+!.claude/settings.json
 
 # Tạp
 *.log
