@@ -4,6 +4,44 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 31/07/2026 — Máy canh TRÍ NHỚ: S9 (quên ghi CHANGELOG) + S10 (file trí nhớ phình) + luật làm việc với user
+
+User nêu hai yêu cầu, và cả hai đều chỉ đúng chỗ hệ thống còn hở:
+
+> *"Phải đảm bảo mọi lúc tôi sang phiên chat mới hay dùng AI khác đều có đủ data như bạn bây giờ"*
+> *"Làm sao để tôi không còn phải nhắc thủ công thế này nữa"* · *"phải giữ bộ nhớ không bị phình
+> giống cái changelog"*
+
+**Lỗ hổng thật đã tìm ra:** nhiều kết luận đắt giá đang nằm trong **bộ nhớ riêng của Claude Code** —
+thứ **không đi theo** sang phiên mới hay sang AI khác. Đã chuyển hết vào repo.
+
+**① `CLAUDE.md` thêm mục "AI LÀM VIỆC VỚI USER"** (đặt lên đầu, trước mọi thứ khác). User **không
+phải lập trình viên** — toàn bộ code do AI viết. Bốn hệ quả bắt buộc, trong đó quan trọng nhất:
+*câu hỏi kỹ thuật là việc của AI, không phải của user* — **đi đo rồi tự trả lời**, đừng ném sang.
+Ghi thẳng ca mắc lỗi 31/07 làm bằng chứng: tôi hỏi user *"cache là ảnh chụp hay dữ liệu gốc?"* và
+user bế tắc — *"tôi chỉ có thể nhờ bạn đề xuất hộ rồi duyệt thôi"*. Kèm: user DUYỆT chứ không THIẾT
+KẾ (trình phương án theo 4 mục *làm gì · rủi ro · bao lâu · lùi thế nào*); thuật ngữ không giải
+thích là tài liệu chết.
+
+**② `QUYETDINH.md` thêm bảng "📏 ĐÃ ĐO RỒI BÁC"** — 9 hướng *nghe rất hợp lý* đã bị đo bằng số liệu
+thật rồi loại bỏ (bỏ cache đọc `GrammarJSON` · `_family()` OpenRussian · lọc theo tag A1–C2 · đối
+chiếu chéo hai file cùng thượng nguồn · chờ Difficulty tự hồi phục · gộp 4 hàm chuẩn hoá · "lô càng
+to càng lợi" · agent soát riêng · VPS tự Download from AnkiWeb). Đây là **loại lỗi đắt nhất**: AI
+phiên sau đọc code thấy "chỗ này tối ưu được" rồi làm lại từ đầu. Luật kèm theo: **muốn lật một
+dòng thì phải ĐO LẠI ra số khác, không được lật bằng lập luận suông**.
+
+**③ Hai mục canh mới — vì luật viết ra mà không có máy canh thì trôi** (chính bài học của cả đợt
+dọn, và việc user phải nhắc tay là bằng chứng):
+- **S9** — loạt commit **chưa push** có đụng code mà không đụng `CHANGELOG.md` ⇒ ĐỎ, chặn tại cửa
+  deploy. Chỉ soi phần chưa rời PC.
+- **S10** — file **bị bắt đọc** vượt trần dòng ⇒ ĐỎ (`CLAUDE.md` 90 · `KIENTRUC.md` 260 ·
+  `QUYETDINH.md` 130 · `SONO.md` 100 · `CACHLAM.md` 240 · `README.md` 110). `CHANGELOG.md` **cố ý
+  không có trong bảng** — nó là biên niên, phình là đúng vai. Chạm trần không có nghĩa cấm viết:
+  nghĩa là phải dừng lại chọn *cắt mục hết giá trị* hay *nâng trần có ý thức kèm `QD-nn`*.
+
+**Đã thử thật cả hai**: bơm `CLAUDE.md` quá 90 dòng → S10 ĐỎ; commit S9/S10 mà cố tình chưa ghi
+CHANGELOG → **S9 bắt đúng chính tôi**, exit 1, và mục CHANGELOG bạn đang đọc chính là thứ nó đòi.
+
 ## 31/07/2026 — Trả 3 nợ vận hành user duyệt: chuông báo bot chết (QD-04) · tách cache (QD-05) · trần log
 
 **① Chuông báo khi bot chết.** Trước đây bot chết là **im lặng tuyệt đối**, vì `tgbot/alerts.py` gửi

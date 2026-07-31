@@ -362,9 +362,23 @@ def s9_quen_changelog():
     )
     if not la_code:
         return []                                  # chỉ sửa tài liệu -> không bắt buộc
-    return [PhatHien("CHANGELOG.md", 0,
-                     f"da sua {len(la_code)} file code ({', '.join(la_code[:3])}"
-                     f"{'...' if len(la_code) > 3 else ''}) ma CHUA ghi CHANGELOG")]
+
+    # Đã VIẾT CHANGELOG mà chưa commit là trạng thái rất hay gặp (viết xong,
+    # quên `git add`). Vẫn ĐỎ — thứ sắp rời PC là commit chứ không phải file trên
+    # đĩa — nhưng phải nói đúng bệnh, kẻo người đọc tưởng bộ soát mù.
+    try:
+        w = subprocess.run(["git", "status", "--porcelain", "--", "CHANGELOG.md"],
+                           cwd=str(GOC), capture_output=True, text=True, timeout=15)
+        dang_viet_do = bool(w.stdout.strip())
+    except (OSError, subprocess.SubprocessError):
+        dang_viet_do = False
+
+    ten_code = ", ".join(la_code[:3]) + ("..." if len(la_code) > 3 else "")
+    if dang_viet_do:
+        mo_ta = f"da sua code ({ten_code}); CHANGELOG da viet nhung CHUA COMMIT — `git add CHANGELOG.md`"
+    else:
+        mo_ta = f"da sua {len(la_code)} file code ({ten_code}) ma CHUA ghi CHANGELOG"
+    return [PhatHien("CHANGELOG.md", 0, mo_ta)]
 
 
 # ---------------------------------------------------------------------------
