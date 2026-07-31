@@ -490,3 +490,13 @@ def check_claude_ready():
         return res.status_code == 200
     except Exception:
         return False
+
+
+# ==============================================================================
+# --- HỢP ĐỒNG PUBLIC (G4, 31/07/2026) ---
+# `grammar_forms/ai.py` đang import hai tên private này xuyên gói. Tuyên bố tên
+# public để caller đổi dần; THUẦN CỘNG THÊM, tên cũ giữ nguyên. Xem QD-02 và
+# mục S2 của `soatkientruc.py`.
+# ==============================================================================
+parse_ai_response = _parse_ai_response      # bóc JSON từ câu trả lời thô của AI
+send_ai_request = _send_ai_request          # gọi API, tự chuyển model khi 429

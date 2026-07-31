@@ -26,10 +26,15 @@ Cuối phiên A′ thêm ~20 phút: script CHỈ ĐỌC đo bất đồng 4 lu�
 **Biết đang ở đâu:** `git log --oneline -20 | Select-String "\(G[0-4]\)"` — G nào đã có commit là đã
 xong.
 
-> ✅ **31/07/2026: PHIÊN A′ XONG TRỌN** — hai vá 🔴 + G0 (QD-03) + đo bất đồng chuẩn hoá (Sonnet 5)
-> + **G1 (QD-02)**: `soatkientruc.py` S1–S7 xanh, `soat_baseline.json` ratchet, cửa chặn trong
-> `deploy.ps1` (Opus 5). S8 tự bật khi G2 viết xong `KIENTRUC.md`.
-> **Việc kế tiếp: PHIÊN B = G2 + G3.** G2 (viết `KIENTRUC.md`) cần **Opus**; G3 (dọn gốc) Sonnet.
+> ✅ **31/07/2026: G0 → G4 ĐÃ XONG PHẦN CODE.** Hai vá 🔴 · G0 (QD-03) · đo bất đồng chuẩn hoá ·
+> G1 (QD-02) `soatkientruc.py` S1–S8 xanh + ratchet + cửa chặn `deploy.ps1` · G2 `KIENTRUC.md` +
+> README cắt còn bảng trỏ · G3 gốc còn **đúng 3 file `.py`** (`scripts/` + `_daxong/`) · G4 alias
+> public + xoá comment nói dối.
+>
+> ⏸ **CÒN ĐÚNG MỘT VIỆC: DEPLOY + CANARY cho G4** — thay đổi duy nhất chạm bot 24/7, bậc 5 chưa
+> chạy. Làm: `.\deploy.ps1` → `ssh root@161.248.146.56 "journalctl -u anki-bot -n 20 --no-pager"`
+> → gửi một lệnh thật từ iPhone (vd `/backup`). Xong thì **xoá nguyên mục ⛔ này** và trả
+> `TIEPTUC.md` về vai trò cũ; lô soạn kho mở lại khi user nói **"mở lại lô"**.
 
 **Hai trần cứng của phiên A:** ① đọc 12 file `data/huongdan/lo01…lo12_*.py` bằng `limit=15`, **đừng
 đọc cả file** (chúng chứa ~270 KB nội dung thẻ ≈ 70K token, mà ta chỉ chèn 3 dòng đầu); ② quá **4

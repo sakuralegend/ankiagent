@@ -4,6 +4,29 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 31/07/2026 — **G4 (phần code)**: alias public + xoá comment nói dối · CHỜ DEPLOY
+
+Hai việc nhỏ, đều **thuần cộng thêm** nên không thể làm hỏng caller đang chạy:
+
+① `tgbot/flow_edit.py` — xoá comment `# tránh import vòng`. **Đã kiểm bằng `ast`: không có vòng
+nào** (`flow_add` chỉ import `core`). Comment đó nói dối suốt và là ví dụ mẫu cho lý do có
+`QUYETDINH.md`: một câu "vì sao" bịa ra sẽ sống lâu hơn người viết nó. Import vẫn để trong hàm —
+đó là chỗ DUY NHẤT hai flow chạm nhau, để nguyên thì S3 chỉ đúng một dòng khi tới lượt dọn.
+
+② **Tuyên bố hợp đồng public trước khi tách**: `grammar.py` thêm `BANG_RE` · `doc_cache` ·
+`luu_cache`; `ai_client.py` thêm `parse_ai_response` · `send_ai_request`. Tên private cũ **giữ
+nguyên**, chỉ cộng thêm bí danh, đã kiểm chúng trỏ **đúng cùng một đối tượng** (`is`) chứ không phải
+bản sao. Caller đổi dần khi tiện; S2 vẫn để VÀNG tới lúc đó. Đây chính là bước 1 của cuộc tách
+`grammar.py` sau này — điều kiện mở vẫn nguyên: xong toàn bộ lô + soát xanh 14 ngày + S2 về 0.
+
+**Nghiệm thu bậc 1–4 khớp `_baseline_don.md` tuyệt đối** (cửa soát xanh · import sạch · dây chuyền
+kho y nguyên · `backfill_badge.py` ra đúng kết quả baseline · số note theo model và tag không đổi).
+
+⏸ **BẬC 5 CHƯA CHẠY.** Đây là thay đổi đầu tiên của đợt dọn **chạm code bot 24/7**, nên phải deploy
+riêng có canary: `.\deploy.ps1` → `journalctl -u anki-bot -n 20` → **gửi một lệnh thật từ iPhone**
+(vd `/backup`). Repo đang đi trước VPS đúng phần này — vô hại vì thuần cộng thêm, nhưng bot chưa
+được hưởng cho tới khi deploy.
+
 ## 31/07/2026 — **G3 mở rộng**: gốc còn ĐÚNG BA file `.py`
 
 Luật `L2` nói *"gốc chỉ chứa điểm vào đang sống"* nhưng chính repo của nó phá luật — mà luật bị phá

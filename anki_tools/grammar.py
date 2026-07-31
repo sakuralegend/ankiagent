@@ -1225,3 +1225,19 @@ def build_table(rec, phan_tich=None):
             f'<div class="gt-nguon">Nguồn: {nguon} — máy dựng, không qua AI. '
             'Ô sáng = chỗ biến đổi.</div>'
             '</div></details>')
+
+
+# ==============================================================================
+# --- HỢP ĐỒNG PUBLIC (G4, 31/07/2026) ---
+# Ba tên dưới đây đang bị mảng khác gọi qua tên PRIVATE (`grammar._cache`,
+# `grammar._BANG_RE`…). Thò tay vào ruột module khác thì ngày tách file này ra
+# sẽ gãy ở những chỗ không ai nhớ. Nên tuyên bố hợp đồng TRƯỚC: caller đổi dần
+# sang tên public khi tiện, `soatkientruc.py` S2 vẫn để VÀNG cho tới lúc đó.
+#
+# THUẦN CỘNG THÊM — không xoá, không đổi tên cũ, nên không thể làm hỏng caller
+# đang chạy. Đây cũng chính là bước 1 của cuộc tách `grammar.py` sau này (điều
+# kiện mở: xong toàn bộ lô + soát xanh 14 ngày + S2 về 0).
+# ==============================================================================
+BANG_RE = _BANG_RE          # regex bóc khối bảng chia khỏi HTML thẻ
+doc_cache = _cache          # đọc ảnh chụp OpenRussian trên đĩa
+luu_cache = _save_cache     # ghi ảnh chụp đó xuống đĩa

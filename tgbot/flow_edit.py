@@ -44,7 +44,11 @@ async def _do_redo(status_msg, word, context=None, chon_id=None):
     success, result, error_msg = await asyncio.to_thread(redo_note, word, True, chon_id)
     if not success:
         if (result or {}).get("nhieu_muc") and context is not None:
-            from .flow_add import _show_homonym_buttons     # tránh import vòng
+            # KHÔNG có vòng import ở đây (`flow_add` chỉ import `core`) — comment
+            # cũ ghi "tránh import vòng" là nói dối, đã xoá 31/07/2026. Import
+            # vẫn để trong hàm vì đây là chỗ DUY NHẤT hai flow chạm nhau, để nó
+            # ở đây thì `soatkientruc.py` S3 chỉ đúng một dòng khi tới lượt dọn.
+            from .flow_add import _show_homonym_buttons
             await _show_homonym_buttons(status_msg, context, word,
                                         result["nhieu_muc"], che_do="sua")
             return
