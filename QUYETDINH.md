@@ -32,6 +32,11 @@ Chọn: một file `soatkientruc.py` ở thư mục gốc (stdlib, `ast`+regex, 
 Thay vì: để luật kiến trúc nằm trong `CACHLAM.md`/`CLAUDE.md` và trông vào tự giác; hoặc dựng pytest/CI/pre-commit.
 Vì: chỗ nào có máy đo (dây chuyền kho, tag `chuan::N`) thì sạch, chỗ nào chỉ có luật viết ra thì trôi — 10 wrapper ra đời SAU khi phát biểu "MỘT chức năng MỘT script". Đặt ở gốc là **ngoại lệ L2 có chủ ý** (L2: gốc chỉ chứa điểm vào đang sống): nó phải nằm nơi `python soatkientruc.py` gõ được không cần nhớ đường dẫn, và chính nó là thứ canh L2. Ratchet chỉ cho GIẢM ⇒ nợ không mọc lại; nới được thì nó thành bảng ghi nợ chứ không phải cửa. Hết hạn: không — thay bằng CI chỉ khi dự án có người thứ hai viết code.
 
+## QD-07 · 31/07/2026 · `PHIENBAN.md` — file duy nhất viết cho USER, tách hẳn khỏi tài liệu kỹ thuật
+Chọn: một file ngắn kiểu release notes app (`vX.Y.Z` + ≤5 gạch đầu dòng, ngôn ngữ thường, giữ 10 bản gần nhất); chỉ ghi thứ **user cảm nhận được**.
+Thay vì: để user tự đọc `git log`/`CHANGELOG.md`/`KIENTRUC.md` — hoặc không có gì cho user cả (hiện trạng trước đó).
+Vì: user chỉ ra rằng **mọi file trong repo đều viết cho người làm**, không sót file nào cho người dùng — *"để tôi hiểu thì chỉ cần kiểu v2.3.3 xong vài gạch đầu dòng"*. QD-06 đóng sổ CHANGELOG vì nó TRÙNG git log ở tầng kỹ thuật; món này KHÔNG trùng vì khác đối tượng, khác ngôn ngữ, khác thứ được chọn để ghi. Chống phình ngay từ đầu bằng ba khoá: trần 2 phút đọc (S10), tối đa 5 mục/bản, giữ 10 bản. Hết hạn: không.
+
 ## QD-06 · 31/07/2026 · Đóng sổ `CHANGELOG.md`, lịch sử chuyển sang `git log`
 Chọn: `CHANGELOG.md` ngừng ghi (giữ nguyên phần cũ làm lưu trữ); commit message đụng code bắt buộc có phần thân khai VÌ SAO; S9 đổi từ canh "có sửa CHANGELOG" sang canh "message có thân".
 Thay vì: tiếp tục ghi song song cả hai (`_fable_plan.md` từng chốt "không bao giờ nén CHANGELOG" — vẫn đúng, nhưng nó nói về **nén file cũ**, không nói phải **ghi tiếp mãi**).

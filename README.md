@@ -27,6 +27,7 @@ Mỗi câu hỏi có **đúng một** file sở hữu nó. Đừng tìm câu tr�
 
 | Bạn muốn biết | Đọc |
 |---|---|
+| 👤 **Bot vừa có gì mới / sửa được gì?** (file DUY NHẤT cho người dùng) | **[PHIENBAN.md](PHIENBAN.md)** |
 | Hệ thống là gì, chạy thế nào, **sửa ở đâu** | **[KIENTRUC.md](KIENTRUC.md)** |
 | Luật làm việc trong repo (đọc trước khi sửa bất cứ gì) | [CLAUDE.md](CLAUDE.md) · sổ tay đầy đủ [CACHLAM.md](CACHLAM.md) |
 | Vì sao chọn A mà không chọn B | [QUYETDINH.md](QUYETDINH.md) (`QD-nn`) |

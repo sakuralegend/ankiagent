@@ -415,6 +415,9 @@ PHUT_DOC = {
     "SONO.md": 4,
     "CACHLAM.md": 8,
     "README.md": 3,         # người lạ ghé 30 giây + người mới đọc kỹ 3 phút
+    # File DUY NHẤT viết cho user. Ngân sách khắt khe nhất vì user không có nghĩa
+    # vụ đọc tài liệu: quá một màn hình là nó đi đúng đường CHANGELOG.md cũ.
+    "PHIENBAN.md": 2,
 }
 # Tốc độ đọc tài liệu kỹ thuật có dấu, đọc HIỂU chứ không lướt. Đo thô nhưng
 # trung thực hơn một con số dòng bịa ra: ~30 dòng/phút.

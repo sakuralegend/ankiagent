@@ -37,6 +37,8 @@ Sổ tay đầy đủ: `CACHLAM.md` (luật `L1`–`L5`, có số hiệu để v
 
 📜 **Lịch sử = `git log`, KHÔNG phải `CHANGELOG.md`** (đã đóng sổ 31/07/2026, QD-06 — đừng ghi thêm vào đó). Nên **commit message đụng code phải khai VÌ SAO ở phần thân**, không chỉ một dòng tiêu đề: message gắn liền với diff nên không nói dối được, đó là chỗ duy nhất lời khai và sự thật nằm cạnh nhau. Thiếu thân là `soatkientruc.py` mục S9 chặn deploy.
 
+👤 **`PHIENBAN.md` là file DUY NHẤT viết cho USER — mọi file khác viết cho người sửa code.** Deploy xong mà có thay đổi **user cảm nhận được** (nút mới, lỗi họ từng gặp đã sửa, thẻ hiện khác đi) thì thêm một mục: số hiệu `vX.Y.Z` + tối đa 5 gạch đầu dòng, **ngôn ngữ thường, không thuật ngữ**, giữ 10 bản gần nhất. Dọn code / đổi cấu trúc / thêm cửa soát thì **KHÔNG ghi** — user không thấy chúng. (QD-07)
+
 🔴 **Thấy chỗ nào "tối ưu được" → mở bảng "📏 ĐÃ ĐO RỒI BÁC" đầu `QUYETDINH.md` TRƯỚC.** Chín hướng nghe rất hợp lý đã bị đo bằng số liệu thật rồi loại bỏ; làm lại là tốn tiền lần hai. Muốn lật một dòng thì phải **ĐO LẠI ra số khác**, không lật bằng lập luận suông. Cũng đừng để tài liệu phình — S10 canh trần dòng của mọi file bị-bắt-đọc.
 
 **Sửa việc XUYÊN MẢNG, hoặc đụng file đã ghi nợ trong `SONO.md` → đọc `KIENTRUC.md` TRƯỚC.** Nó giữ: bản đồ 4 mảng + chiều import một chiều · các cửa L1 · **coupling ẩn qua file dữ liệu** (thứ grep `import` không thấy) · vòng `grammar↔wiktionary` đang bẻ bằng import-trong-hàm · vùng im lặng + công cụ cứu hộ · 5 bất biến dây chuyền kho.
