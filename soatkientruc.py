@@ -337,53 +337,63 @@ def s8_manifest():
 
 
 # ---------------------------------------------------------------------------
-# S9 — sửa code mà quên ghi CHANGELOG
+# S9 — commit đụng code mà không khai VÌ SAO
 # ---------------------------------------------------------------------------
-def s9_quen_changelog():
-    """`CLAUDE.md`: "mọi lần sửa xong ghi CHANGELOG kèm VÌ SAO". Luật đó trước
-    nay dựa vào việc AI nhớ — mà user đã phải nhắc tay đúng một lần (31/07/2026),
-    tức nó KHÔNG tự thi hành. Nay máy canh: loạt commit CHƯA PUSH mà có đụng code
-    nhưng không đụng `CHANGELOG.md` thì chặn ngay tại cửa deploy.
+def s9_commit_thieu_vi_sao():
+    """Commit đụng code phải khai VÌ SAO, không chỉ một dòng tiêu đề.
 
-    Chỉ soi phần chưa push — code đã rời PC rồi thì kêu cũng muộn, còn commit đang
-    làm dở trên máy thì không phải việc của nó."""
-    try:
-        r = subprocess.run(
-            ["git", "log", "origin/main..HEAD", "--name-only", "--pretty=format:"],
-            cwd=str(GOC), capture_output=True, text=True, timeout=20)
-    except (OSError, subprocess.SubprocessError):
-        return []                                  # không có git -> không kêu
-    if r.returncode != 0:
-        return []                                  # chưa có origin/main -> bỏ qua
+    Bản đầu (31/07/2026 sáng) canh `CHANGELOG.md`. Đo lại chiều đó thì thấy nó ép
+    làm một việc TRÙNG LẶP: cùng một chuyện viết hai lần, một vào CHANGELOG một vào
+    commit message — mà không script nào đọc CHANGELOG và user nói thẳng không đọc.
+    Đóng sổ CHANGELOG (QD-06) và chuyển cửa soát sang canh đúng chỗ còn giá trị:
+    chất lượng commit message — thứ **gắn chặt với diff nên không nói dối được**.
 
-    da_doi = {d.strip() for d in r.stdout.splitlines() if d.strip()}
-    if not da_doi or "CHANGELOG.md" in da_doi:
-        return []
+    Chỉ soi commit CHƯA PUSH: code đã rời PC thì kêu cũng muộn."""
+    def _git(*doi_so):
+        """Goi git, tra stdout hoac None. Co y KHONG dung ky tu phan cach ky di
+        de gop nhieu truong vao mot lan goi — ban thu dau lam vay va ky tu dieu
+        khien lot vao source thanh byte that, gay ngay lan chay dau. Goi git nhieu
+        lan cham hon vai mili-giay nhung DOC HIEU DUOC, ma day la thu chan deploy."""
+        # 🔴 PHẢI khai encoding="utf-8": mặc định `text=True` dùng bảng mã hệ
+        # thống (cp1252 trên Windows), mà commit message ở repo này có tiếng Việt
+        # và tiếng Nga ⇒ luồng đọc của subprocess ném UnicodeDecodeError trong
+        # thread nền, `r.stdout` thành **None**, và mục soát này chết bằng
+        # `'NoneType' has no attribute...`. Đã dính thật 31/07/2026.
+        try:
+            r = subprocess.run(["git", *doi_so], cwd=str(GOC), capture_output=True,
+                               text=True, encoding="utf-8", errors="replace", timeout=20)
+        except (OSError, subprocess.SubprocessError):
+            return None
+        return r.stdout if r.returncode == 0 else None
 
-    la_code = sorted(
-        f for f in da_doi
-        if f.endswith((".py", ".ps1", ".sh", ".service"))
-        and not f.startswith("_daxong/")           # script đã khai tử, không tính
-    )
-    if not la_code:
-        return []                                  # chỉ sửa tài liệu -> không bắt buộc
+    danh_sach = _git("log", "origin/main..HEAD", "--format=%H")
+    if not danh_sach:
+        return []          # khong git / chua co origin/main / khong co commit nao
 
-    # Đã VIẾT CHANGELOG mà chưa commit là trạng thái rất hay gặp (viết xong,
-    # quên `git add`). Vẫn ĐỎ — thứ sắp rời PC là commit chứ không phải file trên
-    # đĩa — nhưng phải nói đúng bệnh, kẻo người đọc tưởng bộ soát mù.
-    try:
-        w = subprocess.run(["git", "status", "--porcelain", "--", "CHANGELOG.md"],
-                           cwd=str(GOC), capture_output=True, text=True, timeout=15)
-        dang_viet_do = bool(w.stdout.strip())
-    except (OSError, subprocess.SubprocessError):
-        dang_viet_do = False
+    ra = []
+    for sha in [d.strip() for d in danh_sach.splitlines() if d.strip()]:
+        tieu_de = (_git("log", "-1", "--format=%s", sha) or "").strip()
+        than = (_git("log", "-1", "--format=%b", sha) or "").strip()
 
-    ten_code = ", ".join(la_code[:3]) + ("..." if len(la_code) > 3 else "")
-    if dang_viet_do:
-        mo_ta = f"da sua code ({ten_code}); CHANGELOG da viet nhung CHUA COMMIT — `git add CHANGELOG.md`"
-    else:
-        mo_ta = f"da sua {len(la_code)} file code ({ten_code}) ma CHUA ghi CHANGELOG"
-    return [PhatHien("CHANGELOG.md", 0, mo_ta)]
+        ten_file = _git("show", "--name-only", "--format=", sha)
+        if ten_file is None:
+            continue
+        da_doi = {d.strip() for d in ten_file.splitlines() if d.strip()}
+
+        la_code = [d for d in da_doi
+                   if d.endswith((".py", ".ps1", ".sh", ".service"))
+                   and not d.startswith("_daxong/")]
+        if not la_code:
+            continue                               # chỉ sửa tài liệu -> không bắt buộc
+
+        # Ngưỡng cố ý THẤP: chỉ chặn commit trần trụi một dòng. Không chấm điểm văn
+        # hay — bộ soát khắt khe về câu chữ sẽ bị vô hiệu hoá bằng vài từ vô nghĩa.
+        if len(than.strip()) < 40:
+            ra.append(PhatHien(
+                f"commit {sha[:8]}", 0,
+                f"dung {len(la_code)} file code ma message KHONG co phan than giai thich "
+                f"vi sao (\"{tieu_de[:50]}\") — sua bang `git commit --amend`"))
+    return ra
 
 
 # ---------------------------------------------------------------------------
@@ -446,7 +456,7 @@ MUC = [
     ("S6", "FILE .PY LA O THU MUC GOC (L2)", s6_goc_sach, True),
     ("S7", "LO THE HE 1 MAT GUARD KHAI TU (QD-03)", s7_lo_da_khai_tu, True),
     ("S8", "KIENTRUC.md LECH THUC TE", s8_manifest, True),
-    ("S9", "SUA CODE MA QUEN GHI CHANGELOG", s9_quen_changelog, True),
+    ("S9", "COMMIT DUNG CODE MA KHONG KHAI VI SAO", s9_commit_thieu_vi_sao, True),
     ("S10", "FILE TRI NHO PHINH QUA TRAN", s10_tri_nho_phinh, True),
 ]
 
