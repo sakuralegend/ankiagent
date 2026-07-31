@@ -23,9 +23,20 @@
 | Gộp 4 hàm chuẩn hoá tiếng Nga làm một cho gọn | **CHƯA CẦN** | Đo 1748 từ Nga thật (31/07/2026): **0 bất đồng** ở cả hai cặp hàm cùng mục đích. Rủi ro `ё` tổ hợp có thật về lý thuyết nhưng chưa chạm dữ liệu nào ⇒ **đo lại trước khi gộp**, đừng gộp mò |
 | "Lô soạn kho càng to càng lợi" | **ĐÚNG MỘT NỬA** | Đúng về token, nhưng lý do thứ hai (khối dùng chung gánh nhiều thẻ) **chết rồi** — chuẩn v3 cấm khối dùng chung, đo ra `0%`. Cỡ lô do CHẤT LƯỢNG quyết định: chốt 16–18 từ |
 | Dựng "agent soát riêng" để kiểm lô sau khi soạn | **BÁC** | Lô 22 từ + agent rà lại ≈ **7,9K token/từ**, đắt hơn lô 14 từ tự soát (**7,3K**) mà chưa chắc tốt hơn: người viết biết chỗ mình lăn tăn, người rà phải dựng lại từ đầu |
+| Cài bộ "spec-driven-claude-code" (hoặc kit SDLC 12 bước tương tự) vào repo | **BÁC** | Đo 31/07/2026: kit thêm **99 file / 21.852 dòng** luật (toàn repo hiện chỉ 4.033 dòng), **28 file nói C#, 36 nói .NET, 8 nói Python**; `.claude/CLAUDE.md` 616 dòng của nó **đánh nhau** với `CLAUDE.md` 4-mảng ở đây, trùng tên `/review` `/simplify` `/deploy`, và cửa TDD ≥80% khoá cứng repo 92 file .py / 1 test. Đã lấy tinh hoa thành 3 lệnh — xem QD-09 |
 | Cho VPS tự động "Download from AnkiWeb" theo lịch cho an toàn | **BÁC — NGUY HIỂM** | Lệnh đó **ghi đè sạch** collection trên VPS (xoá thẻ bot vừa thêm), và không cứu được gì khi quên sync điện thoại vì dữ liệu ôn lúc đó nằm **trong điện thoại** |
 
 ---
+
+## QD-10 · 31/07/2026 · AI TỰ commit khi việc xong, không hỏi user
+Chọn: xong một việc + ba cửa L3 xanh ⇒ commit ngay (thân khai VÌ SAO, nhắc `QD-nn` nếu có); user nói "kết thúc phiên" mà cây còn bẩn thì commit nốt trước khi chào.
+Thay vì: hỏi user trước mỗi lần commit (mặc định cũ), hoặc gói cả phiên thành một commit lúc kết thúc.
+Vì: user hỏi *"ủa không có luật bắt phải commit mỗi khi kết thúc à"* — tra ra repo chỉ có luật commit **viết thế nào**, không có luật **khi nào**, nên việc nhớ rơi vào user, trái nguyên tắc QD-09. Đo 12 commit gần nhất: cách nhau **10–20 phút** ⇒ nhịp thật là *xong-việc-thì-commit*, gói cả phiên sẽ đẻ commit to khó lùi từng phần. Rủi ro thấp vì `commit` **không đẩy đi đâu**: code chỉ rời PC qua `deploy.ps1`, nơi 3 cửa vẫn chặn. Hết hạn: không.
+
+## QD-09 · 31/07/2026 · Ba lệnh `/ycau` → `/kehoach` → `/nghiemthu` thay cho bộ kit SDLC 12 bước
+Chọn: 3 playbook trong `.claude/commands/` + phiếu việc `VIECDANGLAM.md` ghi đè một-việc-một-lần (S10 canh trần), **AI tự kích hoạt** qua 2 lớp: dòng luật trong `CLAUDE.md` + hook `UserPromptSubmit` bơm lại 5 dòng nhắc mỗi lượt. Cửa 1 bắt buộc hỏi user bằng **AskUserQuestion trắc nghiệm**, cấm câu hỏi mở.
+Thay vì: cài `spec-driven-claude-code` (99 file / 21.852 dòng / 12 bước / agent riêng), hoặc không cài gì và dựa vào Plan mode có sẵn.
+Vì: repo **đã có sẵn nửa sau** của kit đó và làm chặt hơn (S1–S10 + 3 cửa trong `deploy.ps1` + `QUYETDINH.md`); cái thiếu là **nửa trước** — chốt *làm gì / thế nào là xong* trước khi gõ code. Kit trả giá bằng hai quyển luật mâu thuẫn, trùng tên lệnh, và cửa TDD ≥80% khoá cứng — mà `CACHLAM.md` Q8 đã BÁC coverage cao ở quy mô này. Plan mode thì không để lại file nên phiên AI sau không thấy. Điểm quyết định là yêu cầu của user: *"tôi không giỏi diễn đạt tính năng, phải có bộ lọc để hỏi tôi"* — bộ kit không có bước đó, nó giả định người dùng viết được user story. Bản đầu làm dạng slash command **user phải gõ**; user bác ngay (*"sao còn bắt tôi phải nhớ lệnh"*) ⇒ đổi sang AI tự kích hoạt, vì cơ chế nào cần user nhớ thì đã hỏng từ thiết kế — đúng bài học Q6a. Hết hạn: không — xét lại nếu có người thứ hai viết code.
 
 ## QD-02 · 31/07/2026 · `soatkientruc.py` là điểm vào thứ 3 ở gốc + ratchet + cửa trong `deploy.ps1`
 Chọn: một file `soatkientruc.py` ở thư mục gốc (stdlib, `ast`+regex, KHÔNG import module dự án), baseline ratchet một chiều trong `soat_baseline.json`, cắm làm bậc 1 của `deploy.ps1` trước `git push`.

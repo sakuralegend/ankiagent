@@ -418,6 +418,10 @@ PHUT_DOC = {
     # File DUY NHẤT viết cho user. Ngân sách khắt khe nhất vì user không có nghĩa
     # vụ đọc tài liệu: quá một màn hình là nó đi đúng đường CHANGELOG.md cũ.
     "PHIENBAN.md": 2,
+    # Phiếu việc dùng một lần (/ycau ghi đè, /nghiemthu xoá). Trần thấp là CỬA
+    # chống nó biến thành CHANGELOG.md thứ hai: phình = ai đó đang NỐI THÊM
+    # thay vì ghi đè, tức là quy trình đã trôi. (QD-09)
+    "VIECDANGLAM.md": 2,
 }
 # Tốc độ đọc tài liệu kỹ thuật có dấu, đọc HIỂU chứ không lướt. Đo thô nhưng
 # trung thực hơn một con số dòng bịa ra: ~30 dòng/phút.

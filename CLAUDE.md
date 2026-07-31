@@ -35,7 +35,13 @@ làm rồi mới báo — trừ khi lệch theo hướng mạnh hơn mức cần
 
 Sổ tay đầy đủ: `CACHLAM.md` (luật `L1`–`L5`, có số hiệu để viện dẫn). Quyết định kỹ thuật: `QUYETDINH.md` (`QD-nn`). Nợ kỹ thuật: `SONO.md`.
 
-📜 **Lịch sử = `git log`, KHÔNG phải `CHANGELOG.md`** (đã đóng sổ 31/07/2026, QD-06 — đừng ghi thêm vào đó). Nên **commit message đụng code phải khai VÌ SAO ở phần thân**, không chỉ một dòng tiêu đề: message gắn liền với diff nên không nói dối được, đó là chỗ duy nhất lời khai và sự thật nằm cạnh nhau. Thiếu thân là `soatkientruc.py` mục S9 chặn deploy.
+🧭 **User XIN MỘT CHỨC NĂNG ⇒ TỰ ĐỘNG đi ba cửa, KHÔNG chờ user gõ lệnh gì** (QD-09). User tự nhận
+*"không giỏi diễn đạt tính năng"* và **không có nghĩa vụ nhớ quy trình** — nhớ hộ là việc của bạn.
+Thứ tự bắt buộc: đọc `.claude/commands/ycau.md` → làm theo (đo trước, rồi **hỏi user bằng
+AskUserQuestion trắc nghiệm** tới khi rõ, ghi `VIECDANGLAM.md`) → `kehoach.md` chờ duyệt → viết code
+→ `nghiemthu.md`. **Cấm viết code trước khi qua cửa 1–2.** Hỏi đáp / sửa lỗi vặt thì đi thẳng.
+
+📜 **Lịch sử = `git log`, KHÔNG phải `CHANGELOG.md`** (đã đóng sổ 31/07/2026, QD-06 — đừng ghi thêm vào đó). Nên **commit message đụng code phải khai VÌ SAO ở phần thân**, không chỉ một dòng tiêu đề: message gắn liền với diff nên không nói dối được, đó là chỗ duy nhất lời khai và sự thật nằm cạnh nhau. Thiếu thân là `soatkientruc.py` mục S9 chặn deploy. ⏱️ **KHI NÀO commit: xong một việc + ba cửa nghiệm thu XANH ⇒ TỰ commit ngay, KHÔNG hỏi user** (QD-10) — user không phải nhớ nhắc; `commit` chỉ ghi vào máy, cửa thật là `deploy.ps1`. User bảo "kết thúc phiên" mà cây còn bẩn ⇒ commit nốt rồi mới chào.
 
 👤 **`PHIENBAN.md` là file DUY NHẤT viết cho USER — mọi file khác viết cho người sửa code.** Deploy xong mà có thay đổi **user cảm nhận được** (nút mới, lỗi họ từng gặp đã sửa, thẻ hiện khác đi) thì thêm một mục: số hiệu `vX.Y.Z` + tối đa 5 gạch đầu dòng, **ngôn ngữ thường, không thuật ngữ**, giữ 10 bản gần nhất. Dọn code / đổi cấu trúc / thêm cửa soát thì **KHÔNG ghi** — user không thấy chúng. (QD-07)
 
