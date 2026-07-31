@@ -11,6 +11,36 @@
 
 ---
 
+## 0. Đọc 2 phút — dành cho người CHỦ dự án (không cần biết lập trình)
+
+Phần còn lại của file viết cho AI sắp sửa code. Bạn **không cần** hiểu nó. Bạn chỉ cần bốn ý sau.
+
+**Hệ thống này giống một xưởng làm thẻ.** Bạn gõ một từ tiếng Nga vào Telegram; xưởng đi tra từ
+điển trên mạng, nhờ AI dịch và đặt câu ví dụ, tải file phát âm, rồi dán tất cả thành một tấm thẻ và
+bỏ vào kho Anki. Kho đó tự đồng bộ lên mây để điện thoại kéo về. Bạn chỉ đứng ở đầu vào (gõ từ) và
+đầu ra (học thẻ) — khúc giữa là việc của máy.
+
+**Xưởng chia bốn khu, cố ý không nối vào nhau.** Khu bot Telegram · khu soạn phần "Hướng dẫn" cho
+thẻ · khu thẻ ngữ pháp · và khu đồ nghề dùng chung. Ba khu đầu đều mượn đồ nghề từ khu thứ tư,
+nhưng **không khu nào gọi sang khu khác**. Lý do rất thực tế: sửa cái gì ở bot thì không thể vô
+tình làm hỏng lô thẻ bạn đang soạn tối nay. Chúng chỉ gặp nhau ở một chỗ duy nhất — **kho thẻ Anki**.
+
+**Ba việc có thể làm MẤT dữ liệu thật** (đã từng xảy ra, không phải lo xa):
+1. Đổi cấu trúc thẻ (thêm/xoá ô trong thẻ) → máy chủ kẹt đồng bộ mà **không báo gì cả**.
+2. Chọn nhầm chiều khi Anki hỏi "Upload hay Download" → ghi đè sạch bên còn lại, không lùi được.
+   Trên điện thoại **luôn chọn Download**.
+3. Chạy lại mấy file lô cũ → xoá bảng chia từ trên thẻ thật, im lặng. *(Đã tháo ngòi, nay chạy là
+   nó tự chết ngay.)*
+
+**Khi thấy nghi ngờ, ba câu lệnh này cứu bạn:** `/backup` trong Telegram (sao lưu ngay) ·
+`python soatkientruc.py` trên máy (máy tự kiểm code có ai phá luật không) · `vnc.bat` (nhìn tận mắt
+màn hình Anki trên máy chủ — đường duy nhất khi log không nói gì).
+
+Cần biết cách khôi phục một bản sao lưu? Xem `VPS_SETUP.md`, mục *"Khôi phục thử một bản `.apkg`"*
+— đã làm thử thật, không phải lý thuyết.
+
+---
+
 ## 1. Bốn mảng, và chiều import một chiều
 
 Hệ thống là **bốn mảng gần như độc lập**, gặp nhau CHỈ ở một chỗ: **bộ sưu tập Anki**. Không mảng
