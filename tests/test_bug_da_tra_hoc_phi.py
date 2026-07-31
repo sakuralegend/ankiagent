@@ -17,6 +17,7 @@ KHÔNG cần Anki, KHÔNG cần mạng — chạy được mọi lúc, đó là 
 """
 import os
 import sys
+import unicodedata
 import unittest
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -144,6 +145,41 @@ class BocKhoiBangChia(unittest.TestCase):
     def test_khong_co_bang_thi_giu_nguyen(self):
         html = "chỉ là chữ thường"
         self.assertEqual(grammar.BANG_RE.sub("", html), html)
+
+
+class DauTrongAmPhaiLaMotKyTuDUYNHAT(unittest.TestCase):
+    """BUG GỐC 31/07/2026: OpenRussian trả `U+0341 COMBINING ACUTE TONE MARK`
+    (lỗi thời) thay vì `U+0301 COMBINING ACUTE ACCENT` mà cả dự án dùng.
+
+    Hai ký tự HIỆN RA Y HỆT NHAU — mắt không bao giờ bắt được. Hậu quả im lặng:
+    hàm bỏ dấu trọng âm chỉ biết `\\u0301` nên bỏ sót; Anki lại tự chuẩn hoá NFC
+    lúc ghi ⇒ thẻ và cache lệch nhau vĩnh viễn. Tìm ra khi đồng bộ toàn bộ thẻ:
+    975/976 khớp, đúng một thẻ `бу́ква` lệch mà nhìn thì giống hệt."""
+
+    XAU = "\u0341"                          # tone mark, da loi thoi
+    TOT = "\u0301"                          # acute accent, chuan cua du an
+
+    def test_hai_ky_tu_nay_that_su_khac_nhau(self):
+        """Chốt lại điều phản trực giác: nhìn giống nhau, byte khác nhau."""
+        self.assertNotEqual(self.XAU, self.TOT)
+        self.assertEqual(unicodedata.normalize("NFC", "а" + self.XAU),
+                         unicodedata.normalize("NFC", "а" + self.TOT))
+
+    def test_ham_bo_dau_KHONG_bo_noi_ky_tu_loi_thoi(self):
+        """Vì sao phải chặn từ cửa ghi chứ không trông vào hàm bỏ dấu."""
+        self.assertEqual(strip_accents_perfectly("бу" + self.TOT + "ква"), "буква")
+        self.assertNotEqual(strip_accents_perfectly("бу" + self.XAU + "ква"), "буква")
+
+    def test_CACHE_THAT_khong_duoc_chua_ky_tu_loi_thoi(self):
+        """Bất biến trên DỮ LIỆU THẬT — bắt được cả khi lỗi tới từ nguồn."""
+        duong = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                             "data", "grammar_cache.json")
+        if not os.path.exists(duong):
+            self.skipTest("khong co cache tren may nay")
+        with open(duong, encoding="utf-8") as f:
+            noi_dung = f.read()
+        self.assertNotIn(self.XAU, noi_dung,
+                         "cache lai chua U+0341 — kiem `_save_cache` con chuan hoa NFC khong")
 
 
 class AliasPublicConSong(unittest.TestCase):

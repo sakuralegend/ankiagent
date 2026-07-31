@@ -24,6 +24,7 @@ import os
 import re
 import sys
 import time
+import unicodedata
 import urllib.parse
 
 from .utils import convert_stress_to_combining_accent, log_fail, log_warn
@@ -125,9 +126,20 @@ def _load_cache():
 
 
 def _save_cache(cache):
+    """Ghi cache — LUÔN chuẩn hoá NFC trước khi ghi.
+
+    🔴 BUG THẬT 31/07/2026: OpenRussian trả về `U+0341 COMBINING ACUTE TONE MARK`
+    (ký tự đã lỗi thời) thay vì `U+0301 COMBINING ACUTE ACCENT` mà cả dự án dùng.
+    Hai ký tự HIỆN RA Y HỆT NHAU nên mắt không bắt được, nhưng:
+      · `strip_accents_perfectly()` chỉ bỏ `\\u0301` ⇒ KHÔNG bỏ nổi `\\u0341`;
+      · Anki tự chuẩn hoá NFC lúc ghi thẻ ⇒ thẻ và cache lệch nhau vĩnh viễn,
+        và mọi phép "so thẻ với cache" không bao giờ đạt 100%.
+    Tìm ra nhờ đúng phép so đó (1 từ `бу́ква`, 4 ký tự). Chuẩn hoá ngay TẠI CỬA
+    GHI để bẩn không vào được kho, thay vì đi dọn về sau. Test canh: `tests/`."""
     os.makedirs(os.path.dirname(CACHE_PATH), exist_ok=True)
+    van_ban = json.dumps(cache, ensure_ascii=False, indent=0, sort_keys=True)
     io.open(CACHE_PATH, "w", encoding="utf-8").write(
-        json.dumps(cache, ensure_ascii=False, indent=0, sort_keys=True))
+        unicodedata.normalize("NFC", van_ban))
 
 
 _CACHE = None
