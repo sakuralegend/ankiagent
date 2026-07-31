@@ -18,25 +18,28 @@
 - [x] **`requirements.txt` không ghim phiên bản.** Đã `pip freeze` trên VPS lấy đúng bản đang chạy
       thật, ghim `==` cho cả 6 gói. Nâng cấp từ nay là hành động có chủ đích. (31/07/2026)
 
-### 🟡 Vận hành — cần thiết kế riêng, ĐỪNG làm trong đợt dọn G0–G4
+### 🟡 Vận hành — ĐÃ TRẢ 31/07/2026 (user duyệt cả ba)
 
-- [ ] **`data/grammar_cache.json` vừa được git quản vừa bị bot ghi lúc chạy** ⇒ `git pull` trên VPS
-      **bỏ cuộc mỗi lần deploy** nếu user có thêm từ mới kể từ lần trước (đã xảy ra thật khi deploy
-      G4, 31/07/2026: VPS có 978 khoá, bản git lúc đó 951 — 27 từ mới bot tự cào). Lần này an toàn
-      vì laptop đã commit đủ 978 khoá nên bản git **bao trùm** bản VPS, nhưng đó là **may**, không
-      phải thiết kế: nếu user thêm từ qua bot mà laptop chưa cào lại thì `git checkout` là **mất**
-      dữ liệu cào được. **Đã vá phần ngọn:** `deploy.ps1` nay bắt được lỗi này thay vì in "Xong!"
-      (xem mục dưới). **Gốc phải xử:** hoặc bỏ file khỏi git và cho hai bên cào độc lập, hoặc để
-      `congcu.py` đọc thẳng field `GrammarJSON` trong thẻ rồi **bỏ hẳn** file cache — hướng thứ hai
-      đã ghi trong `TIEPTUC.md`. **Trước khi làm phải quyết định**: cache là *ảnh chụp dựng lại
-      được* hay là *dữ liệu gốc*? Trả lời xong mới chọn được hướng. (31/07/2026)
+- [x] **Không ai báo khi BOT chết → ĐÃ CÓ CHUÔNG (QD-04).** `scripts/canhbao_bot_chet.sh` nói thẳng
+      với Telegram bằng `curl`, không nạp dòng code Python nào của dự án. Hai lớp: systemd
+      `OnFailure=` (chết hẳn = 5 lần khởi động trong 5 phút) + cron 15′ bắt trường hợp bị dừng hẳn.
+      Chống spam bằng mốc trạng thái ⇒ bot chết cả ngày = ĐÚNG MỘT tin, và có tin báo khi sống lại.
+      **Đã thử thật:** Telegram trả `ok:true`; stop bot → bắt được; start lại → báo "đã chạy lại";
+      gọi thêm 2 lần → im lặng. (31/07/2026)
+- [x] **`grammar_cache.json` kẹt deploy → ĐÃ TÁCH CHỖ GHI (QD-05).** Bot trên VPS nay ghi vào
+      `/root/anki-cache/` (biến `ANKI_GRAMMAR_CACHE`), ngoài repo ⇒ repo không bao giờ bẩn.
+      **Đã đo và BÁC hướng cũ** ("bỏ cache, đọc field `GrammarJSON`"): cache bao trùm thẻ, 88 thẻ
+      thiếu hẳn `present`/`future`/`parts`. (31/07/2026)
+- [x] **Log xoay vòng mất dấu → ĐÃ ĐẶT TRẦN.** `SystemMaxUse=500M` + `MaxRetentionSec=3month`.
+      Đo trước khi sửa: log vẫn còn từ 14/07 (~17 ngày, 212 MB) nên món này nhẹ hơn lo ngại — việc
+      thật chỉ là chặn phình vô hạn. Bản gốc lưu ở `/root/journald.conf.bak`. (31/07/2026)
 
-- [ ] **Không có logging.** `logging.basicConfig` không tồn tại ở đâu; bot chỉ `print` ra journalctl,
-      mà journalctl xoay vòng theo mặc định systemd ⇒ lỗi tuần trước có thể đã mất. (31/07/2026)
-- [ ] **Không ai báo khi BOT chết.** `tgbot/alerts.py` gửi cảnh báo QUA CHÍNH BOT ⇒ bot chết thì im
-      lặng tuyệt đối. `anki-bot.service` có `Restart=always`+`RestartSec=10` nhưng không có
-      `StartLimitBurst`/`OnFailure=` ⇒ crash-loop quay vô hạn không ai biết. Cần một cơ chế báo
-      ĐỘC LẬP với bot. (31/07/2026)
+### 🟡 Vận hành — còn lại, chưa cấp thiết
+
+- [ ] **Bot chỉ `print`, chưa có nhật ký phân mức.** `logging.basicConfig` không tồn tại ở đâu ⇒
+      không lọc được theo mức, không tách được lỗi khỏi tiếng ồn. Khác với món "log bị xoá" đã trả
+      ở trên: đây là chất lượng log, không phải mất log. **Đắt** (chạm cả 3 gói) mà lợi ích chưa
+      cấp thiết ⇒ để sau khi xong 61 lô. (31/07/2026)
 - [ ] **15 chỗ nuốt lỗi im lặng** (`except: pass` / `except Exception:` trống) trong 3 gói.
       **Không sửa hết ngay.** Áp luật từ nay: mọi `except` phải log, hoặc phải có comment nói vì sao
       được phép nuốt. (31/07/2026)

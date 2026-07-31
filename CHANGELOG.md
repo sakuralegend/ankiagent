@@ -4,6 +4,34 @@
 > để phiên chat mới / người mới đọc là nắm được ngay hệ thống đã đi qua những gì.
 > Quy ước mỗi mục: **ngày — commit — làm gì + vì sao**.
 
+## 31/07/2026 — Trả 3 nợ vận hành user duyệt: chuông báo bot chết (QD-04) · tách cache (QD-05) · trần log
+
+**① Chuông báo khi bot chết.** Trước đây bot chết là **im lặng tuyệt đối**, vì `tgbot/alerts.py` gửi
+cảnh báo *qua chính bot*. Nay có đường báo độc lập: `scripts/canhbao_bot_chet.sh` nói thẳng với
+Telegram bằng `curl`, không nạp một dòng code Python nào của dự án — dự án hỏng kiểu gì nó vẫn kêu
+được. Hai lớp: systemd `OnFailure=` bắt bot chết hẳn (khai rõ "chết hẳn" = 5 lần khởi động trong 5
+phút, trước đây `Restart=always` không giới hạn nên crash-loop quay vô hạn), và cron 15 phút bắt
+trường hợp bot bị dừng rồi nằm im. **Chống spam** bằng mốc trạng thái: bot chết cả ngày = đúng MỘT
+tin (không phải 96), và có tin báo khi sống lại. **Thử thật trên VPS**: Telegram trả `ok:true` ⇒ tin
+tới máy user; `stop` bot → bắt được và ghi mốc; `start` lại → báo "đã chạy lại"; gọi thêm hai lần →
+im lặng.
+
+**② Hết kẹt deploy.** `grammar.CACHE_PATH` nay đọc biến `ANKI_GRAMMAR_CACHE`, **mặc định giữ nguyên
+chỗ cũ** nên PC ở nhà không thấy khác biệt; VPS trỏ ra `/root/anki-cache/` — ngoài repo, nên repo
+không bao giờ bẩn nữa. **Đo trước khi quyết định** thay vì hỏi user: cache **bao trùm** thẻ (88 thẻ
+thiếu hẳn `present`/`future`/`parts`), nên hướng *"bỏ cache, đọc thẳng field `GrammarJSON`"* ghi
+trong `TIEPTUC.md` là **SAI** — đã bác và ghi lại lý do ngay trong code.
+
+**③ Trần dung lượng log**: `SystemMaxUse=500M` + `MaxRetentionSec=3month`. Đo trước khi sửa cho thấy
+món này **nhẹ hơn lo ngại** — log vẫn còn từ 14/07 (~17 ngày, 212 MB), việc thật chỉ là chặn phình
+vô hạn. Phần "thay `print` bằng nhật ký phân mức" thì đắt (chạm cả ba gói) mà chưa cấp thiết ⇒ ghi
+nợ tiếp, để sau khi xong lô.
+
+🎯 **Cửa deploy vừa vá hôm nay đã tự chứng minh giá trị**: lần deploy này nó **báo đỏ và chặn** đúng
+lúc VPS không pull được (ba file vướng), thay vì in "Xong!" giả như sáng nay. Chẩn đoán rồi mới gỡ:
+hai file untracked **giống hệt** bản git, `anki-bot.service` trên VPS chỉ là bản cũ thiếu 4 dòng —
+xác nhận không mất gì rồi mới dọn.
+
 ## 31/07/2026 — **G4 deploy + canary XONG** · vá lỗi im lặng của chính `deploy.ps1`
 
 Deploy chạy qua cửa soát vừa dựng (soát xanh → import-check → push). Bot trên VPS khởi động sạch:
