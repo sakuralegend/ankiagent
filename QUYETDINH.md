@@ -32,6 +32,11 @@ Chọn: một file `soatkientruc.py` ở thư mục gốc (stdlib, `ast`+regex, 
 Thay vì: để luật kiến trúc nằm trong `CACHLAM.md`/`CLAUDE.md` và trông vào tự giác; hoặc dựng pytest/CI/pre-commit.
 Vì: chỗ nào có máy đo (dây chuyền kho, tag `chuan::N`) thì sạch, chỗ nào chỉ có luật viết ra thì trôi — 10 wrapper ra đời SAU khi phát biểu "MỘT chức năng MỘT script". Đặt ở gốc là **ngoại lệ L2 có chủ ý** (L2: gốc chỉ chứa điểm vào đang sống): nó phải nằm nơi `python soatkientruc.py` gõ được không cần nhớ đường dẫn, và chính nó là thứ canh L2. Ratchet chỉ cho GIẢM ⇒ nợ không mọc lại; nới được thì nó thành bảng ghi nợ chứ không phải cửa. Hết hạn: không — thay bằng CI chỉ khi dự án có người thứ hai viết code.
 
+## QD-08 · 31/07/2026 · THẺ ANKI là nguồn sự thật của dữ liệu ngữ pháp; `grammar_cache.json` chỉ còn là BỘ NHỚ ĐỆM
+Chọn: `get_cached()` tìm theo thứ tự **đệm → thẻ Anki**; thiếu ở đệm thì tự lấp từ ô `GrammarJSON` (chỉ THÊM khoá thiếu, không đè bản đang có); Anki đóng thì im lặng dùng đệm nên lệnh soát lô vẫn chạy offline.
+Thay vì: giữ file cache làm kho riêng của từng máy (cũ), hoặc bỏ hẳn cache ngay (phải sửa `kho/cao_nguphap.py` — đang đóng băng theo QD-01, còn 43 lô).
+Vì: user chỉ ra bot cào từ mới **trên VPS** nên ghi vào cache của VPS — laptop không bao giờ nhận, `remember()` không đạt mục đích, và phải cào lại lần hai cùng một từ; QD-05 còn làm đứt hẳn đường về. Thẻ thì **tự đồng bộ qua AnkiWeb tới mọi máy** nên nó mới là kênh đúng. Đo chứng minh: xoá sạch file cache, nó **tự dựng lại 976 từ từ thẻ**, `дом` vẫn đủ bảng chia. Lý do cũ để bác hướng này ("88 thẻ thiếu `present`/`future`/`parts`") đã bị chính việc đồng bộ hôm nay xoá bỏ. Hết hạn: khi xong 61 lô, `kho/` hết đóng băng ⇒ xét bỏ hẳn file cache.
+
 ## QD-07 · 31/07/2026 · `PHIENBAN.md` — file duy nhất viết cho USER, tách hẳn khỏi tài liệu kỹ thuật
 Chọn: một file ngắn kiểu release notes app (`vX.Y.Z` + ≤5 gạch đầu dòng, ngôn ngữ thường, giữ 10 bản gần nhất); chỉ ghi thứ **user cảm nhận được**.
 Thay vì: để user tự đọc `git log`/`CHANGELOG.md`/`KIENTRUC.md` — hoặc không có gì cho user cả (hiện trạng trước đó).

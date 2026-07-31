@@ -182,6 +182,37 @@ class DauTrongAmPhaiLaMotKyTuDUYNHAT(unittest.TestCase):
                          "cache lai chua U+0341 — kiem `_save_cache` con chuan hoa NFC khong")
 
 
+class TheLaNguonSuThat(unittest.TestCase):
+    """QD-08: thẻ Anki là nguồn, file cache chỉ là BỘ NHỚ ĐỆM tự lấp từ thẻ.
+
+    Trước 31/07/2026 quan hệ ngược lại và sinh ra đúng hai bệnh: bot cào từ mới
+    trên máy chủ thì laptop không bao giờ có (phải cào lại lần hai cho cùng một
+    từ), và hai bản lệch nhau âm thầm."""
+
+    def test_khong_bao_gio_lam_chet_luong_du_Anki_dong(self):
+        """Anki đóng phải là "chưa biết", KHÔNG được ném lỗi — nếu không thì mọi
+        lệnh soát lô offline chết theo."""
+        goc = grammar._DA_HOI_THE
+        try:
+            grammar._DA_HOI_THE = True         # chặn gọi Anki thật trong test
+            self.assertEqual(grammar.get_cached("tu_khong_bao_gio_ton_tai_xyz"), {})
+        finally:
+            grammar._DA_HOI_THE = goc
+
+    def test_lap_dem_KHONG_DUOC_de_ban_ghi_dang_co(self):
+        """Ô `GrammarJSON` hỏng/rỗng không được xoá mất thứ đang đúng trong đệm."""
+        dem = grammar._cache()
+        khoa = "khoa_thu_" + "x" * 5
+        dem[khoa] = {"pos": "noun", "v": 99}
+        try:
+            grammar._DA_HOI_THE = False
+            grammar._lap_dem_tu_the()          # Anki có mở hay không đều được
+            self.assertEqual(dem[khoa], {"pos": "noun", "v": 99})
+        finally:
+            dem.pop(khoa, None)
+            grammar._DA_HOI_THE = True
+
+
 class AliasPublicConSong(unittest.TestCase):
     """Alias public thêm ở G4 (QD-02) là hợp đồng cho ngày tách `grammar.py`.
     Ai lỡ xoá thì phải gãy Ở ĐÂY, không phải gãy trên máy chủ lúc nửa đêm."""

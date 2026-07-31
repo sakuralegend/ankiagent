@@ -134,6 +134,47 @@ def find_duplicate_notes(clean_word):
         return []
 
 
+def doc_grammar_json_tat_ca():
+    """Đọc ô `GrammarJSON` của MỌI thẻ -> `{WordClean: bản_ghi}`.
+
+    🔴 THẺ LÀ NGUỒN SỰ THẬT của dữ liệu ngữ pháp (QD-08). Vì sao đổi chiều:
+    bot chạy trên VPS, cào từ mới xong ghi vào cache CỦA VPS — laptop không bao
+    giờ nhận được, nên `remember()` không đạt mục đích của nó và laptop phải cào
+    lại lần hai cho cùng một từ. Thẻ thì TỰ ĐỒNG BỘ qua AnkiWeb tới mọi máy, nên
+    nó mới là kênh đúng. File cache từ nay chỉ còn là BỘ NHỚ ĐỆM, tự lấp từ đây.
+
+    Trả `{}` khi Anki đóng/lỗi — người gọi phải coi đó là "chưa biết", KHÔNG
+    được coi là "không có dữ liệu" rồi ghi đè thứ đang đúng."""
+    try:
+        res = requests.post(ANKI_CONNECT_URL, json={
+            "action": "findNotes", "version": 6,
+            "params": {"query": f'note:"{MODEL_NAME}"'}
+        }, timeout=15)
+        note_ids = res.json().get("result") or []
+        if not note_ids:
+            return {}
+        res = requests.post(ANKI_CONNECT_URL, json={
+            "action": "notesInfo", "version": 6, "params": {"notes": note_ids}
+        }, timeout=120)
+        ra = {}
+        for n in res.json().get("result") or []:
+            f = n.get("fields", {})
+            wc = (f.get("WordClean", {}).get("value") or "").strip()
+            gj = (f.get("GrammarJSON", {}).get("value") or "").strip()
+            if not wc or not gj:
+                continue
+            try:
+                rec = json.loads(gj)
+            except ValueError:
+                continue                       # ô hỏng -> bỏ qua, đừng làm chết cả lượt
+            if rec:
+                ra[wc] = rec
+        return ra
+    except Exception as e:
+        log_warn(f"khong doc duoc GrammarJSON tu Anki ({e}) -> dung cache tren dia")
+        return {}
+
+
 def get_known_words():
     """Tập hợp WordClean (chữ thường) của MỌI note model bot — luồng quét ảnh
     dùng để lọc từ đã có thẻ trước khi hỏi user.

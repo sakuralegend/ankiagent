@@ -109,9 +109,12 @@ Cửa nào bị mở lậu thì `soatkientruc.py` mục S1 kêu.
 - **`data/nouns.csv`**: `grammar_forms/irregular_plurals.py` **tải nó về** (dump từ GitHub);
   `anki_tools/grammar.py` **đọc nó** để biết từ nào chỉ dùng số nhiều; dây chuyền kho cũng đọc nó
   để soát trọng âm. Đổi định dạng file này là chạm cả ba mảng cùng lúc.
-- **`data/grammar_cache.json`**: ảnh chụp OpenRussian trên máy soạn kho. Bot chạy trên VPS ghi dữ
-  liệu ngữ pháp vào **field ẩn của chính thẻ**, nên cache trên laptop luôn hụt đúng bằng số từ mới
-  thêm qua bot — *hụt ở đây không có nghĩa là thiếu dữ liệu*.
+- **`data/grammar_cache.json`** — từ 31/07/2026 chỉ còn là **BỘ NHỚ ĐỆM**, không phải nguồn (QD-08).
+  Nguồn sự thật của dữ liệu ngữ pháp là **ô `GrammarJSON` trong chính thẻ Anki**, vì thẻ tự đồng bộ
+  qua AnkiWeb tới mọi máy còn file thì mắc kẹt ở một máy. Thiếu từ nào, đệm tự lấp từ thẻ; xoá sạch
+  file này cũng không mất gì (đã thử: nó dựng lại toàn bộ trong vài giây). ⚠️ Đừng đảo ngược lại —
+  chiều cũ đẻ ra đúng hai bệnh: bot cào trên VPS thì laptop phải cào lại lần hai, và hai bản lệch
+  nhau âm thầm hàng tuần.
 - **`hangdoi.json` là nguồn sự thật duy nhất** về trạng thái từng lô; `tudien.json` là ảnh chụp
   nghĩa/trọng âm. Thêm từ mới phải chạm **cả hai**, thiếu một cái thì công cụ in ra `?` và người
   soạn sẽ soạn mò.

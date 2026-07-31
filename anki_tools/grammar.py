@@ -533,17 +533,63 @@ def fetch_grammar(word, refresh=False, delay=0.5):
 _DA_KEU = set()
 
 
-def get_cached(word):
-    """Chỉ đọc cache, KHÔNG gọi mạng. Dùng ở luồng soạn lô / dựng thẻ hàng loạt.
+_DA_HOI_THE = False
 
-    🔴 KÊU khi bản ghi cũ phiên bản. Hàm này không được gọi mạng (luồng hàng loạt
-    950 từ), nên nó KHÔNG tự chữa được — mà im lặng thì thẻ nhận bảng thiếu mục
-    đúng lúc `nap` tưởng mình vừa ghi bản mới nhất. Đã dính thật 30/07: thêm
-    `present`/`future`/`parts` vào `normalize()` mà cache còn v3, mọi đường đọc
-    cache vẫn dựng bảng cũ không một tiếng nào.
-    Kêu MỘT lần mỗi từ — 950 dòng giống nhau thì rồi chính mình sẽ bỏ qua.
+
+def _lap_dem_tu_the():
+    """Lấp bộ nhớ đệm bằng dữ liệu trong THẺ ANKI — chạy nhiều nhất MỘT lần.
+
+    🔴 THẺ LÀ NGUỒN SỰ THẬT (QD-08). Trước 31/07/2026 quan hệ ngược lại: file
+    cache là kho riêng của từng máy. Hậu quả: bot cào từ mới trên VPS thì laptop
+    không bao giờ có, phải cào lại lần hai cho cùng một từ; và hai bản lệch nhau
+    âm thầm (đã có 89 thẻ lệch nhiều tuần, tìm ra hoàn toàn tình cờ).
+
+    CHỈ THÊM khoá còn thiếu, TUYỆT ĐỐI không đè bản ghi đang có: Anki đóng hay ô
+    `GrammarJSON` hỏng thì phải là "chưa biết", không được biến thành "không có
+    dữ liệu" rồi xoá mất thứ đang đúng.
+
+    Anki không mở cũng không sao — im lặng dùng tiếp bộ đệm trên đĩa, nên các
+    lệnh soát lô vẫn chạy offline như trước."""
+    global _DA_HOI_THE
+    if _DA_HOI_THE:
+        return
+    _DA_HOI_THE = True
+    try:
+        from . import anki_client            # trong hàm: anki_client import ngược module này
+        tu_the = anki_client.doc_grammar_json_tat_ca()
+    except Exception:
+        return
+    if not tu_the:
+        return
+    cache = _cache()
+    them = 0
+    for w, rec in tu_the.items():
+        khoa = bare(w)
+        if khoa not in cache and rec:
+            cache[khoa] = rec
+            them += 1
+    if them:
+        _save_cache(cache)
+        print(f"[grammar] lay {them} tu tu THE ANKI vao bo dem", file=sys.stderr)
+
+
+def get_cached(word):
+    """Dữ liệu ngữ pháp của một từ. KHÔNG gọi mạng (luồng hàng loạt 950 từ).
+
+    Thứ tự tìm: **bộ đệm trên đĩa → thẻ Anki**. Thiếu ở cả hai thì trả rỗng —
+    người gọi tự quyết định có đi cào không.
+
+    🔴 KÊU khi bản ghi cũ phiên bản. Hàm này không gọi mạng nên KHÔNG tự chữa
+    được — mà im lặng thì thẻ nhận bảng thiếu mục đúng lúc `nap` tưởng mình vừa
+    ghi bản mới nhất. Đã dính thật 30/07: thêm `present`/`future`/`parts` vào
+    `normalize()` mà cache còn v3, mọi đường đọc cache vẫn dựng bảng cũ không một
+    tiếng nào. Kêu MỘT lần mỗi từ — 950 dòng giống nhau thì rồi cũng bị bỏ qua.
     """
-    rec = _cache().get(bare(word)) or {}
+    rec = _cache().get(bare(word))
+    if rec is None:                            # chưa có trong đệm -> hỏi thẻ
+        _lap_dem_tu_the()
+        rec = _cache().get(bare(word))
+    rec = rec or {}
     if ban_ghi_cu(rec) and bare(word) not in _DA_KEU:
         _DA_KEU.add(bare(word))
         print(f"[grammar] '{word}': ban ghi v{rec.get('v', 0)} < v{BAN_GHI_V} "
