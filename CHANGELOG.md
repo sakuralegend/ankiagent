@@ -42,6 +42,12 @@ dọn, và việc user phải nhắc tay là bằng chứng):
 **Đã thử thật cả hai**: bơm `CLAUDE.md` quá 90 dòng → S10 ĐỎ; commit S9/S10 mà cố tình chưa ghi
 CHANGELOG → **S9 bắt đúng chính tôi**, exit 1, và mục CHANGELOG bạn đang đọc chính là thứ nó đòi.
 
+**④ Khép vòng**: `CLAUDE.md` thêm dòng trỏ bảng "ĐÃ ĐO RỒI BÁC" — bảng nằm đó mà không ai biết
+thì vô dụng; và nhắc S9/S10 ngay tại luật ghi CHANGELOG. Bộ nhớ Claude Code cũng dọn theo đúng luật
+vừa đặt: **gộp vào file cũ thay vì đẻ file mới** (`plan-don-dep` viết lại thành "ĐÃ XONG, đừng làm
+lại" kèm 3 chỗ plan ghi sai so với repo thật), thêm hai mục về cách làm việc với user và về việc
+memory không đi theo sang AI khác.
+
 ## 31/07/2026 — Trả 3 nợ vận hành user duyệt: chuông báo bot chết (QD-04) · tách cache (QD-05) · trần log
 
 **① Chuông báo khi bot chết.** Trước đây bot chết là **im lặng tuyệt đối**, vì `tgbot/alerts.py` gửi

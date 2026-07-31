@@ -27,7 +27,9 @@ làm rồi mới báo — trừ khi lệch theo hướng mạnh hơn mức cần
 
 ---
 
-Sổ tay đầy đủ: `CACHLAM.md` (luật `L1`–`L5`, có số hiệu để viện dẫn). Quyết định kỹ thuật: `QUYETDINH.md` (`QD-nn`). Nợ kỹ thuật: `SONO.md`. Mọi lần sửa xong: ghi `CHANGELOG.md` (mới nhất trên cùng, kèm **vì sao**).
+Sổ tay đầy đủ: `CACHLAM.md` (luật `L1`–`L5`, có số hiệu để viện dẫn). Quyết định kỹ thuật: `QUYETDINH.md` (`QD-nn`). Nợ kỹ thuật: `SONO.md`. Mọi lần sửa xong: ghi `CHANGELOG.md` (mới nhất trên cùng, kèm **vì sao**) — quên là `soatkientruc.py` mục S9 chặn deploy.
+
+🔴 **Thấy chỗ nào "tối ưu được" → mở bảng "📏 ĐÃ ĐO RỒI BÁC" đầu `QUYETDINH.md` TRƯỚC.** Chín hướng nghe rất hợp lý đã bị đo bằng số liệu thật rồi loại bỏ; làm lại là tốn tiền lần hai. Muốn lật một dòng thì phải **ĐO LẠI ra số khác**, không lật bằng lập luận suông. Cũng đừng để tài liệu phình — S10 canh trần dòng của mọi file bị-bắt-đọc.
 
 **Sửa việc XUYÊN MẢNG, hoặc đụng file đã ghi nợ trong `SONO.md` → đọc `KIENTRUC.md` TRƯỚC.** Nó giữ: bản đồ 4 mảng + chiều import một chiều · các cửa L1 · **coupling ẩn qua file dữ liệu** (thứ grep `import` không thấy) · vòng `grammar↔wiktionary` đang bẻ bằng import-trong-hàm · vùng im lặng + công cụ cứu hộ · 5 bất biến dây chuyền kho.
 
