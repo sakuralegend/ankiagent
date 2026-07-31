@@ -40,9 +40,14 @@ _HERE = os.path.dirname(os.path.abspath(__file__))
 # deploy.ps1 lúc đó còn báo "Xong!" trong khi bot vẫn chạy code cũ.
 # Cách chữa: cho hai bên hai chỗ riêng — trên VPS trỏ ANKI_GRAMMAR_CACHE ra ngoài
 # thư mục repo. Cache là ẢNH CHỤP OpenRussian (cào lại được, chỉ tốn thời gian),
-# KHÔNG phải dữ liệu gốc duy nhất — nhưng cũng KHÔNG dựng lại được từ thẻ: đã đo
-# 31/07, cache bao trùm thẻ, 88 thẻ thiếu hẳn phần chia động từ (present/future/
-# parts). Nên đừng "tối ưu" bằng cách xoá file này đi đọc field GrammarJSON.
+# KHÔNG phải dữ liệu gốc duy nhất.
+#
+# ⏳ 31/07/2026 — TOÀN BỘ KHỐI NÀY SẮP BỊ GỠ, xem QD-11 (user đã duyệt).
+# Lời dặn cũ ở đây ("đừng tối ưu bằng cách xoá file này đi đọc field GrammarJSON",
+# vì 88 thẻ thiếu present/future/parts) **KHÔNG CÒN ĐÚNG** — đo lại cùng ngày với
+# Anki mở: thẻ 976 / cache 978, thẻ thiếu khoá 0, nội dung lệch 0, cache chỉ dư 2
+# từ mồ côi. Phiên sau: làm theo kế hoạch 7 bước trong `VIECDANGLAM.md`, ĐỪNG dừng
+# lại vì đọc phải lời dặn cũ.
 CACHE_PATH = os.environ.get(
     "ANKI_GRAMMAR_CACHE",
     os.path.join(_HERE, "..", "data", "grammar_cache.json"),

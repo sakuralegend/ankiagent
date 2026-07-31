@@ -15,7 +15,7 @@
 
 | Hướng nghe hợp lý | Phán quyết | Vì (số liệu thật) |
 |---|---|---|
-| Bỏ `grammar_cache.json`, đọc thẳng field `GrammarJSON` trong thẻ | **BÁC** | Đo 31/07/2026 trên 976 thẻ: cache **bao trùm** thẻ, **88 thẻ thiếu hẳn** `present`/`future`/`parts`; không thẻ nào có khoá mà cache thiếu. Xem QD-05 |
+| ~~Bỏ `grammar_cache.json`, đọc thẳng field `GrammarJSON` trong thẻ~~ | 🔄 **ĐÃ LẬT 31/07/2026 — nay LÀ VIỆC PHẢI LÀM** | Lý do bác cũ (*"88 thẻ thiếu `present`/`future`/`parts`"*) **đã chết** sau đợt đồng bộ cùng ngày. Đo lại với Anki mở: thẻ **976** / cache **978**, thẻ thiếu khoá **0**, nội dung lệch **0**, cache chỉ dư 2 từ mồ côi chưa từng thành thẻ. **Đừng chặn việc này nữa** — xem QD-11, kế hoạch đã duyệt nằm ở `VIECDANGLAM.md` |
 | Dùng `_family()` của OpenRussian để dựng mục "Họ hàng" | **BÁC** | Nó gộp `groups` (cùng gốc) với `relateds` (đồng nghĩa **khác gốc hẳn**) vào một rổ ⇒ dạy sai từ nguyên. Mục Họ hàng do người soạn tự nghĩ, cố ý không có cửa máy |
 | Lọc từ theo tag trình độ A1–C2 của OpenRussian | **BÁC** | `паспорт`, `яблоко`, `сахар` bị gắn **C1**. Dùng **thứ hạng tần suất** thay thế (top 2500 danh từ ≈ A1→B2) |
 | Đối chiếu chéo `nouns.csv` với `grammar_cache.json` để bắt lỗi dữ liệu | **KHÔNG ĐỦ** | Hai file **cùng thượng nguồn OpenRussian** ⇒ trùng nhau không chứng minh đúng. `фон` sai ở **cả hai**. Cửa duy nhất còn lại là người đọc bằng mắt |
@@ -27,6 +27,12 @@
 | Cho VPS tự động "Download from AnkiWeb" theo lịch cho an toàn | **BÁC — NGUY HIỂM** | Lệnh đó **ghi đè sạch** collection trên VPS (xoá thẻ bot vừa thêm), và không cứu được gì khi quên sync điện thoại vì dữ liệu ôn lúc đó nằm **trong điện thoại** |
 
 ---
+
+## QD-11 · 31/07/2026 · Bỏ HẲN `grammar_cache.json` — thẻ Anki là nơi DUY NHẤT · ⏳ ĐÃ DUYỆT, CHƯA THI HÀNH
+> ⏳ **Code hiện tại CHƯA khớp mục này** — user duyệt xong thì hết hạn mức. Phiên sau: đọc kế hoạch 7 bước ở `VIECDANGLAM.md` rồi làm, commit nhắc `(QD-11)`. Làm xong thì xoá dòng ⏳ này.
+Chọn: bộ nhớ đệm chỉ nằm trong RAM (lấp từ thẻ mỗi lần chạy, không file nào trên đĩa); cào xong ghi thẳng vào ô `GrammarJSON` của thẻ; Anki đóng mà lệnh cần dữ liệu ngữ pháp thì **kêu to rồi DỪNG**, cấm trả rỗng im lặng. Nới đóng băng `data/huongdan/kho/` (QD-01) đủ để sửa `cao_nguphap.py`.
+Thay vì: giữ file làm bộ đệm trên đĩa (QD-08, chốt sáng cùng ngày), hoặc chỉ xoá file mà giữ code — phương án sau **vô ích**, đã đo: `_lap_dem_tu_the()` và `remember()` tự dựng lại file đủ 976 từ ngay lần chạy sau.
+Vì: user nêu nhu cầu *"xoá cache cho đỡ nhầm lẫn, mọi nguồn chân lý đều ở thẻ Anki"*. Đo 31/07 với Anki mở: thẻ **976** / cache **978**, thẻ thiếu khoá **0**, nội dung lệch **0**, chỉ 2 từ mồ côi (user duyệt bỏ). ⇒ Cache **không còn giữ thứ gì thẻ không có**, nó chỉ còn là cơ hội để lệch. Lý lẽ quyết định: **một nguồn thì không thể lệch; hai nguồn giống hệt nhau thì sớm muộn SẼ lệch, và lệch âm thầm** — đã có 89 thẻ lệch suốt nhiều tuần, tìm ra hoàn toàn tình cờ. Giá phải trả rẻ và đo được: **0,58 giây/lần chạy** (đọc 976 thẻ qua AnkiConnect, so với 0,01s đọc file) + bắt buộc mở Anki mới soạn lô — rẻ hơn hẳn giá của một lần ghi thẻ sai mà không ai biết. QD-08 đã tự hẹn *"hết hạn: khi xong 61 lô ⇒ xét bỏ hẳn file cache"*; số liệu tới sớm hơn lịch nên thi hành sớm hơn. Hết hạn: không.
 
 ## QD-10 · 31/07/2026 · AI TỰ commit khi việc xong, không hỏi user
 Chọn: xong một việc + ba cửa L3 xanh ⇒ commit ngay (thân khai VÌ SAO, nhắc `QD-nn` nếu có); user nói "kết thúc phiên" mà cây còn bẩn thì commit nốt trước khi chào.
@@ -44,6 +50,7 @@ Thay vì: để luật kiến trúc nằm trong `CACHLAM.md`/`CLAUDE.md` và tr�
 Vì: chỗ nào có máy đo (dây chuyền kho, tag `chuan::N`) thì sạch, chỗ nào chỉ có luật viết ra thì trôi — 10 wrapper ra đời SAU khi phát biểu "MỘT chức năng MỘT script". Đặt ở gốc là **ngoại lệ L2 có chủ ý** (L2: gốc chỉ chứa điểm vào đang sống): nó phải nằm nơi `python soatkientruc.py` gõ được không cần nhớ đường dẫn, và chính nó là thứ canh L2. Ratchet chỉ cho GIẢM ⇒ nợ không mọc lại; nới được thì nó thành bảng ghi nợ chứ không phải cửa. Hết hạn: không — thay bằng CI chỉ khi dự án có người thứ hai viết code.
 
 ## QD-08 · 31/07/2026 · THẺ ANKI là nguồn sự thật của dữ liệu ngữ pháp; `grammar_cache.json` chỉ còn là BỘ NHỚ ĐỆM
+> ⬆️ **BỊ QD-11 THAY THẾ cùng ngày** (bỏ hẳn file cache). Phần "thẻ là nguồn sự thật" vẫn đúng và vẫn là nền của QD-11; chỉ phần "giữ file làm bộ đệm trên đĩa" là hết hiệu lực.
 Chọn: `get_cached()` tìm theo thứ tự **đệm → thẻ Anki**; thiếu ở đệm thì tự lấp từ ô `GrammarJSON` (chỉ THÊM khoá thiếu, không đè bản đang có); Anki đóng thì im lặng dùng đệm nên lệnh soát lô vẫn chạy offline.
 Thay vì: giữ file cache làm kho riêng của từng máy (cũ), hoặc bỏ hẳn cache ngay (phải sửa `kho/cao_nguphap.py` — đang đóng băng theo QD-01, còn 43 lô).
 Vì: user chỉ ra bot cào từ mới **trên VPS** nên ghi vào cache của VPS — laptop không bao giờ nhận, `remember()` không đạt mục đích, và phải cào lại lần hai cùng một từ; QD-05 còn làm đứt hẳn đường về. Thẻ thì **tự đồng bộ qua AnkiWeb tới mọi máy** nên nó mới là kênh đúng. Đo chứng minh: xoá sạch file cache, nó **tự dựng lại 976 từ từ thẻ**, `дом` vẫn đủ bảng chia. Lý do cũ để bác hướng này ("88 thẻ thiếu `present`/`future`/`parts`") đã bị chính việc đồng bộ hôm nay xoá bỏ. Hết hạn: khi xong 61 lô, `kho/` hết đóng băng ⇒ xét bỏ hẳn file cache.
@@ -59,6 +66,7 @@ Thay vì: tiếp tục ghi song song cả hai (`_fable_plan.md` từng chốt "k
 Vì: đo 31/07 — **không script nào đọc** file này (5 chỗ nhắc tên chỉ là chú thích), user nói thẳng *"tôi chẳng thèm đọc"*, và cùng một việc bị viết **hai lần** (17.167 ký tự vào CHANGELOG + 10.241 vào commit message cùng ngày). Quyết định bởi một lý lẽ: **commit message gắn chặt với diff nên không nói dối được**, còn CHANGELOG viết một đằng sửa một nẻo vẫn không ai biết — đúng con đường đã giết `README.md`. Nhu cầu "đính chính về sau" (thứ commit không làm được) đã có `QUYETDINH.md`/`SONO.md` lo. Hết hạn: không.
 
 ## QD-05 · 31/07/2026 · Cache ngữ pháp của bot nằm NGOÀI repo (biến `ANKI_GRAMMAR_CACHE`)
+> ⬆️ **BỊ QD-11 THAY THẾ cùng ngày.** Không còn file cache thì không còn chỗ nào để tách, biến `ANKI_GRAMMAR_CACHE` bị gỡ. Câu *"hướng đọc từ thẻ đã ĐO và BÁC — 88 thẻ thiếu"* dưới đây **KHÔNG CÒN ĐÚNG**, đo lại ra 0.
 Chọn: `grammar.CACHE_PATH` đọc biến môi trường, mặc định giữ chỗ cũ; VPS trỏ `/root/anki-cache/`.
 Thay vì: bỏ file khỏi git (mất bản sao lưu công cào), hoặc bỏ hẳn cache để đọc field `GrammarJSON` trong thẻ (`TIEPTUC.md` từng đề xuất).
 Vì: một file vừa do git quản vừa bị runtime ghi thì `git pull` bỏ cuộc mỗi lần deploy — đã xảy ra thật 31/07. **Hướng "đọc từ thẻ" đã ĐO và BÁC**: cache bao trùm thẻ, 88 thẻ thiếu hẳn `present`/`future`/`parts`. Cache là ảnh chụp cào lại được nhưng đắt, nên vẫn giữ trong git cho PC. Hết hạn: khi nào bot không còn tự cào (không thấy trước).
