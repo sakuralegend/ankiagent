@@ -29,7 +29,23 @@ import urllib.parse
 from .utils import convert_stress_to_combining_accent, log_fail, log_warn
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
-CACHE_PATH = os.path.join(_HERE, "..", "data", "grammar_cache.json")
+
+# Đường dẫn cache đổi được bằng biến môi trường — mặc định giữ nguyên chỗ cũ, nên
+# PC ở nhà và mọi script không thấy khác biệt gì.
+#
+# Vì sao cần đổi được (QD-05, 31/07/2026): file này vừa do git quản vừa bị bot GHI
+# lúc chạy. Trên VPS, bot cào từ mới rồi lưu vào đây => repo "bẩn" => `git pull`
+# BỎ CUỘC ở lần deploy sau. Đã xảy ra thật 31/07: VPS 978 khoá, git 951, và
+# deploy.ps1 lúc đó còn báo "Xong!" trong khi bot vẫn chạy code cũ.
+# Cách chữa: cho hai bên hai chỗ riêng — trên VPS trỏ ANKI_GRAMMAR_CACHE ra ngoài
+# thư mục repo. Cache là ẢNH CHỤP OpenRussian (cào lại được, chỉ tốn thời gian),
+# KHÔNG phải dữ liệu gốc duy nhất — nhưng cũng KHÔNG dựng lại được từ thẻ: đã đo
+# 31/07, cache bao trùm thẻ, 88 thẻ thiếu hẳn phần chia động từ (present/future/
+# parts). Nên đừng "tối ưu" bằng cách xoá file này đi đọc field GrammarJSON.
+CACHE_PATH = os.environ.get(
+    "ANKI_GRAMMAR_CACHE",
+    os.path.join(_HERE, "..", "data", "grammar_cache.json"),
+)
 
 ACUTE = "́"
 VOWELS = "аеёиоуыэюяАЕЁИОУЫЭЮЯ"

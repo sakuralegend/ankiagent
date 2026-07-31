@@ -1,0 +1,13 @@
+# Unit phụ: systemd gọi cái này khi `anki-bot` CHẾT HẲN (QD-04, 31/07/2026).
+# Cài: cp anki-bot-alert.service /etc/systemd/system/ && systemctl daemon-reload
+#
+# "Chết hẳn" = vượt StartLimitBurst khai trong anki-bot.service (5 lần trong 5
+# phút). Bot crash rồi tự lên lại thì KHÔNG kêu — chỉ kêu khi nó không lên nổi,
+# vì đó mới là lúc bạn cần biết. Đây là cửa duy nhất báo được, do alerts.py gửi
+# tin qua chính bot nên chết theo bot.
+[Unit]
+Description=Bao Telegram khi anki-bot chet han
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/env bash /root/ankiagent/scripts/canhbao_bot_chet.sh --ngay
