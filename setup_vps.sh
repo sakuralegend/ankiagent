@@ -60,11 +60,43 @@ venv/bin/pip install --upgrade pip -q
 venv/bin/pip install -r requirements.txt -q
 echo "-> Đã cài xong thư viện Python."
 
-echo "===== [5/5] Cài service anki-bot (chưa start) ====="
+echo "===== [5/6] Cài service anki-bot (chưa start) ====="
 cp anki-bot.service /etc/systemd/system/anki-bot.service
 systemctl daemon-reload
 systemctl enable anki-bot
 echo "-> Service đã cài, sẽ tự chạy mỗi lần VPS khởi động."
+
+# ==============================================================================
+# [6/6] BỐN THỨ THÊM 31/07/2026 — thiếu chúng thì hệ thống VẪN CHẠY nhưng mất
+# hết lưới an toàn, và mất trong IM LẶNG. Chúng từng chỉ được cấu hình bằng tay
+# trên VPS, không ghi ở đâu ⇒ dựng lại máy mới là mất sạch mà không ai biết.
+# Đó đúng là lỗi "sao lưu chưa từng khôi phục thử" ở tầng cao hơn, nên tự động
+# hoá luôn thay vì viết vào tài liệu và trông chờ người đọc nhớ.
+# ==============================================================================
+echo "===== [6/6] Lưới an toàn: chuông báo · cache ngoài repo · trần log ====="
+
+# (a) Chuông báo khi bot chết — đường Telegram ĐỘC LẬP với bot (QD-04).
+cp anki-bot-alert.service /etc/systemd/system/anki-bot-alert.service
+systemctl daemon-reload
+# Vòng kiểm 15 phút, bắt cả trường hợp bot bị dừng hẳn (OnFailure không bắt được).
+( crontab -l 2>/dev/null | grep -v canhbao_bot_chet
+  echo "*/15 * * * * /usr/bin/env bash /root/ankiagent/scripts/canhbao_bot_chet.sh >/dev/null 2>&1"
+) | crontab -
+echo "-> Chuông báo bot chết: đã cài (systemd OnFailure + cron 15')."
+
+# (b) Cache ngữ pháp của bot nằm NGOÀI repo (QD-05) — để `git pull` không kẹt
+#     vì bot ghi đè file mà git đang quản.
+mkdir -p /root/anki-cache
+if [ -f data/grammar_cache.json ] && [ ! -f /root/anki-cache/grammar_cache.json ]; then
+    cp data/grammar_cache.json /root/anki-cache/grammar_cache.json
+fi
+echo "-> Cache ngữ pháp: /root/anki-cache/ (đường dẫn khai trong anki-bot.service)."
+
+# (c) Trần dung lượng log, để journald không phình vô hạn rồi tự xoá mất phần cũ.
+sed -i 's/^#\?SystemMaxUse=.*/SystemMaxUse=500M/; s/^#\?MaxRetentionSec=.*/MaxRetentionSec=3month/' \
+    /etc/systemd/journald.conf
+systemctl restart systemd-journald
+echo "-> Log: giữ tối đa 500M / 3 tháng."
 
 echo ""
 echo "=========================================================="

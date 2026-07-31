@@ -87,6 +87,28 @@ sẽ báo `bind ... Permission denied` — nếu 15900 cũng bị, đổi số k
    (để kéo toàn bộ thẻ hiện có của bạn về VPS)
 4. Chờ sync xong (có audio/media thì hơi lâu), rồi đóng VNC Viewer.
 
+## Bước 5b — [VPS] Lưới an toàn (setup_vps.sh đã tự làm, đây là để KIỂM)
+
+`setup_vps.sh` bước [6/6] tự cài bốn thứ dưới đây. Chúng **không cần thiết để bot chạy**, nhưng
+thiếu chúng thì hệ thống mất lưới an toàn **trong im lặng** — nên sau khi cài xong hãy kiểm:
+
+```bash
+systemctl list-unit-files | grep anki-bot-alert   # chuông báo khi bot chết
+crontab -l | grep canhbao                          # vòng kiểm 15 phút
+ls /root/anki-cache/                               # cache bot, NGOÀI repo (QD-05)
+grep SystemMaxUse /etc/systemd/journald.conf       # trần dung lượng log
+```
+
+Thử chuông báo có thật sự tới điện thoại không (nên làm một lần):
+
+```bash
+systemctl start anki-bot-alert.service   # phải nhận được tin Telegram
+```
+
+⚠️ **Vì sao phải kiểm:** bốn thứ này từng chỉ được cấu hình bằng tay và không ghi ở đâu — dựng lại
+máy mới là mất sạch mà không ai biết. Đúng loại lỗi "sao lưu chưa từng khôi phục thử", ở tầng cao
+hơn. Nay đã tự động hoá trong `setup_vps.sh`, nhưng vẫn kiểm vì tự động hoá cũng hỏng được.
+
 ## Bước 6 — [VPS] Khởi động bot
 
 ```bash
