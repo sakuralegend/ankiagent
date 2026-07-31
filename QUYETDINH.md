@@ -32,6 +32,11 @@ Chọn: một file `soatkientruc.py` ở thư mục gốc (stdlib, `ast`+regex, 
 Thay vì: để luật kiến trúc nằm trong `CACHLAM.md`/`CLAUDE.md` và trông vào tự giác; hoặc dựng pytest/CI/pre-commit.
 Vì: chỗ nào có máy đo (dây chuyền kho, tag `chuan::N`) thì sạch, chỗ nào chỉ có luật viết ra thì trôi — 10 wrapper ra đời SAU khi phát biểu "MỘT chức năng MỘT script". Đặt ở gốc là **ngoại lệ L2 có chủ ý** (L2: gốc chỉ chứa điểm vào đang sống): nó phải nằm nơi `python soatkientruc.py` gõ được không cần nhớ đường dẫn, và chính nó là thứ canh L2. Ratchet chỉ cho GIẢM ⇒ nợ không mọc lại; nới được thì nó thành bảng ghi nợ chứ không phải cửa. Hết hạn: không — thay bằng CI chỉ khi dự án có người thứ hai viết code.
 
+## QD-06 · 31/07/2026 · Đóng sổ `CHANGELOG.md`, lịch sử chuyển sang `git log`
+Chọn: `CHANGELOG.md` ngừng ghi (giữ nguyên phần cũ làm lưu trữ); commit message đụng code bắt buộc có phần thân khai VÌ SAO; S9 đổi từ canh "có sửa CHANGELOG" sang canh "message có thân".
+Thay vì: tiếp tục ghi song song cả hai (`_fable_plan.md` từng chốt "không bao giờ nén CHANGELOG" — vẫn đúng, nhưng nó nói về **nén file cũ**, không nói phải **ghi tiếp mãi**).
+Vì: đo 31/07 — **không script nào đọc** file này (5 chỗ nhắc tên chỉ là chú thích), user nói thẳng *"tôi chẳng thèm đọc"*, và cùng một việc bị viết **hai lần** (17.167 ký tự vào CHANGELOG + 10.241 vào commit message cùng ngày). Quyết định bởi một lý lẽ: **commit message gắn chặt với diff nên không nói dối được**, còn CHANGELOG viết một đằng sửa một nẻo vẫn không ai biết — đúng con đường đã giết `README.md`. Nhu cầu "đính chính về sau" (thứ commit không làm được) đã có `QUYETDINH.md`/`SONO.md` lo. Hết hạn: không.
+
 ## QD-05 · 31/07/2026 · Cache ngữ pháp của bot nằm NGOÀI repo (biến `ANKI_GRAMMAR_CACHE`)
 Chọn: `grammar.CACHE_PATH` đọc biến môi trường, mặc định giữ chỗ cũ; VPS trỏ `/root/anki-cache/`.
 Thay vì: bỏ file khỏi git (mất bản sao lưu công cào), hoặc bỏ hẳn cache để đọc field `GrammarJSON` trong thẻ (`TIEPTUC.md` từng đề xuất).

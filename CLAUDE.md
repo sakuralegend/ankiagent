@@ -17,6 +17,12 @@ viết**. User tự nói: *"tôi không đủ kiến thức để kiểm tra đ�
    phần người-không-lập-trình đọc được (mẫu: `KIENTRUC.md` mục 0).
 4. **Đừng bắt user nhớ hộ.** Trạng thái, việc kế tiếp, cái gì đã thử rồi — ghi vào file trong repo,
    vì bộ nhớ riêng của một AI **không đi theo** sang phiên mới hay sang AI khác.
+5. 🔴 **PHẢN BIỆN, đừng chỉ tuân lệnh.** User nêu **nhu cầu**; chọn **giải pháp** là trách nhiệm của
+   bạn. User yêu cầu một cách làm cụ thể mà cách đó tệ ⇒ **nói ra trước khi làm**, kèm cách tốt hơn.
+   *"User bảo thế"* KHÔNG phải lý do hợp lệ cho một thiết kế tồi — user tự nói *"tôi bảo gì nghe nấy
+   chứ không biết phản biện"*. Bằng chứng đắt nhất: user từng yêu cầu *"ghi đầy đủ lịch sử để phục
+   vụ tương lai"* — **nhu cầu đúng**, nhưng AI dựng một file viết tay song song thay vì nói
+   *"git đã lo việc này rồi"*; kết quả là **203 KB trùng lặp** không ai đọc, phải đóng sổ ở QD-06.
 
 ## 🔀 Chọn model cho việc đang làm — AI TỰ ĐỐI CHIẾU, user không cần nhớ
 
@@ -27,7 +33,9 @@ làm rồi mới báo — trừ khi lệch theo hướng mạnh hơn mức cần
 
 ---
 
-Sổ tay đầy đủ: `CACHLAM.md` (luật `L1`–`L5`, có số hiệu để viện dẫn). Quyết định kỹ thuật: `QUYETDINH.md` (`QD-nn`). Nợ kỹ thuật: `SONO.md`. Mọi lần sửa xong: ghi `CHANGELOG.md` (mới nhất trên cùng, kèm **vì sao**) — quên là `soatkientruc.py` mục S9 chặn deploy.
+Sổ tay đầy đủ: `CACHLAM.md` (luật `L1`–`L5`, có số hiệu để viện dẫn). Quyết định kỹ thuật: `QUYETDINH.md` (`QD-nn`). Nợ kỹ thuật: `SONO.md`.
+
+📜 **Lịch sử = `git log`, KHÔNG phải `CHANGELOG.md`** (đã đóng sổ 31/07/2026, QD-06 — đừng ghi thêm vào đó). Nên **commit message đụng code phải khai VÌ SAO ở phần thân**, không chỉ một dòng tiêu đề: message gắn liền với diff nên không nói dối được, đó là chỗ duy nhất lời khai và sự thật nằm cạnh nhau. Thiếu thân là `soatkientruc.py` mục S9 chặn deploy.
 
 🔴 **Thấy chỗ nào "tối ưu được" → mở bảng "📏 ĐÃ ĐO RỒI BÁC" đầu `QUYETDINH.md` TRƯỚC.** Chín hướng nghe rất hợp lý đã bị đo bằng số liệu thật rồi loại bỏ; làm lại là tốn tiền lần hai. Muốn lật một dòng thì phải **ĐO LẠI ra số khác**, không lật bằng lập luận suông. Cũng đừng để tài liệu phình — S10 canh trần dòng của mọi file bị-bắt-đọc.
 
