@@ -88,6 +88,12 @@
 
 ## Ý TƯỞNG (chưa làm, chờ xong 61 lô)
 
+- **Xoá hẳn `CHANGELOG.md` + dọn mọi con trỏ tới nó (QD-14, duyệt 02/08/2026).** File đã đóng sổ từ
+  QD-06, không ai đọc, không còn nằm trong danh sách file `soatkientruc.py` S10 bắt đọc. `grep
+  CHANGELOG` ra **18 file** còn nhắc tên nó — rà từng chỗ trước khi xoá: CON TRỎ CHỨC NĂNG (vd
+  `README.md:35` đang trỏ sai, đáng lẽ chỉ sang `git log`) thì sửa/xoá; GHI CHÉP LỊCH SỬ (vd mục
+  QD-06 kể chuyện đóng sổ) thì GIỮ NGUYÊN. Xếp SAU phiếu QD-11 đang chạy trong `VIECDANGLAM.md`.
+
 - **Lệnh `/moi` trong bot — đọc `PHIENBAN.md` ngay trong Telegram.** User xem "có gì mới" ở đúng chỗ
   họ thực sự dùng hệ thống, khỏi phải mở repo. Việc nhỏ (đọc file + gửi text, dùng `tgbot/` sẵn có)
   nhưng CHẠM CODE BOT nên phải deploy riêng có canary. User chốt 31/07/2026: *"chức năng đó để sau"*.
