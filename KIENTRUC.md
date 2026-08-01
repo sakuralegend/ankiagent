@@ -143,6 +143,9 @@ việc đứng riêng một mình, backup trước, kiểm sau — và với AI 
 | **Xoá/ghi đè hàng loạt** thẻ thật | Nội dung mất không tiếng kêu | Backup tay (`/backup`) trước khi chạy |
 | Chạy lại **script lô thế hệ 1** | Xoá bảng chia trên thẻ thật, im lặng | Đã tháo ngòi (`QD-03`); `soatkientruc.py` S7 canh guard |
 | Hai hàm cùng vai **lệch nhau** (vd chuẩn hoá `ё`) | Thẻ sai âm thầm, không lỗi nào nổ | Đo bằng script chỉ đọc trước khi gộp, không gộp mò |
+| **Bot lỗi lúc chạy**: `_guard()` trong `tgbot/` nuốt hết exception | Telegram **không báo gì**, `systemctl is-active` vẫn "active" trong khi một nút đã chết — đã có lần hỏng **6 tiếng** không ai biết | `journalctl -u anki-bot` là chỗ DUY NHẤT lộ ra; đọc nó sau **mỗi** đợt sửa bot, đừng chỉ hỏi trạng thái dịch vụ |
+| Sửa **lệnh gõ** (`commands.py`) mà quên **nút bấm** (`dispatch.py`) — hai đường code khác nhau | Nút vẫn chạy logic cũ rồi nổ `TypeError`, hoặc tệ hơn: chạy êm nhưng bỏ mất bước mới thêm | Đổi chữ ký một hàm dùng chung ⇒ **grep MỌI chỗ gọi**; nhánh nút phải gọi đúng hàm chung, cấm dựng lại logic trong `dispatch.py` |
+| **Hook nhắc luật chết** (`.claude/hooks/`) | Không lỗi nào hiện ra; chỉ là các lượt sau AI dần quên luật — đúng cơ chế đã đẻ ra 10 wrapper | `soatkientruc.py` **S11** chạy thật lệnh hook mỗi lần soát, chặn deploy (QD-13) |
 
 🔧 **`vnc.bat` là đường DUY NHẤT nhìn thấy màn hình Anki trên VPS.** Khi nghi kẹt sync mà log không
 nói gì, đó là công cụ cuối cùng còn lại — lý do nó được giữ ở thư mục gốc.

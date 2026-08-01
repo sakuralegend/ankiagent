@@ -28,6 +28,38 @@
 
 ---
 
+## 🗂️ SỔ VẮN TẮT — quyết định đổi code trước khi có sổ này (15/07 → 29/07/2026)
+
+> Sổ số hiệu chỉ lập từ 30/07, nên hai tuần đầu **không để lại vết nào**: một AI mới đọc code
+> sẽ thấy các lựa chọn này mà không biết vì sao, và rất dễ "dọn" đúng thứ được cố ý đặt vào.
+> Truy lại 01/08/2026 **đúng một dòng mỗi quyết định** — muốn sâu thì `git log --grep`. (QD-12)
+
+| Ngày | Quyết định đổi code | Vì sao, ngắn |
+|---|---|---|
+| 19/07 | `bot.py` chỉ còn ~10 dòng điểm vào, ruột tách vào gói `tgbot/` 4 tầng | Tầng một chiều `core ← flows ← dispatch ← app`; **`dispatch` chỉ chia việc**, cấm để logic nghiệp vụ vào đó (S3 canh) |
+| 19/07 | Nới toàn cục timeout Telegram (connect 15 / read 30 / media 60) | VPS VN → `api.telegram.org` **~230ms RTT**, trần mặc định 5s làm luồng gửi ảnh chết ngay câu trả lời đầu |
+| 20/07 | `/sua` = **làm lại thẻ hoàn toàn** (cào + sinh lại), xoá hẳn cơ chế "preset tinh chỉnh" cũ | Preset gần như không ai dùng; làm lại dùng chung `build_card_fields` với thêm thẻ mới nên **một chức năng một lõi** |
+| 20/07 | Bot **tự tải bytes** audio rồi `storeMediaFile`, không để AnkiConnect tải hộ qua URL | OpenRussian trả 500 thì AnkiConnect ghi **nguyên câu lỗi** vào ô Audio ⇒ thẻ hỏng nhận ra bằng *thiếu `[sound:]`*, KHÔNG phải ô rỗng |
+| 20/07 | Thẻ ngữ pháp tách hẳn thành mảng `grammar_forms/`, phụ thuộc **một chiều** vào `anki_tools` | User: *"ít ảnh hưởng đến deck RUSSIAN đang chạy ngon"* — ưu tiên tuyệt đối là không làm hỏng thứ đang chạy |
+| 21/07 | **pymorphy3 offline làm trọng tài** đưa từ Nga về dạng từ điển; AI chỉ lo đọc ảnh | Lemma là việc **tất định**, không nên đoán bằng AI. `reconcile_lemma` có 4 luật giữ phần AI đúng — 🔴 đừng "đơn giản hoá" thành *từ điển luôn thắng* |
+| 21/07 | Gõ từ **đã có thẻ** ⇒ trả nguyên mục từ điển, không báo "trùng" suông | Kéo theo ràng buộc vĩnh viễn: mỗi hàm dựng HTML phải có **hàm nghịch** đọc ngược; đổi cấu trúc HTML mà quên sửa hàm nghịch ⇒ bảng tra hiện **trống rỗng** |
+| 22/07 | Bỏ deck lọc "phòng tập", cày thẳng trong inbox bằng **undo** | Deck lọc rút thẻ khỏi inbox nên hai bên lệch nhau; undo hoàn nguyên trọn vẹn cả revlog lẫn lịch |
+| 22/07 | Gợi ý (hint) dựng bằng **JS trong mặt trước thẻ**, KHÔNG thêm card template | Chỉ card template mới nhân đôi số thẻ — thêm template là tự nhân đôi cả bộ sưu tập |
+| 26/07 | Gỡ sạch trần thẻ mới (`new/perDay = 9999` cả 3 preset) | User: *"học đến bao giờ hết thì thôi"*. 🔴 Hằng số nguồn ở **`scripts/setup_inbox.py`** — script này **ghi đè GUI mỗi lần chạy**, chỉnh tay trong Anki là vô ích |
+| 29/07 | Gom 3 luồng chạy nền của bot về một hàm `core.chay_hang_loat()` | Ba bản sao lệch nhau âm thầm; nguyên tắc user chốt: **một chức năng một script**, trùng thì tách tầng chứ đừng đồng bộ tay |
+
+---
+
+## QD-13 · 01/08/2026 · Cơ chế nhắc luật phải CÓ CỬA CANH, và phải có đường vào cho AI ngoài Claude Code
+Chọn: cửa `S11` trong `soatkientruc.py` chạy THẬT lệnh hook mỗi lần soát (không chỉ kiểm file tồn tại) và **chặn deploy** khi hook không in ra gì / exit khác 0 / file mất; kèm `AGENTS.md` 6 dòng **chỉ trỏ đường**, cố ý không chép lại luật.
+Thay vì: tin rằng hook luôn chạy (đo 01/08: S1→S10 **mù hoàn toàn** với chuyện này), hoặc chép luật vào `AGENTS.md` cho AI khác đọc thẳng.
+Vì: hook chết là chết **im lặng** — không lỗi nào hiện ra, chỉ là các lượt sau AI dần quên luật, đúng cơ chế đã đẻ ra 10 wrapper. Phải chạy thật vì kiểu chết hay gặp nhất là `python` không có trên PATH (Linux/macOS thường chỉ có `python3`), mà cửa chỉ nhìn tên file sẽ báo XANH trên đúng cái máy hook đang chết. `AGENTS.md` không chép luật vì **hai bản sao thì sớm muộn sẽ lệch** — cùng lý lẽ đã dùng ở QD-11. Hết hạn: không.
+
+## QD-12 · 01/08/2026 · Quyết định nào ĐỔI CODE thì phải để lại vết trong repo, dạng NGẮN
+Chọn: ghi **một dòng** vào `QUYETDINH.md` ngay khi quyết định (mục 4 dòng vẫn dùng cho việc lớn); muốn sâu thì tra `git log`. Luật này nằm trong hook nên được bơm lại mỗi lượt.
+Thay vì: chỉ ghi khi "rẽ nhánh lớn" (L5 nguyên bản) — tiêu chí đó do AI tự phán nên thực tế là không ai ghi.
+Vì: đo 01/08 — **11/11 quyết định trong sổ đều đề 30–31/07**, tức toàn bộ hai tuần đầu dựng bot không có vết nào, dù chúng đổi code nhiều nhất. Vết ngắn mà có hơn vết đầy đủ mà thiếu. Ràng buộc **1 dòng** chính là thứ chặn sổ này đi lại đường `CHANGELOG.md` (2 809 dòng, QD-06): ngắn thì mới có người chịu ghi, và mới có người chịu đọc. Hết hạn: không.
+
 ## QD-11 · 31/07/2026 · Bỏ HẲN `grammar_cache.json` — thẻ Anki là nơi DUY NHẤT · ⏳ ĐÃ DUYỆT, CHƯA THI HÀNH
 > ⏳ **Code hiện tại CHƯA khớp mục này** — user duyệt xong thì hết hạn mức. Phiên sau: đọc kế hoạch 7 bước ở `VIECDANGLAM.md` rồi làm, commit nhắc `(QD-11)`. Làm xong thì xoá dòng ⏳ này.
 Chọn: bộ nhớ đệm chỉ nằm trong RAM (lấp từ thẻ mỗi lần chạy, không file nào trên đĩa); cào xong ghi thẳng vào ô `GrammarJSON` của thẻ; Anki đóng mà lệnh cần dữ liệu ngữ pháp thì **kêu to rồi DỪNG**, cấm trả rỗng im lặng. Nới đóng băng `data/huongdan/kho/` (QD-01) đủ để sửa `cao_nguphap.py`.

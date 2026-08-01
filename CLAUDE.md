@@ -33,7 +33,9 @@ làm rồi mới báo — trừ khi lệch theo hướng mạnh hơn mức cần
 
 ---
 
-Sổ tay đầy đủ: `CACHLAM.md` (luật `L1`–`L5`, có số hiệu để viện dẫn). Quyết định kỹ thuật: `QUYETDINH.md` (`QD-nn`). Nợ kỹ thuật: `SONO.md`.
+Sổ tay đầy đủ: `CACHLAM.md` (luật `L1`–`L5`, có số hiệu để viện dẫn). Quyết định kỹ thuật: `QUYETDINH.md` (`QD-nn`). Nợ kỹ thuật: `SONO.md`. AI ngoài Claude Code vào bằng `AGENTS.md`.
+
+✂️ **CHỐNG LOÃNG (QD-12, đã cắm vào hook nên nhắc lại mỗi lượt).** Thêm dòng vào repo phải **trả giá bằng cắt chỗ khác**; file có sẵn chứa được thì **cấm đẻ file mới**. Đổi lại: **quyết định nào ĐỔI CODE thì ghi NGAY một dòng** vào bảng "SỔ VẮN TẮT" ở `QUYETDINH.md` — ngắn thì mới có người ghi và có người đọc. `CHANGELOG.md` chết vì 2 809 dòng, không phải vì thiếu.
 
 🧭 **User XIN MỘT CHỨC NĂNG ⇒ TỰ ĐỘNG đi ba cửa, KHÔNG chờ user gõ lệnh gì** (QD-09). User tự nhận
 *"không giỏi diễn đạt tính năng"* và **không có nghĩa vụ nhớ quy trình** — nhớ hộ là việc của bạn.

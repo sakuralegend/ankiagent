@@ -450,6 +450,68 @@ def s10_tri_nho_phinh():
 
 
 # ---------------------------------------------------------------------------
+# S11 — hook nhắc luật còn sống không
+# ---------------------------------------------------------------------------
+def s11_hook_con_song():
+    """Hook `UserPromptSubmit` là thứ DUY NHẤT bơm lại luật vào MỖI lượt — nhưng
+    nó chết thì chết IM LẶNG: không có lỗi nào hiện ra, chỉ là các lượt sau AI
+    dần quên luật, đúng cơ chế đã đẻ ra 10 wrapper. Đo 01/08/2026: S1→S10 mù
+    hoàn toàn với chuyện này ⇒ dựng cửa (QD-13).
+
+    Ba cách hook chết mà mục này bắt được:
+      1. File hook bị xoá / đổi tên, `settings.json` trỏ vào chỗ trống.
+      2. Mục "hooks" bị gỡ khỏi `settings.json` (vô tình khi sửa cấu hình khác).
+      3. 🔴 Lệnh gọi được nhưng KHÔNG chạy nổi trên máy này — hay gặp nhất là
+         `python` không có trên PATH (Linux/macOS thường chỉ có `python3`).
+         Đây là lý do mục này CHẠY THẬT chứ không chỉ kiểm file có tồn tại:
+         cửa soát chỉ nhìn tên file sẽ báo XANH trên đúng cái máy hook đang chết.
+
+    Cái mục này CỐ Ý không bắt: nội dung hook viết gì. Đó là việc của người, và
+    một cửa soát chấm điểm câu chữ sẽ bị vô hiệu hoá bằng vài từ vô nghĩa (S9)."""
+    p_cai_dat = GOC / ".claude" / "settings.json"
+    if not p_cai_dat.exists():
+        return [PhatHien(".claude/settings.json", 0,
+                         "khong ton tai -> hook nhac luat KHONG chay, luat se mo dan trong phien dai")]
+    try:
+        cau_hinh = json.loads(p_cai_dat.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as e:
+        return [PhatHien(".claude/settings.json", 0, f"doc/parse that bai ({e}) -> hook coi nhu chet")]
+
+    lenh = [h.get("command", "")
+            for nhom in cau_hinh.get("hooks", {}).get("UserPromptSubmit", [])
+            for h in nhom.get("hooks", []) if h.get("type") == "command"]
+    if not lenh:
+        return [PhatHien(".claude/settings.json", 0,
+                         "khong con hook UserPromptSubmit nao -> luat khong duoc bom lai moi luot (QD-09)")]
+
+    ra = []
+    for cau in lenh:
+        phan = cau.split()
+        # Đối số nào trông như đường dẫn trong repo thì phải tồn tại thật.
+        for doi_so in phan[1:]:
+            if doi_so.endswith(".py") and not (GOC / doi_so).exists():
+                ra.append(PhatHien(f"hook|{doi_so}", 0,
+                                   f"settings.json goi '{doi_so}' nhung file KHONG ton tai"))
+        if ra:
+            continue
+        try:
+            r = subprocess.run(phan, cwd=str(GOC), capture_output=True, text=True,
+                               encoding="utf-8", errors="replace", timeout=10)
+        except (OSError, subprocess.SubprocessError) as e:
+            ra.append(PhatHien(f"hook|{cau[:40]}", 0,
+                               f"KHONG chay duoc tren may nay ({type(e).__name__}) — "
+                               f"hay gap nhat: lenh 'python' khong co tren PATH"))
+            continue
+        if r.returncode != 0:
+            ra.append(PhatHien(f"hook|{cau[:40]}", 0,
+                               f"chay xong nhung exit {r.returncode} -> Claude Code bo qua ket qua"))
+        elif not (r.stdout or "").strip():
+            ra.append(PhatHien(f"hook|{cau[:40]}", 0,
+                               "chay duoc nhung KHONG in ra gi -> bom vao context mot chuoi rong"))
+    return ra
+
+
+# ---------------------------------------------------------------------------
 # Khung chạy
 # ---------------------------------------------------------------------------
 # `luon_do=True`: mục mà MỘT lần lọt là đã hại, không có khái niệm "nợ chấp nhận
@@ -465,6 +527,7 @@ MUC = [
     ("S8", "KIENTRUC.md LECH THUC TE", s8_manifest, True),
     ("S9", "COMMIT DUNG CODE MA KHONG KHAI VI SAO", s9_commit_thieu_vi_sao, True),
     ("S10", "FILE TRI NHO PHINH QUA TRAN", s10_tri_nho_phinh, True),
+    ("S11", "HOOK NHAC LUAT DA CHET (QD-13)", s11_hook_con_song, True),
 ]
 
 
