@@ -11,6 +11,9 @@ Bạn (user) chỉ cần gõ một câu: **"chạy tiếp kho"**. Phần dưới
 
 ### ✅ PHIÊN 02/08: k17 · k18 · k19 · k20 · k21 XONG & ĐÃ NẠP — lô kế tiếp là **k22**
 
+▶️ **PHIÊN SAU CHẠY ĐÚNG 4 LÔ: `k22` · `k23` · `k24` · `k25` = 68 từ** (đã cộng sẵn 02/08; 5 lô
+sẽ là 86 từ ⇒ vượt). Chạy `moi --apply` trước — có từ mới thì từ mới chen lên đầu và số này đổi.
+
 **23 lô / 334 từ duyệt / 642 chờ.** `moi` báo không có từ mới ⇒ lấy thẳng 5 lô đầu hàng chờ,
 **74 từ** (ngân sách ~80). Cả 5 lô `QUA 1 MAN HINH: 0` · `QUA 2 O DO: 0` · khối chung **0%**;
 `nap` khớp tuyệt đối cả 5 lần (14·8·14·17·21).
@@ -24,8 +27,10 @@ nạp.** `кеды` bị nguồn **đảo `inst` (cách 5) với `prep` (cách 6
 VIẾT. Luồng chính đã **quét cả 976 thẻ** bằng phép đối chiếu đuôi (cách 5 không bao giờ tận cùng
 `-е`/`-ах`; cách 6 không bao giờ `-ом`/`-ами`): **đúng 2 chỗ, cả hai của `кеды`** ⇒ không phải lỗi
 hệ thống. Đã vá thẳng `GrammarJSON` trong thẻ, sao lưu ở `backups/_backup_grammarjson_kedy.json`.
-⚠️ **Bản vá nằm trong THẺ, không nằm trong repo** — chạy lại `cao_nguphap.py --anki` sẽ khôi phục
-dữ liệu sai vì lỗi đến từ chính nguồn. Chỗ này chưa có gì canh.
+✅ **NAY ĐÃ CÓ CỬA CANH (QD-15, 02/08)** — `anki_tools/soat_nguphap.py` tự quét lúc `cao_nguphap`
+chạy và lúc `nap`, nên cào lại làm nguồn sai quay về thì **nó kêu to**, không im lặng như trước.
+Đo: 516 thẻ có bảng biến cách → 0 kêu oan. ⚠️ Chỉ bắt kiểu đảo **cả hai chiều**; sai một chiều
+vẫn phải đọc bằng mắt.
 
 📊 **Số đo lô to phản bác nghi ngờ 29/07.** Nghi ngờ cũ: lô 19–21 từ tự bắt 0 lỗi vì "hết chú ý
 trước khi hết danh sách". Phiên này lời nhắn giao k21 **nói thẳng nghi ngờ đó ra và dặn rà NGƯỢC
@@ -75,8 +80,8 @@ laptop nên phía cache luôn hụt đúng bằng số từ mới. Cứ chạy `
 của `soat` quét theo độ sâu, báo `long/lech` khi `sau > 1` (`congcu.py:356`). Đừng tin báo cáo agent
 về **cấu trúc công cụ** mà không mở mã ra xem — đúng bài học `AspectBadge` hồi 29/07.
 
-📌 **Hai lỗi dữ liệu ngoài phạm vi lô, CHỜ USER QUYẾT**: `есть` mang `pos=oth` nghĩa `"có, ăn"`
-(gộp hai động từ khác hẳn nhau); `слу́шать` nghĩa gộp luôn `слы́шать`.
+✅ ~~Hai lỗi dữ liệu `есть` / `слу́шать`~~ **XONG** — lô k02/k19/k48 đã tách nghĩa và đã nạp; kiểm
+trên thẻ thật 02/08 thấy đúng. Đừng làm lại.
 
 ### ✅ PHIÊN 30/07 (chiều): k04 · k05 · k06 · k07 · k08 XONG & ĐÃ NẠP (mốc cũ)
 
@@ -229,6 +234,11 @@ phần mỗi từ thấp gần 70%. Đã thay bằng số đo. Đừng khôi ph�
 trung bình **15,6 từ/lô** (có k13 chỉ 4 từ). Năm lô 20 từ = 100 từ ≈ **592K → vượt**.
 Quy đổi hạn mức 5h: 420K ứng 74% ⇒ **~5,7K token mỗi 1%**.
 
+🔴 **USER CHỐT 02/08: MẶC ĐỊNH 4 LÔ, KHÔNG PHẢI 5.** Lý do user nêu: *"tôi hay fix lỗi nên hay mất
+25% hạn mức, chỉ còn 75% thôi"* — con số 80 từ ở trên giả định cả cửa sổ 5h dành trọn cho lô, mà
+thực tế gần như phiên nào cũng có việc sửa ăn trước một phần. ⇒ **Ngân sách thật ≈ 60 từ.**
+Cộng số từ trước khi giao; muốn chạy 5 lô thì phải là 5 lô NHỎ và cửa sổ còn nguyên.
+
 | Cỡ lô trung bình | Số lô nổi trong một phiên |
 |---|---|
 | ~15 từ | **5 lô** (~78 từ) |
@@ -248,50 +258,17 @@ theo deck.
 từ `language-grammar`) trong khi lô thật gần như toàn **danh từ cụ thể**, trục là luật chính tả
 `ъ` / ЧА ЩА. Agent soạn theo `tiep` — đúng. Muốn nhắc trục thì đọc `tiep` trước, hoặc đừng nhắc.
 
-### ✅ k15 + k16 XONG 28/07 (mốc cũ) — sau đó tới **k51**
+### 🗂️ Ba luật sống sót từ hai lần quy hoạch 28/07 (phần còn lại đã bị mục 29/07 đè, đã cắt 02/08)
 
-🔴 **USER CHỐT 28/07: soạn lại 168 từ của lô 01→12 TRƯỚC, rồi mới quay về k17.**
-Lý do user nêu: *"đó là những từ mới, tôi chưa thuộc nên cần hướng dẫn hơn các từ cũ, dù không
-có hướng dẫn nhưng đã thuộc sơ rồi"*. Ngoại lệ duy nhất: **hôm nào user thêm từ mới thì từ mới
-ưu tiên hơn cả khối này.**
-
-### 🔴 QUY HOẠCH LẠI 28/07 (lần 2) — thứ tự **B → A → C**, user chọn
-
-Sau khi chốt chuẩn ngắn gọn (§2b README), **đo lại 168 thẻ cũ thì 75 thẻ đã ĐẠT sẵn cả ba trần**
-— kế hoạch "viết đè trọn 168 thẻ" của lần quy hoạch trước **là phá đi cái đang tốt**. Việc thật
-rút từ 10 lô xuống 5.
-
-User chốt: **"ngoài những thẻ đã đạt tiêu chuẩn, soạn lại hết"** ⇒ **833/908 từ vào lại hàng đợi**,
-chỉ **75 thẻ** đạt cả ba trần là không đụng tới.
-
-| | Lô | Từ | Việc | Chế độ |
-|---|---|---|---|---|
-| **B** | `k51`…`k55` | 93 | Vá 93/168 thẻ lô 01→12 chưa đạt (thiếu họ hàng · >2 ô đỏ · quá 1 màn hình) | **`sua`** — `tiep` kéo nội dung hiện tại về |
-| **A** | `k01`…`k08` | 99 | Soạn lại 99 thẻ **tệ nhất** kho (khối lặp 52–80%, 8–14 ô đỏ, 7–13 KB) | soạn mới |
-| **C** | `k17`…`k47` | 517 | Thẻ rỗng | soạn mới |
-| **A2** | `k09`…`k16`, `k49`, `k50` | 124 | Soạn lại — nội dung **không sai**, chỉ dài 1–3 màn hình | soạn mới |
-
-**53 lô / 908 từ · 833 từ chờ · 75 từ `dat` · lô kế tiếp `k51`.**
 ⚠️ **Thứ tự chạy ≠ thứ tự số hiệu**: `tiep` lấy lô `cho` **đầu danh sách**. Đừng sắp xếp lại.
 ✅ **Thẻ trong Anki KHÔNG bị xoá** — user vẫn học bằng nội dung hiện có, từng lô thay khi tới lượt.
-
-### 💰 VÁ TỐN NHIỀU TOKEN HƠN SOẠN MỚI — đo 28/07, ngược trực giác
-
-Vá **không** làm giảm phần viết (agent vẫn phải xuất ra toàn bộ nội dung cuối cùng), nó chỉ
-**cộng thêm** phần đọc bản cũ:
-
-| Nhóm | Nội dung cũ tb | Soạn mới | Vá | Chênh |
-|---|---|---|---|---|
-| 93 thẻ lô 01→12 | 1 891 B | 85K | 98K | **+15%** |
-| k09+ | 5 151 B | 85K | 119K | **+40%** |
-| k01–k08 | 10 174 B | 85K | 153K | **+80%** |
-
-⇒ **Chỉ B dùng chế độ `sua`** (+15%, đáng vì nội dung đó đang tốt). Mọi nhóm khác **soạn mới và
-KHÔNG mở file cũ ra xem** — vừa rẻ hơn, vừa tránh bản dài kéo văn phong dài trở lại.
+💰 **Vá ĐẮT HƠN soạn mới** (đo 28/07, ngược trực giác): vá không giảm phần viết, chỉ cộng thêm
+phần đọc bản cũ — **+15% với thẻ mỏng, +80% với thẻ dày**. Chế độ `sua` đã bỏ hẳn 29/07 ⇒ **soạn
+mới và KHÔNG mở file cũ ra xem**, vừa rẻ hơn vừa tránh kéo văn phong dài trở lại.
 
 🆕 **Trạng thái `"dat"`**: thẻ đã đạt chuẩn sẵn — **không phải `xong`** (không có file, `nap` bỏ
-qua) và **không phải `cho`** (không ai phải làm gì). Thiếu nó thì bộ đếm `tu:` không bao giờ
-chạm 908 và phiên sau tưởng còn việc.
+qua) và **không phải `cho`** (không ai phải làm gì). Thiếu nó thì bộ đếm `tu:` không bao giờ khớp
+tổng số từ và phiên sau tưởng còn việc.
 
 🔴 **Bài học: trước khi mở một khối "làm lại", ĐO xem nó đã đạt chuẩn chưa.** k15 là lô 7 từ rời rạc (không trục chung, dồn giá
 trị vào từng thẻ); k16 là **lô ghép tay đầu tiên được soạn** — trục ghi sẵn trong `hangdoi.json`
