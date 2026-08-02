@@ -841,6 +841,25 @@ def trigger_sync():
     return sync_now()[0]
 
 
+def sync_truoc_khi_ghi_lo(ten_viec="ghi lô"):
+    """🔴 GỌI TRƯỚC MỌI ĐỢT GHI HÀNG LOẠT LÊN NOTE. Trả True nếu được phép ghi.
+
+    Bẫy đã trả học phí 31/07/2026 — 23 thẻ hỏng IM LẶNG: script trên laptop ghi lại
+    976 note lúc 12:40, trong khi laptop CHƯA kéo về đợt dọn 03:00 của bot trên VPS.
+    Ghi vào note làm `mod` của nó mới hơn, mà sync của Anki xử xung đột theo "ai sửa
+    sau thắng, thắng TRỌN note" ⇒ bản laptop (Stage rỗng) đè bản VPS (Stage="type")
+    ⇒ 23 thẻ vừa được thăng lên GĐ2 nằm ở deck gõ mà hiện mặt làm quen. Đổi deck
+    KHÔNG bị vì đó là thay đổi trên THẺ, script chỉ đụng NOTE.
+
+    Kéo về trước rồi mới ghi thì bản ghi đè lên đúng bản mới nhất, không mất gì."""
+    ok, err = sync_now()
+    if not ok:
+        log_fail(f"{ten_viec}: KHÔNG kéo được AnkiWeb về ({err}). DỪNG, chưa ghi gì — "
+                 f"ghi lúc này là ghi đè lên bản chép cũ, thay đổi từ máy khác "
+                 f"(bot trên VPS, điện thoại) sẽ bị nuốt im lặng.")
+    return ok
+
+
 def get_note_fields(note_id):
     """Lấy fields hiện tại của 1 note (dùng cho luồng sửa thẻ /sua).
     Trả về dict {field_name: value} hoặc None."""

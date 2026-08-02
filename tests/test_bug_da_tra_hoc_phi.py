@@ -270,5 +270,30 @@ class AliasPublicConSong(unittest.TestCase):
         self.assertIs(ai_client.send_ai_request, ai_client._send_ai_request)
 
 
+class GhiLoPhaiSyncTruoc(unittest.TestCase):
+    """BUG GỐC (31/07/2026, phát hiện 02/08): 23 thẻ nằm ở deck gõ `1-go` mà hiện
+    mặt LÀM QUEN. Bot trên VPS thăng chúng lên GĐ2 lúc 03:00 (ghi Stage="type");
+    9 tiếng sau laptop CHƯA sync về đã ghi lại 976 note cho ô GrammarJSON. Ghi
+    vào note làm `mod` mới hơn, mà sync Anki xử xung đột "ai sửa sau thắng TRỌN
+    note" ⇒ bản laptop Stage rỗng đè bản VPS. Đổi deck sống sót vì nó nằm trên
+    THẺ. Hỏng IM LẶNG: thẻ đúng deck, sai mặt, không lỗi nào bật ra."""
+
+    def test_sync_hong_thi_KHONG_DUOC_ghi(self):
+        from anki_tools import anki_client
+        with unittest.mock.patch.object(anki_client, "sync_now",
+                                        return_value=(False, "Sync status 2")):
+            self.assertFalse(anki_client.sync_truoc_khi_ghi_lo("thu"))
+
+    def test_moi_script_ghi_lo_deu_phai_qua_cua_nay(self):
+        """Chặn đúng cách tái diễn: ai thêm script ghi hàng loạt mà quên sync."""
+        goc = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        for ten in ("backfill_grammar_json.py", "backfill_badge.py"):
+            with open(os.path.join(goc, "scripts", ten), encoding="utf-8") as f:
+                nguon = f.read()
+            self.assertIn("updateNoteFields", nguon, f"{ten}: test bám nhầm file")
+            self.assertIn("sync_truoc_khi_ghi_lo(", nguon,
+                          f"{ten} ghi hàng loạt lên note mà KHÔNG kéo sync về trước")
+
+
 if __name__ == "__main__":
     unittest.main()

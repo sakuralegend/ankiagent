@@ -15,6 +15,14 @@
 
 ---
 
+## v1.0.1 — 02/08/2026
+
+- ⌨️ **Sửa 23 thẻ trong deck `1-go` hiện sai mặt: đã học xong phần làm quen mà vẫn không có ô gõ.**
+  Nguyên nhân: đêm 31/07 bot trên máy chủ đã nâng chúng lên chặng GÕ, nhưng sáng hôm sau laptop
+  chạy một đợt cập nhật hàng loạt khi chưa tải bản mới về, nên vô tình ghi đè ngược lại. Nay 23 thẻ
+  đã về đúng mặt gõ, **lịch ôn giữ nguyên**, bạn không phải làm gì cả. Cũng đã chặn để lần sau
+  không lặp lại: mọi đợt cập nhật hàng loạt buộc phải tải bản mới nhất về trước khi ghi.
+
 ## v1.0.0 — 31/07/2026
 
 Mốc đầu tiên được đánh số. Từ hôm nay dự án có máy tự kiểm code trước mỗi lần cập nhật, nên

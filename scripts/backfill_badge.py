@@ -22,17 +22,17 @@ FULL SYNC một lần ⇒ gom hết thay đổi schema rồi Upload MỘT lần,
 `journalctl` trên VPS: VPS kẹt sync IM LẶNG, không báo Telegram.
 """
 import json
+import os
 import re
 import sys
 import urllib.request
 
 # Chay duoc tu bat cu dau: file nay khong con nam o goc repo nen phai tu tro
 # duong dan goc vao sys.path truoc khi import anki_tools (G3, 31/07/2026).
-import os
-import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from anki_tools import grammar
+from anki_tools.anki_client import sync_truoc_khi_ghi_lo
 from anki_tools.config import ANKI_CONNECT_URL, MODEL_NAME
 
 # 🔴 KHÔNG khai lại bảng nhãn ở đây. Nó từng có bản sao riêng trong file này và
@@ -165,6 +165,8 @@ def main():
 
     if not apply:
         print("\n(CHẠY KHAN — thêm --apply để ghi thật)")
+        return
+    if not sync_truoc_khi_ghi_lo("backfill badge"):
         return
     for nid, _, _, khac in doi:
         ac("updateNoteFields", note={"id": nid, "fields": khac})

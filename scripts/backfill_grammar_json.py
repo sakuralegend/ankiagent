@@ -21,16 +21,16 @@ câu gốc. Đo thật: **0,8 MB cho 950 thẻ** (trung bình 888 B, to nhất 6
 [[vps-ket-sync-im-lang]]: sau khi Upload phải kiểm lại VPS.
 """
 import json
+import os
 import sys
 import urllib.request
 
 # Chay duoc tu bat cu dau: file nay khong con nam o goc repo nen phai tu tro
 # duong dan goc vao sys.path truoc khi import anki_tools (G3, 31/07/2026).
-import os
-import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from anki_tools import grammar
+from anki_tools.anki_client import sync_truoc_khi_ghi_lo
 from anki_tools.config import ANKI_CONNECT_URL, MODEL_NAME
 
 FIELD = "GrammarJSON"
@@ -88,6 +88,8 @@ def main():
 
     if not apply:
         print("\n(CHẠY KHAN — thêm --apply để ghi thật)")
+        return
+    if not sync_truoc_khi_ghi_lo("backfill GrammarJSON"):
         return
     for nid, wc, _, _ in doi:
         rec = grammar.get_cached(wc)

@@ -49,6 +49,11 @@
 
 ---
 
+## QD-16 · 02/08/2026 · Ghi HÀNG LOẠT lên note thì phải kéo sync về TRƯỚC, hỏng thì DỪNG
+Chọn: `anki_client.sync_truoc_khi_ghi_lo()` — một cửa duy nhất, gọi ở đầu nhánh `--apply` của cả hai script backfill; sync hỏng ⇒ không ghi gì.
+Thay vì: nhắc trong tài liệu / checklist L4 (đợt 31/07 đã theo đủ L4 mà vẫn dính), hoặc để mỗi script tự gọi `sync` riêng.
+Vì: đo 02/08 — **23/25 thẻ ở `1-go` hiện sai mặt**. Bot VPS thăng chúng lên GĐ2 lúc 03:00 (ghi `Stage="type"`), 9 tiếng sau laptop **chưa sync về** đã ghi lại 976 note cho ô `GrammarJSON`; ghi vào note làm `mod` mới hơn, mà sync Anki xử xung đột **"ai sửa sau thắng TRỌN note"** ⇒ bản laptop `Stage` rỗng đè bản VPS. Việc đổi deck sống sót vì nó nằm trên **THẺ**, script chỉ đụng **NOTE** — nên thẻ đúng deck, sai mặt, **không lỗi nào bật ra**. Kéo về trước là chặn được đúng cơ chế đó. Hết hạn: không.
+
 ## QD-15 · 02/08/2026 · Cửa canh DỮ LIỆU ngữ pháp: file mới nhỏ, không nhét thêm vào `grammar.py`
 Chọn: `anki_tools/soat_nguphap.py` (~95 dòng, thuần chuỗi, KHÔNG import `grammar` nên không đẻ vòng); gọi ở `cao_nguphap.py` (lúc dữ liệu VÀO) và `congcu.py nap` (lúc dữ liệu LÊN THẺ). Chỉ IN RA, không tự sửa.
 Thay vì: thêm hàm vào `grammar.py`, hay nhét vào `congcu.py soat` như phiếu việc gợi ý.
