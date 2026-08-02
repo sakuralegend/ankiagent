@@ -17,6 +17,12 @@ MIEN_TRU = {
              "thẻ k05 dạy đúng cặp trọng âm này, từ điển chỉ có за́пах",
     "помо́чь": "ĐỘNG TỪ помо́чь = giúp đỡ (thể hoàn thành của помога́ть); từ điển chỉ có danh từ "
               "phương ngữ по́мочь = buổi làm giúp tập thể (số nhiều по́мочи = dây đeo quần)",
+    "бе́лок": "số nhiều cách 2 của бе́лка (con sóc), dạng chèn nguyên âm chạy — thẻ k25 dạy "
+             "đúng cặp trọng âm này; từ điển chỉ có đồng tự бело́к = lòng trắng trứng, chất đạm",
+    "по́лок": "số nhiều cách 2 của по́лка (cái kệ), dạng chèn nguyên âm chạy — thẻ k23 dạy "
+             "đúng cặp trọng âm này; từ điển chỉ có đồng tự поло́к = bệ nằm trong nhà tắm hơi Nga",
+    "полка́": "cách 2 số ít của полк (trung đoàn); thẻ k23 dạy đúng cặp đối lập по́лка (kệ) ↔ "
+             "полка́ (của trung đoàn), từ điển chỉ có по́лка = cái kệ",
     "у́ха": "cách 2 của у́хо (cái tai), dùng trong thành ngữ слу́шать кра́ем у́ха (thẻ k02); "
            "từ điển chỉ có danh từ đồng tự уха́ = canh cá",
 }
