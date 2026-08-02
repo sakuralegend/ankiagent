@@ -15,6 +15,19 @@
 
 ---
 
+## v1.1.0 — 02/08/2026
+
+- 📖 **74 thẻ nữa đã có phần "Hướng dẫn"** — trước đây chúng trống trơn. Gồm: đại từ hỏi và chỉ
+  trỏ (`кто · что · где · там`…), giới từ (`к · о · до · по · с · у`…), mấy từ kiểu "được phép /
+  không được / có thể", quần áo, và đồ ăn.
+- ✍️ **60 dòng tiếng Việt trên mặt đề bài được viết lại cho rõ hơn.** Đây là dòng bạn nhìn rồi gõ
+  từ Nga, nên mơ hồ là bạn gõ kiểu gì cũng có thể sai. Ví dụ `потому́` trước ghi "bởi vì" —
+  sai, đứng một mình nó là "vì thế"; "bởi vì" phải là `потому́ что`.
+- 🩹 **Sửa bảng chia của từ `ке́ды` (giày vải).** Bảng đang in tráo cách 5 với cách 6 ở cả số ít
+  lẫn số nhiều. Đã kiểm toàn bộ 976 thẻ: **chỉ mình từ này bị**, các thẻ khác đều đúng.
+- 🍞 Với `хлеб`, bảng chia chỉ in dạng `хле́бы`; thẻ có nói thêm dạng `хлеба́` (lúa ngoài đồng) để
+  bạn không tưởng bảng bị thiếu.
+
 ## v1.0.0 — 31/07/2026
 
 Mốc đầu tiên được đánh số. Từ hôm nay dự án có máy tự kiểm code trước mỗi lần cập nhật, nên
