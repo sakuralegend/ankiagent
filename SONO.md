@@ -94,23 +94,22 @@
 - [ ] **15 chỗ nuốt lỗi im lặng** (`except: pass` / `except Exception:` trống) trong 3 gói.
       **Không sửa hết ngay.** Áp luật từ nay: mọi `except` phải log, hoặc phải có comment nói vì sao
       được phép nuốt. (31/07/2026)
+- [ ] **Không gì báo khi VPS chạy CODE CŨ hơn laptop.** Đo 02/08: lần deploy này kéo một cục **49
+      file** vì VPS đứng ở commit 31/07 13:12 ⇒ bot chạy code cũ **3 ngày** mà không dấu hiệu nào.
+      `deploy.ps1` (31/07) chỉ bắt được lúc pull HỎNG; **quên deploy** thì nó im hoàn toàn — mà quên
+      mới là ca hay gặp. Hệ quả đã thấy: laptop và VPS chạy hai đời code khác nhau nhiều ngày, đúng
+      môi trường đẻ ra lỗi lệch âm thầm. Hướng rẻ nhất: bot khai `git rev-parse --short HEAD` lúc
+      khởi động + trong `/trangthai`, lệch thì mắt thấy ngay. CHẠM CODE BOT ⇒ deploy riêng.
+      User chốt 02/08: *"tôi sẽ xử lí sau"*. (02/08/2026)
 
 ### 🟡 Code — rơi giữa hai ghế, không plan nào quản
 
-- [x] **4 luật chuẩn hoá tiếng Nga khác nhau — ĐÃ ĐO 31/07/2026, ĐÓNG NỢ.** Script chỉ đọc
-      `_daxong/_va_do_bat_dong_chuan_hoa.py` gom 1748 từ Nga thật (`grammar_cache.json` 978 +
-      `tudien.json` 976 + `Word`/`WordClean` của mọi thẻ RU_Word qua AnkiConnect), chạy cả 4 hàm:
-      **A/B** (`utils.strip_accents_perfectly` vs công thức NFC-normalize của `ai_client._clean_scan_word`,
-      cùng mục đích) → **0 bất đồng**; **C/D** (`bare()` của `congcu.py` vs `kiemtra.py`, cùng mục
-      đích tra `nouns.csv`) → **0 bất đồng**. Rủi ro `ё` dạng tổ hợp (е + U+0308) mà `_fable_plan.md`
-      nghi ngờ chưa từng xảy ra trên dữ liệu thật hiện có — code vẫn khác hàm nhau (KHÔNG gộp, đúng
-      dặn dò), chỉ là chưa có từ nào chạm trúng khác biệt đó. Đo lại nếu sau này nạp dữ liệu từ nguồn
-      copy-paste không rõ chuẩn hoá (vd dán trực tiếp từ web ngoài OpenRussian).
-- [x] **Thư mục gốc vi phạm chính luật L2 — ĐÃ TRẢ 31/07/2026 (G3 mở rộng).** Gốc nay còn **đúng ba**
-      file `.py` (`bot.py`, `main.py`, `soatkientruc.py`); 6 script vận hành xuống `scripts/`, 2 script
-      chạy-một-lần vào `_daxong/`, mỗi file thêm 3 dòng bootstrap `sys.path` (chúng đều thiếu, trước
-      đây chạy được chỉ nhờ nằm ở gốc). Danh sách trắng S6 thu về đúng 3 tên — thêm tên vào đó từ nay
-      là **nới luật**, phải ghi `QUYETDINH.md` trước. (31/07/2026)
+- [x] **4 luật chuẩn hoá tiếng Nga khác nhau — ĐÃ ĐO 31/07/2026, ĐÓNG NỢ.** 1748 từ Nga thật, cả 4
+      hàm, **0 bất đồng** — code vẫn khác hàm nhau (KHÔNG gộp, đúng dặn dò), chỉ là chưa có từ nào
+      chạm trúng khác biệt. ⚠️ **Đo lại** nếu nạp dữ liệu từ nguồn copy-paste không rõ chuẩn hoá
+      (dán thẳng từ web ngoài OpenRussian). Chi tiết: `git log`.
+- [x] **Thư mục gốc vi phạm chính luật L2 — ĐÃ TRẢ 31/07/2026 (G3).** Gốc còn đúng ba file `.py`;
+      thêm tên vào danh sách trắng S6 từ nay là **nới luật**, phải ghi `QUYETDINH.md` trước.
 
 ## Ý TƯỞNG (chưa làm, chờ xong 61 lô)
 
