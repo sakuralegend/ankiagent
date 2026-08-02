@@ -23,6 +23,13 @@ MIEN_TRU = {
              "đúng cặp trọng âm này; từ điển chỉ có đồng tự поло́к = bệ nằm trong nhà tắm hơi Nga",
     "полка́": "cách 2 số ít của полк (trung đoàn); thẻ k23 dạy đúng cặp đối lập по́лка (kệ) ↔ "
              "полка́ (của trung đoàn), từ điển chỉ có по́лка = cái kệ",
+    "нёбо": "нёбо = VÒM MIỆNG, từ khác hẳn не́бо (bầu trời) — thẻ k26 cố ý nêu cặp này để "
+            "user khỏi lẫn. Máy không tách được vì khoá tra từ điển gộp ё về е "
+            "(nouns.csv in ё thành е), nên нёбо bị đọc thành небо rồi báo lệch trọng âm; "
+            "bản thân нёбо không có mục riêng trong nouns.csv",
+    "жарка́": "DẠNG NGẮN giống cái của tính từ жа́ркий (nóng) — grammar_cache ghi rõ bộ dạng "
+             "ngắn жа́рок · жарка́ · жа́рко · жа́рки, thẻ k27 dạy đúng chỗ trọng âm dịch này; "
+             "nouns.csv chỉ có danh từ đồng tự жа́рка = việc rán (từ жа́рить)",
     "у́ха": "cách 2 của у́хо (cái tai), dùng trong thành ngữ слу́шать кра́ем у́ха (thẻ k02); "
            "từ điển chỉ có danh từ đồng tự уха́ = canh cá",
 }

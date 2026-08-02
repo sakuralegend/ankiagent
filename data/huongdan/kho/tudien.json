@@ -174,7 +174,7 @@
   "wc": "сад",
   "w": "сад",
   "en": "<ol class=\"meaning-list\"><li>garden</li></ol>",
-  "vi": "vườn, công viên, mẫu giáo",
+  "vi": "vườn cây, khu vườn",
   "pos": "n",
   "topic": "nature::plants",
   "cu": false
@@ -1020,7 +1020,7 @@
   "wc": "ёлка",
   "w": "ёлка",
   "en": "<ol class=\"meaning-list\"><li>(small) spruce</li><li>spruce tree</li><li>Christmas tree</li><li>jolka festival (on 31 Dec.)</li></ol>",
-  "vi": "cây thông Noel",
+  "vi": "cây vân sam nhỏ; cây thông Noel",
   "pos": "n",
   "topic": "nature::plants",
   "cu": false
@@ -1200,7 +1200,7 @@
   "wc": "гроза",
   "w": "гроза́",
   "en": "<ol class=\"meaning-list\"><li>thunderstorm</li></ol>",
-  "vi": "bão tố, sấm sét",
+  "vi": "cơn giông có sấm sét",
   "pos": "n",
   "topic": "nature::weather",
   "cu": false
@@ -1371,7 +1371,7 @@
   "wc": "облако",
   "w": "о́блако",
   "en": "<ol class=\"meaning-list\"><li>cloud</li></ol>",
-  "vi": "đám mây, dịch vụ lưu trữ đám mây",
+  "vi": "đám mây trắng trên trời",
   "pos": "n",
   "topic": "nature::weather",
   "cu": false
@@ -2919,7 +2919,7 @@
   "wc": "озеро",
   "w": "о́зеро",
   "en": "<ol class=\"meaning-list\"><li>lake</li></ol>",
-  "vi": "ao, hồ",
+  "vi": "hồ (hồ nước)",
   "pos": "n",
   "topic": "nature::plants",
   "cu": false
@@ -3153,7 +3153,7 @@
   "wc": "степь",
   "w": "степь",
   "en": "<ol class=\"meaning-list\"><li>steppe / veld</li></ol>",
-  "vi": "đồng cỏ mênh mông",
+  "vi": "thảo nguyên (đồng cỏ khô mênh mông)",
   "pos": "n",
   "topic": "nature::plants",
   "cu": false
@@ -3477,7 +3477,7 @@
   "wc": "липа",
   "w": "ли́па",
   "en": "<ol class=\"meaning-list\"><li>linden</li><li>lime tree</li><li>(colloquial) forgery</li><li>fake</li></ol>",
-  "vi": "cây bồ đề (linden tree) hoặc đồ giả/hàng nhái (slang)",
+  "vi": "cây đoan (linden, lime tree — cây bóng mát, hoa pha trà)",
   "pos": "n",
   "topic": "nature::plants",
   "cu": false
