@@ -46,7 +46,7 @@ Nguyên tắc chọn: mỗi luật phải chỉ được lỗi thật ở §3.2 
 3. **Chọn chỗ đặt** theo bảng dưới.
 4. AI viết. **Yêu cầu ngay từ đầu: kết thúc bằng "Lệnh nghiệm thu:"** (L3).
 5. **Nghiệm thu:** chạy lệnh đó + soi diff theo 3 dấu hiệu đỏ ở Q6. Chạm vùng im lặng thì đi cửa L4.
-6. Ghi `CHANGELOG` (đã thành thói quen — giữ nguyên); nếu có ngã rẽ thì thêm `QD-nn` (Q5). Push → restart → liếc journalctl 10 giây.
+6. Commit với phần thân khai VÌ SAO (S9 canh, xem 3c); nếu có ngã rẽ thì thêm `QD-nn` (Q5). Push → restart → liếc journalctl 10 giây.
 
 ### 3a. File cũ hay file mới?
 
@@ -70,13 +70,13 @@ Dự án này có cả trùng lặp tai hại (10 wrapper) lẫn trùng lặp **
 
 ### 3c. "Xong" nghĩa là gì khi không có test
 
-Xong = đủ 3 dấu: **(1)** lệnh nghiệm thu chạy thật, ra kết quả nhìn thấy được (bot trả lời đúng trên Telegram / thẻ hiện đúng trong Anki — sản phẩm này may mắn: đầu ra nhìn được bằng mắt); **(2)** `python -c "import bot, main"` sạch — chặn loại chết-lúc-khởi-động; **(3)** với vùng im lặng: một vòng kiểm sau-sync theo L4. Thiếu dấu nào thì chưa được ghi CHANGELOG là "xong".
+Xong = đủ 3 dấu: **(1)** lệnh nghiệm thu chạy thật, ra kết quả nhìn thấy được (bot trả lời đúng trên Telegram / thẻ hiện đúng trong Anki — sản phẩm này may mắn: đầu ra nhìn được bằng mắt); **(2)** `python -c "import bot, main"` sạch — chặn loại chết-lúc-khởi-động; **(3)** với vùng im lặng: một vòng kiểm sau-sync theo L4. Thiếu dấu nào thì chưa được coi là "xong", đừng commit.
 
 ---
 
 ## Q4 — Ngưỡng cảnh báo sớm, bằng con số
 
-Vượt ngưỡng **không có nghĩa là sửa ngay** — giữa việc khác mà tiện tay refactor là cách đẻ bug kinh điển. Hành động mặc định là **ghi một dòng vào `SONO.md`** (sổ nợ, cạnh CHANGELOG): `- [ ] <file/hàm>: <ngưỡng nào vỡ> (ghi ngày)`. Trả nợ khi: sắp sửa tiếp đúng file đó, hoặc sổ nợ chạm 10 mục.
+Vượt ngưỡng **không có nghĩa là sửa ngay** — giữa việc khác mà tiện tay refactor là cách đẻ bug kinh điển. Hành động mặc định là **ghi một dòng vào `SONO.md`** (sổ nợ): `- [ ] <file/hàm>: <ngưỡng nào vỡ> (ghi ngày)`. Trả nợ khi: sắp sửa tiếp đúng file đó, hoặc sổ nợ chạm 10 mục.
 
 | Ngưỡng | Con số | Đo bằng (PowerShell, vài giây) | Vượt thì |
 |---|---|---|---|
@@ -103,8 +103,8 @@ Cơ chế số hiệu của `CHUAN.md` thành công vì 3 tính chất: **có s�
   Vì: sửa bot không được phép giết lô đang chạy tối nay. Hết hạn: khi xong 61 lô.
   ```
 
-- **Khi nào BẮT BUỘC ghi** (đúng 4 cửa, ngoài ra miễn): (1) chọn A thay vì B mà 6 tháng sau nhìn code **không tự thấy** lý do; (2) cố ý làm trái L1–L4 hoặc chấp nhận một ảnh-chụp-chép-dán (3b); (3) chạm schema Anki; (4) khai tử / đóng băng một thứ. Sửa bug thường, thêm từ, chỉnh câu chữ — **không ghi**, đã có CHANGELOG.
-- **Chống phình thành CHANGELOG 235 KB thứ hai:** trần cứng 4 dòng/mục; AI viết hộ cuối phiên (bạn chỉ duyệt 20 giây); và khác CHANGELOG ở tần suất — CHANGELOG ghi *mỗi lần làm*, QUYETDINH chỉ ghi *mỗi lần rẽ*, ước tính 2–4 mục/tuần. 100 quyết định ≈ 400 dòng ≈ vẫn đọc hết trong 10 phút.
+- **Khi nào BẮT BUỘC ghi** (đúng 4 cửa, ngoài ra miễn): (1) chọn A thay vì B mà 6 tháng sau nhìn code **không tự thấy** lý do; (2) cố ý làm trái L1–L4 hoặc chấp nhận một ảnh-chụp-chép-dán (3b); (3) chạm schema Anki; (4) khai tử / đóng băng một thứ. Sửa bug thường, thêm từ, chỉnh câu chữ — **không ghi**, commit message có thân là đủ (3c).
+- **Chống phình thành `CHANGELOG.md` 2 809 dòng thứ hai (đã đóng sổ hẳn, QD-06/QD-14):** trần cứng 4 dòng/mục; AI viết hộ cuối phiên (bạn chỉ duyệt 20 giây); và khác commit message ở tần suất — commit ghi *mỗi lần làm*, QUYETDINH chỉ ghi *mỗi lần rẽ*, ước tính 2–4 mục/tuần. 100 quyết định ≈ 400 dòng ≈ vẫn đọc hết trong 10 phút.
 - **Khép vòng:** commit message thi hành quyết định thì ghi `(QD-07)` — y như tag `chuan::3` trên thẻ. Grep `QD-07` ra cả lý do lẫn code.
 
 ---

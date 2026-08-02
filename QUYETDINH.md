@@ -90,8 +90,7 @@ Chọn: một file ngắn kiểu release notes app (`vX.Y.Z` + ≤5 gạch đầ
 Thay vì: để user tự đọc `git log`/`CHANGELOG.md`/`KIENTRUC.md` — hoặc không có gì cho user cả (hiện trạng trước đó).
 Vì: user chỉ ra rằng **mọi file trong repo đều viết cho người làm**, không sót file nào cho người dùng — *"để tôi hiểu thì chỉ cần kiểu v2.3.3 xong vài gạch đầu dòng"*. QD-06 đóng sổ CHANGELOG vì nó TRÙNG git log ở tầng kỹ thuật; món này KHÔNG trùng vì khác đối tượng, khác ngôn ngữ, khác thứ được chọn để ghi. Chống phình ngay từ đầu bằng ba khoá: trần 2 phút đọc (S10), tối đa 5 mục/bản, giữ 10 bản. Hết hạn: không.
 
-## QD-14 · 02/08/2026 · Xoá hẳn `CHANGELOG.md` + dọn mọi con trỏ tới nó · ⏳ ĐÃ DUYỆT, CHƯA THI HÀNH
-> ⏳ File và các con trỏ tới nó **còn nguyên**. Phiếu `VIECDANGLAM.md` đang bận QD-11 (làm trước) — kế hoạch việc này ghi tạm ở `SONO.md` mục Ý TƯỞNG. Làm xong thì xoá dòng ⏳ này.
+## QD-14 · 02/08/2026 · Xoá hẳn `CHANGELOG.md` + dọn mọi con trỏ tới nó · ✅ THI HÀNH 02/08/2026
 Chọn: xoá hẳn file `CHANGELOG.md` khỏi cây làm việc (không giữ làm lưu trữ nữa) + rà 18 file còn nhắc chữ `CHANGELOG` (`grep CHANGELOG`), sửa/xoá chỗ nào là CON TRỎ CHỨC NĂNG (vd `README.md:35` đang trỏ sai — đã đổi sang `git log` từ QD-06), GIỮ NGUYÊN chỗ nào là GHI CHÉP LỊCH SỬ (vd mục QD-06 ngay dưới, kể lại quyết định đóng sổ).
 Thay vì: giữ nguyên file làm lưu trữ như QD-06 từng chốt.
 Vì: user chỉ ra file "chẳng để làm gì" — đúng, `soatkientruc.py` S10 đã bỏ nó khỏi danh sách file bắt đọc từ lúc đóng sổ, không ai còn tra tới. Giữ 2809 dòng làm lưu trữ không người đọc chỉ còn là rác cùng loại đã giết chính nó (QD-06). git vẫn giữ trọn nội dung trong lịch sử commit — xoá khỏi cây làm việc không mất gì. Hết hạn: không.

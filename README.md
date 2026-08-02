@@ -32,7 +32,7 @@ Mỗi câu hỏi có **đúng một** file sở hữu nó. Đừng tìm câu tr�
 | Luật làm việc trong repo (đọc trước khi sửa bất cứ gì) | [CLAUDE.md](CLAUDE.md) · sổ tay đầy đủ [CACHLAM.md](CACHLAM.md) |
 | Vì sao chọn A mà không chọn B | [QUYETDINH.md](QUYETDINH.md) (`QD-nn`) |
 | Nợ kỹ thuật đang có, điều kiện trả | [SONO.md](SONO.md) |
-| Hôm qua/tuần trước đã đổi gì | [CHANGELOG.md](CHANGELOG.md) |
+| Hôm qua/tuần trước đã đổi gì | `git log` (commit message có phần thân khai vì sao, QD-06) |
 | Cài VPS lần đầu · lỗi thường gặp · khôi phục backup | [VPS_SETUP.md](VPS_SETUP.md) |
 | Soạn một lô hướng dẫn thế nào, chuẩn nội dung ra sao | `data/huongdan/README.md` + `CHUAN.md` |
 

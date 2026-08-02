@@ -6,7 +6,7 @@
 > **File này CỐ Ý không chứa con số đếm được** (số dòng, số file, số lô, số thẻ). Mọi dòng ở đây
 > phải qua được phép thử: *"còn đúng nguyên văn sau khi thêm 10 lô mới và 5 lệnh bot mới không?"*
 > Con số trôi từng ngày — đó chính là thứ đã giết `README.md` cũ. Cần số thì chạy lệnh, đừng chép
-> vào đây. Lịch sử → `CHANGELOG.md` · vì sao chọn A không chọn B → `QUYETDINH.md` · chuẩn nội dung
+> vào đây. Lịch sử → `git log` · vì sao chọn A không chọn B → `QUYETDINH.md` · chuẩn nội dung
 > thẻ → `data/huongdan/CHUAN.md` · cách soạn một lô → `data/huongdan/README.md`.
 
 ---

@@ -78,7 +78,7 @@ TOPIC_DECK_PARENT = os.environ.get("TOPIC_DECK_PARENT", "RUSSIAN")
 # rút thẻ mới theo thứ tự vị trí, nên một deck gộp có thể lĩnh trọn suất cho GĐ1
 # và không còn suất nào cho GĐ2. Hai deck thì mỗi bên có ngân sách đảm bảo.
 # ⚠️ Kèm theo: trần thẻ mới của DECK CHA phải >= tổng hai con (đã đặt 140), vì
-# scheduler v3 lấy trần cha kẹp cả cây — xem CHANGELOG 21/07/2026.
+# scheduler v3 lấy trần cha kẹp cả cây — xem git log quanh 21/07/2026.
 # Tên "0-"/"1-" để Anki xếp đúng thứ tự học trong danh sách deck.
 STAGE1_DECK = f"{TOPIC_DECK_PARENT}::0-quen"
 STAGE2_DECK = f"{TOPIC_DECK_PARENT}::1-go"

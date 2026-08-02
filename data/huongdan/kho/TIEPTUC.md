@@ -217,7 +217,7 @@ không phải k55 → k01. Nhóm A (`k01`…`k08`) tuy tệ nhất kho nhưng l�
 
 Phiên **5 lô** theo chuẩn ngắn: **78 từ**, 0 thẻ vượt trần nào, khối dùng chung về **0%** ở cả
 bốn lô `sua`. Bắt được **8 lỗi nội dung** của bản cũ (phần lớn chỉ lộ lúc rà tay bằng mắt) —
-chi tiết ở mục 28/07 trong `CHANGELOG.md`.
+chi tiết ở `git log` quanh 28/07.
 
 ### 📊 CHI PHÍ — ĐO THẬT 5 LÔ, ĐẾM BẰNG **TỪ** CHỨ KHÔNG PHẢI BẰNG LÔ
 

@@ -78,7 +78,7 @@ async def cmd_deck(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("❌ Không tạo/kiểm tra được deck (AnkiConnect lỗi?).")
 
 
-# Ngưỡng "đèn báo" cần tách chủ đề (xem CHANGELOG 18/07/2026: quy tắc 100 thẻ / 15% other)
+# Ngưỡng "đèn báo" cần tách chủ đề (xem git log quanh 18/07/2026: quy tắc 100 thẻ / 15% other)
 TOPIC_DECK_WARN = 100     # deck con vượt mức này -> nên tách chủ đề con
 OTHER_WARN_PCT = 15       # other chiếm quá % này của kho -> phân loại đang "rò rỉ"
 

@@ -2,7 +2,7 @@
 #
 # Cau hoi can tra loi (chot 29/07/2026): so luong loi noi dung tu bat duoc co
 # GIAM khi lo to len khong? Neu co thi tran cong lo phai ha, vi cua may KHONG
-# kiem noi dung — xem CHANGELOG 29/07 muc "p/p cua co lo".
+# kiem noi dung — xem git log quanh 29/07 muc "p/p cua co lo".
 #
 # Vi sao phai ghi tay: `soat`/`dodai` do duoc px va o do, nhung "so loi tu bat"
 # thi khong may nao dem duoc — no nam trong bao cao cua agent. Bo trong = khong

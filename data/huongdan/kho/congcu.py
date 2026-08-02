@@ -152,7 +152,7 @@ def nap_lo_da_soan(chi=None, lay_v=False):
 # 🔴 KHÔNG in HỌ TỪ ra đây — user chốt 29/07 SAU KHI ĐO, đừng thêm lại.
 #
 # Ý định ban đầu đúng: agent tự nghĩ từ nguyên đã sai thật hai lần
-# (`о́блако`↔`во́лос`, `целова́ть`↔`цель`, CHANGELOG 28/07), nên đưa danh sách họ
+# (`о́блако`↔`во́лос`, `целова́ть`↔`цель`, git log quanh 28/07), nên đưa danh sách họ
 # từ của từ điển ra để agent CHỌN thay vì ĐOÁN. Ba phép đo giết ý định đó:
 #
 #  ① Làm CỬA SOÁT thì không được. Trên 2 069 cụm in đậm ở mục "Họ hàng" của 301
