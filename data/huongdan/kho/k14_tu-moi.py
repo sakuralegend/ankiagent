@@ -212,7 +212,7 @@ S["покупать"] = (
     '<div class="hd-fam"><b>купи́ть</b> mua (hoàn thành) · <b>поку́пка</b> món đồ đã mua · '
     '<b>де́лать поку́пки</b> đi mua sắm · <b>покупа́тель</b> khách mua</div>'
 )
-V["покупать"] = "mua (chưa hoàn thành — đang mua, thường mua, nói việc mua nói chung)"
+V["покупать"] = "mua (đang mua, thường mua, nói việc mua nói chung)"
 
 # ─────────────────────────────────────────────────────────── размер
 S["размер"] = (

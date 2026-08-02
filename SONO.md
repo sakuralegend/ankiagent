@@ -73,16 +73,17 @@
       ⚠️ **Vẫn chỉ bắt kiểu đảo CẢ HAI CHIỀU.** Nguồn sai một chiều thì vẫn phải đọc bằng mắt.
       Bản vá gốc của `кеды` sao lưu ở `backups/_backup_grammarjson_kedy.json` (bị `.gitignore`).
 
-### 🔴 Phát hiện 02/08/2026 khi nghiệm thu cửa ngữ pháp
+### 🔴 Phát hiện + TRẢ LUÔN 02/08/2026 khi nghiệm thu cửa ngữ pháp
 
-- [ ] **8 thẻ có dòng tiếng Việt LỆCH giữa thẻ và file lô ⇒ `nap --tatca` sẽ lặng lẽ trả về bản
-      cũ.** `покупать · болеть · ждать · кататься · любить · нравиться · помнить · слышать`: trên
-      thẻ đã bỏ chữ "(chưa hoàn thành…)" — đúng luật, vì badge `IMPF` in sẵn thứ đó ở mặt đề bài —
-      nhưng `V[...]` trong `k02/k48/k54/k59…` vẫn giữ bản thừa chữ. Cùng HỌ với món `кеды`: **bản
-      vá sống trong THẺ, không trong repo**. Khác ở chỗ đây là dòng ĐỀ BÀI user gõ theo, và `nap`
-      có in ra lúc đổi (`vi: …  ->  …`) nên không hoàn toàn câm — nhưng in giữa 300 dòng khác thì
-      cũng như câm. Trả nợ: sửa 8 dòng `V[...]` cho khớp thẻ (thẻ đúng), rồi `nap --tatca` phải
-      báo `doi tieng Viet 0 note`.
+- [x] **8 thẻ có dòng tiếng Việt lệch giữa THẺ và FILE LÔ — `nap --tatca` từng sẽ lặng lẽ trả về
+      bản cũ.** `покупать` (k14) + 7 từ ở k48: thẻ đã bỏ chữ "(chưa hoàn thành…)" cho đúng luật
+      (badge `IMPF` in sẵn thứ đó ở mặt đề bài) mà `V[...]` trong repo còn giữ bản thừa. Đã sửa
+      8 dòng `V[...]` cho khớp thẻ — **thẻ là bên đúng**. Nghiệm thu: `nap --tatca` chạy khan nay
+      báo `doi tieng Viet 0 note` + `ghi vao 0 note` trên cả 334 từ.
+      🔴 **Bài học chung, còn nguyên giá trị:** vá tay trên thẻ mà không vá file lô là đẻ ra một
+      quả bom hẹn giờ — cùng HỌ với món `кеды` ở trên. Sửa nội dung thẻ thì phải hỏi **"chỗ này
+      trong repo có bản của nó không"**; `nap` có in ra lúc đổi nhưng in giữa 300 dòng thì cũng
+      như câm.
 
 ### 🟡 Vận hành — còn lại, chưa cấp thiết
 
