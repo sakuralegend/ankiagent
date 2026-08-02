@@ -26,13 +26,9 @@
       Chống spam bằng mốc trạng thái ⇒ bot chết cả ngày = ĐÚNG MỘT tin, và có tin báo khi sống lại.
       **Đã thử thật:** Telegram trả `ok:true`; stop bot → bắt được; start lại → báo "đã chạy lại";
       gọi thêm 2 lần → im lặng. (31/07/2026)
-- [x] **`grammar_cache.json` kẹt deploy → ĐÃ TÁCH CHỖ GHI (QD-05).** Bot trên VPS nay ghi vào
-      `/root/anki-cache/` (biến `ANKI_GRAMMAR_CACHE`), ngoài repo ⇒ repo không bao giờ bẩn.
-      **Đã đo và BÁC hướng cũ** ("bỏ cache, đọc field `GrammarJSON`"): cache bao trùm thẻ, 88 thẻ
-      thiếu hẳn `present`/`future`/`parts`. (31/07/2026)
-      ⬆️ **BỊ QD-11 THAY THẾ 02/08/2026** — lý do bác đã chết (đo lại: thẻ khớp cache 100%), nên
-      chính hướng cũ này được thi hành: bỏ hẳn file, đọc thẳng `GrammarJSON`. Mục này giữ nguyên
-      làm sử, không phải hướng dẫn còn hiệu lực.
+- [x] **`grammar_cache.json` kẹt deploy → hết hẳn file cache (QD-05 rồi QD-11).** Bài học duy nhất
+      còn giá trị: số đo dùng để BÁC một hướng cũng hết hạn — "88 thẻ thiếu dữ liệu" (31/07) đo lại
+      02/08 ra **0**, và chính hướng từng bị bác trở thành hướng thi hành. (chi tiết: `git log`)
 - [x] **Log xoay vòng mất dấu → ĐÃ ĐẶT TRẦN.** `SystemMaxUse=500M` + `MaxRetentionSec=3month`.
       Đo trước khi sửa: log vẫn còn từ 14/07 (~17 ngày, 212 MB) nên món này nhẹ hơn lo ngại — việc
       thật chỉ là chặn phình vô hạn. Bản gốc lưu ở `/root/journald.conf.bak`. (31/07/2026)
