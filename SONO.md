@@ -62,6 +62,18 @@
       5, `README.md` 3 — máy tự quy ra dòng (~30 dòng/phút). Con số phút thì người đặt và bảo vệ
       được; số dòng thì không. (31/07/2026)
 
+### 🔴 Phát hiện 02/08/2026 khi chạy lô k20
+
+- [ ] **Không cửa nào canh DỮ LIỆU NGỮ PHÁP mà máy nối vào thẻ, và bản vá thì KHÔNG có trong git.**
+      `кеды` bị nguồn đảo cách 5 với cách 6 (`inst=ке́де · prep=ке́дом`) ở cả số ít lẫn số nhiều.
+      `soat`/`dodai` mù hoàn toàn — chúng chỉ đo phần agent VIẾT, không đo phần `nap` NỐI vào.
+      Quét cả 976 thẻ bằng phép đối chiếu đuôi thì đúng 2 chỗ, cả hai của `кеды` ⇒ **không phải
+      lỗi hệ thống**, nên chưa cần sửa công cụ gấp. Hai món nợ thật:
+      ① phép đối chiếu đuôi đó đáng thành một cửa (rẻ, chạy offline trên `GrammarJSON`);
+      ② **bản vá nằm trong THẺ ANKI chứ không trong repo** — chạy lại `cao_nguphap.py --anki`
+      sẽ khôi phục dữ liệu sai vì lỗi đến từ chính nguồn, và không có gì báo.
+      Sao lưu bản gốc: `backups/_backup_grammarjson_kedy.json` (thư mục này bị `.gitignore`).
+
 ### 🟡 Vận hành — còn lại, chưa cấp thiết
 
 - [ ] **Bot chỉ `print`, chưa có nhật ký phân mức.** `logging.basicConfig` không tồn tại ở đâu ⇒
