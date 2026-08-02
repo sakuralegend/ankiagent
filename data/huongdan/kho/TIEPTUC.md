@@ -14,7 +14,7 @@ Bạn (user) chỉ cần gõ một câu: **"chạy tiếp kho"**. Phần dưới
 
 ### ✅ PHIÊN 02/08 (chiều): k22 · k23 · k24 · k25 XONG & ĐÃ NẠP — lô kế tiếp là **k26**
 
-▶️ **PHIÊN SAU CHẠY ĐÚNG 4 LÔ: `k26`(18) · `k27`(13) · `k28`(21) · `k29`(17) = 69 từ.**
+▶️ **PHIÊN SAU CHẠY ĐÚNG 3 LÔ: `k26`(18) · `k27`(13) · `k28`(21) = 52 từ.**
 Chạy `moi --apply` trước — có từ mới thì từ mới chen lên đầu và số này đổi. ⚠️ k28–k30 là **ba lô
 số đếm ghép tay** (mang khoá `thucong`), trục ghi sẵn trong `hangdoi.json`, đừng tự mò trục khác.
 
@@ -235,18 +235,19 @@ phần mỗi từ thấp gần 70%. Đã thay bằng số đo. Đừng khôi ph�
 trung bình **15,6 từ/lô** (có k13 chỉ 4 từ). Năm lô 20 từ = 100 từ ≈ **592K → vượt**.
 Quy đổi hạn mức 5h: 420K ứng 74% ⇒ **~5,7K token mỗi 1%**.
 
-🔴 **USER CHỐT 02/08: MẶC ĐỊNH 4 LÔ, KHÔNG PHẢI 5.** Lý do user nêu: *"tôi hay fix lỗi nên hay mất
-25% hạn mức, chỉ còn 75% thôi"* — con số 80 từ ở trên giả định cả cửa sổ 5h dành trọn cho lô, mà
-thực tế gần như phiên nào cũng có việc sửa ăn trước một phần. ⇒ **Ngân sách thật ≈ 60 từ.**
-Cộng số từ trước khi giao; muốn chạy 5 lô thì phải là 5 lô NHỎ và cửa sổ còn nguyên.
+🔴 **USER CHỐT 02/08 (bản mới, thay mốc "4 lô" cùng ngày): MẶC ĐỊNH 3 LÔ.** Chốt 4 lô buổi chiều
+đã **chạy thử thật và vẫn vượt hạn mức một chút** (k22–k25, 68 từ) ⇒ hạ tiếp. Lý do gốc user nêu
+vẫn đúng: *"tôi hay fix lỗi nên hay mất 25% hạn mức, chỉ còn 75% thôi"* — mọi con số ~80 từ đều
+giả định cửa sổ 5h dành TRỌN cho lô, mà phiên nào cũng có việc sửa ăn trước một phần.
+⇒ **Ngân sách thật ≈ 55 từ.**
 
 | Cỡ lô trung bình | Số lô nổi trong một phiên |
 |---|---|
-| ~15 từ | **5 lô** (~78 từ) |
-| ~20 từ | **4 lô** (~80 từ) |
-| ~22 từ (trần) | **3–4 lô** |
+| ~15 từ | **4 lô** (~60 từ) |
+| ~18 từ | **3 lô** (~54 từ) |
+| ~22 từ (trần) | **2–3 lô** |
 
-⇒ Trước khi giao việc, **cộng số từ của các lô định chạy**; quá ~80 thì bớt một lô. Và điều kiện
+⇒ Trước khi giao việc, **cộng số từ của các lô định chạy**; quá ~55 thì bớt một lô. Và điều kiện
 đi kèm vẫn giữ: **luồng chính im**, không trộn việc sửa công cụ vào phiên chạy lô.
 
 🎯 **Cách chọn lô của phiên này đáng giữ**: user muốn ưu tiên thẻ **đang học**, nên luồng chính
@@ -439,7 +440,8 @@ Khuôn lời nhắn giao cho agent phụ (đổi `kNN` và phần chủ đề):
 > vì đã rà kỹ mà không thấy gì là **thông tin có ích**; báo 0 vì ngại nói ra thì làm hỏng phép đo.
 > Kèm theo: kết quả 3 mục soát · kết quả `dodai` · **những chỗ KHÔNG chắc đã hạ mức tin**.
 
-🔴 **MỖI PHIÊN 4 LÔ** (chuẩn §2b), **VÀ PHIÊN ĐÓ CHỈ ĐƯỢC CHẠY LÔ.**
+🔴 **MỖI PHIÊN 3 LÔ** (chuẩn §2b — user hạ từ 4 xuống 3 ngày 02/08 sau khi 4 lô vẫn vượt hạn mức),
+**VÀ PHIÊN ĐÓ CHỈ ĐƯỢC CHẠY LÔ.**
 
 ⚠️ **Con số chi phí sống ở bảng "📊 CHI PHÍ" phía trên** (65K cố định/lô + 2,67K mỗi từ, đo thật
 5 điểm). Mọi con số cũ hơn đã bị nó thay — đừng khôi phục.
