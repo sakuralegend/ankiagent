@@ -9,6 +9,9 @@ Bạn (user) chỉ cần gõ một câu: **"chạy tiếp kho"**. Phần dưới
 
 ---
 
+> 🔄 **02/08: `nap --apply` và `cao_nguphap` nay TỰ kéo sync về trước khi đọc/ghi** (QD-16). Sync
+> hỏng thì chúng DỪNG, không ghi gì — đúng cái đã làm hỏng 23 thẻ đêm 31/07. Không phải nhớ gì thêm.
+
 ### ✅ PHIÊN 02/08 (chiều): k22 · k23 · k24 · k25 XONG & ĐÃ NẠP — lô kế tiếp là **k26**
 
 ▶️ **PHIÊN SAU CHẠY ĐÚNG 4 LÔ: `k26`(18) · `k27`(13) · `k28`(21) · `k29`(17) = 69 từ.**

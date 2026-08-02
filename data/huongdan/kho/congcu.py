@@ -29,6 +29,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, "..", "..", ".."))
 sys.path.insert(0, os.path.join(HERE, ".."))
 from anki_tools import grammar, soat_nguphap                      # noqa: E402
+from anki_tools.anki_client import sync_truoc_khi_ghi_lo          # noqa: E402
 from mientru import MIEN_TRU                                      # noqa: E402
 
 HANGDOI = os.path.join(HERE, "hangdoi.json")
@@ -823,6 +824,13 @@ def cmd_nap():
     # agent viết, còn bảng thì máy nối vào sau lưng chúng (SONO.md 02/08).
     soat_nguphap.keu_neu_dao({w: grammar.get_cached(w) for w in gop}, "lo sap nap")
 
+    # 🔴 SYNC TRƯỚC KHI ĐỌC, không chỉ trước khi ghi (QD-16): ảnh chụp `hien_co`
+    # / `vi_co` lấy ngay dưới đây là thứ quyết định "ghi hay bỏ qua", nên chụp
+    # trên bản cũ là vừa so sai vừa ghi đè mất thay đổi của bot trên VPS. Lô hay
+    # đụng đúng thẻ user đang học: `moi` hứng từ user vừa thêm, mà thẻ mới thì
+    # nằm ở `0-quen` — chính deck bot thăng cấp lúc 03:00 mỗi đêm.
+    if apply and not sync_truoc_khi_ghi_lo("nap lo"):
+        return
     ids = ac("findNotes", query="note:RU_Word")
     ban_do, hien_co, vi_co = {}, {}, {}
     for n in ac("notesInfo", notes=ids):

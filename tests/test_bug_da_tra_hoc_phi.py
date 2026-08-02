@@ -287,10 +287,12 @@ class GhiLoPhaiSyncTruoc(unittest.TestCase):
     def test_moi_script_ghi_lo_deu_phai_qua_cua_nay(self):
         """Chặn đúng cách tái diễn: ai thêm script ghi hàng loạt mà quên sync."""
         goc = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        for ten in ("backfill_grammar_json.py", "backfill_badge.py"):
-            with open(os.path.join(goc, "scripts", ten), encoding="utf-8") as f:
+        for ten in ("scripts/backfill_grammar_json.py", "scripts/backfill_badge.py",
+                    "data/huongdan/kho/congcu.py", "data/huongdan/kho/cao_nguphap.py"):
+            with open(os.path.join(goc, *ten.split("/")), encoding="utf-8") as f:
                 nguon = f.read()
-            self.assertIn("updateNoteFields", nguon, f"{ten}: test bám nhầm file")
+            self.assertTrue("updateNoteFields" in nguon or "grammar.remember(" in nguon,
+                            f"{ten}: test bám nhầm file, ở đây không còn chỗ ghi note")
             self.assertIn("sync_truoc_khi_ghi_lo(", nguon,
                           f"{ten} ghi hàng loạt lên note mà KHÔNG kéo sync về trước")
 

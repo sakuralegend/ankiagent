@@ -26,6 +26,7 @@ import urllib.request
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                 "..", "..", ".."))
 from anki_tools import grammar, soat_nguphap                     # noqa: E402
+from anki_tools.anki_client import sync_truoc_khi_ghi_lo         # noqa: E402
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 TUDIEN = os.path.join(HERE, "tudien.json")
@@ -101,6 +102,11 @@ def _chay():
     # Lấp bộ đệm RAM từ thẻ Anki NGAY ĐẦU — mọi nhánh dưới đây đều cần biết
     # "đã có sẵn từ nào" trước khi quyết định cào thêm. Anki đóng thì KÊU TO rồi
     # dừng ở đây, không âm thầm cào cả buổi rồi mất trắng cuối lệnh (QD-11).
+    # Kéo sync về TRƯỚC khi lấp bộ đệm (QD-16): cào xong là `grammar.remember()`
+    # ghi thẳng vào ô `GrammarJSON` của THẺ ĐÃ CÓ, tức đây cũng là một đợt ghi
+    # hàng loạt lên note — dính đúng cái bẫy "ai sửa sau thắng TRỌN note".
+    if not sync_truoc_khi_ghi_lo("cao ngu phap"):
+        return
     grammar.lap_dem_tu_the()
     if "--nangcap" in sys.argv:
         # Cào lại bản ghi CŨ PHIÊN BẢN. Dùng khi `normalize()` bắt đầu giữ thêm
