@@ -109,18 +109,15 @@ Cửa nào bị mở lậu thì `soatkientruc.py` mục S1 kêu.
 - **`data/nouns.csv`**: `grammar_forms/irregular_plurals.py` **tải nó về** (dump từ GitHub);
   `anki_tools/grammar.py` **đọc nó** để biết từ nào chỉ dùng số nhiều; dây chuyền kho cũng đọc nó
   để soát trọng âm. Đổi định dạng file này là chạm cả ba mảng cùng lúc.
-- **`data/grammar_cache.json`** — từ 31/07/2026 chỉ còn là **BỘ NHỚ ĐỆM**, không phải nguồn (QD-08).
-  Nguồn sự thật của dữ liệu ngữ pháp là **ô `GrammarJSON` trong chính thẻ Anki**, vì thẻ tự đồng bộ
-  qua AnkiWeb tới mọi máy còn file thì mắc kẹt ở một máy. Thiếu từ nào, đệm tự lấp từ thẻ; xoá sạch
-  file này cũng không mất gì (đã thử: nó dựng lại toàn bộ trong vài giây). ⚠️ Đừng đảo ngược lại —
-  chiều cũ đẻ ra đúng hai bệnh: bot cào trên VPS thì laptop phải cào lại lần hai, và hai bản lệch
-  nhau âm thầm hàng tuần.
+- **Ô `GrammarJSON` trong chính thẻ Anki`** là nguồn DUY NHẤT của dữ liệu ngữ pháp (QD-11, thay
+  QD-08 — không còn file `data/grammar_cache.json` trên đĩa). `anki_tools/grammar.py` giữ một bộ
+  nhớ đệm CHỈ TRONG RAM, lấp một lần từ thẻ lúc chạy; Anki đóng thì các lệnh cần dữ liệu ngữ pháp
+  KÊU TO rồi dừng, không âm thầm coi là "không có dữ liệu". Chiều cũ (file cache là kho riêng từng
+  máy) đẻ ra đúng hai bệnh: bot cào trên VPS thì laptop phải cào lại lần hai, và hai bản giống hệt
+  nhau lệch nhau âm thầm hàng tuần — bỏ hẳn file thì hết chỗ để lệch.
 - **`hangdoi.json` là nguồn sự thật duy nhất** về trạng thái từng lô; `tudien.json` là ảnh chụp
   nghĩa/trọng âm. Thêm từ mới phải chạm **cả hai**, thiếu một cái thì công cụ in ra `?` và người
   soạn sẽ soạn mò.
-
-⚠️ `nouns.csv` và `grammar_cache.json` **cùng thượng nguồn OpenRussian** — hai nguồn trùng nhau
-KHÔNG chứng minh dữ liệu đúng. Đối chiếu chéo chúng không bắt được lớp lỗi có sẵn từ nguồn.
 
 ## 5. Vòng import thật, và cách đang bẻ
 
@@ -200,7 +197,6 @@ Tài liệu nói dối thì máy chỉ mặt. Sửa cấu trúc dự án mà qu�
   "diem_vao": ["bot.py", "main.py", "soatkientruc.py"],
   "du_lieu_chung": [
     "data/nouns.csv",
-    "data/grammar_cache.json",
     "data/huongdan/kho/hangdoi.json",
     "data/huongdan/kho/tudien.json"
   ],

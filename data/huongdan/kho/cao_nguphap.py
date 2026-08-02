@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 """Cào dữ liệu ngữ pháp (thể · sống/không sống · bảng chia · họ từ) cho CẢ KHO.
 
-Chạy MỘT lần, kết quả nằm ở `data/grammar_cache.json` rồi dùng mãi — từ điển
-OpenRussian là ảnh chụp tĩnh. Ngắt giữa chừng cứ chạy lại: từ nào có trong cache
-thì bỏ qua, nên nó tiếp tục đúng chỗ đang dở.
+🔴 BẮT BUỘC MỞ ANKI (QD-11) — thẻ là nơi DUY NHẤT dữ liệu cào được tồn tại lâu
+dài; không còn file `grammar_cache.json` làm bộ đệm trên đĩa. Đóng Anki thì lệnh
+này KÊU TO rồi dừng ngay từ dòng đầu, không âm thầm cào xong rồi mất trắng.
+Ngắt giữa chừng cứ chạy lại: từ nào thẻ đã có thì bỏ qua, nên nó tiếp tục đúng
+chỗ đang dở.
 
     python data/huongdan/kho/cao_nguphap.py            # cào từ còn thiếu
     python data/huongdan/kho/cao_nguphap.py --anki     # lấy danh sách từ ANKI (kể
@@ -67,16 +69,20 @@ def va_so_tu():
             hong.append(wc)
         else:
             cache[wc].update(them)
+            grammar.remember(wc, cache[wc])    # ghi thẳng vào thẻ — không còn file cache (QD-11)
             duoc += 1
         if i % 10 == 0 or i == len(can):
             print(f"  {i}/{len(can)}  (duoc {duoc})", flush=True)
-    grammar._save_cache(cache)
     print(f"XONG: va duoc {duoc}/{len(can)}")
     if hong:
         print("  Wiktionary cung khong co: " + " ".join(hong))
 
 
 def main():
+    # Lấp bộ đệm RAM từ thẻ Anki NGAY ĐẦU — mọi nhánh dưới đây đều cần biết
+    # "đã có sẵn từ nào" trước khi quyết định cào thêm. Anki đóng thì KÊU TO rồi
+    # dừng ở đây, không âm thầm cào cả buổi rồi mất trắng cuối lệnh (QD-11).
+    grammar.lap_dem_tu_the()
     if "--nangcap" in sys.argv:
         # Cào lại bản ghi CŨ PHIÊN BẢN. Dùng khi `normalize()` bắt đầu giữ thêm
         # khoá — không thể dò bằng "thiếu khoá X" vì khoá có thể vắng chính đáng

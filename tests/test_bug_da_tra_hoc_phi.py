@@ -19,6 +19,7 @@ import os
 import sys
 import unicodedata
 import unittest
+import unittest.mock
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -170,47 +171,43 @@ class DauTrongAmPhaiLaMotKyTuDUYNHAT(unittest.TestCase):
         self.assertEqual(strip_accents_perfectly("бу" + self.TOT + "ква"), "буква")
         self.assertNotEqual(strip_accents_perfectly("бу" + self.XAU + "ква"), "буква")
 
-    def test_CACHE_THAT_khong_duoc_chua_ky_tu_loi_thoi(self):
-        """Bất biến trên DỮ LIỆU THẬT — bắt được cả khi lỗi tới từ nguồn."""
-        duong = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-                             "data", "grammar_cache.json")
-        if not os.path.exists(duong):
-            self.skipTest("khong co cache tren may nay")
-        with open(duong, encoding="utf-8") as f:
-            noi_dung = f.read()
-        self.assertNotIn(self.XAU, noi_dung,
-                         "cache lai chua U+0341 — kiem `_save_cache` con chuan hoa NFC khong")
-
 
 class TheLaNguonSuThat(unittest.TestCase):
-    """QD-08: thẻ Anki là nguồn, file cache chỉ là BỘ NHỚ ĐỆM tự lấp từ thẻ.
+    """QD-11: thẻ Anki là nguồn DUY NHẤT của dữ liệu ngữ pháp — không còn file
+    cache trên đĩa làm bộ đệm dự phòng (thay QD-08: trước đó file cache + thẻ
+    là hai bản dự phòng cho nhau, và hai bản giống hệt nhau đã lệch nhau âm thầm
+    89 thẻ suốt nhiều tuần — đúng bug mà việc bỏ hẳn file cache triệt tiêu)."""
 
-    Trước 31/07/2026 quan hệ ngược lại và sinh ra đúng hai bệnh: bot cào từ mới
-    trên máy chủ thì laptop không bao giờ có (phải cào lại lần hai cho cùng một
-    từ), và hai bản lệch nhau âm thầm."""
-
-    def test_khong_bao_gio_lam_chet_luong_du_Anki_dong(self):
-        """Anki đóng phải là "chưa biết", KHÔNG được ném lỗi — nếu không thì mọi
-        lệnh soát lô offline chết theo."""
-        goc = grammar._DA_HOI_THE
+    def test_dong_anki_phai_KEU_TO_khong_duoc_im_lang(self):
+        """QD-11: Anki đóng/lỗi phải NÉM LỖI, KHÔNG được coi là "không có dữ
+        liệu" rồi trả rỗng — im lặng ở đây từng khiến lô soạn ghi thẻ THIẾU bảng
+        chia mà không ai biết."""
+        goc_da_hoi, goc_cache = grammar._DA_HOI_THE, grammar._CACHE
         try:
-            grammar._DA_HOI_THE = True         # chặn gọi Anki thật trong test
-            self.assertEqual(grammar.get_cached("tu_khong_bao_gio_ton_tai_xyz"), {})
+            grammar._DA_HOI_THE = False
+            grammar._CACHE = {}
+            with unittest.mock.patch(
+                    "anki_tools.anki_client.doc_grammar_json_tat_ca",
+                    side_effect=RuntimeError("gia lap Anki dong")):
+                with self.assertRaises(RuntimeError):
+                    grammar.get_cached("tu_khong_bao_gio_ton_tai_xyz")
         finally:
-            grammar._DA_HOI_THE = goc
+            grammar._DA_HOI_THE = goc_da_hoi
+            grammar._CACHE = goc_cache
 
     def test_lap_dem_KHONG_DUOC_de_ban_ghi_dang_co(self):
         """Ô `GrammarJSON` hỏng/rỗng không được xoá mất thứ đang đúng trong đệm."""
         dem = grammar._cache()
         khoa = "khoa_thu_" + "x" * 5
         dem[khoa] = {"pos": "noun", "v": 99}
+        goc = grammar._DA_HOI_THE
         try:
-            grammar._DA_HOI_THE = False
-            grammar._lap_dem_tu_the()          # Anki có mở hay không đều được
+            grammar._DA_HOI_THE = True         # chặn gọi Anki thật trong test
+            grammar._lap_dem_tu_the()
             self.assertEqual(dem[khoa], {"pos": "noun", "v": 99})
         finally:
             dem.pop(khoa, None)
-            grammar._DA_HOI_THE = True
+            grammar._DA_HOI_THE = goc
 
 
 class AliasPublicConSong(unittest.TestCase):
@@ -220,7 +217,7 @@ class AliasPublicConSong(unittest.TestCase):
     def test_grammar(self):
         self.assertIs(grammar.BANG_RE, grammar._BANG_RE)
         self.assertIs(grammar.doc_cache, grammar._cache)
-        self.assertIs(grammar.luu_cache, grammar._save_cache)
+        self.assertIs(grammar.lap_dem_tu_the, grammar._lap_dem_tu_the)
 
     def test_ai_client(self):
         from anki_tools import ai_client

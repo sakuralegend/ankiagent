@@ -15,8 +15,10 @@ audio), còn file này phục vụ hai việc mới, chạy theo lô và chạy 
 user KHÔNG tự kiểm được (README §1). Ở đây các dạng đi thẳng từ từ điển vào HTML,
 không qua model lần nào.
 
-Cache: `data/grammar_cache.json` — mỗi từ cào MỘT lần rồi dùng mãi. Từ điển
-OpenRussian là ảnh chụp tĩnh, không có gì phải làm mới định kỳ.
+Bộ nhớ đệm: CHỈ TRONG RAM, lấp một lần từ ô `GrammarJSON` của thẻ Anki lúc chạy
+(QD-11, 02/08/2026) — thẻ là nguồn DUY NHẤT, không còn file trên đĩa. Trước đó
+có `data/grammar_cache.json` làm bộ đệm dự phòng, nhưng hai bản giống hệt nhau
+sớm muộn SẼ lệch (đã có 89 thẻ lệch nhiều tuần không ai biết) nên bỏ hẳn.
 """
 import io
 import json
@@ -24,34 +26,11 @@ import os
 import re
 import sys
 import time
-import unicodedata
 import urllib.parse
 
 from .utils import convert_stress_to_combining_accent, log_fail, log_warn
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
-
-# Đường dẫn cache đổi được bằng biến môi trường — mặc định giữ nguyên chỗ cũ, nên
-# PC ở nhà và mọi script không thấy khác biệt gì.
-#
-# Vì sao cần đổi được (QD-05, 31/07/2026): file này vừa do git quản vừa bị bot GHI
-# lúc chạy. Trên VPS, bot cào từ mới rồi lưu vào đây => repo "bẩn" => `git pull`
-# BỎ CUỘC ở lần deploy sau. Đã xảy ra thật 31/07: VPS 978 khoá, git 951, và
-# deploy.ps1 lúc đó còn báo "Xong!" trong khi bot vẫn chạy code cũ.
-# Cách chữa: cho hai bên hai chỗ riêng — trên VPS trỏ ANKI_GRAMMAR_CACHE ra ngoài
-# thư mục repo. Cache là ẢNH CHỤP OpenRussian (cào lại được, chỉ tốn thời gian),
-# KHÔNG phải dữ liệu gốc duy nhất.
-#
-# ⏳ 31/07/2026 — TOÀN BỘ KHỐI NÀY SẮP BỊ GỠ, xem QD-11 (user đã duyệt).
-# Lời dặn cũ ở đây ("đừng tối ưu bằng cách xoá file này đi đọc field GrammarJSON",
-# vì 88 thẻ thiếu present/future/parts) **KHÔNG CÒN ĐÚNG** — đo lại cùng ngày với
-# Anki mở: thẻ 976 / cache 978, thẻ thiếu khoá 0, nội dung lệch 0, cache chỉ dư 2
-# từ mồ côi. Phiên sau: làm theo kế hoạch 7 bước trong `VIECDANGLAM.md`, ĐỪNG dừng
-# lại vì đọc phải lời dặn cũ.
-CACHE_PATH = os.environ.get(
-    "ANKI_GRAMMAR_CACHE",
-    os.path.join(_HERE, "..", "data", "grammar_cache.json"),
-)
 
 ACUTE = "́"
 VOWELS = "аеёиоуыэюяАЕЁИОУЫЭЮЯ"
@@ -77,7 +56,7 @@ def acc(word):
     out = convert_stress_to_combining_accent(word.strip())
     # 🔴 `ё` LUÔN mang trọng âm sẵn, nên `ё` + dấu là SAI CHÍNH TẢ, không phải một
     # cách viết. Nguồn vẫn ghi thế ở vài từ (`шофё́р` 12 ô, `зачё́там`, `неё́`).
-    # Vá ở ĐÂY chứ không vá file cache: 30/07 tôi sửa thẳng `grammar_cache.json`
+    # Vá ở ĐÂY chứ không vá dữ liệu đã cào: 30/07 tôi sửa thẳng bản ghi cache cũ
     # rồi `--nangcap` cào lại là dấu thừa quay về đủ 15 chỗ, và một thẻ đã nạp
     # bản sai. Sửa dữ liệu thì lần cào sau mất; sửa phép biến đổi thì vĩnh viễn.
     out = out.replace("ё" + ACUTE, "ё").replace("Ё" + ACUTE, "Ё")
@@ -121,39 +100,21 @@ def stress_pos(form):
 
 
 # ------------------------------------------------------------------- cào + cache
-def _load_cache():
-    if os.path.exists(CACHE_PATH):
-        try:
-            return json.load(io.open(CACHE_PATH, encoding="utf-8"))
-        except ValueError:
-            log_warn("grammar_cache.json hỏng -> bắt đầu lại từ rỗng")
-    return {}
-
-
-def _save_cache(cache):
-    """Ghi cache — LUÔN chuẩn hoá NFC trước khi ghi.
-
-    🔴 BUG THẬT 31/07/2026: OpenRussian trả về `U+0341 COMBINING ACUTE TONE MARK`
-    (ký tự đã lỗi thời) thay vì `U+0301 COMBINING ACUTE ACCENT` mà cả dự án dùng.
-    Hai ký tự HIỆN RA Y HỆT NHAU nên mắt không bắt được, nhưng:
-      · `strip_accents_perfectly()` chỉ bỏ `\\u0301` ⇒ KHÔNG bỏ nổi `\\u0341`;
-      · Anki tự chuẩn hoá NFC lúc ghi thẻ ⇒ thẻ và cache lệch nhau vĩnh viễn,
-        và mọi phép "so thẻ với cache" không bao giờ đạt 100%.
-    Tìm ra nhờ đúng phép so đó (1 từ `бу́ква`, 4 ký tự). Chuẩn hoá ngay TẠI CỬA
-    GHI để bẩn không vào được kho, thay vì đi dọn về sau. Test canh: `tests/`."""
-    os.makedirs(os.path.dirname(CACHE_PATH), exist_ok=True)
-    van_ban = json.dumps(cache, ensure_ascii=False, indent=0, sort_keys=True)
-    io.open(CACHE_PATH, "w", encoding="utf-8").write(
-        unicodedata.normalize("NFC", van_ban))
-
-
 _CACHE = None
 
 
 def _cache():
+    """Bộ nhớ đệm CHỈ TRONG RAM — không còn file trên đĩa (QD-11). Rỗng cho tới
+    khi `_lap_dem_tu_the()` lấp từ thẻ Anki, hoặc `remember()`/`fetch_grammar()`
+    tự thêm từ vừa cào.
+
+    🔴 Trước 02/08/2026 có `data/grammar_cache.json` làm bản sao trên đĩa — bỏ
+    hẳn vì Anki tự chuẩn hoá NFC lúc ghi field, còn file thì không, nên hai bản
+    giống hệt nhau LỆCH NHAU VĨNH VIỄN (bug thật: `бу́ква` mang `U+0341` lỗi thời
+    thay vì `U+0301`, 31/07/2026). Một nguồn thì không lệch được với chính nó."""
     global _CACHE
     if _CACHE is None:
-        _CACHE = _load_cache()
+        _CACHE = {}
     return _CACHE
 
 
@@ -440,7 +401,8 @@ def normalize(word_obj):
 # Bộ nhớ tạm TRONG MỘT LẦN CHẠY. Trong cùng một luồng tạo thẻ, `scraper.py` và
 # `grammar.py` cùng cần một từ -> không tải hai lần. CÓ CHẶN SỐ LƯỢNG: mỗi trang
 # vài chục KB, cào cả kho 950 từ mà giữ hết là ngốn vô ích. Không ghi ra đĩa —
-# cache lâu dài là `grammar_cache.json` (bản đã gọn), không phải trang thô.
+# bộ nhớ đệm lâu dài giờ là ô `GrammarJSON` trong chính thẻ Anki (QD-11), không
+# phải trang thô này.
 _PAGE_MEMO = {}
 _PAGE_MEMO_TRAN = 16
 
@@ -528,8 +490,10 @@ def fetch_grammar(word, refresh=False, delay=0.5):
         log_fail(f"{word}: {e}")
         return {}
 
-    cache[key] = rec
-    _save_cache(cache)
+    if rec:
+        remember(word, rec)                   # ghi RAM + thẳng vào thẻ (nếu thẻ đã có)
+    else:
+        cache[key] = rec                      # {} cũng cache lại, khỏi thử lại vô ích
     if delay:
         time.sleep(delay)
     return rec
@@ -542,30 +506,29 @@ _DA_HOI_THE = False
 
 
 def _lap_dem_tu_the():
-    """Lấp bộ nhớ đệm bằng dữ liệu trong THẺ ANKI — chạy nhiều nhất MỘT lần.
+    """Lấp bộ nhớ đệm RAM bằng dữ liệu trong THẺ ANKI — chạy nhiều nhất MỘT lần
+    mỗi tiến trình, và là NGUỒN DUY NHẤT (QD-11) — không còn file cache dự phòng.
 
-    🔴 THẺ LÀ NGUỒN SỰ THẬT (QD-08). Trước 31/07/2026 quan hệ ngược lại: file
-    cache là kho riêng của từng máy. Hậu quả: bot cào từ mới trên VPS thì laptop
-    không bao giờ có, phải cào lại lần hai cho cùng một từ; và hai bản lệch nhau
-    âm thầm (đã có 89 thẻ lệch nhiều tuần, tìm ra hoàn toàn tình cờ).
+    CHỈ THÊM khoá còn thiếu, TUYỆT ĐỐI không đè bản ghi đang có trong RAM (ví dụ
+    từ vừa `remember()` trong CHÍNH lần chạy này — thẻ đang tạo mới, chưa kịp ghi
+    lên Anki).
 
-    CHỈ THÊM khoá còn thiếu, TUYỆT ĐỐI không đè bản ghi đang có: Anki đóng hay ô
-    `GrammarJSON` hỏng thì phải là "chưa biết", không được biến thành "không có
-    dữ liệu" rồi xoá mất thứ đang đúng.
-
-    Anki không mở cũng không sao — im lặng dùng tiếp bộ đệm trên đĩa, nên các
-    lệnh soát lô vẫn chạy offline như trước."""
+    🔴 Anki đóng / AnkiConnect lỗi ⇒ KÊU TO rồi NÉM LỖI THẲNG, CẤM âm thầm coi là
+    "không có dữ liệu": thẻ giờ là nguồn DUY NHẤT, im lặng ở đây là mất trắng dữ
+    liệu ngữ pháp của toàn bộ lệnh đang chạy — đúng cơ chế từng làm 89 thẻ lệch
+    cache nhiều tuần không ai biết (bug cũ, nay không còn "cache" để lệch nữa)."""
     global _DA_HOI_THE
     if _DA_HOI_THE:
         return
     _DA_HOI_THE = True
+    from . import anki_client                # trong hàm: anki_client import ngược module này
     try:
-        from . import anki_client            # trong hàm: anki_client import ngược module này
         tu_the = anki_client.doc_grammar_json_tat_ca()
-    except Exception:
-        return
-    if not tu_the:
-        return
+    except Exception as e:
+        log_fail(f"KHONG DOC DUOC du lieu ngu phap tu THE ANKI ({e})")
+        raise RuntimeError(
+            "[grammar] The la nguon DUY NHAT (QD-11), khong con file cache du "
+            "phong. Mo Anki (AnkiConnect dang chay) roi chay lai.") from e
     cache = _cache()
     them = 0
     for w, rec in tu_the.items():
@@ -574,15 +537,20 @@ def _lap_dem_tu_the():
             cache[khoa] = rec
             them += 1
     if them:
-        _save_cache(cache)
         print(f"[grammar] lay {them} tu tu THE ANKI vao bo dem", file=sys.stderr)
 
 
 def get_cached(word):
-    """Dữ liệu ngữ pháp của một từ. KHÔNG gọi mạng (luồng hàng loạt 950 từ).
+    """Dữ liệu ngữ pháp của một từ, đọc từ THẺ ANKI (QD-11) — không còn file
+    cache trên đĩa. KHÔNG gọi mạng OpenRussian (luồng hàng loạt 950 từ).
 
-    Thứ tự tìm: **bộ đệm trên đĩa → thẻ Anki**. Thiếu ở cả hai thì trả rỗng —
-    người gọi tự quyết định có đi cào không.
+    🔴 Đọc thẻ không được (Anki đóng / AnkiConnect lỗi) ⇒ `_lap_dem_tu_the()` KÊU
+    TO rồi ném lỗi thẳng lên đây — CẤM bắt rồi trả rỗng, vì rỗng ở đây từng khiến
+    lô soạn ghi thẻ THIẾU bảng chia mà không ai biết.
+
+    Từ THẬT SỰ chưa từng cào (Anki đọc được, chỉ là từ đó chưa có dữ liệu) vẫn
+    trả `{}` bình thường — đó là "chưa có dữ liệu", khác với "không đọc được
+    nguồn".
 
     🔴 KÊU khi bản ghi cũ phiên bản. Hàm này không gọi mạng nên KHÔNG tự chữa
     được — mà im lặng thì thẻ nhận bảng thiếu mục đúng lúc `nap` tưởng mình vừa
@@ -590,11 +558,8 @@ def get_cached(word):
     `normalize()` mà cache còn v3, mọi đường đọc cache vẫn dựng bảng cũ không một
     tiếng nào. Kêu MỘT lần mỗi từ — 950 dòng giống nhau thì rồi cũng bị bỏ qua.
     """
-    rec = _cache().get(bare(word))
-    if rec is None:                            # chưa có trong đệm -> hỏi thẻ
-        _lap_dem_tu_the()
-        rec = _cache().get(bare(word))
-    rec = rec or {}
+    _lap_dem_tu_the()
+    rec = _cache().get(bare(word)) or {}
     if ban_ghi_cu(rec) and bare(word) not in _DA_KEU:
         _DA_KEU.add(bare(word))
         print(f"[grammar] '{word}': ban ghi v{rec.get('v', 0)} < v{BAN_GHI_V} "
@@ -797,17 +762,27 @@ def bo_sung(rec, word):
 
 
 def remember(word, rec):
-    """Ghi một bản ghi vào cache (dùng khi vừa cào xong ở luồng tạo thẻ).
+    """Ghi một bản ghi vào RAM + thẳng vào ô `GrammarJSON` của thẻ NẾU thẻ đã có
+    (dùng khi vừa cào xong, hoặc vá lại dữ liệu cho từ cũ).
 
-    Nhờ vậy thẻ user thêm hằng ngày tự có mặt trong cache, không phải chạy
-    `cao_nguphap.py --anki` bù về sau — user chốt: *"những cái này cũng phải làm
-    để tự động lấy khi lấy từ mới, vì những cái này thuần cào data"*.
-    """
+    Thẻ CHƯA tồn tại (đang tạo mới) thì bỏ qua phần ghi thẻ — không phải lỗi,
+    `build_card_fields()` tự đưa `rec` vào field `GrammarJSON` lúc `addNote`,
+    ghi hai lần chỉ tốn một lượt gọi mạng vô ích.
+
+    🔴 Thẻ ĐÃ có mà ghi hụt vì Anki đóng/lỗi ⇒ KÊU TO (raise) — không còn file
+    cache dự phòng để giữ tạm dữ liệu lỡ ghi thẻ không thành (QD-11)."""
     if not rec:
         return
-    cache = _cache()
-    cache[bare(word)] = rec
-    _save_cache(cache)
+    key = bare(word)
+    _cache()[key] = rec
+    from . import anki_client
+    try:
+        anki_client.ghi_grammar_json(key, rec)
+    except Exception as e:
+        log_fail(f"remember('{word}'): ghi THE ANKI that bai ({e})")
+        raise RuntimeError(
+            f"[grammar] remember('{word}'): ghi THE ANKI that bai ({e}). Khong "
+            "con file cache du phong — mo Anki roi thu lai (QD-11).") from e
 
 
 # ==============================================================================
@@ -1330,5 +1305,5 @@ def build_table(rec, phan_tich=None):
 # kiện mở: xong toàn bộ lô + soát xanh 14 ngày + S2 về 0).
 # ==============================================================================
 BANG_RE = _BANG_RE          # regex bóc khối bảng chia khỏi HTML thẻ
-doc_cache = _cache          # đọc ảnh chụp OpenRussian trên đĩa
-luu_cache = _save_cache     # ghi ảnh chụp đó xuống đĩa
+doc_cache = _cache          # đọc bộ nhớ đệm RAM (lấp từ thẻ Anki, QD-11)
+lap_dem_tu_the = _lap_dem_tu_the   # ép lấp đệm từ thẻ Anki NGAY (vd đầu cao_nguphap.py main())

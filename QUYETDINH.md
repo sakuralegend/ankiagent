@@ -15,7 +15,6 @@
 
 | Hướng nghe hợp lý | Phán quyết | Vì (số liệu thật) |
 |---|---|---|
-| ~~Bỏ `grammar_cache.json`, đọc thẳng field `GrammarJSON` trong thẻ~~ | 🔄 **ĐÃ LẬT 31/07/2026 — nay LÀ VIỆC PHẢI LÀM** | Lý do bác cũ (*"88 thẻ thiếu `present`/`future`/`parts`"*) **đã chết** sau đợt đồng bộ cùng ngày. Đo lại với Anki mở: thẻ **976** / cache **978**, thẻ thiếu khoá **0**, nội dung lệch **0**, cache chỉ dư 2 từ mồ côi chưa từng thành thẻ. **Đừng chặn việc này nữa** — xem QD-11, kế hoạch đã duyệt nằm ở `VIECDANGLAM.md` |
 | Dùng `_family()` của OpenRussian để dựng mục "Họ hàng" | **BÁC** | Nó gộp `groups` (cùng gốc) với `relateds` (đồng nghĩa **khác gốc hẳn**) vào một rổ ⇒ dạy sai từ nguyên. Mục Họ hàng do người soạn tự nghĩ, cố ý không có cửa máy |
 | Lọc từ theo tag trình độ A1–C2 của OpenRussian | **BÁC** | `паспорт`, `яблоко`, `сахар` bị gắn **C1**. Dùng **thứ hạng tần suất** thay thế (top 2500 danh từ ≈ A1→B2) |
 | Đối chiếu chéo `nouns.csv` với `grammar_cache.json` để bắt lỗi dữ liệu | **KHÔNG ĐỦ** | Hai file **cùng thượng nguồn OpenRussian** ⇒ trùng nhau không chứng minh đúng. `фон` sai ở **cả hai**. Cửa duy nhất còn lại là người đọc bằng mắt |
@@ -60,8 +59,7 @@ Chọn: ghi **một dòng** vào `QUYETDINH.md` ngay khi quyết định (mục 
 Thay vì: chỉ ghi khi "rẽ nhánh lớn" (L5 nguyên bản) — tiêu chí đó do AI tự phán nên thực tế là không ai ghi.
 Vì: đo 01/08 — **11/11 quyết định trong sổ đều đề 30–31/07**, tức toàn bộ hai tuần đầu dựng bot không có vết nào, dù chúng đổi code nhiều nhất. Vết ngắn mà có hơn vết đầy đủ mà thiếu. Ràng buộc **1 dòng** chính là thứ chặn sổ này đi lại đường `CHANGELOG.md` (2 809 dòng, QD-06): ngắn thì mới có người chịu ghi, và mới có người chịu đọc. Hết hạn: không.
 
-## QD-11 · 31/07/2026 · Bỏ HẲN `grammar_cache.json` — thẻ Anki là nơi DUY NHẤT · ⏳ ĐÃ DUYỆT, CHƯA THI HÀNH
-> ⏳ **Code hiện tại CHƯA khớp mục này** — user duyệt xong thì hết hạn mức. Phiên sau: đọc kế hoạch 7 bước ở `VIECDANGLAM.md` rồi làm, commit nhắc `(QD-11)`. Làm xong thì xoá dòng ⏳ này.
+## QD-11 · 31/07/2026 · Bỏ HẲN `grammar_cache.json` — thẻ Anki là nơi DUY NHẤT · ✅ THI HÀNH 02/08/2026
 Chọn: bộ nhớ đệm chỉ nằm trong RAM (lấp từ thẻ mỗi lần chạy, không file nào trên đĩa); cào xong ghi thẳng vào ô `GrammarJSON` của thẻ; Anki đóng mà lệnh cần dữ liệu ngữ pháp thì **kêu to rồi DỪNG**, cấm trả rỗng im lặng. Nới đóng băng `data/huongdan/kho/` (QD-01) đủ để sửa `cao_nguphap.py`.
 Thay vì: giữ file làm bộ đệm trên đĩa (QD-08, chốt sáng cùng ngày), hoặc chỉ xoá file mà giữ code — phương án sau **vô ích**, đã đo: `_lap_dem_tu_the()` và `remember()` tự dựng lại file đủ 976 từ ngay lần chạy sau.
 Vì: user nêu nhu cầu *"xoá cache cho đỡ nhầm lẫn, mọi nguồn chân lý đều ở thẻ Anki"*. Đo 31/07 với Anki mở: thẻ **976** / cache **978**, thẻ thiếu khoá **0**, nội dung lệch **0**, chỉ 2 từ mồ côi (user duyệt bỏ). ⇒ Cache **không còn giữ thứ gì thẻ không có**, nó chỉ còn là cơ hội để lệch. Lý lẽ quyết định: **một nguồn thì không thể lệch; hai nguồn giống hệt nhau thì sớm muộn SẼ lệch, và lệch âm thầm** — đã có 89 thẻ lệch suốt nhiều tuần, tìm ra hoàn toàn tình cờ. Giá phải trả rẻ và đo được: **0,58 giây/lần chạy** (đọc 976 thẻ qua AnkiConnect, so với 0,01s đọc file) + bắt buộc mở Anki mới soạn lô — rẻ hơn hẳn giá của một lần ghi thẻ sai mà không ai biết. QD-08 đã tự hẹn *"hết hạn: khi xong 61 lô ⇒ xét bỏ hẳn file cache"*; số liệu tới sớm hơn lịch nên thi hành sớm hơn. Hết hạn: không.

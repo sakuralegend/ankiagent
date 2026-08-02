@@ -19,10 +19,6 @@ ExecStart=/root/ankiagent/venv/bin/python bot.py
 Restart=always
 RestartSec=10
 Environment=PYTHONUNBUFFERED=1
-# Cache ngu phap cua BOT nam NGOAI thu muc repo (QD-05). Neu de trong repo thi
-# bot ghi vao file do git dang quan => repo ban => `git pull` bo cuoc o lan deploy
-# sau (da xay ra 31/07/2026). Hai ben hai cho rieng thi het ket.
-Environment=ANKI_GRAMMAR_CACHE=/root/anki-cache/grammar_cache.json
 
 [Install]
 WantedBy=multi-user.target

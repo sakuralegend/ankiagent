@@ -137,42 +137,65 @@ def find_duplicate_notes(clean_word):
 def doc_grammar_json_tat_ca():
     """Đọc ô `GrammarJSON` của MỌI thẻ -> `{WordClean: bản_ghi}`.
 
-    🔴 THẺ LÀ NGUỒN SỰ THẬT của dữ liệu ngữ pháp (QD-08). Vì sao đổi chiều:
-    bot chạy trên VPS, cào từ mới xong ghi vào cache CỦA VPS — laptop không bao
-    giờ nhận được, nên `remember()` không đạt mục đích của nó và laptop phải cào
-    lại lần hai cho cùng một từ. Thẻ thì TỰ ĐỒNG BỘ qua AnkiWeb tới mọi máy, nên
-    nó mới là kênh đúng. File cache từ nay chỉ còn là BỘ NHỚ ĐỆM, tự lấp từ đây.
+    🔴 THẺ LÀ NGUỒN DUY NHẤT của dữ liệu ngữ pháp (QD-11, thay QD-08 — không còn
+    file cache dự phòng trên đĩa). Thẻ TỰ ĐỒNG BỘ qua AnkiWeb tới mọi máy, nên
+    bot trên VPS và laptop luôn thấy cùng một dữ liệu.
 
-    Trả `{}` khi Anki đóng/lỗi — người gọi phải coi đó là "chưa biết", KHÔNG
-    được coi là "không có dữ liệu" rồi ghi đè thứ đang đúng."""
-    try:
-        res = requests.post(ANKI_CONNECT_URL, json={
-            "action": "findNotes", "version": 6,
-            "params": {"query": f'note:"{MODEL_NAME}"'}
-        }, timeout=15)
-        note_ids = res.json().get("result") or []
-        if not note_ids:
-            return {}
-        res = requests.post(ANKI_CONNECT_URL, json={
-            "action": "notesInfo", "version": 6, "params": {"notes": note_ids}
-        }, timeout=120)
-        ra = {}
-        for n in res.json().get("result") or []:
-            f = n.get("fields", {})
-            wc = (f.get("WordClean", {}).get("value") or "").strip()
-            gj = (f.get("GrammarJSON", {}).get("value") or "").strip()
-            if not wc or not gj:
-                continue
-            try:
-                rec = json.loads(gj)
-            except ValueError:
-                continue                       # ô hỏng -> bỏ qua, đừng làm chết cả lượt
-            if rec:
-                ra[wc] = rec
-        return ra
-    except Exception as e:
-        log_warn(f"khong doc duoc GrammarJSON tu Anki ({e}) -> dung cache tren dia")
+    🔴 KHÔNG tự nuốt lỗi kết nối — NÉM THẲNG lên cho `grammar._lap_dem_tu_the()`
+    kêu to rồi dừng. Trước đây hàm này trả `{}` khi Anki đóng/lỗi để dùng đỡ file
+    cache trên đĩa; giờ không còn file đó, im lặng ở đây là mất trắng dữ liệu."""
+    res = requests.post(ANKI_CONNECT_URL, json={
+        "action": "findNotes", "version": 6,
+        "params": {"query": f'note:"{MODEL_NAME}"'}
+    }, timeout=15)
+    note_ids = res.json().get("result") or []
+    if not note_ids:
         return {}
+    res = requests.post(ANKI_CONNECT_URL, json={
+        "action": "notesInfo", "version": 6, "params": {"notes": note_ids}
+    }, timeout=120)
+    ra = {}
+    for n in res.json().get("result") or []:
+        f = n.get("fields", {})
+        wc = (f.get("WordClean", {}).get("value") or "").strip()
+        gj = (f.get("GrammarJSON", {}).get("value") or "").strip()
+        if not wc or not gj:
+            continue
+        try:
+            rec = json.loads(gj)
+        except ValueError:
+            continue                       # ô hỏng -> bỏ qua, đừng làm chết cả lượt
+        if rec:
+            ra[wc] = rec
+    return ra
+
+
+def ghi_grammar_json(word_clean, rec):
+    """Ghi thẳng một bản ghi ngữ pháp vào ô `GrammarJSON` của thẻ khớp
+    `word_clean` — cửa DUY NHẤT của `grammar.remember()`/`fetch_grammar()` để
+    persist dữ liệu (QD-11, không còn file cache dự phòng).
+
+    Thẻ CHƯA tồn tại (đang tạo mới, `build_card_fields()` gọi trước khi
+    `addNote`) thì đây là chuyện BÌNH THƯỜNG — trả `False`, không phải lỗi;
+    người gọi tự đưa `rec` vào field lúc tạo note. LỖI KẾT NỐI thì NÉM THẲNG để
+    nơi gọi kêu to, vì im lặng ở đây là ghi hụt dữ liệu vĩnh viễn."""
+    res = requests.post(ANKI_CONNECT_URL, json={
+        "action": "findNotes", "version": 6,
+        "params": {"query": f'note:"{MODEL_NAME}" WordClean:"{word_clean}"'}
+    }, timeout=15)
+    note_ids = res.json().get("result") or []
+    if not note_ids:
+        return False
+    payload = json.dumps(rec, ensure_ascii=False, separators=(",", ":")) if rec else ""
+    for nid in note_ids:
+        res = requests.post(ANKI_CONNECT_URL, json={
+            "action": "updateNoteFields", "version": 6,
+            "params": {"note": {"id": nid, "fields": {"GrammarJSON": payload}}}
+        }, timeout=15)
+        err = res.json().get("error")
+        if err:
+            raise RuntimeError(f"updateNoteFields (note {nid}) that bai: {err}")
+    return True
 
 
 def get_known_words():

@@ -84,15 +84,7 @@ systemctl daemon-reload
 ) | crontab -
 echo "-> Chuông báo bot chết: đã cài (systemd OnFailure + cron 15')."
 
-# (b) Cache ngữ pháp của bot nằm NGOÀI repo (QD-05) — để `git pull` không kẹt
-#     vì bot ghi đè file mà git đang quản.
-mkdir -p /root/anki-cache
-if [ -f data/grammar_cache.json ] && [ ! -f /root/anki-cache/grammar_cache.json ]; then
-    cp data/grammar_cache.json /root/anki-cache/grammar_cache.json
-fi
-echo "-> Cache ngữ pháp: /root/anki-cache/ (đường dẫn khai trong anki-bot.service)."
-
-# (c) Trần dung lượng log, để journald không phình vô hạn rồi tự xoá mất phần cũ.
+# (b) Trần dung lượng log, để journald không phình vô hạn rồi tự xoá mất phần cũ.
 sed -i 's/^#\?SystemMaxUse=.*/SystemMaxUse=500M/; s/^#\?MaxRetentionSec=.*/MaxRetentionSec=3month/' \
     /etc/systemd/journald.conf
 systemctl restart systemd-journald

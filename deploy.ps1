@@ -39,10 +39,10 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 # --- BUOC NAY TUNG THAT BAI TRONG IM LANG (31/07/2026) --------------------
-# `git pull` tren VPS bo cuoc khi file du lieu bi bot ghi de len (vd
-# data/grammar_cache.json), nhung script van in "Xong!" mau xanh => nguoi deploy
-# tuong da xong, thuc te bot chay CODE CU. Nay bat loi that: kiem ma thoat cua
-# ssh, va in ro dieu can lam. Xem muc "cache tracked" trong SONO.md.
+# `git pull` tren VPS bo cuoc khi file du lieu bi bot ghi de len (vd file cache
+# ngu phap cu, da bo han o QD-11), nhung script van in "Xong!" mau xanh => nguoi
+# deploy tuong da xong, thuc te bot chay CODE CU. Nay bat loi that: kiem ma
+# thoat cua ssh, va in ro dieu can lam. Xem muc "cache tracked" trong SONO.md.
 Write-Host "== [3/3] Cap nhat VPS + restart bot ==" -ForegroundColor Cyan
 ssh $VPS "set -e; cd /root/ankiagent && git pull && venv/bin/pip install -q -r requirements.txt && systemctl restart anki-bot && sleep 3 && systemctl is-active anki-bot"
 if ($LASTEXITCODE -ne 0) {

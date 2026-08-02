@@ -60,62 +60,9 @@ def load_nouns():
     return d
 
 
-def soat_the_khop_cache():
-    """THẺ có khớp CACHE không — dữ liệu ngữ pháp nằm ở HAI nơi, phải khớp.
-
-    Vì sao cần cửa này (31/07/2026): mỗi thẻ có ô ẩn `GrammarJSON` lưu bản sao dữ
-    liệu ngữ pháp, còn bản gốc nằm ở `data/grammar_cache.json`. Hai bản dự phòng
-    cho nhau — Anki hỏng thì cache còn, cache mất thì thẻ còn. Nhưng hai bản
-    giống nhau thì SỚM MUỘN SẼ LỆCH, và lệch âm thầm: đã có 89 thẻ lệch suốt
-    nhiều tuần mà không ai biết, tìm ra hoàn toàn tình cờ.
-
-    User chốt: *"tôi muốn tất cả thẻ cùng phải đồng bộ, chứ mỗi lần hỏi bạn cứ
-    nhai đi nhai lại mấy chỗ lệch mà tôi chẳng bao giờ nhớ"* ⇒ máy nhớ hộ.
-
-    Lệch thì chữa bằng: python scripts/backfill_grammar_json.py --apply
-    """
-    duong = Path(__file__).resolve().parent.parent / "grammar_cache.json"
-    if not duong.exists():
-        print("=== THE vs CACHE ===\n  (khong tim thay grammar_cache.json -> bo qua)\n")
-        return
-    cache = json.loads(duong.read_text(encoding="utf-8"))
-
-    notes = ac("notesInfo", notes=ac("findNotes", query='note:"RU_Word"'))
-    lech, thieu_o = [], []
-    for n in notes:
-        wc = n["fields"].get("WordClean", {}).get("value", "")
-        gj = n["fields"].get("GrammarJSON", {}).get("value", "")
-        goc = cache.get(wc)
-        if goc is None:
-            continue                      # tu chua cao -> khong phai loi cua the
-        if not gj.strip():
-            thieu_o.append(wc)
-            continue
-        try:
-            if json.loads(gj) != goc:
-                lech.append(wc)
-        except ValueError:
-            lech.append(wc)
-
-    print(f"=== THE vs CACHE ({len(notes)} the / {len(cache)} muc cache) ===")
-    if not lech and not thieu_o:
-        print("  (khop het)")
-    if thieu_o:
-        print(f"  {len(thieu_o)} the CHUA co du lieu ngu phap: {', '.join(thieu_o[:8])}"
-              + (" ..." if len(thieu_o) > 8 else ""))
-    if lech:
-        print(f"  {len(lech)} the LECH so voi cache: {', '.join(lech[:8])}"
-              + (" ..." if len(lech) > 8 else ""))
-    if lech or thieu_o:
-        print("  -> chua bang: python scripts/backfill_grammar_json.py --apply")
-    print()
-
-
 def main():
     nouns = load_nouns()
     print(f"tu dien: {len(nouns)} danh tu\n")
-
-    soat_the_khop_cache()
 
     note_ids = ac("findNotes", query=r'note:RU_Word HuongDan:*hd-sec*')
     notes = ac("notesInfo", notes=note_ids)
