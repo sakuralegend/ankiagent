@@ -25,7 +25,7 @@ import urllib.request
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                 "..", "..", ".."))
-from anki_tools import grammar                                   # noqa: E402
+from anki_tools import grammar, soat_nguphap                     # noqa: E402
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 TUDIEN = os.path.join(HERE, "tudien.json")
@@ -79,6 +79,25 @@ def va_so_tu():
 
 
 def main():
+    """Chạy việc, rồi SOI dữ liệu ngữ pháp một lượt trước khi thoát.
+
+    Soi ở CUỐI chứ không ở đầu, và chỉ MỘT lần: lúc này bộ đệm RAM đã gồm cả dữ
+    liệu sẵn có trong thẻ (lấp ở đầu `_chay`) lẫn mọi từ vừa cào về, nên một lượt
+    quét phủ hết mọi nhánh (`--anki`, `--lai`, `--nangcap`, `--sotu`) mà không
+    phải nhớ chèn lời gọi vào từng nhánh — thứ chắc chắn sẽ quên ở nhánh thứ năm.
+
+    Đây là cửa cho món nợ ② ở `SONO.md`: bản vá `ке́ды` nằm trong THẺ chứ không
+    trong repo, nên cào lại là nguồn sai quay về — im lặng, cho tới khi có cửa này.
+    """
+    try:
+        _chay()
+    finally:
+        # `doc_cache`, KHÔNG phải `_cache`: cửa S2 chặn gọi tên private xuyên gói,
+        # và alias public này (QD-02/G4) chính là hợp đồng dựng sẵn cho việc đó.
+        soat_nguphap.keu_neu_dao(grammar.doc_cache(), "sau khi cao")
+
+
+def _chay():
     # Lấp bộ đệm RAM từ thẻ Anki NGAY ĐẦU — mọi nhánh dưới đây đều cần biết
     # "đã có sẵn từ nào" trước khi quyết định cào thêm. Anki đóng thì KÊU TO rồi
     # dừng ở đây, không âm thầm cào cả buổi rồi mất trắng cuối lệnh (QD-11).

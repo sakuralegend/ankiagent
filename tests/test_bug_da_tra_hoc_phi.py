@@ -23,7 +23,7 @@ import unittest.mock
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from anki_tools import grammar                                       # noqa: E402
+from anki_tools import grammar, soat_nguphap                         # noqa: E402
 from anki_tools.html_builder import (_build_example_block,           # noqa: E402
                                      parse_examples_html)
 from anki_tools.utils import (apply_hl, hl_to_bracket,               # noqa: E402
@@ -208,6 +208,51 @@ class TheLaNguonSuThat(unittest.TestCase):
         finally:
             dem.pop(khoa, None)
             grammar._DA_HOI_THE = goc
+
+
+class DuLieuNguPhapBiDaoCach(unittest.TestCase):
+    """BUG GỐC (02/08/2026): OpenRussian trả `ке́ды` với cách 5 và cách 6 ĐỔI CHỖ
+    nhau ở cả số ít lẫn số nhiều. Bảng chia do máy nối vào lúc ghi thẻ nên
+    `soat`/`dodai` mù hoàn toàn — agent bắt được bằng mắt, may.
+
+    Bản ghi dưới đây là DỮ LIỆU THẬT, chép từ `backups/_backup_grammarjson_kedy.json`.
+    """
+
+    KEDY_HONG = {"pos": "noun", "decl": {
+        "sg": {"nom": "кед", "gen": "ке́да", "dat": "ке́ду", "acc": "кед",
+               "inst": "ке́де", "prep": "ке́дом"},
+        "pl": {"nom": "ке́ды", "gen": "ке́дов, кед", "dat": "ке́дам", "acc": "ке́ды",
+               "inst": "ке́дах", "prep": "ке́дами"}}}
+
+    def test_bat_dung_ban_ghi_that_bi_dao(self):
+        ra = soat_nguphap.dao_cach_5_6(self.KEDY_HONG)
+        self.assertEqual([so for so, _, _ in ra], ["sg", "pl"])
+
+    def test_ban_da_va_thi_im(self):
+        # Đúng thứ tự cột thì cửa phải câm — cửa kêu oan là cửa rồi cũng bị bỏ qua.
+        self.assertEqual(soat_nguphap.dao_cach_5_6({"pos": "noun", "decl": {
+            "sg": {"inst": "ке́дом", "prep": "ке́де"},
+            "pl": {"inst": "ке́дами", "prep": "ке́дах"}}}), [])
+
+    def test_khong_keu_oan_nhom_bat_quy_tac(self):
+        # `людьми́` kết thúc bằng `-и` — đuôi HỢP LỆ của cách 6. Hỏi thiếu một vế
+        # là báo nhầm ngay ca này, nên nó phải nằm trong bộ test.
+        self.assertEqual(soat_nguphap.dao_cach_5_6({"pos": "noun", "decl": {
+            "pl": {"inst": "людьми́", "prep": "лю́дях"}}}), [])
+
+    def test_khong_keu_oan_cach_vi_tri_va_gioi_tu_dinh_kem(self):
+        # Cách 6 hay được lưu kèm giới từ (`в году́`), và `-у` là cách vị trí thật.
+        self.assertEqual(soat_nguphap.dao_cach_5_6({"pos": "noun", "decl": {
+            "sg": {"inst": "го́дом", "prep": "в году́"}}}), [])
+
+    def test_khong_keu_oan_danh_tu_bien_nhu_tinh_tu(self):
+        # `моро́женое`: cách 6 kết thúc `-ом` là ĐÚNG, vì nó biến như tính từ.
+        self.assertEqual(soat_nguphap.dao_cach_5_6({"pos": "noun", "decl": {
+            "sg": {"inst": "моро́женым", "prep": "моро́женом"}}}), [])
+
+    def test_thieu_du_lieu_thi_im_chu_khong_no(self):
+        for rec in ({}, None, {"pos": "noun"}, {"decl": {"sg": {"inst": "ке́де"}}}):
+            self.assertEqual(soat_nguphap.dao_cach_5_6(rec), [])
 
 
 class AliasPublicConSong(unittest.TestCase):

@@ -28,7 +28,7 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, "..", "..", ".."))
 sys.path.insert(0, os.path.join(HERE, ".."))
-from anki_tools import grammar                                    # noqa: E402
+from anki_tools import grammar, soat_nguphap                      # noqa: E402
 from mientru import MIEN_TRU                                      # noqa: E402
 
 HANGDOI = os.path.join(HERE, "hangdoi.json")
@@ -816,6 +816,12 @@ def cmd_nap():
     print(f"nap {len(can)} lo: {' '.join(ids_lo)}")
     gop, _, vi_moi = nap_lo_da_soan(ids_lo, lay_v=True)
     print(f"da soan: {len(gop)} tu" + (f" | sua tieng Viet: {len(vi_moi)} tu" if vi_moi else ""))
+
+    # Cửa dữ liệu ngữ pháp — bảng chia được nối vào lúc GHI (`gan_bang` ở dưới),
+    # nên đây là chỗ CUỐI CÙNG chặn được dữ liệu nguồn tự mâu thuẫn trước khi nó
+    # ra mặt thẻ user đang học. `soat`/`dodai` không thay được: chúng chỉ đo phần
+    # agent viết, còn bảng thì máy nối vào sau lưng chúng (SONO.md 02/08).
+    soat_nguphap.keu_neu_dao({w: grammar.get_cached(w) for w in gop}, "lo sap nap")
 
     ids = ac("findNotes", query="note:RU_Word")
     ban_do, hien_co, vi_co = {}, {}, {}

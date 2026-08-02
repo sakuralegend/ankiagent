@@ -62,17 +62,31 @@
       5, `README.md` 3 — máy tự quy ra dòng (~30 dòng/phút). Con số phút thì người đặt và bảo vệ
       được; số dòng thì không. (31/07/2026)
 
-### 🔴 Phát hiện 02/08/2026 khi chạy lô k20
+### 🔴 Phát hiện 02/08/2026 khi chạy lô k20 (ĐÃ TRẢ 02/08/2026)
 
-- [ ] **Không cửa nào canh DỮ LIỆU NGỮ PHÁP mà máy nối vào thẻ, và bản vá thì KHÔNG có trong git.**
-      `кеды` bị nguồn đảo cách 5 với cách 6 (`inst=ке́де · prep=ке́дом`) ở cả số ít lẫn số nhiều.
-      `soat`/`dodai` mù hoàn toàn — chúng chỉ đo phần agent VIẾT, không đo phần `nap` NỐI vào.
-      Quét cả 976 thẻ bằng phép đối chiếu đuôi thì đúng 2 chỗ, cả hai của `кеды` ⇒ **không phải
-      lỗi hệ thống**, nên chưa cần sửa công cụ gấp. Hai món nợ thật:
-      ① phép đối chiếu đuôi đó đáng thành một cửa (rẻ, chạy offline trên `GrammarJSON`);
-      ② **bản vá nằm trong THẺ ANKI chứ không trong repo** — chạy lại `cao_nguphap.py --anki`
-      sẽ khôi phục dữ liệu sai vì lỗi đến từ chính nguồn, và không có gì báo.
-      Sao lưu bản gốc: `backups/_backup_grammarjson_kedy.json` (thư mục này bị `.gitignore`).
+- [x] **Không cửa nào canh DỮ LIỆU NGỮ PHÁP máy nối vào thẻ → ĐÃ CÓ CỬA (QD-15). ĐÃ TRẢ 02/08/2026.**
+      `кеды` bị nguồn đảo cách 5 với cách 6 (`inst=ке́де · prep=ке́дом`) ở cả số ít lẫn số nhiều;
+      `soat`/`dodai` mù hoàn toàn vì chúng chỉ đo phần agent VIẾT, không đo phần `nap` NỐI vào.
+      Nay `anki_tools/soat_nguphap.py` soi bản ghi **tự mâu thuẫn với luật hình thái** (khác hẳn
+      hướng "đối chiếu chéo `nouns.csv`" đã bị bác — hai nguồn cùng thượng nguồn thì trùng nhau
+      không chứng minh gì). Gọi ở `cao_nguphap.py` (dữ liệu VÀO — nên nợ ② *"cào lại là nguồn sai
+      quay về, không ai báo"* cũng đóng: nay nó kêu to) và `congcu.py nap` (dữ liệu LÊN THẺ).
+      **Đo:** 516 thẻ có bảng biến cách → **0 kêu oan**; bản ghi hỏng thật của `кеды` → bắt 2/2.
+      6 test trong `tests/`, một trong số đó bắt được lỗi của chính cửa lúc viết (đuôi cách 6 phải
+      tách theo số ít / số nhiều, vì `-ами` cũng kết thúc bằng `-и`).
+      ⚠️ **Vẫn chỉ bắt kiểu đảo CẢ HAI CHIỀU.** Nguồn sai một chiều thì vẫn phải đọc bằng mắt.
+      Bản vá gốc của `кеды` sao lưu ở `backups/_backup_grammarjson_kedy.json` (bị `.gitignore`).
+
+### 🔴 Phát hiện 02/08/2026 khi nghiệm thu cửa ngữ pháp
+
+- [ ] **8 thẻ có dòng tiếng Việt LỆCH giữa thẻ và file lô ⇒ `nap --tatca` sẽ lặng lẽ trả về bản
+      cũ.** `покупать · болеть · ждать · кататься · любить · нравиться · помнить · слышать`: trên
+      thẻ đã bỏ chữ "(chưa hoàn thành…)" — đúng luật, vì badge `IMPF` in sẵn thứ đó ở mặt đề bài —
+      nhưng `V[...]` trong `k02/k48/k54/k59…` vẫn giữ bản thừa chữ. Cùng HỌ với món `кеды`: **bản
+      vá sống trong THẺ, không trong repo**. Khác ở chỗ đây là dòng ĐỀ BÀI user gõ theo, và `nap`
+      có in ra lúc đổi (`vi: …  ->  …`) nên không hoàn toàn câm — nhưng in giữa 300 dòng khác thì
+      cũng như câm. Trả nợ: sửa 8 dòng `V[...]` cho khớp thẻ (thẻ đúng), rồi `nap --tatca` phải
+      báo `doi tieng Viet 0 note`.
 
 ### 🟡 Vận hành — còn lại, chưa cấp thiết
 

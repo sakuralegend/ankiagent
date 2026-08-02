@@ -49,6 +49,11 @@
 
 ---
 
+## QD-15 · 02/08/2026 · Cửa canh DỮ LIỆU ngữ pháp: file mới nhỏ, không nhét thêm vào `grammar.py`
+Chọn: `anki_tools/soat_nguphap.py` (~95 dòng, thuần chuỗi, KHÔNG import `grammar` nên không đẻ vòng); gọi ở `cao_nguphap.py` (lúc dữ liệu VÀO) và `congcu.py nap` (lúc dữ liệu LÊN THẺ). Chỉ IN RA, không tự sửa.
+Thay vì: thêm hàm vào `grammar.py`, hay nhét vào `congcu.py soat` như phiếu việc gợi ý.
+Vì: `grammar.py` đã **1309 dòng** (gấp đôi trần 700) và `_fable_plan.md` chốt dứt khoát *"việc mới liên quan grammar → file mới import grammar, KHÔNG thêm hàm vào file này nữa"*; còn `soat` là lệnh **agent** chạy mà agent cố ý không đụng Anki — trong khi dữ liệu cần soi nằm trong thẻ. Cửa đòi **lệch cả hai chiều cùng lúc** mới báo: đo 516 thẻ có bảng biến cách ra **0 kêu oan**, và bắt đủ 2/2 chỗ của bản ghi hỏng thật `ке́ды`. Hết hạn: khi tách `grammar.py` thì gộp về đúng mảnh của nó.
+
 ## QD-13 · 01/08/2026 · Cơ chế nhắc luật phải CÓ CỬA CANH, và phải có đường vào cho AI ngoài Claude Code
 Chọn: cửa `S11` trong `soatkientruc.py` chạy THẬT lệnh hook mỗi lần soát (không chỉ kiểm file tồn tại) và **chặn deploy** khi hook không in ra gì / exit khác 0 / file mất; kèm `AGENTS.md` 6 dòng **chỉ trỏ đường**, cố ý không chép lại luật.
 Thay vì: tin rằng hook luôn chạy (đo 01/08: S1→S10 **mù hoàn toàn** với chuyện này), hoặc chép luật vào `AGENTS.md` cho AI khác đọc thẳng.
