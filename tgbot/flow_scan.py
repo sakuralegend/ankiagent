@@ -13,7 +13,7 @@ from telegram.ext import ContextTypes
 
 from anki_tools.config import STAGE1_DECK
 from anki_tools.utils import strip_accents_perfectly
-from anki_tools.ai_client import call_claude_scan_words, image_mime_type
+from anki_tools.ai_scan import call_claude_scan_words, image_mime_type
 from anki_tools.pipeline import process_word
 from anki_tools.anki_client import find_duplicate_notes, get_known_words, trigger_sync
 
