@@ -15,6 +15,18 @@
 
 ---
 
+## v1.0.4 — 04/08/2026
+
+- 🪨 **402 thẻ "hoá thạch" đã được gỡ.** Đó là những từ bạn từng bấm Again nhiều lần rồi Anki
+  đánh dấu khó vĩnh viễn — có gõ đúng bao nhiêu lần cũng không hạ xuống được. Lần Optimize hôm
+  nay của bạn đã gỡ gần hết; số còn kẹt lại sẽ tự thoát trong vài tuần.
+- 🔧 **Ba nhóm deck bị bỏ quên nay đã dùng chung thiết lập với các deck còn lại.** Trước đó
+  `0-quen` và `1-go` vẫn chạy thiết lập cũ từ tháng trước, nên mọi từ mới đều đi qua đúng chỗ
+  gây ra chuyện "hoá thạch" ở trên.
+- ⏳ **Chu kì ôn sắp tới sẽ ngắn lại khoảng một phần ba.** Đây là điều bạn muốn hay không tuỳ
+  cách nhìn, nhưng nó đúng: Anki vừa học lại từ dữ liệu thật của bạn và thấy nó đang cho bạn
+  nghỉ hơi lâu. Ngày đến hạn của thẻ đang có **không đổi** — chỉ lần ôn tới mới áp mức mới.
+
 ## v1.0.3 — 03/08/2026 (chiều)
 
 - 📝 **47 từ bạn thêm sáng nay đã có đủ ô Hướng dẫn.** Đồ ăn · quần áo · tính từ · thiên nhiên.
