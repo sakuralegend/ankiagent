@@ -44,7 +44,7 @@
   "S5": {
     "mien_tru": {},
     "baseline": {
-      "anki_tools/anki_client.py|meaning-list": { "so": 1, "vi_sao": "Nợ đã ghi SONO.md: HTML thẻ dựng ở 3 nơi thay vì 1. Không sửa trong đợt dọn G0-G4 (đụng thẻ thật); chặn không cho mọc thêm chỗ thứ 4." },
+      "anki_tools/anki_the.py|meaning-list": { "so": 1, "vi_sao": "Nợ đã ghi SONO.md: HTML thẻ dựng ở 3 nơi thay vì 1. Không sửa trong đợt dọn G0-G4 (đụng thẻ thật); chặn không cho mọc thêm chỗ thứ 4. Địa chỉ đổi từ anki_client.py khi tách file (QD-18), tổng nợ không đổi." },
       "grammar_forms/cards.py|meaning-list": { "so": 1, "vi_sao": "Nợ đã ghi SONO.md — mảng thẻ ngữ pháp tự dựng HTML riêng." },
       "grammar_forms/cards.py|example-toggle": { "so": 1, "vi_sao": "Nợ đã ghi SONO.md — mảng thẻ ngữ pháp tự dựng HTML riêng." }
     }
