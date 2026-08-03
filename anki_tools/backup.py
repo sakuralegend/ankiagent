@@ -92,7 +92,7 @@ def _makedirs_shared(path):
     try:
         os.chmod(path, 0o777)
     except OSError:
-        pass
+        pass  # CỐ Ý nuốt: Windows không có chmod POSIX, chỉ VPS mới cần nới quyền (xem docstring)
 
 
 def create_backup(base_dir=None):

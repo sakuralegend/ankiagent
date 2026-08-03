@@ -99,15 +99,15 @@ async def on_word(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await _scan_exclude(update, context, text)
         return
 
-    # --- Không chọn deck = chế độ TỰ ĐỘNG (AI bỏ thẻ vào deck con theo chủ đề),
-    # nên KHÔNG chặn nữa; muốn deck cố định thì /deck hoặc nút 📚 trong menu ---
-
+    # --- Không chọn deck = chế độ TỰ ĐỘNG (AI tự bỏ vào deck con theo chủ đề), KHÔNG chặn nữa ---
     # --- Còn lại: text là từ cần thêm ---
     word = text
     status = await update.message.reply_text(f"🔍 Đang kiểm tra '{word}'...")
     await _add_with_dup_check(status, word, context)
 
 
+# 🔴 CẤM thêm nhánh nút MỚI vào hàm này (user duyệt 03/08). File kịch trần dòng (S13 canh), cố ý KHÔNG
+# tách vì tách là cắt ruột hàm mà bot là nơi lỗi chết im lặng. Nhánh mới ⇒ hàm file riêng, gọi 1 dòng.
 async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Xử lý mọi nút bấm inline: menu:*, sua:*, và luồng từ trùng (sel:/act:)."""
     query = update.callback_query

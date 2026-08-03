@@ -250,6 +250,20 @@ class TestSoatKienTruc(unittest.TestCase):
                  + "n" * 150 + " |\n")
         self.assertEqual(cua_nguong.s15_dong_quyetdinh_dai(), [])
 
+    # --- S17: nuốt lỗi im lặng, THA khi đã khai lý do ----------------------
+    def test_s17_bat_except_pass_tran_trui(self):
+        self.ghi("tgbot/im.py", "try:\n    x()\nexcept Exception:\n    pass\n")
+        self.ghi("tgbot/sach.py", "try:\n    x()\nexcept Exception as e:\n    log(e)\n")
+        khoa = [ph.khoa for ph in cua_code.s17_nuot_loi_im_lang()]
+        self.assertEqual(khoa, ["tgbot/im.py"])
+
+    def test_s17_tha_khi_co_comment_khai_ly_do(self):
+        """Luật gốc là "phải log HOẶC phải có comment nói vì sao được phép nuốt" —
+        cửa bắt cả hai vế thì nó chặn cả cách trả nợ hợp lệ."""
+        self.ghi("tgbot/coly.py",
+                 "try:\n    x()\nexcept Exception:\n    pass  # co y: don rac, hut cung khong sao\n")
+        self.assertEqual(cua_code.s17_nuot_loi_im_lang(), [])
+
     # --- S16: nợ đã trả không được nằm lại (QD-24) ------------------------
     def test_s16_bat_no_da_tra_va_tha_no_chua_tra(self):
         self.ghi("SONO.md", "# no\n\n- [ ] con no that\n- [x] da tra roi ma van nam day\n")

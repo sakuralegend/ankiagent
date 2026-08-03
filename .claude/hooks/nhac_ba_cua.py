@@ -29,7 +29,7 @@ import sys
 try:
     sys.stdout.reconfigure(encoding="utf-8")
 except (AttributeError, OSError):
-    pass
+    pass  # CỐ Ý nuốt: ép encoding hỏng cũng không được làm chết hook (lý do ngay trên)
 
 print("""[LUAT REPO - tu dong nhac moi luot]
 User KHONG phai lap trinh vien va tu nhan "khong gioi dien dat tinh nang".

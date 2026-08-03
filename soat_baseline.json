@@ -7,49 +7,142 @@
       "data/huongdan/kho/cao_nguphap.py": "QD-01 — cùng lý do trên, cùng thư mục đóng băng."
     },
     "baseline": {
-      "data/huongdan/dochuan.py": { "so": 1, "vi_sao": "Công cụ đo chuẩn của dây chuyền kho, tự mở kết nối riêng. Trả cùng đợt gộp wrapper (sau 61 lô)." },
-      "data/huongdan/kiemtra.py": { "so": 1, "vi_sao": "Bộ soát nội dung thẻ, tự mở kết nối riêng. Trả cùng đợt gộp wrapper." },
-      "data/huongdan/lo01_quoctich_2026-07-27.py": { "so": 1, "vi_sao": "Lô thế hệ 1 ĐÃ KHAI TỬ (QD-03) — không chạy được nữa, S7 canh guard. Xoá hẳn khi 168 thẻ đủ tag chuan::3." },
-      "data/huongdan/lo02_quoctich_tinhtu_2026-07-27.py": { "so": 1, "vi_sao": "Lô thế hệ 1 đã khai tử (QD-03)." },
-      "data/huongdan/lo03_dau_cung_2026-07-27.py": { "so": 1, "vi_sao": "Lô thế hệ 1 đã khai tử (QD-03)." },
-      "data/huongdan/lo04_thoitiet_2026-07-27.py": { "so": 1, "vi_sao": "Lô thế hệ 1 đã khai tử (QD-03)." },
-      "data/huongdan/lo05_tinhtu_truutuong_2026-07-27.py": { "so": 1, "vi_sao": "Lô thế hệ 1 đã khai tử (QD-03)." },
-      "data/huongdan/lo06_shcha_cha_2026-07-27.py": { "so": 1, "vi_sao": "Lô thế hệ 1 đã khai tử (QD-03)." },
-      "data/huongdan/lo07_dongtu_2026-07-27.py": { "so": 1, "vi_sao": "Lô thế hệ 1 đã khai tử (QD-03)." },
-      "data/huongdan/lo08_tinhtu_mota_2026-07-27.py": { "so": 1, "vi_sao": "Lô thế hệ 1 đã khai tử (QD-03)." },
-      "data/huongdan/lo09_doisong_2026-07-27.py": { "so": 1, "vi_sao": "Lô thế hệ 1 đã khai tử (QD-03)." },
-      "data/huongdan/lo10_hoctap_2026-07-27.py": { "so": 1, "vi_sao": "Lô thế hệ 1 đã khai tử (QD-03)." },
-      "data/huongdan/lo11_thiennhien_2026-07-27.py": { "so": 1, "vi_sao": "Lô thế hệ 1 đã khai tử (QD-03)." },
-      "data/huongdan/lo12_trangtu_2026-07-27.py": { "so": 1, "vi_sao": "Lô thế hệ 1 đã khai tử (QD-03)." }
+      "data/huongdan/dochuan.py": {
+        "so": 1,
+        "vi_sao": "Công cụ đo chuẩn của dây chuyền kho, tự mở kết nối riêng. Trả cùng đợt gộp wrapper (sau 61 lô)."
+      },
+      "data/huongdan/kiemtra.py": {
+        "so": 1,
+        "vi_sao": "Bộ soát nội dung thẻ, tự mở kết nối riêng. Trả cùng đợt gộp wrapper."
+      },
+      "data/huongdan/lo01_quoctich_2026-07-27.py": {
+        "so": 1,
+        "vi_sao": "Lô thế hệ 1 ĐÃ KHAI TỬ (QD-03) — không chạy được nữa, S7 canh guard. Xoá hẳn khi 168 thẻ đủ tag chuan::3."
+      },
+      "data/huongdan/lo02_quoctich_tinhtu_2026-07-27.py": {
+        "so": 1,
+        "vi_sao": "Lô thế hệ 1 đã khai tử (QD-03)."
+      },
+      "data/huongdan/lo03_dau_cung_2026-07-27.py": {
+        "so": 1,
+        "vi_sao": "Lô thế hệ 1 đã khai tử (QD-03)."
+      },
+      "data/huongdan/lo04_thoitiet_2026-07-27.py": {
+        "so": 1,
+        "vi_sao": "Lô thế hệ 1 đã khai tử (QD-03)."
+      },
+      "data/huongdan/lo05_tinhtu_truutuong_2026-07-27.py": {
+        "so": 1,
+        "vi_sao": "Lô thế hệ 1 đã khai tử (QD-03)."
+      },
+      "data/huongdan/lo06_shcha_cha_2026-07-27.py": {
+        "so": 1,
+        "vi_sao": "Lô thế hệ 1 đã khai tử (QD-03)."
+      },
+      "data/huongdan/lo07_dongtu_2026-07-27.py": {
+        "so": 1,
+        "vi_sao": "Lô thế hệ 1 đã khai tử (QD-03)."
+      },
+      "data/huongdan/lo08_tinhtu_mota_2026-07-27.py": {
+        "so": 1,
+        "vi_sao": "Lô thế hệ 1 đã khai tử (QD-03)."
+      },
+      "data/huongdan/lo09_doisong_2026-07-27.py": {
+        "so": 1,
+        "vi_sao": "Lô thế hệ 1 đã khai tử (QD-03)."
+      },
+      "data/huongdan/lo10_hoctap_2026-07-27.py": {
+        "so": 1,
+        "vi_sao": "Lô thế hệ 1 đã khai tử (QD-03)."
+      },
+      "data/huongdan/lo11_thiennhien_2026-07-27.py": {
+        "so": 1,
+        "vi_sao": "Lô thế hệ 1 đã khai tử (QD-03)."
+      },
+      "data/huongdan/lo12_trangtu_2026-07-27.py": {
+        "so": 1,
+        "vi_sao": "Lô thế hệ 1 đã khai tử (QD-03)."
+      }
     }
   },
   "S2": {
     "mien_tru": {},
     "baseline": {
-      "grammar_forms/ai.py|_parse_ai_response": { "so": 1, "vi_sao": "G4 sẽ thêm alias public `parse_ai_response` ở ai_client.py; caller đổi dần, khi S2 về 0 mới đủ điều kiện tách grammar.py." },
-      "grammar_forms/ai.py|_send_ai_request": { "so": 1, "vi_sao": "G4 sẽ thêm alias public `send_ai_request`." },
-      "data/huongdan/kho/congcu.py|grammar._BANG_RE": { "so": 1, "vi_sao": "G4 sẽ thêm alias public `BANG_RE` ở grammar.py. Cố ý dùng chung để không viết lại regex ở hai nơi." },
-      "data/huongdan/kho/cao_nguphap.py|grammar._cache": { "so": 4, "vi_sao": "G4 sẽ thêm alias public `doc_cache`." },
-      "data/huongdan/kho/cao_nguphap.py|grammar._save_cache": { "so": 1, "vi_sao": "G4 sẽ thêm alias public `luu_cache`." },
-      "data/huongdan/dochuan.py|congcu._BANG_RE": { "so": 1, "vi_sao": "Plan G1 bỏ sót chỗ này, phát hiện khi dựng cửa soát 31/07. Cùng loại với hai chỗ trên, trả cùng đợt G4." }
+      "grammar_forms/ai.py|_parse_ai_response": {
+        "so": 1,
+        "vi_sao": "G4 sẽ thêm alias public `parse_ai_response` ở ai_client.py; caller đổi dần, khi S2 về 0 mới đủ điều kiện tách grammar.py."
+      },
+      "grammar_forms/ai.py|_send_ai_request": {
+        "so": 1,
+        "vi_sao": "G4 sẽ thêm alias public `send_ai_request`."
+      },
+      "data/huongdan/kho/cao_nguphap.py|grammar._cache": {
+        "so": 4,
+        "vi_sao": "G4 sẽ thêm alias public `doc_cache`."
+      },
+      "data/huongdan/dochuan.py|congcu._BANG_RE": {
+        "so": 1,
+        "vi_sao": "Plan G1 bỏ sót chỗ này, phát hiện khi dựng cửa soát 31/07. Cùng loại với hai chỗ trên, trả cùng đợt G4."
+      }
     }
   },
   "S3": {
     "mien_tru": {},
     "baseline": {
-      "tgbot/flow_edit.py|flow_add": { "so": 1, "vi_sao": "Vi phạm tầng DUY NHẤT trong tgbot (core <- flows <- dispatch <- app). Import nằm trong hàm nên vô hại; G4 chỉ xoá comment sai '# tránh import vòng', giữ nguyên import." }
+      "tgbot/flow_edit.py|flow_add": {
+        "so": 1,
+        "vi_sao": "Vi phạm tầng DUY NHẤT trong tgbot (core <- flows <- dispatch <- app). Import nằm trong hàm nên vô hại; G4 chỉ xoá comment sai '# tránh import vòng', giữ nguyên import."
+      }
     }
   },
-  "S4": { "mien_tru": {}, "baseline": {} },
+  "S4": {
+    "mien_tru": {},
+    "baseline": {}
+  },
   "S5": {
     "mien_tru": {},
     "baseline": {
-      "anki_tools/anki_the.py|meaning-list": { "so": 1, "vi_sao": "Nợ đã ghi SONO.md: HTML thẻ dựng ở 3 nơi thay vì 1. Không sửa trong đợt dọn G0-G4 (đụng thẻ thật); chặn không cho mọc thêm chỗ thứ 4. Địa chỉ đổi từ anki_client.py khi tách file (QD-18), tổng nợ không đổi." },
-      "grammar_forms/cards.py|meaning-list": { "so": 1, "vi_sao": "Nợ đã ghi SONO.md — mảng thẻ ngữ pháp tự dựng HTML riêng." },
-      "grammar_forms/cards.py|example-toggle": { "so": 1, "vi_sao": "Nợ đã ghi SONO.md — mảng thẻ ngữ pháp tự dựng HTML riêng." }
+      "anki_tools/anki_the.py|meaning-list": {
+        "so": 1,
+        "vi_sao": "Nợ đã ghi SONO.md: HTML thẻ dựng ở 3 nơi thay vì 1. Không sửa trong đợt dọn G0-G4 (đụng thẻ thật); chặn không cho mọc thêm chỗ thứ 4. Địa chỉ đổi từ anki_client.py khi tách file (QD-18), tổng nợ không đổi."
+      },
+      "grammar_forms/cards.py|meaning-list": {
+        "so": 1,
+        "vi_sao": "Nợ đã ghi SONO.md — mảng thẻ ngữ pháp tự dựng HTML riêng."
+      },
+      "grammar_forms/cards.py|example-toggle": {
+        "so": 1,
+        "vi_sao": "Nợ đã ghi SONO.md — mảng thẻ ngữ pháp tự dựng HTML riêng."
+      }
     }
   },
-  "S6": { "mien_tru": {}, "baseline": {} },
-  "S7": { "mien_tru": {}, "baseline": {} },
-  "S8": { "mien_tru": {}, "baseline": {} }
+  "S6": {
+    "mien_tru": {},
+    "baseline": {}
+  },
+  "S7": {
+    "mien_tru": {},
+    "baseline": {}
+  },
+  "S8": {
+    "mien_tru": {},
+    "baseline": {}
+  },
+  "S17": {
+    "mien_tru": {},
+    "baseline": {
+      "tgbot/core.py": {
+        "so": 2,
+        "vi_sao": "Chay nen hang loat — mot tu hong khong duoc chan ca lo. Can log thay vi pass; CHAM CODE BOT ⇒ deploy rieng."
+      },
+      "tgbot/dispatch.py": {
+        "so": 1,
+        "vi_sao": "Nhanh nut; loi o day hien nay chet im. Can log; CHAM CODE BOT ⇒ deploy rieng."
+      },
+      "tgbot/flow_edit.py": {
+        "so": 3,
+        "vi_sao": "Luong /sua — 3 cho nuot lien nhau, day la cho dang ngo nhat. Can log; CHAM CODE BOT ⇒ deploy rieng."
+      }
+    }
+  }
 }

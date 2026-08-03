@@ -52,6 +52,7 @@
 
 | QD | Ngày | Quyết định | Vì sao (ngắn) |
 |---|---|---|---|
+| QD-25 | 03/08 | Luật "mọi `except` phải log hoặc khai lý do" thành cửa **S17** có ratchet, thay vì chỉ nằm trong sổ nợ | Đo 03/08: sổ ghi "15 chỗ", đếm thật ra **8** — luật bằng chữ vừa trôi vừa mang số cũ. Mốc 8 chốt vào baseline, chỉ cho GIẢM |
 | QD-24 | 03/08 | Sổ nợ chỉ chứa nợ CHƯA trả — trả xong là XOÁ dòng, bài học dời sang nơi được đọc (S16 canh); mọi `.md` trong git đều có trần | Đo 03/08: xác nợ chiếm **67%** `SONO.md`, và làm hỏng luôn ngòi "chạm 10 mục" vì nó đếm cả xác |
 | QD-23 | 03/08 | Sổ thành MỘT bảng, mỗi quyết định một dòng ≤250 ký tự; số không có ngày đo thì cấm ở lại | Đo 03/08: 40 câu chứa số, 3 câu sai ngay hôm đó; sổ phải tự đính chính "61 lô→64". Cửa S15 đếm thật |
 | QD-22 | 03/08 | Tách ruột `soatkientruc.py` vào gói `soat/`, giữ tên điểm vào | Chạm trần 700 dòng. QD-02 chỉ đòi stdlib · không import module dự án · gõ được tên cũ. 🔴 Test trỏ gốc qua `khung.dat_goc()`, sai là test soi repo thật rồi xanh giả |

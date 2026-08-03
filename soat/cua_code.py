@@ -197,6 +197,37 @@ def s7_lo_da_khai_tu():
 
 
 # ---------------------------------------------------------------------------
+# S17 — nuốt lỗi im lặng
+# ---------------------------------------------------------------------------
+def s17_nuot_loi_im_lang():
+    """`except ...: pass` trần trụi = lỗi biến mất không dấu vết, đúng kiểu hỏng
+    mà repo này sợ nhất. Luật đã chốt 31/07: mọi `except` phải LOG, **hoặc** phải
+    có comment nói vì sao được phép nuốt — nên chỗ nào có comment thì THA.
+
+    VÀNG có ratchet (QD-24): 5 file nợ cũ im, chỗ thứ 9 mới ĐỎ. Sửa bớt rồi chạy
+    `--chot` là mốc tụt xuống và không leo lại được."""
+    ra = []
+    for p in khung.cac_file_py():
+        src, cay = khung.doc_cay(p)
+        if cay is None:
+            continue
+        dong = src.splitlines()
+        for node in ast.walk(cay):
+            if not isinstance(node, ast.ExceptHandler):
+                continue
+            if len(node.body) != 1 or not isinstance(node.body[0], ast.Pass):
+                continue
+            # Có comment trong khoảng `except` → `pass` nghĩa là đã khai lý do.
+            if any("#" in dong[i] for i in range(node.lineno - 1, node.body[0].lineno)
+                   if i < len(dong)):
+                continue
+            ra.append(PhatHien(khung.duong_dan(p), node.lineno,
+                               "`except ...: pass` tran trui — nuot loi im lang; "
+                               "them log, hoac comment khai vi sao duoc phep nuot"))
+    return ra
+
+
+# ---------------------------------------------------------------------------
 # S8 — KIENTRUC.md có nói dối không
 # ---------------------------------------------------------------------------
 def s8_manifest():
