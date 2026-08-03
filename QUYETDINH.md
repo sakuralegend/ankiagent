@@ -49,6 +49,11 @@
 
 ---
 
+## QD-17 · 03/08/2026 · Cửa canh thẻ hiện sai mặt: bám đuôi nhịp sync, GỌI LẠI lõi thăng cấp
+Chọn: `anki_tools/soat_giaidoan.py` (mới) + tách `anki_client.thang_cap_gd2()` làm bản DUY NHẤT của ba bước thăng cấp, cả job 3h lẫn cửa canh cùng gọi. Cắm vào **đuôi `_periodic_sync` 30′**, chỉ chạy khi nhịp đó kéo về THÀNH CÔNG. Ba luật: GĐ1 + đã tốt nghiệp ⇒ **đẩy tiếp sang GĐ2 (reset lịch)** · GĐ1 + chưa tốt nghiệp ⇒ gỡ nhãn · GĐ2/kho + mất nhãn ⇒ gắn lại. Bỏ qua lệch dưới 10 phút.
+Thay vì: thêm hàm vào `anki_client.py` (988 dòng, quá trần 700) · đẻ job nền mới · chỉ cảnh báo để user bấm `/don` · giữ lịch ôn cho "lành".
+Vì: lệch deck↔`Stage` nổ **hai chiều** (31/07 mất nhãn, 03/08 mất deck) vì Anki xử xung đột sync RIÊNG cho note và RIÊNG cho card; nguyên nhân gốc **không sửa được**, chỉ dò rồi vá lại được. `/don` đo được là vá 21/21 chiều 03/08 nhưng **mù hoàn toàn** chiều 31/07 (promote chỉ đọc deck GĐ1; phần dọn kho không đụng `Stage`). 🔴 **`forgetCards` là MỤC ĐÍCH của GĐ2, không phải tác dụng phụ** — GĐ1 là chặng user bấm Again rất nhiều nên độ khó tích lại (đo cũ: 0/84 thẻ tự hồi phục), nên "giữ tiến độ ôn" là phá đúng thứ hệ thống được dựng để làm; user chốt 03/08 sau khi AI trình nhầm nó thành cái lợi. Mốc 10 phút chặn giẫm chân chính `thang_cap_gd2` đang chạy dở (ghi nhãn trước, đổi deck sau). Đặt ở đuôi sync còn tự thoả QD-16 mà khỏi sync lần hai. Nghiệm thu: chạy khan 976 thẻ thật ⇒ **0 kêu oan**; làm lệch giả cả 3 chiều ⇒ bắt đủ 3/3. Hết hạn: không.
+
 ## QD-16 · 02/08/2026 · Ghi HÀNG LOẠT lên note thì phải kéo sync về TRƯỚC, hỏng thì DỪNG
 Chọn: `anki_client.sync_truoc_khi_ghi_lo()` — một cửa duy nhất, sync hỏng ⇒ không ghi gì. Gọi ở **bốn** chỗ ghi lô: hai script `backfill_*` + `congcu.py nap --apply` + `cao_nguphap._chay()`. Ở `nap` phải gọi **trước khi ĐỌC** ảnh chụp `hien_co`/`vi_co`, vì chính ảnh chụp đó quyết định "ghi hay bỏ qua". Nới đóng băng `data/huongdan/kho/` (QD-01) đủ để chèn 2 lời gọi.
 Thay vì: nhắc trong tài liệu / checklist L4 (đợt 31/07 đã theo đủ L4 mà vẫn dính), hoặc để mỗi script tự gọi `sync` riêng.

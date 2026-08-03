@@ -13,6 +13,7 @@ from anki_tools.config import TELEGRAM_USER_ID, TOPIC_DECK_PARENT
 from anki_tools.backup import human_size, list_backups, run_backup
 from anki_tools.utils import log_warn
 from anki_tools.topics import FALLBACK_TOPIC
+from anki_tools.soat_giaidoan import soat_va_va
 from anki_tools.anki_client import (
     CARD_STATES,
     ensure_deck_exists,
@@ -326,6 +327,30 @@ BACKUP_HOUR = 3          # 3h30 sáng, chạy sau job dọn inbox lúc 3h00
 BACKUP_MINUTE = 30
 
 
+async def _soat_giai_doan():
+    """Bám ĐUÔI nhịp sync: vừa kéo AnkiWeb về xong thì soi ngay thẻ hiện sai mặt.
+
+    Vì sao đặt ở ĐÂY chứ không phải job riêng (QD-17): ① nhịp 30′ có sẵn, không
+    đẻ job mới; ② ghi hàng loạt lên note đòi phải kéo về TRƯỚC (QD-16) — đứng
+    ngay sau `sync_now()` thành công là tự thoả, khỏi sync lần hai; ③ sync HỎNG
+    thì cố ý KHÔNG soát: dữ liệu đang cũ, vá trên bản cũ chính là cơ chế đã đẻ ra
+    sự cố 31/07.
+
+    Sạch thì im lặng tuyệt đối — cửa canh nói mỗi 30 phút là user tắt thông báo,
+    và lần hỏng THẬT sau đó không ai thấy (nguyên tắc thiết kế của alerts.py)."""
+    try:
+        n, bao_cao = await asyncio.to_thread(soat_va_va, True, True)
+    except Exception as e:
+        # Không để cửa canh làm chết nhịp sync — sync quan trọng hơn hẳn.
+        log_warn(f"Soát giai đoạn lỗi: {e!r}")
+        await alerter.problem("soat giai doan",
+                              f"Cửa canh thẻ sai mặt đang lỗi:\n{e!r}", after=2)
+        return
+    await alerter.ok("soat giai doan", "Cửa canh thẻ sai mặt")
+    if n:
+        await alerter.problem("the sai mat", f"🔄 {bao_cao}", after=1)
+
+
 async def _periodic_sync():
     """Sync hai chiều mỗi PERIODIC_SYNC_MINUTES phút. Im lặng khi thành công.
 
@@ -337,6 +362,7 @@ async def _periodic_sync():
         ok, err = await asyncio.to_thread(sync_now)
         if ok:
             await alerter.ok("sync", "Sync AnkiWeb")
+            await _soat_giai_doan()
         else:
             print("⚠️ Sync định kỳ thất bại (sẽ thử lại ở nhịp sau).")
             await alerter.problem(

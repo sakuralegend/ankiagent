@@ -666,14 +666,32 @@ def promote_stage1_to_stage2():
                if isinstance(c, dict) and c.get("deckName") == STAGE1_DECK]
     if not at_home:
         return 0
-    ids = [c["cardId"] for c in at_home]
-    note_ids = sorted({c["note"] for c in at_home if c.get("note")})
+    return thang_cap_gd2([c["cardId"] for c in at_home],
+                         sorted({c["note"] for c in at_home if c.get("note")}))
+
+
+def thang_cap_gd2(card_ids, note_ids):
+    """BA BƯỚC THĂNG CẤP GĐ1 -> GĐ2, tách riêng vì có HAI người gọi.
+
+    🔴 Đây là bản DUY NHẤT của ba bước này. `promote_stage1_to_stage2()` gọi nó
+    (đường thường lệ, mỗi đêm 3h), và `soat_giaidoan.py` cũng gọi nó khi vá thẻ
+    bị đồng bộ đá ngược về GĐ1 (QD-17). Cố ý KHÔNG để cửa canh tự dựng ba bước
+    riêng: hai bản sao của cùng một luật thì sớm muộn sẽ lệch nhau ÂM THẦM —
+    đúng bệnh đã đẻ ra 10 wrapper AnkiConnect và giết `CHANGELOG.md`.
+
+    Ba bước PHẢI đi cùng nhau; lệch deck với field là thẻ hiện sai mặt.
+    `forgetCards` là MỤC ĐÍCH chứ không phải tác dụng phụ — xem docstring của
+    `promote_stage1_to_stage2()`.
+
+    Trả về số thẻ đã đẩy. Idempotent: danh sách rỗng thì trả 0, không gọi gì."""
+    if not card_ids:
+        return 0
     for nid in note_ids:
         _ac("updateNoteFields", note={"id": nid, "fields": {"Stage": "type"}})
-    _ac("forgetCards", timeout=120, cards=ids)
+    _ac("forgetCards", timeout=120, cards=card_ids)
     _ac("createDeck", deck=STAGE2_DECK)
-    _ac("changeDeck", timeout=120, cards=ids, deck=STAGE2_DECK)
-    return len(ids)
+    _ac("changeDeck", timeout=120, cards=card_ids, deck=STAGE2_DECK)
+    return len(card_ids)
 
 
 def move_graduated_from_inbox():

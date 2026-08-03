@@ -66,25 +66,16 @@
       Sửa nội dung thẻ thì phải hỏi **"chỗ này trong repo có bản của nó không"**; `nap` có in ra
       lúc đổi nhưng in giữa 300 dòng thì cũng như câm.
 
-### 🔴 Phát hiện 03/08/2026 — CHIỀU NGƯỢC của QD-16, user thấy trước
+### 🔴 Phát hiện + TRẢ LUÔN 03/08/2026 — chiều NGƯỢC của QD-16
 
-- [ ] **Không gì canh thẻ LỆCH deck ↔ nhãn `Stage`, và nó lật được CẢ HAI CHIỀU.** 03/08 job 3h00
-      chuyển cấp 36 thẻ; 21 thẻ user học sáng 6h36–7h04 **trên thiết bị chưa kéo bản 3h00 về** đã
-      bật ngược về `0-quen` mà nhãn `type` còn nguyên ⇒ hiện sai mặt. Bằng chứng khoá chặt: lượt học
-      đầu tiên sau 03:00 của cả 21 thẻ ghi `type=review, lastIvl=1` — trạng thái TRƯỚC `forgetCards`;
-      15 thẻ **không** học sáng nay thì nguyên vẹn ở `1-go`. Tương quan 21/21 · 15/15, không ca lệch.
-      **Không phải code sai** — Anki xử xung đột RIÊNG cho note và RIÊNG cho thẻ: thẻ bạn sửa sau nên
-      thắng (mất deck + mất `forgetCards`), note chỉ VPS sửa nên nhãn sống. QD-16 vá đúng cặp này
-      nhưng chiều kia (mất nhãn, giữ deck) ⇒ **cửa canh phải soi cả hai chiều**.
-      Đã đo toàn bộ 976 thẻ: **chưa thẻ nào bị job 3h00 chuyển cấp hai ngày khác nhau** ⇒ đây là lần
-      đầu chiều này nổ, không phải bệnh âm ỉ. Nó **tự lành sau 24h** (đêm sau job promote lại) nhưng
-      user nhìn mặt sai suốt ngày, và lặp lại mỗi sáng học-trước-khi-sync.
-      **Đã vá dữ liệu 03/08:** 21 note trả `Stage` về rỗng (nhãn theo deck), đọc lại 0 note sai, đã
-      sync lên; bản lùi ở scratchpad phiên. Lịch học sáng nay giữ nguyên.
-      **Hướng rẻ nhất khi trả nợ:** bám job sync 30′ sẵn có (`_periodic_sync`, `tgbot/commands.py`)
-      — lệch thì sửa **nhãn theo deck** (chỉ đụng field `Stage`, KHÔNG đụng lịch) + nhắn Telegram.
-      Đặt ở đó thì phát hiện ≤30′ thay vì 24h, và không đẻ job mới. CHẠM CODE BOT ⇒ deploy riêng.
-      User chốt 03/08: *"ghi nợ sửa sau"*. (03/08/2026)
+- [x] **Không gì canh thẻ LỆCH deck ↔ nhãn `Stage` → ĐÃ CÓ CỬA CANH (QD-17).** 03/08 job 3h00
+      chuyển cấp 36 thẻ; 21 thẻ user học sáng 6h36–7h04 **trên thiết bị chưa kéo bản 3h00 về** bật
+      ngược về `0-quen` mà nhãn `type` còn nguyên ⇒ hiện sai mặt. Tương quan **21/21 học · 15/15
+      không học**, không ca lệch. Không phải code sai: Anki xử xung đột RIÊNG cho note và RIÊNG cho
+      thẻ. Nay `anki_tools/soat_giaidoan.py` bám đuôi nhịp sync 30′, soi **cả hai chiều**, tự vá +
+      nhắn Telegram. Đo: 976 thẻ thật → **0 kêu oan**; lệch giả 3 chiều → bắt 3/3.
+      ⚠️ **Chỉ dò rồi vá lại, KHÔNG chặn được nguyên nhân gốc** (xung đột sync) — thẻ vẫn sai mặt
+      tối đa ~40 phút. Muốn hết hẳn thì phải để thiết bị sync xong rồi mới học.
 
 ### 🟡 Vận hành — còn lại, chưa cấp thiết
 

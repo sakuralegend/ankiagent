@@ -297,5 +297,72 @@ class GhiLoPhaiSyncTruoc(unittest.TestCase):
                           f"{ten} ghi hàng loạt lên note mà KHÔNG kéo sync về trước")
 
 
+class TheHienSaiMatCaHaiChieu(unittest.TestCase):
+    """BUG GỐC (03/08/2026): 21 thẻ nằm ở deck LÀM QUEN mà hiện mặt GÕ — chiều
+    NGƯỢC của bug trên. Job 3h thăng cấp 36 thẻ; 21 thẻ user học lúc 6h36-7h04
+    trên thiết bị CHƯA kéo bản 3h00 về nên bản thẻ của user (mod 6h40) thắng bản
+    VPS (03:00) ⇒ mất deck + mất forgetCards, còn note thì chỉ VPS sửa nên nhãn
+    `Stage="type"` sống sót. Anki xử xung đột RIÊNG cho note và RIÊNG cho card,
+    nên nửa thắng nửa thua. Bằng chứng khoá chặt: lượt học đầu tiên sau 03:00 của
+    cả 21 thẻ ghi `type=review, lastIvl=1` — trạng thái TRƯỚC forgetCards. (QD-17)
+
+    Bốn test dưới bám vào `tim_lech()` vì đó là phần THUẦN — chạy offline, không
+    cần Anki, nên nó luôn chạy được ở `deploy.ps1` trên máy không mở Anki."""
+
+    def _the(self, deck, stage, tuoi_giay=3600, cid=1):
+        from anki_tools.config import TOPIC_DECK_PARENT
+        return {"cardId": cid, "noteId": 100 + cid, "tu": "тест",
+                "deck": f"{TOPIC_DECK_PARENT}::{deck}",
+                "stage": stage, "note_mod": 1_000_000 - tuoi_giay}
+
+    def _lech(self, the, tot_nghiep=()):
+        from anki_tools.soat_giaidoan import tim_lech
+        return tim_lech(the, set(tot_nghiep), 1_000_000)
+
+    def test_da_tot_nghiep_ma_bi_da_nguoc_ve_GD1_thi_DAY_TIEP_sang_GD2(self):
+        """Chiều 03/08. KHÔNG gỡ nhãn cho lành: `forgetCards` là MỤC ĐÍCH của GĐ2
+        (GĐ1 là chặng user bấm Again nhiều nên độ khó tích lại)."""
+        ra = self._lech([self._the("0-quen", "type")], tot_nghiep=[1])
+        self.assertEqual(len(ra["thang_cap"]), 1)
+        self.assertEqual(ra["go_nhan"], [])
+
+    def test_CHUA_tot_nghiep_thi_go_nhan_chu_khong_thang_cap(self):
+        """User chốt 03/08: "thẻ đang học mà chưa pass 2 lần thì để nguyên đấy"."""
+        ra = self._lech([self._the("0-quen", "type")], tot_nghiep=[])
+        self.assertEqual(len(ra["go_nhan"]), 1)
+        self.assertEqual(ra["thang_cap"], [])
+
+    def test_lech_moi_vai_giay_thi_BO_QUA(self):
+        """Chặn giẫm chân `thang_cap_gd2` đang chạy dở: nó ghi nhãn TRƯỚC, đổi
+        deck SAU, nên giữa hai bước thẻ lệch là BÌNH THƯỜNG. Không có chốt này
+        thì cửa canh tự đẻ ra đúng bug 31/07 mà nó sinh ra để chặn."""
+        ra = self._lech([self._the("0-quen", "type", tuoi_giay=5)], tot_nghiep=[1])
+        self.assertEqual(sum(len(v) for v in ra.values()), 0)
+
+    def test_o_deck_GO_ma_MAT_nhan_thi_gan_lai(self):
+        """Chiều 31/07 — `/don` mù hoàn toàn với chiều này (promote chỉ đọc deck
+        `0-quen`; phần dọn về kho không đụng `Stage` ở bất kỳ đâu)."""
+        ra = self._lech([self._the("1-go", ""), self._the("nature::plants", "", cid=2)])
+        self.assertEqual(len(ra["gan_nhan"]), 2)
+
+    def test_the_dung_thi_IM_LANG(self):
+        """0 kêu oan — đo thật 03/08 trên 976 thẻ ra đúng 0."""
+        ra = self._lech([self._the("0-quen", ""), self._the("1-go", "type", cid=2),
+                         self._the("nature::plants", "type", cid=3)])
+        self.assertEqual(sum(len(v) for v in ra.values()), 0)
+
+    def test_cua_canh_dung_LAI_loi_thang_cap_chu_khong_chep_ban_hai(self):
+        """Hai bản sao của cùng một luật thì sớm muộn lệch nhau ÂM THẦM."""
+        goc = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        with open(os.path.join(goc, "anki_tools", "soat_giaidoan.py"), encoding="utf-8") as f:
+            nguon = f.read()
+        self.assertIn("thang_cap_gd2", nguon)
+        # Bám vào LỜI GỌI thật, không bám chữ trong văn giải thích — docstring
+        # có quyền nhắc tên `forgetCards` để nói vì sao nó là mục đích.
+        for buoc in ("forgetCards", "changeDeck"):
+            self.assertNotIn(f'_ac("{buoc}"', nguon,
+                             f"chép bước {buoc} ra đây là dựng bản thứ hai của luật thăng cấp")
+
+
 if __name__ == "__main__":
     unittest.main()
