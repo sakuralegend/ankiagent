@@ -120,7 +120,7 @@ Vì: chỗ nào có máy đo (dây chuyền kho, tag `chuan::N`) thì sạch, ch
 ## QD-07 · 31/07/2026 · `PHIENBAN.md` — file duy nhất viết cho USER, tách hẳn khỏi tài liệu kỹ thuật
 Chọn: một file ngắn kiểu release notes app (`vX.Y.Z`, ngôn ngữ thường; trần bản/mục nay ở `soat_nguong.json`, cửa S14 canh); chỉ ghi thứ **user cảm nhận được**.
 Thay vì: để user tự đọc `git log`/`CHANGELOG.md`/`KIENTRUC.md` — hoặc không có gì cho user cả (hiện trạng trước đó).
-Vì: user chỉ ra rằng **mọi file trong repo đều viết cho người làm**, không sót file nào cho người dùng — *"để tôi hiểu thì chỉ cần kiểu v2.3.3 xong vài gạch đầu dòng"*. QD-06 đóng sổ CHANGELOG vì nó TRÙNG git log ở tầng kỹ thuật; món này KHÔNG trùng vì khác đối tượng, khác ngôn ngữ, khác thứ được chọn để ghi. Chống phình bằng ba khoá — **số hiệu lực nằm ở `soat_nguong.json`, đừng chép lại vào đây**: trần đọc (S10) · số mục mỗi bản · số bản giữ lại (S14 canh hai cái sau). Hết hạn: không.
+Vì: user chỉ ra rằng **mọi file trong repo đều viết cho người làm**, không sót file nào cho người dùng — *"để tôi hiểu thì chỉ cần kiểu v2.3.3 xong vài gạch đầu dòng"*. QD-06 đóng sổ CHANGELOG vì nó TRÙNG git log ở tầng kỹ thuật; món này KHÔNG trùng vì khác đối tượng, khác ngôn ngữ, khác thứ được chọn để ghi. Chống phình bằng ba khoá — **số hiệu lực ở `soat_nguong.json`, đừng chép vào đây**: trần đọc (S10) · mục mỗi bản · số bản giữ (S14). Hết hạn: không.
 🔴 **Phiên soạn lô KHÔNG ghi vào đây — user bác 02/08/2026, một mục tự ghi đã phải gỡ.** Mốc là DEPLOY, không phải "user cảm nhận được": soạn lô chạy đều mỗi phiên, ghi vào là file chết đúng đường `CHANGELOG.md`. Đừng đề xuất lại.
 
 ## ⚰️ QD-14 · 02/08 · Xoá hẳn `CHANGELOG.md` khỏi cây làm việc — **ĐÃ THI HÀNH XONG**, file không còn tồn tại · `git log --grep QD-14`
