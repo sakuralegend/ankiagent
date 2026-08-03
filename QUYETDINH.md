@@ -1,8 +1,17 @@
 # 📌 QUYẾT ĐỊNH KỸ THUẬT (`QD-nn`)
 
 > Mỗi mục **đúng 4 dòng**: Chọn / Thay vì / Vì (+Hết hạn nếu có). Mới nhất TRÊN CÙNG.
-> Chỉ ghi khi RẼ NHÁNH (4 cửa ở `CACHLAM.md` Q5) — việc thường ghi `CHANGELOG.md`.
+> Chỉ ghi khi RẼ NHÁNH (4 cửa ở `CACHLAM.md` Q5) — việc thường thì `git log` lo, đừng ghi vào đây.
 > Commit thi hành quyết định thì nhắc số hiệu, ví dụ `(QD-01)`.
+> **Điều kiện "Hết hạn" cấm dùng con số tuyệt đối** (mốc "61 lô" đã chết vì hàng đợi lên 64) — viết
+> theo trạng thái đo được: *"khi hàng đợi hết lô `cho`"*, *"khi 0 thẻ còn tag X"*.
+>
+> ⚰️ **KHI NÀO MỘT MỤC CHẾT.** Đừng cân "cái nào quan trọng hơn" — không ai xếp được, nên rốt cuộc
+> sẽ cắt bừa. Hỏi đúng một câu **có đáp án đúng/sai**:
+> *"Có máy nào bắt được tôi nếu tôi phá luật này mà KHÔNG đọc file này không?"*
+> · **Có** (cửa soát / test / hook) ⇒ nén còn **một dòng bia mộ**; lý do sống trong lời báo lỗi của chính cửa đó — nơi người đọc đang đứng khi cần biết.
+> · **Không, nhưng đã thi hành xong và thành sự thật trong code** ⇒ bia mộ một dòng, `git log --grep QD-nn` giữ phần còn lại.
+> · **Không, và vẫn là đánh đổi người phải tự cân lại** ⇒ **GIỮ**. Loại duy nhất đáng chiếm chỗ.
 
 ---
 
@@ -52,7 +61,7 @@
 ## QD-18 · 03/08/2026 · Tách các file quá trần dòng — refactor THUẦN theo khuôn "file vàng"
 Chọn: tách 6 file vượt trần (`commands` `core` `ai_client` `kho/congcu` `anki_client` `grammar`), mỗi file một commit; khuôn bắt buộc: chạy hàm chỉ-đọc trên dữ liệu thật ra file vàng + máy so ruột từng hàm trước–sau (ast) = 0 khác biệt; file gốc thành mặt tiền giữ đủ tên cũ (kể cả tên private đang bị mượn) nên nơi gọi không đổi dòng nào.
 Thay vì: tách đủ 8 file như đề bài. User duyệt trắc nghiệm 03/08: `dispatch.py` BỎ QUA (tách phải cắt ruột hàm `on_callback` ~320 dòng, lưới không phủ kín — ghi SONO); `soatkientruc.py` KHÔNG tách (673<700, tách phá QD-02 một-file-tự-đứng) — chỉ viết test cho nó, trả nợ SONO 31/07.
-Vì: 3 file >700 là mức luật BẮT tách; hành vi không được đổi giữa mùa lô (36/64) nên mọi bảo đảm phải từ máy: diff file vàng ≠ 0 là hoàn tác. Riêng `grammar.py` lật điều kiện cũ của `_fable_plan.md` Q5 → trình QD riêng ở đầu đợt 3. Hết hạn: xong đợt cuối.
+Vì: 3 file >700 là mức luật BẮT tách; hành vi không được đổi giữa mùa lô nên mọi bảo đảm phải từ máy: diff file vàng ≠ 0 là hoàn tác. ✅ **Đã xong 03/08 — hết hạn, không còn hiệu lực đang chờ.** Khuôn "file vàng" thì giữ lại dùng cho mọi refactor sau.
 
 ## QD-19 · 03/08/2026 · Tách `grammar.py` GIỮA mùa lô — lật điều kiện chờ của `_fable_plan.md` Q5
 Chọn: tách 4 mảnh lá `chu_nga` (chuẩn hoá chữ + hằng) · `boc_tudien` (normalize) · `hinh_thai` (analyze) · `bang_chia` (build_table); `grammar.py` giữ cache RAM + cào mạng + badge và làm MẶT TIỀN re-export đủ mọi tên cũ kể cả private — caller và test không đổi một dòng.
@@ -62,22 +71,20 @@ Vì: user duyệt tách ngay trong đợt refactor 03/08; rủi ro Q5 lo ngại 
 ## QD-17 · 03/08/2026 · Cửa canh thẻ hiện sai mặt: bám đuôi nhịp sync, GỌI LẠI lõi thăng cấp
 Chọn: `anki_tools/soat_giaidoan.py` (mới) + tách `anki_client.thang_cap_gd2()` làm bản DUY NHẤT của ba bước thăng cấp, cả job 3h lẫn cửa canh cùng gọi. Cắm vào **đuôi `_periodic_sync` 30′**, chỉ chạy khi nhịp đó kéo về THÀNH CÔNG. Ba luật: GĐ1 + đã tốt nghiệp ⇒ **đẩy tiếp sang GĐ2 (reset lịch)** · GĐ1 + chưa tốt nghiệp ⇒ gỡ nhãn · GĐ2/kho + mất nhãn ⇒ gắn lại. Bỏ qua lệch dưới 10 phút.
 Thay vì: thêm hàm vào `anki_client.py` (988 dòng, quá trần 700) · đẻ job nền mới · chỉ cảnh báo để user bấm `/don` · giữ lịch ôn cho "lành".
-Vì: lệch deck↔`Stage` nổ **hai chiều** (31/07 mất nhãn, 03/08 mất deck) vì Anki xử xung đột sync RIÊNG cho note và RIÊNG cho card; nguyên nhân gốc **không sửa được**, chỉ dò rồi vá lại được. `/don` đo được là vá 21/21 chiều 03/08 nhưng **mù hoàn toàn** chiều 31/07 (promote chỉ đọc deck GĐ1; phần dọn kho không đụng `Stage`). 🔴 **`forgetCards` là MỤC ĐÍCH của GĐ2, không phải tác dụng phụ** — GĐ1 là chặng user bấm Again rất nhiều nên độ khó tích lại (đo cũ: 0/84 thẻ tự hồi phục), nên "giữ tiến độ ôn" là phá đúng thứ hệ thống được dựng để làm; user chốt 03/08 sau khi AI trình nhầm nó thành cái lợi. Mốc 10 phút chặn giẫm chân chính `thang_cap_gd2` đang chạy dở (ghi nhãn trước, đổi deck sau). Đặt ở đuôi sync còn tự thoả QD-16 mà khỏi sync lần hai. Nghiệm thu: chạy khan 976 thẻ thật ⇒ **0 kêu oan**; làm lệch giả cả 3 chiều ⇒ bắt đủ 3/3. Hết hạn: không.
+Vì: lệch deck↔`Stage` nổ **hai chiều** vì Anki xử xung đột sync RIÊNG cho note và RIÊNG cho card ⇒ nguyên nhân gốc **không sửa được**, chỉ dò rồi vá. 🔴 **`forgetCards` là MỤC ĐÍCH của GĐ2, không phải tác dụng phụ** — GĐ1 là chặng user bấm Again rất nhiều nên độ khó tích lại (đo: **0/84 thẻ** tự hồi phục), nên "giữ tiến độ ôn cho lành" là phá đúng thứ hệ thống dựng ra để làm. Mốc 10 phút chặn giẫm chân `thang_cap_gd2` đang chạy dở. Nghiệm thu: 976 thẻ thật ⇒ **0 kêu oan**; lệch giả 3 chiều ⇒ bắt **3/3**. Hết hạn: không.
 
 ## QD-16 · 02/08/2026 · Ghi HÀNG LOẠT lên note thì phải kéo sync về TRƯỚC, hỏng thì DỪNG
 Chọn: `anki_client.sync_truoc_khi_ghi_lo()` — một cửa duy nhất, sync hỏng ⇒ không ghi gì. Gọi ở **bốn** chỗ ghi lô: hai script `backfill_*` + `congcu.py nap --apply` + `cao_nguphap._chay()`. Ở `nap` phải gọi **trước khi ĐỌC** ảnh chụp `hien_co`/`vi_co`, vì chính ảnh chụp đó quyết định "ghi hay bỏ qua". Nới đóng băng `data/huongdan/kho/` (QD-01) đủ để chèn 2 lời gọi.
 Thay vì: nhắc trong tài liệu / checklist L4 (đợt 31/07 đã theo đủ L4 mà vẫn dính), hoặc để mỗi script tự gọi `sync` riêng.
 Vì: đo 02/08 — **23/25 thẻ ở `1-go` hiện sai mặt**. Bot VPS thăng chúng lên GĐ2 lúc 03:00 (ghi `Stage="type"`), 9 tiếng sau laptop **chưa sync về** đã ghi lại 976 note cho ô `GrammarJSON`; ghi vào note làm `mod` mới hơn, mà sync Anki xử xung đột **"ai sửa sau thắng TRỌN note"** ⇒ bản laptop `Stage` rỗng đè bản VPS. Việc đổi deck sống sót vì nó nằm trên **THẺ**, script chỉ đụng **NOTE** — nên thẻ đúng deck, sai mặt, **không lỗi nào bật ra**. Kéo về trước là chặn được đúng cơ chế đó. Hết hạn: không.
 
-## QD-15 · 02/08/2026 · Cửa canh DỮ LIỆU ngữ pháp: file mới nhỏ, không nhét thêm vào `grammar.py`
-Chọn: `anki_tools/soat_nguphap.py` (~95 dòng, thuần chuỗi, KHÔNG import `grammar` nên không đẻ vòng); gọi ở `cao_nguphap.py` (lúc dữ liệu VÀO) và `congcu.py nap` (lúc dữ liệu LÊN THẺ). Chỉ IN RA, không tự sửa.
-Thay vì: thêm hàm vào `grammar.py`, hay nhét vào `congcu.py soat` như phiếu việc gợi ý.
-Vì: `grammar.py` đã **1309 dòng** (gấp đôi trần 700) và `_fable_plan.md` chốt dứt khoát *"việc mới liên quan grammar → file mới import grammar, KHÔNG thêm hàm vào file này nữa"*; còn `soat` là lệnh **agent** chạy mà agent cố ý không đụng Anki — trong khi dữ liệu cần soi nằm trong thẻ. Cửa đòi **lệch cả hai chiều cùng lúc** mới báo: đo 516 thẻ có bảng biến cách ra **0 kêu oan**, và bắt đủ 2/2 chỗ của bản ghi hỏng thật `ке́ды`. Hết hạn: khi tách `grammar.py` thì gộp về đúng mảnh của nó.
+## QD-15 · 02/08/2026 · Cửa canh DỮ LIỆU ngữ pháp: `anki_tools/soat_nguphap.py` đứng riêng
+Chọn: file nhỏ thuần chuỗi, KHÔNG import `grammar` (tránh đẻ vòng); gọi ở `cao_nguphap.py` (dữ liệu VÀO) và `congcu.py nap` (dữ liệu LÊN THẺ). Chỉ IN RA, không tự sửa.
+Vì: cửa đòi **lệch cả hai chiều cùng lúc** mới báo — đo 516 thẻ có bảng biến cách ra **0 kêu oan**, bắt đủ 2/2 chỗ hỏng thật của `ке́ды`.
+✅ **Hết hạn cũ ("khi tách `grammar.py` thì gộp về mảnh của nó") ĐÃ NỔ 03/08 và bị QD-19 quyết ngược lại: GIỮ RIÊNG** (2 caller ổn định, gộp chỉ thêm churn). Không còn điều kiện hết hạn.
 
-## QD-13 · 01/08/2026 · Cơ chế nhắc luật phải CÓ CỬA CANH, và phải có đường vào cho AI ngoài Claude Code
-Chọn: cửa `S11` trong `soatkientruc.py` chạy THẬT lệnh hook mỗi lần soát (không chỉ kiểm file tồn tại) và **chặn deploy** khi hook không in ra gì / exit khác 0 / file mất; kèm `AGENTS.md` 6 dòng **chỉ trỏ đường**, cố ý không chép lại luật.
-Thay vì: tin rằng hook luôn chạy (đo 01/08: S1→S10 **mù hoàn toàn** với chuyện này), hoặc chép luật vào `AGENTS.md` cho AI khác đọc thẳng.
-Vì: hook chết là chết **im lặng** — không lỗi nào hiện ra, chỉ là các lượt sau AI dần quên luật, đúng cơ chế đã đẻ ra 10 wrapper. Phải chạy thật vì kiểu chết hay gặp nhất là `python` không có trên PATH (Linux/macOS thường chỉ có `python3`), mà cửa chỉ nhìn tên file sẽ báo XANH trên đúng cái máy hook đang chết. `AGENTS.md` không chép luật vì **hai bản sao thì sớm muộn sẽ lệch** — cùng lý lẽ đã dùng ở QD-11. Hết hạn: không.
+## ⚰️ QD-13 · 01/08 · Hook nhắc luật phải có cửa canh — **cửa S11 chạy THẬT lệnh hook mỗi lần soát, S11 LÀ bản ghi**
+> Thứ S11 không tự nói được: `AGENTS.md` **cố ý không chép lại luật**, chỉ trỏ đường — hai bản sao thì sớm muộn sẽ lệch (cùng lý lẽ QD-11). Và phải chạy THẬT vì kiểu chết hay gặp là `python` không có trên PATH: cửa chỉ nhìn tên file sẽ báo XANH trên đúng cái máy hook đang chết.
 
 ## QD-12 · 01/08/2026 · Quyết định nào ĐỔI CODE thì phải để lại vết trong repo, dạng NGẮN
 Chọn: ghi **một dòng** vào `QUYETDINH.md` ngay khi quyết định (mục 4 dòng vẫn dùng cho việc lớn); muốn sâu thì tra `git log`. Luật này nằm trong hook nên được bơm lại mỗi lượt.
@@ -87,7 +94,7 @@ Vì: đo 01/08 — **11/11 quyết định trong sổ đều đề 30–31/07**,
 ## QD-11 · 31/07/2026 · Bỏ HẲN `grammar_cache.json` — thẻ Anki là nơi DUY NHẤT · ✅ THI HÀNH 02/08/2026
 Chọn: bộ nhớ đệm chỉ nằm trong RAM (lấp từ thẻ mỗi lần chạy, không file nào trên đĩa); cào xong ghi thẳng vào ô `GrammarJSON` của thẻ; Anki đóng mà lệnh cần dữ liệu ngữ pháp thì **kêu to rồi DỪNG**, cấm trả rỗng im lặng. Nới đóng băng `data/huongdan/kho/` (QD-01) đủ để sửa `cao_nguphap.py`.
 Thay vì: giữ file làm bộ đệm trên đĩa (QD-08, chốt sáng cùng ngày), hoặc chỉ xoá file mà giữ code — phương án sau **vô ích**, đã đo: `_lap_dem_tu_the()` và `remember()` tự dựng lại file đủ 976 từ ngay lần chạy sau.
-Vì: user nêu nhu cầu *"xoá cache cho đỡ nhầm lẫn, mọi nguồn chân lý đều ở thẻ Anki"*. Đo 31/07 với Anki mở: thẻ **976** / cache **978**, thẻ thiếu khoá **0**, nội dung lệch **0**, chỉ 2 từ mồ côi (user duyệt bỏ). ⇒ Cache **không còn giữ thứ gì thẻ không có**, nó chỉ còn là cơ hội để lệch. Lý lẽ quyết định: **một nguồn thì không thể lệch; hai nguồn giống hệt nhau thì sớm muộn SẼ lệch, và lệch âm thầm** — đã có 89 thẻ lệch suốt nhiều tuần, tìm ra hoàn toàn tình cờ. Giá phải trả rẻ và đo được: **0,58 giây/lần chạy** (đọc 976 thẻ qua AnkiConnect, so với 0,01s đọc file) + bắt buộc mở Anki mới soạn lô — rẻ hơn hẳn giá của một lần ghi thẻ sai mà không ai biết. QD-08 đã tự hẹn *"hết hạn: khi xong 61 lô ⇒ xét bỏ hẳn file cache"*; số liệu tới sớm hơn lịch nên thi hành sớm hơn. Hết hạn: không.
+Vì: 🔴 **một nguồn thì không thể lệch; hai nguồn giống hệt nhau thì sớm muộn SẼ lệch, và lệch âm thầm** — đã có 89 thẻ lệch suốt nhiều tuần, tìm ra hoàn toàn tình cờ. Đo 31/07: cache **không còn giữ thứ gì thẻ không có** (thiếu khoá 0, nội dung lệch 0) ⇒ nó chỉ còn là cơ hội để lệch. Giá phải trả đo được: **0,58 giây/lần chạy** + bắt buộc mở Anki mới soạn lô — rẻ hơn hẳn một lần ghi thẻ sai mà không ai biết. Hết hạn: không.
 
 ## QD-10 · 31/07/2026 · AI TỰ commit khi việc xong, không hỏi user
 Chọn: xong một việc + ba cửa L3 xanh ⇒ commit ngay (thân khai VÌ SAO, nhắc `QD-nn` nếu có); user nói "kết thúc phiên" mà cây còn bẩn thì commit nốt trước khi chào.
@@ -97,18 +104,15 @@ Vì: user hỏi *"ủa không có luật bắt phải commit mỗi khi kết th�
 ## QD-09 · 31/07/2026 · Ba lệnh `/ycau` → `/kehoach` → `/nghiemthu` thay cho bộ kit SDLC 12 bước
 Chọn: 3 playbook trong `.claude/commands/` + phiếu việc `VIECDANGLAM.md` ghi đè một-việc-một-lần (S10 canh trần), **AI tự kích hoạt** qua 2 lớp: dòng luật trong `CLAUDE.md` + hook `UserPromptSubmit` bơm lại 5 dòng nhắc mỗi lượt. Cửa 1 bắt buộc hỏi user bằng **AskUserQuestion trắc nghiệm**, cấm câu hỏi mở.
 Thay vì: cài `spec-driven-claude-code` (99 file / 21.852 dòng / 12 bước / agent riêng), hoặc không cài gì và dựa vào Plan mode có sẵn.
-Vì: repo **đã có sẵn nửa sau** của kit đó và làm chặt hơn (S1–S10 + 3 cửa trong `deploy.ps1` + `QUYETDINH.md`); cái thiếu là **nửa trước** — chốt *làm gì / thế nào là xong* trước khi gõ code. Kit trả giá bằng hai quyển luật mâu thuẫn, trùng tên lệnh, và cửa TDD ≥80% khoá cứng — mà `CACHLAM.md` Q8 đã BÁC coverage cao ở quy mô này. Plan mode thì không để lại file nên phiên AI sau không thấy. Điểm quyết định là yêu cầu của user: *"tôi không giỏi diễn đạt tính năng, phải có bộ lọc để hỏi tôi"* — bộ kit không có bước đó, nó giả định người dùng viết được user story. Bản đầu làm dạng slash command **user phải gõ**; user bác ngay (*"sao còn bắt tôi phải nhớ lệnh"*) ⇒ đổi sang AI tự kích hoạt, vì cơ chế nào cần user nhớ thì đã hỏng từ thiết kế — đúng bài học Q6a. Hết hạn: không — xét lại nếu có người thứ hai viết code.
+Vì: repo **đã có sẵn nửa sau** (cửa soát + 3 cửa `deploy.ps1`) và chặt hơn kit; cái thiếu là **nửa trước** — chốt *làm gì / thế nào là xong* trước khi gõ code. Plan mode không để lại file nên phiên sau không thấy. Điểm quyết định là yêu cầu user: *"tôi không giỏi diễn đạt tính năng, phải có bộ lọc để hỏi tôi"* — kit giả định người dùng viết được user story. 🔴 Bản đầu làm dạng lệnh **user phải gõ**, user bác ngay (*"sao còn bắt tôi nhớ lệnh"*) ⇒ **cơ chế nào cần user nhớ thì đã hỏng từ thiết kế**. Hết hạn: không — xét lại nếu có người thứ hai viết code.
 
 ## QD-02 · 31/07/2026 · `soatkientruc.py` là điểm vào thứ 3 ở gốc + ratchet + cửa trong `deploy.ps1`
 Chọn: một file `soatkientruc.py` ở thư mục gốc (stdlib, `ast`+regex, KHÔNG import module dự án), baseline ratchet một chiều trong `soat_baseline.json`, cắm làm bậc 1 của `deploy.ps1` trước `git push`.
 Thay vì: để luật kiến trúc nằm trong `CACHLAM.md`/`CLAUDE.md` và trông vào tự giác; hoặc dựng pytest/CI/pre-commit.
 Vì: chỗ nào có máy đo (dây chuyền kho, tag `chuan::N`) thì sạch, chỗ nào chỉ có luật viết ra thì trôi — 10 wrapper ra đời SAU khi phát biểu "MỘT chức năng MỘT script". Đặt ở gốc là **ngoại lệ L2 có chủ ý** (L2: gốc chỉ chứa điểm vào đang sống): nó phải nằm nơi `python soatkientruc.py` gõ được không cần nhớ đường dẫn, và chính nó là thứ canh L2. Ratchet chỉ cho GIẢM ⇒ nợ không mọc lại; nới được thì nó thành bảng ghi nợ chứ không phải cửa. Hết hạn: không — thay bằng CI chỉ khi dự án có người thứ hai viết code.
 
-## QD-08 · 31/07/2026 · THẺ ANKI là nguồn sự thật của dữ liệu ngữ pháp; `grammar_cache.json` chỉ còn là BỘ NHỚ ĐỆM
-> ⬆️ **BỊ QD-11 THAY THẾ cùng ngày** (bỏ hẳn file cache). Phần "thẻ là nguồn sự thật" vẫn đúng và vẫn là nền của QD-11; chỉ phần "giữ file làm bộ đệm trên đĩa" là hết hiệu lực.
-Chọn: `get_cached()` tìm theo thứ tự **đệm → thẻ Anki**; thiếu ở đệm thì tự lấp từ ô `GrammarJSON` (chỉ THÊM khoá thiếu, không đè bản đang có); Anki đóng thì im lặng dùng đệm nên lệnh soát lô vẫn chạy offline.
-Thay vì: giữ file cache làm kho riêng của từng máy (cũ), hoặc bỏ hẳn cache ngay (phải sửa `kho/cao_nguphap.py` — đang đóng băng theo QD-01, còn 43 lô).
-Vì: user chỉ ra bot cào từ mới **trên VPS** nên ghi vào cache của VPS — laptop không bao giờ nhận, `remember()` không đạt mục đích, và phải cào lại lần hai cùng một từ; QD-05 còn làm đứt hẳn đường về. Thẻ thì **tự đồng bộ qua AnkiWeb tới mọi máy** nên nó mới là kênh đúng. Đo chứng minh: xoá sạch file cache, nó **tự dựng lại 976 từ từ thẻ**, `дом` vẫn đủ bảng chia. Lý do cũ để bác hướng này ("88 thẻ thiếu `present`/`future`/`parts`") đã bị chính việc đồng bộ hôm nay xoá bỏ. Hết hạn: khi xong 61 lô, `kho/` hết đóng băng ⇒ xét bỏ hẳn file cache.
+## ⚰️ QD-08 · 31/07 · Thẻ Anki là nguồn sự thật, cache chỉ là bộ đệm — **CHẾT**, QD-11 thay cùng ngày · `git log --grep QD-08`
+> Phần "**thẻ là nguồn sự thật**" vẫn sống, nhưng nó nay là nền của QD-11 — đọc ở đó.
 
 ## QD-07 · 31/07/2026 · `PHIENBAN.md` — file duy nhất viết cho USER, tách hẳn khỏi tài liệu kỹ thuật
 Chọn: một file ngắn kiểu release notes app (`vX.Y.Z` + ≤5 gạch đầu dòng, ngôn ngữ thường, giữ 10 bản gần nhất); chỉ ghi thứ **user cảm nhận được**.
@@ -116,34 +120,23 @@ Thay vì: để user tự đọc `git log`/`CHANGELOG.md`/`KIENTRUC.md` — ho�
 Vì: user chỉ ra rằng **mọi file trong repo đều viết cho người làm**, không sót file nào cho người dùng — *"để tôi hiểu thì chỉ cần kiểu v2.3.3 xong vài gạch đầu dòng"*. QD-06 đóng sổ CHANGELOG vì nó TRÙNG git log ở tầng kỹ thuật; món này KHÔNG trùng vì khác đối tượng, khác ngôn ngữ, khác thứ được chọn để ghi. Chống phình ngay từ đầu bằng ba khoá: trần 2 phút đọc (S10), tối đa 5 mục/bản, giữ 10 bản. Hết hạn: không.
 🔴 **Phiên soạn lô KHÔNG được ghi vào đây — user bác 02/08/2026.** Tôi đã tự ghi một mục `v1.1.0` cho phiên 5 lô (74 thẻ đổi mặt, lập luận: `nap` sync thẳng sang điện thoại nên user thấy được, dù không qua `deploy.ps1`). **User bảo gỡ.** Mốc là DEPLOY, không phải "user cảm nhận được" — soạn lô là việc chạy đều mỗi phiên, ghi vào đây thì 61 lô đẻ ra hàng chục mục và file chết đúng đường `CHANGELOG.md`. Đừng đề xuất lại.
 
-## QD-14 · 02/08/2026 · Xoá hẳn `CHANGELOG.md` + dọn mọi con trỏ tới nó · ✅ THI HÀNH 02/08/2026
-Chọn: xoá hẳn file `CHANGELOG.md` khỏi cây làm việc (không giữ làm lưu trữ nữa) + rà 18 file còn nhắc chữ `CHANGELOG` (`grep CHANGELOG`), sửa/xoá chỗ nào là CON TRỎ CHỨC NĂNG (vd `README.md:35` đang trỏ sai — đã đổi sang `git log` từ QD-06), GIỮ NGUYÊN chỗ nào là GHI CHÉP LỊCH SỬ (vd mục QD-06 ngay dưới, kể lại quyết định đóng sổ).
-Thay vì: giữ nguyên file làm lưu trữ như QD-06 từng chốt.
-Vì: user chỉ ra file "chẳng để làm gì" — đúng, `soatkientruc.py` S10 đã bỏ nó khỏi danh sách file bắt đọc từ lúc đóng sổ, không ai còn tra tới. Giữ 2809 dòng làm lưu trữ không người đọc chỉ còn là rác cùng loại đã giết chính nó (QD-06). git vẫn giữ trọn nội dung trong lịch sử commit — xoá khỏi cây làm việc không mất gì. Hết hạn: không.
+## ⚰️ QD-14 · 02/08 · Xoá hẳn `CHANGELOG.md` khỏi cây làm việc — **ĐÃ THI HÀNH XONG**, file không còn tồn tại · `git log --grep QD-14`
 
-## QD-06 · 31/07/2026 · Đóng sổ `CHANGELOG.md`, lịch sử chuyển sang `git log`
-> ⬆️ Phần "giữ nguyên phần cũ làm lưu trữ" BỊ QD-14 THAY THẾ (02/08/2026) — nay xoá hẳn, không giữ nữa.
-Chọn: `CHANGELOG.md` ngừng ghi (giữ nguyên phần cũ làm lưu trữ); commit message đụng code bắt buộc có phần thân khai VÌ SAO; S9 đổi từ canh "có sửa CHANGELOG" sang canh "message có thân".
-Thay vì: tiếp tục ghi song song cả hai (`_fable_plan.md` từng chốt "không bao giờ nén CHANGELOG" — vẫn đúng, nhưng nó nói về **nén file cũ**, không nói phải **ghi tiếp mãi**).
-Vì: đo 31/07 — **không script nào đọc** file này (5 chỗ nhắc tên chỉ là chú thích), user nói thẳng *"tôi chẳng thèm đọc"*, và cùng một việc bị viết **hai lần** (17.167 ký tự vào CHANGELOG + 10.241 vào commit message cùng ngày). Quyết định bởi một lý lẽ: **commit message gắn chặt với diff nên không nói dối được**, còn CHANGELOG viết một đằng sửa một nẻo vẫn không ai biết — đúng con đường đã giết `README.md`. Nhu cầu "đính chính về sau" (thứ commit không làm được) đã có `QUYETDINH.md`/`SONO.md` lo. Hết hạn: không.
+## ⚰️ QD-06 · 31/07 · Đóng sổ `CHANGELOG.md`, lịch sử về `git log` — **cửa S9 canh "commit có thân", S9 LÀ bản ghi** (file đã xoá hẳn, QD-14)
+> Lý lẽ đáng nhớ ngoài phạm vi ca này: **commit message gắn chặt với diff nên không nói dối được**; tài liệu viết một đằng sửa một nẻo thì không ai biết — đúng con đường đã giết `README.md` cũ.
 
-## QD-05 · 31/07/2026 · Cache ngữ pháp của bot nằm NGOÀI repo (biến `ANKI_GRAMMAR_CACHE`)
-> ⬆️ **BỊ QD-11 THAY THẾ cùng ngày.** Không còn file cache thì không còn chỗ nào để tách, biến `ANKI_GRAMMAR_CACHE` bị gỡ. Câu *"hướng đọc từ thẻ đã ĐO và BÁC — 88 thẻ thiếu"* dưới đây **KHÔNG CÒN ĐÚNG**, đo lại ra 0.
-Chọn: `grammar.CACHE_PATH` đọc biến môi trường, mặc định giữ chỗ cũ; VPS trỏ `/root/anki-cache/`.
-Thay vì: bỏ file khỏi git (mất bản sao lưu công cào), hoặc bỏ hẳn cache để đọc field `GrammarJSON` trong thẻ (`TIEPTUC.md` từng đề xuất).
-Vì: một file vừa do git quản vừa bị runtime ghi thì `git pull` bỏ cuộc mỗi lần deploy — đã xảy ra thật 31/07. **Hướng "đọc từ thẻ" đã ĐO và BÁC**: cache bao trùm thẻ, 88 thẻ thiếu hẳn `present`/`future`/`parts`. Cache là ảnh chụp cào lại được nhưng đắt, nên vẫn giữ trong git cho PC. Hết hạn: khi nào bot không còn tự cào (không thấy trước).
+## ⚰️ QD-05 · 31/07 · Cache ngữ pháp ra ngoài repo — **CHẾT**, QD-11 thay cùng ngày (bỏ hẳn file cache) · `git log --grep QD-05`
 
 ## QD-04 · 31/07/2026 · Cảnh báo "bot chết" đi đường ĐỘC LẬP, cố ý không qua `tgbot/alerts.py`
 Chọn: `scripts/canhbao_bot_chet.sh` gọi thẳng Telegram API bằng `curl`; systemd `OnFailure=` + cron 15 phút; chống spam bằng mốc trạng thái nên chỉ nhắn khi trạng thái ĐỔI.
 Thay vì: dùng `alerts.py` như mọi cảnh báo khác (luật thường lệ trong `CLAUDE.md`).
 Vì: `alerts.py` gửi tin **qua chính bot** ⇒ bot chết thì lời cảnh báo chết theo, im lặng tuyệt đối — đúng thứ cần diệt. Đường báo phải không nạp một dòng code Python nào của dự án mới sống sót được khi dự án hỏng. Hết hạn: không.
 
-## QD-03 · 31/07/2026 · Tháo ngòi 12 file lô thế hệ 1 thay vì xoá
-Chọn: chèn `raise SystemExit(...)` ngay sau docstring của `lo01…lo12_*.py` — file còn đọc được, chỉ không chạy lại được nữa.
-Thay vì: xoá hẳn 12 file.
-Vì: chúng vẫn là bản tham chiếu nội dung của 168 thẻ đang phủ dở bởi k51–k60; chạy nhầm lại sẽ XOÁ bảng chia thẻ thật không một tiếng kêu — đã từng xảy ra 29/07/2026. Hết hạn: khi 168 thẻ đó mang tag `chuan::3` hết (đo bằng `findNotes`) → xoá hẳn, git giữ lịch sử.
+## ⚰️ QD-03 · 31/07 · Tháo ngòi 12 file lô thế hệ 1 bằng `raise SystemExit` thay vì xoá — **cửa S7 canh, S7 LÀ bản ghi**
+> ⏳ **Còn nợ:** khi 168 thẻ của k51–k60 mang đủ tag `chuan::3` thì **xoá hẳn 12 file**, git giữ lịch sử. Chạy nhầm chúng sẽ XOÁ bảng chia thẻ thật **không một tiếng kêu** — đã xảy ra 29/07.
 
 ## QD-01 · 30/07/2026 · Nhận hệ CACHLAM v1 + CLAUDE.md
 Chọn: luật L1–L5 thi hành qua `CLAUDE.md` (AI tự đọc mỗi phiên) + lệnh grep; wrapper riêng của `data/huongdan/kho/` được đóng băng làm ngoại lệ L1 hợp lệ.
 Thay vì: nguyên tắc chỉ nằm trong trí nhớ/memory phiên chat (đã chứng minh không tự thi hành — 10 wrapper ra đời SAU khi phát biểu "MỘT chức năng MỘT script").
-Vì: chỗ có luật-trong-file + máy canh (CHUAN.md) không loạn, chỗ luật-trong-đầu loạn sau 3 tuần. Hết hạn ngoại lệ kho/: khi xong 61 lô.
+Vì: chỗ có luật-trong-file + máy canh (CHUAN.md) không loạn, chỗ luật-trong-đầu loạn sau 3 tuần.
+🔴 **Hết hạn ngoại lệ `kho/`: khi hàng đợi hết lô `cho`** (đo: `congcu.py trangthai`). Mốc cũ ghi "khi xong **61 lô**" — SAI, hàng đợi nay **64 lô** và còn đổi mỗi lần user thêm từ mới, nên **đừng bao giờ đặt điều kiện bằng con số tuyệt đối**. Trên thực tế đóng băng này đã bị nới ba lần (QD-11, QD-16, QD-19) ⇒ nó **gần như đã chết**, giữ lại chỉ để chặn viết wrapper mới.
