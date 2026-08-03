@@ -63,9 +63,5 @@
 
 ## v1.0.0 — 31/07/2026
 
-Mốc đầu tiên được đánh số. Từ hôm nay dự án có máy tự kiểm code trước mỗi lần cập nhật.
-
-- 🔔 **Bot tự nhắn cho bạn nếu nó chết** (chuông riêng, không phụ thuộc bot; không spam).
-- 💾 **Sao lưu đã thử phục hồi thật:** 950/950 thẻ về đúng.
-- 🩹 Sửa lỗi có thể làm thẻ hiện sai giống từ — kiểm rồi, thẻ của bạn không cái nào bị.
-- ⚙️ Cập nhật bot lên máy chủ không còn kẹt giữa chừng mà vẫn báo "Xong!".
+Mốc đầu tiên được đánh số: bot tự nhắn nếu nó chết, sao lưu đã thử phục hồi thật (950/950 thẻ
+về đúng), và từ hôm nay có máy tự kiểm code trước mỗi lần cập nhật.
