@@ -50,10 +50,11 @@
     "тонкий",
     "удобный"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k63_tu-moi.py",
    "tuMoi": true,
-   "thucong": "TU MOI user them 03/08. Cac tu KHONG cung ho nhau — soan tung the DOC LAP, dung ep mot truc chung va dung dung khoi he thong. Chuan: README muc 2 (1 man hinh iPhone, toi da 2 o do) + muc 2c (sua field Vietnamese cho chi co 1 dap an dung). Nhom nay gom TINH TU pham chat, trang tu va hu tu."
+   "thucong": "TU MOI user them 03/08. Cac tu KHONG cung ho nhau — soan tung the DOC LAP, dung ep mot truc chung va dung dung khoi he thong. Chuan: README muc 2 (1 man hinh iPhone, toi da 2 o do) + muc 2c (sua field Vietnamese cho chi co 1 dap an dung). Nhom nay gom TINH TU pham chat, trang tu va hu tu.",
+   "daNap": true
   },
   {
    "id": "k64",
