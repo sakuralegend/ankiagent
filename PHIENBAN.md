@@ -15,6 +15,19 @@
 
 ---
 
+## v1.0.3 — 03/08/2026 (chiều)
+
+- 📝 **47 từ bạn thêm sáng nay đã có đủ ô Hướng dẫn.** Đồ ăn · quần áo · tính từ · thiên nhiên.
+- ✏️ **26 dòng nghĩa tiếng Việt được viết lại cho rõ hơn**, vì chúng là đề bài bạn nhìn để gõ từ
+  Nga mà **đang trùng với từ khác trong kho** — gõ đúng vẫn bị chấm sai. Ví dụ: "cái đuôi, hàng
+  đợi" nay chỉ còn *"cái đuôi (của con vật, máy bay, sao chổi)"*, còn "hàng đợi" trả về cho từ
+  `очередь`. Tương tự với "đi", "tiền", "xa", "khỏe", "bây giờ", "áo khoác", "xúc xích".
+- 🐟 **Vài nghĩa tiếng Việt trong kho vốn đã sai, nay đã sửa.** Đáng kể nhất: `ёрш` bị ghi là "cây
+  cọ rửa" mà **mất hẳn nghĩa chính là một loài cá**; `жук` ghi "côn trùng" trong khi nó là con bọ
+  **cánh cứng** (côn trùng nói chung là từ khác); `монах` ghi "nhà sư" nhưng đây là thầy tu Chính
+  Thống giáo.
+- 💡 Bạn không phải làm gì — mở Anki lên là thấy.
+
 ## v1.0.2 — 03/08/2026
 
 - 🔄 **Sửa 21 thẻ trong deck `0-quen` sáng nay bị lật sang mặt gõ.** Đêm qua máy chủ đã nâng chúng
@@ -38,16 +51,9 @@
 
 ## v1.0.0 — 31/07/2026
 
-Mốc đầu tiên được đánh số. Từ hôm nay dự án có máy tự kiểm code trước mỗi lần cập nhật, nên
-những thay đổi sau này ít có khả năng làm hỏng thứ đang chạy.
+Mốc đầu tiên được đánh số. Từ hôm nay dự án có máy tự kiểm code trước mỗi lần cập nhật.
 
-- 🔔 **Bot tự nhắn cho bạn nếu nó chết.** Trước đây bot ngừng chạy thì hoàn toàn im lặng, bạn chỉ
-  biết khi nhắn mà không ai trả lời. Giờ có chuông báo riêng, không phụ thuộc bot. Bot sống lại
-  cũng nhắn. Chết cả ngày cũng chỉ nhận **một** tin, không spam.
-- 💾 **Sao lưu đã được kiểm chứng là khôi phục được thật.** Trước đây chỉ có bản sao lưu mà chưa ai
-  thử phục hồi — nay đã thử: 950/950 thẻ về đúng. Các bước ghi trong `VPS_SETUP.md`.
-- 🩹 **Sửa một lỗi có thể làm thẻ hiện sai giống từ.** Với vài danh từ chỉ người (kiểu `дя́дя` —
-  chú/bác), máy có thể gắn nhãn giống cái trong khi đó là giống đực. Đã kiểm: **không thẻ nào của
-  bạn đang bị sai**, lỗi được vá trước khi kịp xảy ra.
-- ⚙️ **Cập nhật bot lên máy chủ không còn bị kẹt giữa chừng.** Trước đây có lần cập nhật thất bại
-  mà vẫn báo "Xong!", khiến bot chạy bản cũ mà không ai biết.
+- 🔔 **Bot tự nhắn cho bạn nếu nó chết** (chuông riêng, không phụ thuộc bot; không spam).
+- 💾 **Sao lưu đã thử phục hồi thật:** 950/950 thẻ về đúng.
+- 🩹 Sửa lỗi có thể làm thẻ hiện sai giống từ — kiểm rồi, thẻ của bạn không cái nào bị.
+- ⚙️ Cập nhật bot lên máy chủ không còn kẹt giữa chừng mà vẫn báo "Xong!".
