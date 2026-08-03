@@ -8,6 +8,7 @@ gọi thẳng từng hàm `s*` và kỳ vọng ĐÚNG mục nào kêu / mục n�
 ⚠️ Chuỗi mồi (cổng AnkiConnect, tên lớp HTML) phải GHÉP lúc chạy — viết trần
 trong file này là chính S1/S5 quét trúng file test và kêu oan.
 """
+import json
 import shutil
 import sys
 import tempfile
@@ -18,6 +19,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import soatkientruc as sk
 
 CONG = "87" + "65"                     # "8765" — ghép để S1 không bắt file test
+KT_MOI_PHUT = 1400                     # khớp `ky_tu_moi_phut` trong config giả
 
 
 class TestSoatKienTruc(unittest.TestCase):
@@ -101,39 +103,120 @@ class TestSoatKienTruc(unittest.TestCase):
     def test_s8_ngu_khi_chua_co_kientruc(self):
         self.assertIsNone(sk.s8_manifest())
 
-    # --- S10: trần đọc, đếm KÝ TỰ chứ không đếm dòng (QD-20) --------------
-    def _dat_tran(self, ten, phut):
-        """Trỏ PHUT_DOC vào đúng một file giả, trả lại nguyên trạng sau test."""
-        cu = sk.PHUT_DOC
-        sk.PHUT_DOC = {ten: phut}
-        self.addCleanup(lambda: setattr(sk, "PHUT_DOC", cu))
+    # --- soat_nguong.json giả cho các mục đọc ngưỡng (QD-21) --------------
+    def _nguong_gia(self, phut_doc=None, dong_py=None, phienban=None, tho=None):
+        """Ghi `soat_nguong.json` vào repo giả — test đi qua ĐÚNG bộ đọc thật.
+        `tho` = chuỗi JSON thô, cho ca kiểm khoá trùng/parse hỏng."""
+        if tho is None:
+            cau = {"ky_tu_moi_phut": {"so": KT_MOI_PHUT, "qd": "QD-20"}}
+            if phut_doc is not None:
+                cau["phut_doc"] = {"qd": "QD-20", "tran": phut_doc}
+            if dong_py is not None:
+                cau["dong_py"] = {"qd": "QD-21", "ghi_no": 400, "tach": 700,
+                                  "bo_qua_mau": [], "da_ghi_no": {}, **dong_py}
+            if phienban is not None:
+                cau["phienban"] = {"qd": "QD-07", "giu_ban": 10, "muc_moi_ban": 5,
+                                   **phienban}
+            tho = json.dumps(cau)
+        self.ghi("soat_nguong.json", tho)
 
+    # --- S10: trần đọc, đếm KÝ TỰ chứ không đếm dòng (QD-20) --------------
     def test_s10_duoi_tran_thi_im(self):
-        self._dat_tran("A.md", 1)
-        self.ghi("A.md", "x" * (sk.KY_TU_MOI_PHUT - 1))
+        self._nguong_gia(phut_doc={"A.md": 1})
+        self.ghi("A.md", "x" * (KT_MOI_PHUT - 1))
         self.assertEqual(sk.s10_tri_nho_phinh(), [])
 
     def test_s10_vuot_tran_thi_keu_bang_ky_tu(self):
-        self._dat_tran("A.md", 1)
-        self.ghi("A.md", "x" * (sk.KY_TU_MOI_PHUT + 1))
+        self._nguong_gia(phut_doc={"A.md": 1})
+        self.ghi("A.md", "x" * (KT_MOI_PHUT + 1))
         ra = sk.s10_tri_nho_phinh()
         self.assertEqual([ph.khoa for ph in ra], ["A.md"])
         self.assertIn("ky tu", ra[0].mo_ta)
 
     def test_s10_it_dong_ma_dong_dai_van_bi_bat(self):
-        """🔴 Ca mà bản đếm-dòng BỎ LỌT — chính nó đẻ ra QD-20.
-
-        `QUYETDINH.md` từng báo 149/150 dòng "còn chỗ" trong khi nặng 30 KB,
-        dòng dài nhất 1090 ký tự. Ba dòng dưới đây là bản thu nhỏ của đúng ca
-        đó: rất ít dòng, thừa sức lọt mọi trần tính bằng dòng, mà chữ thì vượt.
-        """
-        self._dat_tran("A.md", 1)
+        """🔴 Ca bản đếm-dòng BỎ LỌT — chính nó đẻ ra QD-20: rất ít dòng, lọt
+        mọi trần tính bằng dòng, mà chữ thì vượt."""
+        self._nguong_gia(phut_doc={"A.md": 1})
         self.ghi("A.md", "\n".join(["y" * 900] * 3))      # 3 dòng, ~2 700 ký tự
         self.assertEqual([ph.khoa for ph in sk.s10_tri_nho_phinh()], ["A.md"])
 
     def test_s10_file_khong_ton_tai_thi_bo_qua(self):
-        self._dat_tran("khong_co.md", 1)
+        self._nguong_gia(phut_doc={"khong_co.md": 1})
         self.assertEqual(sk.s10_tri_nho_phinh(), [])
+
+    def test_s10_thieu_config_thi_im_de_s12_keu(self):
+        """Config mất thì S10 không được nổ exception — S12 mới là nơi kêu ĐỎ."""
+        self.assertEqual(sk.s10_tri_nho_phinh(), [])
+
+    # --- S12: soat_nguong.json phải TỰ nhất quán (QD-21) ------------------
+    def test_s12_thieu_file_la_do(self):
+        ra = sk.s12_nguong_hop_le()
+        self.assertEqual([ph.khoa for ph in ra], ["soat_nguong.json"])
+
+    def test_s12_khoa_trung_la_do(self):
+        """Một đích hai trần — JSON chuẩn lặng lẽ lấy giá trị sau, bộ đọc phải bắt."""
+        self._nguong_gia(tho='{"phut_doc": {"qd": "QD-20", "tran": {"A.md": 1, "A.md": 2}}}')
+        ra = sk.s12_nguong_hop_le()
+        self.assertEqual([ph.khoa for ph in ra], ["soat_nguong.json"])
+        self.assertIn("khoa trung", ra[0].mo_ta)
+
+    def test_s12_tro_file_ma_va_qd_ma(self):
+        self.ghi("QUYETDINH.md", "## QD-20 · x\n")
+        self.ghi("A.md", "x\n")
+        self._nguong_gia(phut_doc={"A.md": 1, "da_xoa.md": 1},
+                         dong_py={"qd": "QD-99"})
+        khoa = [ph.khoa for ph in sk.s12_nguong_hop_le()]
+        self.assertIn("nguong|da_xoa.md", khoa)       # trần trỏ file đã xoá
+        self.assertIn("nguong|dong_py", khoa)         # trỏ QD không tồn tại
+        self.assertNotIn("nguong|A.md", khoa)
+
+    # --- S13: trần dòng file code (QD-21) ---------------------------------
+    def test_s13_vuot_ghi_no_ma_chua_khai_la_do(self):
+        self._nguong_gia(dong_py={})
+        self.ghi("tgbot/to.py", "x = 1\n" * 401)
+        self.ghi("tgbot/nho.py", "x = 1\n" * 399)
+        khoa = [ph.khoa for ph in sk.s13_tran_dong_code()]
+        self.assertEqual(khoa, ["tgbot/to.py"])
+
+    def test_s13_co_moc_thi_im_phinh_qua_moc_la_do(self):
+        self._nguong_gia(dong_py={"da_ghi_no": {"tgbot/no.py": 430}})
+        self.ghi("tgbot/no.py", "x = 1\n" * 420)
+        self.assertEqual(sk.s13_tran_dong_code(), [])
+        self.ghi("tgbot/no.py", "x = 1\n" * 431)
+        self.assertEqual([ph.khoa for ph in sk.s13_tran_dong_code()], ["tgbot/no.py"])
+
+    def test_s13_vuot_tran_tach_la_do_ke_ca_co_moc(self):
+        self._nguong_gia(dong_py={"da_ghi_no": {"tgbot/qua.py": 999}})
+        self.ghi("tgbot/qua.py", "x = 1\n" * 701)
+        ra = sk.s13_tran_dong_code()
+        self.assertEqual([ph.khoa for ph in ra], ["tgbot/qua.py"])
+        self.assertIn("tach", ra[0].mo_ta)
+
+    def test_s13_lo_du_lieu_kho_duoc_bo_qua(self):
+        self._nguong_gia(dong_py={"bo_qua_mau": ["data/huongdan/kho/k*.py"]})
+        self.ghi("data/huongdan/kho/k99_x.py", "x = 1\n" * 800)
+        self.assertEqual(sk.s13_tran_dong_code(), [])
+
+    # --- S14: PHIENBAN.md trần bản/mục (QD-07) ----------------------------
+    def _phienban(self, so_ban, muc_moi_ban):
+        than = "\n".join(f"## v1.0.{i}\n\n" + "- muc\n" * muc_moi_ban
+                         for i in range(so_ban))
+        self.ghi("PHIENBAN.md", "# Co gi moi\n\n" + than)
+
+    def test_s14_dung_chuan_thi_im(self):
+        self._nguong_gia(phienban={})
+        self._phienban(so_ban=10, muc_moi_ban=5)
+        self.assertEqual(sk.s14_phienban_tran(), [])
+
+    def test_s14_qua_so_ban_la_do(self):
+        self._nguong_gia(phienban={})
+        self._phienban(so_ban=11, muc_moi_ban=2)
+        self.assertEqual([ph.khoa for ph in sk.s14_phienban_tran()], ["PHIENBAN.md"])
+
+    def test_s14_mot_ban_qua_nhieu_muc_la_do(self):
+        self._nguong_gia(phienban={})
+        self._phienban(so_ban=2, muc_moi_ban=6)
+        self.assertEqual(len(sk.s14_phienban_tran()), 2)
 
     # --- ratchet: baseline chỉ che đúng số cũ, vượt là lộ -----------------
     def test_baseline_doc_kieu_dict_va_so_tran(self):

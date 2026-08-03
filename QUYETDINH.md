@@ -58,10 +58,13 @@
 
 ---
 
-## QD-18 · 03/08/2026 · Tách các file quá trần dòng — refactor THUẦN theo khuôn "file vàng"
-Chọn: tách 6 file vượt trần (`commands` `core` `ai_client` `kho/congcu` `anki_client` `grammar`), mỗi file một commit; khuôn bắt buộc: chạy hàm chỉ-đọc trên dữ liệu thật ra file vàng + máy so ruột từng hàm trước–sau (ast) = 0 khác biệt; file gốc thành mặt tiền giữ đủ tên cũ (kể cả tên private đang bị mượn) nên nơi gọi không đổi dòng nào.
-Thay vì: tách đủ 8 file như đề bài. User duyệt trắc nghiệm 03/08: `dispatch.py` BỎ QUA (tách phải cắt ruột hàm `on_callback` ~320 dòng, lưới không phủ kín — ghi SONO); `soatkientruc.py` KHÔNG tách (673<700, tách phá QD-02 một-file-tự-đứng) — chỉ viết test cho nó, trả nợ SONO 31/07.
-Vì: 3 file >700 là mức luật BẮT tách; hành vi không được đổi giữa mùa lô nên mọi bảo đảm phải từ máy: diff file vàng ≠ 0 là hoàn tác. ✅ **Đã xong 03/08 — hết hạn, không còn hiệu lực đang chờ.** Khuôn "file vàng" thì giữ lại dùng cho mọi refactor sau.
+## QD-21 · 03/08/2026 · Mọi CON SỐ TRẦN về `soat_nguong.json` — cấu hình thật máy đọc, tài liệu chỉ trỏ
+Chọn: một file JSON ở gốc (tiền lệ `soat_baseline.json`) chứa số + đúng một con trỏ `QD-nn` mỗi mục, `soatkientruc.py` đọc parse CHẶT; S12 soi cấu hình tự mâu thuẫn (trỏ file đã xoá · QD ma · khoá trùng), S13 canh trần dòng file code (400 ghi nợ theo mốc ratchet / 700 tách, bỏ qua lô dữ liệu `k*.py` `lo*.py`), S14 canh `PHIENBAN.md` (bản/mục). Chỉ con số — luật bằng chữ vẫn ở cửa code riêng.
+Thay vì: số nằm rải 4 file tài liệu + hằng trong code — đo 03/08: "giữ 10 bản" nêu 4 file 0 cửa canh, "trần 2 phút" nêu 4 file mà máy thi hành 3, trần 400/700 dòng không cửa nào canh.
+Vì: bản sao thì sớm muộn lệch, nguồn thì bất khả (cùng lý QD-11); ràng buộc thành dữ liệu thì máy soi được va chạm. 🔴 **Số trong các QD cũ từ nay là LỊCH SỬ — số hiệu lực duy nhất nằm ở `soat_nguong.json`.** Hết hạn: không.
+
+## ⚰️ QD-18 · 03/08 · Tách 6 file quá trần theo khuôn "file vàng" — **ĐÃ XONG** · `git log --grep QD-18`
+> Còn sống hai ý: **khuôn "file vàng"** (chạy hàm chỉ-đọc trên dữ liệu thật + so ast từng hàm, diff ≠ 0 là hoàn tác) dùng cho mọi refactor sau; `dispatch.py` cố ý KHÔNG tách (nợ + luật thay thế ghi ở `SONO.md`), `soatkientruc.py` KHÔNG tách (phá QD-02 một-file-tự-đứng).
 
 ## QD-19 · 03/08/2026 · Tách `grammar.py` GIỮA mùa lô — lật điều kiện chờ của `_fable_plan.md` Q5
 Chọn: tách 4 mảnh lá `chu_nga` (chuẩn hoá chữ + hằng) · `boc_tudien` (normalize) · `hinh_thai` (analyze) · `bang_chia` (build_table); `grammar.py` giữ cache RAM + cào mạng + badge và làm MẶT TIỀN re-export đủ mọi tên cũ kể cả private — caller và test không đổi một dòng.
@@ -81,7 +84,7 @@ Vì: đo 02/08 — **23/25 thẻ ở `1-go` hiện sai mặt**. Bot VPS thăng c
 ## QD-15 · 02/08/2026 · Cửa canh DỮ LIỆU ngữ pháp: `anki_tools/soat_nguphap.py` đứng riêng
 Chọn: file nhỏ thuần chuỗi, KHÔNG import `grammar` (tránh đẻ vòng); gọi ở `cao_nguphap.py` (dữ liệu VÀO) và `congcu.py nap` (dữ liệu LÊN THẺ). Chỉ IN RA, không tự sửa.
 Vì: cửa đòi **lệch cả hai chiều cùng lúc** mới báo — đo 516 thẻ có bảng biến cách ra **0 kêu oan**, bắt đủ 2/2 chỗ hỏng thật của `ке́ды`.
-✅ **Hết hạn cũ ("khi tách `grammar.py` thì gộp về mảnh của nó") ĐÃ NỔ 03/08 và bị QD-19 quyết ngược lại: GIỮ RIÊNG** (2 caller ổn định, gộp chỉ thêm churn). Không còn điều kiện hết hạn.
+✅ Điều kiện hết hạn cũ đã bị QD-19 quyết ngược: **GIỮ RIÊNG**, không còn hạn.
 
 ## ⚰️ QD-13 · 01/08 · Hook nhắc luật phải có cửa canh — **cửa S11 chạy THẬT lệnh hook mỗi lần soát, S11 LÀ bản ghi**
 > Thứ S11 không tự nói được: `AGENTS.md` **cố ý không chép lại luật**, chỉ trỏ đường — hai bản sao thì sớm muộn sẽ lệch (cùng lý lẽ QD-11). Và phải chạy THẬT vì kiểu chết hay gặp là `python` không có trên PATH: cửa chỉ nhìn tên file sẽ báo XANH trên đúng cái máy hook đang chết.
@@ -115,10 +118,10 @@ Vì: chỗ nào có máy đo (dây chuyền kho, tag `chuan::N`) thì sạch, ch
 > Phần "**thẻ là nguồn sự thật**" vẫn sống, nhưng nó nay là nền của QD-11 — đọc ở đó.
 
 ## QD-07 · 31/07/2026 · `PHIENBAN.md` — file duy nhất viết cho USER, tách hẳn khỏi tài liệu kỹ thuật
-Chọn: một file ngắn kiểu release notes app (`vX.Y.Z` + ≤5 gạch đầu dòng, ngôn ngữ thường, giữ 10 bản gần nhất); chỉ ghi thứ **user cảm nhận được**.
+Chọn: một file ngắn kiểu release notes app (`vX.Y.Z`, ngôn ngữ thường; trần bản/mục nay ở `soat_nguong.json`, cửa S14 canh); chỉ ghi thứ **user cảm nhận được**.
 Thay vì: để user tự đọc `git log`/`CHANGELOG.md`/`KIENTRUC.md` — hoặc không có gì cho user cả (hiện trạng trước đó).
 Vì: user chỉ ra rằng **mọi file trong repo đều viết cho người làm**, không sót file nào cho người dùng — *"để tôi hiểu thì chỉ cần kiểu v2.3.3 xong vài gạch đầu dòng"*. QD-06 đóng sổ CHANGELOG vì nó TRÙNG git log ở tầng kỹ thuật; món này KHÔNG trùng vì khác đối tượng, khác ngôn ngữ, khác thứ được chọn để ghi. Chống phình ngay từ đầu bằng ba khoá: trần 2 phút đọc (S10), tối đa 5 mục/bản, giữ 10 bản. Hết hạn: không.
-🔴 **Phiên soạn lô KHÔNG được ghi vào đây — user bác 02/08/2026.** Tôi đã tự ghi một mục `v1.1.0` cho phiên 5 lô (74 thẻ đổi mặt, lập luận: `nap` sync thẳng sang điện thoại nên user thấy được, dù không qua `deploy.ps1`). **User bảo gỡ.** Mốc là DEPLOY, không phải "user cảm nhận được" — soạn lô là việc chạy đều mỗi phiên, ghi vào đây thì 61 lô đẻ ra hàng chục mục và file chết đúng đường `CHANGELOG.md`. Đừng đề xuất lại.
+🔴 **Phiên soạn lô KHÔNG ghi vào đây — user bác 02/08/2026, một mục tự ghi đã phải gỡ.** Mốc là DEPLOY, không phải "user cảm nhận được": soạn lô chạy đều mỗi phiên, ghi vào là file chết đúng đường `CHANGELOG.md`. Đừng đề xuất lại.
 
 ## ⚰️ QD-14 · 02/08 · Xoá hẳn `CHANGELOG.md` khỏi cây làm việc — **ĐÃ THI HÀNH XONG**, file không còn tồn tại · `git log --grep QD-14`
 

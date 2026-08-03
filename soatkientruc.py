@@ -1,32 +1,23 @@
 # -*- coding: utf-8 -*-
-"""CỬA SOÁT KIẾN TRÚC — máy canh những luật mà tài liệu không tự thi hành được.
-
-Vì sao có file này (G1 của `_fable_plan.md`): dự án không bị "code xấu", nó bị
-THIẾU CỬA SOÁT CHO CODE. Chỗ nào có máy đo (dây chuyền kho, tag `chuan::N`) thì
-sạch; chỗ nào luật chỉ nằm trong đầu người thì trôi. File này là cái máy đo đó
-cho phần code.
-
+"""CỬA SOÁT KIẾN TRÚC — máy canh những luật mà tài liệu không tự thi hành được:
+chỗ có máy đo thì sạch, chỗ luật chỉ nằm trong đầu người thì trôi (G1).
     python soatkientruc.py          # kiểm — exit 1 khi có ĐỎ
     python soatkientruc.py --chot   # chốt baseline mới (CHỈ được giảm)
 
-🔴 KHÔNG import bất cứ module nào của dự án. Import là kéo theo `telegram`, đọc
-CSV 8,4 MB, tệ nhất là chạm `setup_anki_environment` — một bộ soát mà có tác dụng
-phụ thì không ai dám chạy. Chỉ `pathlib` đọc text + `ast` phân tích cú pháp tĩnh
-(KHÔNG thực thi) + regex. Zero phụ thuộc ngoài stdlib.
+🔴 KHÔNG import module nào của dự án — import là kéo theo tác dụng phụ (telegram,
+CSV 8,4 MB, `setup_anki_environment`), mà bộ soát có tác dụng phụ thì không ai
+dám chạy. Chỉ stdlib: `pathlib` + `ast` (phân tích tĩnh, KHÔNG thực thi) + regex.
 
-🟡 VÀNG vs 🔴 ĐỎ — nguyên tắc chống báo động giả (README huongdan:314 của user:
-"bộ soát kêu oan là bộ soát chết"): toàn bộ nợ tồn đọng là VÀNG, im lặng cho tới
-khi TĂNG. Chỉ ĐỎ với vi phạm MỚI, hoặc lỗi một-lần-là-hại (S4, S7). Mọi miễn trừ
-phải kèm lý do ngay trong `soat_baseline.json` — học từ chính `MIEN_TRU`.
-
-Ratchet: `soat_baseline.json` ghi số hiện tại của từng mục VÀNG; vượt là ĐỎ;
-`--chot` chỉ ghi được số THẤP HƠN ⇒ nợ chỉ đi xuống, không mọc lại.
+🟡 VÀNG vs 🔴 ĐỎ — "bộ soát kêu oan là bộ soát chết": nợ tồn đọng là VÀNG, im tới
+khi TĂNG; chỉ ĐỎ với vi phạm MỚI hoặc lỗi một-lần-là-hại. Ratchet
+`soat_baseline.json`: `--chot` chỉ ghi được số THẤP HƠN ⇒ nợ không mọc lại.
 """
 import ast
 import json
 import re
 import subprocess
 import sys
+from fnmatch import fnmatchcase
 from pathlib import Path
 
 GOC = Path(__file__).resolve().parent
@@ -34,22 +25,17 @@ BASELINE = GOC / "soat_baseline.json"
 
 
 def inn(msg=""):
-    """print() không bao giờ làm chết bộ soát. Console Windows mặc định cp1252
-    KHÔNG in nổi emoji lẫn tiếng Việt có dấu — `congcu.py` đã chết đúng vì lý do
-    này. Một cửa canh deploy mà tự chết vì lỗi in ấn thì tệ hơn là không có cửa:
-    nó chặn deploy bằng một lỗi chẳng liên quan gì tới kiến trúc."""
+    """print() không được làm chết bộ soát: console Windows cp1252 không in nổi
+    emoji/tiếng Việt (`congcu.py` từng chết vì đúng lỗi in ấn này)."""
     try:
         print(msg)
     except UnicodeEncodeError:
         print(msg.encode("ascii", errors="replace").decode("ascii"))
 
-# Thư mục không quét: `_daxong/` là script đã khai tử (L2 — chúng chết rồi, soi
-# làm gì), còn lại là rác công cụ.
+# `_daxong/` là script đã khai tử (chết rồi, soi làm gì), còn lại là rác công cụ.
 BO_QUA_THU_MUC = {".git", "__pycache__", "venv", ".venv", "_daxong", "node_modules"}
 
-# Điểm vào sống được phép nằm ở gốc (L2) — ĐÚNG BA FILE, từ G3 (31/07/2026).
-# `soatkientruc.py` là điểm vào thứ 3, ngoại lệ L2 hợp thức bằng QD-02.
-# Script vận hành ở `scripts/`, script chạy-một-lần đã khai tử ở `_daxong/`.
+# Điểm vào sống ở gốc (L2) — ĐÚNG BA FILE (QD-02). Script vận hành: `scripts/`.
 # 🔴 Thêm tên vào đây là NỚI LUẬT — phải có lý do trong QUYETDINH.md trước.
 GOC_HOP_LE = {"bot.py", "main.py", "soatkientruc.py"}
 
@@ -57,9 +43,8 @@ HTML_DAC_TRUNG = ("example-toggle", "meaning-list")
 
 
 class PhatHien:
-    """Một chỗ bị bắt. `khoa` là thứ dùng để so với baseline — CỐ Ý không chứa
-    số dòng, vì số dòng đổi mỗi lần sửa file khác và sẽ làm baseline nhiễu."""
-
+    """Một chỗ bị bắt. `khoa` so với baseline — CỐ Ý không chứa số dòng, vì số
+    dòng đổi mỗi lần sửa file khác và sẽ làm baseline nhiễu."""
     def __init__(self, khoa, dong, mo_ta):
         self.khoa = khoa
         self.dong = dong
@@ -67,9 +52,8 @@ class PhatHien:
 
 
 def cac_file_py(ke_ca_minh=True):
-    """`ke_ca_minh=False` cho các mục soi NỘI DUNG CHUỖI (S1, S5): chính file này
-    phải chứa `8765` và `meaning-list` làm mẫu để đi tìm — bộ soát tự tố mình là
-    kiểu kêu oan ngu ngốc nhất, và là thứ khiến người ta tắt nó ngay ngày đầu."""
+    """`ke_ca_minh=False` cho mục soi NỘI DUNG CHUỖI (S1, S5): file này chứa chính
+    các chuỗi mồi nên phải tự loại mình khỏi vòng quét, kẻo tự tố."""
     for p in sorted(GOC.rglob("*.py")):
         if any(phan in BO_QUA_THU_MUC for phan in p.relative_to(GOC).parts):
             continue
@@ -99,8 +83,7 @@ def _goi_cua(p):
 
 def _chuoi_trong_cay(cay):
     """Mọi hằng chuỗi trong cây cú pháp, kèm số dòng. Dùng ast chứ không grep để
-    chữ nằm trong COMMENT không bị tính — `congcu.py:164` nhắc `grammar._family()`
-    trong một dòng chú thích, grep bắt nhầm, ast thì không thấy."""
+    chữ trong COMMENT không bị tính oan (grep từng bắt nhầm `congcu.py:164`)."""
     for node in ast.walk(cay):
         if isinstance(node, ast.Constant) and isinstance(node.value, str):
             yield node.value, getattr(node, "lineno", 0)
@@ -110,9 +93,8 @@ def _chuoi_trong_cay(cay):
 # S1 — cửa lậu tới AnkiConnect
 # ---------------------------------------------------------------------------
 def s1_cong_anki():
-    """L1: AnkiConnect đi qua MỘT cửa. `anki_tools/config.py` là nơi định nghĩa
-    `ANKI_CONNECT_URL` (cửa thật), `data/huongdan/kho/` đóng băng theo QD-01, và
-    12 file lô đã khai tử (QD-03) thì không chạy được nữa nên không tính."""
+    """L1: AnkiConnect đi qua MỘT cửa — `anki_tools/config.py` định nghĩa
+    `ANKI_CONNECT_URL` là cửa thật; nợ cũ nằm trong baseline."""
     ra = []
     for p in cac_file_py(ke_ca_minh=False):
         src, cay = doc_cay(p)
@@ -133,19 +115,15 @@ def s2_private_xuyen_goi():
     tay vào ruột gói khác — đó là chỗ sẽ gãy khi gói kia được dọn."""
     ra = []
     for p in cac_file_py():
-        # `tests/` được phép thò tay vào ruột — đó chính là VIỆC của test: kiểm
-        # nội bộ, và canh giúp cho alias public (`grammar.BANG_RE is _BANG_RE`)
-        # không ai lỡ xoá. Bắt test vì "gọi private" là kêu oan đúng nghĩa.
+        # `tests/` được phép thò tay vào ruột — kiểm nội bộ chính là VIỆC của test.
         if duong_dan(p).startswith("tests/"):
             continue
         src, cay = doc_cay(p)
         if cay is None:
             continue
         goi = _goi_cua(p)
-        # tên đang dùng trong file -> gói mà module đó thuộc về. `import congcu`
-        # (kiểu chèn sys.path của dây chuyền kho) không thuộc gói nào -> "", tức
-        # KHÁC mọi gói ⇒ vẫn bị soi. Đó là đúng: `dochuan.py` gọi `congcu._BANG_RE`
-        # cũng là thò tay vào ruột module khác y như gọi xuyên gói.
+        # tên đang dùng -> gói của module đó. `import congcu` (chèn sys.path) không
+        # thuộc gói nào -> "" ⇒ KHÁC mọi gói, vẫn bị soi — đúng chủ đích.
         goi_cua_ten = {}
 
         for node in ast.walk(cay):
@@ -210,10 +188,8 @@ def s3_tgbot_tang():
 # S4 — MIEN_TRU phải chỉ có MỘT nơi
 # ---------------------------------------------------------------------------
 def s4_mientru_mot_noi():
-    """Hai bản `MIEN_TRU` lệch nhau (1 mục vs 5) từng làm `kiemtra.py` kêu oan 4
-    từ đúng chính tả — G0 đã gộp về `data/huongdan/mientru.py`. MỘT nơi là đúng
-    (đó là cửa); từ nơi thứ HAI trở đi mới là ĐỎ, không chờ baseline: một bộ soát
-    kêu oan chết nhanh hơn một bộ soát bỏ sót."""
+    """Hai bản `MIEN_TRU` lệch nhau từng làm `kiemtra.py` kêu oan 4 từ đúng chính
+    tả (G0 gộp về `data/huongdan/mientru.py`). MỘT nơi là cửa; nơi thứ HAI là ĐỎ."""
     noi = []
     for p in cac_file_py():
         if not duong_dan(p).startswith("data/huongdan/"):
@@ -267,10 +243,8 @@ def s6_goc_sach():
 # S7 — 12 file lô thế hệ 1 phải còn nguyên ngòi đã tháo
 # ---------------------------------------------------------------------------
 def s7_lo_da_khai_tu():
-    """QD-03: chạy lại một file lô thế hệ 1 là XOÁ bảng chia thẻ thật, im lặng.
-    Đo bằng ast chứ không đếm dòng: guard phải là CÂU LỆNH THỰC THI ĐẦU TIÊN —
-    đó mới là thứ bảo đảm không code nào chạy trước nó. (Guard thực tế nằm ở
-    dòng 10-15 vì docstring dài, nên luật "≤5 dòng đầu" của plan là sai chỗ.)"""
+    """QD-03: chạy lại lô thế hệ 1 là XOÁ bảng chia thẻ thật, im lặng. Đo bằng
+    ast: guard phải là CÂU LỆNH THỰC THI ĐẦU TIÊN (sau docstring), không đếm dòng."""
     ra = []
     for p in sorted((GOC / "data" / "huongdan").glob("lo*.py")):
         src, cay = doc_cay(p)
@@ -340,25 +314,15 @@ def s8_manifest():
 # S9 — commit đụng code mà không khai VÌ SAO
 # ---------------------------------------------------------------------------
 def s9_commit_thieu_vi_sao():
-    """Commit đụng code phải khai VÌ SAO, không chỉ một dòng tiêu đề.
-
-    Bản đầu (31/07/2026 sáng) canh `CHANGELOG.md`. Đo lại chiều đó thì thấy nó ép
-    làm một việc TRÙNG LẶP: cùng một chuyện viết hai lần, một vào CHANGELOG một vào
-    commit message — mà không script nào đọc CHANGELOG và user nói thẳng không đọc.
-    Đóng sổ CHANGELOG (QD-06) và chuyển cửa soát sang canh đúng chỗ còn giá trị:
-    chất lượng commit message — thứ **gắn chặt với diff nên không nói dối được**.
-
+    """Commit đụng code phải khai VÌ SAO trong THÂN, không chỉ tiêu đề — commit
+    message gắn chặt với diff nên không nói dối được (thay cửa CHANGELOG, QD-06).
     Chỉ soi commit CHƯA PUSH: code đã rời PC thì kêu cũng muộn."""
     def _git(*doi_so):
-        """Goi git, tra stdout hoac None. Co y KHONG dung ky tu phan cach ky di
-        de gop nhieu truong vao mot lan goi — ban thu dau lam vay va ky tu dieu
-        khien lot vao source thanh byte that, gay ngay lan chay dau. Goi git nhieu
-        lan cham hon vai mili-giay nhung DOC HIEU DUOC, ma day la thu chan deploy."""
-        # 🔴 PHẢI khai encoding="utf-8": mặc định `text=True` dùng bảng mã hệ
-        # thống (cp1252 trên Windows), mà commit message ở repo này có tiếng Việt
-        # và tiếng Nga ⇒ luồng đọc của subprocess ném UnicodeDecodeError trong
-        # thread nền, `r.stdout` thành **None**, và mục soát này chết bằng
-        # `'NoneType' has no attribute...`. Đã dính thật 31/07/2026.
+        """Goi git, tra stdout hoac None. Goi nhieu lan thay vi gop bang ky tu
+        phan cach — ban gop tung lam ky tu dieu khien lot vao source."""
+        # 🔴 PHẢI khai encoding="utf-8": mặc định text=True dùng cp1252 (Windows),
+        # commit message có tiếng Việt/Nga ⇒ UnicodeDecodeError trong thread nền,
+        # stdout thành None và mục này chết. Đã dính thật 31/07/2026.
         try:
             r = subprocess.run(["git", *doi_so], cwd=str(GOC), capture_output=True,
                                text=True, encoding="utf-8", errors="replace", timeout=20)
@@ -397,55 +361,36 @@ def s9_commit_thieu_vi_sao():
 
 
 # ---------------------------------------------------------------------------
-# S10 — file trí nhớ phình quá trần
+# Ngưỡng số — đọc từ `soat_nguong.json` (QD-21)
 # ---------------------------------------------------------------------------
-# Trần cho các file BỊ BẮT ĐỌC. Vì sao cần: `CHANGELOG.md` đã phình tới mức không
-# ai đọc ngược nữa (phải đóng sổ, QD-06). File mà AI phải đọc MỖI PHIÊN thì phình
-# = bị lướt = chết y hệt README cũ.
-#
-# 🔴 ĐƠN VỊ LÀ **PHÚT ĐỌC**, quy ra **KÝ TỰ** — KHÔNG phải số dòng (QD-20, 03/08).
-# Bản 31/07 đếm dòng. Đo 03/08 cho thấy nó đo sai hẳn: ký tự/dòng chạy từ **49 tới
-# 140** giữa các file, gấp ~3 lần. Hệ quả thật: `QUYETDINH.md` báo 149/150 "còn
-# chỗ" trong khi nó nặng 30 KB, dòng dài nhất **1090 ký tự** — vượt ngân sách gấp
-# ba mà cửa vẫn XANH. Ký tự thì không nói dối được; xuống dòng thì có.
-#
-# Tốc độ 1400 ký tự/phút KHÔNG bịa: nó là tốc độ hàm ý của đúng hai file chưa ai
-# kêu là dài — KIENTRUC.md (1417) và README.md (1438). Lấy chỗ đang vừa làm mốc.
-KY_TU_MOI_PHUT = 1400
-#
-# ⚠️ Ngân sách dưới đây đặt từ KÍCH THƯỚC THẬT ngày 03/08 (làm tròn lên phút), tức
-# một ratchet chốt-từ-hiện-trạng giống `soat_baseline.json` — nó KHÔNG hợp thức hoá
-# hiện trạng, nó chặn hiện trạng phình thêm. Số trong ngoặc là ký tự đo được; cột
-# "(cũ N)" là ngân sách thời đếm dòng, để thấy nó đã lệch thực tế bao xa.
-PHUT_DOC = {
-    "CLAUDE.md": 7,                        # 8 488 kt  (cũ 3) — nạp MỖI phiên
-    "KIENTRUC.md": 9,                      # 11 337 kt (cũ 8)  — đọc khi sửa xuyên mảng
-    "QUYETDINH.md": 15,                    # 19 924 kt (cũ 5)  — lệch nặng nhất
-    "SONO.md": 6,                          # 8 105 kt  (cũ 4)
-    "CACHLAM.md": 15,                      # 20 660 kt (cũ 8)
-    "README.md": 4,                        # 4 314 kt  (cũ 3)
-    # File DUY NHẤT viết cho user. Ngân sách khắt khe nhất vì user không có nghĩa
-    # vụ đọc tài liệu. ⚠️ QD-07 ghi "trần 2 phút" — con số đó tính bằng DÒNG, quy
-    # sang ký tự là 3; ràng buộc thật của file này vẫn là "tối đa 5 mục/bản".
-    "PHIENBAN.md": 3,                      # 3 652 kt  (cũ 2)
-    # Phiếu việc dùng một lần (/ycau ghi đè, /nghiemthu xoá). Trần thấp là CỬA
-    # chống nó biến thành CHANGELOG.md thứ hai: phình = ai đó đang NỐI THÊM
-    # thay vì ghi đè, tức là quy trình đã trôi. (QD-09)
-    "VIECDANGLAM.md": 2,                   # 1 230 kt  (cũ 2) — còn dư, giữ nguyên
-    # 🔴 HAI FILE TO NHẤT REPO, TRƯỚC 03/08 KHÔNG BỊ CANH GÌ CẢ. S10 khớp đúng
-    # đường dẫn từ gốc, nên khoá "README.md" chỉ bắt file ở gốc (4 314 kt) và bỏ
-    # lọt bản trong data/huongdan/ gấp năm lần nó. Cộng lại 60 249 ký tự — 44%
-    # toàn bộ tài liệu — nằm ngoài mọi cửa trong khi PHIENBAN.md 3 652 kt bị chặn.
-    "data/huongdan/kho/TIEPTUC.md": 28,    # 37 846 kt (MỚI)
-    "data/huongdan/README.md": 17,         # 22 403 kt (MỚI)
-}
+def _nguong():
+    """Mọi CON SỐ TRẦN ở `soat_nguong.json` — cấu hình THẬT, tài liệu chỉ trỏ
+    (QD-21). Parse CHẶT: khoá trùng (một đích hai trần) là ValueError. Hỏng thì
+    S12 kêu ĐỎ; các mục dùng số im lặng để không kêu ba lần cho một lỗi."""
+    def _ghep(cap):
+        d = {}
+        for k, v in cap:
+            if k in d:
+                raise ValueError(f"khoa trung (mot dich hai tran): {k}")
+            d[k] = v
+        return d
+    return json.loads((GOC / "soat_nguong.json").read_text(encoding="utf-8"),
+                      object_pairs_hook=_ghep)
 
 
+# ---------------------------------------------------------------------------
+# S10 — file trí nhớ phình quá trần (PHÚT ĐỌC quy ra KÝ TỰ — QD-20)
+# ---------------------------------------------------------------------------
 def s10_tri_nho_phinh():
     """Chạm trần KHÔNG có nghĩa "cấm viết thêm" — nghĩa là phải dừng lại CHỌN:
-    cắt mục đã hết giá trị, hay nâng ngân sách phút một cách có ý thức (ghi QD)."""
+    cắt mục đã hết giá trị, hay nâng ngân sách trong `soat_nguong.json` kèm QD-nn."""
+    try:
+        ng = _nguong()
+        toc_do, tran_phut = ng["ky_tu_moi_phut"]["so"], ng["phut_doc"]["tran"]
+    except (OSError, ValueError, KeyError):
+        return []                              # soat_nguong.json hỏng: S12 kêu ĐỎ
     ra = []
-    for ten, phut in sorted(PHUT_DOC.items()):
+    for ten, phut in sorted(tran_phut.items()):
         p = GOC / ten
         if not p.exists():
             continue
@@ -453,11 +398,11 @@ def s10_tri_nho_phinh():
             so_ky_tu = len(p.read_text(encoding="utf-8"))
         except OSError:
             continue
-        tran = phut * KY_TU_MOI_PHUT
+        tran = phut * toc_do
         if so_ky_tu > tran:
             ra.append(PhatHien(
                 ten, so_ky_tu,
-                f"doc het mat ~{so_ky_tu / KY_TU_MOI_PHUT:.0f} phut, ngan sach {phut} phut "
+                f"doc het mat ~{so_ky_tu / toc_do:.0f} phut, ngan sach {phut} phut "
                 f"({so_ky_tu} ky tu > {tran}) — cat muc het gia tri, hoac nang ngan sach kem QD-nn"))
     return ra
 
@@ -466,21 +411,10 @@ def s10_tri_nho_phinh():
 # S11 — hook nhắc luật còn sống không
 # ---------------------------------------------------------------------------
 def s11_hook_con_song():
-    """Hook `UserPromptSubmit` là thứ DUY NHẤT bơm lại luật vào MỖI lượt — nhưng
-    nó chết thì chết IM LẶNG: không có lỗi nào hiện ra, chỉ là các lượt sau AI
-    dần quên luật, đúng cơ chế đã đẻ ra 10 wrapper. Đo 01/08/2026: S1→S10 mù
-    hoàn toàn với chuyện này ⇒ dựng cửa (QD-13).
-
-    Ba cách hook chết mà mục này bắt được:
-      1. File hook bị xoá / đổi tên, `settings.json` trỏ vào chỗ trống.
-      2. Mục "hooks" bị gỡ khỏi `settings.json` (vô tình khi sửa cấu hình khác).
-      3. 🔴 Lệnh gọi được nhưng KHÔNG chạy nổi trên máy này — hay gặp nhất là
-         `python` không có trên PATH (Linux/macOS thường chỉ có `python3`).
-         Đây là lý do mục này CHẠY THẬT chứ không chỉ kiểm file có tồn tại:
-         cửa soát chỉ nhìn tên file sẽ báo XANH trên đúng cái máy hook đang chết.
-
-    Cái mục này CỐ Ý không bắt: nội dung hook viết gì. Đó là việc của người, và
-    một cửa soát chấm điểm câu chữ sẽ bị vô hiệu hoá bằng vài từ vô nghĩa (S9)."""
+    """Hook `UserPromptSubmit` bơm lại luật mỗi lượt — nó chết là chết IM LẶNG
+    (QD-13). Phải CHẠY THẬT lệnh hook chứ không chỉ kiểm file tồn tại: kiểu chết
+    hay gặp nhất là `python` không có trên PATH, nhìn tên file sẽ báo XANH oan.
+    CỐ Ý không chấm nội dung hook — cửa chấm câu chữ bị vô hiệu bằng vài từ (S9)."""
     p_cai_dat = GOC / ".claude" / "settings.json"
     if not p_cai_dat.exists():
         return [PhatHien(".claude/settings.json", 0,
@@ -525,10 +459,90 @@ def s11_hook_con_song():
 
 
 # ---------------------------------------------------------------------------
+# S12·S13·S14 — ba cửa quanh `soat_nguong.json` (QD-21)
+# ---------------------------------------------------------------------------
+def s12_nguong_hop_le():
+    """Nguồn duy nhất thì phải TỰ nhất quán: trần trỏ file đã xoá / trỏ QD-nn
+    không có trong QUYETDINH.md / khoá trùng / file hỏng-mất ⇒ ĐỎ ngay."""
+    try:
+        ng = _nguong()
+    except (OSError, ValueError) as e:
+        return [PhatHien("soat_nguong.json", 0, f"doc/parse that bai: {e}")]
+    ra = []
+    duong = list(ng.get("phut_doc", {}).get("tran", {})) + \
+            list(ng.get("dong_py", {}).get("da_ghi_no", {}))
+    for ten in duong:
+        if not (GOC / ten).exists():
+            ra.append(PhatHien(f"nguong|{ten}", 0, f"tran tro toi file khong ton tai: {ten}"))
+    try:
+        qd_that = set(re.findall(r"QD-\d+", (GOC / "QUYETDINH.md").read_text(encoding="utf-8")))
+    except OSError:
+        qd_that = set()
+    for muc, phan in ng.items():
+        qd = phan.get("qd") if isinstance(phan, dict) else None
+        if qd and qd not in qd_that:
+            ra.append(PhatHien(f"nguong|{muc}", 0, f"tro {qd} nhung QUYETDINH.md khong co so do"))
+    return ra
+
+
+def s13_tran_dong_code():
+    """Trần dòng file CODE (trước 03/08 không máy nào canh): vượt `ghi_no` phải có
+    trong `da_ghi_no` kèm mốc ratchet, vượt `tach` là ĐỎ thẳng. Lô kho (`k*.py`,
+    `lo*.py`) là DỮ LIỆU sinh ra, không phải code — bỏ qua theo `bo_qua_mau`."""
+    try:
+        ng = _nguong()["dong_py"]
+    except (OSError, ValueError, KeyError):
+        return []
+    ra = []
+    for p in cac_file_py():
+        d = duong_dan(p)
+        if any(fnmatchcase(d, mau) for mau in ng["bo_qua_mau"]):
+            continue
+        try:
+            so = len(p.read_text(encoding="utf-8").splitlines())
+        except OSError:
+            continue
+        moc = ng["da_ghi_no"].get(d)
+        if so > ng["tach"]:
+            ra.append(PhatHien(d, 0, f"{so} dong > tran tach {ng['tach']} — tach truoc khi them"))
+        elif so > ng["ghi_no"] and moc is None:
+            ra.append(PhatHien(d, 0, f"{so} dong > {ng['ghi_no']} — ghi SONO.md + moc vao da_ghi_no"))
+        elif moc is not None and so > moc:
+            ra.append(PhatHien(d, 0, f"{so} dong, phinh qua moc da ghi no {moc} — dung them nua"))
+    return ra
+
+
+def s14_phienban_tran():
+    """`PHIENBAN.md` giữ tối đa N bản, mỗi bản tối đa M gạch đầu dòng (QD-07) —
+    con số từng nêu ở 4 file mà 0 cửa canh, nay máy đếm thật."""
+    try:
+        ng = _nguong()["phienban"]
+    except (OSError, ValueError, KeyError):
+        return []
+    p = GOC / "PHIENBAN.md"
+    if not p.exists():
+        return []
+    muc_cua_ban, ban = {}, None
+    for dong in p.read_text(encoding="utf-8").splitlines():
+        if re.match(r"##\s*v\d", dong):
+            ban = dong.strip()
+            muc_cua_ban[ban] = 0
+        elif ban and dong.lstrip().startswith("- "):
+            muc_cua_ban[ban] += 1
+    ra = []
+    if len(muc_cua_ban) > ng["giu_ban"]:
+        ra.append(PhatHien("PHIENBAN.md", 0,
+                           f"{len(muc_cua_ban)} ban > tran {ng['giu_ban']} — xoa ban cu nhat"))
+    for ban, so in muc_cua_ban.items():
+        if so > ng["muc_moi_ban"]:
+            ra.append(PhatHien(f"PHIENBAN.md|{ban[:24]}", 0, f"{so} muc > tran {ng['muc_moi_ban']}/ban"))
+    return ra
+
+
+# ---------------------------------------------------------------------------
 # Khung chạy
 # ---------------------------------------------------------------------------
-# `luon_do=True`: mục mà MỘT lần lọt là đã hại, không có khái niệm "nợ chấp nhận
-# được" — vi phạm nào cũng ĐỎ, kể cả khi baseline từng ghi nhận.
+# `luon_do=True`: MỘT lần lọt là đã hại — vi phạm nào cũng ĐỎ, bất kể baseline.
 MUC = [
     ("S1", "CUA LAU TOI ANKICONNECT (L1)", s1_cong_anki, False),
     ("S2", "GOI TEN PRIVATE XUYEN GOI", s2_private_xuyen_goi, False),
@@ -541,6 +555,9 @@ MUC = [
     ("S9", "COMMIT DUNG CODE MA KHONG KHAI VI SAO", s9_commit_thieu_vi_sao, True),
     ("S10", "FILE TRI NHO PHINH QUA TRAN", s10_tri_nho_phinh, True),
     ("S11", "HOOK NHAC LUAT DA CHET (QD-13)", s11_hook_con_song, True),
+    ("S12", "soat_nguong.json TU MAU THUAN (QD-21)", s12_nguong_hop_le, True),
+    ("S13", "FILE CODE QUA TRAN DONG (QD-21)", s13_tran_dong_code, True),
+    ("S14", "PHIENBAN.md QUA TRAN BAN/MUC (QD-07)", s14_phienban_tran, True),
 ]
 
 
@@ -561,9 +578,8 @@ def gom(phat_hien):
 
 
 def _so_cua(gia_tri):
-    """Mục baseline viết được hai kiểu: số trần, hoặc `{"so": N, "vi_sao": "..."}`.
-    Kiểu thứ hai là kiểu ĐƯỢC KHUYẾN KHÍCH — mỗi miễn trừ/mỗi nợ kèm một câu lý do,
-    học đúng từ `MIEN_TRU`: nợ không ghi lý do thì đời sau không dám trả."""
+    """Baseline viết được hai kiểu: số trần, hoặc `{"so": N, "vi_sao": "..."}` —
+    kiểu sau ĐƯỢC KHUYẾN KHÍCH: nợ không ghi lý do thì đời sau không dám trả."""
     if isinstance(gia_tri, dict):
         return gia_tri.get("so", 0)
     return gia_tri or 0
@@ -612,9 +628,7 @@ def chay():
                 inn(f"  🔴 {ph.khoa.split('|')[0]}:{ph.dong} — {ph.mo_ta}")
             if cho_phep:
                 inn(f"     (baseline cho {cho_phep}, nay {so})")
-        # VÀNG in gọn: nợ tồn đọng phải THẤY được nhưng không được lấn át tiếng
-        # kêu thật. In hết 12 dòng lô mỗi lần chạy là cách nhanh nhất để người ta
-        # thôi đọc output.
+        # VÀNG in gọn: nợ phải THẤY được nhưng không được lấn át tiếng kêu thật.
         for khoa, so in vang[:3]:
             ten = khoa.split("|")[0]
             ghi_chu = _vi_sao(moc.get(khoa))

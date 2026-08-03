@@ -1,0 +1,32 @@
+{
+  "ky_tu_moi_phut": {"so": 1400, "qd": "QD-20"},
+  "phut_doc": {
+    "qd": "QD-20",
+    "tran": {
+      "CLAUDE.md": 7,
+      "KIENTRUC.md": 9,
+      "QUYETDINH.md": 15,
+      "SONO.md": 6,
+      "CACHLAM.md": 15,
+      "README.md": 4,
+      "PHIENBAN.md": 3,
+      "VIECDANGLAM.md": 2,
+      "data/huongdan/kho/TIEPTUC.md": 28,
+      "data/huongdan/README.md": 17
+    }
+  },
+  "dong_py": {
+    "qd": "QD-21",
+    "ghi_no": 400,
+    "tach": 700,
+    "bo_qua_mau": ["data/huongdan/kho/k*.py", "data/huongdan/lo*.py"],
+    "da_ghi_no": {
+      "soatkientruc.py": 700,
+      "anki_tools/anki_client.py": 547,
+      "anki_tools/grammar.py": 502,
+      "data/huongdan/kho/congcu.py": 446,
+      "tgbot/dispatch.py": 430
+    }
+  },
+  "phienban": {"qd": "QD-07", "giu_ban": 10, "muc_moi_ban": 5}
+}
