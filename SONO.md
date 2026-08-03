@@ -79,6 +79,8 @@
 
 ### 🟡 Vận hành — còn lại, chưa cấp thiết
 
+- [ ] **`tgbot/commands.py` 434 dòng, vượt trần 400 của `CLAUDE.md`** (03/08, sau khi cắm cửa canh
+      QD-17). Chưa cấp thiết — nhưng **đừng thêm hàm mới vào đây nữa**, tách ra file cùng tầng.
 - [ ] **Bot chỉ `print`, chưa có nhật ký phân mức.** `logging.basicConfig` không tồn tại ở đâu ⇒
       không lọc được theo mức, không tách được lỗi khỏi tiếng ồn. Khác với món "log bị xoá" đã trả
       ở trên: đây là chất lượng log, không phải mất log. **Đắt** (chạm cả 3 gói) mà lợi ích chưa
