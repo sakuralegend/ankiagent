@@ -2,6 +2,8 @@
 # --- CHỤP MỐC FSRS — chạy TRƯỚC và SAU mỗi lần bấm Optimize trong Anki ---
 #   python scripts/do_fsrs.py            # chụp mốc mới + so với mốc liền trước
 #   python scripts/do_fsrs.py --xem      # chỉ xem lại, KHÔNG ghi mốc mới
+#   python scripts/do_fsrs.py --giathuyet  # kiểm giả thuyết "thấm rồi nhớ lâu"
+#                                          # của user (04/08/2026), xem hàm bên dưới
 #
 # 🔴 CHỈ ĐỌC. Không gọi lệnh ghi nào của AnkiConnect, không đụng thẻ.
 # Mốc ghi nối vào `data/fsrs_moc.json` (một file, mỗi lần đo một mục — QD-12:
@@ -123,6 +125,58 @@ def _thong_ke_nut(cur, cid_ok, tu_ms=None):
     return ra
 
 
+def kiem_gia_thuyet():
+    """GIẢ THUYẾT CỦA USER, ghi 04/08/2026 để KIỂM LẠI khi có thêm dữ liệu:
+
+        "Tôi phải trải qua 2, 3 ngày chu kì liên tiếp, Anki nhắc lại thì từ mới
+         thấm vào đầu. Giai đoạn sớm cần thấm chữ, một khi thấm sẽ nhớ lâu."
+
+    Hai vế, kiểm riêng — bảng dưới cắt theo CHUỖI LƯỢT ĐÚNG LIÊN TIẾP (cột) và
+    ĐỘ DÀI CHU KÌ (hàng). Cắt theo chu kì là BẮT BUỘC: chuỗi dài đi kèm chu kì
+    dài, không cắt thì hai thứ lẫn vào nhau và bảng nói dối.
+
+      Vế 1 "cần 2-3 chu kì mới thấm" ⇒ ĐÚNG nếu thấy CÚ NHẢY BẬC giữa cột 2 và
+      cột 3 (>10 điểm), SAI nếu các cột tăng đều từng nấc.
+      Vế 2 "thấm rồi thì nhớ lâu"    ⇒ ĐÚNG nếu ở hàng chu kì DÀI, cột chuỗi 4+
+      giữ được mức cao (>=85%) với cỡ mẫu >= 100 lượt.
+
+    Đo 04/08/2026 (chưa kết luận được): hàng 2-3 ngày tăng đều
+    71,8 -> 76,9 -> 81,6 -> 85,3% (mẫu 284/506/402/204) ⇒ nghiêng về "tăng đều",
+    chưa thấy nhảy bậc. Hàng chu kì >7 ngày chỉ có 48 lượt ở cột 4+ ⇒ CHƯA ĐỦ để
+    phán vế 2. Hẹn chạy lại khi cột đó đạt >= 100 lượt."""
+    con, tam = _mo_ban_chep()
+    chuoi, bang = collections.Counter(), collections.defaultdict(lambda: [0, 0])
+    for _rid, cid, ease, _typ, li in con.execute(
+            "select id, cid, ease, type, lastIvl from revlog "
+            "where ease > 0 and type in (1, 2) order by id"):
+        li = max(li, 0)
+        hang = ("1 ngày" if li <= 1 else "2-3 ngày" if li <= 3
+                else "4-7 ngày" if li <= 7 else "trên 7 ngày")
+        o = bang[(min(chuoi[cid], 4), hang)]
+        o[0] += 1
+        o[1] += ease > 1
+        chuoi[cid] = 0 if ease == 1 else chuoi[cid] + 1
+    con.close()
+    for hau_to in ("", "-wal", "-shm"):
+        tam.with_name(tam.name + hau_to).unlink(missing_ok=True)
+
+    print(kiem_gia_thuyet.__doc__.split("Hai vế")[0].strip())
+    print("\n% NHỚ ĐƯỢC — cột = số lượt ĐÚNG LIÊN TIẾP trước đó, hàng = độ dài chu kì")
+    print(f"{'chu kì':>12} |" + "".join(f"{('chuỗi ' + (str(k) if k < 4 else '4+')):>16}"
+                                        for k in range(5)))
+    for hang in ("1 ngày", "2-3 ngày", "4-7 ngày", "trên 7 ngày"):
+        dong = ""
+        for k in range(5):
+            t, n = bang[(k, hang)]
+            dong += (f"{n / t * 100:11.1f}% ({t:3d})" if t >= 25 else
+                     f"{n / t * 100:11.1f}%*({t:3d})" if t else f"{'.':>12}    ")
+        print(f"{hang:>12} |{dong}")
+    print("  (* dưới 25 lượt — số quá nhỏ, đừng tin)\n"
+          "  Vế 1 'cần 2-3 chu kì mới thấm': đúng nếu cột 2 -> cột 3 NHẢY >10 điểm.\n"
+          "  Vế 2 'thấm rồi nhớ lâu': đúng nếu hàng 'trên 7 ngày' cột 4+ >= 85%\n"
+          "       với >= 100 lượt (04/08/2026 mới có 48 lượt -> chưa phán được).")
+
+
 def chup(ghi_chu=""):
     con, tam = _mo_ban_chep()
     cur = con.cursor()
@@ -219,6 +273,9 @@ def main():
     goc = json.loads(MOC_FILE.read_text(encoding="utf-8")) if MOC_FILE.exists() else \
         {"ghi_chu_file": "Các MỐC đo FSRS — mỗi lần đo thêm MỘT mục vào 'moc', "
                          "KHÔNG đẻ file mới. Chụp bằng scripts/do_fsrs.py.", "moc": []}
+    if "--giathuyet" in sys.argv:
+        kiem_gia_thuyet()
+        return
     if "--xem" in sys.argv:
         if len(goc["moc"]) >= 2:
             in_so_sanh(goc["moc"][-2], goc["moc"][-1])
