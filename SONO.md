@@ -39,11 +39,10 @@
       **Thu hoạch ngay:** `suy_giong()` phán `дя́дя` (giống ĐỰC, biến cách như giống cái) là `'f'`.
       Đã vá bằng cờ `animate`: đồ vật đuôi -а/-я thì kết luận giống cái, **người thì im lặng**.
       (31/07/2026)
-- [ ] **`soatkientruc.py` đã 578 dòng — vượt ngưỡng 400 dòng do CHÍNH `CLAUDE.md` đặt**, và **không
-      có gì canh chính nó**: S10 chỉ canh file `.md`, S6 chỉ canh tên file ở gốc. Thứ đang chặn
-      deploy mà sai thì hoặc chặn oan hoặc bỏ lọt, không ai biết. Liên quan trực tiếp món trên: cách
-      canh nó đúng nhất là **test cho chính nó** (cho một repo giả, kỳ vọng đúng mục nào ĐỎ).
-      (31/07/2026)
+- [x] **`soatkientruc.py` không ai canh → ĐÃ CÓ `tests/test_soatkientruc.py` (03/08/2026).**
+      9 test dựng repo giả trong thư mục tạm, kỳ vọng đúng mục nào ĐỎ/im cho S1·S2·S3·S4·S6·S7·S8
+      + ratchet. KHÔNG tách file (673 dòng < mức 700 buộc tách; tách là phá QD-02 một-file-tự-đứng
+      — user duyệt 03/08). ⚠️ Vẫn "đừng thêm mục soát mới vào mà không thêm test tương ứng".
 - [x] **Thiếu lớp chặn sớm của git → ĐÃ CÓ `commit-msg` hook.** `scripts/hook-commit-msg` +
       `scripts/caidat_hook.sh` (cài một lần mỗi máy). Chặn NGAY lúc `git commit` thay vì đợi tới
       deploy. Giữ cả S9: hook nằm ngoài repo nên không tự đi theo sang máy/AI khác, S9 thì đi cùng
