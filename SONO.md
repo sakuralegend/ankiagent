@@ -6,9 +6,6 @@
 
 ## Nợ
 
-> Nợ **cấu trúc code** tồn đọng trước 30/07/2026 do `_fable_plan.md` (G0–G4) quản, không chép lại đây.
-> Bên dưới là các món **plan đó KHÔNG quản** — phát hiện khi rà lại 31/07/2026.
-
 ### 🔴 Vận hành — hỏng thì mất dữ liệu hoặc mất nhiều giờ truy lỗi (ĐÃ TRẢ 31/07/2026)
 
 - [x] **Sao lưu chưa từng khôi phục thử.** Đã khôi phục thật vào profile Anki RỖNG: 950/950 note
@@ -18,18 +15,12 @@
 
 ### 🟡 Vận hành — ĐÃ TRẢ 31/07/2026 (user duyệt cả ba)
 
-- [x] **Không ai báo khi BOT chết → ĐÃ CÓ CHUÔNG (QD-04).** `scripts/canhbao_bot_chet.sh` nói thẳng
-      với Telegram bằng `curl`, không nạp dòng code Python nào của dự án. Hai lớp: systemd
-      `OnFailure=` (chết hẳn = 5 lần khởi động trong 5 phút) + cron 15′ bắt trường hợp bị dừng hẳn.
-      Chống spam bằng mốc trạng thái ⇒ bot chết cả ngày = ĐÚNG MỘT tin, và có tin báo khi sống lại.
-      **Đã thử thật:** Telegram trả `ok:true`; stop bot → bắt được; start lại → báo "đã chạy lại";
-      gọi thêm 2 lần → im lặng. (31/07/2026)
+- [x] **Không ai báo khi BOT chết → ĐÃ CÓ CHUÔNG (QD-04).** `scripts/canhbao_bot_chet.sh` gọi thẳng
+      Telegram bằng `curl`, **không nạp dòng code Python nào của dự án** — đó là cả điểm của nó.
 - [x] **`grammar_cache.json` kẹt deploy → hết hẳn file cache (QD-05 rồi QD-11).** Bài học duy nhất
-      còn giá trị: số đo dùng để BÁC một hướng cũng hết hạn — "88 thẻ thiếu dữ liệu" (31/07) đo lại
-      02/08 ra **0**, và chính hướng từng bị bác trở thành hướng thi hành. (chi tiết: `git log`)
-- [x] **Log xoay vòng mất dấu → ĐÃ ĐẶT TRẦN.** `SystemMaxUse=500M` + `MaxRetentionSec=3month`.
-      Đo trước khi sửa: log vẫn còn từ 14/07 (~17 ngày, 212 MB) nên món này nhẹ hơn lo ngại — việc
-      thật chỉ là chặn phình vô hạn. Bản gốc lưu ở `/root/journald.conf.bak`. (31/07/2026)
+      còn giá trị: **số đo dùng để BÁC một hướng cũng hết hạn** — "88 thẻ thiếu" (31/07) đo lại 02/08
+      ra **0**, và chính hướng từng bị bác trở thành hướng thi hành.
+- [x] **Log xoay vòng mất dấu → ĐÃ ĐẶT TRẦN** `SystemMaxUse=500M` + `MaxRetentionSec=3month`.
 
 ### 🔴 Tự soi 31/07/2026 — AI tự tìm ra, user KHÔNG phải người phát hiện
 
@@ -69,14 +60,10 @@
 
 ### 🔴 Phát hiện + TRẢ LUÔN 03/08/2026 — chiều NGƯỢC của QD-16
 
-- [x] **Không gì canh thẻ LỆCH deck ↔ nhãn `Stage` → ĐÃ CÓ CỬA CANH (QD-17).** 03/08 job 3h00
-      chuyển cấp 36 thẻ; 21 thẻ user học sáng 6h36–7h04 **trên thiết bị chưa kéo bản 3h00 về** bật
-      ngược về `0-quen` mà nhãn `type` còn nguyên ⇒ hiện sai mặt. Tương quan **21/21 học · 15/15
-      không học**, không ca lệch. Không phải code sai: Anki xử xung đột RIÊNG cho note và RIÊNG cho
-      thẻ. Nay `anki_tools/soat_giaidoan.py` bám đuôi nhịp sync 30′, soi **cả hai chiều**, tự vá +
-      nhắn Telegram. Đo: 976 thẻ thật → **0 kêu oan**; lệch giả 3 chiều → bắt 3/3.
-      ⚠️ **Chỉ dò rồi vá lại, KHÔNG chặn được nguyên nhân gốc** (xung đột sync) — thẻ vẫn sai mặt
-      tối đa ~40 phút. Muốn hết hẳn thì phải để thiết bị sync xong rồi mới học.
+- [x] **Không gì canh thẻ LỆCH deck ↔ nhãn `Stage` → ĐÃ CÓ CỬA CANH (QD-17).**
+      ⚠️ **Chỉ dò rồi vá lại, KHÔNG chặn được nguyên nhân gốc** (Anki xử xung đột sync RIÊNG cho
+      note và RIÊNG cho thẻ) — thẻ vẫn có thể sai mặt tối đa ~40 phút. Muốn hết hẳn thì phải để
+      thiết bị sync xong rồi mới học.
 
 ### 🟡 Vận hành — còn lại, chưa cấp thiết
 
@@ -101,14 +88,37 @@
 
 ### 🟡 Code — rơi giữa hai ghế, không plan nào quản
 
-- [x] **4 luật chuẩn hoá tiếng Nga khác nhau — ĐÃ ĐO 31/07/2026, ĐÓNG NỢ.** 1748 từ Nga thật, cả 4
-      hàm, **0 bất đồng** — code vẫn khác hàm nhau (KHÔNG gộp, đúng dặn dò), chỉ là chưa có từ nào
-      chạm trúng khác biệt. ⚠️ **Đo lại** nếu nạp dữ liệu từ nguồn copy-paste không rõ chuẩn hoá
-      (dán thẳng từ web ngoài OpenRussian). Chi tiết: `git log`.
-- [x] **Thư mục gốc vi phạm chính luật L2 — ĐÃ TRẢ 31/07/2026 (G3).** Gốc còn đúng ba file `.py`;
-      thêm tên vào danh sách trắng S6 từ nay là **nới luật**, phải ghi `QUYETDINH.md` trước.
+- [x] **4 luật chuẩn hoá tiếng Nga khác nhau — ĐÃ ĐO 31/07, ĐÓNG NỢ.** 1748 từ thật, **0 bất đồng**;
+      KHÔNG gộp (đúng dặn dò). ⚠️ **Đo lại** nếu nạp dữ liệu dán thẳng từ web ngoài OpenRussian.
+- [x] **Gốc vi phạm luật L2 — ĐÃ TRẢ 31/07.** Cửa S6 canh, **S6 là bản ghi**.
 
-## Ý TƯỞNG (chưa làm, chờ xong 61 lô)
+## 📐 PLAN CHỜ DUYỆT — TÁCH RÀNG BUỘC (số) KHỎI LÝ DO (chữ) · user nêu 03/08
+
+**Làm gì:** một file ở gốc chứa **con số trần + đúng một con trỏ `QD-nn`**, không câu giải thích
+nào. 🔴 Nó **không phải tài liệu mô tả code — nó là CẤU HÌNH THẬT `soatkientruc.py` ĐỌC**: bản sao
+thì sẽ lệch, nguồn thì bất khả.
+
+**Vì sao — đo 03/08:** *"giữ 10 bản"* nêu ở **4 file, 0 cửa canh** · *"trần 2 phút"* ở **4 file** mà
+máy thực thi **3** ⇒ cả bốn đều sai · 🔴 *">400 dòng ghi nợ, >700 phải tách"* — **KHÔNG CỬA NÀO**,
+tức đợt refactor 50 $ tối 03/08 chạy theo một luật không ai canh.
+
+🔴 **GỠ NÚT TRƯỚC:** `soatkientruc.py` **686/700** ⇒ thêm cửa nào cũng đâm tường, kể cả cửa 400/700.
+**Bước 1 tự tháo nút:** `PHUT_DOC` chiếm **38 dòng**, đưa ra ngoài rồi thay bằng ~8 dòng
+nạp ⇒ còn ~656.
+
+**User quyết trước khi gõ code:** ① định dạng (JSON stdlib hay bảng `.md` máy đọc) ② ràng buộc **phi
+số** (*"cấm wrapper thứ hai"*) có đưa vào không ③ migrate **hết** hay từng phần — nửa vời đẻ ra chỗ
+lệch **thứ ba**, tệ hơn hiện tại.
+
+**Phần thưởng lớn nhất** (user chỉ ra): ràng buộc thành dữ liệu thì **máy soi được va chạm** — cùng
+đích hai giá trị · trỏ file đã xoá · mồ côi · **mâu thuẫn nhau**. Ca cuối dính thật 03/08 mà không
+gì báo: `soatkientruc.py` phải ≤700 dòng **và** mọi cửa phải ở trong đúng nó (QD-02) **và** cửa mới
+phải kèm test — ở 686 dòng, ba cái gần như không cùng thoả.
+
+⚠️ **Đừng giao cho phiên đã bàn xong chuyện này**: nó thiết kế bản thay thế trong lúc đang ngâm
+trong thứ bị thay. Giao context trắng + `git log` 03/08.
+
+## Ý TƯỞNG (chờ hết hàng đợi kho)
 
 - **Lệnh `/moi` trong bot — đọc `PHIENBAN.md` ngay trong Telegram.** User xem "có gì mới" ở đúng chỗ
   họ thực sự dùng hệ thống, khỏi phải mở repo. Việc nhỏ (đọc file + gửi text, dùng `tgbot/` sẵn có)
