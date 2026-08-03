@@ -15,6 +15,17 @@
 
 ---
 
+## v1.0.2 — 03/08/2026
+
+- 🔄 **Sửa 21 thẻ trong deck `0-quen` sáng nay bị lật sang mặt gõ.** Đêm qua máy chủ đã nâng chúng
+  lên chặng gõ, nhưng sáng nay bạn học chúng trên thiết bị **chưa tải bản mới về**, nên khi đồng bộ
+  thì thẻ bị kéo ngược về deck cũ mà cái nhãn "đã lên chặng gõ" thì còn nguyên — thành ra sai mặt.
+  Nay 21 thẻ đã về đúng mặt làm quen, **tiến độ ôn sáng nay giữ nguyên**, bạn không phải làm gì.
+  Đêm nay máy chủ sẽ tự nâng chúng lên chặng gõ như bình thường.
+- 💡 **Mẹo tránh lặp lại: buổi sáng hãy để app Anki đồng bộ xong rồi mới bắt đầu học.** Nếu app đã
+  mở sẵn từ tối hôm trước, nó không tự tải bản mới về.
+- 📝 45 thẻ mới có ô Hướng dẫn: **số hàng chục/trăm/nghìn · số thứ tự · đơn vị đo**.
+
 ## v1.0.1 — 02/08/2026
 
 - ⌨️ **Sửa 23 thẻ trong deck `1-go` hiện sai mặt: đã học xong phần làm quen mà vẫn không có ô gõ.**

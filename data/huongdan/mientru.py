@@ -30,6 +30,9 @@ MIEN_TRU = {
     "жарка́": "DẠNG NGẮN giống cái của tính từ жа́ркий (nóng) — grammar_cache ghi rõ bộ dạng "
              "ngắn жа́рок · жарка́ · жа́рко · жа́рки, thẻ k27 dạy đúng chỗ trọng âm dịch này; "
              "nouns.csv chỉ có danh từ đồng tự жа́рка = việc rán (từ жа́рить)",
+    "сорока́": "cách 2·3·5·6 của số từ со́рок (bốn mươi) — grammar_cache ghi rõ cả bảng chỉ có "
+              "một dạng gián tiếp сорока́; thẻ k29 cố ý nêu cặp này để user khỏi lẫn, "
+              "nouns.csv chỉ có danh từ đồng tự соро́ка = chim ác là",
     "у́ха": "cách 2 của у́хо (cái tai), dùng trong thành ngữ слу́шать кра́ем у́ха (thẻ k02); "
            "từ điển chỉ có danh từ đồng tự уха́ = canh cá",
 }

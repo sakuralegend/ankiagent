@@ -12,16 +12,36 @@ Bạn (user) chỉ cần gõ một câu: **"chạy tiếp kho"**. Phần dưới
 > 🔄 **02/08: `nap --apply` và `cao_nguphap` nay TỰ kéo sync về trước khi đọc/ghi** (QD-16). Sync
 > hỏng thì chúng DỪNG, không ghi gì — đúng cái đã làm hỏng 23 thẻ đêm 31/07. Không phải nhớ gì thêm.
 
-### ✅ PHIÊN 02/08 (tối): k26 · k27 · k28 XONG & ĐÃ NẠP — lô kế tiếp là **k29**
+### ✅ PHIÊN 03/08: k29 · k30 · k31 XONG & ĐÃ NẠP — lô kế tiếp là **k32**
 
-▶️ **PHIÊN SAU CHẠY ĐÚNG 3 LÔ: `k29`(17) · `k30`(21) · `k31`(7) = 45 từ.**
+▶️ **PHIÊN SAU CHẠY ĐÚNG 3 LÔ: `k32`(12) · `k33`(21) · `k34`(20) = 53 từ.**
 Chạy `moi --apply` trước — có từ mới thì từ mới chen lên đầu và số này đổi. ⚠️ **cả ba đều là lô
-ghép tay** (`thucong`), trục ghi sẵn trong `hangdoi.json`, đừng tự mò trục khác. k31 chỉ 7 từ —
-**lô nhỏ là giá đã chấp nhận**, đừng gộp nó vào lô khác cho "đỡ phí".
+ghép tay** (`thucong`), trục ghi sẵn trong `hangdoi.json`, đừng tự mò trục khác.
 
-**30 lô / 454 từ duyệt / 522 chờ.** Không có từ mới ⇒ lấy thẳng 3 lô đầu. Cả 3 lô
-`QUA 1 MAN HINH: 0` · `QUA 2 O DO: 0` · khối chung **0%**; `nap` khớp tuyệt đối (18·13·21).
-Ba lô đúng 3 lô như user chốt, và **không tràn hạn mức** — mốc 3 lô là đúng, giữ.
+**33 lô / 499 từ duyệt / 477 chờ.** Không có từ mới ⇒ lấy thẳng 3 lô đầu. Cả 3 lô
+`QUA 1 MAN HINH: 0` · `QUA 2 O DO: 0` · khối chung **0%**; `nap` khớp tuyệt đối (45 note / 45 từ).
+
+🔴 **BÀI HỌC PHIÊN NÀY — LÔ SỐ THỨ TỰ SUÝT ĐẺ RA ĐỀ BÀI KHÔNG CÓ ĐÁP ÁN ĐÚNG.** Nghĩa Việt của
+**bảy số thứ tự đầu trùng ĐÚNG TỪNG CHỮ với tên ngày trong tuần** đã có trong kho: `тре́тий` "thứ ba"
+đụng `вто́рник`, `четвёртый` "thứ tư" đụng `среда́`… Badge `{{PoS}}` **không cứu được** vì user nhìn
+đề bài trước rồi mới gõ. Agent tự phát hiện và đổi sang chữ số + chú "(số thứ tự, không phải ngày
+trong tuần)" — chữ số một mình chưa đủ vì tiếng Việt vẫn viết "thứ 3" cho thứ Ba.
+⇒ **Lô nào có nghĩa Việt đụng một HỆ THỐNG khác đã nằm trong kho thì phải quét cả `tudien.json`**,
+đừng chỉ so trong nội bộ lô. Cùng họ với vệt "dòng `vi` sai" nhưng nguy hiểm hơn: ở đây **không dòng
+nào sai**, chỉ là hai hệ thống dùng chung một cách nói tiếng Việt.
+
+📉 **k30 (21 từ) tự bắt 13 lỗi nội dung — CAO NHẤT từ trước tới nay**, và agent khai **11/13 nằm ở
+nửa ĐẦU danh sách** khi rà ngược. Đây là điểm đo mạnh nhất tới giờ cho lời dặn "rà NGƯỢC từ cuối lên
+đầu": nghi ngờ cũ *"lô to bắt 0 lỗi vì hết chú ý"* nay lật hẳn — **lô 21 từ vẫn rà kỹ được, miễn là
+đổi chiều rà**. Trần cỡ lô vẫn chưa cần hạ. Đã ghi 3 dòng vào `dolo.tsv`.
+
+⚠️ **Số từ có `numDecl` rác giống hệt bảng biến cách danh từ.** k29 bắt `тридцать` có
+`pl = {gen: "тридца", nom: "тридцати"}` — `тридца` không phải từ, **và cả hai ô đều không có dấu
+trọng âm trong khi khối `sg` cạnh đó có đủ**. ⇒ Thêm một dấu hiệu rẻ bên cạnh "thiếu dấu phẩy":
+**ô mất dấu trọng âm trong khi ô hàng xóm có** = nghi rác. `тысяча` thì dòng `usage` chứa cả ký tự
+form-feed chẻ đôi chữ (`друз\fей`) lẫn ghi chú biên tập nội bộ.
+📌 `восемьсот` **không có `numDecl` trong bộ đệm** — agent cố ý không in đậm dạng cách 2 thay vì
+đoán. Muốn dạng đầy đủ thì phải cào lại từ đó trước.
 
 🔴🔴 **BÀI HỌC ĐẮT NHẤT PHIÊN: LUỒNG CHÍNH BỊA LUẬT NGỮ PHÁP TRONG LỜI NHẮN, AGENT BẮT ĐƯỢC.**
 Lời nhắn giao k28 tự dặn *"11–19 trọng âm giữ nguyên ở gốc"* rồi nêu ba ví dụ **tự mâu thuẫn với
@@ -67,10 +87,6 @@ rô **nước ngọt**). Cả hai **gloss tiếng Anh của nguồn vẫn đúng
 chiếu qua tiếng Anh. Đã vá tận `tudien.json` (không vá là lô sau soạn lại sẽ chép ra lỗi cũ).
 ⇒ **Lô tên loài / cây cỏ: bắt agent tự kiểm tên tiếng Việt.** `k26 nature::plants` ngay phiên sau.
 
-📉 **Lời nhắn "rà NGƯỢC từ cuối lên đầu" tiếp tục thu về kết quả** (phiên trước cũng vậy): lô 17–20
-từ nay bắt 2–5 lỗi tự, hết sạch hiện tượng "lô to bắt 0 lỗi" từng nghi 29/07. **Trần cỡ lô chưa
-cần hạ** — sửa lời nhắn rẻ hơn cắt lô. Đã ghi 4 dòng vào `dolo.tsv`.
-
 🔴 **Bài học lớn nhất: lỗi "máy nối vào thẻ" LẠI xuất hiện, và lần này agent bắt được TRƯỚC khi
 nạp.** `кеды` bị nguồn **đảo `inst` (cách 5) với `prep` (cách 6)** ở cả sg lẫn pl
 (`inst=ке́де · prep=ке́дом`). `soat`/`dodai` mù hoàn toàn với lớp này — chúng chỉ đo phần agent
@@ -81,11 +97,6 @@ hệ thống. Đã vá thẳng `GrammarJSON` trong thẻ, sao lưu ở `backups/
 chạy và lúc `nap`, nên cào lại làm nguồn sai quay về thì **nó kêu to**, không im lặng như trước.
 Đo: 516 thẻ có bảng biến cách → 0 kêu oan. ⚠️ Chỉ bắt kiểu đảo **cả hai chiều**; sai một chiều
 vẫn phải đọc bằng mắt.
-
-📊 **Số đo lô to phản bác nghi ngờ 29/07.** Nghi ngờ cũ: lô 19–21 từ tự bắt 0 lỗi vì "hết chú ý
-trước khi hết danh sách". Phiên này lời nhắn giao k21 **nói thẳng nghi ngờ đó ra và dặn rà NGƯỢC
-từ cuối lên đầu** — k21 (21 từ) bắt **5 lỗi tự + 5 lần bác nguồn**, cao nhất phiên. ⇒ Trước khi
-hạ trần cỡ lô, thử **sửa lời nhắn** đã; n vẫn nhỏ nên đừng kết luận vội, cứ ghi tiếp `dolo.tsv`.
 
 🔴 **13 lần bác dữ liệu từ điển trong một phiên — cao chưa từng thấy.** Đắt nhất:
 `потому́` được nguồn dịch "because", nhưng đứng một mình nó là *"vì thế"*; **"bởi vì" phải là cụm

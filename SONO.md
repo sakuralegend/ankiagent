@@ -11,10 +11,8 @@
 
 ### 🔴 Vận hành — hỏng thì mất dữ liệu hoặc mất nhiều giờ truy lỗi (ĐÃ TRẢ 31/07/2026)
 
-- [x] **Sao lưu chưa từng khôi phục thử.** Đã khôi phục `backups/2026-07-29_1225/RUSSIAN.apkg` vào
-      profile Anki RỖNG trên PC qua AnkiConnect: 950/950 note phục hồi đúng, xem tận field 1 thẻ
-      (`да`) còn nguyên chữ Nga/tiếng Việt. Các bước ghi ở `VPS_SETUP.md` mục "Khôi phục thử một bản
-      `.apkg`". (31/07/2026)
+- [x] **Sao lưu chưa từng khôi phục thử.** Đã khôi phục thật vào profile Anki RỖNG: 950/950 note
+      đúng. Các bước ghi ở `VPS_SETUP.md` mục "Khôi phục thử một bản `.apkg`". (31/07/2026)
 - [x] **`requirements.txt` không ghim phiên bản.** Đã `pip freeze` trên VPS lấy đúng bản đang chạy
       thật, ghim `==` cho cả 6 gói. Nâng cấp từ nay là hành động có chủ đích. (31/07/2026)
 
@@ -38,11 +36,9 @@
 - [x] **DỰ ÁN KHÔNG CÓ TEST NÀO → ĐÃ CÓ `tests/`, và nó BẮT ĐƯỢC BUG THẬT NGAY LẦN CHẠY ĐẦU.**
       20 test bằng `unittest` (stdlib, không thêm phụ thuộc), chạy offline ~0,1 giây, cắm vào
       `deploy.ps1`. Nguyên tắc cố ý HẸP: **chỉ test chỗ ĐÃ HỎNG THẬT một lần**, không đuổi độ phủ.
-      **Thu hoạch ngay:** `suy_giong()` phán `дя́дя` (giống ĐỰC, biến cách như giống cái) là `'f'` —
-      comment cảnh báo đúng ca này lại nằm nhầm nhánh nên vô tác dụng. Đo ra **chưa thẻ nào sai**
-      (từ điển đã ghi giống cho cả nhóm) nhưng sẽ nổ ngay khi user thêm `дя́дя`/`па́па`/`де́душка`.
+      **Thu hoạch ngay:** `suy_giong()` phán `дя́дя` (giống ĐỰC, biến cách như giống cái) là `'f'`.
       Đã vá bằng cờ `animate`: đồ vật đuôi -а/-я thì kết luận giống cái, **người thì im lặng**.
-      Kiểm ngược trên thẻ thật: badge không đổi ca nào. (31/07/2026)
+      (31/07/2026)
 - [ ] **`soatkientruc.py` đã 578 dòng — vượt ngưỡng 400 dòng do CHÍNH `CLAUDE.md` đặt**, và **không
       có gì canh chính nó**: S10 chỉ canh file `.md`, S6 chỉ canh tên file ở gốc. Thứ đang chặn
       deploy mà sai thì hoặc chặn oan hoặc bỏ lọt, không ai biết. Liên quan trực tiếp món trên: cách
@@ -58,32 +54,37 @@
       5, `README.md` 3 — máy tự quy ra dòng (~30 dòng/phút). Con số phút thì người đặt và bảo vệ
       được; số dòng thì không. (31/07/2026)
 
-### 🔴 Phát hiện 02/08/2026 khi chạy lô k20 (ĐÃ TRẢ 02/08/2026)
+### 🔴 Phát hiện + TRẢ LUÔN 02/08/2026 (chi tiết: `git log`)
 
-- [x] **Không cửa nào canh DỮ LIỆU NGỮ PHÁP máy nối vào thẻ → ĐÃ CÓ CỬA (QD-15). ĐÃ TRẢ 02/08/2026.**
-      `кеды` bị nguồn đảo cách 5 với cách 6 (`inst=ке́де · prep=ке́дом`) ở cả số ít lẫn số nhiều;
-      `soat`/`dodai` mù hoàn toàn vì chúng chỉ đo phần agent VIẾT, không đo phần `nap` NỐI vào.
-      Nay `anki_tools/soat_nguphap.py` soi bản ghi **tự mâu thuẫn với luật hình thái** (khác hẳn
-      hướng "đối chiếu chéo `nouns.csv`" đã bị bác — hai nguồn cùng thượng nguồn thì trùng nhau
-      không chứng minh gì). Gọi ở `cao_nguphap.py` (dữ liệu VÀO — nên nợ ② *"cào lại là nguồn sai
-      quay về, không ai báo"* cũng đóng: nay nó kêu to) và `congcu.py nap` (dữ liệu LÊN THẺ).
-      **Đo:** 516 thẻ có bảng biến cách → **0 kêu oan**; bản ghi hỏng thật của `кеды` → bắt 2/2.
-      6 test trong `tests/`, một trong số đó bắt được lỗi của chính cửa lúc viết (đuôi cách 6 phải
-      tách theo số ít / số nhiều, vì `-ами` cũng kết thúc bằng `-и`).
+- [x] **Không cửa nào canh DỮ LIỆU NGỮ PHÁP máy nối vào thẻ → ĐÃ CÓ CỬA (QD-15).**
+      `anki_tools/soat_nguphap.py` soi bản ghi tự mâu thuẫn với luật hình thái, gọi ở
+      `cao_nguphap.py` (dữ liệu VÀO) và `congcu.py nap` (dữ liệu LÊN THẺ). Đo: 516 thẻ → 0 kêu oan.
       ⚠️ **Vẫn chỉ bắt kiểu đảo CẢ HAI CHIỀU.** Nguồn sai một chiều thì vẫn phải đọc bằng mắt.
-      Bản vá gốc của `кеды` sao lưu ở `backups/_backup_grammarjson_kedy.json` (bị `.gitignore`).
+- [x] **8 thẻ có dòng tiếng Việt lệch giữa THẺ và FILE LÔ** — `nap --tatca` từng sẽ lặng lẽ trả về
+      bản cũ. Đã sửa 8 dòng `V[...]` cho khớp thẻ (**thẻ là bên đúng**).
+      🔴 **Bài học còn nguyên giá trị:** vá tay trên thẻ mà không vá file lô là quả bom hẹn giờ.
+      Sửa nội dung thẻ thì phải hỏi **"chỗ này trong repo có bản của nó không"**; `nap` có in ra
+      lúc đổi nhưng in giữa 300 dòng thì cũng như câm.
 
-### 🔴 Phát hiện + TRẢ LUÔN 02/08/2026 khi nghiệm thu cửa ngữ pháp
+### 🔴 Phát hiện 03/08/2026 — CHIỀU NGƯỢC của QD-16, user thấy trước
 
-- [x] **8 thẻ có dòng tiếng Việt lệch giữa THẺ và FILE LÔ — `nap --tatca` từng sẽ lặng lẽ trả về
-      bản cũ.** `покупать` (k14) + 7 từ ở k48: thẻ đã bỏ chữ "(chưa hoàn thành…)" cho đúng luật
-      (badge `IMPF` in sẵn thứ đó ở mặt đề bài) mà `V[...]` trong repo còn giữ bản thừa. Đã sửa
-      8 dòng `V[...]` cho khớp thẻ — **thẻ là bên đúng**. Nghiệm thu: `nap --tatca` chạy khan nay
-      báo `doi tieng Viet 0 note` + `ghi vao 0 note` trên cả 334 từ.
-      🔴 **Bài học chung, còn nguyên giá trị:** vá tay trên thẻ mà không vá file lô là đẻ ra một
-      quả bom hẹn giờ — cùng HỌ với món `кеды` ở trên. Sửa nội dung thẻ thì phải hỏi **"chỗ này
-      trong repo có bản của nó không"**; `nap` có in ra lúc đổi nhưng in giữa 300 dòng thì cũng
-      như câm.
+- [ ] **Không gì canh thẻ LỆCH deck ↔ nhãn `Stage`, và nó lật được CẢ HAI CHIỀU.** 03/08 job 3h00
+      chuyển cấp 36 thẻ; 21 thẻ user học sáng 6h36–7h04 **trên thiết bị chưa kéo bản 3h00 về** đã
+      bật ngược về `0-quen` mà nhãn `type` còn nguyên ⇒ hiện sai mặt. Bằng chứng khoá chặt: lượt học
+      đầu tiên sau 03:00 của cả 21 thẻ ghi `type=review, lastIvl=1` — trạng thái TRƯỚC `forgetCards`;
+      15 thẻ **không** học sáng nay thì nguyên vẹn ở `1-go`. Tương quan 21/21 · 15/15, không ca lệch.
+      **Không phải code sai** — Anki xử xung đột RIÊNG cho note và RIÊNG cho thẻ: thẻ bạn sửa sau nên
+      thắng (mất deck + mất `forgetCards`), note chỉ VPS sửa nên nhãn sống. QD-16 vá đúng cặp này
+      nhưng chiều kia (mất nhãn, giữ deck) ⇒ **cửa canh phải soi cả hai chiều**.
+      Đã đo toàn bộ 976 thẻ: **chưa thẻ nào bị job 3h00 chuyển cấp hai ngày khác nhau** ⇒ đây là lần
+      đầu chiều này nổ, không phải bệnh âm ỉ. Nó **tự lành sau 24h** (đêm sau job promote lại) nhưng
+      user nhìn mặt sai suốt ngày, và lặp lại mỗi sáng học-trước-khi-sync.
+      **Đã vá dữ liệu 03/08:** 21 note trả `Stage` về rỗng (nhãn theo deck), đọc lại 0 note sai, đã
+      sync lên; bản lùi ở scratchpad phiên. Lịch học sáng nay giữ nguyên.
+      **Hướng rẻ nhất khi trả nợ:** bám job sync 30′ sẵn có (`_periodic_sync`, `tgbot/commands.py`)
+      — lệch thì sửa **nhãn theo deck** (chỉ đụng field `Stage`, KHÔNG đụng lịch) + nhắn Telegram.
+      Đặt ở đó thì phát hiện ≤30′ thay vì 24h, và không đẻ job mới. CHẠM CODE BOT ⇒ deploy riêng.
+      User chốt 03/08: *"ghi nợ sửa sau"*. (03/08/2026)
 
 ### 🟡 Vận hành — còn lại, chưa cấp thiết
 
