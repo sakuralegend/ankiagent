@@ -69,6 +69,9 @@ cái là cái kia đổi theo âm thầm.
 Chỗ đặt code mới: chỉ một mảng dùng → để trong mảng đó; **từ hai mảng trở lên thật sự cần** →
 `anki_tools/`. Không có mảng thứ năm nào được sinh ra mà không ghi `QUYETDINH.md`.
 
+Gói `soat/` **không phải mảng thứ năm** — nó là ruột của `soatkientruc.py` (cái máy đi soi bốn mảng
+kia), nằm ngoài sản phẩm: không mảng nào import nó, nó không import mảng nào (QD-22).
+
 ## 2. Dòng dữ liệu — một từ đi từ đâu tới đâu
 
 ```
@@ -193,7 +196,7 @@ Tài liệu nói dối thì máy chỉ mặt. Sửa cấu trúc dự án mà qu�
 
 ```soat-manifest
 {
-  "goi": ["anki_tools", "tgbot", "grammar_forms"],
+  "goi": ["anki_tools", "tgbot", "grammar_forms", "soat"],
   "diem_vao": ["bot.py", "main.py", "soatkientruc.py"],
   "du_lieu_chung": [
     "data/nouns.csv",

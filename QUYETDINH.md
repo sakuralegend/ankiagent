@@ -31,7 +31,7 @@
 | Gộp 4 hàm chuẩn hoá tiếng Nga làm một cho gọn | **CHƯA CẦN** | Đo 1748 từ Nga thật (31/07/2026): **0 bất đồng** ở cả hai cặp hàm cùng mục đích. Rủi ro `ё` tổ hợp có thật về lý thuyết nhưng chưa chạm dữ liệu nào ⇒ **đo lại trước khi gộp**, đừng gộp mò |
 | "Lô soạn kho càng to càng lợi" | **ĐÚNG MỘT NỬA** | Đúng về token, nhưng lý do thứ hai (khối dùng chung gánh nhiều thẻ) **chết rồi** — chuẩn v3 cấm khối dùng chung, đo ra `0%`. Cỡ lô do CHẤT LƯỢNG quyết định: chốt 16–18 từ |
 | Dựng "agent soát riêng" để kiểm lô sau khi soạn | **BÁC** | Lô 22 từ + agent rà lại ≈ **7,9K token/từ**, đắt hơn lô 14 từ tự soát (**7,3K**) mà chưa chắc tốt hơn: người viết biết chỗ mình lăn tăn, người rà phải dựng lại từ đầu |
-| Cài bộ "spec-driven-claude-code" (hoặc kit SDLC 12 bước tương tự) vào repo | **BÁC** | Đo 31/07/2026: kit thêm **99 file / 21.852 dòng** luật (toàn repo hiện chỉ 4.033 dòng), **28 file nói C#, 36 nói .NET, 8 nói Python**; `.claude/CLAUDE.md` 616 dòng của nó **đánh nhau** với `CLAUDE.md` 4-mảng ở đây, trùng tên `/review` `/simplify` `/deploy`, và cửa TDD ≥80% khoá cứng repo 92 file .py / 1 test. Đã lấy tinh hoa thành 3 lệnh — xem QD-09 |
+| Cài bộ "spec-driven-claude-code" (hoặc kit SDLC 12 bước tương tự) vào repo | **BÁC** | Đo 31/07/2026: kit thêm **99 file / 21.852 dòng** luật (toàn repo khi đó 4.033 dòng), **28 file nói C#, 36 nói .NET, chỉ 8 nói Python**; `.claude/CLAUDE.md` 616 dòng của nó **đánh nhau** với `CLAUDE.md` 4-mảng ở đây, và cửa TDD ≥80% khoá cứng repo 92 file .py / 1 test. Đã lấy tinh hoa thành 3 lệnh — xem QD-09 |
 | Cho VPS tự động "Download from AnkiWeb" theo lịch cho an toàn | **BÁC — NGUY HIỂM** | Lệnh đó **ghi đè sạch** collection trên VPS (xoá thẻ bot vừa thêm), và không cứu được gì khi quên sync điện thoại vì dữ liệu ôn lúc đó nằm **trong điện thoại** |
 
 ---
@@ -58,13 +58,18 @@
 
 ---
 
+## QD-22 · 03/08/2026 · Tách ruột `soatkientruc.py` vào gói `soat/` — điểm vào giữ nguyên tên
+Chọn: `soat/khung.py` (gốc · `PhatHien` · đọc AST) · `cua_code.py` (S1–S8) · `cua_quytrinh.py` (S9·S11 — chỗ DUY NHẤT chạy tiến trình ngoài) · `cua_nguong.py` (S10·S12–S14 + bộ đọc `soat_nguong.json`); `soatkientruc.py` còn điểm vào + bảng `MUC` + ratchet, 700 → 190 dòng. Test trỏ repo giả bằng `khung.dat_goc()`.
+Thay vì: để nguyên 700/700 dòng (mọi cửa mới đều đâm tường), hoặc nới trần — nới để khỏi tách thì S13 thành trang trí.
+Vì: QD-02 ràng buộc **stdlib · không import module dự án · gõ được `python soatkientruc.py`** — tách giữ nguyên cả ba; *"một file"* chưa bao giờ là lý do, chỉ là hiện trạng. 🔴 Bẫy đã lường: cửa dọn sang gói mà `dat_goc()` không với tới thì 62 test quay ra soi repo THẬT (sạch, nên không vi phạm gì) và **XANH hết mà không kiểm gì** — nên guard đặt ở `setUp`, nổ ở mọi ca, không phải một test riêng ai cũng quên được. Nghiệm thu bằng ĐO NGƯỢC: phá 7 đích, cả 7 test đều ĐỎ. Hết hạn: không.
+
 ## QD-21 · 03/08/2026 · Mọi CON SỐ TRẦN về `soat_nguong.json` — cấu hình thật máy đọc, tài liệu chỉ trỏ
 Chọn: một file JSON ở gốc (tiền lệ `soat_baseline.json`) chứa số + đúng một con trỏ `QD-nn` mỗi mục, `soatkientruc.py` đọc parse CHẶT; S12 soi cấu hình tự mâu thuẫn (trỏ file đã xoá · QD ma · khoá trùng), S13 canh trần dòng file code (400 ghi nợ theo mốc ratchet / 700 tách, bỏ qua lô dữ liệu `k*.py` `lo*.py`), S14 canh `PHIENBAN.md` (bản/mục). Chỉ con số — luật bằng chữ vẫn ở cửa code riêng.
 Thay vì: số nằm rải 4 file tài liệu + hằng trong code — đo 03/08: "giữ 10 bản" nêu 4 file 0 cửa canh, "trần 2 phút" nêu 4 file mà máy thi hành 3, trần 400/700 dòng không cửa nào canh.
 Vì: bản sao thì sớm muộn lệch, nguồn thì bất khả (cùng lý QD-11); ràng buộc thành dữ liệu thì máy soi được va chạm. 🔴 **Số trong các QD cũ từ nay là LỊCH SỬ — số hiệu lực duy nhất nằm ở `soat_nguong.json`.** Hết hạn: không.
 
 ## ⚰️ QD-18 · 03/08 · Tách 6 file quá trần theo khuôn "file vàng" — **ĐÃ XONG** · `git log --grep QD-18`
-> Còn sống hai ý: **khuôn "file vàng"** (chạy hàm chỉ-đọc trên dữ liệu thật + so ast từng hàm, diff ≠ 0 là hoàn tác) dùng cho mọi refactor sau; `dispatch.py` cố ý KHÔNG tách (nợ + luật thay thế ghi ở `SONO.md`), `soatkientruc.py` KHÔNG tách (phá QD-02 một-file-tự-đứng).
+> Còn sống hai ý: **khuôn "file vàng"** (chạy hàm chỉ-đọc trên dữ liệu thật + so ast từng hàm, diff ≠ 0 là hoàn tác) dùng cho mọi refactor sau; `dispatch.py` cố ý KHÔNG tách (nợ + luật thay thế ghi ở `SONO.md`). *(`soatkientruc.py` khi đó cũng để nguyên — nay đã tách, QD-22.)*
 
 ## QD-19 · 03/08/2026 · Tách `grammar.py` GIỮA mùa lô — lật điều kiện chờ của `_fable_plan.md` Q5
 Chọn: tách 4 mảnh lá `chu_nga` (chuẩn hoá chữ + hằng) · `boc_tudien` (normalize) · `hinh_thai` (analyze) · `bang_chia` (build_table); `grammar.py` giữ cache RAM + cào mạng + badge và làm MẶT TIỀN re-export đủ mọi tên cũ kể cả private — caller và test không đổi một dòng.
@@ -106,16 +111,15 @@ Vì: user hỏi *"ủa không có luật bắt phải commit mỗi khi kết th�
 
 ## QD-09 · 31/07/2026 · Ba lệnh `/ycau` → `/kehoach` → `/nghiemthu` thay cho bộ kit SDLC 12 bước
 Chọn: 3 playbook trong `.claude/commands/` + phiếu việc `VIECDANGLAM.md` ghi đè một-việc-một-lần (S10 canh trần), **AI tự kích hoạt** qua 2 lớp: dòng luật trong `CLAUDE.md` + hook `UserPromptSubmit` bơm lại 5 dòng nhắc mỗi lượt. Cửa 1 bắt buộc hỏi user bằng **AskUserQuestion trắc nghiệm**, cấm câu hỏi mở.
-Thay vì: cài `spec-driven-claude-code` (99 file / 21.852 dòng / 12 bước / agent riêng), hoặc không cài gì và dựa vào Plan mode có sẵn.
+Thay vì: cài `spec-driven-claude-code` (số đo ở bảng ĐÃ ĐO RỒI BÁC), hoặc dựa vào Plan mode có sẵn.
 Vì: repo **đã có sẵn nửa sau** (cửa soát + 3 cửa `deploy.ps1`) và chặt hơn kit; cái thiếu là **nửa trước** — chốt *làm gì / thế nào là xong* trước khi gõ code. Plan mode không để lại file nên phiên sau không thấy. Điểm quyết định là yêu cầu user: *"tôi không giỏi diễn đạt tính năng, phải có bộ lọc để hỏi tôi"* — kit giả định người dùng viết được user story. 🔴 Bản đầu làm dạng lệnh **user phải gõ**, user bác ngay (*"sao còn bắt tôi nhớ lệnh"*) ⇒ **cơ chế nào cần user nhớ thì đã hỏng từ thiết kế**. Hết hạn: không — xét lại nếu có người thứ hai viết code.
 
 ## QD-02 · 31/07/2026 · `soatkientruc.py` là điểm vào thứ 3 ở gốc + ratchet + cửa trong `deploy.ps1`
 Chọn: một file `soatkientruc.py` ở thư mục gốc (stdlib, `ast`+regex, KHÔNG import module dự án), baseline ratchet một chiều trong `soat_baseline.json`, cắm làm bậc 1 của `deploy.ps1` trước `git push`.
 Thay vì: để luật kiến trúc nằm trong `CACHLAM.md`/`CLAUDE.md` và trông vào tự giác; hoặc dựng pytest/CI/pre-commit.
-Vì: chỗ nào có máy đo (dây chuyền kho, tag `chuan::N`) thì sạch, chỗ nào chỉ có luật viết ra thì trôi — 10 wrapper ra đời SAU khi phát biểu "MỘT chức năng MỘT script". Đặt ở gốc là **ngoại lệ L2 có chủ ý** (L2: gốc chỉ chứa điểm vào đang sống): nó phải nằm nơi `python soatkientruc.py` gõ được không cần nhớ đường dẫn, và chính nó là thứ canh L2. Ratchet chỉ cho GIẢM ⇒ nợ không mọc lại; nới được thì nó thành bảng ghi nợ chứ không phải cửa. Hết hạn: không — thay bằng CI chỉ khi dự án có người thứ hai viết code.
+Vì: chỗ nào có máy đo (dây chuyền kho, tag `chuan::N`) thì sạch, chỗ chỉ có luật viết ra thì trôi — 10 wrapper ra đời SAU khi phát biểu "MỘT chức năng MỘT script". Đặt ở gốc là **ngoại lệ L2 có chủ ý**: nó phải gõ được mà không cần nhớ đường dẫn, và chính nó là thứ canh L2. Ratchet chỉ cho GIẢM ⇒ nợ không mọc lại; nới được thì nó thành bảng ghi nợ chứ không phải cửa. Hết hạn: không — thay bằng CI chỉ khi có người thứ hai viết code.
 
 ## ⚰️ QD-08 · 31/07 · Thẻ Anki là nguồn sự thật, cache chỉ là bộ đệm — **CHẾT**, QD-11 thay cùng ngày · `git log --grep QD-08`
-> Phần "**thẻ là nguồn sự thật**" vẫn sống, nhưng nó nay là nền của QD-11 — đọc ở đó.
 
 ## QD-07 · 31/07/2026 · `PHIENBAN.md` — file duy nhất viết cho USER, tách hẳn khỏi tài liệu kỹ thuật
 Chọn: một file ngắn kiểu release notes app (`vX.Y.Z`, ngôn ngữ thường; trần bản/mục nay ở `soat_nguong.json`, cửa S14 canh); chỉ ghi thứ **user cảm nhận được**.
@@ -126,12 +130,9 @@ Vì: user chỉ ra rằng **mọi file trong repo đều viết cho người là
 ## ⚰️ QD-14 · 02/08 · Xoá hẳn `CHANGELOG.md` khỏi cây làm việc — **ĐÃ THI HÀNH XONG**, file không còn tồn tại · `git log --grep QD-14`
 
 ## ⚰️ QD-06 · 31/07 · Đóng sổ `CHANGELOG.md`, lịch sử về `git log` — **cửa S9 canh "commit có thân", S9 LÀ bản ghi** (file đã xoá hẳn, QD-14)
-> Lý lẽ đáng nhớ ngoài phạm vi ca này: **commit message gắn chặt với diff nên không nói dối được**; tài liệu viết một đằng sửa một nẻo thì không ai biết — đúng con đường đã giết `README.md` cũ.
 
-## QD-20 · 03/08/2026 · Trần đọc đo bằng KÝ TỰ, không bằng dòng
-Chọn: `S10` đổi `DONG_MOI_PHUT=30` → `KY_TU_MOI_PHUT=1400`; ngân sách phút đặt lại từ kích thước THẬT 03/08 (ratchet chốt-từ-hiện-trạng như `soat_baseline.json`); thêm `TIEPTUC.md` + `data/huongdan/README.md` vào danh sách bị canh; 4 test mới, trong đó **một test tái hiện đúng ca bản cũ bỏ lọt**.
-Thay vì: giữ đếm dòng, hoặc đặt ngân sách theo mức "đáng ra phải thế" (sẽ đỏ 8 file, chặn deploy trong khi việc chính là chạy lô).
-Vì: đo 03/08 — **ký tự/dòng chạy từ 49 tới 140** giữa các file nên đếm dòng không đo được gì thật: `QUYETDINH.md` báo 149/150 dòng "còn chỗ" trong khi nặng 30 KB, dòng dài nhất **1090 ký tự**, tức vượt ngân sách gấp ba mà cửa vẫn XANH. Và hai file to nhất repo (60 249 ký tự = **44% toàn bộ tài liệu**) chưa hề bị canh, trong khi `PHIENBAN.md` 3 652 ký tự thì bị chặn. Tốc độ 1400 kt/phút không bịa: nó là tốc độ hàm ý của đúng hai file chưa ai kêu dài (KIENTRUC 1417 · README 1438). Hết hạn: không.
+## ⚰️ QD-20 · 03/08 · Trần đọc đo bằng KÝ TỰ, không bằng dòng — **ĐÃ THI HÀNH**, S10 canh · `git log --grep QD-20`
+> 🔴 Đừng "dọn" ngược về đếm dòng: đo 03/08, **ký tự/dòng chạy từ 49 tới 140** tuỳ file ⇒ `QUYETDINH.md` từng báo 149/150 dòng *"còn chỗ"* trong khi nặng 30 KB. Tốc độ 1400 kt/phút là tốc độ hàm ý của hai file chưa ai kêu dài. Số hiệu lực ở `soat_nguong.json` (QD-21).
 
 ## ⚰️ QD-05 · 31/07 · Cache ngữ pháp ra ngoài repo — **CHẾT**, QD-11 thay cùng ngày (bỏ hẳn file cache) · `git log --grep QD-05`
 

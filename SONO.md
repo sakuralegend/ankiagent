@@ -31,10 +31,9 @@
       Đã vá bằng cờ `animate`: đồ vật đuôi -а/-я thì kết luận giống cái, **người thì im lặng**.
       (31/07/2026)
 - [x] **`soatkientruc.py` không ai canh → ĐÃ CÓ `tests/test_soatkientruc.py` (03/08/2026).**
-      Repo giả trong thư mục tạm, kỳ vọng đúng mục nào ĐỎ/im. KHÔNG tách file (phá QD-02 —
-      user duyệt 03/08). ⚠️ Vẫn "đừng thêm mục soát mới mà không thêm test tương ứng".
-      🔴 **NAY ĐÚNG 700/700 DÒNG — hết chỗ.** Đã tháo `PHUT_DOC` ra `soat_nguong.json` + nén chú
-      thích trùng QD (QD-21) mới nhét vừa S12–S14; muốn thêm cửa nữa là phải bàn lại QD-02.
+      Repo giả trong thư mục tạm, kỳ vọng đúng mục nào ĐỎ/im. ⚠️ Vẫn "đừng thêm mục soát mới mà
+      không thêm test tương ứng". Chạm 700/700 dòng ngày 03/08 ⇒ **đã tách gói `soat/`** (QD-22),
+      nay còn 190 — hết cảnh phải nén chú thích để nhét vừa một cửa mới.
 - [x] **Thiếu lớp chặn sớm của git → ĐÃ CÓ `commit-msg` hook.** `scripts/hook-commit-msg` +
       `scripts/caidat_hook.sh` (cài một lần mỗi máy). Chặn NGAY lúc `git commit` thay vì đợi tới
       deploy. Giữ cả S9: hook nằm ngoài repo nên không tự đi theo sang máy/AI khác, S9 thì đi cùng
