@@ -35,4 +35,8 @@ MIEN_TRU = {
               "nouns.csv chỉ có danh từ đồng tự соро́ка = chim ác là",
     "у́ха": "cách 2 của у́хо (cái tai), dùng trong thành ngữ слу́шать кра́ем у́ха (thẻ k02); "
            "từ điển chỉ có danh từ đồng tự уха́ = canh cá",
+    "курка́": "cách 2 số ít của куро́к (cò súng), dạng nguyên âm chạy — grammar_cache ghi rõ "
+             "куро́к · курка́ · курку́ · курко́м, thẻ k64 dạy đúng chỗ chữ о rơi mất; "
+             "nouns.csv chỉ có danh từ phương ngữ đồng tự ку́рка = gà mái (glossed toàn tiếng Đức "
+             "Henne, không có nghĩa tiếng Anh)",
 }
