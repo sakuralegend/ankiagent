@@ -8782,5 +8782,428 @@
   "pos": "v",
   "topic": "actions",
   "cu": false
+ },
+ {
+  "wc": "альбом",
+  "w": "альбо́м",
+  "en": "<ol class=\"meaning-list\"><li>album</li></ol>",
+  "vi": "album (nhạc hoặc ảnh)",
+  "pos": "n",
+  "topic": "concepts::misc",
+  "cu": false
+ },
+ {
+  "wc": "арбатский",
+  "w": "арба́тский",
+  "en": "<ol class=\"meaning-list\"><li>Arbat (of Arbat)</li><li>Arbat-related</li></ol>",
+  "vi": "thuộc về Arbat (một khu phố nổi tiếng ở Moscow)",
+  "pos": "adj",
+  "topic": "places::city",
+  "cu": false
+ },
+ {
+  "wc": "банан",
+  "w": "бана́н",
+  "en": "<ol class=\"meaning-list\"><li>banana</li></ol>",
+  "vi": "quả chuối",
+  "pos": "n",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "банка",
+  "w": "ба́нка",
+  "en": "<ol class=\"meaning-list\"><li>jar</li><li>can</li></ol>",
+  "vi": "cái lọ, cái hũ, lon (đồ uống/đồ hộp)",
+  "pos": "n",
+  "topic": "life::home",
+  "cu": false
+ },
+ {
+  "wc": "блузка",
+  "w": "блу́зка",
+  "en": "<ol class=\"meaning-list\"><li>blouse</li></ol>",
+  "vi": "áo kiểu (của phụ nữ)",
+  "pos": "n",
+  "topic": "life::clothing",
+  "cu": false
+ },
+ {
+  "wc": "больше",
+  "w": "бо́льше",
+  "en": "<ol class=\"meaning-list\"><li>more</li></ol>",
+  "vi": "hơn, nữa",
+  "pos": "oth",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "ветчина",
+  "w": "ветчина́",
+  "en": "<ol class=\"meaning-list\"><li>ham</li></ol>",
+  "vi": "thịt giăm bông",
+  "pos": "n",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "далёкий",
+  "w": "далёкий",
+  "en": "<ol class=\"meaning-list\"><li>far</li><li>distant</li></ol>",
+  "vi": "xa, xa xôi",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "деньга",
+  "w": "де́ньга",
+  "en": "<ol class=\"meaning-list\"><li>denga (½ kopek)</li></ol>",
+  "vi": "tiền (thường dùng ở dạng số nhiều)",
+  "pos": "n",
+  "topic": "concepts::misc",
+  "cu": false
+ },
+ {
+  "wc": "джинсы",
+  "w": "джи́нсы",
+  "en": "<ol class=\"meaning-list\"><li>jeans</li></ol>",
+  "vi": "quần jean",
+  "pos": "n",
+  "topic": "life::clothing",
+  "cu": false
+ },
+ {
+  "wc": "долгий",
+  "w": "до́лгий",
+  "en": "<ol class=\"meaning-list\"><li>long</li><li>of long duration</li></ol>",
+  "vi": "lâu, dài (về thời gian)",
+  "pos": "adj",
+  "topic": "time",
+  "cu": false
+ },
+ {
+  "wc": "домой",
+  "w": "домо́й",
+  "en": "<ol class=\"meaning-list\"><li>homeward</li><li>home</li><li>to one's home</li></ol>",
+  "vi": "về nhà",
+  "pos": "oth",
+  "topic": "places::city",
+  "cu": false
+ },
+ {
+  "wc": "жук",
+  "w": "жук",
+  "en": "<ol class=\"meaning-list\"><li>bug</li><li>insect</li><li>beetle</li><li>rogue</li></ol>",
+  "vi": "bọ, côn trùng",
+  "pos": "n",
+  "topic": "nature::animals",
+  "cu": false
+ },
+ {
+  "wc": "здравствуйте",
+  "w": "здра́вствуйте",
+  "en": "<ol class=\"meaning-list\"><li>hello</li></ol>",
+  "vi": "xin chào (lịch sự)",
+  "pos": "oth",
+  "topic": "language::grammar",
+  "cu": false
+ },
+ {
+  "wc": "интересно",
+  "w": "интере́сно",
+  "en": "<ol class=\"meaning-list\"><li>it is interesting</li><li>interestingly</li><li>interested in</li><li>wonder</li></ol>",
+  "vi": "thú vị, hay, tò mò (tự hỏi)",
+  "pos": "adv",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "йогурт",
+  "w": "йо́гурт",
+  "en": "<ol class=\"meaning-list\"><li>yoghurt</li><li>yogurt</li></ol>",
+  "vi": "sữa chua",
+  "pos": "n",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "крепкий",
+  "w": "кре́пкий",
+  "en": "<ol class=\"meaning-list\"><li>strong</li><li>durable</li><li>sturdy</li></ol>",
+  "vi": "khỏe, bền, chắc, đậm (vị)",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "курок",
+  "w": "куро́к",
+  "en": "<ol class=\"meaning-list\"><li>trigger</li></ol>",
+  "vi": "cò súng",
+  "pos": "n",
+  "topic": "concepts::misc",
+  "cu": false
+ },
+ {
+  "wc": "куртка",
+  "w": "ку́ртка",
+  "en": "<ol class=\"meaning-list\"><li>jacket</li><li>coat</li></ol>",
+  "vi": "áo khoác",
+  "pos": "n",
+  "topic": "life::clothing",
+  "cu": false
+ },
+ {
+  "wc": "матрёшка",
+  "w": "матрёшка",
+  "en": "<ol class=\"meaning-list\"><li>matryoshka</li></ol>",
+  "vi": "búp bê Nga (búp bê lồng nhau)",
+  "pos": "n",
+  "topic": "concepts::misc",
+  "cu": false
+ },
+ {
+  "wc": "меньше",
+  "w": "ме́ньше",
+  "en": "<ol class=\"meaning-list\"><li>less</li><li>fewer</li><li>smaller</li></ol>",
+  "vi": "ít hơn, nhỏ hơn",
+  "pos": "oth",
+  "topic": "numbers",
+  "cu": false
+ },
+ {
+  "wc": "монах",
+  "w": "мона́х",
+  "en": "<ol class=\"meaning-list\"><li>monk</li></ol>",
+  "vi": "nhà sư, tu sĩ",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "морковь",
+  "w": "морко́вь",
+  "en": "<ol class=\"meaning-list\"><li>carrot</li><li>carrots</li></ol>",
+  "vi": "cà rốt",
+  "pos": "n",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "мох",
+  "w": "мох",
+  "en": "<ol class=\"meaning-list\"><li>moss</li></ol>",
+  "vi": "rêu",
+  "pos": "n",
+  "topic": "nature::plants",
+  "cu": false
+ },
+ {
+  "wc": "обувь",
+  "w": "о́бувь",
+  "en": "<ol class=\"meaning-list\"><li>shoes</li></ol>",
+  "vi": "giày dép",
+  "pos": "n",
+  "topic": "life::clothing",
+  "cu": false
+ },
+ {
+  "wc": "оригинальный",
+  "w": "оригина́льный",
+  "en": "<ol class=\"meaning-list\"><li>original</li></ol>",
+  "vi": "độc đáo, sáng tạo, nguyên bản",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "пар",
+  "w": "пар",
+  "en": "<ol class=\"meaning-list\"><li>steam</li></ol>",
+  "vi": "hơi nước",
+  "pos": "n",
+  "topic": "nature::weather",
+  "cu": false
+ },
+ {
+  "wc": "продукт",
+  "w": "проду́кт",
+  "en": "<ol class=\"meaning-list\"><li>product</li><li>produce</li><li>food</li></ol>",
+  "vi": "thực phẩm, đồ ăn, sản phẩm",
+  "pos": "n",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "разный",
+  "w": "ра́зный",
+  "en": "<ol class=\"meaning-list\"><li>different</li><li>diverse</li><li>various</li></ol>",
+  "vi": "khác nhau, nhiều loại",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "редкий",
+  "w": "ре́дкий",
+  "en": "<ol class=\"meaning-list\"><li>rare</li><li>scarce</li></ol>",
+  "vi": "hiếm, ít gặp",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "рыбак",
+  "w": "рыба́к",
+  "en": "<ol class=\"meaning-list\"><li>fisherman</li></ol>",
+  "vi": "ngư dân, người đi câu",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "сосиска",
+  "w": "соси́ска",
+  "en": "<ol class=\"meaning-list\"><li>sausage</li></ol>",
+  "vi": "xúc xích",
+  "pos": "n",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "союз",
+  "w": "сою́з",
+  "en": "<ol class=\"meaning-list\"><li>union</li><li>alliance</li><li>Union</li><li>league</li><li>agreement</li><li>conjunction</li></ol>",
+  "vi": "liên minh, liên hiệp, sự kết hợp",
+  "pos": "n",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "сувенир",
+  "w": "сувени́р",
+  "en": "<ol class=\"meaning-list\"><li>souvenir</li></ol>",
+  "vi": "quà lưu niệm",
+  "pos": "n",
+  "topic": "concepts::misc",
+  "cu": false
+ },
+ {
+  "wc": "так",
+  "w": "так",
+  "en": "<ol class=\"meaning-list\"><li>so</li><li>thus</li><li>like this</li><li>this way</li><li>then</li><li>exactly how</li></ol>",
+  "vi": "vậy, như thế, thế này",
+  "pos": "oth",
+  "topic": "language::grammar",
+  "cu": false
+ },
+ {
+  "wc": "творог",
+  "w": "творо́г",
+  "en": "<ol class=\"meaning-list\"><li>cottage cheese</li><li>curds</li><li>farmer's cheese</li></ol>",
+  "vi": "phô mai tươi (dạng hạt/cục)",
+  "pos": "n",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "теперь",
+  "w": "тепе́рь",
+  "en": "<ol class=\"meaning-list\"><li>now</li><li>nowadays</li><li>today</li></ol>",
+  "vi": "bây giờ, hiện tại",
+  "pos": "oth",
+  "topic": "time",
+  "cu": false
+ },
+ {
+  "wc": "толстый",
+  "w": "то́лстый",
+  "en": "<ol class=\"meaning-list\"><li>thick</li><li>fat</li><li>fat</li></ol>",
+  "vi": "béo, mập (người); dày (vật)",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "тонкий",
+  "w": "то́нкий",
+  "en": "<ol class=\"meaning-list\"><li>Thin</li><li>fine</li><li>delicate</li></ol>",
+  "vi": "mỏng, mảnh dẻ, tinh tế",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "туфля",
+  "w": "ту́фля",
+  "en": "<ol class=\"meaning-list\"><li>dress shoe</li></ol>",
+  "vi": "giày tây, giày cao gót",
+  "pos": "n",
+  "topic": "life::clothing",
+  "cu": false
+ },
+ {
+  "wc": "удобный",
+  "w": "удо́бный",
+  "en": "<ol class=\"meaning-list\"><li>comfortable</li><li>handy</li><li>cosy</li><li>convenient</li><li>opportune</li></ol>",
+  "vi": "thoải mái, tiện lợi, tiện dụng",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "хвост",
+  "w": "хвост",
+  "en": "<ol class=\"meaning-list\"><li>tail</li><li>train</li><li>brush</li><li>scut</li><li>end</li><li>tail-end</li><li>queue</li><li>line</li><li>arrears</li></ol>",
+  "vi": "cái đuôi, hàng đợi, công việc dở dang",
+  "pos": "n",
+  "topic": "nature::animals",
+  "cu": false
+ },
+ {
+  "wc": "ходить",
+  "w": "ходи́ть",
+  "en": "<ol class=\"meaning-list\"><li>go</li><li>walk</li><li>move</li><li>pass</li></ol>",
+  "vi": "đi (bộ), đi lại, lui tới",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "цех",
+  "w": "цех",
+  "en": "<ol class=\"meaning-list\"><li>shop/workshop</li><li>the main production unit of an industrial enterprise</li></ol>",
+  "vi": "xưởng, phân xưởng sản xuất",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "юноша",
+  "w": "ю́ноша",
+  "en": "<ol class=\"meaning-list\"><li>young man</li><li>youth</li></ol>",
+  "vi": "chàng trai trẻ, thanh niên",
+  "pos": "n",
+  "topic": "people::family",
+  "cu": false
+ },
+ {
+  "wc": "яма",
+  "w": "я́ма",
+  "en": "<ol class=\"meaning-list\"><li>hole in the ground</li></ol>",
+  "vi": "cái hố",
+  "pos": "n",
+  "topic": "nature::plants",
+  "cu": false
+ },
+ {
+  "wc": "ёрш",
+  "w": "ёрш",
+  "en": "<ol class=\"meaning-list\"><li>ruff</li><li>lamp-chimney brush</li><li>wire brush</li><li>mixture of vodka and beer</li></ol>",
+  "vi": "cây cọ rửa (vệ sinh), hoặc loại cocktail pha trộn bia và vodka",
+  "pos": "n",
+  "topic": "life::home",
+  "cu": false
  }
 ]
