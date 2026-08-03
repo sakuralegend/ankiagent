@@ -102,13 +102,10 @@ cách** ⇒ ca lẻ. Đã vá thẳng `GrammarJSON`, sao lưu `backups/_backup_g
 cả 13 từ. Nghĩa là lô này mất sạch nguồn ứng viên ô đỏ mà `congcu.py` lẽ ra cung cấp. Gặp lô im
 lặng kiểu này thì **đừng tưởng "không có gì đáng cảnh báo"**.
 
-📊 **CHI PHÍ ĐO LẠI 03/08 chiều (n=3, chỉ tính token agent, CHƯA tính luồng chính):**
-k62 16 từ = **124K** · k63 16 từ = **130K** · k64 15 từ = **125K**. Công thức hiện hành
-(65K + 2,67K/từ) dự **108K** cho lô 16 từ ⇒ **thấp hơn thực tế ~15%**. Đường chi phí **phẳng hơn**
-công thức: phần cố định lớn hơn, phần theo từ nhỏ hơn (k52 21 từ = 127K ≈ k62 16 từ = 124K).
-⚠️ n=3, chưa đủ để thay công thức — **đừng sửa số ở bảng "📊 CHI PHÍ" cho tới khi có thêm điểm đo**.
-Nhưng khi ước lượng phiên thì **cộng thêm 15% cho an toàn**. Phiên này: 3 lô + 47 từ trong một cửa
-sổ, user báo đủ 100% quota lúc bắt đầu.
+📊 **CHI PHÍ ĐO LẠI 03/08 chiều — token agent:** k62 16 từ = **124K** · k63 16 từ = **130K** ·
+k64 15 từ = **125K**. Công thức (65K + 2,67K/từ) dự **108K** cho lô 16 từ ⇒ **thấp ~15%**.
+Ba điểm này nằm sát nhau (15–16 từ) nên **không đo được độ dốc**, chỉ đo được mức tại ~16 từ.
+👉 Số dùng được nằm ở bảng "📊 CHI PHÍ" phía dưới — nay tính bằng **% hạn mức**, không bằng token.
 
 ### 📕 BÀI HỌC CÒN SỐNG từ ba phiên 30/07 (nén 02/08 — số liệu từng lô đọc bằng `git log`)
 
@@ -153,14 +150,6 @@ cờ đúng cũng vô nghĩa.
 🗑️ **Thẻ kiểu "dạng ràng buộc" thì HỎI USER, đừng cố soạn cho hay hơn.** Đã xoá `китайски` (chỉ sống
 trong `по-кита́йски`, mà kho đã có sẵn thẻ đó) — dọn đủ **bốn chỗ**: note Anki + `tudien.json` +
 `hangdoi.json` + file lô.
-
----
-
-### ✅ PHIÊN 29/07 (chiều): k13 · k51 · k52 · k53 · k54 XONG & ĐÃ NẠP (mốc cũ, đã cắt 02/08)
-
-Hai bài học của phiên nay đã có chỗ ở tốt hơn: *"đừng tin lời nhắn về cấu trúc thẻ, đi
-`notesInfo` mà kiểm"* nằm ở mục 30/07 phía trên; *"nguồn sai, đừng chép `tiep` mù"* nay là mục
-vệt-sai-tên-loài đầu file. Chi tiết còn lại đọc bằng `git log` quanh 29/07.
 
 ---
 
@@ -215,7 +204,7 @@ từ nào `congcu.py tiep` in khối `BAT THUONG` thì **bắt buộc có MỘT 
 PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py trangthai
 ```
 
-### 📊 CHI PHÍ — ĐO THẬT 5 LÔ, ĐẾM BẰNG **TỪ** CHỨ KHÔNG PHẢI BẰNG LÔ
+### 📊 CHI PHÍ — ĐẾM BẰNG **TỪ**, ƯỚC LƯỢNG BẰNG **% HẠN MỨC** (đừng quy qua token)
 
 Năm điểm đo cùng phiên 28/07: k13 4 từ = **77K** · k53 14 từ = **100K** · k54 19 từ = **113K** ·
 k51 20 từ = **116K** · k52 21 từ = **127K**. Hồi quy tuyến tính:
@@ -225,24 +214,34 @@ k51 20 từ = **116K** · k52 21 từ = **127K**. Hồi quy tuyến tính:
 ⚠️ **Con số cũ trong tài liệu (53K + 1,6K/từ) SAI theo hướng lạc quan** — phần cố định thấp 23%,
 phần mỗi từ thấp gần 70%. Đã thay bằng số đo. Đừng khôi phục con số đẹp.
 
-🔴 **NGÂN SÁCH PHIÊN ≈ 80 TỪ, KHÔNG PHẢI "N LÔ".** Phiên này chạy **5 lô nổi** — nhưng chỉ vì
-trung bình **15,6 từ/lô** (có k13 chỉ 4 từ). Năm lô 20 từ = 100 từ ≈ **592K → vượt**.
-Quy đổi hạn mức 5h: 420K ứng 74% ⇒ **~5,7K token mỗi 1%**.
+🔴🔴 **ĐIỂM ĐO VÀNG 03/08 chiều — PHIÊN SẠCH THẬT SỰ, ĐO BẰNG % HẠN MỨC.** User bắt đầu với
+**100% quota chưa động tới**, luồng chính im, không sửa lỗi gì, giao hết lô ngay tin nhắn đầu —
+tức **đúng điều kiện lý tưởng mà mọi con số cũ giả định nhưng chưa ai đo được**. Kết quả user
+tự kiểm sau khi xong: **3 lô / 47 từ (16·16·15) = hết 70% hạn mức.**
 
-🔴 **USER CHỐT 02/08 (bản mới, thay mốc "4 lô" cùng ngày): MẶC ĐỊNH 3 LÔ.** Chốt 4 lô buổi chiều
-đã **chạy thử thật và vẫn vượt hạn mức một chút** (k22–k25, 68 từ) ⇒ hạ tiếp. Lý do gốc user nêu
-vẫn đúng: *"tôi hay fix lỗi nên hay mất 25% hạn mức, chỉ còn 75% thôi"* — mọi con số ~80 từ đều
-giả định cửa sổ 5h dành TRỌN cho lô, mà phiên nào cũng có việc sửa ăn trước một phần.
-⇒ **Ngân sách thật ≈ 55 từ.**
+> ### 🔴 **1 TỪ ≈ 1,5% HẠN MỨC.** Ước lượng phiên bằng con số này, đừng quy qua token.
 
-| Cỡ lô trung bình | Số lô nổi trong một phiên |
-|---|---|
-| ~15 từ | **4 lô** (~60 từ) |
-| ~18 từ | **3 lô** (~54 từ) |
-| ~22 từ (trần) | **2–3 lô** |
+Đây là số **dùng thẳng được**: user nhìn quota còn bao nhiêu %, chia 1,5 ra số từ chạy được.
 
-⇒ Trước khi giao việc, **cộng số từ của các lô định chạy**; quá ~55 thì bớt một lô. Và điều kiện
-đi kèm vẫn giữ: **luồng chính im**, không trộn việc sửa công cụ vào phiên chạy lô.
+⚠️ **Con số "≈80 từ" cũ ĐÃ BỊ BÁC BẰNG SỐ ĐO — xoá khỏi đầu, đừng khôi phục.** 80 từ ×1,5% =
+**119%**, vượt hẳn cửa sổ. Nó sai vì được suy ra từ token chứ không đo bằng hạn mức. Cùng lúc,
+mô hình token cũng đọc thấp: nó dự phiên này ăn ~56%, thật là 70% — **thấp 20%**, khớp với vệt
+"thấp ~15%" đo được ở phần đầu file bằng một phương pháp khác. **Hai phương pháp độc lập cùng
+chỉ một hướng ⇒ đủ chắc để sửa số.** (Vì sao lệch thì CHƯA biết — có thể luồng chính đắt hơn
+tưởng vì mỗi lượt gửi lại cả hội thoại, có thể cách đếm token 28/07 khác. Đừng đoán bừa.)
+
+| Loại phiên | Từ chạy được | Ăn hết |
+|---|---|---|
+| **Sạch** (không sửa lỗi, luồng chính im) | **~55 từ** | ~82%, chừa 18% để đóng phiên |
+| **Bình thường** (user hay mất ~25% cho việc sửa) | **~45–50 từ** | ~70–75% phần còn lại |
+| Phiên này (thật) | 47 từ / 3 lô | **70%** |
+
+⇒ **Mốc "≈55 từ" user chốt 02/08 SỐNG SÓT phép đo** — nhưng nay biết rõ nó là trần của phiên
+**sạch**, đã ăn 82%, **không còn chỗ cho bất cứ việc sửa nào**. Trước khi giao việc thì cộng số
+từ của các lô định chạy: quá 55 thì bớt một lô; **biết trước là sẽ có việc sửa thì hạ về ~45**.
+Điều kiện đi kèm vẫn giữ: **luồng chính im**, không trộn sửa công cụ vào phiên chạy lô.
+📌 **Mặc định 3 lô (user chốt 02/08) là ĐÚNG** — 3 lô cỡ 16 từ rơi trúng 70%, còn 4 lô từng chạy
+thử thật (k22–k25, 68 từ) thì vượt, nay giải thích được: 68 ×1,5% = **102%**.
 
 🎯 **Cách chọn lô của phiên này đáng giữ**: user muốn ưu tiên thẻ **đang học**, nên luồng chính
 đối chiếu deck thật với hàng đợi trước khi giao việc (đếm `deck:RUSSIAN::1-go` rơi vào lô nào).
