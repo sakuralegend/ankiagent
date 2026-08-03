@@ -31,10 +31,10 @@
       Đã vá bằng cờ `animate`: đồ vật đuôi -а/-я thì kết luận giống cái, **người thì im lặng**.
       (31/07/2026)
 - [x] **`soatkientruc.py` không ai canh → ĐÃ CÓ `tests/test_soatkientruc.py` (03/08/2026).**
-      13 test dựng repo giả trong thư mục tạm, kỳ vọng đúng mục nào ĐỎ/im cho S1·S2·S3·S4·S6·S7·S8
-      ·**S10** + ratchet. KHÔNG tách file (tách là phá QD-02 một-file-tự-đứng — user duyệt 03/08).
-      ⚠️ Vẫn "đừng thêm mục soát mới vào mà không thêm test tương ứng".
-      🔴 **NAY 686/700 DÒNG — còn 14 dòng dư.** Cửa soát tiếp theo **buộc phải tách file trước**.
+      Repo giả trong thư mục tạm, kỳ vọng đúng mục nào ĐỎ/im. KHÔNG tách file (phá QD-02 —
+      user duyệt 03/08). ⚠️ Vẫn "đừng thêm mục soát mới mà không thêm test tương ứng".
+      🔴 **NAY ĐÚNG 700/700 DÒNG — hết chỗ.** Đã tháo `PHUT_DOC` ra `soat_nguong.json` + nén chú
+      thích trùng QD (QD-21) mới nhét vừa S12–S14; muốn thêm cửa nữa là phải bàn lại QD-02.
 - [x] **Thiếu lớp chặn sớm của git → ĐÃ CÓ `commit-msg` hook.** `scripts/hook-commit-msg` +
       `scripts/caidat_hook.sh` (cài một lần mỗi máy). Chặn NGAY lúc `git commit` thay vì đợi tới
       deploy. Giữ cả S9: hook nằm ngoài repo nên không tự đi theo sang máy/AI khác, S9 thì đi cùng
@@ -91,32 +91,6 @@
 - [x] **4 luật chuẩn hoá tiếng Nga khác nhau — ĐÃ ĐO 31/07, ĐÓNG NỢ.** 1748 từ thật, **0 bất đồng**;
       KHÔNG gộp (đúng dặn dò). ⚠️ **Đo lại** nếu nạp dữ liệu dán thẳng từ web ngoài OpenRussian.
 - [x] **Gốc vi phạm luật L2 — ĐÃ TRẢ 31/07.** Cửa S6 canh, **S6 là bản ghi**.
-
-## 📐 PLAN CHỜ DUYỆT — TÁCH RÀNG BUỘC (số) KHỎI LÝ DO (chữ) · user nêu 03/08
-
-**Làm gì:** một file ở gốc chứa **con số trần + đúng một con trỏ `QD-nn`**, không câu giải thích
-nào. 🔴 Nó **không phải tài liệu mô tả code — nó là CẤU HÌNH THẬT `soatkientruc.py` ĐỌC**: bản sao
-thì sẽ lệch, nguồn thì bất khả.
-
-**Vì sao — đo 03/08:** *"giữ 10 bản"* nêu ở **4 file, 0 cửa canh** · *"trần 2 phút"* ở **4 file** mà
-máy thực thi **3** ⇒ cả bốn đều sai · 🔴 *">400 dòng ghi nợ, >700 phải tách"* — **KHÔNG CỬA NÀO**,
-tức đợt refactor 50 $ tối 03/08 chạy theo một luật không ai canh.
-
-🔴 **GỠ NÚT TRƯỚC:** `soatkientruc.py` **686/700** ⇒ thêm cửa nào cũng đâm tường, kể cả cửa 400/700.
-**Bước 1 tự tháo nút:** `PHUT_DOC` chiếm **38 dòng**, đưa ra ngoài rồi thay bằng ~8 dòng
-nạp ⇒ còn ~656.
-
-**User quyết trước khi gõ code:** ① định dạng (JSON stdlib hay bảng `.md` máy đọc) ② ràng buộc **phi
-số** (*"cấm wrapper thứ hai"*) có đưa vào không ③ migrate **hết** hay từng phần — nửa vời đẻ ra chỗ
-lệch **thứ ba**, tệ hơn hiện tại.
-
-**Phần thưởng lớn nhất** (user chỉ ra): ràng buộc thành dữ liệu thì **máy soi được va chạm** — cùng
-đích hai giá trị · trỏ file đã xoá · mồ côi · **mâu thuẫn nhau**. Ca cuối dính thật 03/08 mà không
-gì báo: `soatkientruc.py` phải ≤700 dòng **và** mọi cửa phải ở trong đúng nó (QD-02) **và** cửa mới
-phải kèm test — ở 686 dòng, ba cái gần như không cùng thoả.
-
-⚠️ **Đừng giao cho phiên đã bàn xong chuyện này**: nó thiết kế bản thay thế trong lúc đang ngâm
-trong thứ bị thay. Giao context trắng + `git log` 03/08.
 
 ## Ý TƯỞNG (chờ hết hàng đợi kho)
 

@@ -7,9 +7,9 @@
 > **Luật viết file này — AI phải theo:**
 > 1. Chỉ ghi thứ **bạn cảm nhận được**: bot có thêm nút gì, sửa lỗi bạn từng gặp, thẻ hiện khác đi.
 >    Dọn code, đổi cấu trúc, thêm cửa soát… **không ghi** — bạn không thấy chúng.
-> 2. Ngôn ngữ thường, **không thuật ngữ**. Mỗi mục một dòng, tối đa 5 mục/bản.
-> 3. **Giữ 10 bản gần nhất, cũ hơn thì XOÁ.** Lịch sử đầy đủ đã có `git log` lo. File này mà dài
->    quá một màn hình là nó đi đúng đường `CHANGELOG.md` cũ — 200 KB không ai đọc.
+> 2. Ngôn ngữ thường, **không thuật ngữ**. Mỗi mục một dòng.
+> 3. **Bản cũ quá thì XOÁ** — lịch sử đầy đủ đã có `git log` lo. Trần số bản và số mục mỗi bản
+>    nằm ở `soat_nguong.json`, máy tự canh (cửa S14) — file này mà dài là đi đường `CHANGELOG.md` cũ.
 > 4. Số hiệu: `vMAJOR.MINOR.PATCH` — **MAJOR** khi bạn phải tự làm gì đó (vd đồng bộ lại điện
 >    thoại) · **MINOR** khi có tính năng mới · **PATCH** khi chỉ sửa lỗi.
 

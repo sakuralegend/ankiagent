@@ -32,7 +32,8 @@ Chỉ bot dùng → `tgbot/` · chỉ dây chuyền soạn kho → `data/huongda
 `grammar_forms/` · **từ HAI mảng trở lên thật sự cần** → `anki_tools/`.
 Chiều import một chiều: các mảng import `anki_tools`, `anki_tools` không import ngược.
 
-Đếm dòng file định sửa: **>400 dòng** → ghi `SONO.md`; **>700 dòng** → tách trước khi thêm.
+File định sửa quá trần dòng (số ở `soat_nguong.json`, cửa S13 tự soi): trần ghi nợ → ghi
+`SONO.md`; trần tách → tách trước khi thêm.
 
 ## Bước 3 — Trình kế hoạch cho user duyệt, đúng bốn mục
 
@@ -54,6 +55,6 @@ Kèm hai dòng nữa:
 
 ## Bước 4 — Nối kế hoạch vào phiếu việc, rồi DỪNG
 
-Thêm mục `## Kế hoạch (đã duyệt <ngày>)` vào `VIECDANGLAM.md` — giữ ngắn, cả file vẫn phải
-dưới 60 dòng. Rồi **chờ user gật đầu**. User duyệt xong mới bắt đầu viết code; viết xong chạy
+Thêm mục `## Kế hoạch (đã duyệt <ngày>)` vào `VIECDANGLAM.md` — giữ ngắn, cả file phải nằm
+trong ngân sách đọc (`soat_nguong.json`, S10 canh). Rồi **chờ user gật đầu**. User duyệt xong mới bắt đầu viết code; viết xong chạy
 `/nghiemthu`.

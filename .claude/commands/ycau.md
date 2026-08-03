@@ -57,7 +57,8 @@ Chưa rõ thì **hỏi tiếp một lượt nữa**. Thà hỏi 2 lượt còn h
 ## Bước 3 — Viết phiếu việc `VIECDANGLAM.md`
 
 **GHI ĐÈ** file (đừng nối thêm — file này luôn chỉ chứa MỘT việc đang làm; nối thêm là con
-đường đã giết `CHANGELOG.md`, xem QD-06). Trần **60 dòng**, `soatkientruc.py` S10 canh.
+đường đã giết `CHANGELOG.md`, xem QD-06). Trần: ngân sách đọc trong `soat_nguong.json`, cửa S10
+canh bằng KÝ TỰ (QD-20).
 
 ```markdown
 # 🎯 VIỆC ĐANG LÀM — <tên việc bằng ngôn ngữ thường>

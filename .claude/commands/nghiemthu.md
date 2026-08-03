@@ -52,9 +52,10 @@ Kiểm luôn mục **CỐ Ý KHÔNG LÀM**: đã lỡ làm thứ nằm trong đ�
 ## Bước 5 — Đóng sổ
 
 - Có rẽ nhánh → thêm mục `QD-nn` 4 dòng vào `QUYETDINH.md`, commit nhắc số hiệu.
-- Nợ mới (file >400 dòng, hàm >5 tham số…) → một dòng vào `SONO.md`.
+- Nợ mới (file quá trần ghi nợ của `soat_nguong.json`, hàm >5 tham số…) → một dòng vào
+  `SONO.md`; file quá trần dòng thì thêm mốc vào `da_ghi_no` (cửa S13 đòi).
 - User **cảm nhận được** thay đổi (nút mới, lỗi họ từng gặp đã hết, thẻ hiện khác đi)?
-  → thêm mục `vX.Y.Z` vào `PHIENBAN.md`, ≤5 gạch đầu dòng, **không thuật ngữ** (QD-07).
+  → thêm mục `vX.Y.Z` vào `PHIENBAN.md`, **không thuật ngữ** (QD-07; trần: S14 canh).
   Dọn code / đổi cấu trúc / thêm cửa soát thì **KHÔNG ghi** — user không thấy chúng.
 - **Commit NGAY, không hỏi user** (QD-10): dòng tiêu đề + **phần thân khai VÌ SAO** (S9 chặn deploy
   nếu thiếu thân). Commit chỉ ghi vào máy — cửa thật là `deploy.ps1`, nên đừng chờ xin phép.

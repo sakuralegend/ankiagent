@@ -54,7 +54,7 @@ Nguyên tắc chọn: mỗi luật phải chỉ được lỗi thật ở §3.2 
 |---|---|
 | Sửa/mở rộng hành vi của hàm đã có | File cũ, hàm cũ |
 | Chức năng mới nhưng **cùng vòng đời** với file cũ (chết cùng nhau, deploy cùng nhau, người gọi là cùng một chỗ) | File cũ, hàm mới |
-| Chức năng mới mà file định thêm đã **quá 400 dòng**, hoặc phải thêm import thuộc tầng khác (file đang thuần đọc-dữ-liệu bỗng phải gọi mạng) | File mới trong cùng gói |
+| Chức năng mới mà file định thêm đã **quá trần ghi nợ** (số ở `soat_nguong.json`), hoặc phải thêm import thuộc tầng khác (file đang thuần đọc-dữ-liệu bỗng phải gọi mạng) | File mới trong cùng gói |
 | Script chạy tay một lần | `_va_<việc>.py` → `_daxong/` khi xong (L2) |
 
 Quy tắc gói (4 mảng): **cái gì chỉ bot dùng → `tgbot/`; chỉ dây chuyền soạn kho dùng → `data/huongdan/`; chỉ thẻ ngữ pháp dùng → `grammar_forms/`; từ HAI mảng trở lên cùng cần → `anki_tools/`** — và chỉ khi có người thứ hai thật sự cần, đừng "để sẵn cho tương lai". Chiều import một chiều: các mảng import `anki_tools`, `anki_tools` không import ngược ra mảng nào.
@@ -80,7 +80,7 @@ Vượt ngưỡng **không có nghĩa là sửa ngay** — giữa việc khác m
 
 | Ngưỡng | Con số | Đo bằng (PowerShell, vài giây) | Vượt thì |
 |---|---|---|---|
-| File phình | **>400 dòng**: ghi nợ. **>700 dòng**: lần sau đụng vào file là phải tách trước khi thêm | `Get-ChildItem -Recurse -Filter *.py \| % { "$((Get-Content $_ \| Measure-Object -Line).Lines)`t$($_.Name)" } \| Sort -Desc` | Ghi nợ / tách. (`grammar.py` 1227 dòng đã thuộc plan dọn — không bàn ở đây.) |
+| File phình | Trần ghi-nợ / trần tách: số ở `soat_nguong.json` (một nguồn duy nhất, QD-21) | `python soatkientruc.py` — cửa S13 tự soi mọi file code, khỏi đếm tay | Ghi nợ (`SONO.md` + mốc vào `da_ghi_no`) / tách trước khi thêm |
 | Bản sao một đoạn | **Luật số 3**: lần 1 viết, lần 2 được phép chép *nếu qua phép thử 3b*, lần 3 **bắt buộc gom** trước khi viết bản 3 | Không cần máy — bước 2 của Q3 (bắt AI liệt kê cái có sẵn) chính là máy dò; nếu AI khai "đã có 2 bản" thì đấy là lần 3 | Gom ngay trong việc đang làm (đằng nào cũng đang viết chỗ đó) |
 | Tham số hàm | **>5 tham số** | Nhìn bằng mắt lúc duyệt diff | Ghi nợ; bảo AI "gom nhóm tham số này thành một dict/dataclass" ở lần sửa sau |
 | Script chết | **30 ngày không ai đụng** và không phải điểm vào | `git log -1 --format="%cr" -- <file>` | Chuyển `_daxong/` (L2). Xoá hẳn cũng được — git giữ hộ |
