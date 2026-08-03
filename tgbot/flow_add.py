@@ -17,12 +17,8 @@ from anki_tools.lemma import guess_lemma_offline
 from anki_tools.pipeline import process_word
 from anki_tools.anki_client import find_duplicate_notes, note_to_card_info
 
-from .core import (
-    _current_deck,
-    _degraded_fix_keyboard,
-    format_card_summary,
-    format_dictionary_entry,
-)
+from .core import _current_deck, _degraded_fix_keyboard
+from .hienthi import format_card_summary, format_dictionary_entry
 
 
 async def _do_add(status_msg, word, deck_name, is_forced, context=None, chon_id=None):
