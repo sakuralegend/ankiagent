@@ -543,5 +543,5 @@ def set_topic_tag(note_id, current_tags, new_slug):
 from .anki_the import (store_media_file, store_word_audio, build_card_fields,   # noqa: E402,F401
                        note_to_card_info, push_to_anki, print_card_summary)
 from .anki_moitruong import setup_anki_environment                              # noqa: E402,F401
-from .anki_thongke import (MATURE_IVL_DAYS, CARD_STATES,                        # noqa: E402,F401
+from .anki_thongke import (MATURE_IVL_DAYS, CARD_STATES, get_deck_fsrs_config,   # noqa: E402,F401
                            get_card_state_stats, get_topic_stats)

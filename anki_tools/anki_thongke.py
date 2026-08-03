@@ -69,6 +69,22 @@ def get_card_state_stats(deck=None):
     return counts, total
 
 
+def get_deck_fsrs_config(deck):
+    """Preset lịch học của `deck`: 21 tham số FSRS (`fsrsParams6`), `desiredRetention`,
+    `ignoreRevlogsBeforeDate`... Trả dict thô của AnkiConnect, NÉM lỗi nếu hỏng.
+
+    Có mặt ở đây để `scripts/do_fsrs.py` khỏi tự mở cổng AnkiConnect riêng (L1).
+    Tham số FSRS nằm trong collection dưới dạng protobuf, không đọc thẳng bằng
+    sqlite được — nên đây là đường duy nhất lấy chúng mà không cài thư viện anki."""
+    res = requests.post(ANKI_CONNECT_URL, json={
+        "action": "getDeckConfig", "version": 6, "params": {"deck": deck}
+    }, timeout=20)
+    out = res.json()
+    if out.get("error"):
+        raise RuntimeError(f"getDeckConfig({deck}): {out['error']}")
+    return out["result"]
+
+
 def get_topic_stats():
     """Đếm thẻ theo từng chủ đề topic:: (cho lệnh /thongke của bot).
     Đọc tag của TỪNG note rồi đếm phía Python — KHÔNG query tag:"topic::X" từng
