@@ -26,6 +26,9 @@
 > thật rồi loại bỏ**. Đây là loại lỗi đắt nhất: AI phiên sau đọc code thấy "chỗ này tối ưu được"
 > rồi làm lại từ đầu. **Trước khi "tối ưu" bất cứ thứ gì trong bảng này, đọc cột Vì.**
 > Muốn lật một dòng: phải ĐO LẠI ra số khác, không được lật bằng lập luận suông.
+> 🔴 **Nhưng số đo dùng để BÁC cũng HẾT HẠN.** "88 thẻ thiếu" (31/07) đo lại 02/08 ra **0**, và
+> chính hướng từng bị bác trở thành hướng thi hành. Dòng nào chống lưng bằng số đo cũ mà việc nay
+> đụng lại nó ⇒ **đo lại trước**, đừng viện dòng cũ rồi thôi.
 
 | Hướng nghe hợp lý | Phán quyết | Vì (số liệu thật) |
 |---|---|---|
@@ -49,6 +52,7 @@
 
 | QD | Ngày | Quyết định | Vì sao (ngắn) |
 |---|---|---|---|
+| QD-24 | 03/08 | Sổ nợ chỉ chứa nợ CHƯA trả — trả xong là XOÁ dòng, bài học dời sang nơi được đọc (S16 canh); mọi `.md` trong git đều có trần | Đo 03/08: xác nợ chiếm **67%** `SONO.md`, và làm hỏng luôn ngòi "chạm 10 mục" vì nó đếm cả xác |
 | QD-23 | 03/08 | Sổ thành MỘT bảng, mỗi quyết định một dòng ≤250 ký tự; số không có ngày đo thì cấm ở lại | Đo 03/08: 40 câu chứa số, 3 câu sai ngay hôm đó; sổ phải tự đính chính "61 lô→64". Cửa S15 đếm thật |
 | QD-22 | 03/08 | Tách ruột `soatkientruc.py` vào gói `soat/`, giữ tên điểm vào | Chạm trần 700 dòng. QD-02 chỉ đòi stdlib · không import module dự án · gõ được tên cũ. 🔴 Test trỏ gốc qua `khung.dat_goc()`, sai là test soi repo thật rồi xanh giả |
 | QD-21 | 03/08 | Mọi CON SỐ TRẦN về `soat_nguong.json`, tài liệu chỉ trỏ; S12–S14 canh | Bản sao thì sớm muộn lệch, nguồn thì bất khả. 🔴 Số trong QD cũ là LỊCH SỬ — số hiệu lực chỉ ở `soat_nguong.json` |

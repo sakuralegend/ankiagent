@@ -32,6 +32,9 @@ def inn(msg=""):
 
 
 # `luon_do=True`: MỘT lần lọt là đã hại — vi phạm nào cũng ĐỎ, bất kể baseline.
+# 🔴 THÊM MỘT DÒNG VÀO ĐÂY THÌ THÊM MỘT TEST TƯƠNG ỨNG ở `tests/test_soatkientruc.py`.
+# Cửa không có test là cửa không ai biết nó còn bắt được gì — và nó hỏng IM LẶNG:
+# vẫn in ra "(khong co)" y như lúc sạch thật.
 MUC = [
     ("S1", "CUA LAU TOI ANKICONNECT (L1)", cua_code.s1_cong_anki, False),
     ("S2", "GOI TEN PRIVATE XUYEN GOI", cua_code.s2_private_xuyen_goi, False),
@@ -48,6 +51,7 @@ MUC = [
     ("S13", "FILE CODE QUA TRAN DONG (QD-21)", cua_nguong.s13_tran_dong_code, True),
     ("S14", "PHIENBAN.md QUA TRAN BAN/MUC (QD-07)", cua_nguong.s14_phienban_tran, True),
     ("S15", "DONG SO QUYET DINH QUA TRAN (QD-23)", cua_nguong.s15_dong_quyetdinh_dai, True),
+    ("S16", "NO DA TRA VAN NAM TRONG SONO.md (QD-24)", cua_nguong.s16_no_da_tra_con_nam_lai, True),
 ]
 
 

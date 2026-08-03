@@ -139,6 +139,24 @@ def s15_dong_quyetdinh_dai():
     return ra
 
 
+def s16_no_da_tra_con_nam_lai():
+    """`SONO.md` chỉ được chứa nợ CHƯA trả — trả xong thì XOÁ DÒNG, đừng `- [x]` rồi
+    để đó (QD-24). Đo 03/08: xác nợ chiếm **67%** file, và làm hỏng luôn cái ngòi
+    "sổ chạm 10 mục thì dành một phiên trả nợ" vì nó đếm cả xác.
+
+    Không dùng ngưỡng số nào — luật là NHỊ PHÂN, có `- [x]` là sai."""
+    p = khung.GOC / "SONO.md"
+    if not p.exists():
+        return []
+    ra = []
+    for i, dong in enumerate(p.read_text(encoding="utf-8").splitlines(), 1):
+        if dong.lstrip().startswith("- [x]"):
+            ra.append(PhatHien(f"SONO.md|dong {i}", i,
+                               "no da tra van nam lai — XOA dong; bai hoc con song thi doi sang "
+                               "noi duoc doc (vung im lang KIENTRUC.md, comment canh code)"))
+    return ra
+
+
 def s14_phienban_tran():
     """`PHIENBAN.md` giữ tối đa N bản, mỗi bản tối đa M gạch đầu dòng (QD-07) —
     con số từng nêu ở 4 file mà 0 cửa canh, nay máy đếm thật."""

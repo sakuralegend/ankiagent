@@ -12,9 +12,9 @@ liệu cào). Hướng đó chết vì hai nguồn CÙNG thượng nguồn OpenR
 không chứng minh gì. Ở đây không so hai nguồn: chỉ soi bản ghi có **tự mâu thuẫn
 với luật hình thái tiếng Nga** hay không — một nguồn tự nó cũng phải nhất quán.
 
-Vì sao ở `anki_tools/` mà không nằm trong `grammar.py`: file đó đã 1309 dòng,
-gấp đôi trần 700 của repo, và `_fable_plan.md` chốt dứt khoát *"việc mới liên
-quan grammar → file mới import grammar, KHÔNG thêm hàm vào file này nữa"*.
+Vì sao ở `anki_tools/` mà không nằm trong `grammar.py`: lúc đó file kia đã quá
+trần dòng (số ở `soat_nguong.json`), và luật đã chốt là *"việc mới liên quan
+grammar → file mới import grammar, KHÔNG thêm hàm vào file này nữa"*.
 File này **không import `grammar`** (thuần chuỗi) nên không đẻ vòng import. (QD-15)
 
 Cố ý KHÔNG tự sửa dữ liệu, chỉ in ra: sửa mù theo suy đoán thì lần sau nó lặng lẽ

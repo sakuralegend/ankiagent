@@ -250,6 +250,17 @@ class TestSoatKienTruc(unittest.TestCase):
                  + "n" * 150 + " |\n")
         self.assertEqual(cua_nguong.s15_dong_quyetdinh_dai(), [])
 
+    # --- S16: nợ đã trả không được nằm lại (QD-24) ------------------------
+    def test_s16_bat_no_da_tra_va_tha_no_chua_tra(self):
+        self.ghi("SONO.md", "# no\n\n- [ ] con no that\n- [x] da tra roi ma van nam day\n")
+        ra = cua_nguong.s16_no_da_tra_con_nam_lai()
+        self.assertEqual([ph.khoa for ph in ra], ["SONO.md|dong 4"])
+        self.assertIn("XOA dong", ra[0].mo_ta)
+
+    def test_s16_so_sach_thi_im(self):
+        self.ghi("SONO.md", "# no\n\n- [ ] con no that\n")
+        self.assertEqual(cua_nguong.s16_no_da_tra_con_nam_lai(), [])
+
     # --- ratchet: baseline chỉ che đúng số cũ, vượt là lộ -----------------
     def test_baseline_doc_kieu_dict_va_so_tran(self):
         self.assertEqual(sk._so_cua(3), 3)

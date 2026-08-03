@@ -127,9 +127,8 @@ Cửa nào bị mở lậu thì `soatkientruc.py` mục S1 kêu.
 `anki_tools/wiktionary.py` import `grammar` ở **mức module**; `grammar.py` cần `wiktionary` để vá
 chỗ OpenRussian thiếu, nên nó import **ở trong hàm**, không ở đầu file. Đó là một vòng thật, đang
 bị bẻ có chủ ý — **đừng "dọn" bằng cách kéo import lên đầu file**, làm vậy là gãy ngay lúc khởi động.
-
-(Trong `tgbot/` cũng có một import nằm trong hàm với lý do ghi là "tránh import vòng" — chỗ đó
-**không** có vòng thật; xem `SONO.md`.)
+(`tgbot/` có một import-trong-hàm ghi lý do "tránh import vòng" nhưng KHÔNG có vòng thật — cửa S3
+in ra mỗi lần soát, khỏi cần nhớ.)
 
 ## 6. Vùng im lặng — hỏng mà không ai báo
 
@@ -141,7 +140,8 @@ việc đứng riêng một mình, backup trước, kiểm sau — và với AI 
 | Đổi/thêm/xoá **field hay model Anki** | VPS kẹt `Sync status 2` **không báo Telegram**; điện thoại hiện bảng chọn chiều sync | `journalctl -u anki-bot` ngay sau khi đổi; nhìn tận mắt màn hình Anki VPS bằng `vnc.bat` |
 | **Full sync chọn nhầm chiều** | Ghi đè sạch bản còn lại, không lùi được | Backup `.apkg` theo ngày; đường khôi phục ghi ở `VPS_SETUP.md` |
 | **Xoá/ghi đè hàng loạt** thẻ thật | Nội dung mất không tiếng kêu. Ghi đè lên bản chụp cũ còn **nuốt im lặng** thay đổi vừa làm từ máy khác (bot VPS, điện thoại) | Backup tay (`/backup`) trước khi chạy. Ghi hàng loạt thì **kéo sync về TRƯỚC**; kéo hỏng thì DỪNG, không ghi tiếp (`QD-16`) |
-| Thẻ **hiện sai mặt** sau khi thăng cấp giai đoạn | User ôn nhầm mặt thẻ, không lỗi nào nổ ra | `anki_tools/soat_giaidoan.py` bám đuôi nhịp sync 30′, chỉ chạy khi nhịp đó kéo về THÀNH CÔNG (`QD-17`) |
+| Thẻ **hiện sai mặt** sau khi thăng cấp giai đoạn | User ôn nhầm mặt thẻ, không lỗi nào nổ ra | `anki_tools/soat_giaidoan.py` bám đuôi nhịp sync 30′, chỉ chạy khi nhịp đó kéo về THÀNH CÔNG (`QD-17`). ⚠️ Cửa này **chỉ dò rồi vá**, không chặn được nguyên nhân gốc ⇒ thẻ vẫn sai mặt **tối đa ~40 phút**; muốn hết hẳn thì để thiết bị sync xong rồi mới học |
+| **Vá tay nội dung thẻ** mà quên bản của nó trong repo | Quả bom hẹn giờ: `nap --tatca` lần sau lặng lẽ trả về bản CŨ, đè mất chỗ vừa sửa (đã dính 8 thẻ) | Sửa nội dung thẻ thì hỏi ngay *"chỗ này trong repo có bản của nó không"* rồi vá cả hai. `nap` có in lúc đổi, nhưng in giữa 300 dòng thì cũng như câm |
 | Chạy lại **script lô thế hệ 1** | Xoá bảng chia trên thẻ thật, im lặng | Đã tháo ngòi (`QD-03`); `soatkientruc.py` S7 canh guard |
 | Hai hàm cùng vai **lệch nhau** (vd chuẩn hoá `ё`) | Thẻ sai âm thầm, không lỗi nào nổ | Đo bằng script chỉ đọc trước khi gộp, không gộp mò |
 | **Bot lỗi lúc chạy**: `_guard()` trong `tgbot/` nuốt hết exception | Telegram **không báo gì**, `systemctl is-active` vẫn "active" trong khi một nút đã chết — đã có lần hỏng **6 tiếng** không ai biết | `journalctl -u anki-bot` là chỗ DUY NHẤT lộ ra; đọc nó sau **mỗi** đợt sửa bot, đừng chỉ hỏi trạng thái dịch vụ. 🔴 Cảnh báo "bot chết" cố ý **KHÔNG** đi qua `tgbot/alerts.py` — `alerts.py` gửi qua chính con bot nên bot chết là cảnh báo chết theo; đừng "sửa cho đúng chuẩn" (`QD-04`) |
@@ -170,14 +170,8 @@ chia do máy nối vào lúc ghi thẻ nằm ngoài tầm nhìn của nó.
 
 ## 8. Điểm vào — cái gì chạy được
 
-Thư mục gốc chứa **đúng ba** file `.py` — không hơn (`L2`, canh bằng mục S6):
-
-| Chạy cái gì | Để làm gì |
-|---|---|
-| `python bot.py` | Bot Telegram (bản chạy 24/7 trên VPS) |
-| `python main.py` | Thêm từ bằng dòng lệnh trên PC |
-| `python soatkientruc.py` | Cửa soát kiến trúc — bậc 1 của mọi lệnh nghiệm thu |
-| `.\deploy.ps1` | Soát → import-check → push → VPS kéo code → restart bot |
+Thư mục gốc chứa **đúng ba** file `.py` — không hơn (`L2`, canh bằng mục S6). Bảng "chạy cái gì để
+làm gì" nằm ở `README.md` mục *Chạy*; **cố ý không chép lại đây** — hai bản sao thì sớm muộn lệch.
 
 Mọi thứ khác nằm ở hai thư mục theo **tuổi thọ**, không theo chức năng:
 

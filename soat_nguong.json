@@ -5,14 +5,20 @@
     "tran": {
       "CLAUDE.md": 7,
       "KIENTRUC.md": 9,
-      "QUYETDINH.md": 15,
-      "SONO.md": 6,
+      "QUYETDINH.md": 10,
+      "SONO.md": 3,
       "CACHLAM.md": 15,
       "README.md": 4,
       "PHIENBAN.md": 3,
       "VIECDANGLAM.md": 2,
+      "AGENTS.md": 1,
+      "VPS_SETUP.md": 7,
+      "data/huongdan/CHUAN.md": 4,
       "data/huongdan/kho/TIEPTUC.md": 28,
-      "data/huongdan/README.md": 17
+      "data/huongdan/README.md": 17,
+      ".claude/commands/ycau.md": 3,
+      ".claude/commands/kehoach.md": 3,
+      ".claude/commands/nghiemthu.md": 3
     }
   },
   "dong_py": {
