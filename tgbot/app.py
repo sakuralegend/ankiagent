@@ -21,9 +21,6 @@ from anki_tools.ai_client import check_claude_ready
 from anki_tools.anki_client import check_anki_ready, setup_anki_environment, trigger_sync
 
 from .commands import (
-    _nightly_backup,
-    _nightly_don,
-    _periodic_sync,
     cmd_backup,
     cmd_deck,
     cmd_don,
@@ -32,6 +29,7 @@ from .commands import (
     cmd_sync,
     cmd_thongke,
 )
+from .jobs import _nightly_backup, _nightly_don, _periodic_sync
 from .alerts import alerter
 from .flow_edit import cmd_sua, cmd_suadeck
 from .flow_scan import on_photo
@@ -60,7 +58,7 @@ def _spawn(coro):
     """Chạy 1 job nền. Dùng asyncio.create_task thay cho app.create_task: lúc
     _post_init chạy thì Application chưa "running" nên app.create_task in ra
     PTBUserWarning mỗi lần khởi động (3 job = 3 dòng rác trong log, dễ che lỗi
-    thật). Vòng lặp job tự bọc try/except rồi (xem _guard ở commands.py) nên
+    thật). Vòng lặp job tự bọc try/except rồi (xem _guard ở jobs.py) nên
     không cần PTB theo dõi hộ."""
     task = asyncio.create_task(coro)
     _BACKGROUND_TASKS.add(task)

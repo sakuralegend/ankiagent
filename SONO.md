@@ -79,8 +79,10 @@
 
 ### 🟡 Vận hành — còn lại, chưa cấp thiết
 
-- [ ] **`tgbot/commands.py` 434 dòng, vượt trần 400 của `CLAUDE.md`** (03/08, sau khi cắm cửa canh
-      QD-17). Chưa cấp thiết — nhưng **đừng thêm hàm mới vào đây nữa**, tách ra file cùng tầng.
+- [ ] **`tgbot/dispatch.py` 430 dòng, vượt trần 400 — user duyệt 03/08: KHÔNG tách.** `on_callback`
+      ~320 dòng là một chuỗi nhánh nút; tách buộc cắt ruột hàm, lưới an toàn không phủ kín, mà bot
+      là nơi lỗi chết im lặng. Đổi lại luật: **cấm thêm nhánh nút mới vào `on_callback`** — nhánh
+      mới viết hàm ở file riêng cùng tầng rồi gọi một dòng từ `on_callback`. (03/08/2026)
 - [ ] **Bot chỉ `print`, chưa có nhật ký phân mức.** `logging.basicConfig` không tồn tại ở đâu ⇒
       không lọc được theo mức, không tách được lỗi khỏi tiếng ồn. Khác với món "log bị xoá" đã trả
       ở trên: đây là chất lượng log, không phải mất log. **Đắt** (chạm cả 3 gói) mà lợi ích chưa

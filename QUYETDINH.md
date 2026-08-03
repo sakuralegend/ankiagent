@@ -49,6 +49,11 @@
 
 ---
 
+## QD-18 · 03/08/2026 · Tách các file quá trần dòng — refactor THUẦN theo khuôn "file vàng"
+Chọn: tách 6 file vượt trần (`commands` `core` `ai_client` `kho/congcu` `anki_client` `grammar`), mỗi file một commit; khuôn bắt buộc: chạy hàm chỉ-đọc trên dữ liệu thật ra file vàng + máy so ruột từng hàm trước–sau (ast) = 0 khác biệt; file gốc thành mặt tiền giữ đủ tên cũ (kể cả tên private đang bị mượn) nên nơi gọi không đổi dòng nào.
+Thay vì: tách đủ 8 file như đề bài. User duyệt trắc nghiệm 03/08: `dispatch.py` BỎ QUA (tách phải cắt ruột hàm `on_callback` ~320 dòng, lưới không phủ kín — ghi SONO); `soatkientruc.py` KHÔNG tách (673<700, tách phá QD-02 một-file-tự-đứng) — chỉ viết test cho nó, trả nợ SONO 31/07.
+Vì: 3 file >700 là mức luật BẮT tách; hành vi không được đổi giữa mùa lô (36/64) nên mọi bảo đảm phải từ máy: diff file vàng ≠ 0 là hoàn tác. Riêng `grammar.py` lật điều kiện cũ của `_fable_plan.md` Q5 → trình QD riêng ở đầu đợt 3. Hết hạn: xong đợt cuối.
+
 ## QD-17 · 03/08/2026 · Cửa canh thẻ hiện sai mặt: bám đuôi nhịp sync, GỌI LẠI lõi thăng cấp
 Chọn: `anki_tools/soat_giaidoan.py` (mới) + tách `anki_client.thang_cap_gd2()` làm bản DUY NHẤT của ba bước thăng cấp, cả job 3h lẫn cửa canh cùng gọi. Cắm vào **đuôi `_periodic_sync` 30′**, chỉ chạy khi nhịp đó kéo về THÀNH CÔNG. Ba luật: GĐ1 + đã tốt nghiệp ⇒ **đẩy tiếp sang GĐ2 (reset lịch)** · GĐ1 + chưa tốt nghiệp ⇒ gỡ nhãn · GĐ2/kho + mất nhãn ⇒ gắn lại. Bỏ qua lệch dưới 10 phút.
 Thay vì: thêm hàm vào `anki_client.py` (988 dòng, quá trần 700) · đẻ job nền mới · chỉ cảnh báo để user bấm `/don` · giữ lịch ôn cho "lành".
