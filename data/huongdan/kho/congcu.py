@@ -1,13 +1,18 @@
 # -*- coding: utf-8 -*-
-"""Bộ công cụ soạn kho — một file, bốn lệnh.
+"""Bộ công cụ soạn kho — MỘT điểm vào, chín lệnh.
 
-Vì sao gộp một file: 703 từ chia 56 lô, tôi sẽ gọi bộ này ~56 lần qua nhiều
+Vì sao gộp một điểm vào: 703 từ chia 56 lô, tôi sẽ gọi bộ này ~56 lần qua nhiều
 phiên chat. Càng ít thứ phải nhớ càng ít chỗ sai.
 
     python data/huongdan/kho/congcu.py tiep          # in dữ liệu lô kế tiếp để soạn
     python data/huongdan/kho/congcu.py soat          # soát toàn bộ lô đã soạn (KHÔNG cần Anki)
     python data/huongdan/kho/congcu.py trangthai     # còn bao nhiêu
     python data/huongdan/kho/congcu.py nap [--apply] # ĐẨY vào Anki — chỉ lô đã duyệt & chưa nạp
+
+Ruột chia ba file cùng thư mục (03/08/2026, QD-18 — trước đó một file 912 dòng):
+  `khochung.py`  lõi dùng chung (khoá chữ, hàng đợi, đọc lô, bảng chia, dấu chuẩn)
+  `soatlo.py`    lệnh soát OFFLINE (`soat`, `dodai`) + lõi so va chạm nghĩa
+  `congcu.py`    điểm vào + các lệnh ĐỤNG Anki (`nap`, `bang`, `moi`, `vacham`…)
 
 🔴 Lô soạn xong là file `kNN_<topic>.py` CHỈ CHỨA `S = {...}` — dữ liệu thuần,
 không boilerplate, không tự gọi Anki. Agent phụ KHÔNG bao giờ đụng Anki; việc
@@ -17,8 +22,6 @@ Từ 27/07 `nap` chạy được sau MỖI lô thay vì gom một cục cuối �
 lô `trangthai == "xong"` và ghi sổ `daNap` vào hangdoi.json, nên lô đang soạn dở
 không thể lọt vào thẻ thật và không lô nào bị nạp hai lần.
 """
-import glob
-import importlib.util
 import io
 import json
 import os
@@ -30,48 +33,27 @@ sys.path.insert(0, os.path.join(HERE, "..", "..", ".."))
 sys.path.insert(0, os.path.join(HERE, ".."))
 from anki_tools import grammar, soat_nguphap                      # noqa: E402
 from anki_tools.anki_client import sync_truoc_khi_ghi_lo          # noqa: E402
-from mientru import MIEN_TRU                                      # noqa: E402
+# Tên lấy lại từ hai file ruột — GIỮ NGUYÊN cả bộ vì `dochuan.py` import congcu
+# như thư viện (congcu._BANG_RE, congcu.uoc_cao, congcu.TRAN_CAO…).
+from khochung import (ACUTE, ZWSP, TUDIEN, BANG_RE, CHUAN_V, TAG_CHUAN,    # noqa: E402,F401
+                      bare, khoa_note, doc_hangdoi, ghi_hangdoi,
+                      nap_lo_da_soan, gan_bang, khoi_nguphap, tag_chuan)
+from soatlo import (TRAN_CAO, TRAN_WARN, cmd_soat, cmd_dodai,              # noqa: E402,F401
+                    do_va_cham, tach_nghia, uoc_cao)
 
-HANGDOI = os.path.join(HERE, "hangdoi.json")
-TUDIEN = os.path.join(HERE, "tudien.json")
-NOUNS = os.path.join(HERE, "..", "..", "nouns.csv")
+_BANG_RE = BANG_RE          # dochuan.py đang dùng congcu._BANG_RE — giữ tên cũ sống
+
 ANKI = "http://127.0.0.1:8765"
-ACUTE = "́"
-ZWSP = "​"
 
 
-def bare(w):
-    """Khoá TRA TỪ ĐIỂN trọng âm — gộp ё về е vì nouns.csv in ё thành е.
-    ĐỪNG dùng để ghép với note Anki: xem `khoa_note`."""
-    return w.replace(ACUTE, "").replace(ZWSP, "").replace("'", "").lower().replace("ё", "е")
-
-
-def khoa_note(w):
-    """Khoá GHÉP VỚI NOTE ANKI — GIỮ NGUYÊN ё.
-
-    ё và е phân biệt những từ khác hẳn nhau: всё (mọi thứ) ≠ все (mọi người),
-    нёбо (vòm miệng) ≠ небо (bầu trời). Dùng `bare` ở đây thì hai note gộp làm
-    một khoá, và `nap` ghi nội dung của từ này đè lên thẻ của từ kia. Đã xảy ra
-    thật 28/07: thẻ всё nhận nguyên ô Hướng dẫn của все.
-    """
-    return w.replace(ACUTE, "").replace(ZWSP, "").replace("'", "").lower()
-
-
-# --------------------------------------------------- nối BẢNG CHIA vào ô Hướng dẫn
-# Bảng do MÁY dựng từ từ điển, KHÔNG do agent soạn (240 dạng có trọng âm mỗi lô
-# đi qua model là 240 cơ hội sai mà user không tự kiểm được — README §1).
-# Vì vậy nó được nối vào lúc GHI, không nằm trong file lô.
-_BANG_RE = grammar._BANG_RE          # dùng chung, đừng viết lại regex ở hai nơi
-
-
-def gan_bang(html, word):
-    """Gắn lại bảng chia — vỏ mỏng quanh `grammar.attach_table()`.
-
-    Logic thật nằm ở `grammar.py` để luồng soạn lô, luồng tạo thẻ mới và luồng
-    làm lại thẻ dùng CHUNG một hàm. Ba nơi tự nối bảng theo ba kiểu thì sớm muộn
-    có nơi quên gỡ bảng cũ và thẻ mọc hai bảng chồng nhau.
-    """
-    return grammar.attach_table(html, grammar.get_cached(word))
+def ac(action, **params):
+    import urllib.request
+    req = urllib.request.Request(
+        ANKI, json.dumps({"action": action, "version": 6, "params": params}).encode())
+    out = json.load(urllib.request.urlopen(req, timeout=300))
+    if out.get("error"):
+        raise RuntimeError(f"{action}: {out['error']}")
+    return out["result"]
 
 
 def cmd_bang():
@@ -111,124 +93,6 @@ def cmd_bang():
             "HuongDan": gan_bang(f.get("HuongDan", {}).get("value", ""),
                                  f["WordClean"]["value"].strip())}})
     print(f"da ghi {len(doi)} note")
-
-
-def doc_hangdoi():
-    return json.load(io.open(HANGDOI, encoding="utf-8"))
-
-
-def ghi_hangdoi(q):
-    io.open(HANGDOI, "w", encoding="utf-8").write(json.dumps(q, ensure_ascii=False, indent=1))
-
-
-def nap_lo_da_soan(chi=None, lay_v=False):
-    """Đọc mọi file kNN_*.py trong kho, trả {word: html} gộp.
-
-    `chi` = danh sách id để chỉ đọc vài lô — dùng khi một lô tự soát mình.
-    `lay_v` = trả thêm dict `V` (bản tiếng Việt sửa lại) của các lô đó.
-
-    File lô có thể khai báo HAI dict:
-      S = {từ: html ô Hướng dẫn}      — bắt buộc
-      V = {từ: "nghĩa tiếng Việt"}    — tuỳ chọn, CHỈ những từ cần sửa
-    """
-    gop, nguon, vi = {}, {}, {}
-    for path in sorted(glob.glob(os.path.join(HERE, "k[0-9][0-9]_*.py"))):
-        if chi and os.path.basename(path)[:3] not in chi:
-            continue
-        spec = importlib.util.spec_from_file_location("lo_" + os.path.basename(path)[:3], path)
-        mod = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(mod)
-        for w, html in getattr(mod, "S", {}).items():
-            if w in gop:
-                print(f"  !! TRUNG '{w}': {nguon[w]} va {os.path.basename(path)}")
-            gop[w] = html
-            nguon[w] = os.path.basename(path)
-        vi.update(getattr(mod, "V", {}))
-    return (gop, nguon, vi) if lay_v else (gop, nguon)
-
-
-# ------------------------------------------- DỮ LIỆU TỪ ĐIỂN in kèm cho agent
-# Hai khối dưới đây KHÔNG đụng thẻ — chúng chỉ đổi thứ agent NHÌN THẤY lúc soạn.
-#
-# 🔴 KHÔNG in HỌ TỪ ra đây — user chốt 29/07 SAU KHI ĐO, đừng thêm lại.
-#
-# Ý định ban đầu đúng: agent tự nghĩ từ nguyên đã sai thật hai lần
-# (`о́блако`↔`во́лос`, `целова́ть`↔`цель`, git log quanh 28/07), nên đưa danh sách họ
-# từ của từ điển ra để agent CHỌN thay vì ĐOÁN. Ba phép đo giết ý định đó:
-#
-#  ① Làm CỬA SOÁT thì không được. Trên 2 069 cụm in đậm ở mục "Họ hàng" của 301
-#    thẻ đã soạn: bắt buộc phải có trong `family` thì kêu 65%, nới hai bước 59%,
-#    lọc hai tầng chặt nhất vẫn 33% — gần hết chỗ kêu là họ hàng THẬT mà từ điển
-#    xếp thiếu (`идти́` không có `похо́д`/`вход`, `знать` không có `знак`).
-#    `family` là nguồn KHẲNG ĐỊNH, KHÔNG phải nguồn PHỦ ĐỊNH.
-#  ② Làm nguồn THAM KHẢO cũng không xong: `groups[family]` (cùng gốc) và
-#    `relateds` (nghĩa gần, KHÁC GỐC HẲN) bị `grammar._family()` gộp một rổ, nên
-#    `ги́бкий` kéo theo `мя́гкий`/`бога́тый`, `о́блако` kéo theo `ту́ча`/`не́бо`.
-#    Đưa cái rổ đó cho agent là công cụ TỰ ĐẺ RA đúng loại lỗi nó sinh ra để chặn.
-#  ③ Tách hai khoá thì sạch, nhưng phải bóc lại. User chốt BỎ HẲN:
-#    *"phần family này chỉ để AI tham khảo thôi"* → *"nếu nguy hiểm vậy thì thôi
-#    bỏ đi"* → *"xoá để nó hoạt động như ban đầu, không động gì vào phần họ hàng
-#    từ nữa"*.
-#
-# ⇒ Đã gỡ TẬN GỐC (v3, 29/07), không chỉ thôi in: `grammar.normalize()` không bóc
-# `family` nữa · `xoa_family_khoi_cache.py` gỡ khoá khỏi cả 951 bản ghi (0,86 ->
-# 0,37 MB) · `scripts/backfill_grammar_json.py --apply` ghi lại `GrammarJSON` 950 thẻ.
-# **Không còn `rec["family"]` ở bất kỳ đâu.** Mục "Họ hàng" agent tự nghĩ, và
-# KHÔNG có cửa soát nào chặn chỗ đó — README §2 dặn "không chắc thì bỏ mục đó".
-
-TRAN_EN = 46          # cắt phần nghĩa Anh cho gọn một dòng
-TRAN_IDIOM = 4
-
-
-def _gon(s, n):
-    s = re.sub(r"\s+", " ", (s or "")).strip()
-    return s if len(s) <= n else s[:n - 1].rstrip() + "…"
-
-
-def _dong_bat_thuong(rec):
-    """Câu mô tả chỗ BẤT THƯỜNG của bảng chia (`grammar.analyze`).
-
-    User chốt 29/07: *"đọc câu đó là hiểu toàn bộ bảng"*. Bảng chia do máy dựng
-    nằm gấp trong `<details>`, nên phần duy nhất user đọc ngay là câu chú ý phía
-    trên — mà chỉ agent viết được câu đó. Máy chỉ trỏ chỗ, KHÔNG viết hộ: các
-    câu dưới đây là mô tả thô, đưa thẳng lên thẻ thì khô và dài.
-    """
-    flags = grammar.analyze(rec).get("flags") or []
-    flags = [(ma, c) for ma, c in flags if ma not in ("khongbien",)]
-    if not flags:
-        return []
-    return ["###   BAT THUONG trong bang chia (viet 1 cau chu y, DUNG chep nguyen):"] + \
-           [f"###     - {c}" for _, c in flags]
-
-
-def _dong_them(rec):
-    """`usage` (ghi chú cách dùng người thật viết) + `idioms` (cụm cố định).
-
-    Cào về 29/07 nhưng tới giờ chưa ai nhìn thấy. `idioms` đúng loại nội dung ô
-    đỏ user chấm là hay nhất: bản mẫu `сожале́ние` có ô `к сожале́нию`.
-    """
-    ra = []
-    if rec.get("usage"):
-        # NGUYÊN VĂN từ điển, có mục là ghi chú nội bộ của người biên tập
-        # (`быть`: "This page needs fixing…"). Không lọc được bằng máy — agent
-        # đọc rồi tự bỏ, đừng chép mù.
-        ra.append(f"###   CACH DUNG (tu dien ghi): {_gon(rec['usage'], 150)}")
-    idi = rec.get("idioms") or []
-    if idi:
-        ra.append("###   CUM CO DINH:")
-        for m in idi[:TRAN_IDIOM]:
-            ra.append(f"###     {m['w']:24s} {_gon(m.get('en'), TRAN_EN)}".rstrip())
-        if len(idi) > TRAN_IDIOM:
-            ra.append(f"###     ... con {len(idi) - TRAN_IDIOM} cum")
-    return ra
-
-
-def khoi_nguphap(wc):
-    """Toàn bộ phần từ điển in kèm một từ. Rỗng nếu chưa cào được từ đó."""
-    rec = grammar.get_cached(wc)
-    if not rec:
-        return ["###   (KHONG CO du lieu ngu phap — chay cao_nguphap.py cho tu nay)"]
-    return _dong_bat_thuong(rec) + _dong_them(rec)
 
 
 # --------------------------------------------------------------- lệnh: tiep
@@ -310,264 +174,7 @@ def cmd_xong():
     print(f"danh dau xong: {' '.join(ids)}")
 
 
-# --------------------------------------------------------------- lệnh: soat
-def load_nouns():
-    import csv
-    d = {}
-    with io.open(NOUNS, encoding="utf-8", newline="") as fh:
-        for row in csv.DictReader(fh, delimiter="\t"):
-            b = (row.get("bare") or "").strip().lower().replace("ё", "е")
-            acc = (row.get("accented") or "").strip()
-            if b and acc and b not in d:
-                d[b] = acc.replace("'", ACUTE)
-    return d
-
-
-def cmd_soat():
-    """Soát nội dung ĐÃ SOẠN NHƯNG CHƯA ĐẨY — không cần AnkiConnect.
-
-    Đây là điểm khác duy nhất so với kiemtra.py: nguồn là file, không phải thẻ.
-    Nhờ vậy soát được ngay trong lúc thẻ trong Anki còn nguyên chưa bị đụng.
-    """
-    chi = [a for a in sys.argv[2:] if re.fullmatch(r"k\d\d", a)] or None
-    nouns = load_nouns()
-    gop, nguon = nap_lo_da_soan(chi)
-    print(f"tu dien: {len(nouns)} danh tu | dang soat: {len(gop)} tu"
-          f"{' (lo ' + ' '.join(chi) + ')' if chi else ''}\n")
-
-    sai, chua_tra, khong_dau, hong, khong_ho = [], set(), [], [], []
-    for word, html in gop.items():
-        # (a) CẤU TRÚC: thẻ mở/đóng phải cân, và phải có đủ mục
-        # Đếm theo CẶP là chưa đủ: <b>…<b>…</b>…</b> vẫn cân bằng nhưng thẻ đóng
-        # bên trong cắt in đậm giữa chừng khi hiển thị. Phải quét theo ĐỘ SÂU.
-        for tag in ("div", "span", "b", "i", "u"):
-            sau = 0
-            for mt in re.finditer(f"<{tag}[ >]|</{tag}>", html):
-                sau += 1 if mt.group()[1] != "/" else -1
-                if sau < 0 or (tag in ("b", "i", "u") and sau > 1):
-                    hong.append((word, nguon[word],
-                                 f"<{tag}> long/lech tai vi tri {mt.start()}"))
-                    break
-            if sau > 0:
-                hong.append((word, nguon[word], f"thieu {sau} the dong </{tag}>"))
-        if "hd-sec" not in html:
-            hong.append((word, nguon[word], "thieu .hd-sec"))
-        # 🔴 THIẾU `.hd-fam` KHÔNG PHẢI LỖI — user chốt 29/07: *"những từ thực sự
-        # không có như vậy thì không cần họ hàng, cái này để agent quyết định"*.
-        #
-        # Trước đó đây là lỗi cấu trúc, và lô phải sạch cửa này mới được duyệt.
-        # Hậu quả thấy ngay ở k48: `бассе́йн` mượn thẳng tiếng Pháp `bassin`, không
-        # có từ phái sinh Nga nào, agent buộc phải dựng một ô `.hd-fam` mà nội dung
-        # chỉ là lời thú nhận "không có họ hàng gốc Nga" — viết ra để im cửa chứ
-        # không phải để dạy. Lần đó agent trung thực nên vô hại; lần sau nó có thể
-        # chọn cách rẻ hơn là BỊA một từ cùng gốc, đúng thứ README §2 cấm.
-        # Đây chính là cơ chế "cửa kêu oan ⇒ lô sau thêm nội dung giả cho im cửa"
-        # đã ghi ở cửa (b) — nay áp cho cả cửa này.
-        #
-        # Vẫn ĐẾM và in ra, chỉ không chặn: mục Họ hàng vắng phải là một lựa chọn
-        # có ý thức của agent, không phải chỗ nó quên.
-        if "hd-fam" not in html:
-            khong_ho.append((word, nguon[word]))
-
-        # (c) CHỮ TRỘN CYRILLIC + LATIN — lỗi gõ MẮT KHÔNG THẤY.
-        # `а о е р с х у` Nga và Latin vẽ giống hệt nhau. Một chữ lọt vào giữa
-        # từ Nga thì thẻ trông vẫn đúng nhưng đó không còn là từ đó nữa.
-        # Lô k07 tự viết script bắt được `гốc` và `цapтa` — giữ lại thành cửa chung.
-        # ⚠️ Dải chữ Latin phải viết TƯỜNG MINH. Viết tắt kiểu `À-ỹ` nuốt trọn cả
-        # bảng Cyrillic (U+0400 nằm trong U+00C0–U+1EF9) -> báo nhầm mọi từ Nga.
-        LAT = r"A-Za-zÀ-ɏḀ-ỿ"
-        for tok in re.findall(rf"[{LAT}А-Яа-яЁё́]{{2,}}", re.sub(r"<[^>]+>", " ", html)):
-            if re.search(r"[А-Яа-яЁё]", tok) and re.search(rf"[{LAT}]", tok):
-                hong.append((word, nguon[word], f"chu TRON Cyrillic+Latin: {tok}"))
-
-        for m in re.findall(r"<b>(.*?)</b>", html):
-            noi_dung = re.sub(r"<[^>]+>", "", m).strip()
-            # (d) CỤM NHIỀU CHỮ phải tách ra soi TỪNG CHỮ.
-            # `fullmatch` trượt ngay ở dấu cách, nên trước đây MỌI cụm in đậm
-            # (collocation, ví dụ ngắn) đi qua cửa mà không bị kiểm chút nào —
-            # `между́ строк` lọt cả ba cửa, đúng phải là `ме́жду строк`.
-            chu = [t.strip(".,;:!?()[]«»\"'…") for t in noi_dung.split()]
-            # Cụm THUẦN NGA (mọi chữ đều Cyrillic) mới là collocation thật -> soi
-            # cả dấu trọng âm. Còn câu tiêu đề tiếng Việt có kèm một từ Nga thì từ
-            # đó thường được CỐ Ý viết trần để nêu mặt chữ; đòi dấu ở đó là kêu oan,
-            # mà kêu oan thì lô sau sẽ thêm dấu giả cho im cửa — đúng thứ cần tránh.
-            thuan_nga = all(re.fullmatch(r"[А-Яа-яЁё́​-]*", t) for t in chu)
-            for i, token in enumerate(chu):
-                if not re.fullmatch(r"[А-Яа-яЁё́​-]+", token) or "-" in token:
-                    continue
-                # `не́`/`ни́` hút trọng âm của từ đứng sau (не́ было, не́ был) ->
-                # từ sau nó MẤT dấu là đúng chính tả, không phải thiếu sót.
-                sau_ne = i > 0 and chu[i - 1].lower() in ("не́", "ни́")
-                # (b) THIẾU DẤU TRỌNG ÂM = né bộ soát, không phải "an toàn".
-            # Bộ soát chỉ đối chiếu được từ CÓ dấu; bỏ dấu là tự động qua cửa.
-                # Từ ≥2 nguyên âm mà không dấu, không có ё (ё luôn mang trọng âm) -> báo.
-                if (len(re.findall(r"[аеёиоуыэюяАЕЁИОУЫЭЮЯ]", token)) >= 2
-                        and ACUTE not in token and "ё" not in token.lower()
-                        and thuan_nga and not sau_ne):
-                    khong_dau.append((word, nguon[word], token))
-
-                b = bare(token)
-                if b not in nouns:
-                    chua_tra.add(b)
-                    continue
-                chuan = nouns[b]
-                if ACUTE not in chuan or token in MIEN_TRU:
-                    continue          # tên riêng lưu trần -> không so được
-                if token.replace(ZWSP, "").lower().replace("ё", "е") != chuan.lower().replace("ё", "е"):
-                    sai.append((word, nguon[word], token, chuan))
-
-    print("=== CAU TRUC HTML ===")
-    print("  (khong co)" if not hong else "")
-    for w, f, ly in hong:
-        print(f"  [{f}] {w:16s} {ly}")
-
-    print("\n=== TU NGA IN DAM MA THIEU DAU TRONG AM ===")
-    print("  (khong co)" if not khong_dau else "")
-    for w, f, t in sorted(set(khong_dau))[:40]:
-        print(f"  [{f}] the {w:16s} -> {t}")
-    if len(set(khong_dau)) > 40:
-        print(f"  ... con {len(set(khong_dau)) - 40}")
-
-    # KHÔNG nằm trong "ba mục phải sạch" — đây là dòng để ĐỌC, không phải cửa.
-    print(f"\n=== KHONG CO MUC HO HANG: {len(khong_ho)} the (khong phai loi) ===")
-    if khong_ho:
-        print("  " + " · ".join(w for w, _ in khong_ho[:25])
-              + (" ..." if len(khong_ho) > 25 else ""))
-        print("  -> Dung neu tu do that su khong co ho hang chac chan (tu goc tron,")
-        print("     hu tu, tu muon dung mot minh). SAI neu chi la quen. Agent quyet dinh.")
-
-    print("\n=== TRONG AM LECH so voi tu dien ===")
-    if not sai:
-        print("  (khong co)")
-    seen = set()
-    for w, f, mine, ref in sai:
-        if (mine, ref) in seen:
-            continue
-        seen.add((mine, ref))
-        print(f"  [{f}] the {w:16s} toi viet {mine:20s} tu dien {ref}")
-
-    # Danh sách này dài tới ~950 từ khi soát cả kho. In hết vào màn hình là đổ
-    # thẳng vào context của người đọc — tốn vô ích, mà đọc một mạch 950 từ thì
-    # cũng không ai đọc nổi. Ghi ra file, màn hình chỉ giữ phần xem được.
-    dai = sorted(x for x in chua_tra if len(x) >= 4)
-    fn = os.path.join(HERE, "_phaidocbangmat.txt")
-    io.open(fn, "w", encoding="utf-8").write("\n".join(dai))
-    print(f"\n=== PHAI DOC BANG MAT: {len(dai)} tu ===")
-    if chi:                      # soát một lô -> in hết, đó là việc của lô đó
-        print("  " + ", ".join(dai))
-    else:                        # soát cả kho -> chỉ trích, phần còn lại ở file
-        print("  " + ", ".join(dai[:60]))
-        print(f"  ... {len(dai) - 60} tu nua -> {os.path.basename(fn)}")
-    print("\n⚠️ 'Chua tra duoc' KHONG phai 'dung' — nouns.csv chi co DANH TU.")
-
-
 # ---------------------------------------------------------- lệnh: trangthai
-TRAN_WARN = 2        # số ô đỏ (.hd-warn) tối đa mỗi thẻ
-
-# ---- TRẦN THẬT: VỪA MỘT MÀN HÌNH iPHONE (user chốt 28/07) ----------------
-# Byte là đại lượng SAI để đo cái user thật sự quan tâm. User nói thẳng:
-# "toàn bộ nội dung đó chỉ được hiện trên 1 mặt màn hình iPhone thôi".
-# Nên đo bằng CHIỀU CAO DỰNG HÌNH ước lượng, theo đúng số trong card.css.
-#
-# MÁY THẬT CỦA USER: iPhone 16 Pro Max = 440 x 956 pt (CSS px).
-# Ghi rõ từng bước trừ để sau này đổi máy thì sửa được, đừng đoán lại:
-#   BỀ RỘNG  440 − .card-container padding 20×2 = 400 − .hd-content 16×2 = 368px
-#   CHIỀU CAO 956 − thanh trên + Dynamic Island ~103 − nút trả lời ~100 = ~753px
-#             − thanh "Hướng dẫn (bấm để mở rộng)" ~40px  ->  ~713px
-#   Lấy 700px cho chẵn và chừa sai số.
-TRAN_CAO = 700       # px — quá số này là PHẢI CUỘN, tức vỡ yêu cầu "1 mặt màn hình"
-NHAM_CAO = 600       # px — nhắm dưới mức này cho thoải mái
-BE_RONG = 368        # px bề rộng chữ trong .hd-content
-
-
-def _dong(chu, px_font, be_rong=BE_RONG):
-    """Số dòng khi chữ tự xuống hàng. Bề rộng ký tự trung bình ~0,5 cỡ chữ
-    với font sans tỉ lệ (-apple-system). Chữ Việt có dấu không rộng thêm."""
-    moi_dong = max(1, int(be_rong / (px_font * 0.5)))
-    return max(1, -(-len(chu) // moi_dong))
-
-
-def uoc_cao(html):
-    """Ước lượng chiều cao dựng hình (px) của một ô Hướng dẫn.
-
-    Không phải trình duyệt, nên đây là XẤP XỈ — nhưng sai số vài chục px
-    không đổi kết luận, còn byte thì sai hẳn về CHẤT: một bảng 6 dòng và
-    một đoạn văn cùng số byte chiếm chiều cao khác nhau tới ba lần.
-    """
-    # 🔴 GỠ BẢNG CHIA TRƯỚC KHI ĐO. Bảng gấp trong <details> lồng nên lúc đóng
-    # nó chiếm đúng một dòng tiêu đề — tính cả ruột bảng vào thì mọi thẻ đều
-    # "vỡ trần 700px" và cái trần mất hết ý nghĩa. Trần đo phần user PHẢI đọc,
-    # còn bảng là thứ user chủ động bấm vào mới xem.
-    co_bang = 'class="gt-bang"' in (html or "")     # phải hỏi TRƯỚC khi gỡ
-    html = _BANG_RE.sub("", html or "")
-    cao = 28 + (30 if co_bang else 0)               # thanh tiêu đề bảng lúc đóng
-    for m in re.finditer(
-            r'<div class="(hd-sec|hd-row|hd-why|hd-fam|hd-warn)"[^>]*>(.*?)</div>\s*(?=<div|$)',
-            html, re.S):
-        lop, ruot = m.group(1), re.sub(r"<[^>]+>", "", m.group(2)).strip()
-        if lop == "hd-sec":
-            cao += 16 + 21                       # 10px chữ + margin 14/7
-        elif lop == "hd-row":
-            cao += _dong(ruot, 13, BE_RONG - 74) * 24 + 6   # cột nghĩa hẹp hơn
-        elif lop == "hd-why":
-            cao += _dong(ruot, 14) * 22.4 + 8
-        elif lop == "hd-fam":
-            cao += _dong(ruot, 13) * 22.75
-        elif lop == "hd-warn":
-            cao += _dong(ruot, 13, BE_RONG - 25) * 19.5 + 25
-    return int(cao)
-
-
-def cmd_dodai():
-    """Đo độ dài VÀ đếm ô đỏ từng thẻ — xem README §2b.
-
-    🔴 Đếm ô đỏ mới là cửa quan trọng. Suốt 16 lô đầu chỉ có trần byte, nên
-    thẻ "đạt" 12 KB vẫn có tới 16 ô đỏ và user đọc xong không nhớ gì — đúng
-    thứ mà độ dài định phục vụ thì lại hỏng. Trần byte một mình KHÔNG đủ.
-    """
-    chi = [a for a in sys.argv[2:] if re.fullmatch(r"k\d\d", a)] or None
-    gop, nguon = nap_lo_da_soan(chi)
-    L = sorted(((len(v), k) for k, v in gop.items()), reverse=True)
-    if not L:
-        print("chua co gi")
-        return
-    W = {k: v.count("hd-warn") for k, v in gop.items()}
-    C = {k: uoc_cao(v) for k, v in gop.items()}
-    cao = sorted(((n, k) for k, n in C.items() if n > TRAN_CAO), reverse=True)
-    do = sorted(((n, k) for k, n in W.items() if n > TRAN_WARN), reverse=True)
-    print(f"{len(gop)} the | CAO tb {sum(C.values()) // len(C)}px "
-          f"| cao nhat {max(C.values())}px ({max(C, key=C.get)}) "
-          f"| QUA 1 MAN HINH ({TRAN_CAO}px): {len(cao)}")
-    print(f"{'':>9} o do tb {sum(W.values()) / len(W):.1f} "
-          f"| nhieu nhat {max(W.values())} "
-          f"({max(W, key=W.get)}) | QUA {TRAN_WARN} O DO: {len(do)}")
-    print(f"{'':>9} byte tb {sum(n for n, _ in L) // len(L)} (tham khao)")
-
-    # KHỐI DÙNG CHUNG: mục .hd-sec nào xuất hiện ở >=50% số thẻ thì đó là khối
-    # lặp, không phải nội dung của từ. §3 — mặc định phải là 0%; ở k04 nó nuốt
-    # 80% độ dài thẻ và đẩy chính cái từ ra rìa.
-    dem, dai = {}, {}
-    for v in gop.values():
-        p = re.split(r'<div class="hd-sec">(.*?)</div>', v)
-        for i in range(1, len(p), 2):
-            ten = re.sub(r"<[^>]+>", "", p[i]).strip()
-            dem[ten] = dem.get(ten, 0) + 1
-            dai[ten] = dai.get(ten, 0) + len(p[i]) + (len(p[i + 1]) if i + 1 < len(p) else 0)
-    coc = {"Chẻ từ", "Cách nhớ", "Họ hàng"}
-    chung = [(t, c) for t, c in dem.items() if c >= len(gop) * 0.5 and t not in coc]
-    tong = sum(len(v) for v in gop.values())
-    pc = 100 * sum(dai[t] for t, _ in chung) / tong if tong else 0
-    print(f"{'':>9} khoi dung chung: {pc:.0f}% do dai the"
-          f"{'  <- QUA NHIEU, xem README §3' if pc > 15 else ''}")
-    for t, c in sorted(chung, key=lambda x: -x[1]):
-        print(f"     lap x{c}/{len(gop)}  {dai[t]:6d}b  {t[:60]}")
-
-    for n, w in cao[:15]:
-        print(f"  cao   {n:6d}px  {w}   [{nguon[w]}]  = {n / TRAN_CAO:.1f} man hinh")
-    for n, w in do[:15]:
-        print(f"  o do  {n:6d}    {w}   [{nguon[w]}]")
-
-
 def cmd_trangthai():
     q = doc_hangdoi()
     xong = [l for l in q["lo"] if l["trangthai"] == "xong"]
@@ -603,35 +210,6 @@ def cmd_trangthai():
                   f"-> chay: congcu.py moi --apply")
     except Exception:
         pass          # không có Anki thì thôi, `trangthai` vẫn phải chạy được
-
-
-# ------------------------------------------------- va chạm nghĩa tiếng Việt
-def tach_nghia(vi):
-    """Tách một dòng tiếng Việt thành các nghĩa rời để so trùng.
-
-    `Vietnamese` viết kiểu "nói, bảo, cho biết" — mỗi cụm là MỘT đáp án mà
-    user có thể nhìn vào rồi gõ. Nên so trùng phải so từng cụm, không so cả
-    dòng: "nói, bảo" và "nói, trò chuyện" khác nhau nguyên dòng nhưng cùng
-    chứa "nói", tức vẫn là đề bài hai đáp án.
-    """
-    vi = re.sub(r"<[^>]+>", " ", vi or "").lower()
-    vi = re.sub(r"\([^)]*\)", " ", vi)          # bỏ phần chú trong ngoặc
-    ra = set()
-    for cum in re.split(r"[,;/·|]|\bhoặc\b|\bhay là\b", vi):
-        cum = re.sub(r"\s+", " ", cum).strip(" .…")
-        # cụm quá ngắn hoặc chỉ là hư từ thì bỏ, kẻo báo trùng tràn lan
-        if len(cum) >= 2 and cum not in ("và", "là", "của", "cho", "một"):
-            ra.add(cum)
-    return ra
-
-
-def do_va_cham(notes):
-    """{nghĩa Việt: [các từ Nga cùng mang nghĩa đó]} — chỉ giữ nghĩa >= 2 từ."""
-    theo = {}
-    for wc, vi in notes.items():
-        for ng in tach_nghia(vi):
-            theo.setdefault(ng, set()).add(wc)
-    return {k: sorted(v) for k, v in theo.items() if len(v) > 1}
 
 
 def cmd_vacham():
@@ -736,51 +314,7 @@ def cmd_moi():
     print(f"DA GHI ca hai file | hang doi: {q['tong_lo']} lo / {q['tong_tu']} tu")
 
 
-# ==============================================================================
-# --- DẤU ĐẠT CHUẨN: `chuan::<N>` ghi thẳng lên TAG của thẻ ---
-#
-# 🔴 Vì sao dấu phải mang SỐ HIỆU, không phải chỉ "đạt": nhãn `dat` cũ nằm trong
-# `hangdoi.json` chỉ ghi "thẻ này đạt" mà không ghi **đạt theo chuẩn nào**. Chuẩn
-# đổi bên dưới nó thì nhãn HẾT HẠN MÀ KHÔNG AI BIẾT — đo lại 29/07 thì 7/75 thẻ
-# mang nhãn đó đã vỡ trần. Cả một phiên bị loạn vì chuyện này. User chốt: *"phải
-# có cách đánh dấu từ nào đã đạt chuẩn để không bị loạn nữa"*.
-#
-# Vì sao dùng TAG chứ không phải field mới: thêm field là **schema mod** ⇒ Anki
-# đòi full sync, mà [[vps-ket-sync-im-lang]] ghi rõ mỗi lần như vậy VPS kẹt im
-# lặng. Tag thì sync thường, lại **tra được ngay trong app Anki** (`tag:chuan::3`)
-# nên user tự kiểm được, không phải tin lời tôi.
-#
-# 📕 ĐỊNH NGHĨA TỪNG SỐ HIỆU NẰM Ở `data/huongdan/CHUAN.md` — con số ở đây vô
-# nghĩa nếu không có file đó. Tóm tắt để khỏi phải mở:
-#   v1  chuẩn dài (6–10 KB, không đếm ô đỏ)          — không thẻ nào được gắn
-#   v2  §2b ngắn gọn: 1 màn hình iPhone + ≤2 ô đỏ    — không thẻ nào được gắn
-#   v3  (29/07) v2 + BẮT BUỘC câu chú ý cho từ mà `tiep` in khối BAT THUONG,
-#       + mục "Họ hàng" được phép vắng khi từ thật sự không có
-#
-# 🔴 ĐỔI CHUẨN THÌ LÀM ĐỦ BA BƯỚC (xem mục "Quy trình ĐỔI CHUẨN" trong CHUAN.md):
-# ① thêm mục `## v<N+1>` vào CHUAN.md, ghi ĐỦ tiêu chuẩn chứ không chỉ phần đổi
-# ② tăng số dưới đây  ③ hết — không phải đụng thẻ nào, mọi thẻ cũ tự thành
-# "đạt chuẩn CŨ" và `dochuan.py` xếp chúng vào diện phải soạn lại. Đó chính là
-# thứ đáng lẽ đã chặn được mớ lộn xộn hôm nay.
-CHUAN_V = 3
-TAG_CHUAN = "chuan"
-
-
-def tag_chuan(v=None):
-    return f"{TAG_CHUAN}::{CHUAN_V if v is None else v}"
-
-
 # --------------------------------------------------------------- lệnh: nap
-def ac(action, **params):
-    import urllib.request
-    req = urllib.request.Request(
-        ANKI, json.dumps({"action": action, "version": 6, "params": params}).encode())
-    out = json.load(urllib.request.urlopen(req, timeout=300))
-    if out.get("error"):
-        raise RuntimeError(f"{action}: {out['error']}")
-    return out["result"]
-
-
 def cmd_nap():
     """Đẩy vào Anki các lô ĐÃ DUYỆT mà CHƯA nạp.
 
