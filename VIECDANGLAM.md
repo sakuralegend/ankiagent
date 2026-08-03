@@ -6,5 +6,5 @@ S12·S13·S14, 62 test xanh). `soatkientruc.py` đúng 700/700 dòng — muốn 
 QD-02, xem SONO.md.
 
 **Việc kế tiếp: chạy lô `k32`(12) · `k33`(21) · `k34`(20) = 53 từ** theo `TIEPTUC.md`.
-Nợ cũ còn nguyên: 3 commit chưa deploy (chỉ cửa soát + tài liệu, không đụng code bot) — đừng để
-dồn, có nợ "không gì báo khi VPS chạy code cũ hơn laptop".)
+Nợ cũ còn nguyên: nhiều commit dồn chưa deploy (chỉ cửa soát + tài liệu, không đụng code bot) —
+đừng để dồn thêm, có nợ "không gì báo khi VPS chạy code cũ hơn laptop".)
