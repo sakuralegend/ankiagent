@@ -40,18 +40,20 @@
       Đã vá bằng cờ `animate`: đồ vật đuôi -а/-я thì kết luận giống cái, **người thì im lặng**.
       (31/07/2026)
 - [x] **`soatkientruc.py` không ai canh → ĐÃ CÓ `tests/test_soatkientruc.py` (03/08/2026).**
-      9 test dựng repo giả trong thư mục tạm, kỳ vọng đúng mục nào ĐỎ/im cho S1·S2·S3·S4·S6·S7·S8
-      + ratchet. KHÔNG tách file (673 dòng < mức 700 buộc tách; tách là phá QD-02 một-file-tự-đứng
-      — user duyệt 03/08). ⚠️ Vẫn "đừng thêm mục soát mới vào mà không thêm test tương ứng".
+      13 test dựng repo giả trong thư mục tạm, kỳ vọng đúng mục nào ĐỎ/im cho S1·S2·S3·S4·S6·S7·S8
+      ·**S10** + ratchet. KHÔNG tách file (tách là phá QD-02 một-file-tự-đứng — user duyệt 03/08).
+      ⚠️ Vẫn "đừng thêm mục soát mới vào mà không thêm test tương ứng".
+      🔴 **NAY 686/700 DÒNG — còn 14 dòng dư.** Cửa soát tiếp theo **buộc phải tách file trước**.
 - [x] **Thiếu lớp chặn sớm của git → ĐÃ CÓ `commit-msg` hook.** `scripts/hook-commit-msg` +
       `scripts/caidat_hook.sh` (cài một lần mỗi máy). Chặn NGAY lúc `git commit` thay vì đợi tới
       deploy. Giữ cả S9: hook nằm ngoài repo nên không tự đi theo sang máy/AI khác, S9 thì đi cùng
       repo — hai lớp không thừa. Đã thử: commit "sua linh tinh" bị chặn. (31/07/2026)
-- [x] **Trần S10 hết tuỳ tiện → đổi đơn vị sang PHÚT ĐỌC.** Trước là số dòng lấy từ "hiện tại +
-      biên độ" (đúng loại con số đếm được mà `KIENTRUC.md` tự cấm). Nay đặt **ngân sách phút** —
-      `CLAUDE.md` 3 phút (nạp mỗi phiên), `KIENTRUC.md`/`CACHLAM.md` 8, `SONO.md` 4, `QUYETDINH.md`
-      5, `README.md` 3 — máy tự quy ra dòng (~30 dòng/phút). Con số phút thì người đặt và bảo vệ
-      được; số dòng thì không. (31/07/2026)
+- [x] **Trần S10 đo sai hai lần, nay mới đúng (31/07 → 03/08, QD-20).** Bản 1 đếm dòng lấy từ
+      "hiện tại + biên độ" — con số tuỳ tiện. Bản 2 đổi sang **ngân sách phút**, đúng ý niệm nhưng
+      vẫn quy ra **dòng**. Bản 3 (03/08) quy ra **KÝ TỰ**: đo ra ký tự/dòng chạy từ 49 tới 140 giữa
+      các file, nên đếm dòng bỏ lọt hẳn `QUYETDINH.md` (149/150 dòng "còn chỗ" mà nặng 30 KB, dòng
+      dài nhất 1090 ký tự). Ngân sách hiện hành nằm trong `PHUT_DOC`, có ghi số đo cạnh từng dòng.
+      🔴 Bài học: **đơn vị đo sai thì cửa soát vẫn XANH trong khi thứ nó canh đã hỏng.**
 
 ### 🔴 Phát hiện + TRẢ LUÔN 02/08/2026 (chi tiết: `git log`)
 

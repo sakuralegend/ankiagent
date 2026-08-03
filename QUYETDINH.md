@@ -125,6 +125,11 @@ Vì: user chỉ ra rằng **mọi file trong repo đều viết cho người là
 ## ⚰️ QD-06 · 31/07 · Đóng sổ `CHANGELOG.md`, lịch sử về `git log` — **cửa S9 canh "commit có thân", S9 LÀ bản ghi** (file đã xoá hẳn, QD-14)
 > Lý lẽ đáng nhớ ngoài phạm vi ca này: **commit message gắn chặt với diff nên không nói dối được**; tài liệu viết một đằng sửa một nẻo thì không ai biết — đúng con đường đã giết `README.md` cũ.
 
+## QD-20 · 03/08/2026 · Trần đọc đo bằng KÝ TỰ, không bằng dòng
+Chọn: `S10` đổi `DONG_MOI_PHUT=30` → `KY_TU_MOI_PHUT=1400`; ngân sách phút đặt lại từ kích thước THẬT 03/08 (ratchet chốt-từ-hiện-trạng như `soat_baseline.json`); thêm `TIEPTUC.md` + `data/huongdan/README.md` vào danh sách bị canh; 4 test mới, trong đó **một test tái hiện đúng ca bản cũ bỏ lọt**.
+Thay vì: giữ đếm dòng, hoặc đặt ngân sách theo mức "đáng ra phải thế" (sẽ đỏ 8 file, chặn deploy trong khi việc chính là chạy lô).
+Vì: đo 03/08 — **ký tự/dòng chạy từ 49 tới 140** giữa các file nên đếm dòng không đo được gì thật: `QUYETDINH.md` báo 149/150 dòng "còn chỗ" trong khi nặng 30 KB, dòng dài nhất **1090 ký tự**, tức vượt ngân sách gấp ba mà cửa vẫn XANH. Và hai file to nhất repo (60 249 ký tự = **44% toàn bộ tài liệu**) chưa hề bị canh, trong khi `PHIENBAN.md` 3 652 ký tự thì bị chặn. Tốc độ 1400 kt/phút không bịa: nó là tốc độ hàm ý của đúng hai file chưa ai kêu dài (KIENTRUC 1417 · README 1438). Hết hạn: không.
+
 ## ⚰️ QD-05 · 31/07 · Cache ngữ pháp ra ngoài repo — **CHẾT**, QD-11 thay cùng ngày (bỏ hẳn file cache) · `git log --grep QD-05`
 
 ## QD-04 · 31/07/2026 · Cảnh báo "bot chết" đi đường ĐỘC LẬP, cố ý không qua `tgbot/alerts.py`

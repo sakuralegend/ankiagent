@@ -101,6 +101,40 @@ class TestSoatKienTruc(unittest.TestCase):
     def test_s8_ngu_khi_chua_co_kientruc(self):
         self.assertIsNone(sk.s8_manifest())
 
+    # --- S10: trần đọc, đếm KÝ TỰ chứ không đếm dòng (QD-20) --------------
+    def _dat_tran(self, ten, phut):
+        """Trỏ PHUT_DOC vào đúng một file giả, trả lại nguyên trạng sau test."""
+        cu = sk.PHUT_DOC
+        sk.PHUT_DOC = {ten: phut}
+        self.addCleanup(lambda: setattr(sk, "PHUT_DOC", cu))
+
+    def test_s10_duoi_tran_thi_im(self):
+        self._dat_tran("A.md", 1)
+        self.ghi("A.md", "x" * (sk.KY_TU_MOI_PHUT - 1))
+        self.assertEqual(sk.s10_tri_nho_phinh(), [])
+
+    def test_s10_vuot_tran_thi_keu_bang_ky_tu(self):
+        self._dat_tran("A.md", 1)
+        self.ghi("A.md", "x" * (sk.KY_TU_MOI_PHUT + 1))
+        ra = sk.s10_tri_nho_phinh()
+        self.assertEqual([ph.khoa for ph in ra], ["A.md"])
+        self.assertIn("ky tu", ra[0].mo_ta)
+
+    def test_s10_it_dong_ma_dong_dai_van_bi_bat(self):
+        """🔴 Ca mà bản đếm-dòng BỎ LỌT — chính nó đẻ ra QD-20.
+
+        `QUYETDINH.md` từng báo 149/150 dòng "còn chỗ" trong khi nặng 30 KB,
+        dòng dài nhất 1090 ký tự. Ba dòng dưới đây là bản thu nhỏ của đúng ca
+        đó: rất ít dòng, thừa sức lọt mọi trần tính bằng dòng, mà chữ thì vượt.
+        """
+        self._dat_tran("A.md", 1)
+        self.ghi("A.md", "\n".join(["y" * 900] * 3))      # 3 dòng, ~2 700 ký tự
+        self.assertEqual([ph.khoa for ph in sk.s10_tri_nho_phinh()], ["A.md"])
+
+    def test_s10_file_khong_ton_tai_thi_bo_qua(self):
+        self._dat_tran("khong_co.md", 1)
+        self.assertEqual(sk.s10_tri_nho_phinh(), [])
+
     # --- ratchet: baseline chỉ che đúng số cũ, vượt là lộ -----------------
     def test_baseline_doc_kieu_dict_va_so_tran(self):
         self.assertEqual(sk._so_cua(3), 3)

@@ -403,29 +403,42 @@ def s9_commit_thieu_vi_sao():
 # ai đọc ngược nữa (phải đóng sổ, QD-06). File mà AI phải đọc MỖI PHIÊN thì phình
 # = bị lướt = chết y hệt README cũ.
 #
-# 🔴 ĐƠN VỊ LÀ **PHÚT ĐỌC**, KHÔNG PHẢI SỐ DÒNG. Bản đầu (31/07 sáng) đặt trần
-# bằng số dòng lấy từ "hiện tại + biên độ" — chính AI tự soi ra đó là con số tuỳ
-# tiện, đúng loại "con số đếm được" mà `KIENTRUC.md` tự cấm (SONO.md). Nay quy về
-# thứ có nghĩa thật: **file này phải đọc hết trong bao nhiêu phút?** Con số phút
-# do người đặt và bảo vệ được; số dòng chỉ là phép quy đổi máy tự làm.
+# 🔴 ĐƠN VỊ LÀ **PHÚT ĐỌC**, quy ra **KÝ TỰ** — KHÔNG phải số dòng (QD-20, 03/08).
+# Bản 31/07 đếm dòng. Đo 03/08 cho thấy nó đo sai hẳn: ký tự/dòng chạy từ **49 tới
+# 140** giữa các file, gấp ~3 lần. Hệ quả thật: `QUYETDINH.md` báo 149/150 "còn
+# chỗ" trong khi nó nặng 30 KB, dòng dài nhất **1090 ký tự** — vượt ngân sách gấp
+# ba mà cửa vẫn XANH. Ký tự thì không nói dối được; xuống dòng thì có.
+#
+# Tốc độ 1400 ký tự/phút KHÔNG bịa: nó là tốc độ hàm ý của đúng hai file chưa ai
+# kêu là dài — KIENTRUC.md (1417) và README.md (1438). Lấy chỗ đang vừa làm mốc.
+KY_TU_MOI_PHUT = 1400
+#
+# ⚠️ Ngân sách dưới đây đặt từ KÍCH THƯỚC THẬT ngày 03/08 (làm tròn lên phút), tức
+# một ratchet chốt-từ-hiện-trạng giống `soat_baseline.json` — nó KHÔNG hợp thức hoá
+# hiện trạng, nó chặn hiện trạng phình thêm. Số trong ngoặc là ký tự đo được; cột
+# "(cũ N)" là ngân sách thời đếm dòng, để thấy nó đã lệch thực tế bao xa.
 PHUT_DOC = {
-    "CLAUDE.md": 3,         # nạp MỖI phiên -> phải đọc xong trước khi bắt tay
-    "KIENTRUC.md": 8,       # chỉ đọc khi sửa việc xuyên mảng
-    "QUYETDINH.md": 5,      # tra cứu, ít khi đọc từ đầu tới cuối
-    "SONO.md": 4,
-    "CACHLAM.md": 8,
-    "README.md": 3,         # người lạ ghé 30 giây + người mới đọc kỹ 3 phút
+    "CLAUDE.md": 7,                        # 8 488 kt  (cũ 3) — nạp MỖI phiên
+    "KIENTRUC.md": 9,                      # 11 337 kt (cũ 8)  — đọc khi sửa xuyên mảng
+    "QUYETDINH.md": 15,                    # 19 924 kt (cũ 5)  — lệch nặng nhất
+    "SONO.md": 6,                          # 8 105 kt  (cũ 4)
+    "CACHLAM.md": 15,                      # 20 660 kt (cũ 8)
+    "README.md": 4,                        # 4 314 kt  (cũ 3)
     # File DUY NHẤT viết cho user. Ngân sách khắt khe nhất vì user không có nghĩa
-    # vụ đọc tài liệu: quá một màn hình là nó đi đúng đường CHANGELOG.md cũ.
-    "PHIENBAN.md": 2,
+    # vụ đọc tài liệu. ⚠️ QD-07 ghi "trần 2 phút" — con số đó tính bằng DÒNG, quy
+    # sang ký tự là 3; ràng buộc thật của file này vẫn là "tối đa 5 mục/bản".
+    "PHIENBAN.md": 3,                      # 3 652 kt  (cũ 2)
     # Phiếu việc dùng một lần (/ycau ghi đè, /nghiemthu xoá). Trần thấp là CỬA
     # chống nó biến thành CHANGELOG.md thứ hai: phình = ai đó đang NỐI THÊM
     # thay vì ghi đè, tức là quy trình đã trôi. (QD-09)
-    "VIECDANGLAM.md": 2,
+    "VIECDANGLAM.md": 2,                   # 1 230 kt  (cũ 2) — còn dư, giữ nguyên
+    # 🔴 HAI FILE TO NHẤT REPO, TRƯỚC 03/08 KHÔNG BỊ CANH GÌ CẢ. S10 khớp đúng
+    # đường dẫn từ gốc, nên khoá "README.md" chỉ bắt file ở gốc (4 314 kt) và bỏ
+    # lọt bản trong data/huongdan/ gấp năm lần nó. Cộng lại 60 249 ký tự — 44%
+    # toàn bộ tài liệu — nằm ngoài mọi cửa trong khi PHIENBAN.md 3 652 kt bị chặn.
+    "data/huongdan/kho/TIEPTUC.md": 28,    # 37 846 kt (MỚI)
+    "data/huongdan/README.md": 17,         # 22 403 kt (MỚI)
 }
-# Tốc độ đọc tài liệu kỹ thuật có dấu, đọc HIỂU chứ không lướt. Đo thô nhưng
-# trung thực hơn một con số dòng bịa ra: ~30 dòng/phút.
-DONG_MOI_PHUT = 30
 
 
 def s10_tri_nho_phinh():
@@ -437,15 +450,15 @@ def s10_tri_nho_phinh():
         if not p.exists():
             continue
         try:
-            so_dong = len(p.read_text(encoding="utf-8").splitlines())
+            so_ky_tu = len(p.read_text(encoding="utf-8"))
         except OSError:
             continue
-        tran = phut * DONG_MOI_PHUT
-        if so_dong > tran:
+        tran = phut * KY_TU_MOI_PHUT
+        if so_ky_tu > tran:
             ra.append(PhatHien(
-                ten, so_dong,
-                f"doc het mat ~{so_dong / DONG_MOI_PHUT:.0f} phut, ngan sach {phut} phut "
-                f"({so_dong} dong > {tran}) — cat muc het gia tri, hoac nang ngan sach kem QD-nn"))
+                ten, so_ky_tu,
+                f"doc het mat ~{so_ky_tu / KY_TU_MOI_PHUT:.0f} phut, ngan sach {phut} phut "
+                f"({so_ky_tu} ky tu > {tran}) — cat muc het gia tri, hoac nang ngan sach kem QD-nn"))
     return ra
 
 
