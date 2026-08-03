@@ -88,7 +88,9 @@ def _thong_ke_the(cards, decks, hom_nay, prefix):
     if not n:
         return None
     # D trong file là thang 1..10; quy về % cho dễ đọc: (D-1)/9*100
-    nhom = collections.Counter()
+    # Bốn nhóm luôn có mặt kể cả khi bằng 0 — thiếu khoá thì bảng so sánh in
+    # "402 → None" trong khi sự thật là "402 → 0", đọc ra thành hỏng script.
+    nhom = collections.Counter({"duoi_50": 0, "50_70": 0, "70_90": 0, "tren_90": 0})
     for d in ds:
         p = (d - 1) / 9 * 100
         nhom["duoi_50" if p < 50 else "50_70" if p < 70 else
@@ -129,16 +131,29 @@ def chup(ghi_chu=""):
     crt = cur.execute("select crt from col").fetchone()[0]
     hom_nay = int((datetime.datetime.now().timestamp() - crt) // 86400)
 
+    # 🔴 Đọc preset của MỌI deck, không chỉ deck gốc. Bẫy đã trả giá 04/08/2026:
+    # bản đầu chỉ đọc preset của "RUSSIAN" — mà deck đó KHÔNG chứa thẻ nào, thẻ
+    # nằm hết ở deck chủ đề (preset "Default") và hai deck lộ trình (preset riêng).
+    # Bấm Optimize xong, script báo "tham số không đổi" trong khi bộ thật sự đang
+    # xếp lịch đã đổi hẳn. Bốn preset của collection này lệch nhau rất xa.
     try:
-        cfg = get_deck_fsrs_config(DECK_GOC[0])
+        preset = {}
+        for d in [""] + [n.replace("\x1f", "::") for n in decks.values()]:
+            cfg = get_deck_fsrs_config(d) if d else None
+            if cfg is None:
+                continue
+            p = preset.setdefault(cfg["name"], {
+                "fsrsParams6": cfg["fsrsParams6"],
+                "desiredRetention": cfg["desiredRetention"],
+                "ignoreRevlogsBeforeDate": cfg["ignoreRevlogsBeforeDate"],
+                "deck": []})
+            p["deck"].append(d)
     except Exception as e:
         con.close()
         sys.exit(f"❌ Không đọc được preset qua AnkiConnect ({e}) — Anki phải đang mở.")
 
     snap = {"ngay": datetime.date.today().isoformat(), "ghi_chu": ghi_chu,
-            "preset": cfg["name"], "fsrsParams6": cfg["fsrsParams6"],
-            "desiredRetention": cfg["desiredRetention"],
-            "ignoreRevlogsBeforeDate": cfg["ignoreRevlogsBeforeDate"],
+            "preset": preset,
             "tong_lan_on": cur.execute(
                 "select count(*) from revlog where ease > 0").fetchone()[0]}
     for d in DECK_GOC:
@@ -154,14 +169,29 @@ def chup(ghi_chu=""):
 def in_so_sanh(cu, moi):
     """In cạnh nhau hai mốc — đây là thứ người đọc thật sự cần, không phải JSON."""
     print(f"\n=== {cu['ngay']}  →  {moi['ngay']} ===")
-    print(f"desiredRetention: {cu.get('desiredRetention')} → {moi.get('desiredRetention')}"
-          f"   | tổng lượt ôn: {cu.get('tong_lan_on')} → {moi.get('tong_lan_on')}")
-    a, b = cu.get("fsrsParams6") or [], moi.get("fsrsParams6") or []
-    if a and b and len(a) == len(b):
-        print("\n21 tham số FSRS (w0..w20), ▲/▼ = đổi trên 10%:")
-        for i, (x, y) in enumerate(zip(a, b)):
-            dau = "  " if abs(y - x) <= abs(x) * 0.1 else ("▲" if y > x else "▼")
-            print(f"  w{i:<2d} {x:>12.6f} → {y:>12.6f} {dau}")
+    print(f"tổng lượt ôn: {cu.get('tong_lan_on')} → {moi.get('tong_lan_on')}")
+
+    def _bo(snap):
+        """Mốc cũ để tham số phẳng ở gốc; mốc mới xếp theo preset. Về cùng một dạng."""
+        if isinstance(snap.get("preset"), dict):
+            return {t: v["fsrsParams6"] for t, v in snap["preset"].items()}
+        return {snap.get("preset", "?"): snap.get("fsrsParams6") or []}
+
+    a, b = _bo(cu), _bo(moi)
+    for ten in sorted(set(a) | set(b)):
+        x, y = a.get(ten) or [], b.get(ten) or []
+        deck = (moi.get("preset") or {}).get(ten, {}).get("deck") if \
+            isinstance(moi.get("preset"), dict) else None
+        print(f"\n── preset \"{ten}\"" + (f" — {len(deck)} deck dùng" if deck else ""))
+        if not (x and y and len(x) == len(y)):
+            print("   (một trong hai mốc không có preset này)")
+            continue
+        if x == y:
+            print("   21 tham số Y HỆT, không đổi.")
+            continue
+        for i, (p, q) in enumerate(zip(x, y)):
+            dau = "  " if abs(q - p) <= abs(p) * 0.1 else ("▲" if q > p else "▼")
+            print(f"   w{i:<2d} {p:>12.6f} → {q:>12.6f} {dau}")
     for d in DECK_GOC:
         ca, cb = cu.get(d), moi.get(d)
         if not (ca and cb):

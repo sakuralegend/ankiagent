@@ -762,33 +762,129 @@
   },
   {
    "ngay": "2026-08-03",
-   "ghi_chu": "Chup TRUOC khi bam Optimize lan 2. Params dang dung la ket qua Optimize 26/07/2026.",
-   "preset": "russian-parent-70",
-   "fsrsParams6": [
-    0.16320384,
-    1.4504344,
-    6.619287,
-    24.123941,
-    6.56837,
-    0.604632,
-    3.1063304,
-    0.011669496,
-    1.7868342,
-    0.25973406,
-    0.7293805,
-    1.5665358,
-    0.003886918,
-    0.34466028,
-    1.7940687,
-    0.36712205,
-    1.8729,
-    0.60540295,
-    0.16281044,
-    0.11492177,
-    0.28581655
-   ],
-   "desiredRetention": 0.9,
-   "ignoreRevlogsBeforeDate": "1970-01-01",
+   "ghi_chu": "Chup TRUOC khi bam Optimize lan 2. Params dang dung la ket qua Optimize 26/07/2026. (Bo sung 04/08: moc nay ban dau chi ghi 1 trong 4 preset. Bon gia tri deu la SO DO that - Default/russian-parent-70 do ngay 03/08, stage1-quen/inbox do 04/08 nhung deck_config.mtime=26/07 16:53 chung minh chung khong doi trong khoang do.)",
+   "preset": {
+    "Default": {
+     "fsrsParams6": [
+      0.16320384,
+      1.4504344,
+      6.619287,
+      24.123941,
+      6.56837,
+      0.604632,
+      3.1063304,
+      0.011669496,
+      1.7868342,
+      0.25973406,
+      0.7293805,
+      1.5665358,
+      0.003886918,
+      0.34466028,
+      1.7940687,
+      0.36712205,
+      1.8729,
+      0.60540295,
+      0.16281044,
+      0.11492177,
+      0.28581655
+     ],
+     "desiredRetention": 0.9,
+     "ignoreRevlogsBeforeDate": "1970-01-01",
+     "deck": [
+      "(moi deck chu de + GRAMMAR)"
+     ]
+    },
+    "russian-parent-70": {
+     "fsrsParams6": [
+      0.16320384,
+      1.4504344,
+      6.619287,
+      24.123941,
+      6.56837,
+      0.604632,
+      3.1063304,
+      0.011669496,
+      1.7868342,
+      0.25973406,
+      0.7293805,
+      1.5665358,
+      0.003886918,
+      0.34466028,
+      1.7940687,
+      0.36712205,
+      1.8729,
+      0.60540295,
+      0.16281044,
+      0.11492177,
+      0.28581655
+     ],
+     "desiredRetention": 0.9,
+     "ignoreRevlogsBeforeDate": "1970-01-01",
+     "deck": [
+      "RUSSIAN"
+     ]
+    },
+    "stage1-quen": {
+     "fsrsParams6": [
+      0.0703345,
+      1.1832062,
+      8.413011,
+      44.733852,
+      6.432334,
+      0.81824124,
+      2.9855597,
+      0.001,
+      1.8253126,
+      0.1395684,
+      0.74201214,
+      1.5108585,
+      0.06586369,
+      0.30917343,
+      1.7085755,
+      0.5198373,
+      1.8729,
+      0.54954237,
+      0.12943786,
+      0.11222282,
+      0.17234153
+     ],
+     "desiredRetention": 0.9,
+     "ignoreRevlogsBeforeDate": "1970-01-01",
+     "deck": [
+      "RUSSIAN::0-quen"
+     ]
+    },
+    "inbox": {
+     "fsrsParams6": [
+      0.0703345,
+      1.1832062,
+      8.413011,
+      44.733852,
+      6.432334,
+      0.81824124,
+      2.9855597,
+      0.001,
+      1.8253126,
+      0.1395684,
+      0.74201214,
+      1.5108585,
+      0.06586369,
+      0.30917343,
+      1.7085755,
+      0.5198373,
+      1.8729,
+      0.54954237,
+      0.12943786,
+      0.11222282,
+      0.17234153
+     ],
+     "desiredRetention": 0.9,
+     "ignoreRevlogsBeforeDate": "1970-01-01",
+     "deck": [
+      "RUSSIAN::1-go"
+     ]
+    }
+   },
    "tong_lan_on": 16772,
    "RUSSIAN": {
     "so_the": 1023,
@@ -896,6 +992,324 @@
      "p75": 13.01,
      "max": 38.94,
      "trung_binh": 10.73
+    },
+    "chu_ki_ngay": {
+     "min": 1,
+     "p25": 5,
+     "trung_vi": 8.0,
+     "p75": 14,
+     "max": 43,
+     "trung_binh": 11.37
+    },
+    "den_han_14_ngay_toi": {
+     "1": 12,
+     "2": 11,
+     "3": 12,
+     "4": 9,
+     "5": 4,
+     "6": 4,
+     "7": 6,
+     "8": 1,
+     "9": 3,
+     "10": 1,
+     "11": 1,
+     "12": 2,
+     "13": 2,
+     "14": 1
+    }
+   },
+   "nut_bam_GRAMMAR": {
+    "on_tap": {
+     "tong": 276,
+     "pct_nut": {
+      "again": 22.5,
+      "hard": 0.4,
+      "good": 77.2,
+      "easy": 0.0
+     },
+     "nho_duoc_pct": 77.5
+    },
+    "hoc_moi": {
+     "tong": 304,
+     "pct_nut": {
+      "again": 43.4,
+      "hard": 0.3,
+      "good": 56.2,
+      "easy": 0.0
+     },
+     "nho_duoc_pct": 56.6
+    },
+    "hoc_lai": {
+     "tong": 156,
+     "pct_nut": {
+      "again": 30.8,
+      "hard": 1.3,
+      "good": 67.9,
+      "easy": 0.0
+     },
+     "nho_duoc_pct": 69.2
+    }
+   }
+  },
+  {
+   "ngay": "2026-08-04",
+   "ghi_chu": "Sau Optimize lan 2 (user bam 04/08/2026, chi preset Default)",
+   "preset": {
+    "Default": {
+     "fsrsParams6": [
+      0.16907535,
+      0.6206674,
+      1.5322592,
+      3.3087304,
+      6.639462,
+      0.5110623,
+      3.3040192,
+      0.04862622,
+      1.6607178,
+      0.18783511,
+      0.60737073,
+      1.5507156,
+      0.024304217,
+      0.34681782,
+      1.8302864,
+      0.3991339,
+      1.8522146,
+      0.39551124,
+      0.028643914,
+      0.040328898,
+      0.19874074
+     ],
+     "desiredRetention": 0.9,
+     "ignoreRevlogsBeforeDate": "1970-01-01",
+     "deck": [
+      "Mặc định",
+      "RUSSIAN::time",
+      "RUSSIAN::numbers",
+      "RUSSIAN::actions",
+      "RUSSIAN::qualities",
+      "RUSSIAN::concepts",
+      "RUSSIAN::concepts::abstract",
+      "RUSSIAN::concepts::misc",
+      "RUSSIAN::language",
+      "RUSSIAN::language::education",
+      "RUSSIAN::language::grammar",
+      "RUSSIAN::life",
+      "RUSSIAN::life::clothing",
+      "RUSSIAN::life::food",
+      "RUSSIAN::life::home",
+      "RUSSIAN::nature",
+      "RUSSIAN::nature::animals",
+      "RUSSIAN::nature::plants",
+      "RUSSIAN::nature::weather",
+      "RUSSIAN::people",
+      "RUSSIAN::people::body",
+      "RUSSIAN::people::family",
+      "RUSSIAN::people::professions",
+      "RUSSIAN::places",
+      "RUSSIAN::places::city",
+      "RUSSIAN::qualities::colors",
+      "GRAMMAR",
+      "GRAMMAR::plural-irregular"
+     ]
+    },
+    "russian-parent-70": {
+     "fsrsParams6": [
+      0.16320384,
+      1.4504344,
+      6.619287,
+      24.123941,
+      6.56837,
+      0.604632,
+      3.1063304,
+      0.011669496,
+      1.7868342,
+      0.25973406,
+      0.7293805,
+      1.5665358,
+      0.003886918,
+      0.34466028,
+      1.7940687,
+      0.36712205,
+      1.8729,
+      0.60540295,
+      0.16281044,
+      0.11492177,
+      0.28581655
+     ],
+     "desiredRetention": 0.9,
+     "ignoreRevlogsBeforeDate": "1970-01-01",
+     "deck": [
+      "RUSSIAN"
+     ]
+    },
+    "inbox": {
+     "fsrsParams6": [
+      0.0703345,
+      1.1832062,
+      8.413011,
+      44.733852,
+      6.432334,
+      0.81824124,
+      2.9855597,
+      0.001,
+      1.8253126,
+      0.1395684,
+      0.74201214,
+      1.5108585,
+      0.06586369,
+      0.30917343,
+      1.7085755,
+      0.5198373,
+      1.8729,
+      0.54954237,
+      0.12943786,
+      0.11222282,
+      0.17234153
+     ],
+     "desiredRetention": 0.9,
+     "ignoreRevlogsBeforeDate": "1970-01-01",
+     "deck": [
+      "RUSSIAN::1-go"
+     ]
+    },
+    "stage1-quen": {
+     "fsrsParams6": [
+      0.0703345,
+      1.1832062,
+      8.413011,
+      44.733852,
+      6.432334,
+      0.81824124,
+      2.9855597,
+      0.001,
+      1.8253126,
+      0.1395684,
+      0.74201214,
+      1.5108585,
+      0.06586369,
+      0.30917343,
+      1.7085755,
+      0.5198373,
+      1.8729,
+      0.54954237,
+      0.12943786,
+      0.11222282,
+      0.17234153
+     ],
+     "desiredRetention": 0.9,
+     "ignoreRevlogsBeforeDate": "1970-01-01",
+     "deck": [
+      "RUSSIAN::0-quen"
+     ]
+    }
+   },
+   "tong_lan_on": 16772,
+   "RUSSIAN": {
+    "so_the": 1023,
+    "so_the_dang_on": 1014,
+    "D_thang_1_10": {
+     "min": 2.29,
+     "p25": 4.77,
+     "trung_vi": 7.56,
+     "p75": 8.04,
+     "max": 9.96,
+     "trung_binh": 6.75
+    },
+    "D_phan_nhom_pct": {
+     "duoi_50": 331,
+     "50_70": 125,
+     "70_90": 542,
+     "tren_90": 25
+    },
+    "S_ngay": {
+     "min": 0.0,
+     "p25": 1.53,
+     "trung_vi": 5.26,
+     "p75": 10.01,
+     "max": 29.65,
+     "trung_binh": 6.68
+    },
+    "chu_ki_ngay": {
+     "min": 1,
+     "p25": 2,
+     "trung_vi": 8.0,
+     "p75": 15,
+     "max": 92,
+     "trung_binh": 13.16
+    },
+    "den_han_14_ngay_toi": {
+     "1": 198,
+     "2": 183,
+     "3": 65,
+     "4": 61,
+     "5": 53,
+     "6": 53,
+     "7": 44,
+     "8": 42,
+     "9": 42,
+     "10": 27,
+     "11": 19,
+     "12": 14,
+     "13": 6,
+     "14": 10
+    }
+   },
+   "nut_bam_RUSSIAN": {
+    "on_tap": {
+     "tong": 3614,
+     "pct_nut": {
+      "again": 27.8,
+      "hard": 2.1,
+      "good": 69.9,
+      "easy": 0.2
+     },
+     "nho_duoc_pct": 72.2
+    },
+    "hoc_moi": {
+     "tong": 8558,
+     "pct_nut": {
+      "again": 57.7,
+      "hard": 2.3,
+      "good": 39.9,
+      "easy": 0.1
+     },
+     "nho_duoc_pct": 42.3
+    },
+    "hoc_lai": {
+     "tong": 2183,
+     "pct_nut": {
+      "again": 34.8,
+      "hard": 0.7,
+      "good": 64.5,
+      "easy": 0.0
+     },
+     "nho_duoc_pct": 65.2
+    }
+   },
+   "GRAMMAR": {
+    "so_the": 124,
+    "so_the_dang_on": 86,
+    "D_thang_1_10": {
+     "min": 4.6,
+     "p25": 4.77,
+     "trung_vi": 7.34,
+     "p75": 7.98,
+     "max": 8.92,
+     "trung_binh": 6.58
+    },
+    "D_phan_nhom_pct": {
+     "duoi_50": 31,
+     "50_70": 11,
+     "70_90": 44,
+     "tren_90": 0
+    },
+    "S_ngay": {
+     "min": 0.01,
+     "p25": 1.53,
+     "trung_vi": 4.87,
+     "p75": 10.08,
+     "max": 28.35,
+     "trung_binh": 7.28
     },
     "chu_ki_ngay": {
      "min": 1,

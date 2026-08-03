@@ -364,5 +364,36 @@ class TheHienSaiMatCaHaiChieu(unittest.TestCase):
                              f"chép bước {buoc} ra đây là dựng bản thứ hai của luật thăng cấp")
 
 
+class MocFsrsPhaiSoatDuMOIPRESET(unittest.TestCase):
+    """04/08/2026 — `scripts/do_fsrs.py` bản đầu chỉ đọc preset của deck "RUSSIAN",
+    mà deck đó KHÔNG chứa thẻ nào. User bấm Optimize xong, script báo "21 tham số
+    y hệt, không đổi" trong khi bộ thật sự xếp lịch (preset "Default", 28 deck) đã
+    đổi hẳn. Bảng so sánh phải kể tên ĐỦ 4 preset, kể cả preset chỉ có ở một mốc."""
+
+    def _in(self, cu, moi):
+        import contextlib, importlib.util, io as _io          # noqa: E401
+        goc = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        spec = importlib.util.spec_from_file_location(        # scripts/ không phải package
+            "do_fsrs", os.path.join(goc, "scripts", "do_fsrs.py"))
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        buf = _io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            mod.in_so_sanh(cu, moi)
+        return buf.getvalue()
+
+    def test_ke_du_ten_preset_ke_ca_ben_chi_co_o_MOT_moc(self):
+        a, b = {"fsrsParams6": [0.1] * 21}, {"fsrsParams6": [0.2] * 21}
+        ra = self._in({"ngay": "A", "preset": {"Default": a, "stage1-quen": a}},
+                      {"ngay": "B", "preset": {"Default": b, "stage1-quen": a, "inbox": a}})
+        for ten in ("Default", "stage1-quen", "inbox"):
+            self.assertIn(ten, ra, f"preset {ten} biến mất khỏi bảng so sánh")
+        self.assertIn("Y HỆT", ra, "preset không đổi phải nói rõ là không đổi")
+        # Mốc 25/07 để tham số phẳng ở gốc, chưa xếp theo preset -> vẫn phải đọc được
+        ra = self._in({"ngay": "A", "preset": "russian-parent-70", "fsrsParams6": [0.1] * 21},
+                      {"ngay": "B", "preset": {"Default": b}})
+        self.assertIn("russian-parent-70", ra)
+
+
 if __name__ == "__main__":
     unittest.main()
