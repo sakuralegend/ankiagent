@@ -111,6 +111,34 @@ def s13_tran_dong_code():
     return ra
 
 
+def s15_dong_quyetdinh_dai():
+    """Mỗi quyết định đúng MỘT dòng bảng, trần ký tự ở `soat_nguong.json` (QD-23).
+    Trần không có máy đếm thì trôi ngay: bản nháp 03/08 phình 199 → 418 ký tự trong
+    đúng một lượt, trước khi viết được dòng thật nào.
+
+    Chỉ đếm dòng có ô ĐẦU là số hiệu (`QD-23`, `⚰️ QD-20`, hoặc `—` cho quyết định
+    trước khi có sổ). Nhờ vậy bảng "ĐÃ ĐO RỒI BÁC" — ô đầu là văn xuôi — không bị
+    tính oan. 🔴 Ô đầu phải giữ nguyên chữ `QD-`: S12 tìm chuỗi đó để xác nhận con
+    trỏ trong `soat_nguong.json` không trỏ vào số ma."""
+    try:
+        tran = nguong()["so_quyetdinh"]["tran_dong"]
+    except (OSError, ValueError, KeyError):
+        return []                              # config hỏng: S12 kêu ĐỎ
+    p = khung.GOC / "QUYETDINH.md"
+    if not p.exists():
+        return []
+    ra = []
+    for i, dong in enumerate(p.read_text(encoding="utf-8").splitlines(), 1):
+        m = re.match(r"\|\s*(?:⚰️\s*)?(QD-\d+|—)\s*\|", dong)
+        if not m or len(dong) <= tran:
+            continue
+        so = m.group(1)
+        khoa = f"QUYETDINH.md|{so}" if so != "—" else f"QUYETDINH.md|dong {i}"
+        ra.append(PhatHien(khoa, i, f"{len(dong)} ky tu > tran {tran} — mot quyet dinh MOT dong; "
+                                    f"cat bot, hoac day chi tiet sang `git log --grep`"))
+    return ra
+
+
 def s14_phienban_tran():
     """`PHIENBAN.md` giữ tối đa N bản, mỗi bản tối đa M gạch đầu dòng (QD-07) —
     con số từng nêu ở 4 file mà 0 cửa canh, nay máy đếm thật."""

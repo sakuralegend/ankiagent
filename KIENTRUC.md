@@ -140,10 +140,11 @@ việc đứng riêng một mình, backup trước, kiểm sau — và với AI 
 |---|---|---|
 | Đổi/thêm/xoá **field hay model Anki** | VPS kẹt `Sync status 2` **không báo Telegram**; điện thoại hiện bảng chọn chiều sync | `journalctl -u anki-bot` ngay sau khi đổi; nhìn tận mắt màn hình Anki VPS bằng `vnc.bat` |
 | **Full sync chọn nhầm chiều** | Ghi đè sạch bản còn lại, không lùi được | Backup `.apkg` theo ngày; đường khôi phục ghi ở `VPS_SETUP.md` |
-| **Xoá/ghi đè hàng loạt** thẻ thật | Nội dung mất không tiếng kêu | Backup tay (`/backup`) trước khi chạy |
+| **Xoá/ghi đè hàng loạt** thẻ thật | Nội dung mất không tiếng kêu. Ghi đè lên bản chụp cũ còn **nuốt im lặng** thay đổi vừa làm từ máy khác (bot VPS, điện thoại) | Backup tay (`/backup`) trước khi chạy. Ghi hàng loạt thì **kéo sync về TRƯỚC**; kéo hỏng thì DỪNG, không ghi tiếp (`QD-16`) |
+| Thẻ **hiện sai mặt** sau khi thăng cấp giai đoạn | User ôn nhầm mặt thẻ, không lỗi nào nổ ra | `anki_tools/soat_giaidoan.py` bám đuôi nhịp sync 30′, chỉ chạy khi nhịp đó kéo về THÀNH CÔNG (`QD-17`) |
 | Chạy lại **script lô thế hệ 1** | Xoá bảng chia trên thẻ thật, im lặng | Đã tháo ngòi (`QD-03`); `soatkientruc.py` S7 canh guard |
 | Hai hàm cùng vai **lệch nhau** (vd chuẩn hoá `ё`) | Thẻ sai âm thầm, không lỗi nào nổ | Đo bằng script chỉ đọc trước khi gộp, không gộp mò |
-| **Bot lỗi lúc chạy**: `_guard()` trong `tgbot/` nuốt hết exception | Telegram **không báo gì**, `systemctl is-active` vẫn "active" trong khi một nút đã chết — đã có lần hỏng **6 tiếng** không ai biết | `journalctl -u anki-bot` là chỗ DUY NHẤT lộ ra; đọc nó sau **mỗi** đợt sửa bot, đừng chỉ hỏi trạng thái dịch vụ |
+| **Bot lỗi lúc chạy**: `_guard()` trong `tgbot/` nuốt hết exception | Telegram **không báo gì**, `systemctl is-active` vẫn "active" trong khi một nút đã chết — đã có lần hỏng **6 tiếng** không ai biết | `journalctl -u anki-bot` là chỗ DUY NHẤT lộ ra; đọc nó sau **mỗi** đợt sửa bot, đừng chỉ hỏi trạng thái dịch vụ. 🔴 Cảnh báo "bot chết" cố ý **KHÔNG** đi qua `tgbot/alerts.py` — `alerts.py` gửi qua chính con bot nên bot chết là cảnh báo chết theo; đừng "sửa cho đúng chuẩn" (`QD-04`) |
 | Sửa **lệnh gõ** (`commands.py`) mà quên **nút bấm** (`dispatch.py`) — hai đường code khác nhau | Nút vẫn chạy logic cũ rồi nổ `TypeError`, hoặc tệ hơn: chạy êm nhưng bỏ mất bước mới thêm | Đổi chữ ký một hàm dùng chung ⇒ **grep MỌI chỗ gọi**; nhánh nút phải gọi đúng hàm chung, cấm dựng lại logic trong `dispatch.py` |
 | **Hook nhắc luật chết** (`.claude/hooks/`) | Không lỗi nào hiện ra; chỉ là các lượt sau AI dần quên luật — đúng cơ chế đã đẻ ra 10 wrapper | `soatkientruc.py` **S11** chạy thật lệnh hook mỗi lần soát, chặn deploy (QD-13) |
 

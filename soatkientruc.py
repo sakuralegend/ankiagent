@@ -47,6 +47,7 @@ MUC = [
     ("S12", "soat_nguong.json TU MAU THUAN (QD-21)", cua_nguong.s12_nguong_hop_le, True),
     ("S13", "FILE CODE QUA TRAN DONG (QD-21)", cua_nguong.s13_tran_dong_code, True),
     ("S14", "PHIENBAN.md QUA TRAN BAN/MUC (QD-07)", cua_nguong.s14_phienban_tran, True),
+    ("S15", "DONG SO QUYET DINH QUA TRAN (QD-23)", cua_nguong.s15_dong_quyetdinh_dai, True),
 ]
 
 

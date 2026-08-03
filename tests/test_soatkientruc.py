@@ -113,7 +113,7 @@ class TestSoatKienTruc(unittest.TestCase):
         self.assertIsNone(cua_code.s8_manifest())
 
     # --- soat_nguong.json giả cho các mục đọc ngưỡng (QD-21) --------------
-    def _nguong_gia(self, phut_doc=None, dong_py=None, phienban=None, tho=None):
+    def _nguong_gia(self, phut_doc=None, dong_py=None, phienban=None, so_qd=None, tho=None):
         """Ghi `soat_nguong.json` vào repo giả — test đi qua ĐÚNG bộ đọc thật.
         `tho` = chuỗi JSON thô, cho ca kiểm khoá trùng/parse hỏng."""
         if tho is None:
@@ -126,6 +126,8 @@ class TestSoatKienTruc(unittest.TestCase):
             if phienban is not None:
                 cau["phienban"] = {"qd": "QD-07", "giu_ban": 10, "muc_moi_ban": 5,
                                    **phienban}
+            if so_qd is not None:
+                cau["so_quyetdinh"] = {"qd": "QD-23", "tran_dong": 250, **so_qd}
             tho = json.dumps(cau)
         self.ghi("soat_nguong.json", tho)
 
@@ -226,6 +228,27 @@ class TestSoatKienTruc(unittest.TestCase):
         self._nguong_gia(phienban={})
         self._phienban(so_ban=2, muc_moi_ban=6)
         self.assertEqual(len(cua_nguong.s14_phienban_tran()), 2)
+
+    # --- S15: một quyết định MỘT dòng, trần ký tự (QD-23) ------------------
+    def test_s15_dong_qua_tran_la_do_ngan_thi_im(self):
+        self._nguong_gia(so_qd={"tran_dong": 100})
+        self.ghi("QUYETDINH.md",
+                 "| QD | Ngày | Quyết định | Vì sao |\n|---|---|---|---|\n"
+                 "| QD-23 | 03/08 | ngan gon | vi the |\n"
+                 "| ⚰️ QD-20 | 03/08 | " + "d" * 150 + " | x |\n")
+        ra = cua_nguong.s15_dong_quyetdinh_dai()
+        self.assertEqual([ph.khoa for ph in ra], ["QUYETDINH.md|QD-20"])
+        self.assertIn("MOT dong", ra[0].mo_ta)
+
+    def test_s15_bang_da_do_roi_bac_khong_bi_tinh_oan(self):
+        """🔴 Bảng "ĐÃ ĐO RỒI BÁC" nằm cùng file và dòng của nó DÀI là đúng thiết kế
+        — ô đầu là văn xuôi chứ không phải số hiệu, nên cửa phải bỏ qua."""
+        self._nguong_gia(so_qd={"tran_dong": 100})
+        self.ghi("QUYETDINH.md",
+                 "| Huong nghe hop ly | Phan quyet | Vi |\n|---|---|---|\n"
+                 "| Dung `_family()` cua OpenRussian de dung muc ho hang | BAC | "
+                 + "n" * 150 + " |\n")
+        self.assertEqual(cua_nguong.s15_dong_quyetdinh_dai(), [])
 
     # --- ratchet: baseline chỉ che đúng số cũ, vượt là lộ -----------------
     def test_baseline_doc_kieu_dict_va_so_tran(self):

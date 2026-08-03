@@ -70,6 +70,10 @@
       ~320 dòng là một chuỗi nhánh nút; tách buộc cắt ruột hàm, lưới an toàn không phủ kín, mà bot
       là nơi lỗi chết im lặng. Đổi lại luật: **cấm thêm nhánh nút mới vào `on_callback`** — nhánh
       mới viết hàm ở file riêng cùng tầng rồi gọi một dòng từ `on_callback`. (03/08/2026)
+- [ ] **`CACHLAM.md` chưa nén, và mang số liệu đã cũ.** 20 609/21 000 ký tự — gần chạm trần S10 y
+      như `QUYETDINH.md` trước khi nén (QD-23). Chứa "61 lô" ×2 và "43 lô còn lại" trong khi hàng
+      đợi đo 03/08 là **64 lô**. Áp đúng luật số của QD-23: số không có ngày đo thì phải đi. Để
+      riêng một phiên, đừng gộp vào việc khác. (03/08/2026)
 - [ ] **Bot chỉ `print`, chưa có nhật ký phân mức.** `logging.basicConfig` không tồn tại ở đâu ⇒
       không lọc được theo mức, không tách được lỗi khỏi tiếng ồn. Khác với món "log bị xoá" đã trả
       ở trên: đây là chất lượng log, không phải mất log. **Đắt** (chạm cả 3 gói) mà lợi ích chưa

@@ -3,8 +3,7 @@
 
 ## 📦 SOẠN LÔ KHO — `k32`(12) · `k33`(21) · `k34`(20) = 53 từ ≈ 80% hạn mức
 
-Việc chặn trước nó (tách `soatkientruc.py`, QD-22) đã xong 03/08: file về 190/700 dòng, cửa soát
-XANH, 62 test XANH, đầu ra bộ soát **y hệt** trước khi tách.
+Hai việc chặn trước đã xong 03/08: tách `soatkientruc.py` (QD-22) và nén sổ quyết định (QD-23).
 
 **Cách làm:** theo `data/huongdan/README.md`. Agent soạn lô KHÔNG chạm Anki, KHÔNG chạm git —
 chỉ đẻ file dữ liệu.

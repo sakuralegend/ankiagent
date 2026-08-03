@@ -27,5 +27,6 @@
       "tgbot/dispatch.py": 430
     }
   },
-  "phienban": {"qd": "QD-07", "giu_ban": 10, "muc_moi_ban": 5}
+  "phienban": {"qd": "QD-07", "giu_ban": 10, "muc_moi_ban": 5},
+  "so_quyetdinh": {"qd": "QD-23", "tran_dong": 250}
 }
