@@ -43,3 +43,43 @@ User KHONG phai lap trinh vien va tu nhan "khong gioi dien dat tinh nang".
    noi "khong" (QD-06). NGAN GON THANG DAY DU.
 3. Quyet dinh nao DOI CODE => de lai vet NGAY, 1 dong o QUYETDINH.md (QD-12).
    Xong viec + 3 cua nghiem thu XANH => TU commit, KHONG hoi (QD-10).""")
+
+
+# ---------------------------------------------------------------------------
+# CANH BAO LỆCH VPS (QD-31, 05/08/2026)
+#
+# ⚠️ ĐÂY KHÔNG PHẢI "LUẬT THỨ TƯ" — trần 3 luật ở trên vẫn nguyên. Luật thì bơm
+# mọi lượt; cái này là một SỰ THẬT VỀ TRẠNG THÁI, và nó **im hoàn toàn** khi
+# không có gì lệch. Không lệch = 0 token, đúng nghĩa đen.
+#
+# Vì sao có: user chốt 05/08 — *"tôi thấy toàn phải để tôi nhắc bạn mới làm,
+# không nhắc y như rằng lại lệch VPS với laptop"*. Đúng cơ chế đã hỏng ở khắp
+# nơi trong repo này: việc nhớ rơi vào user. Đo lúc đó: laptop hơn VPS **7
+# commit**, VPS đứng ở bản cũ mà không gì báo.
+#
+# 🔴 CHỈ ĐẾM COMMIT ĐỤNG CODE VPS THẬT SỰ CHẠY. Đây là phần quan trọng nhất, và
+# là lý do bản đầu tiên bị vứt: trong 7 commit lệch hôm đó, **0 cái** đụng code
+# bot — toàn tài liệu, cửa soát, test. Nhắc kiểu "có 7 commit chưa deploy" là
+# BÁO ĐỘNG GIẢ NGAY TỪ LẦN ĐẦU, mà báo động giả vài lần là bị bỏ qua vĩnh viễn
+# (đúng bài học `tgbot/alerts.py` đã trả học phí: cảnh báo phải có tiết chế).
+# Kiểm ngược trên lịch sử: khoảng trước lần deploy 04/08 ra **1** ⇒ lẽ ra phải
+# kêu; khoảng hiện tại ra **0** ⇒ đúng là im. Bộ lọc đúng cả hai chiều.
+#
+# Danh sách đường dẫn = thứ `bot.py` kéo theo (đo bằng đồ thị import, không đoán)
+# + file hạ tầng deploy đụng tới. `soat/`, `tests/`, `scripts/`, `data/huongdan/`
+# CỐ Ý không có: VPS không chạy chúng.
+# ---------------------------------------------------------------------------
+VPS_CHAY = ["bot.py", "tgbot", "anki_tools", "grammar_forms",
+            "requirements.txt", "*.service"]
+
+try:
+    import subprocess
+    n = subprocess.run(
+        ["git", "rev-list", "--count", "origin/main..main", "--", *VPS_CHAY],
+        capture_output=True, text=True, timeout=5).stdout.strip()
+    if n.isdigit() and int(n) > 0:
+        print(f"\n[LECH VPS] {n} commit dung CODE BOT ma chua deploy — VPS dang chay ban CU.\n"
+              f"Chay `.\\deploy.ps1` truoc khi lam tiep, hoac noi ro cho user biet la dang lech.")
+except Exception:
+    pass    # CỐ Ý nuốt: không git / chưa có `origin/main` / máy khác — hook mà
+    # chết thì mất luôn 3 luật ở trên, đắt hơn nhiều so với việc bỏ lỡ một lời nhắc
