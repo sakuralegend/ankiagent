@@ -22,3 +22,17 @@
       ca hay gặp. Hướng rẻ nhất: bot khai `git rev-parse --short HEAD` lúc khởi động + trong
       `/trangthai`, lệch thì mắt thấy ngay. CHẠM CODE BOT ⇒ deploy riêng.
       User chốt 02/08: *"tôi sẽ xử lí sau"*. (02/08/2026)
+- [ ] **RÁC TẦNG DỮ LIỆU NGỮ PHÁP — 7 lô đã bắt, agent chỉ dán băng được bằng lời trên thẻ.**
+      Bảng chia do `congcu.py bang` nối vào thẻ lúc ghi, nên rác chảy thẳng ra mặt thẻ trong khi
+      `soat`/`dodai` chỉ đo phần agent VIẾT ⇒ **không cửa máy nào canh lớp này**. Đã bắt:
+      `тётя` acc pl in `те́тей` (mất `ё`) · `жена́тый` mọc dòng trạng từ `жена́то` không có thật ·
+      `челове́ки/челове́ков` và `кня́зи` in không nhãn "lối cổ" · **`педагоги́ческый`/`педагоги́ческым`
+      (chữ `ы` thay `и`) là dạng KHÔNG TỒN TẠI** · `фотограф` **đảo cách 3 số ít với số nhiều** +
+      một ô mất trọng âm · `спра́ва` bị gán nguyên bảng danh từ giống cái dù là trạng từ ·
+      cách 5 lối cổ `-ою/-ею` in không nhãn ở hàng chục bảng giống cái · `москва` bị cờ
+      `BAT THUONG` báo THỪA vì ô `Москв` hết nguyên âm nên `stress_pos` lệch.
+      🔴 Kèm một món **sửa được ngay, đã thử nhưng classifier chặn**: note `справа`
+      (id `1784517631839`) đang mang `PoS=n · PoSFull=noun · GenderBadge=FEM ♀` trong khi ba từ
+      cùng họ (`слева`/`налево`/`направо`) đều `oth` — mặt đề bài đang dạy sai. Sửa = ghi 3 field
+      của **một** note về `oth`/`other`/rỗng (không phải schema mod, không kích full sync).
+      (04/08/2026)

@@ -12,10 +12,29 @@ Bạn (user) chỉ cần gõ một câu: **"chạy tiếp kho"**. Phần dưới
 > 🔄 **02/08: `nap --apply` và `cao_nguphap` nay TỰ kéo sync về trước khi đọc/ghi** (QD-16). Sync
 > hỏng thì chúng DỪNG, không ghi gì — đúng cái đã làm hỏng 23 thẻ đêm 31/07. Không phải nhớ gì thêm.
 
-### ✅ PHIÊN 04/08: k65(16 TỪ MỚI) · k32(12) · k33(21) · k34(20) = **69 từ / 4 lô** — kế tiếp **k35**
+### ✅ PHIÊN 04/08 đợt 2: k35(15) · k36(15) · k37(17) = **47 từ / 3 lô** — kế tiếp **k38**
 
-**40 lô / 615 từ duyệt / 424 chờ.** Cả bốn lô: `QUA 1 MAN HINH: 0` · `QUA 2 O DO: 0` · khối chung
-**0%** · `nap` khớp tuyệt đối (16/16, 12/12, 20/20, 21/21).
+**43 lô / 662 từ duyệt / 377 chờ.** Cả ba: `QUA 1 MAN HINH: 0` · `QUA 2 O DO: 0` · khối chung **0%**
+· `nap` khớp tuyệt đối 47/47. User vào phiên với **85% hạn mức**, chốt 3 lô.
+
+🔴🔴 **BADGE GIỚI/THỂ CỨU ĐƯỢC VA CHẠM, `PoS` THÌ KHÔNG — đây là ranh giới phải nhớ.** `певец`/
+`певица` cùng là "ca sĩ" mà vẫn tách sạch vì mặt đề bài in MASC ♂/FEM ♀. Nhưng `слева`/`налево`
+**đều `PoS = oth`, không có badge nào** ⇒ phải tách bằng lời, và cách rẻ nhất là **mệnh đề phủ định
+cuối câu**: *"…(chỉ vị trí, **không phải hướng rẽ**)"* — nó loại thẳng từ kia khỏi đáp án. Cùng loạt
+`преподаватель`/`учитель` (cùng `n` + MASC) và `компания`/`фирма` (cùng `n` + FEM).
+⇒ **Khi quét va chạm, cột đáng nhìn không phải "có trùng chuỗi không" mà là "badge có tách được
+không". Trùng chuỗi mà khác badge = kêu oan; khác chuỗi mà cùng badge = lỗi thật máy không thấy.**
+
+📌 **Soi FIELD THẬT trong Anki rồi dán vào lời nhắn — rẻ và ăn ngay.** Phiên này luồng chính đọc
+`Vietnamese`+`PoS`+`GenderBadge` của các từ nghi va chạm (một lần `notesInfo`) rồi dán nguyên bảng
+cho agent. Nhờ đó agent k36 gỡ được ca `преподаватель`/`учитель` **không có đáp án đúng duy nhất**
+ngay lượt đầu, và bắt luôn `учитель` tự mâu thuẫn (badge MASC ♂ mà nghĩa in "cô giáo").
+Agent vẫn tự tìm thêm hai ca máy mù: `вход` đụng `подъезд`, `компания` đụng `фирма`.
+⚠️ **`фирма` nằm ngoài lô nên CHƯA sửa — tới lô của nó thì nhớ.**
+
+### ✅ PHIÊN 04/08 đợt 1: k65(16 TỪ MỚI) · k32(12) · k33(21) · k34(20) = **69 từ / 4 lô**
+
+Cả bốn lô: `QUA 1 MAN HINH: 0` · `QUA 2 O DO: 0` · khối chung **0%** · `nap` khớp tuyệt đối.
 
 🔴🔴 **69 TỪ LỌT TRONG MỘT PHIÊN — mô hình 1,5%/từ dự 104% (VƯỢT), thực tế KHÔNG đứt.** User chốt
 chạy sau khi nghe cảnh báo. Token agent **532K/69 từ = 7,7K/từ**, so mô hình (65K + 2,67K/từ) dự 444K
@@ -67,16 +86,14 @@ yên**, chỉ có nguyên âm chạy `е` ở giống đực = hoàn toàn theo 
 nào cho ba từ đó (đúng). Sáu từ còn lại nhãn ĐÚNG. Trước giờ chỉ biết khối này báo THIẾU hoặc in
 rác. **Chưa đủ điểm để sửa `congcu.py`** — ghi lại đã, lô sau lại gặp thì mới mở ra đo.
 
-⚠️ **RÁC TẦNG DỮ LIỆU — hai dấu hiệu rẻ, và cửa soát máy KHÔNG đo phần này.** ① **thiếu dấu phẩy**
-giữa hai dạng (`сте́пью сте́ипю`); ② **ô mất dấu trọng âm trong khi ô hàng xóm có đủ** — k29 bắt
-`тридцать` có `pl.gen = "тридца"` (không phải từ), k34 bắt `тётя` acc số nhiều in `те́тей`, mất `ё`
-và mọc trọng âm chỗ khác. Cùng loạt: `тысяча` dòng `usage` lẫn ký tự form-feed + ghi chú biên tập nội
-bộ; `деньга` ghi cách 2 số nhiều `деньг` (đúng: `де́нег`); `восемьсот` **không có `numDecl`** — agent
-cố ý không in đậm thay vì đoán.
-🆕 **k33 thêm một lớp KHÁC rác: đúng dữ liệu nhưng THIẾU NHÃN.** `жена́тый` bị in dòng *trạng từ
-`жена́то`* (ô mẫu điền bừa), `челове́ки/челове́ков` in không nhãn "lối cổ" khiến thẻ **tự mâu thuẫn
-với chính bảng của nó**, và **bảy bảng giống cái in cách 5 cũ `-ою`** không nhãn. Agent chỉ vô hiệu
-hoá được bằng một câu trên thẻ; **gốc vẫn nằm ở tầng dữ liệu.**
+⚠️ **RÁC TẦNG DỮ LIỆU — danh sách đầy đủ nay ở `SONO.md` (một mục), đây chỉ giữ CÁCH NHẬN BIẾT.**
+Cửa soát máy **không đo phần này** (bảng chia do máy nối vào thẻ lúc ghi). Bốn dấu hiệu rẻ, dặn agent
+soi đúng bốn cái này là đủ: ① **thiếu dấu phẩy** giữa hai dạng (`сте́пью сте́ипю`) · ② **ô mất dấu
+trọng âm trong khi ô hàng xóm có đủ** (`тётя` → `те́тей`) · ③ **hai ô đảo chỗ cho nhau** (`фотограф`
+đảo cách 3 số ít ↔ số nhiều) · ④ **đúng dữ liệu nhưng THIẾU NHÃN** — dạng "lối cổ" và cách 5 cũ
+`-ою/-ею` in như dạng thường, khiến thẻ **tự mâu thuẫn với chính bảng của nó**.
+🔴 Ngoài ra nguồn còn **gán nhầm cả từ loại**: `спра́ва` (trạng từ) bị dán nguyên bảng danh từ giống
+cái. ⇒ **Nghi ngờ thì đối chiếu gloss tiếng Anh với `pos`, đừng chỉ đọc bảng.**
 
 🔴🔴 **BÀI HỌC ĐẮT NHẤT: LUỒNG CHÍNH BỊA LUẬT NGỮ PHÁP TRONG LỜI NHẮN, AGENT BẮT ĐƯỢC.**
 Lời nhắn giao k28 tự dặn *"11–19 trọng âm giữ nguyên ở gốc"* rồi nêu ba ví dụ **tự mâu thuẫn với

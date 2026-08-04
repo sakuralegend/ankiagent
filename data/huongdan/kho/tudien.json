@@ -363,7 +363,7 @@
   "wc": "вход",
   "w": "вход",
   "en": "<ol class=\"meaning-list\"><li>entrance</li><li>entry</li><li>admission</li></ol>",
-  "vi": "cổng vào, lối đi, vé vào cửa",
+  "vi": "cửa vào, chỗ đi vào (nói chung, ngược với “lối ra”); vé vào cửa",
   "pos": "n",
   "topic": "places::city",
   "cu": false
@@ -390,7 +390,7 @@
   "wc": "клуб",
   "w": "клуб",
   "en": "<ol class=\"meaning-list\"><li>club</li><li>club-house</li><li>puff</li></ol>",
-  "vi": "câu lạc bộ, chốn vui chơi/sinh hoạt",
+  "vi": "câu lạc bộ (hội, và ngôi nhà của hội)",
   "pos": "n",
   "topic": "places::city",
   "cu": false
@@ -1245,7 +1245,7 @@
   "wc": "москва",
   "w": "Москва́",
   "en": "<ol class=\"meaning-list\"><li>Moscow</li><li>Moskva River</li></ol>",
-  "vi": "Moscow, sông Moskva",
+  "vi": "Moscow (tên thành phố)",
   "pos": "n",
   "topic": "places::city",
   "cu": false
@@ -1254,7 +1254,7 @@
   "wc": "завод",
   "w": "заво́д",
   "en": "<ol class=\"meaning-list\"><li>factory</li><li>plant</li><li>winding mechanism</li><li>winding up</li></ol>",
-  "vi": "nhà máy, xí nghiệp",
+  "vi": "nhà máy công nghiệp nặng, xí nghiệp cơ khí (luyện kim, chế tạo, ô tô)",
   "pos": "n",
   "topic": "places::city",
   "cu": false
@@ -1425,7 +1425,7 @@
   "wc": "дорога",
   "w": "доро́га",
   "en": "<ol class=\"meaning-list\"><li>road</li><li>way</li><li>journey</li></ol>",
-  "vi": "đường, lối đi, hành trình",
+  "vi": "con đường (để đi lại); chuyến đi đường",
   "pos": "n",
   "topic": "places::city",
   "cu": false
@@ -1506,7 +1506,7 @@
   "wc": "машина",
   "w": "маши́на",
   "en": "<ol class=\"meaning-list\"><li>car</li><li>machine</li><li>machinery</li><li>engine</li><li>mechanism</li></ol>",
-  "vi": "xe hơi, máy móc",
+  "vi": "xe hơi (từ nói hằng ngày); cỗ máy",
   "pos": "n",
   "topic": "places::city",
   "cu": false
@@ -2541,7 +2541,7 @@
   "wc": "студент",
   "w": "студе́нт",
   "en": "<ol class=\"meaning-list\"><li>student</li></ol>",
-  "vi": "sinh viên, học sinh",
+  "vi": "sinh viên (bậc đại học)",
   "pos": "n",
   "topic": "people::professions",
   "cu": false
@@ -2577,7 +2577,7 @@
   "wc": "диктор",
   "w": "ди́ктор",
   "en": "<ol class=\"meaning-list\"><li>announcer</li></ol>",
-  "vi": "người dẫn chương trình, phát thanh viên",
+  "vi": "phát thanh viên, người đọc bản tin trên đài/TV",
   "pos": "n",
   "topic": "people::professions",
   "cu": false
@@ -2982,7 +2982,7 @@
   "wc": "князь",
   "w": "князь",
   "en": "<ol class=\"meaning-list\"><li>prince</li></ol>",
-  "vi": "vị công tước, quý ông",
+  "vi": "vương công, công tước (tước quý tộc Nga thời xưa)",
   "pos": "n",
   "topic": "people::professions",
   "cu": false
@@ -3018,7 +3018,7 @@
   "wc": "улица",
   "w": "у́лица",
   "en": "<ol class=\"meaning-list\"><li>street</li></ol>",
-  "vi": "đường phố, ngoài trời",
+  "vi": "đường phố (trong thành phố)",
   "pos": "n",
   "topic": "places::city",
   "cu": false
@@ -3387,7 +3387,7 @@
   "wc": "певец",
   "w": "певе́ц",
   "en": "<ol class=\"meaning-list\"><li>singer (male)</li></ol>",
-  "vi": "ca sĩ (nam)",
+  "vi": "ca sĩ",
   "pos": "n",
   "topic": "people::professions",
   "cu": false
@@ -4602,7 +4602,7 @@
   "wc": "преподаватель",
   "w": "преподава́тель",
   "en": "<ol class=\"meaning-list\"><li>teacher</li><li>instructor</li><li>lecturer</li><li>Teacher of university level</li></ol>",
-  "vi": "giảng viên, giáo viên (thường ở bậc đại học)",
+  "vi": "giảng viên (dạy đại học, cao đẳng)",
   "pos": "n",
   "topic": "people::professions",
   "cu": false
@@ -4791,7 +4791,7 @@
   "wc": "модель",
   "w": "моде́ль",
   "en": "<ol class=\"meaning-list\"><li>model</li><li>pattern</li></ol>",
-  "vi": "người mẫu, mẫu thiết kế/kiểu dáng",
+  "vi": "người mẫu; kiểu, dòng (của xe, máy, sản phẩm)",
   "pos": "n",
   "topic": "people::professions",
   "cu": false
@@ -4818,7 +4818,7 @@
   "wc": "справа",
   "w": "спра́ва",
   "en": "<ol class=\"meaning-list\"><li>on the right</li><li>from the right</li></ol>",
-  "vi": "bên phải",
+  "vi": "ở bên phải, từ phía bên phải (chỉ vị trí, không phải hướng rẽ)",
   "pos": "n",
   "topic": "places::city",
   "cu": false
@@ -4827,7 +4827,7 @@
   "wc": "слева",
   "w": "сле́ва",
   "en": "<ol class=\"meaning-list\"><li>on the left</li><li>from the left</li></ol>",
-  "vi": "bên trái",
+  "vi": "ở bên trái, từ phía bên trái (chỉ vị trí, không phải hướng rẽ)",
   "pos": "oth",
   "topic": "places::city",
   "cu": false
@@ -4944,7 +4944,7 @@
   "wc": "компания",
   "w": "компа́ния",
   "en": "<ol class=\"meaning-list\"><li>company</li></ol>",
-  "vi": "công ty, hội nhóm",
+  "vi": "hội bạn đi cùng nhau (cũng dùng cho: công ty, doanh nghiệp)",
   "pos": "n",
   "topic": "people::professions",
   "cu": false
@@ -4980,7 +4980,7 @@
   "wc": "педагогический",
   "w": "педагоги́ческий",
   "en": "<ol class=\"meaning-list\"><li>pedagogic.</li><li>educational.</li></ol>",
-  "vi": "thuộc về sư phạm, giáo dục",
+  "vi": "thuộc về sư phạm, thuộc về nghề dạy học",
   "pos": "adj",
   "topic": "people::professions",
   "cu": false
@@ -5061,7 +5061,7 @@
   "wc": "учитель",
   "w": "учи́тель",
   "en": "<ol class=\"meaning-list\"><li>teacher (elementary/secondary school)</li><li>tutor</li></ol>",
-  "vi": "giáo viên, thầy giáo, cô giáo",
+  "vi": "thầy giáo (dạy trường phổ thông)",
   "pos": "n",
   "topic": "people::professions",
   "cu": false
@@ -5106,7 +5106,7 @@
   "wc": "фабрика",
   "w": "фа́брика",
   "en": "<ol class=\"meaning-list\"><li>factory</li></ol>",
-  "vi": "nhà máy, xưởng",
+  "vi": "nhà máy làm hàng tiêu dùng (dệt may, bánh kẹo, giấy)",
   "pos": "n",
   "topic": "places::city",
   "cu": false
@@ -5115,7 +5115,7 @@
   "wc": "почта",
   "w": "по́чта",
   "en": "<ol class=\"meaning-list\"><li>post</li><li>mail</li><li>post-office</li></ol>",
-  "vi": "bưu điện, thư từ, email",
+  "vi": "bưu điện; thư từ bưu phẩm chuyển qua bưu điện",
   "pos": "n",
   "topic": "places::city",
   "cu": false
