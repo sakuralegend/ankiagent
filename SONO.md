@@ -28,9 +28,9 @@
       `тётя` acc pl in `те́тей` (mất `ё`) · `жена́тый` mọc dòng trạng từ `жена́то` không có thật ·
       `челове́ки/челове́ков` và `кня́зи` in không nhãn "lối cổ" · **`педагоги́ческый`/`педагоги́ческым`
       (chữ `ы` thay `и`) là dạng KHÔNG TỒN TẠI** · `фотограф` **đảo cách 3 số ít với số nhiều** +
-      một ô mất trọng âm · `спра́ва` bị gán nguyên bảng danh từ giống cái dù là trạng từ ·
-      cách 5 lối cổ `-ою/-ею` in không nhãn ở hàng chục bảng giống cái · `москва` bị cờ
-      `BAT THUONG` báo THỪA vì ô `Москв` hết nguyên âm nên `stress_pos` lệch.
-      ⚠️ Phần **hiện ra mặt thẻ** của ca `спра́ва` đã vá 04/08 (note + `tudien.json` về `oth`);
-      còn lại là **gốc trong bộ đệm ngữ pháp** vẫn ghi `pos: noun, gender: f` + đủ 12 ô — hễ có
-      cái gì dựng lại field từ bộ đệm là nó quay lại. (04/08/2026)
+      một ô mất trọng âm · cách 5 lối cổ `-ою/-ею` in không nhãn ở hàng chục bảng giống cái ·
+      `москва` bị cờ `BAT THUONG` báo THỪA vì ô `Москв` hết nguyên âm nên `stress_pos` lệch.
+      ✅ **Cách trả nợ đã biết rồi, làm một lần rồi (ca `спра́ва` 04/08):** sửa thẳng field
+      `GrammarJSON` của note qua `anki_client.ghi_grammar_json` (cửa L1, QD-11 — thẻ là nơi DUY
+      NHẤT dữ liệu này tồn tại, **không có file cache nào**), sao lưu bản cũ vào `backups/` trước,
+      rồi `nap --apply --tatca` để dựng lại mặt thẻ. Mỗi ca ~5 phút. (04/08/2026)
