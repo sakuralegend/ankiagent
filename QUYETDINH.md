@@ -22,26 +22,26 @@
 
 ## 📏 ĐÃ ĐO RỒI BÁC — đừng làm lại, đã tốn tiền một lần
 
-> Mỗi dòng dưới đây là một hướng **nghe rất hợp lý**, đã có người (hoặc AI) thử, **đo bằng số liệu
-> thật rồi loại bỏ**. Đây là loại lỗi đắt nhất: AI phiên sau đọc code thấy "chỗ này tối ưu được"
-> rồi làm lại từ đầu. **Trước khi "tối ưu" bất cứ thứ gì trong bảng này, đọc cột Vì.**
-> Muốn lật một dòng: phải ĐO LẠI ra số khác, không được lật bằng lập luận suông.
-> 🔴 **Nhưng số đo dùng để BÁC cũng HẾT HẠN.** "88 thẻ thiếu" (31/07) đo lại 02/08 ra **0**, và
-> chính hướng từng bị bác trở thành hướng thi hành. Dòng nào chống lưng bằng số đo cũ mà việc nay
-> đụng lại nó ⇒ **đo lại trước**, đừng viện dòng cũ rồi thôi.
+> Mỗi dòng dưới đây là một hướng **nghe rất hợp lý**, đã thử và **loại bỏ bằng số liệu thật**.
+> Đây là loại lỗi đắt nhất: AI phiên sau thấy "chỗ này tối ưu được" rồi làm lại từ đầu.
+> **Trước khi "tối ưu" thứ gì trong bảng này, đọc cột Vì.** Muốn lật một dòng: ĐO LẠI ra số khác,
+> không lật bằng lập luận suông. 🔴 **Nhưng số đo dùng để BÁC cũng HẾT HẠN** — "88 thẻ thiếu"
+> (31/07) đo lại 02/08 ra **0**, và hướng từng bị bác thành hướng thi hành. Việc nay đụng lại một
+> dòng ⇒ **đo lại trước**, đừng viện dòng cũ rồi thôi.
 
 | Hướng nghe hợp lý | Phán quyết | Vì (số liệu thật) |
 |---|---|---|
 | Dùng `_family()` của OpenRussian để dựng mục "Họ hàng" | **BÁC** | Nó gộp `groups` (cùng gốc) với `relateds` (đồng nghĩa **khác gốc hẳn**) vào một rổ ⇒ dạy sai từ nguyên. Mục Họ hàng do người soạn tự nghĩ, cố ý không có cửa máy |
 | Lọc từ theo tag trình độ A1–C2 của OpenRussian | **BÁC** | `паспорт`, `яблоко`, `сахар` bị gắn **C1**. Dùng **thứ hạng tần suất** thay thế (top 2500 danh từ ≈ A1→B2) |
 | Đối chiếu chéo `nouns.csv` với `grammar_cache.json` để bắt lỗi dữ liệu | **KHÔNG ĐỦ** | Hai file **cùng thượng nguồn OpenRussian** ⇒ trùng nhau không chứng minh đúng. `фон` sai ở **cả hai**. Cửa duy nhất còn lại là người đọc bằng mắt |
-| Chờ Difficulty của thẻ tự hồi phục khi trả lời Good | **HẾT HẠN 04/08** — đo lại ra số khác | Đo 25/07 (`w7=0.001`): **610 lần** Good mới về 50%, **0/84 thẻ** hồi phục. Sau Optimize 04/08 (`w7=0.0486`, ~14 lần): hoá thạch **402 → 0**, **77%** trong 675 thẻ từng quên ≥3 lần đang có chuỗi ≥3 lượt đúng ⇒ hết cần Forget/Reset. Số: `data/fsrs_moc.json` |
-| Suy ra "user đổi cách bấm nút" từ việc tỷ lệ Again giảm | **BÁC** (AI đã suy sai 04/08) | revlog **không chứa** tiêu chí bấm nút; user khai tiêu chí KHÔNG đổi từ đầu (**sai 1 ký tự = Again**) ⇒ mọi số "nhớ được" ở repo là thang **gõ đúng từng ký tự**, đừng đọc như "nhớ nghĩa". Cải thiện thật: **cùng chu kì 1 ngày 49,9% → 66,3%** (nhóm quên ≥6 lần), mà chu kì nhóm đó lại DÀI ra ⇒ không phải "câu hỏi dễ đi". Nguyên nhân **không tách bạch được** (mọi cách chia nhóm đều lẫn với độ chín của thẻ). Giả thuyết user nêu chưa đủ dữ liệu; phép kiểm cắm sẵn: `scripts/do_fsrs.py --giathuyet` |
+| Forget/Reset thẻ "hoá thạch" (Difficulty kẹt cao, không tự hồi phục) | **HẾT CẦN từ 04/08** — đừng đụng thẻ | Optimize đưa `w7` 0.001→0.0486 (610 lần Good → ~14): hoá thạch **402 → 0** mà không phải sửa thẻ nào. Số: `data/fsrs_moc.json` |
+| Suy ra "user đổi cách bấm nút" từ việc tỷ lệ Again giảm | **BÁC** (AI đã suy sai 04/08) | revlog **không chứa** tiêu chí bấm nút; user khai tiêu chí KHÔNG đổi từ đầu (**sai 1 ký tự = Again**) ⇒ mọi số "nhớ được" ở repo là thang **gõ đúng từng ký tự**, đừng đọc như "nhớ nghĩa". Cải thiện thật: **cùng chu kì 1 ngày 49,9% → 66,3%** (nhóm quên ≥6 lần), mà chu kì nhóm đó lại DÀI ra ⇒ không phải "câu hỏi dễ đi". Nguyên nhân không tách bạch được. Phép kiểm giả thuyết user: `scripts/do_fsrs.py --giathuyet` |
 | Gộp 4 hàm chuẩn hoá tiếng Nga làm một cho gọn | **CHƯA CẦN** | Đo 1748 từ Nga thật (31/07/2026): **0 bất đồng** ở cả hai cặp hàm cùng mục đích. Rủi ro `ё` tổ hợp có thật về lý thuyết nhưng chưa chạm dữ liệu nào ⇒ **đo lại trước khi gộp**, đừng gộp mò |
 | "Lô soạn kho càng to càng lợi" | **ĐÚNG MỘT NỬA** | Đúng về token, nhưng lý do thứ hai (khối dùng chung gánh nhiều thẻ) **chết rồi** — chuẩn v3 cấm khối dùng chung, đo ra `0%`. Cỡ lô do CHẤT LƯỢNG quyết định: chốt 16–18 từ |
 | Dựng "agent soát riêng" để kiểm lô sau khi soạn | **BÁC** | Lô 22 từ + agent rà lại ≈ **7,9K token/từ**, đắt hơn lô 14 từ tự soát (**7,3K**) mà chưa chắc tốt hơn: người viết biết chỗ mình lăn tăn, người rà phải dựng lại từ đầu |
-| Cài bộ "spec-driven-claude-code" (hoặc kit SDLC 12 bước tương tự) vào repo | **BÁC** | Đo 31/07/2026: kit thêm **99 file / 21.852 dòng** luật (toàn repo khi đó 4.033 dòng), **28 file nói C#, 36 nói .NET, chỉ 8 nói Python**; `.claude/CLAUDE.md` 616 dòng của nó **đánh nhau** với `CLAUDE.md` 4-mảng ở đây, và cửa TDD ≥80% khoá cứng repo 92 file .py / 1 test. Đã lấy tinh hoa thành 3 lệnh — xem QD-09 |
+| Cài bộ "spec-driven-claude-code" (hoặc kit SDLC 12 bước tương tự) vào repo | **BÁC** | Đo 31/07/2026: kit thêm **99 file / 21.852 dòng** luật (repo khi đó 4.033 dòng), **28 file nói C#, 36 nói .NET, chỉ 8 nói Python**, và `.claude/CLAUDE.md` 616 dòng của nó đánh nhau với `CLAUDE.md` ở đây. Đã lấy tinh hoa thành 3 lệnh — xem QD-09 |
 | Cho VPS tự động "Download from AnkiWeb" theo lịch cho an toàn | **BÁC — NGUY HIỂM** | Lệnh đó **ghi đè sạch** collection trên VPS (xoá thẻ bot vừa thêm), và không cứu được gì khi quên sync điện thoại vì dữ liệu ôn lúc đó nằm **trong điện thoại** |
+| Nâng Anki trong Docker VPS cho khớp laptop (VPS `25.02.7` · laptop `26.5.0`, đo 04/08) | **BÁC — user chốt ≥2 lần** | *"Docker chạy tốt thì để yên"*. Không phải Anki gốc mà là ảnh của một tác giả GitHub ⇒ đổi thứ không ai bảo hành để lấy **0 lợi**: sync vẫn chạy ở hai đời. Hệ quả: **cấm chép thẳng `collection.anki2`** giữa hai máy |
 
 ---
 
@@ -49,7 +49,7 @@
 
 > ⚰️ = đã chết hoặc đã thi hành xong, giữ số hiệu vì code/test/tài liệu còn trỏ tới.
 > — = quyết định trước khi có sổ (15/07–29/07), **cố ý không đánh số**: commit hồi đó không nhắc số
-> nào nên `git log --grep` sẽ ra rỗng, đánh số là đẻ ra một lời hứa sai.
+> nên `git log --grep` ra rỗng, đánh số là đẻ ra lời hứa sai.
 
 | QD | Ngày | Quyết định | Vì sao (ngắn) |
 |---|---|---|---|

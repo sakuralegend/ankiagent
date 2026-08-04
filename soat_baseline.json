@@ -56,15 +56,15 @@
     "baseline": {
       "anki_tools/anki_the.py|meaning-list": {
         "so": 1,
-        "vi_sao": "Nợ đã ghi SONO.md: HTML thẻ dựng ở 3 nơi thay vì 1. Không sửa trong đợt dọn G0-G4 (đụng thẻ thật); chặn không cho mọc thêm chỗ thứ 4. Địa chỉ đổi từ anki_client.py khi tách file (QD-18), tổng nợ không đổi."
+        "vi_sao": "HTML thẻ dựng ở 3 nơi thay vì 1. KHÔNG ghi SONO.md (sửa lời khai 04/08: tra hết lịch sử, món này chưa từng nằm ở đó — sổ trỏ vào chỗ trống). Không phải nợ mà là trạng thái CHẤP NHẬN: sửa là đụng thẻ thật, đổi lấy ít lợi. Chính ratchet này giữ luật — chỗ thứ 4 mọc lên là ĐỎ. Địa chỉ đổi từ anki_client.py khi tách file (QD-18)."
       },
       "grammar_forms/cards.py|meaning-list": {
         "so": 1,
-        "vi_sao": "Nợ đã ghi SONO.md — mảng thẻ ngữ pháp tự dựng HTML riêng."
+        "vi_sao": "Mảng thẻ ngữ pháp có CARD FORMAT RIÊNG nên tự dựng HTML — đây là thiết kế, không phải nợ (sửa lời khai 04/08: trước ghi 'đã ghi SONO.md' nhưng sổ nợ chưa từng có dòng nào). Ratchet giữ, không cho mọc thêm chỗ mới."
       },
       "grammar_forms/cards.py|example-toggle": {
         "so": 1,
-        "vi_sao": "Nợ đã ghi SONO.md — mảng thẻ ngữ pháp tự dựng HTML riêng."
+        "vi_sao": "Mảng thẻ ngữ pháp có CARD FORMAT RIÊNG nên tự dựng HTML — đây là thiết kế, không phải nợ (sửa lời khai 04/08: trước ghi 'đã ghi SONO.md' nhưng sổ nợ chưa từng có dòng nào). Ratchet giữ, không cho mọc thêm chỗ mới."
       }
     }
   },

@@ -14,5 +14,12 @@
 
 | Nợ | Vì sao chưa trả | Hết hạn |
 |---|---|---|
-| **Anki VPS 25.02.7, laptop 26.5.0** — lệch một đời. Sync vẫn chạy, nhưng chép thẳng file collection giữa hai bên là hỏng | Phát hiện 04/08 khi tìm cách gỡ `Sync status 2` không cần bấm tay. Chưa gây sự cố nào; nâng ảnh Docker là việc đứng riêng (L4) | 2026-10-01 |
-| **`congcu.py` nới mốc 446 → 491 dòng** (QD-26/27 thêm: đọc thẻ làm chân lý, ghi hai ô, di trú `BangMay`) | Không chuyển sang `khochung.py` được — file đó cố ý KHÔNG đụng Anki để `soatlo.py` chạy offline. Còn cách 700 (trần tách). Trả bằng: bỏ `cmd_bang` khi di trú xong | 2026-10-01 |
+
+**TRỐNG — 04/08/2026.** Mục tiêu của user là sổ này rỗng, và nó đang rỗng thật.
+
+🔴 **Trước khi thêm dòng, hỏi: đây có phải NỢ không?** Nợ = việc mình BIẾT phải làm
+mà cố ý hoãn. KHÔNG phải nợ, và cấm ghi vào đây:
+· **Con số trần** (dòng/ký tự) — chúng ở `soat_nguong.json`, cửa S13/S10 canh thật.
+  Chép sang đây là dựng sổ thứ hai, mà hai sổ song song thì không sổ nào được tin.
+· **Sự thật về môi trường** đã có quyết định "để yên" — chỗ của nó là bảng
+  "📏 ĐÃ ĐO RỒI BÁC" ở `QUYETDINH.md`, để phiên sau khỏi đề xuất lại.
