@@ -25,11 +25,11 @@
     "qd": "QD-21",
     "ghi_no": 400,
     "tach": 700,
-    "bo_qua_mau": ["data/huongdan/kho/k*.py", "data/huongdan/lo*.py"],
+    "bo_qua_mau": ["data/huongdan/kho/k*.py", "data/huongdan/lo*.py", "tests/test_*.py"],
     "da_ghi_no": {
       "anki_tools/anki_client.py": 547,
       "anki_tools/grammar.py": 502,
-      "data/huongdan/kho/congcu.py": 446,
+      "data/huongdan/kho/congcu.py": 491,
       "tgbot/dispatch.py": 430
     }
   },

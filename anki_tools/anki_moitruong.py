@@ -60,7 +60,15 @@ def setup_anki_environment():
                     #   không với tới. Để trong thẻ thì nó tự sync đi khắp nơi và
                     #   thẻ trở thành tự chứa, không phụ thuộc file ngoài.
                     #   Đo thật: 0,8 MB cho 950 thẻ (trung bình 888 B, to nhất 6 KB).
-                    "inOrderFields": ["Word", "WordClean", "Meaning", "Vietnamese", "PoS", "PoSFull", "GenderBadge", "AspectBadge", "ReflexiveBadge", "ExamplesHTML", "RawExamples", "GrammarJSON", "Audio", "HuongDan", "Stage"],
+                    # BangMay: TOÀN BỘ phần MÁY dựng trên mặt thẻ — bảng chia +
+                    #   dòng cặp thể động từ (thêm 04/08/2026, QD-26). Trước đó
+                    #   nó nằm chung trong `HuongDan`, nối vào bằng cắt–dán khuôn
+                    #   mẫu; hậu quả là hai chủ ghi chung một ô nên cửa soát của
+                    #   dây chuyền lô đo phải cả phần máy, và rác trong bảng sống
+                    #   nhiều tuần không ai bắt (7 ca đã phải ghi vào SONO.md).
+                    #   Tách ra thì mỗi ô một chủ: `HuongDan` = Claude soạn,
+                    #   `BangMay` = máy dựng từ `GrammarJSON`, không qua AI.
+                    "inOrderFields": ["Word", "WordClean", "Meaning", "Vietnamese", "PoS", "PoSFull", "GenderBadge", "AspectBadge", "ReflexiveBadge", "ExamplesHTML", "RawExamples", "GrammarJSON", "Audio", "BangMay", "HuongDan", "Stage"],
                     "css": shared_css, "cardTemplates": [{"Name": "Pure Engine Typing Card v25", "Front": front_template, "Back": back_template}]
                 }
             }, timeout=5)
@@ -81,7 +89,7 @@ def setup_anki_environment():
                 "params": {"modelName": MODEL_NAME}}, timeout=5)
             dang_co = res_f.json().get("result") or []
             for ten, vi_tri in (("AspectBadge", 7), ("ReflexiveBadge", 8),
-                                ("GrammarJSON", 11)):
+                                ("GrammarJSON", 11), ("BangMay", 13)):
                 if ten in dang_co:
                     continue
                 res_add = requests.post(ANKI_CONNECT_URL, json={

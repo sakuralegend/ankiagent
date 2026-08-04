@@ -373,7 +373,7 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             try:
                 await query.edit_message_reply_markup(None)
             except Exception:
-                pass
+                pass   # chỉ là gỡ nút cho gọn; hụt thì nút còn đó, bấm lại vẫn đúng
             return
         await _do_redo(query.message, word, context)
         return

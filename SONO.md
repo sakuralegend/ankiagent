@@ -14,6 +14,5 @@
 
 | Nợ | Vì sao chưa trả | Hết hạn |
 |---|---|---|
-| 🔴 **Rác bảng chia tầng dữ liệu, 7 ca**: `тётя` · `жена́тый` · `челове́ки` · `кня́зи` · `педагоги́ческый` · `фотограф` · cách 5 `-ою` không nhãn | Cửa máy không đo phần máy nối vào thẻ. Vá phải quyết dạng tiếng Nga đúng ⇒ cần agent context sạch, tốn cỡ một lô. Cách vá: `git show c6a3f94` | 2026-09-04 |
-| **Bot chỉ `print`, chưa có nhật ký phân mức** — không lọc được theo mức, không tách lỗi khỏi tiếng ồn | Chạm cả 3 gói ⇒ đắt, mà chưa cấp thiết. CHẠM CODE BOT ⇒ deploy riêng, cấm gộp vào phiên chạy lô | 2026-10-01 |
-| **Không gì báo khi VPS chạy CODE CŨ hơn laptop** — đã có lần bot chạy code cũ 3 ngày mà im. Hướng rẻ: bot khai `git rev-parse --short HEAD` lúc khởi động + trong `/trangthai` | User chốt 02/08 *"tôi sẽ xử lí sau"*. CHẠM CODE BOT ⇒ deploy riêng | 2026-10-01 |
+| **VPS chưa nhận code mới** của phiên 04/08 (ô `BangMay`, nhật ký phân mức, `/thongke` khai bản mã) — laptop đã có, VPS chưa | Chạm code bot ⇒ deploy riêng, không gộp vào phiên vừa đụng vùng im lặng. Trả bằng: `.\deploy.ps1` rồi `journalctl -u anki-bot` xem dòng "bản mã" | 2026-08-11 |
+| **`congcu.py` nới mốc 446 → 491 dòng** (QD-26/27 thêm: đọc thẻ làm chân lý, ghi hai ô, di trú `BangMay`) | Không chuyển sang `khochung.py` được — file đó cố ý KHÔNG đụng Anki để `soatlo.py` chạy offline. Còn cách 700 (trần tách). Trả bằng: bỏ `cmd_bang` khi di trú xong | 2026-10-01 |

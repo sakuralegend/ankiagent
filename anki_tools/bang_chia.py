@@ -28,16 +28,40 @@ def thieu_dau(form):
             and ACUTE not in t and "ё" not in t.lower())
 
 
-def _o(text, nong=False):
+def _o(text, nong=False, nhan_bien_the=False):
+    """Một ô bảng. `nhan_bien_the` = ô này là cách 5 số ít, có thể chứa dạng
+    `-ою` cần dán nhãn (xem `_nhan_bien_the`).
+
+    🔴 Soi `thieu_dau` TRƯỚC khi dán nhãn: dán xong thì chuỗi có thêm chữ Việt
+    và thẻ HTML, đếm nguyên âm trên đó là ra số vô nghĩa.
+    """
     lop = "gt-v" + (" gt-nong" if nong else "")
-    if text and thieu_dau(text):
-        return f'<td class="{lop}">{text}<span class="gt-ngo">?</span></td>'
-    return f'<td class="{lop}">{text or "—"}</td>'
+    ngo = '<span class="gt-ngo">?</span>' if text and thieu_dau(text) else ""
+    if not text:
+        return f'<td class="{lop}">—</td>'
+    return f'<td class="{lop}">{_nhan_bien_the(text) if nhan_bien_the else text}{ngo}</td>'
 
 
 # Nhãn cột. NGẮN hết mức: bảng 5 cột phải lọt bề ngang 368px của .hd-content.
 NHAN_COT = {"sg": "ít", "pl": "nhiều",
             "m": "он", "f": "она́", "n": "оно́"}
+
+
+# Cách 5 số ít giống cái có HAI dạng: `-ой/-ей` (đời nay) và `-ою/-ею` (văn
+# chương · thơ ca · cổ). Từ điển in cả hai, ngang hàng, KHÔNG nhãn — đo 04/08:
+# **139 từ** trong bộ sưu tập. Trần trụi như thế là dạy user rằng hai dạng dùng
+# thay nhau được trong lời nói thường, mà không phải: viết `с ма́мою` trong tin
+# nhắn nghe như đọc thơ. Nhãn ở ĐÂY chứ không sửa dữ liệu: dạng đó CÓ THẬT, chỉ
+# là thiếu chú thích — sửa một chỗ là khỏi cả 139 từ, và từ mới cào về cũng khỏi.
+_OU_RE = re.compile(r"^(.+?),\s*(\S+?[оеё]́?ю)$")
+
+
+def _nhan_bien_the(text):
+    """`'ма́мой, ма́мою'` -> dạng đời nay + dạng `-ою` có dán nhãn văn chương."""
+    m = _OU_RE.match((text or "").strip())
+    if not m:
+        return text
+    return f'{m.group(1)}<span class="gt-bt">· {m.group(2)} (văn chương)</span>'
 
 
 def _bang_cach(ten, du_lieu, nong, tien_to=""):
@@ -59,7 +83,8 @@ def _bang_cach(ten, du_lieu, nong, tien_to=""):
                + "</tr>")
     rows = "".join(
         f'<tr><td class="gt-k">{nhan}</td>'
-        + "".join(_o(du_lieu[c].get(ma), (tien_to + c, ma) in nong or (c, ma) in nong)
+        + "".join(_o(du_lieu[c].get(ma), (tien_to + c, ma) in nong or (c, ma) in nong,
+                     nhan_bien_the=(ma == "inst"))
                   for c in cot)
         + "</tr>"
         for ma, nhan in CASES)
@@ -180,20 +205,65 @@ _BANG = {"noun": _bang_danh_tu, "verb": _bang_dong_tu, "adjective": _bang_tinh_t
 _BANG_RE = re.compile(r'<details class="gt-bang">.*?</details>', re.S)
 
 
-def attach_table(html, rec):
-    """Gắn LẠI bảng chia vào cuối một ô Hướng dẫn — NGUỒN CHÂN LÝ DUY NHẤT.
+def go_bang(html):
+    """GỠ bảng chia khỏi một ô Hướng dẫn — ô đó nay CHỈ chứa phần người soạn.
 
-    Luôn GỠ bảng cũ trước rồi mới nối bảng mới ⇒ gọi bao nhiêu lần cũng ra một
-    kết quả, không đội bảng chồng bảng.
+    Thay `attach_table()` cũ (QD-26, 04/08/2026). Trước đây bảng được nối vào
+    đuôi `HuongDan` bằng cắt-dán khuôn mẫu; từ nay bảng sống ở field riêng
+    `BangMay`, nên chiều duy nhất còn lại là GỠ RA.
 
-    🔴 Phải dùng hàm này ở MỌI chỗ ghi `HuongDan`, đặc biệt là luồng LÀM LẠI THẺ
-    (`pipeline.redo_note_id`): ở đó `build_card_fields()` dựng lại toàn bộ field
-    từ dữ liệu cào mới, nên nếu ghi thẳng thì phần chữ do lô soạn (chẻ từ · cách
-    nhớ · họ hàng) **bị xoá sạch** — người dùng bấm "làm lại thẻ" cho một từ đã
-    soạn kỹ và mất trắng nội dung mà không ai báo.
+    🔴 Vì sao đổi: cắt-dán khuôn mẫu là gốc của cả một loại lỗi im lặng. Phần máy
+    nối vào sau lưng mọi cửa soát (`soat`/`dodai` chỉ đo phần agent viết) nên rác
+    trong bảng sống nhiều tuần không ai bắt — 7 ca đã phải ghi vào sổ nợ. Tách
+    field thì cửa máy đo được đúng phần máy.
+
+    Vẫn phải gọi khi ghi đè `HuongDan` ở luồng LÀM LẠI THẺ (`pipeline.redo_note_id`)
+    để bảng CŨ còn sót trong nội dung cũ được dọn đi, không đọng lại hai bảng.
     """
-    than = _BANG_RE.sub("", html or "").rstrip()
-    return than + build_table(rec)
+    return _BANG_RE.sub("", html or "").rstrip()
+
+
+def cap_the_html(rec):
+    """Dòng CẶP THỂ của động từ ('' nếu không phải động từ / không có cặp).
+
+    Dữ liệu đã nằm sẵn trong `GrammarJSON` từ lâu (`partners`, bóc ở
+    `boc_tudien.normalize`) nhưng chưa từng được hiện ra — đo 04/08: **112/116**
+    động từ trong bộ sưu tập đã có, cả kho ở bản ghi v4 ⇒ không phải cào lại một
+    từ nào.
+
+    🔴 CHỈ LẤY `partners[0]`, không liệt kê hết. Từ điển trả 1–3 mục và chỉ mục
+    đầu là cặp thể chuẩn (`aspectPartner` của OpenRussian trỏ đúng vào nó, đã đối
+    chiếu); các mục sau là từ GẦN NGHĨA khác hẳn về sắc thái — `сказа́ть` kéo theo
+    `ска́зывать` (kể lể, gần như không dùng), `чита́ть` kéo theo `почита́ть` (đọc
+    một lúc cho vui). In hết là dạy sai ba từ để được một từ đúng. User chốt
+    04/08: *"chỉ cặp chuẩn, hai từ"*.
+    """
+    if rec.get("pos") != "verb":
+        return ""
+    ban = next((p for p in (rec.get("partners") or []) if p), "")
+    if not ban:
+        return ""
+    minh = rec.get("acc") or rec.get("wc") or ""
+    nhan = {"perfective": ("hoàn thành", "chưa hoàn thành"),
+            "imperfective": ("chưa hoàn thành", "hoàn thành")}.get(rec.get("aspect"))
+    if not nhan:
+        return ""                   # thể `both` / thiếu thể: nói cặp là nói bừa
+    return ('<div class="gt-ten">Cặp thể</div>'
+            f'<div class="gt-cap">{minh} <span class="gt-cap-n">({nhan[0]})</span>'
+            f' ↔ {ban} <span class="gt-cap-n">({nhan[1]})</span></div>')
+
+
+def khoi_may(rec, phan_tich=None):
+    """TOÀN BỘ nội dung field `BangMay` = cặp thể + bảng chia ('' nếu không có gì).
+
+    Đây là thứ DUY NHẤT được ghi vào `BangMay`, và `BangMay` là thứ DUY NHẤT máy
+    ghi lên mặt thẻ — ô `HuongDan` từ nay thuần phần người soạn (QD-26).
+    """
+    if not rec:
+        return ""
+    cap = cap_the_html(rec)
+    bang = build_table(rec, phan_tich)
+    return (cap + bang) if (cap or bang) else ""
 
 
 def build_table(rec, phan_tich=None):
@@ -206,8 +276,10 @@ def build_table(rec, phan_tich=None):
     sáng ô biến đổi và (b) nhắc người soạn lô viết câu chú ý ở trên — đọc câu đó
     là hiểu cả bảng, bảng chỉ để tra cứu chi tiết.
 
-    Bảng gấp trong `<details>` lồng nên KHÔNG tốn pixel nào của trần "vừa một
-    màn hình iPhone" (README §2) khi đang đóng.
+    🔴 KHÔNG còn bọc `<details>` riêng (QD-26, 04/08/2026). Trước đây bảng nằm
+    TRONG ô Hướng dẫn nên phải tự gấp lại; nay nó sống ở field `BangMay`, mà cả
+    field đó đã là một ô thu gọn ⇒ bọc thêm lần nữa là bắt user bấm HAI lần mới
+    thấy bảng. Trần "vừa một màn hình iPhone" vẫn giữ nguyên: ô ngoài đóng sẵn.
     """
     if not rec:
         return ""
@@ -227,9 +299,7 @@ def build_table(rec, phan_tich=None):
            '— chưa kiểm được, đừng học thuộc chỗ nhấn ở đó.</div>'
            if 'class="gt-ngo"' in ruot else "")
     nguon = "Wiktionary tiếng Nga" if rec.get("nguon") == "wiktionary" else "OpenRussian"
-    return ('<details class="gt-bang"><summary class="gt-sum">'
-            '📋 Bảng chia đầy đủ</summary>'
-            f'<div class="gt-body">{ruot}{ngo}'
+    return (f'<div class="gt-body">{ruot}{ngo}'
             f'<div class="gt-nguon">Nguồn: {nguon} — máy dựng, không qua AI. '
             'Ô sáng = chỗ biến đổi.</div>'
-            '</div></details>')
+            '</div>')

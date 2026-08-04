@@ -10,7 +10,7 @@ from telegram.ext import ContextTypes
 
 from anki_tools.config import TOPIC_DECK_PARENT
 from anki_tools.backup import human_size, list_backups, run_backup
-from anki_tools.utils import log_warn
+from anki_tools.utils import ban_ma_dang_chay, log_warn
 from anki_tools.topics import FALLBACK_TOPIC
 from anki_tools.anki_client import (
     CARD_STATES,
@@ -153,6 +153,9 @@ async def thongke_report():
         lines.extend(warns)
     else:
         lines.append(f"✅ Chưa chạm ngưỡng tách deck ({TOPIC_DECK_WARN} thẻ/chủ đề, {FALLBACK_TOPIC} ≤{OTHER_WARN_PCT}%).")
+    # Bản mã đang chạy — đối chiếu với `git rev-parse --short HEAD` trên laptop là
+    # biết ngay VPS có đang chạy code cũ không (đã có lần cũ 3 ngày mà không gì báo).
+    lines.append(f"🔖 Bản mã đang chạy: {ban_ma_dang_chay()}")
     return "\n".join(lines)
 
 

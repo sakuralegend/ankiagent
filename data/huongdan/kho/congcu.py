@@ -56,27 +56,55 @@ def ac(action, **params):
     return out["result"]
 
 
-def cmd_bang():
-    """Nối bảng chia vào MỌI thẻ RU_Word (không chỉ thẻ đã soạn hướng dẫn).
+def doc_the_bat_buoc():
+    """`{khoá_ghép: fields}` của MỌI note RU_Word — đọc hụt là DỪNG HẲN (QD-27).
 
-    User chốt 29/07: *"toàn bộ từ sẽ có bảng toàn bộ cách chia... cái này để
-    tiện tra cứu về sau"*. Nên đây là lệnh chạy trên cả bộ sưu tập, khác `nap`
-    (chỉ đụng lô đã duyệt).
+    🔴 Anki đóng ⇒ KÊU TO rồi DỪNG, cấm âm thầm quay về `tudien.json`: đó đúng là
+    cơ chế đã hỏng — bản chép im lặng thế chỗ nguồn thật, sai chỉ lộ nhiều tuần
+    sau. Cùng luật với `grammar._lap_dem_tu_the()`.
+    Khoá qua `khoa_note()` (bỏ U+200B): `петь` và `петь​` là hai note với Anki.
+    """
+    try:
+        return {khoa_note(n["fields"].get("WordClean", {}).get("value", "")): n["fields"]
+                for n in ac("notesInfo", notes=ac("findNotes", query="note:RU_Word"))}
+    except Exception as e:
+        raise SystemExit(
+            f"[congcu] KHONG DOC DUOC the ANKI ({e}). The la nguon DUY NHAT cua "
+            "nghia tieng Viet (QD-27) — `tudien.json` khong con cot `vi` de quay ve.")
+
+
+def cmd_bang():
+    """Dựng lại ô MÁY (`BangMay`) cho MỌI thẻ RU_Word + gỡ bảng cũ khỏi `HuongDan`.
+
+    User chốt 29/07: *"toàn bộ từ sẽ có bảng toàn bộ cách chia"* ⇒ chạy trên cả
+    bộ sưu tập, khác `nap` (chỉ đụng lô đã duyệt). Từ 04/08 (QD-26) đây cũng là
+    lệnh DI TRÚ bảng từ `HuongDan` sang field riêng. Chạy nhiều lần vẫn ra một
+    kết quả (gỡ rồi mới dựng, so nội dung trước khi ghi). Bảng dựng TỪ
+    `GrammarJSON` của chính thẻ, không cào mạng (QD-11).
     """
     apply = "--apply" in sys.argv
+    if apply and not sync_truoc_khi_ghi_lo("di tru BangMay"):
+        return
     notes = ac("notesInfo", notes=ac("findNotes", query="note:RU_Word"))
     doi, giu, khong = [], 0, []
     for n in notes:
         f = n["fields"]
         wc = (f.get("WordClean", {}).get("value") or "").strip()
-        cu = f.get("HuongDan", {}).get("value", "")
-        moi = gan_bang(cu, wc)
-        if moi == cu:
+        hd_cu = f.get("HuongDan", {}).get("value", "")
+        may_cu = f.get("BangMay", {}).get("value", "")
+        hd_moi = gan_bang(hd_cu, wc)
+        may_moi = grammar.khoi_may(grammar.get_cached(wc))
+        o = {}
+        if hd_moi != hd_cu:
+            o["HuongDan"] = hd_moi
+        if may_moi != may_cu:
+            o["BangMay"] = may_moi
+        if not o:
             giu += 1
-            if 'class="gt-bang"' not in moi:
+            if not may_moi:
                 khong.append(wc)
             continue
-        doi.append((n["noteId"], wc, len(moi) - len(cu)))
+        doi.append((n["noteId"], wc, o))
     print(f"{len(notes)} the | se doi {len(doi)} | giu nguyen {giu}")
     print(f"  trong so giu nguyen, {len(khong)} the KHONG CO BANG (khong bien cach "
           f"hoac tu dien khong co du lieu)")
@@ -85,13 +113,8 @@ def cmd_bang():
     if not apply:
         print("(CHAY KHAN — them --apply de ghi that)")
         return
-    for nid, _, _ in doi:
-        # đọc lại field ngay trước khi ghi thì thừa: `notesInfo` ở trên đã là ảnh
-        # chụp mới nhất, và không có ai khác ghi vào giữa chừng.
-        f = next(x for x in notes if x["noteId"] == nid)["fields"]
-        ac("updateNoteFields", note={"id": nid, "fields": {
-            "HuongDan": gan_bang(f.get("HuongDan", {}).get("value", ""),
-                                 f["WordClean"]["value"].strip())}})
+    for nid, _, o in doi:
+        ac("updateNoteFields", note={"id": nid, "fields": o})
     print(f"da ghi {len(doi)} note")
 
 
@@ -115,6 +138,14 @@ def cmd_tiep():
         print("HET HANG DOI — 56/56 lo xong.")
         return
     words = {w["wc"]: w for w in json.load(io.open(TUDIEN, encoding="utf-8"))}
+    # 🔴 NGHĨA TIẾNG VIỆT LẤY TỪ THẺ, KHÔNG từ `tudien.json` (QD-27). Đo 04/08:
+    # **353/1039 từ** lệch — user sửa tay trong Anki, bước đồng bộ ngược là việc
+    # TAY nên phiên nào cũng quên. Hậu quả: agent đọc đề bài CŨ, tưởng nghĩa mơ hồ,
+    # viết `V[...]` "sửa" một dòng vốn đúng ⇒ `nap` đè mất bản user chữa (`устать`).
+    # Trọng âm/từ loại vẫn lấy từ `tudien.json`: đo cùng lúc ra **0 lệch**.
+    the = doc_the_bat_buoc()
+    vi_the = {k: (f.get("Vietnamese", {}).get("value", "") or "").strip()
+              for k, f in the.items()}
     xong = sum(1 for l in q["lo"] if l["trangthai"] == "xong")
     out = [f"### {lo['id']}  topic={lo['topic']}  ({len(lo['tu'])} tu)"
            f"   [{xong}/{q['tong_lo']} lo xong]",
@@ -135,14 +166,7 @@ def cmd_tiep():
     # kéo về sẵn — nếu không agent sẽ viết đè và xoá mất phần đang tốt.
     cu_hd = {}
     if lo.get("sua"):
-        try:
-            ids = ac("findNotes", query="note:RU_Word")
-            for n in ac("notesInfo", notes=ids):
-                f = n["fields"]
-                cu_hd[khoa_note(f.get("WordClean", {}).get("value", ""))] = \
-                    f.get("HuongDan", {}).get("value", "")
-        except Exception as e:
-            out.append(f"### !! KHONG LAY DUOC NOI DUNG HIEN TAI ({e}) — DUNG LAI, bao luong chinh")
+        cu_hd = {k: f.get("HuongDan", {}).get("value", "") for k, f in the.items()}
     for wc in lo["tu"]:
         w = words.get(wc, {})
         cu = "   [DE GHI DE noi dung mnemonic cu]" if w.get("cu") else ""
@@ -150,7 +174,7 @@ def cmd_tiep():
         en = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", "",
                                         re.sub(r"</li>\s*<li>", " / ", w.get("en", "")))).strip()
         out.append(f'S["{wc}"]   {w.get("w","?")}   ({w.get("pos","?")})   '
-                   f'{en}   |   {w.get("vi","")}{cu}')
+                   f'{en}   |   {vi_the.get(khoa_note(wc), "")}{cu}')
         out += khoi_nguphap(wc)
         if lo.get("sua"):
             hd = cu_hd.get(khoa_note(wc), "")
@@ -259,18 +283,20 @@ def cmd_moi():
         if not wc or khoa_note(wc) in da_co:
             continue
         tags = [t.replace("topic::", "") for t in n.get("tags", []) if t.startswith("topic::")]
+        # `_vi_in` KHÔNG vào `tudien.json` (QD-27) — chỉ để in ra trong lần chạy này.
         moi[wc] = {"wc": wc, "w": f.get("Word", {}).get("value", "").strip(),
                    "en": f.get("Meaning", {}).get("value", ""),
-                   "vi": f.get("Vietnamese", {}).get("value", ""),
                    "pos": f.get("PoS", {}).get("value", ""),
-                   "topic": tags[0] if tags else "other", "cu": False}
+                   "topic": tags[0] if tags else "other", "cu": False,
+                   "_vi_in": f.get("Vietnamese", {}).get("value", "")}
 
     if not moi:
         print(f"khong co tu moi ({len(notes)} the, tat ca da nam trong hang doi)")
         return
     print(f"TU MOI: {len(moi)} tu chua co trong hang doi")
     for w in sorted(moi):
-        print(f"  {moi[w]['w'] or w:20s} {moi[w]['pos']:6s} {moi[w]['topic']:20s} {moi[w]['vi'][:44]}")
+        print(f"  {moi[w]['w'] or w:20s} {moi[w]['pos']:6s} {moi[w]['topic']:20s} "
+              f"{moi[w]['_vi_in'][:44]}")
 
     # lô từ mới CHƯA chạy -> nối vào; không có thì mở lô mới với id trống đầu tiên
     dich = next((l for l in q["lo"] if l.get("tuMoi") and l["trangthai"] == "cho"), None)
@@ -295,7 +321,8 @@ def cmd_moi():
 
     td = json.load(io.open(TUDIEN, encoding="utf-8"))
     co = {x["wc"] for x in td}
-    td.extend(v for k, v in sorted(moi.items()) if v["wc"] not in co)
+    td.extend({k: v for k, v in rec.items() if not k.startswith("_")}
+              for _, rec in sorted(moi.items()) if rec["wc"] not in co)
     io.open(TUDIEN, "w", encoding="utf-8").write(json.dumps(td, ensure_ascii=False, indent=1))
 
     if dich:
@@ -349,7 +376,18 @@ def cmd_nap():
         return
     ids_lo = [l["id"] for l in can]
     print(f"nap {len(can)} lo: {' '.join(ids_lo)}")
-    gop, _, vi_moi = nap_lo_da_soan(ids_lo, lay_v=True)
+    gop, _ = nap_lo_da_soan(ids_lo)
+
+    # 🔴 NGHĨA TIẾNG VIỆT GHI ĐÚNG MỘT LẦN, ở lần nạp ĐẦU của lô (QD-27) ⇒ `vi_moi`
+    # chỉ đọc từ lô CHƯA `daNap`. `--tatca` để đẩy lại phần MÁY sau khi sửa khuôn,
+    # KHÔNG để phát lại dòng `V` cũ: dòng `V` là phán đoán ĐÔNG LẠNH, còn user sửa
+    # tay tiếp trong Anki ⇒ phát lại là bật ngược bản user vừa chữa, không tiếng
+    # kêu nào. Đã xảy ra thật với `устать` (`k48_tu-moi.py` vẫn giữ bản dài hơn).
+    lo_dau = [l["id"] for l in can if not l.get("daNap")]
+    _, _, vi_moi = nap_lo_da_soan(lo_dau, lay_v=True) if lo_dau else ({}, {}, {})
+    if len(lo_dau) < len(ids_lo):
+        print(f"{len(ids_lo) - len(lo_dau)} lo da nap truoc do -> chi day lai phan MAY, "
+              f"KHONG ghi lai nghia tieng Viet (QD-27)")
     print(f"da soan: {len(gop)} tu" + (f" | sua tieng Viet: {len(vi_moi)} tu" if vi_moi else ""))
 
     # Cửa dữ liệu ngữ pháp — bảng chia được nối vào lúc GHI (`gan_bang` ở dưới),
@@ -366,7 +404,7 @@ def cmd_nap():
     if apply and not sync_truoc_khi_ghi_lo("nap lo"):
         return
     ids = ac("findNotes", query="note:RU_Word")
-    ban_do, hien_co, vi_co = {}, {}, {}
+    ban_do, hien_co, vi_co, may_co = {}, {}, {}, {}
     for n in ac("notesInfo", notes=ids):
         # `noteId`, KHÔNG phải `id` — notesInfo trả về noteId, còn updateNoteFields
         # lại nhận khoá `id`. Hai đầu đặt tên khác nhau, dễ dính.
@@ -374,6 +412,7 @@ def cmd_nap():
         ban_do.setdefault(khoa_note(n["fields"]["WordClean"]["value"]), []).append(nid)
         hien_co[nid] = n["fields"].get("HuongDan", {}).get("value", "")
         vi_co[nid] = n["fields"].get("Vietnamese", {}).get("value", "")
+        may_co[nid] = n["fields"].get("BangMay", {}).get("value", "")
 
     # Field `Vietnamese` là ĐỀ BÀI của deck 1-go (user gõ từ Nga từ dòng này),
     # nên sửa nó là sửa cái user phải trả lời — đổi thì phải in ra để soát mắt.
@@ -399,15 +438,21 @@ def cmd_nap():
         if len(nids) > 1:
             doi += 1
         can_tag += nids
-        # Bảng chia nối vào ĐÂY chứ không nằm trong file lô: dạng từ đi thẳng từ
-        # từ điển vào HTML, không qua model lần nào. Agent chỉ lo câu chú ý ở trên.
+        # 🔴 HAI Ô, HAI CHỦ (QD-26): `HuongDan` = agent soạn (gỡ bảng nếu lỡ chép
+        # vào), `BangMay` = máy dựng thẳng từ từ điển. Chung một ô là gốc 7 ca rác.
         html = gan_bang(html, word)
+        may = grammar.khoi_may(grammar.get_cached(word))
         for nid in nids:
-            if hien_co.get(nid) == html:
+            doi_o = {}
+            if hien_co.get(nid) != html:
+                doi_o["HuongDan"] = html
+            if may_co.get(nid) != may:
+                doi_o["BangMay"] = may
+            if not doi_o:
                 bo_qua += 1
                 continue
             if apply:
-                ac("updateNoteFields", note={"id": nid, "fields": {"HuongDan": html}})
+                ac("updateNoteFields", note={"id": nid, "fields": doi_o})
             ok += 1
     print(f"ghi vao {ok} note, bo qua {bo_qua} (da trung noi dung), "
           f"{doi} tu co the trung -> ghi ca hai")

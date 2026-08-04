@@ -395,5 +395,97 @@ class MocFsrsPhaiSoatDuMOIPRESET(unittest.TestCase):
         self.assertIn("russian-parent-70", ra)
 
 
+class MotChanLyLaTheAnki(unittest.TestCase):
+    """BUG GỐC 04/08/2026 (user báo qua `устать`): user sửa tay nghĩa tiếng Việt
+    trong Anki, chạy lô xong thì nghĩa **bật lại bản cũ**.
+
+    Đo ra ba đường đè, cả ba đều im lặng:
+      1. `congcu.py tiep` in đề bài từ `tudien.json` — ảnh chụp đông lạnh, đo
+         04/08 lệch **353/1039 từ** với thẻ thật ⇒ agent "sửa" một dòng vốn đúng.
+      2. `nap --tatca` phát lại mọi dòng `V` cũ trong file lô.
+      3. `/sua` của bot dựng lại field `Vietnamese` bằng một lượt dịch AI mới.
+    QD-27 chốt: thẻ là chân lý, `tudien.json` bỏ hẳn cột `vi`."""
+
+    def test_tudien_json_KHONG_con_cot_vi(self):
+        """Còn cột `vi` là còn bản chép thứ hai, và bản thứ hai SẼ lệch."""
+        import io as _io
+        import json as _json
+        goc = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        duong = os.path.join(goc, "data", "huongdan", "kho", "tudien.json")
+        with _io.open(duong, encoding="utf-8") as f:
+            d = _json.load(f)
+        co_vi = [e["wc"] for e in d if "vi" in e]
+        self.assertEqual(co_vi, [], f"{len(co_vi)} muc con cot `vi` — QD-27 da bo")
+
+    def test_lam_lai_the_KHONG_de_len_nghia_Viet_user_da_sua(self):
+        """`/sua` giữ nghĩa Việt cũ y như đã giữ ô Hướng dẫn."""
+        import inspect
+        from anki_tools import pipeline
+        nguon = inspect.getsource(pipeline.redo_note_id)
+        self.assertIn('new_fields["Vietnamese"] = fields["Vietnamese"]', nguon,
+                      "redo_note_id phai GIU nghia tieng Viet user da sua (QD-27)")
+
+    def test_nghia_Viet_chi_doc_tu_lo_CHUA_nap(self):
+        """`--tatca` đẩy lại phần máy nhưng KHÔNG phát lại dòng `V` cũ."""
+        import inspect
+        import importlib.util
+        goc = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        kho = os.path.join(goc, "data", "huongdan", "kho")
+        sys.path.insert(0, kho)
+        spec = importlib.util.spec_from_file_location("congcu", os.path.join(kho, "congcu.py"))
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        nguon = inspect.getsource(mod.cmd_nap)
+        self.assertIn('if not l.get("daNap")', nguon,
+                      "cmd_nap phai loc lo CHUA nap truoc khi doc dict V (QD-27)")
+
+
+class OMayDungRiengKhoiOHuongDan(unittest.TestCase):
+    """QD-26 (04/08/2026): bảng chia + cặp thể chuyển sang field `BangMay`.
+
+    Trước đó máy nối bảng vào đuôi `HuongDan` bằng cắt–dán khuôn mẫu, nên cửa
+    soát của dây chuyền lô đo phải cả phần máy và rác trong bảng sống nhiều tuần
+    (7 ca trong `SONO.md`). Hai chủ ghi chung một ô là gốc của cả loại lỗi đó."""
+
+    def test_go_bang_giu_nguyen_phan_agent_soan(self):
+        html = ('<div class="hd-sec">Chẻ từ</div>NGƯỜI SOẠN'
+                '<details class="gt-bang"><summary>x</summary>BẢNG CŨ</details>')
+        ra = grammar.go_bang(html)
+        self.assertIn("NGƯỜI SOẠN", ra)
+        self.assertNotIn("BẢNG CŨ", ra)
+
+    def test_go_bang_goi_hai_lan_van_ra_mot_ket_qua(self):
+        """Chạy `bang --apply` hai lần không được đội bảng / cụt chữ."""
+        html = 'CHỮ<details class="gt-bang">B</details>'
+        self.assertEqual(grammar.go_bang(grammar.go_bang(html)), grammar.go_bang(html))
+
+    def test_cap_the_chi_lay_MOT_ban_thay_vi_liet_ke_het(self):
+        """`partners` trả 1–3 mục; mục sau là từ GẦN NGHĨA, in ra là dạy sai."""
+        rec = {"pos": "verb", "aspect": "perfective", "acc": "сказа́ть",
+               "partners": ["говори́ть", "ска́зывать"]}
+        ra = grammar.cap_the_html(rec)
+        self.assertIn("говори́ть", ra)
+        self.assertNotIn("ска́зывать", ra)
+
+    def test_cap_the_im_lang_khi_khong_ro_the(self):
+        """Thể `both` / thiếu thể: nói cặp là nói bừa -> không in gì."""
+        self.assertEqual(grammar.cap_the_html(
+            {"pos": "verb", "aspect": "both", "acc": "жени́ться",
+             "partners": ["пожени́ться"]}), "")
+        self.assertEqual(grammar.cap_the_html({"pos": "noun", "partners": ["x"]}), "")
+
+    def test_dang_ou_duoc_dan_nhan_van_chuong(self):
+        """139 danh từ + 170 tính từ có dạng `-ою/-ею` ở cách 5, từ điển in ngang
+        hàng không nhãn ⇒ user tưởng dùng thay nhau được trong lời nói thường."""
+        ra = grammar._nhan_bien_the("ма́мой, ма́мою")
+        self.assertIn("văn chương", ra)
+        self.assertIn("ма́мой", ra)
+
+    def test_KHONG_dan_nham_khi_ou_nam_trong_than_tu(self):
+        """`сою́зом` có `ою` nhưng đó là thân từ — dán nhãn là bịa ra biến thể."""
+        self.assertEqual(grammar._nhan_bien_the("сою́зом"), "сою́зом")
+        self.assertEqual(grammar._nhan_bien_the("сою́зами"), "сою́зами")
+
+
 if __name__ == "__main__":
     unittest.main()

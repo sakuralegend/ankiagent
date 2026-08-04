@@ -41,8 +41,9 @@ from .hinh_thai import (DUOI_DANH_TU, DOI_CHUAN, DUOI_DONG_TU, analyze,        #
                         _yo, _than_danh_tu, _o_doi_chuan, _nguyen_am_chay,
                         _soi_danh_tu, _than_dong_tu, _than_tu_nguyen_the,
                         _goc_qua_khu, _soi_dong_tu, _soi_tinh_tu)
-from .bang_chia import (NHAN_COT, NHAN_PHAN_TU, thieu_dau, attach_table,       # noqa: F401
-                        build_table, _BANG_RE, _BANG, _o, _bang_cach,
+from .bang_chia import (NHAN_COT, NHAN_PHAN_TU, thieu_dau, go_bang, khoi_may,  # noqa: F401
+                        cap_the_html, _nhan_bien_the, build_table,
+                        _BANG_RE, _BANG, _o, _bang_cach,
                         _bang_hang, _bang_danh_tu, _o_phan_tu, _bang_phan_tu,
                         _bang_dong_tu, _bang_tinh_tu, _bang_dai_tu, _bang_so_tu)
 
@@ -493,9 +494,8 @@ def remember(word, rec):
 # sẽ gãy ở những chỗ không ai nhớ. Nên tuyên bố hợp đồng TRƯỚC: caller đổi dần
 # sang tên public khi tiện, `soatkientruc.py` S2 vẫn để VÀNG cho tới lúc đó.
 #
-# THUẦN CỘNG THÊM — không xoá, không đổi tên cũ, nên không thể làm hỏng caller
-# đang chạy. (Cuộc tách grammar.py đã diễn ra 03/08/2026 — QD-19; mặt tiền ở đầu
-# file giữ đủ tên nên hợp đồng này vẫn nguyên hiệu lực.)
+# THUẦN CỘNG THÊM — không xoá, không đổi tên cũ, nên không thể hỏng caller đang
+# chạy. (Tách grammar.py xong 03/08 — QD-19; mặt tiền đầu file giữ đủ tên.)
 # ==============================================================================
 BANG_RE = _BANG_RE          # regex bóc khối bảng chia khỏi HTML thẻ
 doc_cache = _cache          # đọc bộ nhớ đệm RAM (lấp từ thẻ Anki, QD-11)

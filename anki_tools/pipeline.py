@@ -156,8 +156,15 @@ def redo_note_id(note_id, do_sync=False, chon_id=None):
     # đã được soạn kỹ phần chẻ từ / cách nhớ / họ hàng. Ghi thẳng là user bấm
     # "làm lại thẻ" rồi mất trắng nội dung mà không ai báo. `attach_table` chỉ
     # thay đúng cái bảng, chừa nguyên phần chữ.
-    new_fields["HuongDan"] = grammar.attach_table(
-        fields.get("HuongDan") or "", data.get("grammar") or {})
+    new_fields["HuongDan"] = grammar.go_bang(fields.get("HuongDan") or "")
+
+    # 🔴 GIỮ nghĩa tiếng Việt user đã sửa TAY (QD-27). Cùng lý lẽ với ô Hướng dẫn
+    # ngay trên: `build_card_fields()` dựng lại `Vietnamese` bằng một lượt dịch
+    # AI mới, nên ghi thẳng là user bấm "làm lại thẻ" rồi mất bản mình tự chữa —
+    # mà đây là ĐỀ BÀI của deck 1-gõ, tức mất đúng câu hỏi chứ không phải mất
+    # phần trang trí. Thẻ chưa có nghĩa Việt thì vẫn điền bản mới như cũ.
+    if (fields.get("Vietnamese") or "").strip():
+        new_fields["Vietnamese"] = fields["Vietnamese"]
 
     # Audio: chỉ tải khi thẻ ĐANG THIẾU tiếng. "Thiếu" = ô Audio không có tag
     # [sound:...] hợp lệ — gồm cả thẻ trống LẪN thẻ mà AnkiConnect từng ghi câu

@@ -130,19 +130,6 @@
   },
   "S17": {
     "mien_tru": {},
-    "baseline": {
-      "tgbot/core.py": {
-        "so": 2,
-        "vi_sao": "Chay nen hang loat — mot tu hong khong duoc chan ca lo. Can log thay vi pass; CHAM CODE BOT ⇒ deploy rieng."
-      },
-      "tgbot/dispatch.py": {
-        "so": 1,
-        "vi_sao": "Nhanh nut; loi o day hien nay chet im. Can log; CHAM CODE BOT ⇒ deploy rieng."
-      },
-      "tgbot/flow_edit.py": {
-        "so": 3,
-        "vi_sao": "Luong /sua — 3 cho nuot lien nhau, day la cho dang ngo nhat. Can log; CHAM CODE BOT ⇒ deploy rieng."
-      }
-    }
+    "baseline": {}
   }
 }

@@ -50,13 +50,18 @@ BANG_RE = grammar.BANG_RE            # alias public (G4); dùng chung, đừng v
 
 
 def gan_bang(html, word):
-    """Gắn lại bảng chia — vỏ mỏng quanh `grammar.attach_table()`.
+    """GỠ bảng chia khỏi ô Hướng dẫn — vỏ mỏng quanh `grammar.go_bang()`.
 
     Logic thật nằm ở `grammar.py` để luồng soạn lô, luồng tạo thẻ mới và luồng
-    làm lại thẻ dùng CHUNG một hàm. Ba nơi tự nối bảng theo ba kiểu thì sớm muộn
-    có nơi quên gỡ bảng cũ và thẻ mọc hai bảng chồng nhau.
+    làm lại thẻ dùng CHUNG một hàm. Ba nơi tự xử lý bảng theo ba kiểu thì sớm
+    muộn có nơi làm khác đi và thẻ mọc hai bảng chồng nhau.
+
+    🔴 Đổi vai từ 04/08/2026 (QD-26): trước đây hàm này NỐI bảng vào; nay bảng
+    sống ở field riêng `BangMay` nên chiều duy nhất còn lại là gỡ ra. Vẫn phải
+    gọi vì nội dung lô do agent soạn có thể mang theo bảng cũ chép lại.
+    Tham số `word` giữ nguyên để caller không đổi — nay không cần tra từ điển nữa.
     """
-    return grammar.attach_table(html, grammar.get_cached(word))
+    return grammar.go_bang(html)
 
 
 def doc_hangdoi():

@@ -7,14 +7,9 @@ argument-hint: [mô tả sơ sài cũng được, kiểu "bot nên nhắc tôi �
 
 User đã nói ra ý tưởng ở dạng thô nhất: **$ARGUMENTS**
 
-## Sự thật nền — đọc trước, đây là lý do lệnh này tồn tại
-
-User **không phải lập trình viên** và tự nhận *"tôi không giỏi diễn đạt tính năng"*. Vậy nên
-**diễn đạt cho rõ là việc của BẠN, không phải của user.** Một câu mô tả thô KHÔNG phải là user
-làm ẩu — đó là đầu vào hợp lệ và đúng như dự kiến của lệnh này.
-
-🔴 **CẤM tuyệt đối trong lệnh này:** viết code, sửa file code, chạy lệnh đổi dữ liệu.
-Lệnh này chỉ đẻ ra **một phiếu việc**. Không hơn.
+Một câu mô tả thô là **đầu vào hợp lệ** — diễn đạt cho rõ là việc của BẠN (vì sao: `CLAUDE.md`
+mục 1, hook nhắc mỗi lượt). 🔴 **CẤM trong lệnh này:** viết code, sửa file code, chạy lệnh đổi
+dữ liệu. Lệnh này chỉ đẻ ra **một phiếu việc**. Không hơn.
 
 ## Bước 1 — TỰ ĐI ĐO trước khi hỏi (bắt buộc, đừng bỏ)
 
@@ -60,24 +55,30 @@ Chưa rõ thì **hỏi tiếp một lượt nữa**. Thà hỏi 2 lượt còn h
 đường đã giết `CHANGELOG.md`, xem QD-06). Trần: ngân sách đọc trong `soat_nguong.json`, cửa S10
 canh bằng KÝ TỰ (QD-20).
 
+🔴 **Mục con dùng `###`, KHÔNG dùng `##`.** Cửa **S19** đếm `##` để biết phiếu còn tồn mấy
+ĐẦU VIỆC (trần 1, QD-25) — viết mục con bằng `##` là phiếu đúng chuẩn nào cũng làm cửa đỏ.
+Đúng một `##` trong file, chính là dòng tiêu đề việc.
+
 ```markdown
-# 🎯 VIỆC ĐANG LÀM — <tên việc bằng ngôn ngữ thường>
+# 🎯 VIỆC ĐANG LÀM
 > Phiếu này bị GHI ĐÈ ở việc kế tiếp. Xong việc thì xoá nội dung, để lại đúng dòng tiêu đề.
 
-## Một câu
+## <tên việc bằng ngôn ngữ thường>          ← ĐẦU VIỆC duy nhất, S19 đếm dòng này
+
+### Một câu
 Chức năng này để ___, dùng khi ___.
 
-## User đã chốt (từ câu hỏi trắc nghiệm)
+### User đã chốt (từ câu hỏi trắc nghiệm)
 - <điều đã chốt 1>
 - <điều đã chốt 2>
 
-## Coi là XONG khi
+### Coi là XONG khi
 - [ ] <cảnh cụ thể nhìn được bằng mắt: thẻ hiện thế này / bot trả lời thế kia>
 
-## CỐ Ý KHÔNG LÀM lần này
+### CỐ Ý KHÔNG LÀM lần này
 - <thứ gần giống bị cắt khỏi phạm vi>
 
-## Đã đo trước khi nhận việc
+### Đã đo trước khi nhận việc
 - Trùng bảng "ĐÃ ĐO RỒI BÁC"? <có/không + dòng nào>
 - Chức năng gần giống đã có? <tên hàm/file, hoặc "không có">
 ```

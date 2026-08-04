@@ -11,6 +11,7 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
 from anki_tools.config import TELEGRAM_USER_ID, TOPIC_DECK_PARENT
 from anki_tools.anki_client import get_deck_names, trigger_sync
+from anki_tools.utils import log_debug, log_warn
 
 IDLE_RESET_SECONDS = 180  # nghỉ 3 phút -> reset phiên + gửi menu
 
@@ -82,8 +83,11 @@ def _save_last_deck(deck_name):
             return
         with open(LAST_DECK_FILE, "w", encoding="utf-8") as f:
             json.dump({"deck": deck_name}, f, ensure_ascii=False)
-    except Exception:
-        pass  # nhớ deck chỉ là tiện ích, lỗi ghi file không được làm gãy luồng chính
+    except Exception as e:
+        # nhớ deck chỉ là tiện ích, lỗi ghi file không được làm gãy luồng chính —
+        # nhưng phải để lại vết, vì "bot quên deck sau mỗi lần khởi động" nhìn từ
+        # ngoài giống hệt lỗi logic, mà nguyên nhân thật là quyền ghi file.
+        log_warn(f"khong ghi duoc {LAST_DECK_FILE} ({e}) — bot van chay, chi mat tri nho deck")
 
 
 def _set_deck(context, deck_name):
@@ -242,8 +246,10 @@ async def _idle_reset_job(context, chat_id):
             f"⏸ Nghỉ >3 phút — đã reset phiên, về chế độ 🤖 tự động theo chủ đề (thẻ trong Anki không mất gì).\n\n{_menu_text(context)}",
             reply_markup=_menu_keyboard(),
         )
-    except Exception:
-        pass
+    except Exception as e:
+        # Nhắn "hết phiên" mà hụt thì không có gì để cứu (user sẽ tự thấy khi gõ
+        # tiếp), nhưng hụt LIÊN TỤC là dấu hiệu token/chat_id hỏng — cần thấy được.
+        log_warn(f"khong gui duoc thong bao het phien cho {chat_id} ({e})")
 
 
 def _reset_idle_timer(context, chat_id):
@@ -339,8 +345,11 @@ async def chay_hang_loat(context, chat_id, msg, items, *, co, stop_data, lam, ti
 
             try:
                 await msg.edit_text(tien_do(attempted, total, nhan), reply_markup=stop_kb)
-            except Exception:
-                pass   # nội dung trùng / mạng chớp — bỏ qua, vòng sau edit tiếp
+            except Exception as e:
+                # nội dung trùng / mạng chớp — bỏ qua, vòng sau edit tiếp. Mức
+                # DEBUG chứ không WARN: cái này kêu mỗi vòng lặp khi Telegram trả
+                # "message is not modified", mà đó là chuyện thường, không phải lỗi.
+                log_debug(f"edit tien do {attempted}/{total} hut: {e}")
 
             if co_nghi and attempted < total and not context.bot_data.get(co_stop):
                 await asyncio.sleep(nghi)
@@ -355,5 +364,7 @@ async def bao_ket_qua(msg, lines):
     đúng dòng cuối không được phép làm nổ task nền."""
     try:
         await msg.edit_text("\n".join(lines))
-    except Exception:
-        pass
+    except Exception as e:
+        # Đây là dòng TÓM TẮT CUỐI ĐỢT — hụt là user không biết đợt chạy ra sao,
+        # nên WARN chứ không DEBUG như dòng tiến độ giữa chừng.
+        log_warn(f"khong in duoc tom tat cuoi dot ({e}) — ket qua van da ghi vao Anki")

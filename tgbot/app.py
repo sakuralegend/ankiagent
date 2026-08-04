@@ -18,6 +18,7 @@ from telegram.ext import (
 
 from anki_tools.config import TELEGRAM_BOT_TOKEN, TELEGRAM_USER_ID
 from anki_tools.ai_client import check_claude_ready
+from anki_tools.utils import ban_ma_dang_chay
 from anki_tools.anki_client import check_anki_ready, setup_anki_environment, trigger_sync
 
 from .commands import (
@@ -90,7 +91,7 @@ def main():
         print("❌ Thiếu TELEGRAM_BOT_TOKEN hoặc TELEGRAM_USER_ID trong .env")
         return
 
-    print("🤖 Bot Anki khởi động...")
+    print(f"🤖 Bot Anki khởi động... (bản mã {ban_ma_dang_chay()})")
 
     if not wait_for_anki():
         print("❌ AnkiConnect không phản hồi sau 3 phút. Kiểm tra container anki (docker ps).")

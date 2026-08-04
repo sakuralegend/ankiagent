@@ -55,11 +55,28 @@
    ⚠️ CỐ Ý bó trong `.hd-content`: dòng luyện viết tay `.cursive-word` (phông
    Propisi, đúng mẫu chữ vở tập viết Nga) PHẢI giữ nguyên — ở đó biến dạng chữ
    chính là nội dung cần học, không phải lỗi. User dặn riêng chuyện này. */
-.hd-content i, .hd-content em { font-style: normal; color: #9ec7e8; }
+.hd-content i, .hd-content em, .bm-content i, .bm-content em { font-style: normal; color: #9ec7e8; }
+/* --- Ô MÁY (field BangMay, tiền tố `bm-`) — 04/08/2026, QD-26 ---------------
+   Ô THU GỌN riêng cho phần MÁY dựng: bảng chia + cặp thể. Nằm ngay TRÊN ô Hướng
+   dẫn (user chốt) và dùng ĐÚNG khuôn `.hd-toggle` ngay dưới — cùng bo góc, cùng
+   viền trái 4px, cùng cỡ chữ nhãn — để mặt thẻ đọc ra một hệ thống chứ không
+   phải hai món chắp vá. Khác đúng MÀU NHẤN: tím = máy dựng, phân biệt với
+   vàng = Claude soạn, lục = tiếng Việt, lam = nghĩa Anh. Nhìn màu là biết ai
+   viết ô đó — thứ user cần biết khi thấy một chỗ sai và định sửa tay. */
+.bm-toggle { background-color: #161b22; border: 1px solid #21262d; border-left: 4px solid #a371f7; border-radius: 10px; margin-bottom: 20px; overflow: hidden; font-family: inherit; }
+.bm-summary { padding: 12px 15px; font-size: 12px; color: #a371f7; font-weight: 700; cursor: pointer; outline: none; background-color: #1f242c; list-style: none; text-transform: uppercase; letter-spacing: 1px; font-family: inherit; }
+.bm-summary::-webkit-details-marker { display: none; }
+.bm-summary::after { content: "  ▾"; }
+.bm-toggle[open] .bm-summary::after { content: "  ▴"; }
+.bm-summary:hover { background-color: #262c36; }
+.bm-content { padding: 12px 16px 14px; border-top: 1px solid #21262d; font-family: inherit; }
+/* Dòng cặp thể: hai động từ cùng nghĩa khác thể — thứ user báo là hay nhầm nhất.
+   Cỡ chữ to hơn ô bảng vì đây là câu để ĐỌC, không phải ô để tra. */
+.gt-cap { font-size: 15px; color: #c9d1d9; line-height: 1.7; margin-bottom: 4px; }
+.gt-cap-n { font-size: 11px; color: #8b949e; text-transform: uppercase; letter-spacing: 0.5px; }
 /* --- BẢNG CHIA (máy dựng, tiền tố `gt-` = grammar table) — 29/07/2026 -------
-   Nằm TRONG ô Hướng dẫn, gấp trong <details> LỒNG nên khi đóng không tốn một
-   pixel nào của trần 700px. Dùng <details> thuần HTML y như khối ví dụ, KHÔNG
-   JavaScript — JS trong mặt sau thẻ hay chết lặng trên AnkiMobile.
+   Nằm trong ô máy `.bm-content` (trước 04/08/2026 nằm trong ô Hướng dẫn và tự
+   gấp trong <details> lồng — nay ô ngoài đã thu gọn nên bỏ lớp lồng, xem QD-26).
    Thu gọn hết mức vì user chốt bảng là SỔ TRA CỨU, thẻ nào cũng có: cỡ chữ 12px,
    padding 3px, không viền ô, chỉ một đường kẻ mảnh giữa các hàng.
    Bảng tính từ có 5 cột nên `overflow-x:auto` — tràn thì cuộn ngang TRONG bảng,
@@ -79,6 +96,10 @@
 /* ô biến đổi — chỗ user hay sai, phải nhảy ra khỏi bảng khi liếc qua */
 .gt-nong { color: #f0883e; font-weight: 700; }
 .gt-ngo { color: #f85149; font-weight: 700; }
+/* Dạng `-ою/-ею` ở cách 5 số ít (139 từ, đo 04/08): CÓ THẬT nhưng là văn chương
+   / thơ ca. Từ điển in ngang hàng với dạng đời nay và không nhãn ⇒ user tưởng
+   dùng thay nhau được trong lời nói thường. Mờ đi + dán nhãn, không xoá. */
+.gt-bt { display: block; font-size: 11px; color: #7d8590; line-height: 1.4; }
 .gt-phu { font-size: 12px; color: #a8b3bd; margin-top: 6px; line-height: 1.5; }
 /* chú giải NGƯỜI THẬT viết trong từ điển — quý hơn mọi thứ suy ra được */
 .gt-chu { margin-top: 8px; padding: 7px 10px; background-color: rgba(56, 139, 253, 0.08); border-left: 3px solid #388bfd; border-radius: 5px; font-size: 12px; color: #a9c5e0; line-height: 1.5; }

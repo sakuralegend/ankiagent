@@ -13,7 +13,7 @@ import time
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ContextTypes
 
-from anki_tools.utils import hl_to_bracket
+from anki_tools.utils import hl_to_bracket, log_debug, log_warn
 from anki_tools.pipeline import redo_note, redo_note_id
 from anki_tools.anki_client import get_deck_names, trigger_sync
 
@@ -101,8 +101,12 @@ def _sd_load_resume():
             state = json.load(f)
         if state.get("deck") and state.get("note_ids"):
             return state
-    except Exception:
-        pass
+    except FileNotFoundError:
+        pass                    # chưa có đợt dở nào — trạng thái BÌNH THƯỜNG
+    except Exception as e:
+        # File có nhưng đọc hụt (JSON vỡ do lần ghi trước bị cắt ngang). Im lặng
+        # ở đây = user tưởng đợt làm lại dở đã mất trắng, mà thật ra chỉ hỏng file.
+        log_warn(f"khong doc duoc {SUADECK_RESUME_FILE} ({e}) — coi nhu khong co dot do")
     return None
 
 
@@ -114,15 +118,19 @@ def _sd_save_resume(deck, note_ids):
                 "note_ids": note_ids,
                 "saved_at": time.strftime("%Y-%m-%d %H:%M:%S"),
             }, f, ensure_ascii=False)
-    except Exception:
-        pass
+    except Exception as e:
+        # Ghi hụt = mất khả năng chạy tiếp đợt dở. Đợt vẫn chạy được tới hết,
+        # nhưng nếu đứt giữa chừng thì user phải làm lại từ đầu mà không hiểu vì sao.
+        log_warn(f"khong ghi duoc {SUADECK_RESUME_FILE} ({e}) — dot nay se KHONG chay tiep duoc")
 
 
 def _sd_delete_resume():
     try:
         os.remove(SUADECK_RESUME_FILE)
-    except OSError:
-        pass
+    except FileNotFoundError:
+        pass                    # đã không có thì khỏi xoá — đúng kết quả mong muốn
+    except OSError as e:
+        log_debug(f"khong xoa duoc {SUADECK_RESUME_FILE}: {e}")
 
 
 def _sd_clear(user_data):

@@ -97,11 +97,11 @@ def build_card_fields(word, data):
         # separators gọn: field này thuần máy đọc, không ai mở ra ngắm.
         "GrammarJSON": (json.dumps(grammar_rec, ensure_ascii=False,
                                    separators=(",", ":")) if grammar_rec else ""),
-        # BẢNG CHIA có ngay từ lúc tạo thẻ. Nó thuần dữ liệu cào được nên không
-        # có lý do gì bắt user đợi tới lượt lô của từ đó mới có bảng tra cứu.
-        # Phần chữ (chẻ từ / cách nhớ / họ hàng) vẫn do lô soạn sau; lúc đó
-        # `nap` gọi gan_bang() gỡ bảng này ra rồi nối lại bảng mới -> không đội.
-        "HuongDan": grammar.build_table(grammar_rec),
+        # BẢNG CHIA + CẶP THỂ có ngay từ lúc tạo thẻ. Chúng thuần dữ liệu cào
+        # được nên không có lý do gì bắt user đợi tới lượt lô của từ đó.
+        # 🔴 Vào `BangMay`, KHÔNG vào `HuongDan` nữa (QD-26): `HuongDan` từ nay
+        # thuần phần người soạn, nên thẻ mới để TRỐNG ô đó cho tới khi lô soạn.
+        "BangMay": grammar.khoi_may(grammar_rec),
     }
 
     # Thẻ "khuyết": AI thất bại -> không ví dụ, hoặc ví dụ thô thiếu tiếng Việt.

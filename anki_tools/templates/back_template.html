@@ -33,6 +33,19 @@
     </div>
     {{/Vietnamese}}
 
+    <!-- Ô MÁY: field BangMay = bảng chia + cặp thể, máy dựng thẳng từ GrammarJSON,
+         KHÔNG qua AI (QD-26, 04/08/2026). Đặt NGAY TRÊN ô Hướng dẫn theo user chốt.
+         Cùng khuôn <details> thu gọn với ô Hướng dẫn ngay dưới — HTML thuần, KHÔNG
+         JavaScript (JS trong mặt sau thẻ hay chết lặng trên AnkiMobile).
+         Bên trong KHÔNG còn <details> lồng: cả ô đã là một lớp thu gọn rồi, lồng
+         thêm là bắt user bấm hai lần mới thấy bảng. -->
+    {{#BangMay}}
+    <details class="bm-toggle">
+        <summary class="bm-summary">Bảng chia &amp; cặp thể (Bấm để mở rộng)</summary>
+        <div class="bm-content">{{BangMay}}</div>
+    </details>
+    {{/BangMay}}
+
     <!-- Hướng dẫn: field HuongDan, do Opus 5 soạn định kỳ theo lô (KHÔNG sinh
          lúc tạo thẻ qua bot). Thứ tự BÊN TRONG field: Chẻ từ -> Cách nhớ ->
          Họ hàng (xem card.css, các lớp `hd-`).
