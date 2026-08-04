@@ -14,54 +14,6 @@
       "data/huongdan/kiemtra.py": {
         "so": 1,
         "vi_sao": "Bộ soát nội dung thẻ, tự mở kết nối riêng. Trả cùng đợt gộp wrapper."
-      },
-      "data/huongdan/lo01_quoctich_2026-07-27.py": {
-        "so": 1,
-        "vi_sao": "Lô thế hệ 1 ĐÃ KHAI TỬ (QD-03) — không chạy được nữa, S7 canh guard. Xoá hẳn khi 168 thẻ đủ tag chuan::3."
-      },
-      "data/huongdan/lo02_quoctich_tinhtu_2026-07-27.py": {
-        "so": 1,
-        "vi_sao": "Lô thế hệ 1 đã khai tử (QD-03)."
-      },
-      "data/huongdan/lo03_dau_cung_2026-07-27.py": {
-        "so": 1,
-        "vi_sao": "Lô thế hệ 1 đã khai tử (QD-03)."
-      },
-      "data/huongdan/lo04_thoitiet_2026-07-27.py": {
-        "so": 1,
-        "vi_sao": "Lô thế hệ 1 đã khai tử (QD-03)."
-      },
-      "data/huongdan/lo05_tinhtu_truutuong_2026-07-27.py": {
-        "so": 1,
-        "vi_sao": "Lô thế hệ 1 đã khai tử (QD-03)."
-      },
-      "data/huongdan/lo06_shcha_cha_2026-07-27.py": {
-        "so": 1,
-        "vi_sao": "Lô thế hệ 1 đã khai tử (QD-03)."
-      },
-      "data/huongdan/lo07_dongtu_2026-07-27.py": {
-        "so": 1,
-        "vi_sao": "Lô thế hệ 1 đã khai tử (QD-03)."
-      },
-      "data/huongdan/lo08_tinhtu_mota_2026-07-27.py": {
-        "so": 1,
-        "vi_sao": "Lô thế hệ 1 đã khai tử (QD-03)."
-      },
-      "data/huongdan/lo09_doisong_2026-07-27.py": {
-        "so": 1,
-        "vi_sao": "Lô thế hệ 1 đã khai tử (QD-03)."
-      },
-      "data/huongdan/lo10_hoctap_2026-07-27.py": {
-        "so": 1,
-        "vi_sao": "Lô thế hệ 1 đã khai tử (QD-03)."
-      },
-      "data/huongdan/lo11_thiennhien_2026-07-27.py": {
-        "so": 1,
-        "vi_sao": "Lô thế hệ 1 đã khai tử (QD-03)."
-      },
-      "data/huongdan/lo12_trangtu_2026-07-27.py": {
-        "so": 1,
-        "vi_sao": "Lô thế hệ 1 đã khai tử (QD-03)."
       }
     }
   },
