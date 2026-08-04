@@ -14,5 +14,5 @@ vào lời nhắn" và bỏ bước "đồng bộ dòng `V` sang `tudien.json`" 
 Anki **phải đang mở**, nếu không `tiep` dừng hẳn thay vì lặng lẽ dùng bản cũ.
 
 ♻️ **Và luật mới của phiên 04/08 (QD-29):** muốn ghi thêm một dòng vào `QUYETDINH.md`
-thì phải cho một dòng khác rời sổ sang `QUYETDINH-LUUTRU.md` — cửa **S20** đếm thật.
+thì phải cho một dòng khác chết (toàn văn ở `git log`) — cửa **S20** đếm thật.
 Đừng nén chữ cho vừa; chạm trần nghĩa là đến lúc cho một mục chết.

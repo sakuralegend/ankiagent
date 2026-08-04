@@ -293,7 +293,7 @@ class TestSoatKienTruc(unittest.TestCase):
         self.assertEqual(cua_nguong.s16_no_da_tra_con_nam_lai(), [])
 
     # --- S20: SINH PHẢI BẰNG TỬ (QD-29) -----------------------------------
-    def _so_gia(self, so_qd, so_dado=0, luutru=""):
+    def _so_gia(self, so_qd, so_dado=0):
         """Dựng `QUYETDINH.md` giả với đúng số dòng mỗi bảng."""
         self.ghi("QUYETDINH.md",
                  "# x\n\n## 📏 ĐÃ ĐO RỒI BÁC\n\n| Hướng | Phán quyết | Vì (số liệu thật) |\n"
@@ -302,8 +302,6 @@ class TestSoatKienTruc(unittest.TestCase):
                  + "\n## 🗂️ SỔ QUYẾT ĐỊNH\n\n| QD | Ngày | Quyết định | Vì sao (ngắn) |\n"
                  "|---|---|---|---|\n"
                  + "".join(f"| QD-{i:02d} | 01/01 | x | y |\n" for i in range(1, so_qd + 1)))
-        if luutru:
-            self.ghi("QUYETDINH-LUUTRU.md", luutru)
 
     def test_s20_vuot_suc_chua_la_do(self):
         self._nguong_gia(so_qd={"tran_so_quyetdinh": 3, "tran_so_dado": 3})
@@ -332,12 +330,19 @@ class TestSoatKienTruc(unittest.TestCase):
         self.assertEqual([ph.khoa for ph in ra], ["tgbot/x.py"])
         self.assertIn("con tro hut", ra[0].mo_ta)
 
-    def test_s20_kho_luu_tru_van_tinh_la_CO_so_hieu(self):
-        """Dời một dòng sang kho lưu trữ KHÔNG được làm gãy con trỏ trong code."""
+    def test_s20_so_hieu_con_TRONG_SO_SONG_thi_khong_keu(self):
+        """Quyết định vừa viết mà CHƯA commit: `git log` chưa thấy, nhưng sổ sống
+        có ⇒ không được kêu oan đúng lúc người ta đang viết quyết định mới."""
         self._nguong_gia(so_qd={"tran_so_quyetdinh": 9, "tran_so_dado": 9})
-        self._so_gia(so_qd=1, luutru="| QD-77 | 01/01 | da roi so | y |\n")
-        self.ghi("tgbot/x.py", "# theo QD-77 nen lam the nay\n")
+        self._so_gia(so_qd=7)                       # sổ có QD-01..QD-07
+        self.ghi("tgbot/x.py", "# theo QD-07 nen lam the nay\n")
         self.assertEqual(cua_nguong.s20_suc_chua_co_dinh(), [])
+
+    def test_so_hieu_da_biet_khong_no_khi_khong_co_git(self):
+        """Repo giả không phải cây git — hàm phải trả về sổ sống, KHÔNG ném lỗi.
+        Nổ ở đây là cả bộ soát chết trên máy chưa cài git."""
+        self._so_gia(so_qd=2)
+        self.assertEqual(cua_nguong.so_hieu_da_biet(), {"QD-01", "QD-02"})
 
     # --- ratchet: baseline chỉ che đúng số cũ, vượt là lộ -----------------
     def test_baseline_doc_kieu_dict_va_so_tran(self):

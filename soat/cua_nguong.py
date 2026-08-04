@@ -7,6 +7,7 @@ vì S12 đã kêu ĐỎ rồi — kêu ba lần cho một lỗi thì người đ
 """
 import json
 import re
+import subprocess
 from datetime import date
 from fnmatch import fnmatchcase
 
@@ -168,25 +169,35 @@ def s15_dong_quyetdinh_dai():
 _MOC_DADO = "📏 ĐÃ ĐO RỒI BÁC"
 _MOC_SO = "🗂️ SỔ QUYẾT ĐỊNH"
 
-# HAI file, MỘT dãy số hiệu (QD-29). `QUYETDINH.md` là sổ SỐNG, bị tính ngân sách
-# đọc; `QUYETDINH-LUUTRU.md` giữ toàn văn mục đã rời sổ, KHÔNG tính ngân sách.
-# 🔴 Tách được là nhờ nhận ra: số hiệu `QD-nn` là ĐỊNH DANH VĨNH VIỄN (121 chỗ
-# trong code trỏ tới), nhưng trước 04/08 định nghĩa của nó lại nằm trong file bị
-# tính tiền thuê ⇒ một quyết định đã chết vẫn phải trả tiền chỗ. Mọi cửa hỏi
-# "số hiệu này có thật không" phải hỏi CẢ HAI, nếu không thì dời một dòng sang
-# kho lưu trữ là làm gãy cửa — tức là cơ chế cho phép CHẾT lại tự khoá chính nó.
-SO_QUYETDINH = ("QUYETDINH.md", "QUYETDINH-LUUTRU.md")
-
-
 def so_hieu_da_biet():
-    """Mọi số hiệu `QD-nn` từng tồn tại, gom từ CẢ HAI file."""
+    """Mọi số hiệu `QD-nn` từng tồn tại = **sổ sống + `git log`** (QD-29).
+
+    🔴 KHO LƯU TRỮ LÀ `git log`, KHÔNG phải một file `.md` song song. Bản dựng đầu
+    ngày 04/08 có đẻ ra `QUYETDINH-LUUTRU.md` để hứng mục rời sổ — user hỏi đúng
+    một câu giết nó: *"sao không dùng luôn git?"*. Đo lại thì git **che phủ 100%**:
+    cả 25 số hiệu đã rời sổ đều có commit nhắc tới, thân dài **1.542–4.089 ký tự**,
+    tức gấp 6–16 lần dòng bảng 250 ký tự mà nó thay thế. Quét TOÀN BỘ thân commit
+    hết **0,08 giây** cho một lệnh. File kia không thêm được gì, mà lại tái phạm
+    đúng lỗi QD-06 đã đóng sổ: dựng tài liệu song song rồi để nó lệch dần.
+
+    Vẫn phải hỏi cả sổ SỐNG chứ không chỉ git: quyết định vừa viết trong cây làm
+    việc mà CHƯA commit thì `git log` chưa thấy — chỉ nhìn git là cửa kêu oan đúng
+    lúc người ta đang viết quyết định mới.
+    """
     ra = set()
-    for ten in SO_QUYETDINH:
-        try:
-            ra |= set(re.findall(r"QD-\d+", (khung.GOC / ten).read_text(encoding="utf-8")))
-        except OSError:
-            pass        # thiếu một trong hai file là chuyện HỢP LỆ (kho lưu trữ
-            # chưa có lúc mới dựng); cửa gọi hàm này tự kêu nếu hụt số hiệu thật
+    try:
+        ra |= set(re.findall(r"QD-\d+",
+                             (khung.GOC / "QUYETDINH.md").read_text(encoding="utf-8")))
+    except OSError:
+        pass            # chưa có sổ (repo giả trong test) — git bên dưới vẫn trả lời
+    try:
+        than = subprocess.run(["git", "log", "--format=%B"], cwd=str(khung.GOC),
+                              capture_output=True, text=True, encoding="utf-8",
+                              errors="replace", timeout=30).stdout or ""
+        ra |= set(re.findall(r"QD-\d+", than))
+    except (OSError, subprocess.SubprocessError):
+        pass            # không có git / chưa có commit nào: sổ sống ở trên là
+        # nguồn duy nhất còn lại, và cửa gọi hàm này tự kêu nếu hụt số hiệu thật
     return ra
 
 
@@ -228,8 +239,9 @@ def s20_suc_chua_co_dinh():
     thua. L bắt ghi quyết định · S15 phạt sổ dài ⇒ thua sẽ là luật ghi cho tử tế.
 
     Cửa này chữa tận gốc: **sức chứa CỐ ĐỊNH**. Muốn thêm một dòng thì phải bỏ
-    một dòng, và "bỏ" nay rẻ vì có `QUYETDINH-LUUTRU.md` hứng toàn văn (không
-    tính ngân sách đọc) — số hiệu vẫn `grep` ra, không mất gì.
+    một dòng, và "bỏ" nay rẻ vì `git log` đã hứng sẵn toàn văn — `git log --grep
+    QD-nn` ra nguyên văn, không mất gì (xem `so_hieu_da_biet` để biết vì sao KHÔNG
+    đẻ file lưu trữ song song).
 
     ⚠️ KHÁC S13/S17: hai cửa kia là RATCHET (chỉ cho giảm) vì chúng đếm VI PHẠM,
     mà vi phạm thì đích đến là 0. Quyết định không phải vi phạm — đích đến không
@@ -251,7 +263,7 @@ def s20_suc_chua_co_dinh():
             ra.append(PhatHien(
                 f"QUYETDINH.md|{ten}", n,
                 f"{n} dong > suc chua {tran} — SINH PHAI BANG TU: muon them mot dong thi "
-                f"phai bo mot dong (day toan van sang QUYETDINH-LUUTRU.md, khong mat gi), "
+                f"phai bo mot dong (toan van da o `git log --grep`, khong mat gi), "
                 f"KHONG duoc nen chu de nhet them"))
 
     # 🔴 CHỐT CHỐNG TRỎ HỤT. Cả cơ chế "cho phép chết" đứng trên một lời hứa: dời
@@ -272,8 +284,8 @@ def s20_suc_chua_co_dinh():
             continue
         for so in sorted(set(re.findall(r"QD-\d\d", src)) - da_biet):
             ra.append(PhatHien(khung.duong_dan(p), 0,
-                               f"trich {so} nhung KHONG file nao trong {'/'.join(SO_QUYETDINH)} "
-                               f"co so do — con tro hut, sua trich dan hoac khoi phuc muc"))
+                               f"trich {so} nhung KHONG co trong QUYETDINH.md lan `git log` "
+                               f"— con tro hut, sua trich dan hoac khoi phuc muc"))
     return ra
 
 

@@ -3,18 +3,18 @@
 > **Một quyết định = MỘT dòng bảng, trần 250 ký tự** (số ở `soat_nguong.json`, cửa **S15** đếm thật).
 > Mới nhất TRÊN CÙNG. Commit thi hành thì nhắc số hiệu, ví dụ `(QD-01)`.
 > Toàn văn bàn bạc: `git log --grep QD-nn` (đo 04/08: 265 commit, thân trung bình 928 ký tự — dày
-> thật, tra được). Mục đã rời sổ: `QUYETDINH-LUUTRU.md`. Đây chỉ là **mục lục của phần còn sống**.
+> thật, tra được — và **đó chính là kho lưu trữ**). Đây chỉ là **mục lục của phần còn sống**.
 >
 > ♻️ **SINH PHẢI BẰNG TỬ (QD-29) — luật quan trọng nhất ở đây.** Sổ có **sức chứa CỐ ĐỊNH**, cửa
 > **S20** đếm thật. Muốn thêm một dòng thì phải **bỏ một dòng**, và bỏ thì rẻ: đẩy nguyên văn sang
-> `QUYETDINH-LUUTRU.md`, số hiệu vẫn `grep` ra, **không mất gì**.
+> `git log` (thân commit dài gấp 6–16 lần dòng bảng), `git log --grep QD-nn` vẫn ra, **không mất gì**.
 > 🔴 **CẤM nén chữ để nhét thêm.** Nén là cắt phần *vì sao* — thứ duy nhất còn dùng được khi gặp
 > tình huống mới. Chạm trần nghĩa là **đến lúc cho một mục chết**, không phải đến lúc viết ngắn lại.
 >
 > ⚰️ **KHI NÀO MỘT MỤC CHẾT — hỏi một câu có đáp án đúng/sai.** *"Tình huống nào người ta cần biết
 > điều này? Trong tình huống đó họ CHẮC CHẮN đã đang mở file nào / chạy lệnh nào / đọc lời báo lỗi
 > nào?"* · **Có một chỗ như thế** ⇒ chép lý do vào đúng chỗ đó (docstring · comment · lời báo lỗi
-> của cửa soát), rồi đẩy dòng sang kho lưu trữ. · **Không có — phải BIẾT TRƯỚC mới nghĩ ra đi tra**
+> của cửa soát), rồi cho dòng chết. · **Không có — phải BIẾT TRƯỚC mới nghĩ ra đi tra**
 > ⇒ **GIỮ**. Loại duy nhất đáng chiếm chỗ: đánh đổi người phải tự cân lại.
 >
 > 🔢 **LUẬT SỐ (QD-23).** Con số chỉ được ở lại nếu **đóng dấu ngày đo**. Số **mô tả hiện trạng** thì
@@ -52,13 +52,13 @@
 ## 🗂️ SỔ QUYẾT ĐỊNH
 
 > Chỉ còn mục **không có nhà nào khác** — mọi mục đã có cửa soát canh, đã thành sự thật trong cây
-> code, hoặc đã có lý do nằm sẵn trong docstring đều ở `QUYETDINH-LUUTRU.md`.
+> code, hoặc đã có lý do nằm sẵn trong docstring đều đã rời sổ — tra bằng `git log --grep QD-nn`.
 > — = quyết định trước khi có sổ (15/07–29/07), **cố ý không đánh số**: commit hồi đó không nhắc số
 > nên `git log --grep` ra rỗng, đánh số là đẻ ra lời hứa sai.
 
 | QD | Ngày | Quyết định | Vì sao (ngắn) |
 |---|---|---|---|
-| QD-29 | 04/08 | **Sinh = tử.** Sổ có sức chứa CỐ ĐỊNH (S20 đếm); mục rời sổ về `QUYETDINH-LUUTRU.md`, ngoài ngân sách đọc | Vế sinh đã tự động, vế chết phó mặc ý chí ⇒ phình mãi. Trần ký tự không tạo tỷ lệ chết, chỉ bắt nén — nén thì mất *vì sao* |
+| QD-29 | 04/08 | **Sinh = tử.** Sổ có sức chứa CỐ ĐỊNH (S20 đếm); mục rời sổ về `git log`, không đẻ file song song | Vế sinh đã tự động, vế chết phó mặc ý chí ⇒ phình mãi. Trần ký tự không tạo tỷ lệ chết, chỉ bắt nén — nén thì mất *vì sao* |
 | QD-30 | 04/08 | Ngân sách đọc chia HAI TẦNG: `batbuoc` (nạp tự động, trần TỔNG chặt) tách khỏi tra-khi-cần | Đo 04/08: **không máy nào bắt đọc 14/16 file** — chỉ `CLAUDE.md` nạp tự động. Tổng cũ đo thứ chưa chắc xảy ra, mà đau nén chữ thì thật |
 | QD-15 | 02/08 | Cửa canh DỮ LIỆU ngữ pháp `anki_tools/soat_nguphap.py` đứng riêng, KHÔNG import `grammar` | Tránh đẻ vòng import. Cửa đòi lệch cả hai chiều mới báo ⇒ đo 516 thẻ ra 0 kêu oan. Chỉ IN RA, không tự sửa |
 | QD-04 | 31/07 | Cảnh báo "bot chết" gọi thẳng Telegram bằng `curl`, KHÔNG qua `tgbot/alerts.py` | `alerts.py` gửi qua chính con bot ⇒ bot chết thì cảnh báo chết theo. Đường báo không được nạp dòng Python nào của dự án |
