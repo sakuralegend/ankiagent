@@ -2442,7 +2442,7 @@
   "wc": "семья",
   "w": "семья́",
   "en": "<ol class=\"meaning-list\"><li>family</li></ol>",
-  "vi": "gia đình",
+  "vi": "gia đình (cả nhà: bố mẹ và con cái)",
   "pos": "n",
   "topic": "people::family",
   "cu": false
@@ -2523,7 +2523,7 @@
   "wc": "молодёжь",
   "w": "молодёжь",
   "en": "<ol class=\"meaning-list\"><li>young</li><li>youth</li><li>young generation</li><li>young people</li></ol>",
-  "vi": "giới trẻ, thanh niên, người trẻ",
+  "vi": "giới trẻ (cả lớp người trẻ, coi như một khối)",
   "pos": "n",
   "topic": "people::family",
   "cu": false
@@ -2622,7 +2622,7 @@
   "wc": "мать",
   "w": "мать",
   "en": "<ol class=\"meaning-list\"><li>mother</li></ol>",
-  "vi": "mẹ, người mẹ",
+  "vi": "người mẹ (từ trang trọng, dùng cả trong giấy tờ)",
   "pos": "n",
   "topic": "people::family",
   "cu": false
@@ -4404,7 +4404,7 @@
   "wc": "родитель",
   "w": "роди́тель",
   "en": "<ol class=\"meaning-list\"><li>parent</li></ol>",
-  "vi": "bố mẹ, phụ huynh",
+  "vi": "bố hoặc mẹ, tính riêng một người",
   "pos": "n",
   "topic": "people::family",
   "cu": false
@@ -4638,7 +4638,7 @@
   "wc": "фамилия",
   "w": "фами́лия",
   "en": "<ol class=\"meaning-list\"><li>last name</li><li>family name</li><li>surname</li></ol>",
-  "vi": "họ (tên)",
+  "vi": "họ, tên chung của cả nhà",
   "pos": "n",
   "topic": "people::family",
   "cu": false
@@ -4710,7 +4710,7 @@
   "wc": "отчество",
   "w": "о́тчество",
   "en": "<ol class=\"meaning-list\"><li>Patronymic surname</li><li>Middle name</li></ol>",
-  "vi": "tên đệm (theo tên cha)",
+  "vi": "tên đệm lấy theo tên bố",
   "pos": "n",
   "topic": "people::family",
   "cu": false
@@ -4719,7 +4719,7 @@
   "wc": "знакомство",
   "w": "знако́мство",
   "en": "<ol class=\"meaning-list\"><li>acquaintance</li></ol>",
-  "vi": "làm quen, gặp gỡ (lần đầu)",
+  "vi": "sự làm quen; mối quen biết",
   "pos": "n",
   "topic": "people::family",
   "cu": false
@@ -4728,7 +4728,7 @@
   "wc": "знакомиться",
   "w": "знако́миться",
   "en": "<ol class=\"meaning-list\"><li>to make acquaintance</li><li>get to know</li><li>to meet</li></ol>",
-  "vi": "làm quen",
+  "vi": "làm quen với ai (đang trong lúc làm quen, hay làm quen) — đi với с + cách 5",
   "pos": "v",
   "topic": "people::family",
   "cu": false
@@ -4800,7 +4800,7 @@
   "wc": "имя",
   "w": "и́мя",
   "en": "<ol class=\"meaning-list\"><li>name</li><li>first name</li><li>reputation</li><li>noun</li></ol>",
-  "vi": "tên",
+  "vi": "tên riêng, phần tên gọi của một người",
   "pos": "n",
   "topic": "people::family",
   "cu": false
@@ -4863,7 +4863,7 @@
   "wc": "познакомиться",
   "w": "познако́миться",
   "en": "<ol class=\"meaning-list\"><li>to meet</li><li>make the acquaintance</li><li>get to know</li><li>to get acquainted with</li></ol>",
-  "vi": "làm quen, gặp gỡ (lần đầu)",
+  "vi": "quen được ai (một lần, từ lạ thành quen) — đi với с + cách 5",
   "pos": "v",
   "topic": "people::family",
   "cu": false
@@ -5601,7 +5601,7 @@
   "wc": "национальность",
   "w": "национа́льность",
   "en": "<ol class=\"meaning-list\"><li>nationality</li></ol>",
-  "vi": "quốc tịch, dân tộc",
+  "vi": "dân tộc, tộc người (gốc gác khai trong lý lịch)",
   "pos": "n",
   "topic": "people::family",
   "cu": true
@@ -6060,7 +6060,7 @@
   "wc": "отец",
   "w": "оте́ц",
   "en": "<ol class=\"meaning-list\"><li>father</li></ol>",
-  "vi": "bố, cha",
+  "vi": "cha (từ trang trọng, nói về cha của ai đó)",
   "pos": "n",
   "topic": "people::family",
   "cu": false
@@ -6087,7 +6087,7 @@
   "wc": "родиться",
   "w": "роди́ться",
   "en": "<ol class=\"meaning-list\"><li>to be born</li><li>to come into being</li><li>to arise</li><li>to thrive</li></ol>",
-  "vi": "sinh ra, chào đời",
+  "vi": "chào đời, được sinh ra (в + cách 6 cho năm và nơi sinh)",
   "pos": "v",
   "topic": "people::family",
   "cu": true
@@ -9210,7 +9210,7 @@
   "wc": "аудитория",
   "w": "аудито́рия",
   "en": "<ol class=\"meaning-list\"><li>auditorium</li><li>lecture-hall</li><li>lecture-room</li><li>audience</li><li>audience</li></ol>",
-  "vi": "phòng học, giảng đường, hoặc khán giả",
+  "vi": "giảng đường, phòng học lớn ở trường đại học; toàn thể người nghe",
   "pos": "n",
   "topic": "language::education",
   "cu": false
@@ -9219,7 +9219,7 @@
   "wc": "без",
   "w": "без",
   "en": "<ol class=\"meaning-list\"><li>without</li><li>to (time)</li></ol>",
-  "vi": "không có, thiếu",
+  "vi": "giới từ: không có, thiếu, vắng (đi với cách 2); nói giờ thì là 'kém'",
   "pos": "oth",
   "topic": "language::grammar",
   "cu": false
@@ -9228,7 +9228,7 @@
   "wc": "ботинок",
   "w": "боти́нок",
   "en": "<ol class=\"meaning-list\"><li>dress boot</li><li>ankle-high shoe</li></ol>",
-  "vi": "giày, giày cao cổ",
+  "vi": "chiếc giày da cao đến mắt cá, có dây buộc",
   "pos": "n",
   "topic": "life::clothing",
   "cu": false
@@ -9246,7 +9246,7 @@
   "wc": "занято",
   "w": "за́нято",
   "en": "<ol class=\"meaning-list\"><li>occupied</li><li>taken</li><li>busy (for a phone line)</li></ol>",
-  "vi": "bận, có người dùng (ghế, phòng, điện thoại)",
+  "vi": "bận rồi!, có người rồi! (báo tình trạng: máy điện thoại bận, ghế đã có người)",
   "pos": "adv",
   "topic": "concepts::abstract",
   "cu": false
@@ -9255,7 +9255,7 @@
   "wc": "занятый",
   "w": "за́нятый",
   "en": "<ol class=\"meaning-list\"><li>busy</li><li>occupied</li><li>taken</li><li>filled</li></ol>",
-  "vi": "bận rộn, có người ngồi rồi (chỗ ngồi)",
+  "vi": "bận rộn, nhiều việc; hoặc đã bị chiếm chỗ",
   "pos": "adj",
   "topic": "qualities",
   "cu": false
@@ -9264,7 +9264,7 @@
   "wc": "который",
   "w": "кото́рый",
   "en": "<ol class=\"meaning-list\"><li>which</li><li>that</li><li>what</li></ol>",
-  "vi": "mà, cái nào, người nào",
+  "vi": "người mà, cái mà (nối danh từ với vế sau: quyển sách MÀ tôi mua)",
   "pos": "pron",
   "topic": "language::grammar",
   "cu": false
@@ -9273,7 +9273,7 @@
   "wc": "минута",
   "w": "мину́та",
   "en": "<ol class=\"meaning-list\"><li>minute</li><li>moment</li><li>instant</li></ol>",
-  "vi": "phút, một lát, một chút",
+  "vi": "phút (đơn vị thời gian, 60 giây)",
   "pos": "n",
   "topic": "time",
   "cu": false
@@ -9282,7 +9282,7 @@
   "wc": "минутка",
   "w": "мину́тка",
   "en": "<ol class=\"meaning-list\"><li>minute</li><li>moment</li></ol>",
-  "vi": "một chút, một lát, một phút (thời gian ngắn)",
+  "vi": "một phút xíu, một thoáng (cách nói nhỏ nhẹ, thân mật của 'phút')",
   "pos": "n",
   "topic": "time",
   "cu": false
@@ -9291,7 +9291,7 @@
   "wc": "мобильный",
   "w": "моби́льный",
   "en": "<ol class=\"meaning-list\"><li>mobile</li></ol>",
-  "vi": "di động, điện thoại di động",
+  "vi": "di động, cơ động, mang đi được",
   "pos": "adj",
   "topic": "life::home",
   "cu": false
@@ -9300,7 +9300,7 @@
   "wc": "номер",
   "w": "но́мер",
   "en": "<ol class=\"meaning-list\"><li>number</li><li>hotel room</li><li>issue</li><li>edition</li></ol>",
-  "vi": "số, số điện thoại, phòng (khách sạn)",
+  "vi": "số hiệu, số thứ tự (số điện thoại, số nhà, số phòng)",
   "pos": "n",
   "topic": "concepts::misc",
   "cu": false
@@ -9309,7 +9309,7 @@
   "wc": "передать",
   "w": "переда́ть",
   "en": "<ol class=\"meaning-list\"><li>to transfer</li><li>pass</li><li>hand over</li><li>to deliver /to convey</li></ol>",
-  "vi": "đưa cho, chuyển cho, gửi lời",
+  "vi": "trao lại tận tay, chuyển hộ, nhắn hộ lời (một lần, trao xong là xong)",
   "pos": "v",
   "topic": "actions",
   "cu": false
@@ -9318,7 +9318,7 @@
   "wc": "полпервого",
   "w": "полпе́рвого",
   "en": "<ol class=\"meaning-list\"><li>half past twelve; 12:30</li></ol>",
-  "vi": "12 giờ 30 phút",
+  "vi": "12 giờ rưỡi, 12:30 (nói gộp lại thành một từ)",
   "pos": "num",
   "topic": "time",
   "cu": false
@@ -9345,7 +9345,7 @@
   "wc": "чтобы",
   "w": "что́бы",
   "en": "<ol class=\"meaning-list\"><li>so that</li><li>in order to</li></ol>",
-  "vi": "để, để mà",
+  "vi": "liên từ: để, để mà (nêu mục đích của việc vừa nói)",
   "pos": "oth",
   "topic": "language::grammar",
   "cu": false
