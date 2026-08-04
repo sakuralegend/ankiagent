@@ -1,16 +1,18 @@
 # 🎯 VIỆC ĐANG LÀM
 > Phiếu này bị GHI ĐÈ ở việc kế tiếp. Xong việc thì xoá nội dung, để lại đúng dòng tiêu đề.
 
-## 📦 PHIÊN 04/08 — 4 LÔ: `k65`(16 từ mới) · `k32`(12) · `k33`(21) · `k34`(20) = **69 từ**
+## ✅ PHIÊN 04/08 XONG — `k65`(16) · `k32`(12) · `k33`(21) · `k34`(20) = **69 từ, 4 lô**
 
-`moi --apply` đã chạy: 16 từ mới vào lô `k65` đặt đầu hàng đợi (**65 lô / 1039 từ**).
-Quét `vacham` trước khi giao, đã dán vào lời nhắn: k65 **5** · k32 **0** · k33 **6** · k34 **5**.
+Cả bốn đã soạn → soát → nạp → commit. `nap` khớp tuyệt đối cả bốn. **40 lô / 615 từ duyệt / 424 chờ.**
+Lô kế tiếp: **k35**. Chi tiết bài học nằm ở `data/huongdan/kho/TIEPTUC.md` mục 04/08.
 
-🔴 **VƯỢT HẠN MỨC CÓ CHỦ Ý — user chốt sau khi nghe cảnh báo.** 69 × 1,5%/từ ≈ **104%**, mà
-4 lô/68 từ (k22–k25) đã từng vượt thật một lần. Nhiều khả năng đứt giữa lô thứ 4. Đứt thì lô nào
-đã `xong`+`nap`+commit là an toàn, lô dở dang chạy lại phiên sau — **đây là điểm đo thứ hai cho
-con số 1,5%/từ, nhớ ghi lại kết quả thật vào `TIEPTUC.md`**.
+### Việc còn nợ, để phiên sau nhặt
 
-**Sau khi mỗi agent báo xong** (theo `kho/TIEPTUC.md` mục "Khi một lô báo xong"):
-`soat` → `dodai` → ghi 1 dòng `dolo.tsv` → `xong kNN` → `nap --apply` → đối chiếu "ghi vào N note"
-với số từ của lô → commit theo đường dẫn cụ thể (**KHÔNG `git add -A`** — có lô chạy song song).
+1. 🔴 **`семья́` vẫn đụng chuỗi "gia đình" với `род` và `дома́шний`.** Agent k34 cố ý KHÔNG né, vì
+   `семья́` mới là đáp án chính danh cho "gia đình" — chỗ phải thu hẹp là hai từ kia, mà chúng thuộc
+   lô khác nên không được đụng. **Tới lô của `род`/`дома́шний` thì nhớ tách.**
+2. ⚠️ **Rác tầng dữ liệu chưa vá** (agent chỉ vô hiệu hoá được bằng lời trên thẻ, gốc vẫn nguyên):
+   `тётя` acc số nhiều in `те́тей` (mất `ё`) · `жена́тый` bị in dòng trạng từ `жена́то` không có thật ·
+   `челове́ки/челове́ков` in không nhãn "lối cổ" · bảy bảng giống cái in cách 5 cũ `-ою` không nhãn.
+3. 📊 **Xin user xác nhận % hạn mức phiên này.** Mô hình 1,5%/từ dự 69 từ = 104% ⇒ vượt; thực tế
+   không đứt. Thiếu đúng con số của user thì không hạ được tham số — xem `TIEPTUC.md` mục 📊 CHI PHÍ.

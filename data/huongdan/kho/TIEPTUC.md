@@ -12,24 +12,31 @@ Bạn (user) chỉ cần gõ một câu: **"chạy tiếp kho"**. Phần dưới
 > 🔄 **02/08: `nap --apply` và `cao_nguphap` nay TỰ kéo sync về trước khi đọc/ghi** (QD-16). Sync
 > hỏng thì chúng DỪNG, không ghi gì — đúng cái đã làm hỏng 23 thẻ đêm 31/07. Không phải nhớ gì thêm.
 
-### ✅ PHIÊN 03/08: k29·k30·k31 (sáng) + k62·k63·k64 (chiều, 47 TỪ MỚI) — lô kế tiếp là **k32**
+### ✅ PHIÊN 04/08: k65(16 TỪ MỚI) · k32(12) · k33(21) · k34(20) = **69 từ / 4 lô** — kế tiếp **k35**
 
-▶️ **PHIÊN SAU CHẠY ĐÚNG 3 LÔ: `k32`(12) · `k33`(21) · `k34`(20) = 53 từ.**
-Chạy `moi --apply` trước — có từ mới thì từ mới chen lên đầu và số này đổi. ⚠️ **cả ba đều là lô
-ghép tay** (`thucong`), trục ghi sẵn trong `hangdoi.json`, đừng tự mò trục khác.
+**40 lô / 615 từ duyệt / 424 chờ.** Cả bốn lô: `QUA 1 MAN HINH: 0` · `QUA 2 O DO: 0` · khối chung
+**0%** · `nap` khớp tuyệt đối (16/16, 12/12, 20/20, 21/21).
 
-**36 lô / 546 từ duyệt / 477 chờ.** Sáu lô phiên 03/08 đều: `QUA 1 MAN HINH: 0` · `QUA 2 O DO: 0` ·
-khối chung **0%** · `nap` khớp tuyệt đối (16/16, 16/16, 15/15, 45/45).
+🔴🔴 **69 TỪ LỌT TRONG MỘT PHIÊN — mô hình 1,5%/từ dự 104% (VƯỢT), thực tế KHÔNG đứt.** User chốt
+chạy sau khi nghe cảnh báo. Token agent **532K/69 từ = 7,7K/từ**, so mô hình (65K + 2,67K/từ) dự 444K
+⇒ **thật cao hơn dự 20%**, khớp vệt cũ. Vậy phần token đúng mà phần **%hạn mức** đọc quá cao — hoặc
+1,5% quá đắt, hoặc phiên này rẻ bất thường vì **luồng chính đứng im tuyệt đối** (giao cả 4 lô trong
+MỘT tin nhắn, không sửa lỗi nào giữa chừng). ⚠️ **Một điểm đo chưa đủ để hạ 1,5%** — nhưng đủ để
+biết trần "~55 từ" là trần **thận trọng**, không phải trần cứng.
 
-🔴🔴 **BƯỚC MỚI ĐÁNG GIỮ NHẤT: QUÉT `vacham` TRƯỚC KHI GIAO LÔ, GỬI DANH SÁCH VÀO LỜI NHẮN.**
-Trước đây `vacham` chỉ chạy sau khi nạp — tức phát hiện lỗi khi thẻ đã ra mặt user. Nay chạy trước,
-lọc lấy va chạm dính từ của từng lô rồi dán thẳng vào lời nhắn (k62: 0 · k63: **7** · k64: **5**).
-**Đo được, không phải cảm giác: 147 → 138 nhóm trùng trên 1023 thẻ (320 → 299 lượt từ).**
-Lý do bước này cần: agent soạn một lô **không nhìn thấy 1007 thẻ còn lại**, nên nó không thể tự biết
-`'đi'` đang là đề bài chung của `ехать·идти·ходить`. ⚠️ Nhưng **phép quét chỉ khớp CHUỖI** — cả ba
-agent đều tự tìm thêm va chạm mà nó mù (`жук` "côn trùng" đụng `насекомое`; `союз` "sự kết hợp" sát
-`связь`; `ходить` phải tránh mở đầu bằng "đi bộ" vì `пешком` đang giữ chuỗi đó). ⇒ Gửi kết quả quét
-là **sàn sau**, phần tách nghĩa vẫn phải agent đọc.
+🔴🔴 **QUÉT `vacham` TRƯỚC KHI GIAO LÔ, DÁN DANH SÁCH VÀO LỜI NHẮN** (dựng 03/08; phiên này dùng lần
+hai: k65 **5** · k32 **0** · k33 **6** · k34 **5**). Agent soạn một lô **không nhìn thấy hơn 1000 thẻ
+còn lại** nên không tự biết `'đi'` đang là đề bài chung của `ехать·идти·ходить`. ⚠️ Phép quét **chỉ
+khớp CHUỖI** ⇒ là **sàn sau**: cả bốn agent lại tự tìm thêm va chạm máy mù (`передать` đụng
+`дать`/`давать`; `мобильный` kéo về `телефон`; `семья` đụng `род`). 🔴 **Báo 0 thì phải nói thẳng
+trong lời nhắn rằng "0 là sàn, không phải bằng chứng sạch"** — không nói thì agent đọc cái im lặng
+thành xác nhận, đúng lỗi mà §5 đã cảnh báo với danh sách "phải đọc bằng mắt".
+
+🆕 **HAI LÔ CÙNG TOPIC CHẠY SONG SONG MÀ KHÔNG ĐỤNG NHAU — cách chặn rẻ, giữ lại.** k33 và k34 đều
+`people::family`, chạy cùng lúc nên mù nhau. Chỉ cần **dán danh sách từ của lô kia vào lời nhắn** kèm
+câu *"dùng chúng làm Họ hàng thì chỉ nêu nghĩa, đừng dựng hệ thống chung"*. Hai lô tự chia phần cho
+nhau: k33 đẩy `мама`/`папа` về phía **thân mật** rồi báo lên rằng `мать`/`отец` bên kia nên lấy phía
+**trang trọng** — k34 làm đúng thế mà không được dặn. **Luồng chính không phải làm trọng tài.**
 
 ⚠️ **`moi` KHÔNG tự chia lô khi vượt trần 22 — nó chỉ CẢNH BÁO rồi vẫn gom cả cục.** 47 từ sáng
 03/08 vào chung một `k62`. Luồng chính phải tự chia (`hangdoi.json` lưu từ **không dấu trọng âm**,
@@ -37,20 +44,22 @@ khớp bằng chuỗi có dấu là trượt sạch). 🔴 **Chia theo TAG CHỦ
 ngôn ngữ** — bài học k59 còn nguyên: luồng chính không đọc file lô, không tra từ điển, đặt trục bằng
 hình thức thì agent bác lại, chỉ đúng 3/13.
 
-🔴 **RÀ NGƯỢC TỪ CUỐI LÊN ĐẦU — xác nhận lần thứ hai, nay đủ chắc để thành luật.** Sáng: k30 bắt 13
-lỗi, **11/13 nằm ở nửa ĐẦU** danh sách. Chiều: k64 bắt **5/5 ở nửa cuối file** (= nửa đầu nếu rà
-xuôi), k63 bắt **7** — kỷ lục. Nghi ngờ cũ *"lô to bắt 0 lỗi vì hết chú ý"* đã lật hẳn: **lô 16–21
-từ vẫn rà kỹ được, miễn là đổi chiều rà.** Trần cỡ lô vẫn chưa cần hạ.
+🔴 **RÀ NGƯỢC TỪ CUỐI LÊN ĐẦU — LUẬT, xác nhận lần thứ ba.** Rà xuôi thì lỗi dồn ở nửa đầu (k30:
+11/13); rà ngược thì lỗi hiện ra ở nửa cuối (k64 5/5 · k34 4/9). Nghi ngờ cũ *"lô to bắt 0 lỗi vì
+hết chú ý"* đã lật hẳn: **lô 16–21 từ vẫn rà kỹ được, miễn là đổi chiều rà.** Trần cỡ lô chưa cần hạ.
 
-🔴 **NGUỒN DỊCH SAI TÊN LOÀI: VỆT LẦN THỨ NĂM, và nay có thêm một KIỂU SAI MỚI — nới rộng một loài
-thành cả một LỚP.** `жук` dòng `vi` ghi "bọ, **côn trùng**" trong khi gloss Anh "beetle" mới đúng
-(côn trùng nói chung là `насеко́мое`) — không dịch sai, mà dịch **rộng ra**, khó thấy hơn hẳn ba ca
-cũ (`грач` · `зя́блик` "chim chích bông" · `о́кунь` "cá chạch"). Cùng họ: `ёрш` bị dòng `vi` làm
-**mất hẳn** nghĩa gốc "cá ruff", chỉ còn "cây cọ rửa" — agent bác lại bằng **hai bằng chứng độc
-lập**: gloss Anh xếp "ruff" đầu tiên, VÀ bảng chia là bảng danh từ **chỉ vật sống** (`acc = gen =
-ерша́`). ⇒ **Cách bác rẻ nhất vẫn là đối chiếu gloss tiếng Anh; bảng chia là nhân chứng thứ hai.**
-📌 Trong ba phiên đã vá **21 dòng `vi`** tận `tudien.json`. Không vá thì lô sau chép lại lỗi cũ:
-`nap` ghi field `Vietnamese` từ `V`, còn `tiep` lấy đề bài từ `tudien.json` — **hai nơi khác nhau**.
+🔴 **NGUỒN DỊCH SAI KIỂU "NỚI RỘNG" LÀ VỆT DÀY NHẤT — riêng phiên 04/08 thu 18 lần bác trên 69 từ.**
+Không phải dịch sai mà dịch **rộng ra**, nên khó thấy hơn hẳn: `сыпь` một nốt ban → cả lớp "bệnh da
+liễu"; `родитель` số ít bị gán nghĩa số nhiều "bố mẹ"; `национальность` (dân tộc) → "quốc tịch" (vốn
+là `гражда́нство`); `мобильный` tính từ → cụm danh từ "điện thoại di động"; `ребята` → "đám đông"
+(vốn là `толпа́`); `коса` đánh rơi hẳn nghĩa "lưỡi hái". Cùng vệt với loạt tên loài cũ (`жук` "bọ"→
+"côn trùng"; `ёрш` mất nghĩa "cá ruff"; `грач` · `зя́блик` · `о́кунь`). ⇒ **Cách bác rẻ nhất vẫn là
+đối chiếu gloss tiếng Anh; bảng chia là nhân chứng thứ hai** (`ёрш` lộ ra vì bảng chia là bảng danh
+từ chỉ vật sống, `acc = gen = ерша́`).
+📌 **Vá CẢ HAI nơi, và vá cả dòng không bác được.** `nap` ghi field `Vietnamese` từ `V`, còn `tiep`
+in đề bài cho lô sau từ `tudien.json` — **hai nơi khác nhau**; để lệch là lô sau soạn lại đúng cái va
+chạm vừa gỡ. Phiên 04/08 đồng bộ **trọn 49 dòng `V`** vào `tudien.json` chứ không chỉ 18 dòng bác
+được, vì mọi dòng `V` đều là đề bài đã sửa. Tổng đã vá qua bốn phiên: **70 dòng `vi`**.
 
 🆕 **KHỐI `BAT THUONG` BÁO **THỪA** — lần đầu bắt được kiểu này.** k63: nhãn *"DẠNG NGẮN có biến đổi
 (trọng âm dịch)"* bị dán cho `оригина́льный`·`ра́зный`·`удо́бный` trong khi cả ba **trọng âm đứng
@@ -58,14 +67,16 @@ yên**, chỉ có nguyên âm chạy `е` ở giống đực = hoàn toàn theo 
 nào cho ba từ đó (đúng). Sáu từ còn lại nhãn ĐÚNG. Trước giờ chỉ biết khối này báo THIẾU hoặc in
 rác. **Chưa đủ điểm để sửa `congcu.py`** — ghi lại đã, lô sau lại gặp thì mới mở ra đo.
 
-⚠️ **Số từ có `numDecl` rác giống hệt bảng biến cách danh từ.** k29 bắt `тридцать` có
-`pl = {gen: "тридца", nom: "тридцати"}` — `тридца` không phải từ, **và cả hai ô đều không có dấu
-trọng âm trong khi khối `sg` cạnh đó có đủ**. ⇒ Dấu hiệu rẻ bên cạnh "thiếu dấu phẩy":
-**ô mất dấu trọng âm trong khi ô hàng xóm có** = nghi rác. `тысяча` thì dòng `usage` chứa cả ký tự
-form-feed chẻ đôi chữ (`друз\fей`) lẫn ghi chú biên tập nội bộ. `деньга` (k64) bị ghi cách 2 số
-nhiều là `деньг`, dạng chuẩn là `де́нег`.
-📌 `восемьсот` **không có `numDecl` trong bộ đệm** — agent cố ý không in đậm dạng cách 2 thay vì
-đoán. Muốn dạng đầy đủ thì phải cào lại từ đó trước.
+⚠️ **RÁC TẦNG DỮ LIỆU — hai dấu hiệu rẻ, và cửa soát máy KHÔNG đo phần này.** ① **thiếu dấu phẩy**
+giữa hai dạng (`сте́пью сте́ипю`); ② **ô mất dấu trọng âm trong khi ô hàng xóm có đủ** — k29 bắt
+`тридцать` có `pl.gen = "тридца"` (không phải từ), k34 bắt `тётя` acc số nhiều in `те́тей`, mất `ё`
+và mọc trọng âm chỗ khác. Cùng loạt: `тысяча` dòng `usage` lẫn ký tự form-feed + ghi chú biên tập nội
+bộ; `деньга` ghi cách 2 số nhiều `деньг` (đúng: `де́нег`); `восемьсот` **không có `numDecl`** — agent
+cố ý không in đậm thay vì đoán.
+🆕 **k33 thêm một lớp KHÁC rác: đúng dữ liệu nhưng THIẾU NHÃN.** `жена́тый` bị in dòng *trạng từ
+`жена́то`* (ô mẫu điền bừa), `челове́ки/челове́ков` in không nhãn "lối cổ" khiến thẻ **tự mâu thuẫn
+với chính bảng của nó**, và **bảy bảng giống cái in cách 5 cũ `-ою`** không nhãn. Agent chỉ vô hiệu
+hoá được bằng một câu trên thẻ; **gốc vẫn nằm ở tầng dữ liệu.**
 
 🔴🔴 **BÀI HỌC ĐẮT NHẤT: LUỒNG CHÍNH BỊA LUẬT NGỮ PHÁP TRONG LỜI NHẮN, AGENT BẮT ĐƯỢC.**
 Lời nhắn giao k28 tự dặn *"11–19 trọng âm giữ nguyên ở gốc"* rồi nêu ba ví dụ **tự mâu thuẫn với
@@ -76,13 +87,16 @@ chính nó** (`двена́дцать`, `трина́дцать`, `пятна́�
 loài thì nguồn hay dịch sai tên tiếng Việt, tự kiểm qua tiếng Anh"* = tốt (đúng, và đã thu về hàng
 chục lần bác). *"Trọng âm từ 11–19 rơi vào chỗ X"* = **luồng chính không có tư cách nói**.
 
-🔴 **NHẮC "NGUỒN SAI Ở ĐÂU" TRONG LỜI NHẮN LÀ CÓ ĂN — 03/08 chiều thu 14 lần bác trên 47 từ.**
-Đắt nhất ngoài mấy ca trên: `так` được gloss là **"a/an/the"** (tiếng Nga không có mạo từ);
-`крепкий` dòng `vi` ghi "khỏe" trong khi gloss Anh là *strong/durable* — "khỏe" là
-`си́льный`/`здоро́вый`; `интересно` bị gán nghĩa "tò mò" (đó là `любопы́тный`); `курок` gloss phẳng
-"trigger" nhưng thật ra là **búa đập kim hoả**, cò thật là `спусково́й крючо́к`; `монах` "nhà sư"
-kéo về nhà chùa; `продукт` số ít bị gán nghĩa của số nhiều.
-⇒ **Hư từ · trạng từ · động từ khiếm khuyết là nơi nguồn sai dày nhất** — khớp phát hiện 30/07.
+🔴 **NHẮC "NGUỒN SAI Ở ĐÂU" TRONG LỜI NHẮN LÀ CÓ ĂN** — 14 lần bác/47 từ (03/08), **18 lần bác/69 từ
+(04/08)**. Ca cũ đắt nhất: `так` gloss thành "a/an/the"; `курок` gloss phẳng "trigger" nhưng thật ra
+là búa đập kim hoả. ⇒ **Hư từ · trạng từ · động từ khiếm khuyết là nơi nguồn sai dày nhất** (30/07).
+
+🆕 **AGENT CŨNG BỊA LUẬT NGỮ PHÁP — VÀ HAI AGENT ĐỘC LẬP BỊA ĐÚNG CÙNG MỘT LUẬT.** k32 lẫn k34 đều
+viết *"đuôi `-ь` cho biết đây là danh từ giống cái"* — sai, `роди́тель`/`день` là `-ь` giống đực. Cả
+hai **tự bắt được lúc rà ngược**, không cửa máy nào đụng tới lớp này. Cùng loạt phiên này: `друг`/
+`враг` "đổi đúng một chữ đầu" (thật ra hai chữ), `де́вочка` phóng thành "**mọi** danh từ cái đuôi
+`-ка` chèn `е`" (có thể là `о`: `ба́нка → ба́нок`). ⇒ **Lời dặn "rà lại bằng mắt một lượt nữa" là cửa
+DUY NHẤT bắt được lời giải thích sai — đừng bao giờ cắt nó khỏi lời nhắn cho gọn.**
 
 🔴 **LÔ SỐ THỨ TỰ SUÝT ĐẺ RA ĐỀ BÀI KHÔNG CÓ ĐÁP ÁN ĐÚNG.** Nghĩa Việt của bảy số thứ tự đầu trùng
 ĐÚNG TỪNG CHỮ với tên ngày trong tuần đã có trong kho: `тре́тий` "thứ ba" đụng `вто́рник`… Badge
