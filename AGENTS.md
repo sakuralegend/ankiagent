@@ -5,7 +5,7 @@ không đọc `CLAUDE.md` lẫn hook trong `.claude/`, nên mở repo lên là *
 repo này có luật thật, và phá luật ở đây thì hỏng **im lặng** (thẻ Anki sai mà không ai báo).
 
 👉 **Luật đầy đủ: [`CLAUDE.md`](CLAUDE.md).** Đọc hết nó rồi mới bắt tay. Ba thứ tra sau đó:
-`QUYETDINH.md` (vì sao code như hiện nay — **đọc bảng "ĐÃ ĐO RỒI BÁC" trước khi định tối ưu gì**) ·
+`QUYETDINH.md` (vì sao code như hiện nay — **đọc bảng "ĐÃ ĐO RỒI BÁC" trước khi định tối ưu gì**; sổ có **sức chứa cố định**, thêm một dòng phải bỏ một dòng sang `QUYETDINH-LUUTRU.md`, QD-29) ·
 `KIENTRUC.md` (bản đồ 4 mảng + vùng im lặng) · `python soatkientruc.py` (cửa soát, phải XANH).
 
 Ở đây cố ý **không chép lại luật nào** — hai bản sao thì sớm muộn sẽ lệch, và bản lệch còn hại

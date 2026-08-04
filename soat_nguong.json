@@ -1,7 +1,9 @@
 {
   "ky_tu_moi_phut": {"so": 1400, "qd": "QD-20"},
   "phut_doc": {
-    "qd": "QD-20",
+    "qd": "QD-30",
+    "tran_tong_batbuoc": 8,
+    "batbuoc": ["CLAUDE.md", "VIECDANGLAM.md"],
     "tran": {
       "CLAUDE.md": 7,
       "KIENTRUC.md": 9,
@@ -34,7 +36,7 @@
     }
   },
   "phienban": {"qd": "QD-07", "giu_ban": 10, "muc_moi_ban": 5},
-  "so_quyetdinh": {"qd": "QD-23", "tran_dong": 250},
+  "so_quyetdinh": {"qd": "QD-23", "tran_dong": 250, "tran_so_quyetdinh": 16, "tran_so_dado": 14},
   "so_no": {"qd": "QD-25", "tran_dong": 330},
   "viecdanglam": {"qd": "QD-25", "tran_muc": 1}
 }

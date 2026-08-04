@@ -47,7 +47,9 @@ AskUserQuestion trắc nghiệm** tới khi rõ, ghi `VIECDANGLAM.md`) → `keho
 
 👤 **`PHIENBAN.md` là file DUY NHẤT viết cho USER — mọi file khác viết cho người sửa code.** Mốc là **DEPLOY**, và chỉ khi **CẤU TRÚC LÕI đổi** (nút mới, lỗi họ từng gặp đã sửa, cách app cư xử khác đi): thêm mục `vX.Y.Z` + vài gạch đầu dòng, **ngôn ngữ thường, không thuật ngữ** (trần bản/mục: `soat_nguong.json`, cửa S14 canh). 🔴 **THÊM TỪ / SOẠN LÔ KHO / SỬA NGHĨA TIẾNG VIỆT ⇒ KHÔNG GHI** — user bác 02/08, phải nhắc lại 04/08 vì mục cũ trong file là tiền lệ ngược (nay đã xoá). Dọn code / thêm cửa soát cũng không ghi. (QD-07)
 
-🔴 **Thấy chỗ nào "tối ưu được" → mở bảng "📏 ĐÃ ĐO RỒI BÁC" đầu `QUYETDINH.md` TRƯỚC.** Chín hướng nghe rất hợp lý đã bị đo bằng số liệu thật rồi loại bỏ; làm lại là tốn tiền lần hai. Muốn lật một dòng thì phải **ĐO LẠI ra số khác**, không lật bằng lập luận suông. Cũng đừng để tài liệu phình — S10 canh trần dòng của mọi file bị-bắt-đọc.
+🔴 **Thấy chỗ nào "tối ưu được" → mở bảng "📏 ĐÃ ĐO RỒI BÁC" đầu `QUYETDINH.md` TRƯỚC.** Mười một hướng nghe rất hợp lý đã bị đo bằng số liệu thật rồi loại bỏ; làm lại là tốn tiền lần hai. Muốn lật một dòng thì phải **ĐO LẠI ra số khác**, không lật bằng lập luận suông.
+
+♻️ **SINH PHẢI BẰNG TỬ (QD-29) — luật giữ cho repo sống lâu.** `QUYETDINH.md` có **sức chứa CỐ ĐỊNH**, cửa **S20** đếm thật. Thêm một dòng ⇒ phải **bỏ một dòng**; bỏ thì rẻ vì đẩy nguyên văn sang `QUYETDINH-LUUTRU.md` (ngoài ngân sách đọc, `grep QD-nn` vẫn ra). 🔴 **CẤM nén chữ để nhét thêm** — nén là cắt phần *vì sao*, thứ duy nhất còn dùng được khi gặp tình huống mới. Phép thử cho một mục ĐƯỢC CHẾT: *"tình huống nào cần biết điều này, và lúc đó người ta CHẮC CHẮN đang mở file nào / đọc lời báo lỗi nào?"* — có chỗ như thế ⇒ chép lý do vào đúng đó rồi cho dòng rời sổ; không có ⇒ giữ.
 
 **Sửa việc XUYÊN MẢNG, hoặc đụng file đã ghi nợ trong `SONO.md` → đọc `KIENTRUC.md` TRƯỚC.** Nó giữ: bản đồ 4 mảng + chiều import một chiều · các cửa L1 · **coupling ẩn qua file dữ liệu** (thứ grep `import` không thấy) · vòng `grammar↔wiktionary` đang bẻ bằng import-trong-hàm · vùng im lặng + công cụ cứu hộ · 5 bất biến dây chuyền kho.
 

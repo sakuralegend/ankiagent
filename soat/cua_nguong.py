@@ -34,13 +34,41 @@ def nguong():
 # ---------------------------------------------------------------------------
 def s10_tri_nho_phinh():
     """Chạm trần KHÔNG có nghĩa "cấm viết thêm" — nghĩa là phải dừng lại CHỌN:
-    cắt mục đã hết giá trị, hay nâng ngân sách trong `soat_nguong.json` kèm QD-nn."""
+    cắt mục đã hết giá trị, hay nâng ngân sách trong `soat_nguong.json` kèm QD-nn.
+
+    🔴 HAI TẦNG, ĐỪNG CỘNG CHUNG (QD-30, 04/08/2026). Trước đó cửa này cộng cả 16
+    file thành một con số "101/112 phút" và trình bày như thể mỗi phiên đều phải
+    đọc từng ấy. **Đo 04/08: không máy nào bắt đọc 14 trong 16 file đó.** Chỉ
+    `CLAUDE.md` là được nạp tự động, cộng 2.437 ký tự hook chèn mỗi lượt; 14 file
+    còn lại chỉ được đọc NẾU AI tự giác tuân một dòng luật viết trong `CLAUDE.md`.
+    ⇒ Con số tổng cũ đo một thứ phần lớn chưa chắc từng xảy ra, trong khi cái đau
+    (nén chữ cho vừa trần) thì có thật mỗi phiên.
+
+    Nay: `batbuoc` = tầng THẬT SỰ bị nhồi vào đầu, có trần TỔNG chặt. Các file
+    còn lại giữ trần riêng làm lưới an toàn, nhưng KHÔNG cộng vào tầng bắt buộc —
+    một file tra-cứu dài ra không cướp chỗ của file bắt-đọc, và ngược lại.
+    """
     try:
         ng = nguong()
         toc_do, tran_phut = ng["ky_tu_moi_phut"]["so"], ng["phut_doc"]["tran"]
     except (OSError, ValueError, KeyError):
         return []                              # soat_nguong.json hỏng: S12 kêu ĐỎ
     ra = []
+
+    batbuoc = ng["phut_doc"].get("batbuoc") or []
+    tran_tong = ng["phut_doc"].get("tran_tong_batbuoc")
+    if batbuoc and tran_tong:
+        tong = 0
+        for ten in batbuoc:
+            p = khung.GOC / ten
+            if p.exists():
+                tong += len(p.read_text(encoding="utf-8"))
+        if tong > tran_tong * toc_do:
+            ra.append(PhatHien(
+                "LOI BAT BUOC", tong,
+                f"tang bat-buoc-doc {tong} ky tu (~{tong / toc_do:.1f} phut) > tran "
+                f"{tran_tong} phut — day la thu MOI phien deu phai nuot, cat that chu "
+                f"khong day sang file khac ({' + '.join(batbuoc)})"))
     for ten, phut in sorted(tran_phut.items()):
         p = khung.GOC / ten
         if not p.exists():
@@ -74,10 +102,7 @@ def s12_nguong_hop_le():
     for ten in duong:
         if not (khung.GOC / ten).exists():
             ra.append(PhatHien(f"nguong|{ten}", 0, f"tran tro toi file khong ton tai: {ten}"))
-    try:
-        qd_that = set(re.findall(r"QD-\d+", (khung.GOC / "QUYETDINH.md").read_text(encoding="utf-8")))
-    except OSError:
-        qd_that = set()
+    qd_that = so_hieu_da_biet()
     for muc, phan in ng.items():
         qd = phan.get("qd") if isinstance(phan, dict) else None
         if qd and qd not in qd_that:
@@ -137,6 +162,118 @@ def s15_dong_quyetdinh_dai():
         khoa = f"QUYETDINH.md|{so}" if so != "—" else f"QUYETDINH.md|dong {i}"
         ra.append(PhatHien(khoa, i, f"{len(dong)} ky tu > tran {tran} — mot quyet dinh MOT dong; "
                                     f"cat bot, hoac day chi tiet sang `git log --grep`"))
+    return ra
+
+
+_MOC_DADO = "📏 ĐÃ ĐO RỒI BÁC"
+_MOC_SO = "🗂️ SỔ QUYẾT ĐỊNH"
+
+# HAI file, MỘT dãy số hiệu (QD-29). `QUYETDINH.md` là sổ SỐNG, bị tính ngân sách
+# đọc; `QUYETDINH-LUUTRU.md` giữ toàn văn mục đã rời sổ, KHÔNG tính ngân sách.
+# 🔴 Tách được là nhờ nhận ra: số hiệu `QD-nn` là ĐỊNH DANH VĨNH VIỄN (121 chỗ
+# trong code trỏ tới), nhưng trước 04/08 định nghĩa của nó lại nằm trong file bị
+# tính tiền thuê ⇒ một quyết định đã chết vẫn phải trả tiền chỗ. Mọi cửa hỏi
+# "số hiệu này có thật không" phải hỏi CẢ HAI, nếu không thì dời một dòng sang
+# kho lưu trữ là làm gãy cửa — tức là cơ chế cho phép CHẾT lại tự khoá chính nó.
+SO_QUYETDINH = ("QUYETDINH.md", "QUYETDINH-LUUTRU.md")
+
+
+def so_hieu_da_biet():
+    """Mọi số hiệu `QD-nn` từng tồn tại, gom từ CẢ HAI file."""
+    ra = set()
+    for ten in SO_QUYETDINH:
+        try:
+            ra |= set(re.findall(r"QD-\d+", (khung.GOC / ten).read_text(encoding="utf-8")))
+        except OSError:
+            pass        # thiếu một trong hai file là chuyện HỢP LỆ (kho lưu trữ
+            # chưa có lúc mới dựng); cửa gọi hàm này tự kêu nếu hụt số hiệu thật
+    return ra
+
+
+def _dem_dong_bang(p, tu, den):
+    """Đếm dòng DỮ LIỆU của bảng nằm giữa hai mốc tiêu đề.
+
+    🔴 Đếm theo RANH GIỚI MỤC, không theo hình dạng chữ trong ô. Bản nháp đầu
+    tiên dò bằng regex nội dung và **đếm hụt 2/11 dòng** — hai dòng có chữ đuôi
+    sau ô phán quyết (`**BÁC** (AI đã suy sai 04/08)`). Cửa đếm hụt còn tệ hơn
+    không có cửa: nó báo XANH trong khi bảng đã tràn.
+    """
+    if not p.exists():
+        return 0
+    noi_dung = p.read_text(encoding="utf-8")
+    i = noi_dung.find(tu)
+    if i < 0:
+        return 0
+    j = noi_dung.find(den, i) if den else len(noi_dung)
+    khuc = noi_dung[i:j if j > 0 else len(noi_dung)]
+    return sum(1 for d in khuc.splitlines()
+               if d.startswith("|") and not re.match(r"\|[\s:|-]+\|$", d)
+               and "Vì sao (ngắn)" not in d and "Vì (số liệu thật)" not in d)
+
+
+def s20_suc_chua_co_dinh():
+    """🔴 SINH PHẢI BẰNG TỬ — cửa QUAN TRỌNG NHẤT của bộ này (QD-29, 04/08/2026).
+
+    Vì sao nó tồn tại: dự án đã tự động hoá hoàn hảo vế SINH (hook nhắc mỗi lượt,
+    ba playbook, luật "quyết định nào đổi code thì ghi vết NGAY"), nhưng vế CHẾT
+    thì phó mặc ý chí — phải có ai đó tự nhớ ra, đọc lại, phán là dòng này chết
+    rồi. Không máy nào làm. Một hệ trí nhớ phình vô hạn khi và chỉ khi
+    **tốc độ sinh > tốc độ chết**, nên mọi cửa đếm KÍCH CỠ đều chỉ chữa triệu
+    chứng: trần ký tự không tạo ra tỷ lệ chết, nó chỉ khiến việc sinh ra ĐAU, rồi
+    thu phần chênh lệch thành thuế nén chữ mỗi phiên. Đo 04/08: để thêm 3 dòng,
+    phiên đó phải nén 4 dòng + xoá 1 + gộp 2.
+
+    🔴 Và nén thì mất phần VÌ SAO — thứ duy nhất còn dùng được khi gặp tình huống
+    mới. Đúng cái bệnh QD-28 đã đặt tên: luật nào bị luật khác phạt thì luật đó
+    thua. L bắt ghi quyết định · S15 phạt sổ dài ⇒ thua sẽ là luật ghi cho tử tế.
+
+    Cửa này chữa tận gốc: **sức chứa CỐ ĐỊNH**. Muốn thêm một dòng thì phải bỏ
+    một dòng, và "bỏ" nay rẻ vì có `QUYETDINH-LUUTRU.md` hứng toàn văn (không
+    tính ngân sách đọc) — số hiệu vẫn `grep` ra, không mất gì.
+
+    ⚠️ KHÁC S13/S17: hai cửa kia là RATCHET (chỉ cho giảm) vì chúng đếm VI PHẠM,
+    mà vi phạm thì đích đến là 0. Quyết định không phải vi phạm — đích đến không
+    phải 0, mà là MỘT HẰNG SỐ. Sổ được đánh chỉ số bởi *số mảng của hệ thống* và
+    *số đánh đổi người còn phải tự cân*, không phải bởi số sự thật đã biết:
+    một tấm bản đồ không dài ra theo số viên gạch.
+    """
+    try:
+        ng = nguong()["so_quyetdinh"]
+        tran_qd, tran_dado = ng["tran_so_quyetdinh"], ng["tran_so_dado"]
+    except (OSError, ValueError, KeyError):
+        return []                              # config hỏng: S12 kêu ĐỎ
+    p = khung.GOC / "QUYETDINH.md"
+    ra = []
+    for ten, tu, den, tran in (("so quyet dinh", _MOC_SO, None, tran_qd),
+                               ("bang DA DO ROI BAC", _MOC_DADO, _MOC_SO, tran_dado)):
+        n = _dem_dong_bang(p, tu, den)
+        if n > tran:
+            ra.append(PhatHien(
+                f"QUYETDINH.md|{ten}", n,
+                f"{n} dong > suc chua {tran} — SINH PHAI BANG TU: muon them mot dong thi "
+                f"phai bo mot dong (day toan van sang QUYETDINH-LUUTRU.md, khong mat gi), "
+                f"KHONG duoc nen chu de nhet them"))
+
+    # 🔴 CHỐT CHỐNG TRỎ HỤT. Cả cơ chế "cho phép chết" đứng trên một lời hứa: dời
+    # một dòng sang kho lưu trữ thì `grep QD-nn` vẫn ra. Lời hứa đó mà gãy im
+    # lặng thì lần dời sau là mất thật, và không ai biết cho tới khi có người đi
+    # tra một số hiệu không còn tồn tại.
+    da_biet = so_hieu_da_biet()
+    for p in khung.cac_file_py():
+        # ⚠️ MIỄN TRỪ `tests/`: test DỰNG SẴN trạng thái sai để kiểm cửa soát —
+        # `test_soatkientruc.py` cố ý trỏ một số hiệu KHÔNG tồn tại để chứng minh
+        # S12 bắt được số ma. Kêu ở đó là đi tố cáo chính bài test của cửa kia.
+        # (Và cấm viết số giả ấy ra đây: chính cửa này sẽ bắt luôn comment này.)
+        if khung.duong_dan(p).startswith("tests/"):
+            continue
+        try:
+            src = p.read_text(encoding="utf-8")
+        except OSError:
+            continue
+        for so in sorted(set(re.findall(r"QD-\d\d", src)) - da_biet):
+            ra.append(PhatHien(khung.duong_dan(p), 0,
+                               f"trich {so} nhung KHONG file nao trong {'/'.join(SO_QUYETDINH)} "
+                               f"co so do — con tro hut, sua trich dan hoac khoi phuc muc"))
     return ra
 
 

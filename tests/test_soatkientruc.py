@@ -113,13 +113,16 @@ class TestSoatKienTruc(unittest.TestCase):
         self.assertIsNone(cua_code.s8_manifest())
 
     # --- soat_nguong.json giả cho các mục đọc ngưỡng (QD-21) --------------
-    def _nguong_gia(self, phut_doc=None, dong_py=None, phienban=None, so_qd=None, tho=None):
+    def _nguong_gia(self, phut_doc=None, dong_py=None, phienban=None, so_qd=None,
+                    batbuoc=None, tho=None):
         """Ghi `soat_nguong.json` vào repo giả — test đi qua ĐÚNG bộ đọc thật.
         `tho` = chuỗi JSON thô, cho ca kiểm khoá trùng/parse hỏng."""
         if tho is None:
             cau = {"ky_tu_moi_phut": {"so": KT_MOI_PHUT, "qd": "QD-20"}}
             if phut_doc is not None:
                 cau["phut_doc"] = {"qd": "QD-20", "tran": phut_doc}
+                if batbuoc is not None:
+                    cau["phut_doc"].update(batbuoc)
             if dong_py is not None:
                 cau["dong_py"] = {"qd": "QD-21", "ghi_no": 400, "tach": 700,
                                   "bo_qua_mau": [], "da_ghi_no": {}, **dong_py}
@@ -154,6 +157,20 @@ class TestSoatKienTruc(unittest.TestCase):
     def test_s10_file_khong_ton_tai_thi_bo_qua(self):
         self._nguong_gia(phut_doc={"khong_co.md": 1})
         self.assertEqual(cua_nguong.s10_tri_nho_phinh(), [])
+
+    def test_s10_tang_bat_buoc_tinh_TONG_rieng(self):
+        """QD-30: file TRA-CỨU dài ra KHÔNG được cướp chỗ của file BẮT-ĐỌC.
+        Bản cũ cộng cả 16 file thành một con số rồi trình bày như thể mỗi phiên
+        đều phải đọc từng ấy — đo 04/08 thì 14/16 file không máy nào bắt đọc."""
+        self._nguong_gia(phut_doc={"L.md": 9, "T.md": 9},
+                         batbuoc={"batbuoc": ["L.md"], "tran_tong_batbuoc": 1})
+        self.ghi("L.md", "x" * (KT_MOI_PHUT - 10))       # lõi: dưới trần tổng
+        self.ghi("T.md", "y" * (KT_MOI_PHUT * 8))        # tra cứu: dài, nhưng dưới trần RIÊNG
+        self.assertEqual(cua_nguong.s10_tri_nho_phinh(), [],
+                         "file tra-cuu dai KHONG duoc lam tang bat-buoc keu")
+        self.ghi("L.md", "x" * (KT_MOI_PHUT + 1))        # lõi vượt trần TỔNG
+        ra = cua_nguong.s10_tri_nho_phinh()
+        self.assertIn("LOI BAT BUOC", [ph.khoa for ph in ra])
 
     def test_s10_thieu_config_thi_im_de_s12_keu(self):
         """Config mất thì S10 không được nổ exception — S12 mới là nơi kêu ĐỎ."""
@@ -274,6 +291,53 @@ class TestSoatKienTruc(unittest.TestCase):
     def test_s16_so_sach_thi_im(self):
         self.ghi("SONO.md", "# no\n\n- [ ] con no that\n")
         self.assertEqual(cua_nguong.s16_no_da_tra_con_nam_lai(), [])
+
+    # --- S20: SINH PHẢI BẰNG TỬ (QD-29) -----------------------------------
+    def _so_gia(self, so_qd, so_dado=0, luutru=""):
+        """Dựng `QUYETDINH.md` giả với đúng số dòng mỗi bảng."""
+        self.ghi("QUYETDINH.md",
+                 "# x\n\n## 📏 ĐÃ ĐO RỒI BÁC\n\n| Hướng | Phán quyết | Vì (số liệu thật) |\n"
+                 "|---|---|---|\n"
+                 + "".join(f"| huong {i} | **BÁC** | vi |\n" for i in range(so_dado))
+                 + "\n## 🗂️ SỔ QUYẾT ĐỊNH\n\n| QD | Ngày | Quyết định | Vì sao (ngắn) |\n"
+                 "|---|---|---|---|\n"
+                 + "".join(f"| QD-{i:02d} | 01/01 | x | y |\n" for i in range(1, so_qd + 1)))
+        if luutru:
+            self.ghi("QUYETDINH-LUUTRU.md", luutru)
+
+    def test_s20_vuot_suc_chua_la_do(self):
+        self._nguong_gia(so_qd={"tran_so_quyetdinh": 3, "tran_so_dado": 3})
+        self._so_gia(so_qd=3, so_dado=3)
+        self.assertEqual(cua_nguong.s20_suc_chua_co_dinh(), [])
+        self._so_gia(so_qd=4, so_dado=3)
+        ra = cua_nguong.s20_suc_chua_co_dinh()
+        self.assertEqual([ph.khoa for ph in ra], ["QUYETDINH.md|so quyet dinh"])
+        self.assertIn("SINH PHAI BANG TU", ra[0].mo_ta)
+
+    def test_s20_dem_dung_HAI_bang_khong_lan_nhau(self):
+        """🔴 Ca bản nháp đầu ĐẾM HỤT: bản dò bằng hình dạng chữ bỏ sót 2/11 dòng
+        có chữ đuôi sau ô phán quyết. Cửa đếm hụt tệ hơn không có cửa — nó báo
+        XANH trong khi bảng đã tràn. Nay đếm theo RANH GIỚI MỤC."""
+        self._nguong_gia(so_qd={"tran_so_quyetdinh": 9, "tran_so_dado": 2})
+        self._so_gia(so_qd=2, so_dado=3)
+        ra = cua_nguong.s20_suc_chua_co_dinh()
+        self.assertEqual([ph.khoa for ph in ra], ["QUYETDINH.md|bang DA DO ROI BAC"])
+
+    def test_s20_bat_con_tro_hut_khi_so_hieu_bien_mat(self):
+        """Cả cơ chế cho-phép-chết đứng trên lời hứa `grep QD-nn` vẫn ra."""
+        self._nguong_gia(so_qd={"tran_so_quyetdinh": 9, "tran_so_dado": 9})
+        self._so_gia(so_qd=1)
+        self.ghi("tgbot/x.py", "# theo QD-77 nen lam the nay\n")
+        ra = cua_nguong.s20_suc_chua_co_dinh()
+        self.assertEqual([ph.khoa for ph in ra], ["tgbot/x.py"])
+        self.assertIn("con tro hut", ra[0].mo_ta)
+
+    def test_s20_kho_luu_tru_van_tinh_la_CO_so_hieu(self):
+        """Dời một dòng sang kho lưu trữ KHÔNG được làm gãy con trỏ trong code."""
+        self._nguong_gia(so_qd={"tran_so_quyetdinh": 9, "tran_so_dado": 9})
+        self._so_gia(so_qd=1, luutru="| QD-77 | 01/01 | da roi so | y |\n")
+        self.ghi("tgbot/x.py", "# theo QD-77 nen lam the nay\n")
+        self.assertEqual(cua_nguong.s20_suc_chua_co_dinh(), [])
 
     # --- ratchet: baseline chỉ che đúng số cũ, vượt là lộ -----------------
     def test_baseline_doc_kieu_dict_va_so_tran(self):
