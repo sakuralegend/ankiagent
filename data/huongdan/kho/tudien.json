@@ -129,7 +129,7 @@
   "wc": "друг",
   "w": "друг",
   "en": "<ol class=\"meaning-list\"><li>friend</li></ol>",
-  "vi": "bạn bè, người bạn",
+  "vi": "người bạn nam",
   "pos": "n",
   "topic": "people::family",
   "cu": false
@@ -561,7 +561,7 @@
   "wc": "мама",
   "w": "ма́ма",
   "en": "<ol class=\"meaning-list\"><li>mom</li><li>mama</li><li>mommy</li><li>mummy</li></ol>",
-  "vi": "mẹ, má",
+  "vi": "mẹ — tiếng thân mật con gọi trong nhà",
   "pos": "n",
   "topic": "people::family",
   "cu": false
@@ -597,7 +597,7 @@
   "wc": "папа",
   "w": "па́па",
   "en": "<ol class=\"meaning-list\"><li>dad</li><li>father</li><li>Pope</li></ol>",
-  "vi": "bố, cha",
+  "vi": "bố — tiếng thân mật con gọi trong nhà",
   "pos": "n",
   "topic": "people::family",
   "cu": false
@@ -1263,7 +1263,7 @@
   "wc": "народ",
   "w": "наро́д",
   "en": "<ol class=\"meaning-list\"><li>people</li></ol>",
-  "vi": "dân chúng, nhân dân, người ta",
+  "vi": "nhân dân, dân chúng",
   "pos": "n",
   "topic": "people::family",
   "cu": false
@@ -1434,7 +1434,7 @@
   "wc": "подруга",
   "w": "подру́га",
   "en": "<ol class=\"meaning-list\"><li>friend (female)</li><li>girlfriend</li></ol>",
-  "vi": "bạn gái, người bạn (nữ)",
+  "vi": "người bạn nữ",
   "pos": "n",
   "topic": "people::family",
   "cu": false
@@ -2865,7 +2865,7 @@
   "wc": "сестра",
   "w": "сестра́",
   "en": "<ol class=\"meaning-list\"><li>sister</li><li>nurse</li></ol>",
-  "vi": "chị, em gái",
+  "vi": "chị gái, em gái",
   "pos": "n",
   "topic": "people::family",
   "cu": false
@@ -3171,7 +3171,7 @@
   "wc": "ребята",
   "w": "ребя́та",
   "en": "<ol class=\"meaning-list\"><li>lads</li><li>boys</li><li>guys</li><li>children</li><li>kids</li></ol>",
-  "vi": "những người bạn, đám đông",
+  "vi": "các cậu, bọn trẻ — từ chỉ dùng ở số nhiều",
   "pos": "n",
   "topic": "people::family",
   "cu": false
@@ -3549,7 +3549,7 @@
   "wc": "девочка",
   "w": "де́вочка",
   "en": "<ol class=\"meaning-list\"><li>girl</li><li>little girl</li><li>girlie</li></ol>",
-  "vi": "bé gái, cô bé, con gái nhỏ",
+  "vi": "bé gái, cô bé",
   "pos": "n",
   "topic": "people::family",
   "cu": false
@@ -4035,7 +4035,7 @@
   "wc": "враг",
   "w": "враг",
   "en": "<ol class=\"meaning-list\"><li>enemy</li><li>foe</li><li>opponent</li></ol>",
-  "vi": "kẻ thù, đối thủ",
+  "vi": "kẻ thù, kẻ địch",
   "pos": "n",
   "topic": "people::family",
   "cu": false
@@ -4692,7 +4692,7 @@
   "wc": "свидание",
   "w": "свида́ние",
   "en": "<ol class=\"meaning-list\"><li>date</li><li>meeting</li></ol>",
-  "vi": "buổi hẹn hò, cuộc gặp gỡ",
+  "vi": "buổi hẹn hò, cuộc hẹn gặp",
   "pos": "n",
   "topic": "people::family",
   "cu": false
@@ -5574,7 +5574,7 @@
   "wc": "ребёнок",
   "w": "ребёнок",
   "en": "<ol class=\"meaning-list\"><li>child</li><li>kid</li></ol>",
-  "vi": "đứa trẻ, con",
+  "vi": "đứa trẻ, đứa con nhỏ",
   "pos": "n",
   "topic": "people::family",
   "cu": true
@@ -5655,7 +5655,7 @@
   "wc": "родной",
   "w": "родно́й",
   "en": "<ol class=\"meaning-list\"><li>native</li><li>home</li><li>dear</li><li>darling</li><li>relatives</li><li>relations</li><li>kinsfolk</li><li>kin</li><li>sweet</li></ol>",
-  "vi": "quê hương, ruột thịt, tiếng mẹ đẻ, thân thiết",
+  "vi": "ruột thịt, cùng huyết thống",
   "pos": "adj",
   "topic": "people::family",
   "cu": true
@@ -6006,7 +6006,7 @@
   "wc": "девушка",
   "w": "де́вушка",
   "en": "<ol class=\"meaning-list\"><li>girl</li><li>young woman</li><li>girlfriend</li><li>miss (informal)</li></ol>",
-  "vi": "cô gái, bạn gái",
+  "vi": "cô gái trẻ, thiếu nữ",
   "pos": "n",
   "topic": "people::family",
   "cu": false
@@ -6051,7 +6051,7 @@
   "wc": "женатый",
   "w": "жена́тый",
   "en": "<ol class=\"meaning-list\"><li>married (for men)</li></ol>",
-  "vi": "đã kết hôn (dành cho nam giới)",
+  "vi": "đã có vợ",
   "pos": "adj",
   "topic": "people::family",
   "cu": true
@@ -6069,7 +6069,7 @@
   "wc": "замужем",
   "w": "за́мужем",
   "en": "<ol class=\"meaning-list\"><li>married (for women)</li></ol>",
-  "vi": "đã có chồng (chỉ dành cho nữ)",
+  "vi": "đã có chồng",
   "pos": "adv",
   "topic": "people::family",
   "cu": true
