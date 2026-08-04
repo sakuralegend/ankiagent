@@ -354,7 +354,7 @@
   "wc": "вдох",
   "w": "вдох",
   "en": "<ol class=\"meaning-list\"><li>inhalation</li><li>breath (in)</li></ol>",
-  "vi": "hít vào, hơi thở (vào)",
+  "vi": "hơi hít vào (một nhịp hít)",
   "pos": "n",
   "topic": "people::body",
   "cu": false
@@ -885,7 +885,7 @@
   "wc": "выдох",
   "w": "вы́дох",
   "en": "<ol class=\"meaning-list\"><li>exhalation</li><li>outward breath</li></ol>",
-  "vi": "hơi thở ra, nhịp thở ra",
+  "vi": "hơi thở ra (một nhịp thở ra)",
   "pos": "n",
   "topic": "people::body",
   "cu": false
@@ -975,7 +975,7 @@
   "wc": "коса",
   "w": "коса́",
   "en": "<ol class=\"meaning-list\"><li>hair braid</li><li>scythe</li></ol>",
-  "vi": "bím tóc, dải đất hẹp/bãi cát ven biển",
+  "vi": "bím tóc (cùng mặt chữ còn là: lưỡi hái, doi cát)",
   "pos": "n",
   "topic": "people::body",
   "cu": false
@@ -1101,7 +1101,7 @@
   "wc": "рука",
   "w": "рука́",
   "en": "<ol class=\"meaning-list\"><li>hand</li><li>arm</li><li>handwriting</li></ol>",
-  "vi": "tay, cánh tay, nét chữ viết tay",
+  "vi": "tay (cả cánh tay lẫn bàn tay)",
   "pos": "n",
   "topic": "people::body",
   "cu": false
@@ -1182,7 +1182,7 @@
   "wc": "нога",
   "w": "нога́",
   "en": "<ol class=\"meaning-list\"><li>leg</li><li>foot</li></ol>",
-  "vi": "chân (cơ thể), chân (động vật)",
+  "vi": "chân (cả cẳng chân lẫn bàn chân)",
   "pos": "n",
   "topic": "people::body",
   "cu": false
@@ -1560,7 +1560,7 @@
   "wc": "голова",
   "w": "голова́",
   "en": "<ol class=\"meaning-list\"><li>head</li><li>mind</li><li>brains</li><li>chief</li><li>master</li></ol>",
-  "vi": "đầu, trí tuệ, ý kiến, người đứng đầu",
+  "vi": "đầu (bộ phận cơ thể)",
   "pos": "n",
   "topic": "people::body",
   "cu": false
@@ -2649,7 +2649,7 @@
   "wc": "нёбо",
   "w": "нёбо",
   "en": "<ol class=\"meaning-list\"><li>palate</li></ol>",
-  "vi": "vòm miệng, lưỡi gà",
+  "vi": "vòm miệng (trần của khoang miệng)",
   "pos": "n",
   "topic": "people::body",
   "cu": false
@@ -3162,7 +3162,7 @@
   "wc": "сыпь",
   "w": "сыпь",
   "en": "<ol class=\"meaning-list\"><li>rash</li><li>eruption</li></ol>",
-  "vi": "bệnh da liễu, nổi mẩn, mụn",
+  "vi": "nốt ban, mẩn đỏ trên da",
   "pos": "n",
   "topic": "people::body",
   "cu": false
@@ -9204,6 +9204,150 @@
   "vi": "cây cọ rửa (vệ sinh), hoặc loại cocktail pha trộn bia và vodka",
   "pos": "n",
   "topic": "life::home",
+  "cu": false
+ },
+ {
+  "wc": "аудитория",
+  "w": "аудито́рия",
+  "en": "<ol class=\"meaning-list\"><li>auditorium</li><li>lecture-hall</li><li>lecture-room</li><li>audience</li><li>audience</li></ol>",
+  "vi": "phòng học, giảng đường, hoặc khán giả",
+  "pos": "n",
+  "topic": "language::education",
+  "cu": false
+ },
+ {
+  "wc": "без",
+  "w": "без",
+  "en": "<ol class=\"meaning-list\"><li>without</li><li>to (time)</li></ol>",
+  "vi": "không có, thiếu",
+  "pos": "oth",
+  "topic": "language::grammar",
+  "cu": false
+ },
+ {
+  "wc": "ботинок",
+  "w": "боти́нок",
+  "en": "<ol class=\"meaning-list\"><li>dress boot</li><li>ankle-high shoe</li></ol>",
+  "vi": "giày, giày cao cổ",
+  "pos": "n",
+  "topic": "life::clothing",
+  "cu": false
+ },
+ {
+  "wc": "жизнь",
+  "w": "жизнь",
+  "en": "<ol class=\"meaning-list\"><li>life</li><li>existence</li></ol>",
+  "vi": "cuộc sống, đời sống",
+  "pos": "n",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "занято",
+  "w": "за́нято",
+  "en": "<ol class=\"meaning-list\"><li>occupied</li><li>taken</li><li>busy (for a phone line)</li></ol>",
+  "vi": "bận, có người dùng (ghế, phòng, điện thoại)",
+  "pos": "adv",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "занятый",
+  "w": "за́нятый",
+  "en": "<ol class=\"meaning-list\"><li>busy</li><li>occupied</li><li>taken</li><li>filled</li></ol>",
+  "vi": "bận rộn, có người ngồi rồi (chỗ ngồi)",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "который",
+  "w": "кото́рый",
+  "en": "<ol class=\"meaning-list\"><li>which</li><li>that</li><li>what</li></ol>",
+  "vi": "mà, cái nào, người nào",
+  "pos": "pron",
+  "topic": "language::grammar",
+  "cu": false
+ },
+ {
+  "wc": "минута",
+  "w": "мину́та",
+  "en": "<ol class=\"meaning-list\"><li>minute</li><li>moment</li><li>instant</li></ol>",
+  "vi": "phút, một lát, một chút",
+  "pos": "n",
+  "topic": "time",
+  "cu": false
+ },
+ {
+  "wc": "минутка",
+  "w": "мину́тка",
+  "en": "<ol class=\"meaning-list\"><li>minute</li><li>moment</li></ol>",
+  "vi": "một chút, một lát, một phút (thời gian ngắn)",
+  "pos": "n",
+  "topic": "time",
+  "cu": false
+ },
+ {
+  "wc": "мобильный",
+  "w": "моби́льный",
+  "en": "<ol class=\"meaning-list\"><li>mobile</li></ol>",
+  "vi": "di động, điện thoại di động",
+  "pos": "adj",
+  "topic": "life::home",
+  "cu": false
+ },
+ {
+  "wc": "номер",
+  "w": "но́мер",
+  "en": "<ol class=\"meaning-list\"><li>number</li><li>hotel room</li><li>issue</li><li>edition</li></ol>",
+  "vi": "số, số điện thoại, phòng (khách sạn)",
+  "pos": "n",
+  "topic": "concepts::misc",
+  "cu": false
+ },
+ {
+  "wc": "передать",
+  "w": "переда́ть",
+  "en": "<ol class=\"meaning-list\"><li>to transfer</li><li>pass</li><li>hand over</li><li>to deliver /to convey</li></ol>",
+  "vi": "đưa cho, chuyển cho, gửi lời",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "полпервого",
+  "w": "полпе́рвого",
+  "en": "<ol class=\"meaning-list\"><li>half past twelve; 12:30</li></ol>",
+  "vi": "12 giờ 30 phút",
+  "pos": "num",
+  "topic": "time",
+  "cu": false
+ },
+ {
+  "wc": "результат",
+  "w": "результа́т",
+  "en": "<ol class=\"meaning-list\"><li>result</li><li>outcome</li></ol>",
+  "vi": "kết quả",
+  "pos": "n",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "четверть",
+  "w": "че́тверть",
+  "en": "<ol class=\"meaning-list\"><li>a quarter</li></ol>",
+  "vi": "một phần tư",
+  "pos": "n",
+  "topic": "time",
+  "cu": false
+ },
+ {
+  "wc": "чтобы",
+  "w": "что́бы",
+  "en": "<ol class=\"meaning-list\"><li>so that</li><li>in order to</li></ol>",
+  "vi": "để, để mà",
+  "pos": "oth",
+  "topic": "language::grammar",
   "cu": false
  }
 ]
