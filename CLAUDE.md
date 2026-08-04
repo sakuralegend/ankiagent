@@ -81,12 +81,8 @@ AskUserQuestion trắc nghiệm** tới khi rõ, ghi `VIECDANGLAM.md`) → `keho
 
 Ba mục: **đã đổi gì (từng file, vì sao) · lệnh nghiệm thu · rủi ro im lặng nào có thể có**. Sửa ít file nhất có thể; diff to hơn lời hứa thì giải thích trước khi nhận.
 
-## Bẫy đã trả học phí
+## Bẫy đã trả học phí — chỉ còn cái KHÔNG máy nào canh
 
-- Chuẩn hoá tiếng Nga phải `unicodedata.normalize("NFC", ...)` — hai hàm lệch nhau là `ё` hỏng **im lặng**.
-- Anki trên VPS chạy trong Docker (uid 1000): đường dẫn file trong lệnh AnkiConnect theo góc nhìn **của Anki trong container** + quyền đọc được; luôn thử thật trên VPS.
-- Callback data Telegram trần 64 byte → nút mang chỉ số, không mang chuỗi dài.
-- Mọi `findNotes` phải lọc `note:"<model>"` — một từ có thể có cả thẻ từ vựng lẫn thẻ ngữ pháp.
-- `getReviewsOfCards` phải truyền int, không truyền str.
-- Cảnh báo cho user đi qua `tgbot/alerts.py`, không `send_message` thẳng (chống spam).
-- KHÔNG in nghiêng chữ Nga trong HTML thẻ (đổi mặt chữ, mất dấu trọng âm).
+- **Mọi `findNotes` phải lọc `note:"<model>"`** — một từ có thể có cả thẻ từ vựng lẫn thẻ ngữ pháp; quên lọc là gom nhầm rồi ghi đè nhầm. 6+ chỗ gọi, chưa cửa nào canh ⇒ phải nhớ bằng đầu.
+
+> 6 bẫy khác đã rời đây 04/08 vì có nhà tốt hơn — đúng chỗ người ta CHẮC CHẮN đang mở lúc cần (`git log --grep QD-29`). Đừng chép chúng về.
