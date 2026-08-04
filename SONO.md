@@ -31,8 +31,6 @@
       một ô mất trọng âm · `спра́ва` bị gán nguyên bảng danh từ giống cái dù là trạng từ ·
       cách 5 lối cổ `-ою/-ею` in không nhãn ở hàng chục bảng giống cái · `москва` bị cờ
       `BAT THUONG` báo THỪA vì ô `Москв` hết nguyên âm nên `stress_pos` lệch.
-      🔴 Kèm một món **sửa được ngay, đã thử nhưng classifier chặn**: note `справа`
-      (id `1784517631839`) đang mang `PoS=n · PoSFull=noun · GenderBadge=FEM ♀` trong khi ba từ
-      cùng họ (`слева`/`налево`/`направо`) đều `oth` — mặt đề bài đang dạy sai. Sửa = ghi 3 field
-      của **một** note về `oth`/`other`/rỗng (không phải schema mod, không kích full sync).
-      (04/08/2026)
+      ⚠️ Phần **hiện ra mặt thẻ** của ca `спра́ва` đã vá 04/08 (note + `tudien.json` về `oth`);
+      còn lại là **gốc trong bộ đệm ngữ pháp** vẫn ghi `pos: noun, gender: f` + đủ 12 ô — hễ có
+      cái gì dựng lại field từ bộ đệm là nó quay lại. (04/08/2026)

@@ -133,10 +133,7 @@ cách** ⇒ ca lẻ. Đã vá thẳng `GrammarJSON`, sao lưu `backups/_backup_g
 cả 13 từ. Nghĩa là lô này mất sạch nguồn ứng viên ô đỏ mà `congcu.py` lẽ ra cung cấp. Gặp lô im
 lặng kiểu này thì **đừng tưởng "không có gì đáng cảnh báo"**.
 
-📊 **CHI PHÍ ĐO LẠI 03/08 chiều — token agent:** k62 16 từ = **124K** · k63 16 từ = **130K** ·
-k64 15 từ = **125K**. Công thức (65K + 2,67K/từ) dự **108K** cho lô 16 từ ⇒ **thấp ~15%**.
-Ba điểm này nằm sát nhau (15–16 từ) nên **không đo được độ dốc**, chỉ đo được mức tại ~16 từ.
-👉 Số dùng được nằm ở bảng "📊 CHI PHÍ" phía dưới — nay tính bằng **% hạn mức**, không bằng token.
+📊 **Chi phí: xem bảng "📊 CHI PHÍ" phía dưới** — tính bằng **% hạn mức**, không bằng token.
 
 ### 📕 BÀI HỌC CÒN SỐNG từ ba phiên 30/07 (nén 02/08 — số liệu từng lô đọc bằng `git log`)
 
@@ -237,42 +234,46 @@ PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py trangthai
 
 ### 📊 CHI PHÍ — ĐẾM BẰNG **TỪ**, ƯỚC LƯỢNG BẰNG **% HẠN MỨC** (đừng quy qua token)
 
-Năm điểm đo cùng phiên 28/07: k13 4 từ = **77K** · k53 14 từ = **100K** · k54 19 từ = **113K** ·
-k51 20 từ = **116K** · k52 21 từ = **127K**. Hồi quy tuyến tính:
+🔴 **ĐỪNG DỰNG LẠI MÔ HÌNH TOKEN.** Đã có một mô hình hồi quy theo token (65K cố định/lô +
+2,67K/từ, đo 5 điểm 28/07) — **đã bỏ 04/08**: nó đọc **thấp 15–20%** ở mọi lần đối chiếu, và giữ
+hai thước đo song song chỉ khiến chúng đá nhau. Ước lượng bằng **% hạn mức**, chấm hết.
+(Số token vẫn dùng được cho **một** việc: so chi phí mỗi từ giữa các CỠ LÔ — xem mục 📏 CỠ LÔ.)
 
-> **chi phí ≈ 65K cố định mỗi lô + 2,67K mỗi từ** (tổng dự 533K, tổng thật 533K)
+🔴🔴 **ĐIỂM ĐO 03/08 chiều — PHIÊN SẠCH, ĐO BẰNG % HẠN MỨC.** User bắt đầu với **100% quota chưa
+động tới**, luồng chính im, giao hết lô ngay tin nhắn đầu. Kết quả user tự kiểm sau khi xong:
+**3 lô / 47 từ (16·16·15) = hết 70% hạn mức.**
 
-⚠️ **Con số cũ trong tài liệu (53K + 1,6K/từ) SAI theo hướng lạc quan** — phần cố định thấp 23%,
-phần mỗi từ thấp gần 70%. Đã thay bằng số đo. Đừng khôi phục con số đẹp.
+> ### 🔴 **1 TỪ ≈ 1,4% HẠN MỨC.** Ước lượng phiên bằng con số này, đừng quy qua token.
 
-🔴🔴 **ĐIỂM ĐO VÀNG 03/08 chiều — PHIÊN SẠCH THẬT SỰ, ĐO BẰNG % HẠN MỨC.** User bắt đầu với
-**100% quota chưa động tới**, luồng chính im, không sửa lỗi gì, giao hết lô ngay tin nhắn đầu —
-tức **đúng điều kiện lý tưởng mà mọi con số cũ giả định nhưng chưa ai đo được**. Kết quả user
-tự kiểm sau khi xong: **3 lô / 47 từ (16·16·15) = hết 70% hạn mức.**
+Đây là số **dùng thẳng được**: user nhìn quota còn bao nhiêu %, chia 1,4 ra số từ chạy được.
 
-> ### 🔴 **1 TỪ ≈ 1,5% HẠN MỨC.** Ước lượng phiên bằng con số này, đừng quy qua token.
+🔴🔴 **ĐIỂM ĐO THỨ HAI (04/08 đợt 2) LẬT MỘT GIẢ ĐỊNH — cùng 47 từ, mà phiên BẨN lại RẺ HƠN phiên
+sạch.** Hai điểm đo cùng cỡ 47 từ, tức so sánh có đối chứng thật: phiên "sạch" 03/08 ăn **70%**
+(1,49%/từ); phiên 04/08 đợt 2 ăn **65%** (**1,38%/từ**) — trong khi luồng chính phiên này **làm
+nhiều hơn hẳn**: quét `vacham` rồi lọc theo lô, đọc field thật trong Anki, đồng bộ 20 dòng sang
+`tudien.json`, sửa `SONO.md`/`TIEPTUC.md`, cộng hai lần bị classifier chặn.
+⇒ **Điều kiện "luồng chính phải IM TUYỆT ĐỐI" KHÔNG đắt như tài liệu vẫn doạ.** Cái đắt là **số
+lượt chat** (mỗi lượt gửi lại cả hội thoại), không phải việc luồng chính làm trong MỘT lượt. Gộp
+nhiều phép đo vào một lượt thì gần như miễn phí. **Đừng lấy "sợ tốn" làm lý do bỏ bước đo trước
+khi giao lô** — đó chính là bước đẻ ra giá trị lớn nhất phiên này.
+⚠️ n=2, đủ để hạ 1,5 → 1,4 và nới trần, **chưa đủ để hạ tiếp**. Điểm đo sau vẫn phải ghi.
 
-Đây là số **dùng thẳng được**: user nhìn quota còn bao nhiêu %, chia 1,5 ra số từ chạy được.
-
-⚠️ **Con số "≈80 từ" cũ ĐÃ BỊ BÁC BẰNG SỐ ĐO — xoá khỏi đầu, đừng khôi phục.** 80 từ ×1,5% =
-**119%**, vượt hẳn cửa sổ. Nó sai vì được suy ra từ token chứ không đo bằng hạn mức. Cùng lúc,
-mô hình token cũng đọc thấp: nó dự phiên này ăn ~56%, thật là 70% — **thấp 20%**, khớp với vệt
-"thấp ~15%" đo được ở phần đầu file bằng một phương pháp khác. **Hai phương pháp độc lập cùng
-chỉ một hướng ⇒ đủ chắc để sửa số.** (Vì sao lệch thì CHƯA biết — có thể luồng chính đắt hơn
-tưởng vì mỗi lượt gửi lại cả hội thoại, có thể cách đếm token 28/07 khác. Đừng đoán bừa.)
+⚠️ **Con số "≈80 từ" cũ ĐÃ BỊ BÁC BẰNG SỐ ĐO — đừng khôi phục.** 80 ×1,4% = **112%**, vượt hẳn
+cửa sổ. Nó sai vì suy ra từ token chứ không đo bằng hạn mức.
 
 | Loại phiên | Từ chạy được | Ăn hết |
 |---|---|---|
-| **Sạch** (không sửa lỗi, luồng chính im) | **~55 từ** | ~82%, chừa 18% để đóng phiên |
-| **Bình thường** (user hay mất ~25% cho việc sửa) | **~45–50 từ** | ~70–75% phần còn lại |
-| Phiên này (thật) | 47 từ / 3 lô | **70%** |
+| **Bình thường** (luồng chính có đo có sửa, gộp trong ít lượt chat) | **~58 từ** | ~82%, chừa 18% đóng phiên |
+| **Có sửa lỗi giữa chừng / nhiều lượt chat qua lại** | **~45–50 từ** | ~70% |
+| Đo thật 03/08 (phiên "sạch") | 47 từ / 3 lô | **70%** |
+| Đo thật 04/08 đợt 2 (luồng chính làm nhiều) | 47 từ / 3 lô | **65%** |
 
-⇒ **Mốc "≈55 từ" user chốt 02/08 SỐNG SÓT phép đo** — nhưng nay biết rõ nó là trần của phiên
-**sạch**, đã ăn 82%, **không còn chỗ cho bất cứ việc sửa nào**. Trước khi giao việc thì cộng số
-từ của các lô định chạy: quá 55 thì bớt một lô; **biết trước là sẽ có việc sửa thì hạ về ~45**.
-Điều kiện đi kèm vẫn giữ: **luồng chính im**, không trộn sửa công cụ vào phiên chạy lô.
-📌 **Mặc định 3 lô (user chốt 02/08) là ĐÚNG** — 3 lô cỡ 16 từ rơi trúng 70%, còn 4 lô từng chạy
-thử thật (k22–k25, 68 từ) thì vượt, nay giải thích được: 68 ×1,5% = **102%**.
+⇒ **Mốc "≈55 từ" user chốt 02/08 SỐNG SÓT hai phép đo, và nay nới được lên ~58.** Trước khi giao
+việc thì cộng số từ của các lô định chạy: quá 58 thì bớt một lô; **biết trước sẽ có việc sửa hoặc
+nhiều lượt chat qua lại thì hạ về ~45**. Điều kiện đi kèm nay chỉ còn MỘT: **ít lượt chat** — giao
+hết lô trong một tin nhắn. Việc luồng chính ĐO trước khi giao thì cứ làm, nó rẻ (xem điểm đo thứ hai).
+📌 **Mặc định 3 lô (user chốt 02/08) là ĐÚNG** — 3 lô cỡ 16 từ ăn 65–70%, còn 4 lô từng chạy thử
+thật (k22–k25, 68 từ) thì vượt, nay giải thích được: 68 ×1,4% = **95%**, không chừa chỗ đóng phiên.
 
 🎯 **Cách chọn lô của phiên này đáng giữ**: user muốn ưu tiên thẻ **đang học**, nên luồng chính
 đối chiếu deck thật với hàng đợi trước khi giao việc (đếm `deck:RUSSIAN::1-go` rơi vào lô nào).
@@ -296,24 +297,13 @@ mới và KHÔNG mở file cũ ra xem**, vừa rẻ hơn vừa tránh kéo văn 
 qua) và **không phải `cho`** (không ai phải làm gì). Thiếu nó thì bộ đếm `tu:` không bao giờ khớp
 tổng số từ và phiên sau tưởng còn việc.
 
-🔴 **Bài học: trước khi mở một khối "làm lại", ĐO xem nó đã đạt chuẩn chưa.** k15 là lô 7 từ rời rạc (không trục chung, dồn giá
-trị vào từng thẻ); k16 là **lô ghép tay đầu tiên được soạn** — trục ghi sẵn trong `hangdoi.json`
-đã làm đúng việc, lô ra đồng nhất. Rà tay cụm in đậm đã trả công lần đầu: **143 cụm ở k16**,
-không cụm nào lệch trọng âm, nhưng chính lúc rà agent tự bắt **hai lỗi giải thích** của mình
-(`наш/ваш` "đuôi ngắn hơn `мой`" — sai, khác đúng chỗ nhấn; `азъ` ↔ *alpha* — sai).
-⇒ **Lời dặn "rà tay cụm in đậm" phải giữ trong mọi lời nhắn về sau** — giá trị của nó không nằm
-ở trọng âm (máy soi rồi) mà ở chỗ **đọc lại nội dung một lượt nữa bằng mắt**, đó là cửa duy nhất
-bắt được "lời giải thích sai".
+🔴 **Trước khi mở một khối "làm lại", ĐO xem nó đã đạt chuẩn chưa.** Và **lời dặn "rà tay cụm in
+đậm" phải giữ trong MỌI lời nhắn** — giá trị của nó không nằm ở trọng âm (máy soi rồi) mà ở chỗ
+**đọc lại nội dung một lượt nữa bằng mắt**, cửa duy nhất bắt được "lời giải thích sai".
 
 🔧 **Classifier chặn ở Bash tool** (gặp 28/07): `git commit` heredoc và lệnh nối chuỗi có
 `nap --apply` đều bị từ chối. Đi vòng bằng **PowerShell tool** — tách từng lệnh một, commit
 message ghi ra file rồi `git commit -F <file>`. Đừng mất thời gian dò lại.
-
-### ✅ k49 + k50 XONG 28/07 (mốc cũ)
-
-39 từ giao thông/phương hướng user thêm 28/07 đã soạn và nạp xong (k49 19 từ, k50 20 từ,
-cùng `places::city`). Hàng đợi **đã chia lại 28/07: 36 lô → 33 lô**, đánh số từ **k15** đến
-**k47** (k49/k50 giữ nguyên số vì đã xong). 740 từ, không mất từ nào, không lô nào trùng.
 
 ### 🔴 8 lô GHÉP TAY — `chialai.py` sẽ xoá sạch nếu chạy lại
 
@@ -489,7 +479,8 @@ PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py dodai kNN       # ph�
 #  → ghi MỘT DÒNG vào data/huongdan/kho/dolo.tsv (ba con số trong báo cáo agent)
 PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py xong kNN        # chỉ luồng chính được gọi
 PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py nap --apply     # đẩy vào Anki ngay + sync
-git add data/huongdan/kho/kNN_*.py data/huongdan/kho/hangdoi.json data/huongdan/kho/dolo.tsv && git commit …
+#  → rồi ĐỒNG BỘ mọi dòng `V` sang tudien.json (xem 📌 dưới), KHÔNG BỎ BƯỚC NÀY
+git add data/huongdan/kho/kNN_*.py data/huongdan/kho/hangdoi.json data/huongdan/kho/dolo.tsv data/huongdan/kho/tudien.json && git commit …
 ```
 
 ⚠️ **Sau `nap`, đối chiếu "ghi vào N note" với số từ của lô.** Lệch là có chuyện — chính con số
@@ -511,28 +502,13 @@ loại dữ liệu khác nhau, Anki gộp được — không phải chọn chi�
 Đọc kỹ mục "chỗ tôi không chắc" trong báo cáo: lô động từ/tính từ gần như **không được bộ soát
 đỡ** (`nouns.csv` chỉ có 382/703 từ là danh từ), nên đó là chỗ duy nhất bắt được lỗi nội dung.
 
-## 📊 SOÁT TOÀN DECK 28/07 — ảnh chụp chuẩn để đối chiếu về sau
+⚠️ **Thẻ NGẮN không mặc nhiên là thẻ lỗi.** Ảnh chụp 28/07 có 6 thẻ dưới 3 KB đều hợp lệ:
+`пока · пожалуйста · все · не · гиря · адрес` — từ gốc trơn / hư từ, README §2 **cấm bịa cấu
+trúc** cho chúng. **Ngắn vì không chẻ được là đúng, đừng "sửa" cho dày lên.**
+(Ảnh chụp toàn deck 28/07 đã cắt 04/08: deck nay 1039 thẻ chứ không phải 908 nên nó hết dùng
+được làm mốc đối chiếu; số đúng luôn lấy bằng `congcu.py trangthai`.)
 
-`deck:RUSSIAN::*` = **908 thẻ, 100% model `RU_Word`** (không lẫn model khác), và **0 thẻ ngoài
-hàng đợi** sau khi nối 168 từ. Quy hoạch đã phủ kín.
-
-| Nội dung thật trên thẻ | Số thẻ | |
-|---|---|---|
-| **Chuẩn mới (đã nạp)** | **223** | 217 dày ≥3 KB + 6 thẻ ngắn hợp lệ |
-| Rỗng hoàn toàn | 466 | chưa soạn |
-| `hd-*` mỏng (chuẩn cũ, lô 01→12) | 168 | nay là k51–k60 |
-| Còn mnemonic cũ `mn-*` | 51 | rải ở k17–k46, sẽ tự bị viết đè |
-
-Độ dày: **đã nạp tb 7 381 B** (trung vị 6 408, min 2 394, max 16 874) · **chưa soạn tb 424 B**.
-
-⚠️ **6 thẻ đã nạp dưới 3 KB không phải lỗi**: `пока · пожалуйста · все · не` (k12), `гиря`
-(k15), `адрес` (k49) — từ gốc trơn / hư từ, README §2 cấm bịa cấu trúc cho chúng. **Ngắn vì
-không chẻ được là đúng, đừng "sửa" cho dày lên.**
-
-📌 Con số `mn-*` giảm **54 → 51** đúng bằng 3 thẻ k15/k16 vừa viết đè — khớp, đường ống ổn.
-Xoá CSS `mn-*` trong `card.css` chỉ an toàn khi con số này về **0**.
-
-## Khi HẾT 31 lô còn lại (đếm 02/08; `congcu.py trangthai` luôn là số đúng)
+## Khi HẾT các lô còn lại (`congcu.py trangthai` luôn là số đúng)
 
 ```bash
 python data/huongdan/kiemtra.py     # soát lại TRÊN THẺ THẬT, sau khi đã nạp hết
@@ -541,20 +517,14 @@ python data/huongdan/kiemtra.py     # soát lại TRÊN THẺ THẬT, sau khi đ
 Sau khi nạp xong toàn bộ thẻ: **xoá khối CSS `mn-*` di sản** (6 quy tắc) trong
 `anki_tools/templates/card.css`.
 
-✅ **Đã xác nhận xoá được — nhưng chỉ sau khi hết hàng đợi.** Đo lại 28/07 trên 908 thẻ:
-**cả 54 thẻ mang mnemonic cũ (`mn-story`/`mn-tip`/`mn-read`) đều nằm trong lô CHƯA soạn**, nên
-chúng sẽ tự bị viết đè khi lô của chúng tới lượt. Hết hàng đợi = 0 thẻ dùng `mn-*` = xoá CSS an
-toàn. Trước đó thì không, vì xoá sớm là vỡ giao diện 54 thẻ đang sống.
+✅ **Xoá được — nhưng CHỈ sau khi hết hàng đợi.** Cả 54 thẻ mang mnemonic cũ (`mn-story`/`mn-tip`/
+`mn-read`) đều nằm trong lô CHƯA soạn ⇒ tự bị viết đè khi tới lượt. Xoá CSS sớm = vỡ giao diện 54
+thẻ đang sống. **Cũng đừng xoá NỘI DUNG mnemonic cho gọn** (đã bác 28/07): chúng là mnemonic thuần,
+xoá là để lại ô trống hàng tuần liền, mà nội dung phần lớn đúng (từ họ hàng, luật vô thanh hoá).
 
-📕 **Bài học còn giá trị từ khối 168 thẻ lô 01→12 (đã soạn lại xong 28–30/07):** ô Hướng dẫn có
-giá trị nhất **ở đúng lúc user đang học từ**, không phải ở chỗ nào trống nhất. Tôi từng khuyên ưu
-tiên 466 thẻ rỗng, **user bác và đúng hơn**: *"những từ mới, tôi chưa thuộc nên cần hướng dẫn hơn"*.
-
-**Đừng xoá nội dung mnemonic cũ đi cho gọn** (đã cân nhắc và bác 28/07): cả 54 thẻ là mnemonic
-**thuần**, không thẻ nào có sẵn phần `hd-*`, nên xoá là để lại ô trống hàng tuần liền. Mà nội
-dung đó không phải rác — ngoài phần phiên âm thô đã bị bác, mỗi thẻ còn nêu **từ họ hàng**
-(`лев`↔lion, `хлеб`↔loaf) và **luật vô thanh hoá âm cuối** (`в→f`, `б→p`), đều đúng. Chúng tự
-bị viết đè khi lô của chúng tới lượt.
+📕 **Bài học còn giá trị:** ô Hướng dẫn có giá trị nhất **ở đúng lúc user đang học từ**, không phải
+ở chỗ nào trống nhất. Tôi từng khuyên ưu tiên thẻ rỗng, **user bác và đúng hơn**: *"những từ mới,
+tôi chưa thuộc nên cần hướng dẫn hơn"*.
 
 ## Việc còn nợ
 

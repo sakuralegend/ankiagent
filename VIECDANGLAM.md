@@ -8,11 +8,10 @@ Cả ba đã soạn → soát → nạp → commit. `nap` khớp tuyệt đối 
 
 ### Việc còn nợ, để phiên sau nhặt
 
-1. 🔴 **MỘT việc bị CHẶN, cần user quyết** — vá `PoS` của note `справа` (id `1784517631839`) từ
-   `n`/`noun`/`FEM ♀` về `oth`/`other`/rỗng. Cả `PowerShell` lẫn `Bash` đều bị **classifier chặn**,
-   tôi dừng chứ không lách. Chi tiết + bằng chứng ở `SONO.md` mục rác tầng dữ liệu.
-2. ⚠️ **`компания` đụng `фирма`** (cùng `n` + FEM ♀ nên badge không cứu). Agent k36 chỉ sửa được
+1. ⚠️ **`компания` đụng `фирма`** (cùng `n` + FEM ♀ nên badge không cứu). Agent k36 chỉ sửa được
    phía `компания`; **tới lô của `фирма` thì nhớ tách nốt.**
-3. 🔴 **`семья́` vẫn đụng chuỗi "gia đình" với `род` và `дома́шний`** — tới lô của hai từ kia thì tách.
-4. 📊 **Điểm đo hạn mức thứ hai: 85% → 47 từ.** Đóng phiên nhớ hỏi user còn bao nhiêu %; đó là số
-   cần để biết `1,5%/từ` có phải hạ không — xem `kho/TIEPTUC.md` mục 📊 CHI PHÍ.
+2. 🔴 **`семья́` vẫn đụng chuỗi "gia đình" với `род` và `дома́шний`** — tới lô của hai từ kia thì tách.
+3. ✅ **Đã vá `справа`** (user duyệt cuối phiên): note + `tudien.json` về `oth`. Gốc trong bộ đệm
+   ngữ pháp vẫn hỏng — còn nằm ở `SONO.md`.
+4. ✅ **Đã đo hạn mức lần hai: 47 từ ăn 65%** (đầu phiên 15% → cuối 80%) ⇒ **1,38%/từ**. Đã hạ mô
+   hình 1,5 → **1,4%/từ** và nới trần phiên lên **~58 từ** ở `kho/TIEPTUC.md` mục 📊 CHI PHÍ.
