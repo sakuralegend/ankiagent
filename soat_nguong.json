@@ -34,5 +34,7 @@
     }
   },
   "phienban": {"qd": "QD-07", "giu_ban": 10, "muc_moi_ban": 5},
-  "so_quyetdinh": {"qd": "QD-23", "tran_dong": 250}
+  "so_quyetdinh": {"qd": "QD-23", "tran_dong": 250},
+  "so_no": {"qd": "QD-25", "tran_dong": 330},
+  "viecdanglam": {"qd": "QD-25", "tran_muc": 1}
 }

@@ -52,6 +52,8 @@ MUC = [
     ("S14", "PHIENBAN.md QUA TRAN BAN/MUC (QD-07)", cua_nguong.s14_phienban_tran, True),
     ("S15", "DONG SO QUYET DINH QUA TRAN (QD-23)", cua_nguong.s15_dong_quyetdinh_dai, True),
     ("S16", "NO DA TRA VAN NAM TRONG SONO.md (QD-24)", cua_nguong.s16_no_da_tra_con_nam_lai, True),
+    ("S18", "SONO.md: NO DAI QUA TRAN / QUA HAN XOA (QD-25)", cua_nguong.s18_sono_dong_dai_hoac_qua_han, True),
+    ("S19", "VIECDANGLAM.md CON TON DAU VIEC (QD-25)", cua_nguong.s19_viecdanglam_con_ton, True),
     ("S17", "NUOT LOI IM LANG (except: pass)", cua_code.s17_nuot_loi_im_lang, False),
 ]
 

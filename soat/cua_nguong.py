@@ -7,6 +7,7 @@ vì S12 đã kêu ĐỎ rồi — kêu ba lần cho một lỗi thì người đ
 """
 import json
 import re
+from datetime import date
 from fnmatch import fnmatchcase
 
 from . import khung
@@ -182,3 +183,67 @@ def s14_phienban_tran():
         if so > ng["muc_moi_ban"]:
             ra.append(PhatHien(f"PHIENBAN.md|{ban[:24]}", 0, f"{so} muc > tran {ng['muc_moi_ban']}/ban"))
     return ra
+
+
+def s18_sono_dong_dai_hoac_qua_han():
+    """`SONO.md`: MỘT NỢ = MỘT DÒNG BẢNG, và **bắt buộc có HẠN XOÁ** (QD-25).
+
+    Vì sao cần: sổ nợ trước đây là văn xuôi tự do, nên một món nợ ghi 04/08 phình
+    thành **10 dòng log** — đúng cái đã giết `CHANGELOG.md`. Trần thì `S10` đã
+    canh cho cả file, nhưng trần TỔNG không chặn được một mục nuốt hết ngân sách
+    của các mục khác; phải đếm TỪNG DÒNG, giống `S15` làm với `QUYETDINH.md`.
+
+    Hạn xoá là vế thứ hai và là vế thiếu hẳn trước đây: không có hạn thì món nợ
+    nằm im vĩnh viễn, sổ chỉ dài ra chứ không bao giờ ngắn lại. Quá hạn ⇒ ĐỎ,
+    chặn deploy, buộc người sửa QUYẾT LẠI (trả nợ, hoặc gia hạn kèm lý do mới).
+    """
+    try:
+        ng = nguong()["so_no"]
+    except (OSError, ValueError, KeyError):
+        return []                              # config hỏng: S12 kêu ĐỎ
+    p = khung.GOC / "SONO.md"
+    if not p.exists():
+        return []
+    hom_nay = date.today().isoformat()
+    ra = []
+    for i, dong in enumerate(p.read_text(encoding="utf-8").splitlines(), 1):
+        o = [x.strip() for x in dong.split("|")]
+        # Dòng nợ = dòng bảng có đủ 3 ô và KHÔNG phải header/gạch ngăn.
+        if len(o) < 5 or set(dong) <= set("|- :") or o[1].startswith("Nợ"):
+            continue
+        ten = re.sub(r"[*`🔴]", "", o[1])[:40]
+        if len(dong) > ng["tran_dong"]:
+            ra.append(PhatHien(f"SONO.md|{ten}", i,
+                               f"{len(dong)} ky tu > tran {ng['tran_dong']} — mot no MOT dong; "
+                               f"chi tiet day sang `git log --grep`"))
+        han = o[3]
+        if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", han):
+            ra.append(PhatHien(f"SONO.md|{ten}", i,
+                               f"thieu HAN XOA (o cuoi = {han!r}) — phai la ngay YYYY-MM-DD (QD-25)"))
+        elif han < hom_nay:
+            ra.append(PhatHien(f"SONO.md|{ten}", i,
+                               f"QUA HAN {han} — tra no (xoa dong) hoac gia han kem ly do moi"))
+    return ra
+
+
+def s19_viecdanglam_con_ton():
+    """`VIECDANGLAM.md` xong phiên phải TRỐNG, hoặc còn đúng **một** đầu việc.
+
+    User chốt 04/08. Phiếu này là thứ phiên sau đọc đầu tiên; để tồn nhiều đầu
+    việc thì nó thành sổ nợ thứ hai — mà nợ đã có `SONO.md`, và hai sổ song song
+    thì không sổ nào được tin. Đếm theo mục `##` (mỗi đầu việc một mục).
+    """
+    try:
+        tran = nguong()["viecdanglam"]["tran_muc"]
+    except (OSError, ValueError, KeyError):
+        return []                              # config hỏng: S12 kêu ĐỎ
+    p = khung.GOC / "VIECDANGLAM.md"
+    if not p.exists():
+        return []
+    muc = [d for d in p.read_text(encoding="utf-8").splitlines()
+           if re.match(r"##\s+\S", d)]
+    if len(muc) <= tran:
+        return []
+    return [PhatHien("VIECDANGLAM.md", 0,
+                     f"{len(muc)} dau viec > tran {tran} — xong phien thi phieu phai TRONG "
+                     f"hoac con dung {tran}; viec chua lam day sang SONO.md kem HAN XOA")]
