@@ -61,7 +61,7 @@ AskUserQuestion trắc nghiệm** tới khi rõ, ghi `VIECDANGLAM.md`) → `keho
 
 ## DỪNG LẠI HỎI trước khi
 
-1. Đổi/thêm/xoá field của model Anki hay bất cứ gì kích full sync (schema mod → VPS kẹt "Sync status 2" **im lặng**, đã xảy ra thật).
+1. Đổi/thêm/xoá field của model Anki hay bất cứ gì kích full sync (schema mod → VPS kẹt "Sync status 2" **im lặng**, đã xảy ra thật). 🔴 Hỏi để **BÁO**, không phải để ngần ngại: user chốt 04/08 *"đó là chuyện buộc phải làm khi thay đổi cấu trúc thẻ, khi cần chỉ cần dừng lại bảo tôi làm"*. Cứ đề xuất thẳng nếu thiết kế đáng, rồi dừng đúng 2 chỗ cần TAY user: laptop `Tools → Sync → Upload`; VPS `vnc.bat` → Sync → **Download**. AnkiConnect không chọn được chiều — đừng đi tìm lại.
 2. Xoá hoặc ghi đè hàng loạt thẻ/note thật.
 3. Tạo file `.py` mới ở thư mục gốc.
 4. Viết hàm thứ hai cùng vai với hàm đã có — trước khi viết bất cứ gì, **liệt kê hàm/module có sẵn dùng lại được**; có cái gần giống thì mở rộng nó.
