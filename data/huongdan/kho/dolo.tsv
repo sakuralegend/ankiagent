@@ -4,6 +4,11 @@
 # GIAM khi lo to len khong? Neu co thi tran cong lo phai ha, vi cua may KHONG
 # kiem noi dung — xem git log quanh 29/07 muc "p/p cua co lo".
 #
+# 🔴 MOI LO SOAN O OPUS MUC HIGH — chot 05/08/2026, DUNG doi muc. Bang nay chi
+# so sanh duoc khi mot bien duy nhat thay doi; tron muc reasoning vao thi cot
+# `nguonsai` mat nghia (khong con biet so tut la do lo kho hon hay do muc thap
+# hon). Extrahigh dot 80% han muc mot phien ma khong mua them gi do duoc o day.
+#
 # Vi sao phai ghi tay: `soat`/`dodai` do duoc px va o do, nhung "so loi tu bat"
 # thi khong may nao dem duoc — no nam trong bao cao cua agent. Bo trong = khong
 # ro, KHAC voi 0 = da ra soat ky ma khong thay loi nao.
