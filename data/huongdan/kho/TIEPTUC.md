@@ -285,12 +285,9 @@ cửa sổ. Nó sai vì suy ra từ token chứ không đo bằng hạn mức.
 | **Có sửa lỗi giữa chừng / nhiều lượt chat qua lại** | **~45–50 từ** | ~70% |
 | Đo thật 03/08 (phiên "sạch") | 47 từ / 3 lô | **70%** |
 | Đo thật 04/08 đợt 2 (luồng chính làm nhiều) | 47 từ / 3 lô | **65%** |
-| Đo thật 05/08 (3 lô nhưng **một lô chỉ 4 từ**) | 36 từ / 3 lô | ⬜ **chờ user báo** — vào phiên 80% |
-
-🔴 **Điểm đo 05/08 có ích NHẤT sắp tới: nó tách được phần CỐ ĐỊNH khỏi phần tính theo từ.**
-Hai điểm đo cũ đều 3 lô × ~16 từ nên không tách được. Phiên này cũng 3 lô nhưng chỉ 36 từ:
-nếu 1,4%/từ đúng thì nó ăn ~50%; nếu phần cố định mỗi lô mới là thứ đắt thì nó ăn gần bằng phiên
-47 từ. **Con số user báo sẽ nói cái nào đúng — đừng bỏ qua.**
+Phần CỐ ĐỊNH mỗi lô vẫn chưa tách được khỏi phần tính theo từ — cả ba điểm đo đều 3 lô.
+Phiên nào tình cờ chạy **số lô khác 3** thì ghi lại, đó là lúc tách được; **đừng bắt user
+canh số hộ**, tự nhìn quota đầu/cuối phiên mà điền.
 
 ⇒ **Mốc "≈55 từ" user chốt 02/08 SỐNG SÓT hai phép đo, và nay nới được lên ~58.** Trước khi giao
 việc thì cộng số từ của các lô định chạy: quá 58 thì bớt một lô; **biết trước sẽ có việc sửa hoặc
