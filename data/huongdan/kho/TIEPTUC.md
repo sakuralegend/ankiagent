@@ -12,7 +12,31 @@ Bạn (user) chỉ cần gõ một câu: **"chạy tiếp kho"**. Phần dưới
 > 🔄 **02/08: `nap --apply` và `cao_nguphap` nay TỰ kéo sync về trước khi đọc/ghi** (QD-16). Sync
 > hỏng thì chúng DỪNG, không ghi gì — đúng cái đã làm hỏng 23 thẻ đêm 31/07. Không phải nhớ gì thêm.
 
-### ✅ PHIÊN 04/08 đợt 2: k35(15) · k36(15) · k37(17) = **47 từ / 3 lô** — kế tiếp **k38**
+### ✅ PHIÊN 05/08: k66(4 TỪ MỚI) · k38(16) · k39(16) = **36 từ / 3 lô** — kế tiếp **k40**
+
+Cả ba: `QUA 1 MAN HINH: 0` · `QUA 2 O DO: 0` · khối chung **0%** · `nap` khớp tuyệt đối 4/4,
+16/16, 16/16. User vào phiên **80% hạn mức**, chốt 3 lô sau khi nghe cảnh báo giá.
+
+🔴🔴 **LÔ 4 TỪ ĐẮT ĐÚNG NHƯ `moi` CẢNH BÁO — và nó phơi ra HAI LUẬT ĐÁ NHAU.** `moi` in *"lô dưới
+10 từ đắt gấp ~3 lần mỗi từ"* (ước ~16% hạn mức cho 4 từ, ≈4%/từ), nhưng luật **"từ mới ưu tiên hơn
+mọi thứ"** (28/07) lại bảo chạy. Cách hoà: `moi` **gộp dồn sẵn** — hoãn một ngày thì mai nối tiếp
+vào cùng lô. ⇒ **Trình CẢ HAI phương án cho user chọn; đừng mặc định chạy mà cũng đừng mặc định hoãn.**
+
+🔴🔴 **"BÁO N CỤM LÀ SÀN" — nay có hệ số.** Luồng chính giao 2·5·6 cụm; agent tự tìm thêm **1·5·4**
+⇒ **quét chuỗi chỉ thấy khoảng một nửa.** Ca đáng nhớ: `учёба` đụng `образова́ние` · `фильм` đụng
+`кино` · `стоя́нка` đụng `гараж` · `ба́нка` (cái lọ) là bẫy **mặt chữ** với `банк` dù không đụng đề bài.
+
+🆕 **CHUYỂN ĐỀ NGHỊ GIỮA HAI LÔ SONG SONG — chạy trơn lần thứ hai.** k38 xong trước, gửi 4 đề nghị;
+luồng chính `SendMessage` thẳng sang k39 **đang chạy**, k39 nhận cả 4. 🔴 Lời chuyển phải kèm câu
+*"bạn không bắt buộc nghe, đây là lời của lô kia chứ không phải của tôi"* — luồng chính không đọc
+file lô, không có tư cách phán nội dung tiếng Nga.
+
+🔴 **VA CHẠM MỒ CÔI — lớp lỗi MỚI, chưa cửa nào canh.** Đo 05/08: 118 cụm trùng chuỗi → **31** cụm
+mà mọi từ đều ở lô đã `xong` → lọc bằng badge còn **4**. Cơ chế "lô sau sẽ sửa" **không với tới
+chúng**; đã ghi `SONO.md`. 📌 Phép đo đúng vẫn là **badge có tách được không**, không phải trùng
+chuỗi — 27/31 là cặp thể hoặc khác từ loại, badge lo sạch.
+
+### ✅ PHIÊN 04/08 đợt 2: k35(15) · k36(15) · k37(17) = **47 từ / 3 lô**
 
 **43 lô / 662 từ duyệt / 377 chờ.** Cả ba: `QUA 1 MAN HINH: 0` · `QUA 2 O DO: 0` · khối chung **0%**
 · `nap` khớp tuyệt đối 47/47. User vào phiên với **85% hạn mức**, chốt 3 lô.
@@ -30,18 +54,16 @@ không". Trùng chuỗi mà khác badge = kêu oan; khác chuỗi mà cùng badg
 cho agent. Nhờ đó agent k36 gỡ được ca `преподаватель`/`учитель` **không có đáp án đúng duy nhất**
 ngay lượt đầu, và bắt luôn `учитель` tự mâu thuẫn (badge MASC ♂ mà nghĩa in "cô giáo").
 Agent vẫn tự tìm thêm hai ca máy mù: `вход` đụng `подъезд`, `компания` đụng `фирма`.
-⚠️ **`фирма` nằm ngoài lô nên CHƯA sửa — tới lô của nó thì nhớ.**
+⚠️ Lời nhắc cũ *"`фирма` — tới lô của nó thì nhớ"* hoá ra **CHẾT**: k55 và k07 đều đã `xong`, không
+lô nào còn chạm tới (đo 05/08, nay ở `SONO.md`). 🔴 **"Để lô sau lo" chỉ đúng khi từ đó CÒN trong
+lô `cho` — mở `hangdoi.json` kiểm trước khi hứa.**
 
 ### ✅ PHIÊN 04/08 đợt 1: k65(16 TỪ MỚI) · k32(12) · k33(21) · k34(20) = **69 từ / 4 lô**
 
 Cả bốn lô: `QUA 1 MAN HINH: 0` · `QUA 2 O DO: 0` · khối chung **0%** · `nap` khớp tuyệt đối.
 
-🔴🔴 **69 TỪ LỌT TRONG MỘT PHIÊN — mô hình 1,5%/từ dự 104% (VƯỢT), thực tế KHÔNG đứt.** User chốt
-chạy sau khi nghe cảnh báo. Token agent **532K/69 từ = 7,7K/từ**, so mô hình (65K + 2,67K/từ) dự 444K
-⇒ **thật cao hơn dự 20%**, khớp vệt cũ. Vậy phần token đúng mà phần **%hạn mức** đọc quá cao — hoặc
-1,5% quá đắt, hoặc phiên này rẻ bất thường vì **luồng chính đứng im tuyệt đối** (giao cả 4 lô trong
-MỘT tin nhắn, không sửa lỗi nào giữa chừng). ⚠️ **Một điểm đo chưa đủ để hạ 1,5%** — nhưng đủ để
-biết trần "~55 từ" là trần **thận trọng**, không phải trần cứng.
+🔴 **69 từ lọt trong MỘT phiên dù mô hình cũ dự "vượt hạn mức"** ⇒ trần "~55 từ" là trần **thận
+trọng**, không phải trần cứng. (Phần tính bằng token đã bỏ 04/08 — xem bảng 📊 CHI PHÍ.)
 
 🔴🔴 **QUÉT `vacham` TRƯỚC KHI GIAO LÔ, DÁN DANH SÁCH VÀO LỜI NHẮN** (dựng 03/08; phiên này dùng lần
 hai: k65 **5** · k32 **0** · k33 **6** · k34 **5**). Agent soạn một lô **không nhìn thấy hơn 1000 thẻ
@@ -51,11 +73,9 @@ khớp CHUỖI** ⇒ là **sàn sau**: cả bốn agent lại tự tìm thêm va
 trong lời nhắn rằng "0 là sàn, không phải bằng chứng sạch"** — không nói thì agent đọc cái im lặng
 thành xác nhận, đúng lỗi mà §5 đã cảnh báo với danh sách "phải đọc bằng mắt".
 
-🆕 **HAI LÔ CÙNG TOPIC CHẠY SONG SONG MÀ KHÔNG ĐỤNG NHAU — cách chặn rẻ, giữ lại.** k33 và k34 đều
-`people::family`, chạy cùng lúc nên mù nhau. Chỉ cần **dán danh sách từ của lô kia vào lời nhắn** kèm
-câu *"dùng chúng làm Họ hàng thì chỉ nêu nghĩa, đừng dựng hệ thống chung"*. Hai lô tự chia phần cho
-nhau: k33 đẩy `мама`/`папа` về phía **thân mật** rồi báo lên rằng `мать`/`отец` bên kia nên lấy phía
-**trang trọng** — k34 làm đúng thế mà không được dặn. **Luồng chính không phải làm trọng tài.**
+🆕 **Hai lô cùng topic song song: chỉ cần dán danh sách từ của lô kia vào lời nhắn** kèm câu *"chỉ
+nêu nghĩa, đừng dựng hệ thống chung"*. k33 tự đẩy `мама`/`папа` sang phía **thân mật** rồi báo lên
+để k34 lấy phía **trang trọng** — nó làm đúng thế mà không cần dặn. **Luồng chính không làm trọng tài.**
 
 ⚠️ **`moi` KHÔNG tự chia lô khi vượt trần 22 — nó chỉ CẢNH BÁO rồi vẫn gom cả cục.** 47 từ sáng
 03/08 vào chung một `k62`. Luồng chính phải tự chia (`hangdoi.json` lưu từ **không dấu trọng âm**,
@@ -129,9 +149,8 @@ cách** ⇒ ca lẻ. Đã vá thẳng `GrammarJSON`, sao lưu `backups/_backup_g
 (`край` = `'кра́е краю́'` cũng thiếu phẩy nhưng **cả hai dạng đều thật** — đừng "sửa".)
 ⇒ **Lần sau nghi rác bảng chia thì lọc theo "có dấu cách mà KHÔNG có dấu phẩy"**, rẻ và trúng.
 
-📌 **k27 (thời tiết) KHÔNG có lấy một khối `CUM CO DINH`/`CACH DUNG` nào** trong dữ liệu ngữ pháp —
-cả 13 từ. Nghĩa là lô này mất sạch nguồn ứng viên ô đỏ mà `congcu.py` lẽ ra cung cấp. Gặp lô im
-lặng kiểu này thì **đừng tưởng "không có gì đáng cảnh báo"**.
+📌 **Có lô im lặng hoàn toàn: k27 (13 từ) không có lấy một khối `CUM CO DINH`/`CACH DUNG` nào** ⇒
+mất sạch nguồn ứng viên ô đỏ. **Đừng đọc cái im lặng đó thành "không có gì đáng cảnh báo".**
 
 📊 **Chi phí: xem bảng "📊 CHI PHÍ" phía dưới** — tính bằng **% hạn mức**, không bằng token.
 
@@ -188,18 +207,17 @@ User chốt 29/07 sau khi xem bảng trạng thái theo **đời soạn**:
 > *"Những từ được như lô vừa làm là đạt chuẩn (phải có hướng dẫn trọng âm nếu đặc biệt…).
 > Những cái còn lại coi như không có, làm lại từ đầu."*
 
-⇒ **Chỉ `k14` + `k48` (38 từ) được tính là xong.** Toàn bộ 912 từ còn lại đã trả về `cho`,
-kể cả 78 từ soạn 28/07 (đạt cả hai trần) và 75 từ từng mang nhãn *"đạt chuẩn sẵn"*.
-**59 lô / 950 từ · 38 duyệt · 912 chờ.**
+⇒ Lúc đó chỉ `k14`+`k48` được tính là xong, 912 từ còn lại trả về `cho` — kể cả 75 từ từng mang
+nhãn *"đạt chuẩn sẵn"*. (Số tiến độ hiện tại luôn lấy bằng `congcu.py trangthai`, đừng đọc ở đây.)
 
 | Bỏ đi | Vì sao |
 |---|---|
 | Trạng thái **`dat`** | Nhãn gán 28/07 đã hết hạn — 7/75 từ nay vỡ trần sau khi thẻ có thêm bảng chia + badge. Nhóm đó nay là 4 lô thường (`k56`–`k58`, `k61`). |
 | Chế độ **`sua`** | "Làm lại từ đầu" ⇒ mọi lô soạn mới. Vá còn **đắt hơn** soạn mới (+15% với thẻ mỏng) vì agent vẫn phải xuất toàn bộ nội dung, chỉ cộng thêm phần đọc bản cũ. |
 
-⚠️ **File `kNN_*.py` cũ vẫn nằm trên đĩa** (k01…k13, k15, k16, k49…k54) nhưng lô của chúng
-đã là `cho` — `nap` chỉ đọc lô `xong` nên chúng **không thể lọt vào thẻ**, và agent sẽ ghi đè
-khi tới lượt. 🔴 **Đừng mở file cũ ra xem lúc soạn lại** — vừa đắt vừa kéo văn phong dài trở lại.
+⚠️ File `kNN_*.py` cũ còn trên đĩa nhưng lô `cho` thì `nap` không đọc ⇒ **không thể lọt vào thẻ**,
+agent ghi đè khi tới lượt. 🔴 **Đừng mở file cũ ra xem lúc soạn lại** (lời dặn này cũng nằm sẵn
+trong `thucong` của từng lô, nên mọi agent đều thấy).
 
 ### 🔴 LUẬT THỨ TỰ — user chốt 29/07
 
@@ -267,6 +285,12 @@ cửa sổ. Nó sai vì suy ra từ token chứ không đo bằng hạn mức.
 | **Có sửa lỗi giữa chừng / nhiều lượt chat qua lại** | **~45–50 từ** | ~70% |
 | Đo thật 03/08 (phiên "sạch") | 47 từ / 3 lô | **70%** |
 | Đo thật 04/08 đợt 2 (luồng chính làm nhiều) | 47 từ / 3 lô | **65%** |
+| Đo thật 05/08 (3 lô nhưng **một lô chỉ 4 từ**) | 36 từ / 3 lô | ⬜ **chờ user báo** — vào phiên 80% |
+
+🔴 **Điểm đo 05/08 có ích NHẤT sắp tới: nó tách được phần CỐ ĐỊNH khỏi phần tính theo từ.**
+Hai điểm đo cũ đều 3 lô × ~16 từ nên không tách được. Phiên này cũng 3 lô nhưng chỉ 36 từ:
+nếu 1,4%/từ đúng thì nó ăn ~50%; nếu phần cố định mỗi lô mới là thứ đắt thì nó ăn gần bằng phiên
+47 từ. **Con số user báo sẽ nói cái nào đúng — đừng bỏ qua.**
 
 ⇒ **Mốc "≈55 từ" user chốt 02/08 SỐNG SÓT hai phép đo, và nay nới được lên ~58.** Trước khi giao
 việc thì cộng số từ của các lô định chạy: quá 58 thì bớt một lô; **biết trước sẽ có việc sửa hoặc
@@ -289,9 +313,7 @@ từ `language-grammar`) trong khi lô thật gần như toàn **danh từ cụ 
 
 ⚠️ **Thứ tự chạy ≠ thứ tự số hiệu**: `tiep` lấy lô `cho` **đầu danh sách**. Đừng sắp xếp lại.
 ✅ **Thẻ trong Anki KHÔNG bị xoá** — user vẫn học bằng nội dung hiện có, từng lô thay khi tới lượt.
-💰 **Vá ĐẮT HƠN soạn mới** (đo 28/07, ngược trực giác): vá không giảm phần viết, chỉ cộng thêm
-phần đọc bản cũ — **+15% với thẻ mỏng, +80% với thẻ dày**. Chế độ `sua` đã bỏ hẳn 29/07 ⇒ **soạn
-mới và KHÔNG mở file cũ ra xem**, vừa rẻ hơn vừa tránh kéo văn phong dài trở lại.
+💰 **Vá ĐẮT HƠN soạn mới** — chi tiết đã có ở bảng mục 29/07 phía trên, đừng chép lại xuống đây.
 
 🆕 **Trạng thái `"dat"`**: thẻ đã đạt chuẩn sẵn — **không phải `xong`** (không có file, `nap` bỏ
 qua) và **không phải `cho`** (không ai phải làm gì). Thiếu nó thì bộ đếm `tu:` không bao giờ khớp
@@ -310,18 +332,9 @@ message ghi ra file rồi `git commit -F <file>`. Đừng mất thời gian dò 
 `xephangdoi.py` sắp từ **theo hậu tố**. Với danh từ thì tuyệt (mọi từ `-ция` chung một luật
 trọng âm), nhưng **với hư từ và số từ thì hậu tố không phải họ hàng** — k16 cũ trộn
 `чей·ой·твой·какой·мой·к·как·сам·там·рядом` chỉ vì chúng vần với nhau, còn số thứ tự thì bị
-xé ra ba lô. Đã ghép tay lại theo **họ ngữ pháp thật**:
-
-| Lô | Trục | Từ |
-|---|---|---|
-| k16 | đại từ nhân xưng & sở hữu | 14 |
-| k17 | nghi vấn, chỉ định & nơi chốn | 14 |
-| k18 | giới từ & cách chi phối | 8 |
-| k19 | tiểu từ, trạng từ & động từ khiếm khuyết | 14 |
-| k28 | số đếm 0–20 | 21 |
-| k29 | hàng chục, trăm & nghìn | 17 |
-| k30 | số thứ tự | 21 |
-| k31 | đơn vị đo & khái niệm số | 7 |
+xé ra ba lô. Đã ghép tay lại theo **họ ngữ pháp thật**: k16–k19 (đại từ · nghi vấn · giới từ ·
+tiểu từ) và k28–k31 (số đếm · hàng chục · số thứ tự · đơn vị đo). **7/8 đã chạy xong tính đến
+05/08, chỉ còn `k16` — trục từng lô nay `tiep` tự in ra, không cần bảng ở đây nữa.**
 
 Tám lô này mang khoá `"thucong"` trong `hangdoi.json`. **`chialai.py` nay TỪ CHỐI chạy** khi
 thấy chúng (phải `--ep` mới ghi đè) — vì chạy lại là gom hết từ của topic rồi chia lại bằng
@@ -457,8 +470,8 @@ Khuôn lời nhắn giao cho agent phụ (đổi `kNN` và phần chủ đề):
 🔴 **MỖI PHIÊN 3 LÔ** (chuẩn §2b — user hạ từ 4 xuống 3 ngày 02/08 sau khi 4 lô vẫn vượt hạn mức),
 **VÀ PHIÊN ĐÓ CHỈ ĐƯỢC CHẠY LÔ.**
 
-⚠️ **Con số chi phí sống ở bảng "📊 CHI PHÍ" phía trên** (65K cố định/lô + 2,67K mỗi từ, đo thật
-5 điểm). Mọi con số cũ hơn đã bị nó thay — đừng khôi phục.
+⚠️ **Con số chi phí sống ở bảng "📊 CHI PHÍ" phía trên, tính bằng % HẠN MỨC** — dòng cũ ở đây in
+lại mô hình token đã bỏ, tự mâu thuẫn với chính bảng đó nên cắt 05/08.
 
 📊 **Hai điều đã đo và còn đúng:** (1) phần cố định mỗi lô **không phụ thuộc số từ**, nên lô to rẻ
 hơn tính trên mỗi từ; (2) mỗi lượt chat của luồng chính **gửi lại toàn bộ hội thoại đã tích**, nên
@@ -525,27 +538,6 @@ xoá là để lại ô trống hàng tuần liền, mà nội dung phần lớn
 📕 **Bài học còn giá trị:** ô Hướng dẫn có giá trị nhất **ở đúng lúc user đang học từ**, không phải
 ở chỗ nào trống nhất. Tôi từng khuyên ưu tiên thẻ rỗng, **user bác và đúng hơn**: *"những từ mới,
 tôi chưa thuộc nên cần hướng dẫn hơn"*.
-
-## Việc còn nợ
-
-- ⚠️ **Thẻ phình dài: 21 thẻ vượt 12 KB, và KHÔNG chỉ ở k04** (đo toàn deck 28/07 — trước đây
-  tài liệu chỉ ghi k04, thiếu mất k03 và k06):
-
-  | Lô | Vượt trần | Trên tổng |
-  |---|---|---|
-  | k03 `actions` | **5** | 6 |
-  | k04 `concepts::abstract` | **13** | 15 |
-  | k06 `concepts::abstract` | **2** | 4 |
-  | k07 `concepts::misc` | 1 | 15 |
-
-  Đỉnh `реплика` 16 874 · `диалог` 16 621 · `воскресение` 14 190. Nguyên nhân chung: chồng
-  **ba** khối hệ thống lên cùng một thẻ. Nội dung **không sai**, chỉ dài. Từ k09 trở đi có lời
-  dặn *tối đa 2 khối/thẻ* thì tắt hẳn — **k09→k16 và k49/k50 không thẻ nào vượt**.
-  Lúc nào rảnh thì gọt **k03 + k04 + k06** (20/21 thẻ nằm ở đây): bỏ khối thứ ba ở thẻ mà nó
-  không thật sự liên quan. Kiểm bằng `congcu.py dodai`.
-- ~~Thẻ trùng do U+200B~~ **XONG 28/07**: user duyệt xoá, đã bỏ hai bản 12/07 (bản mang U+200B
-  trong field `Word`, ít lượt ôn hơn), giữ hai bản 04/07 sạch chữ. Bộ sưu tập **871 → 869 note**.
-  Sao lưu đầy đủ cả 4 note kèm revlog ở `_backup_the_trung.json` (không commit).
 
 ## Bẫy đã dính, đừng dính lại
 

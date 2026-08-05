@@ -14,8 +14,7 @@
 
 | Nợ | Vì sao chưa trả | Hết hạn |
 |---|---|---|
-
-**TRỐNG — 04/08/2026.** Mục tiêu của user là sổ này rỗng, và nó đang rỗng thật.
+| **4 cụm va chạm MỒ CÔI**: `другой·тот` · `марка·фирма` · `вещь·штука` · `о·про` — cùng badge nên đề bài không tách được, mà cả 8 từ đều ở lô đã `xong` ⇒ không lô tương lai nào sửa. | Sửa là phán nghĩa tiếng Nga — cần agent đọc từ điển, không phải một lệnh. Đo: `git log --grep SONO-vacham` | 2026-09-05 |
 
 🔴 **Trước khi thêm dòng, hỏi: đây có phải NỢ không?** Nợ = việc mình BIẾT phải làm
 mà cố ý hoãn. KHÔNG phải nợ, và cấm ghi vào đây:
