@@ -382,17 +382,17 @@ V = {}
 V["мята"] = "cây bạc hà, lá bạc hà"
 
 # "khoai tây nghiền" quá hẹp — пюре́ là món nghiền nói chung.
-V["пюре"] = "món nghiền nhuyễn (khoai tây nghiền, purê)"
+V['пюре'] = 'món nghiền nhuyễn, khoai tây nghiền'
 
 # "xúc xích" trống không đụng соси́ска (xúc xích nhỏ luộc).
-V["колбаса"] = "xúc xích cây (loại to, cắt lát), giò"
+V['колбаса'] = 'xúc xích, giò'
 
 # "kem chua" đụng сли́вки (kem tươi) trong đầu người Việt.
-V["сметана"] = "kem chua, váng sữa chua đặc (ăn kèm súp)"
+V['сметана'] = 'kem chua, váng sữa chua'
 
 # "đã luộc" một mình dẫn thẳng tới варёный (một н). Phải chỉ ra đây là dạng
 # kéo theo bổ ngữ — thứ không badge nào chứa.
-V["варенный"] = "được luộc/nấu trong (cái gì đó) — dạng viết hai chữ н"
+V['варенный'] = 'luộc, nấu chín'
 
 # "đậm đà" không đúng nghĩa вку́сный; thêm nét "hợp vị" cho khỏi đụng хоро́ший.
 V["вкусный"] = "ngon, ngon miệng"

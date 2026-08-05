@@ -332,4 +332,4 @@ S["рассказывать"] = (
 # приготовить, изучать/изучить) KHÔNG sửa: mặt đề bài đã in badge IMPF/PERF,
 # ghi thêm chữ "hoàn thành" là lặp đúng thứ user đang nhìn (README §2c).
 V["вспомнить"] = "nhớ lại, sực nhớ ra"          # cũ: "nhớ lại, gợi nhớ" — "gợi nhớ" là nghĩa của напомнить, sai vai
-V["понравиться"] = "thích, thấy ưng ý (người thích đứng ở cách 3, thứ được thích làm chủ ngữ)"
+V['понравиться'] = 'thích, thấy ưng ý'

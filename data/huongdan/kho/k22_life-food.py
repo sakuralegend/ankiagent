@@ -382,17 +382,15 @@ S["вишня"] = (
 # ── Đề bài mặt trước deck 1-go (README §2c): sát tới mức chỉ có MỘT đáp án.
 # Không ghi từ loại / giống / thể / phản thân — bốn badge đã in sẵn.
 V = {
-    "лук":          "củ hành (rau); cũng chính là cây cung bắn tên",
-    "батон":        "ổ bánh mì trắng dài (không phải bánh mì nói chung)",
-    "масло":        "bơ; dầu ăn (chất béo để phết hoặc để rán)",
-    "суп":          "món súp (món nước ăn bằng thìa)",
-    "сахар":        "đường (thứ nêm cho ngọt)",
-    "рис":          "gạo, hạt gạo",
-    "орех":         "quả hạch, hạt cứng (óc chó, hạt phỉ, hạt dẻ…)",
-    "картофель":    "khoai tây (từ trang trọng, dùng trên thực đơn — không phải "
-                    "lối nói thường ngày)",
-    "позавтракать": "ăn sáng (ăn xong bữa sáng, một lần rồi thôi)",
-    "пить":         "uống (đang uống, hay uống)",
-    "вишня":        "quả anh đào chua (loại nhỏ, sẫm màu, để làm mứt — không "
-                    "phải loại to ngọt ăn tươi)",
+    'лук': 'củ hành, cây cung',
+    'батон': 'ổ bánh mì dài, bánh mì que',
+    'масло': 'bơ, dầu ăn, dầu',
+    'суп': 'món súp, canh',
+    'сахар': 'đường',
+    'рис': 'gạo, hạt gạo',
+    'орех': 'quả hạch, hạt cứng, hạt dẻ',
+    'картофель': 'khoai tây, cây khoai tây',
+    'позавтракать': 'ăn sáng',
+    'пить': 'uống',
+    'вишня': 'quả anh đào chua, cây anh đào chua',
 }

@@ -26,7 +26,7 @@ S["будничный"] = (
     '<div class="hd-fam"><b>бу́дни</b> ngày thường (chỉ có số nhiều) · '
     '<b>бу́дний</b> thuộc ngày trong tuần (<b>бу́дний день</b>)</div>'
 )
-V["будничный"] = "tẻ nhạt, đơn điệu như ngày thường (trái với ngày lễ)"
+V['будничный'] = 'thường ngày, tẻ nhạt, đơn điệu'
 
 S["ветреный"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -46,7 +46,7 @@ S["ветреный"] = (
     '<div class="hd-fam"><b>ве́тер</b> gió · <b>ветеро́к</b> làn gió nhẹ · '
     '<b>ве́трено</b> trời có gió (trạng từ)</div>'
 )
-V["ветреный"] = "trời có gió, lộng gió; (người) nhẹ dạ, hay thay đổi"
+V['ветреный'] = 'có gió, lộng gió, nhẹ dạ, hay thay đổi'
 
 S["дождливый"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -64,7 +64,7 @@ S["дождливый"] = (
     '<div class="hd-fam"><b>дождь</b> mưa · <b>дождеви́к</b> áo mưa · '
     '<b>дождево́й</b> thuộc về mưa</div>'
 )
-V["дождливый"] = "mưa nhiều, hay mưa (nói về thời tiết, mùa)"
+V['дождливый'] = 'mưa nhiều, hay mưa'
 
 S["морозный"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -84,7 +84,7 @@ S["морозный"] = (
     '<div class="hd-why">📋 Dạng ngắn giống đực chèn thêm <b>-е-</b> cho đọc được: '
     '<b>моро́зен</b>; ba dạng kia đều đặn, trọng âm đứng yên cả bảng.</div>'
 )
-V["морозный"] = "giá buốt, có sương giá (nói về thời tiết)"
+V['морозный'] = 'giá buốt, có sương giá'
 
 S["облачный"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -104,7 +104,7 @@ S["облачный"] = (
     '<div class="hd-why">📋 Dạng ngắn giống đực chèn <b>-е-</b>: <b>о́блачен</b>; trọng âm '
     'bám chặt <b>о́-</b> ở mọi dạng.</div>'
 )
-V["облачный"] = "có mây, trời nhiều mây; (tin học) đám mây"
+V['облачный'] = 'có mây, nhiều mây, đám mây'
 
 S["пасмурный"] = (
     '<div class="hd-sec">Cách nhớ</div>'
@@ -119,7 +119,7 @@ S["пасмурный"] = (
     '<div class="hd-why">📋 Dạng ngắn giống đực chèn <b>-е-</b>: <b>па́смурен</b>; trọng âm '
     'không dịch đi đâu.</div>'
 )
-V["пасмурный"] = "âm u, xám xịt không thấy nắng (thời tiết); (người) ủ rũ"
+V['пасмурный'] = 'âm u, xám xịt, ủ rũ'
 
 S["положительный"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -139,7 +139,7 @@ S["положительный"] = (
     '<div class="hd-why">📋 Dạng ngắn giống đực rút <b>-льный</b> thành <b>-лен</b>: '
     '<b>положи́телен</b>; các dạng kia giữ nguyên thân.</div>'
 )
-V["положительный"] = "tích cực, mang tính khẳng định; (toán) dương"
+V['положительный'] = 'tích cực, khẳng định, dương'
 
 S["снежный"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -216,7 +216,7 @@ S["весёлый"] = (
     '<div class="hd-why">📋 Dạng ngắn: <b>ве́сел</b> · <b>весела́</b> · <b>ве́село</b> — chỉ '
     'giống cái nhấn ở đuôi, và đúng chỗ đó <b>ё</b> hoá <b>е</b>.</div>'
 )
-V["весёлый"] = "vui nhộn, tươi vui (tính cách, không khí)"
+V['весёлый'] = 'vui vẻ, vui nhộn, tươi vui'
 
 # Họ hàng: CỐ Ý BỎ. `ка́ждый` là đại từ cổ, các từ trông giống gốc đều là ghép
 # hiện đại hiếm dùng — viết vào chỉ để lấp ô (README §2, CHUAN v3 mục D).
@@ -230,7 +230,7 @@ S["каждый"] = (
     '<div class="hd-warn">⚠️ Ba từ hay lẫn: <b>ка́ждый</b> từng cái một · <b>все</b> cả nhóm '
     'gộp lại · <b>любо́й</b> cái nào cũng được.</div>'
 )
-V["каждый"] = "mỗi, từng cái một (đi với danh từ số ít)"
+V['каждый'] = 'mỗi, từng, mọi người'
 
 S["слабый"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -248,7 +248,7 @@ S["слабый"] = (
     '<div class="hd-why">📋 Dạng ngắn chỉ lệch ở giống cái: trọng âm dồn ra đuôi '
     '(<b>слаба́</b>), còn <b>слаб</b> · <b>сла́бо</b> · <b>сла́бы</b> vẫn nhấn gốc.</div>'
 )
-V["слабый"] = "yếu, không có sức; (trà, cà phê) loãng, nhạt"
+V['слабый'] = 'yếu, kém, loãng, nhạt'
 
 S["счастливый"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -267,4 +267,4 @@ S["счастливый"] = (
     '<div class="hd-sec">Họ hàng</div>'
     '<div class="hd-fam"><b>сча́стье</b> hạnh phúc · <b>часть</b> phần</div>'
 )
-V["счастливый"] = "hạnh phúc; may mắn"
+V['счастливый'] = 'hạnh phúc, may mắn'

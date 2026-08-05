@@ -278,13 +278,12 @@ S["кино"] = (
 
 
 V = {
-    "выход":      "lối ra, cửa thoát (chỗ để đi RA — không phải lối vào)",
-    "гараж":      "ga-ra, nhà để xe có mái riêng (không phải bãi đỗ ngoài trời)",
-    "вокзал":     "nhà ga tàu hoả, toà nhà ga lớn (không phải ga xép dọc đường "
-                  "hay ga tàu điện ngầm)",
-    "магазин":    "cửa hàng nói chung (không phải siêu thị lớn)",
-    "цирк":       "rạp xiếc, nghệ thuật xiếc",
-    "жительство": "sự cư trú, việc sống định cư ở một nơi (không phải căn nhà)",
-    "село":       "làng lớn, trung tâm của cả vùng quê (không phải xóm nhỏ)",
-    "кино":       "điện ảnh; việc đi xem phim ở rạp (không phải một bộ phim cụ thể)",
+    'выход': 'lối ra, cửa thoát, cách thoát',
+    'гараж': 'ga-ra, nhà để xe',
+    'вокзал': 'nhà ga, toà nhà ga',
+    'магазин': 'cửa hàng, tiệm',
+    'цирк': 'rạp xiếc, nghệ thuật xiếc',
+    'жительство': 'sự cư trú, nơi ở',
+    'село': 'làng lớn, thôn',
+    'кино': 'điện ảnh, phim ảnh, rạp chiếu bóng',
 }

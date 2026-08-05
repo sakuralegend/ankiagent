@@ -26,7 +26,7 @@ S["блюдо"] = (
     '<div class="hd-sec">Họ hàng</div>'
     '<div class="hd-fam"><b>блю́дце</b> đĩa lót dưới tách</div>'
 )
-V["блюдо"] = "món ăn (một món trong thực đơn, trong bữa)"
+V['блюдо'] = 'món ăn, đĩa lớn đựng thức ăn'
 
 S["борщ"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -56,7 +56,7 @@ S["буфет"] = (
     '<div class="hd-sec">Họ hàng</div>'
     '<div class="hd-fam"><b>буфе́тчик</b> người đứng quầy</div>'
 )
-V["буфет"] = "quầy bán đồ ăn nhẹ (ở trường, nhà hát); tủ búp phê"
+V['буфет'] = 'quầy ăn nhẹ, tủ búp phê'
 
 S["дачка"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -111,7 +111,7 @@ S["картошка"] = (
     '<div class="hd-fam"><b>карто́фель</b> khoai tây (chữ chuẩn) · '
     '<b>карто́фельный</b> làm bằng khoai tây</div>'
 )
-V["картошка"] = "khoai tây — cách nói thông tục, thân mật hằng ngày"
+V['картошка'] = 'khoai tây'
 
 S["конфета"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -190,7 +190,7 @@ S["фирма"] = (
     '<div class="hd-sec">Họ hàng</div>'
     '<div class="hd-fam"><b>фи́рменный</b> chính hãng, của hãng</div>'
 )
-V["фирма"] = "hãng, doanh nghiệp (cái tên hãng in trên sản phẩm)"
+V['фирма'] = 'hãng, doanh nghiệp'
 
 S["чашка"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -210,7 +210,7 @@ S["чашка"] = (
     '<div class="hd-sec">Họ hàng</div>'
     '<div class="hd-fam"><b>ча́ша</b> chén lớn, cúp · <b>ча́шечка</b> tách bé xíu</div>'
 )
-V["чашка"] = "cái tách (chén nhỏ có tai, uống trà/cà phê, kèm đĩa lót)"
+V['чашка'] = 'cái tách, chén'
 
 S["шоколад"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -281,7 +281,7 @@ S["дочь"] = (
     '<div class="hd-fam"><b>до́чка</b> con gái (thân mật) · <b>доче́рний</b> con, '
     'trực thuộc (<b>доче́рняя компа́ния</b> công ty con)</div>'
 )
-V["дочь"] = "con gái (con của cha mẹ)"
+V['дочь'] = 'con gái'
 
 S["любовь"] = (
     '<div class="hd-sec">Chẻ từ</div>'

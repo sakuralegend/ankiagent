@@ -355,30 +355,18 @@ S["семья"] = (
 # Không ghi từ loại / giống / thể / phản thân: mặt đề bài đã in sẵn badge.
 # =========================================================================
 V = {
-    # chùm зна- : ba từ cùng gốc, trước đó hai từ dùng CHUNG một dòng Việt
-    "знакомство":    "sự làm quen; mối quen biết",
-    "знакомиться":   "làm quen với ai (đang trong lúc làm quen, hay làm quen) — đi với с + cách 5",
-    "познакомиться": "quen được ai (một lần, từ lạ thành quen) — đi với с + cách 5",
-    # bộ ba tên gọi
-    "имя":      "tên riêng, phần tên gọi của một người",
-    "фамилия":  "họ, tên chung của cả nhà",
-    "отчество": "tên đệm lấy theo tên bố",
-    # cặp trang trọng ↔ gọi trong nhà
-    "отец": "cha (từ trang trọng, nói về cha của ai đó)",
-    # "mẹ" trần đang đụng мама; đẩy мать sang "người mẹ" thì tách được mà
-    # không phải chờ lô kia sửa hộ.
-    "мать": "người mẹ (từ trang trọng, dùng cả trong giấy tờ)",
-    # bác dữ liệu từ điển: gloss Anh là số ít, dòng Việt cũ gán nghĩa số nhiều
-    "родитель": "bố hoặc mẹ, tính riêng một người",
-    # bác dữ liệu từ điển: danh từ tập hợp, không chỉ được một cá nhân
-    "молодёжь": "giới trẻ (cả lớp người trẻ, coi như một khối)",
-    # bác dữ liệu từ điển: quốc tịch giấy tờ là гражданство
-    "национальность": "dân tộc, tộc người (gốc gác khai trong lý lịch)",
-    # động từ thứ ba của lô: ghi cách nó chi phối
-    "родиться": "chào đời, được sinh ra (в + cách 6 cho năm và nơi sinh)",
-    # nói rõ là hộ gia đình, để không đọc thành "dòng họ"
-    "семья": "gia đình (cả nhà: bố mẹ và con cái)",
-    # дядя · тётя · няня · сын · брат · китаец · американец: dòng cũ đã đủ sát,
-    # KHÔNG khai ở đây để `nap` khỏi in ra một thay đổi không có nội dung.
+    'знакомство': 'sự làm quen, mối quen biết',
+    'знакомиться': 'làm quen',
+    'познакомиться': 'làm quen, quen được',
+    'имя': 'tên riêng, phần tên gọi của một người',
+    'фамилия': 'họ, tên chung của cả nhà',
+    'отчество': 'tên đệm lấy theo tên bố',
+    'отец': 'cha, bố',
+    'мать': 'mẹ, người mẹ',
+    'родитель': 'bố hoặc mẹ, tính riêng một người',
+    'молодёжь': 'giới trẻ, thanh niên',
+    'национальность': 'dân tộc, tộc người',
+    'родиться': 'chào đời, được sinh ra',
+    'семья': 'gia đình',
 }
 

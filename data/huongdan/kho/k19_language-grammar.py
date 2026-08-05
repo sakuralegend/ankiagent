@@ -255,16 +255,16 @@ S["ой"] = (
 # "phải / cần / được / có thể" ứng với мочь · можно · нельзя cùng lúc.
 # ---------------------------------------------------------------------------
 
-V["но"] = "liên từ «nhưng» — vế sau BẺ NGƯỢC vế trước"
-V["нет"] = "«không» (trả lời phủ định), và «không có, không tồn tại» — danh từ theo sau đi cách 2"
-V["есть"] = "động từ «ăn»; và cũng là từ «có, tồn tại» — hai nghĩa chung một mặt chữ"
-V["мочь"] = "có thể, đủ sức làm được việc gì (chủ ngữ là người) — không phải «biết làm» nhờ học"
-V["можно"] = "«được, được phép, có thể» nói trống không có chủ ngữ; người được phép đi cách 3"
-V["нельзя"] = "«không được, cấm, không thể» — dạng phủ định của «được phép»; người đi cách 3"
-V["прямо"] = "thẳng (đi thẳng, không rẽ); và «ngay, đúng phóc» khi dùng để nhấn mạnh"
-V["рядом"] = "ngay cạnh, sát bên — cạnh cái gì thì đi với giới từ «с» + cách 5"
-V["немного"] = "một chút, hơi một ít (đủ dùng, KHÔNG phải chê ít quá) — danh từ sau đi cách 2"
-V["хотя"] = "liên từ «mặc dù, dù rằng» — mở vế nhượng bộ"
-V["всё"] = "đại từ «mọi thứ, tất cả» (một khối, không phải «mọi người»); viết bằng chữ ё"
-V["ещё"] = "trạng từ «nữa, thêm nữa»; và «vẫn còn» khi việc chưa dứt"
-V["ой"] = "thán từ «ối!, ôi!» — buột miệng khi đau hoặc giật mình"
+V['но'] = 'nhưng'
+V['нет'] = 'không, không có, không tồn tại'
+V['есть'] = 'ăn, có, tồn tại'
+V['мочь'] = 'có thể, đủ sức'
+V['можно'] = 'được, được phép, có thể'
+V['нельзя'] = 'không được, cấm, không thể'
+V['прямо'] = 'thẳng, ngay, đúng phóc'
+V['рядом'] = 'ngay cạnh, sát bên, kề bên'
+V['немного'] = 'một chút, một ít, hơi'
+V['хотя'] = 'mặc dù, dù rằng, ít ra'
+V['всё'] = 'mọi thứ, tất cả'
+V['ещё'] = 'nữa, thêm nữa, vẫn còn'
+V['ой'] = 'ối, ôi, ái'

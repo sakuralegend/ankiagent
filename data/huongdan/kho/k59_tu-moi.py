@@ -300,8 +300,8 @@ S["смочь"] = (
 # bị badge bỏ sót).
 
 # Thiếu CÁCH mà động từ chi phối — không field nào chứa thông tin này (README §2c).
-V["позвонить"] = "gọi điện thoại (gọi cho ai — đi với cách 3)"
+V['позвонить'] = 'gọi điện thoại, rung chuông'
 
 # Mơ hồ THẬT về nghĩa, không phải về thể: "nghe" trần trụi trỏ đúng vào услышать,
 # cũng là thẻ PERF + v trong chính lô này. Tách bằng nét chủ động / bị động.
-V["послушать"] = "lắng nghe, nghe một lượt (chủ động bật lên nghe)"
+V['послушать'] = 'lắng nghe, nghe một lượt'

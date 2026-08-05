@@ -172,21 +172,12 @@ S["сыпь"] = (
 # ── VIỆC THỨ HAI: field `Vietnamese` = ĐỀ BÀI deck 1-go (README §2c) ───────────
 # Không ghi từ loại/giống/thể — bốn badge trên mặt đề bài đã in sẵn.
 V = {
-    # từ điển ghi "đầu, trí tuệ, ý kiến, người đứng đầu": "ý kiến" không phải nghĩa
-    # của голова, còn "người đứng đầu" đụng đúng chữ đã dùng cho `метр`.
-    "голова": "đầu (bộ phận cơ thể)",
-    # нога ôm cả cẳng chân lẫn bàn chân; bản cũ tách "chân (cơ thể)/chân (động vật)"
-    # là hai nhánh không tồn tại trong tiếng Nga.
-    "нога":   "chân (cả cẳng chân lẫn bàn chân)",
-    # bỏ "nét chữ viết tay" — nghĩa hiếm, và để trong đề bài thì đụng по́черк.
-    "рука":   "tay (cả cánh tay lẫn bàn tay)",
-    # từ điển ĐÁNH RƠI nghĩa "lưỡi hái" (gloss Anh có "scythe") và thay bằng "doi cát".
-    "коса":   "bím tóc (cùng mặt chữ còn là: lưỡi hái, doi cát)",
-    # "lưỡi gà" là uvula (язычо́к), KHÔNG phải нёбо. Bỏ.
-    "нёбо":   "vòm miệng (trần của khoang miệng)",
-    # вдох ↔ выдох phải tách dứt khoát: cả hai đều là DANH TỪ chỉ một nhịp thở.
-    "вдох":   "hơi hít vào (một nhịp hít)",
-    "выдох":  "hơi thở ra (một nhịp thở ra)",
-    # từ điển nới "rash" thành cả lớp "bệnh da liễu", lại thêm "mụn" (= прыщ).
-    "сыпь":   "nốt ban, mẩn đỏ trên da",
+    'голова': 'đầu',
+    'нога': 'chân, cẳng chân, bàn chân',
+    'рука': 'tay, cánh tay, bàn tay, nét chữ',
+    'коса': 'bím tóc, lưỡi hái, doi cát',
+    'нёбо': 'vòm miệng',
+    'вдох': 'hơi hít vào',
+    'выдох': 'hơi thở ra',
+    'сыпь': 'nốt ban, mẩn đỏ trên da',
 }

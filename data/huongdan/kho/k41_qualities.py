@@ -31,7 +31,7 @@ S["большой"] = (
     '<div class="hd-why">📋 Không có dạng ngắn riêng, mượn của <b>вели́кий</b>: '
     '<b>вели́к · велика́ · велико́ · велики́</b>.</div>'
 )
-V["большой"] = "to, lớn (cỡ lớn nói chung)"
+V['большой'] = 'to, lớn, quan trọng, trưởng thành'
 
 S["небольшой"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -51,7 +51,7 @@ S["небольшой"] = (
     '<div class="hd-fam"><b>большо́й</b> to, lớn · <b>бо́льше</b> hơn · '
     '<b>большинство́</b> đa số</div>'
 )
-V["небольшой"] = "không lớn lắm, nho nhỏ (phủ định của to)"
+V['небольшой'] = 'không lớn, nho nhỏ, ngắn'
 
 # ------------------------------------------------------------- đẹp / xấu
 S["красивый"] = (
@@ -72,7 +72,7 @@ S["красивый"] = (
     '<div class="hd-fam"><b>красота́</b> vẻ đẹp · <b>кра́сный</b> đỏ · '
     '<b>укра́сить</b> trang trí · <b>краси́во</b> đẹp (trạng từ)</div>'
 )
-V["красивый"] = "đẹp, xinh (đẹp mắt, về vẻ ngoài)"
+V['красивый'] = 'đẹp, xinh, đẹp trai'
 
 S["некрасивый"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -92,7 +92,7 @@ S["некрасивый"] = (
     '<div class="hd-fam"><b>краси́вый</b> đẹp · <b>красота́</b> vẻ đẹp · '
     '<b>некраси́во</b> (làm) không đẹp</div>'
 )
-V["некрасивый"] = "không đẹp, khó coi (phủ định của đẹp)"
+V['некрасивый'] = 'không đẹp, khó coi, xấu'
 
 # ------------------- dạng ngắn có trọng âm chạy (và ё chạy theo trọng âm)
 S["новый"] = (
@@ -150,7 +150,7 @@ S["твёрдый"] = (
     '<div class="hd-why">📋 Dạng ngắn <b>твёрд · тверда́ · твёрдо · тверды́</b>: giống cái và '
     'số nhiều dồn trọng âm ra đuôi nên mất <b>ё</b>.</div>'
 )
-V["твёрдый"] = "cứng, rắn (trái với mềm); dứt khoát, kiên định"
+V['твёрдый'] = 'cứng, rắn, dứt khoát, kiên định'
 
 S["тяжёлый"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -169,7 +169,7 @@ S["тяжёлый"] = (
     '<div class="hd-why">📋 Dạng ngắn <b>тяжёл · тяжела́ · тяжело́ · тяжелы́</b>: chỉ giống '
     'đực giữ <b>ё</b>, ba dạng kia trọng âm ra đuôi nên <b>ё</b> thành <b>е</b>.</div>'
 )
-V["тяжёлый"] = "nặng (về trọng lượng); nặng nề, vất vả"
+V['тяжёлый'] = 'nặng, nặng nề, vất vả, khó'
 
 # ------------------------------------------------ DANH TỪ + -н- thành TÍNH TỪ
 S["коммуникативный"] = (
@@ -192,7 +192,7 @@ S["коммуникативный"] = (
     '<div class="hd-fam"><b>коммуника́ция</b> sự giao tiếp, truyền thông · '
     '<b>коммуника́бельный</b> dễ gần, hoà đồng</div>'
 )
-V["коммуникативный"] = "thuộc về giao tiếp (chức năng, kỹ năng giao tiếp)"
+V['коммуникативный'] = 'thuộc về giao tiếp'
 
 S["трудный"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -214,7 +214,7 @@ S["трудный"] = (
     '<div class="hd-why">📋 Dạng ngắn <b>тру́ден</b> (chèn <b>-е-</b> cho đọc được) · '
     '<b>трудна́</b> (giống cái nhấn đuôi) · <b>тру́дно · тру́дны</b>.</div>'
 )
-V["трудный"] = "khó, hóc búa (đòi hỏi công sức, đầu óc)"
+V['трудный'] = 'khó, hóc búa, gian nan'
 
 S["грязный"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -235,7 +235,7 @@ S["грязный"] = (
     '<div class="hd-why">📋 Dạng ngắn <b>гря́зен</b> (chèn <b>-е-</b>) · <b>грязна́</b> — '
     'chỉ giống cái đẩy trọng âm ra đuôi, <b>гря́зно · гря́зны</b> vẫn nhấn gốc.</div>'
 )
-V["грязный"] = "bẩn, dơ (dính bùn đất, cần rửa)"
+V['грязный'] = 'bẩn, dơ, lấm bùn'
 
 S["умный"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -296,7 +296,7 @@ S["длинный"] = (
     '<div class="hd-why">📋 Dạng ngắn <b>дли́нен</b> (giống đực chèn <b>-е-</b> và chỉ còn '
     'một <b>н</b>) · <b>длинна́ · длинно́ · длинны́</b> đều nhấn đuôi.</div>'
 )
-V["длинный"] = "dài (chiều dài của vật, của đường — không dùng cho thời gian)"
+V['длинный'] = 'dài'
 
 S["деревянный"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -339,7 +339,7 @@ S["крупный"] = (
     '<div class="hd-why">📋 Dạng ngắn <b>кру́пен</b> (chèn <b>-е-</b>) · <b>крупна́</b> — chỉ '
     'giống cái nhấn đuôi, <b>кру́пно · кру́пны</b> nhấn gốc.</div>'
 )
-V["крупный"] = "cỡ lớn, hạt to (so với cái cùng loại); tầm cỡ, quy mô lớn"
+V['крупный'] = 'to, thô, hạt to, lớn, đáng kể'
 
 S["серный"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -358,7 +358,7 @@ S["серный"] = (
     '<div class="hd-sec">Họ hàng</div>'
     '<div class="hd-fam"><b>се́ра</b> lưu huỳnh · <b>серни́стый</b> chứa lưu huỳnh</div>'
 )
-V["серный"] = "thuộc về lưu huỳnh (axit sunfuric, suối lưu huỳnh)"
+V['серный'] = 'thuộc về lưu huỳnh'
 
 S["ужасный"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -378,4 +378,4 @@ S["ужасный"] = (
     '<div class="hd-fam"><b>у́жас</b> nỗi kinh hoàng · <b>ужа́сно</b> khủng khiếp; cực kỳ · '
     '<b>ужасну́ться</b> hoảng sợ</div>'
 )
-V["ужасный"] = "khủng khiếp, kinh hoàng (tệ tới mức gây sốc)"
+V['ужасный'] = 'khủng khiếp, kinh hoàng, tồi tệ'

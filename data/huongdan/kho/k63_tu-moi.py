@@ -314,34 +314,32 @@ S["удобный"] = (
 
 # 'hơn, nữa' đụng тоже ('cũng, cũng vậy, nữa'); `oth` nên phải nói rõ từ loại,
 # và "so sánh hơn" là thứ không field nào chứa.
-V["больше"] = "trạng từ so sánh hơn: nhiều hơn, lớn hơn (thứ đem ra so đứng ở cách 2)"
+V['больше'] = 'nhiều hơn, lớn hơn, hơn nữa'
 
 # cặp đối của больше — tách bằng đúng hai nghĩa ít/nhỏ, không dùng lại chữ nào của nó.
-V["меньше"] = "trạng từ so sánh hơn: ít hơn, nhỏ hơn (thứ đem ra so đứng ở cách 2)"
+V['меньше'] = 'ít hơn, nhỏ hơn, kém hơn'
 
 # 'xa' đụng далеко (trạng từ). Bỏ hẳn chữ 'xa' trơn, giữ nghĩa tả sự vật.
-V["далёкий"] = "xa xôi, cách trở (miền đất, quá khứ ở tít đằng kia)"
+V['далёкий'] = 'xa, xa xôi, cách trở'
 
 # 'dài' đụng длинный. Bỏ chữ 'dài', nói thẳng đây là dài về THỜI GIAN.
-V["долгий"] = "lâu, kéo dài nhiều thời gian (mùa đông, cuộc trò chuyện)"
+V['долгий'] = 'lâu, dài, kéo dài'
 
 # 'thú vị' + 'hay' đụng интересный, хороший, хорошо. Đổi hẳn sang chữ khác và
 # nêu chỗ trạng từ này khác tính từ: nó nói về cả sự việc.
-V["интересно"] = ("thấy cuốn hút, đáng chú ý — nói về cả sự việc, không đứng trước "
-                  "danh từ; cũng nghĩa 'tự hỏi không biết…'")
+V['интересно'] = 'thú vị, cuốn hút, đáng chú ý'
 
 # 'khỏe' đụng сильный và хорошо. Bỏ 'khỏe', giữ ba nét dùng thật.
-V["крепкий"] = "chắc, bền, vững chãi (dây, giấc ngủ); đậm (trà, cà phê)"
+V['крепкий'] = 'chắc, bền, vững, đậm'
 
 # 'bây giờ' đụng сейчас. Bỏ 'bây giờ', giữ đúng nét riêng: đối lại với trước kia.
-V["теперь"] = "trạng từ: giờ thì, từ nay trở đi (hàm ý trước kia khác)"
+V['теперь'] = 'bây giờ, giờ thì, ngày nay'
 
 # `oth`: badge vô dụng ⇒ ghi từ loại. Điểm phân biệt là CÓ CHUYỂN ĐỘNG (khác дома).
-V["домой"] = "trạng từ chỉ hướng: về nhà (đang đi về phía nhà mình)"
+V['домой'] = 'về nhà'
 
 # `oth`: ghi từ loại + tách khỏi dạng thân mật здравствуй.
-V["здравствуйте"] = "lời chào lịch sự: xin chào (với người lạ, người trên, hoặc nhiều người)"
+V['здравствуйте'] = 'xin chào'
 
 # `oth`: ghi từ loại + tách khỏi такой (đi với danh từ).
-V["так"] = ("trạng từ: như thế, theo cách đó (đi kèm động từ hoặc tính từ, "
-            "không đứng trước danh từ)")
+V['так'] = 'như thế, theo cách đó, vậy'

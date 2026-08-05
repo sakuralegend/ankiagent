@@ -280,27 +280,14 @@ S["деревня"] = (
 # ---- ĐỀ BÀI tiếng Việt (README §2c): chỉ sửa từ nào đang có nhiều hơn 1 đáp án.
 # Không ghi từ loại / giống / thể — mặt đề bài đã in sẵn badge.
 V = {
-    # 🔴 университет ↔ институт: cùng là danh từ giống đực nên badge in y hệt,
-    # bắt buộc phải tách bằng LỜI. академия đứng cạnh nên tách luôn cho đủ ba.
-    "университет": "trường đại học tổng hợp (nhiều khoa, nhiều ngành)",
-    "институт": "viện nghiên cứu; trường đại học chuyên một ngành",
-    "академия": "viện hàn lâm; học viện",
-    # 'trường đại học' cũ nhận cả hai từ đầu ⇒ đề bài không có đáp án đúng.
-
-    # деревня ↔ село (село nằm ở lô k38): bỏ hẳn 'thôn'/'làng' trần.
-    "деревня": "làng nhỏ, xóm; vùng quê, nông thôn",
-    # кинотеатр ↔ кино (kino ở k38): giữ 'rạp' cho toà nhà, nói rõ là toà nhà.
-    "кинотеатр": "rạp chiếu phim (toà nhà có phòng chiếu và quầy vé)",
-    # автомобиль ↔ машина (машина ngoài lô, đang là 'xe hơi (từ nói hằng ngày)').
-    "автомобиль": "ô tô (từ trang trọng, dùng trong văn bản kỹ thuật)",
-    # проспект: bản cũ 'đường lớn, quảng cáo' — 'quảng cáo' là dịch chệch của
-    # prospectus (tờ giới thiệu), và nó đụng thẳng реклама. 'đại lộ' không đụng ai.
-    "проспект": "đại lộ (phố lớn, thẳng và rộng trong thành phố)",
-    # площадь: bản cũ gộp 3 nghĩa, trong đó 'không gian sống' chỉ là một cách dùng
-    # của 'diện tích' — bỏ đi cho đề bài còn hai nghĩa lõi.
-    "площадь": "quảng trường; diện tích (số đo bề mặt)",
-    # театр: bỏ 'kịch' trần (dễ kéo sang сцена/пьеса), giữ nghĩa toà nhà.
-    "театр": "nhà hát (toà nhà diễn kịch, opera)",
-    # центр: 'giữa' trần quá mơ hồ; badge n/adj đã tách khỏi центральный.
-    "центр": "trung tâm, chỗ chính giữa",
+    'университет': 'trường đại học',
+    'институт': 'viện nghiên cứu, học viện, trường đại học chuyên ngành',
+    'академия': 'viện hàn lâm, học viện',
+    'деревня': 'làng nhỏ, xóm, vùng quê, nông thôn',
+    'кинотеатр': 'rạp chiếu phim',
+    'автомобиль': 'ô tô, xe hơi',
+    'проспект': 'đại lộ, tờ giới thiệu',
+    'площадь': 'quảng trường, diện tích',
+    'театр': 'nhà hát, kịch nghệ',
+    'центр': 'trung tâm, chỗ chính giữa',
 }

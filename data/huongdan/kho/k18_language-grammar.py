@@ -155,11 +155,11 @@ S["вместо"] = (
 # là thứ tách được các nghĩa Việt trùng nhau ("đến", "về", "ở", "với", "giữa").
 V = {}
 
-V["к"]      = "đến chỗ, hướng về phía (giới từ, đi với cách 3)"
-V["о"]      = "về, nói về (giới từ, đi với cách 6)"
-V["до"]     = "cho tới tận, trước lúc (giới từ, đi với cách 2)"
-V["по"]     = "theo, dọc theo, qua (giới từ, đi với cách 3)"
-V["с"]      = "cùng với (cách 5); từ chỗ, khỏi (cách 2) — giới từ"
-V["у"]      = "ở chỗ, cạnh; dùng để nói ai đó CÓ gì (giới từ, đi với cách 2)"
-V["между"]  = "ở giữa hai bên (giới từ, đi với cách 5)"
-V["вместо"] = "thay cho, thay vì (giới từ, đi với cách 2)"
+V['к'] = 'đến chỗ, tới, hướng về phía'
+V['о'] = 'về, nói về, va vào'
+V['до'] = 'cho tới, đến, trước lúc'
+V['по'] = 'theo, dọc theo, qua, vào'
+V['с'] = 'cùng với, từ chỗ, khỏi'
+V['у'] = 'ở chỗ, cạnh, bên'
+V['между'] = 'ở giữa, giữa'
+V['вместо'] = 'thay cho, thay vì'

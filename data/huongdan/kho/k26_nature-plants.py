@@ -322,16 +322,16 @@ S["степь"] = (
 # cây nói chung ↔ cây vân sam. Ba dòng vi của nguồn còn SAI hẳn tên loài/nghĩa
 # (липа, озеро, степь) — sửa luôn ở đây.
 V["трава"]   = "cỏ, thảm cỏ mọc dưới đất"
-V["листва"]  = "tán lá, toàn bộ lá trên cây gộp lại (không đếm, không có số nhiều)"
-V["ёлка"]    = "cây vân sam nhỏ; cây thông Noel"
-V["речка"]   = "con sông nhỏ (cách gọi thân mật của 'sông')"
-V["луна"]    = "mặt trăng (thiên thể)"
+V['листва'] = 'tán lá, lá cây'
+V['ёлка'] = 'cây vân sam nhỏ, cây thông Noel'
+V['речка'] = 'con sông nhỏ, con suối'
+V['луна'] = 'mặt trăng'
 V["поляна"]  = "trảng trống, khoảng đất trống giữa rừng"
-V["липа"]    = "cây đoan (linden, lime tree — cây bóng mát, hoa pha trà)"
+V['липа'] = 'cây đoan, cây bồ đề'
 V["сад"]     = "vườn cây, khu vườn"
 V["небо"]    = "bầu trời"
-V["дерево"]  = "cây, cái cây (nói chung); cũng là gỗ"
+V['дерево'] = 'cây, gỗ'
 V["зерно"]   = "hạt ngũ cốc, hạt thóc"
-V["озеро"]   = "hồ (hồ nước)"
+V['озеро'] = 'hồ, hồ nước'
 V["болото"]  = "đầm lầy"
-V["степь"]   = "thảo nguyên (đồng cỏ khô mênh mông)"
+V['степь'] = 'thảo nguyên'

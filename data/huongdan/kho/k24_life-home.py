@@ -269,14 +269,14 @@ S["кровать"] = (
 V = {}
 
 # пол đụng chính nó (đồng tự), стол ↔ стул đụng nhau — ba dòng dưới phải tách bạch.
-V["пол"] = "sàn nhà (mặt sàn ta đi lên) — cũng chính là từ chỉ giới tính nam/nữ"
-V["стол"] = "cái bàn (mặt bàn có chân, để ăn hoặc làm việc)"
-V["стул"] = "cái ghế tựa (một chiếc ghế rời, không phải ghế bành)"
+V['пол'] = 'sàn nhà, nền, giới tính, nửa'
+V['стол'] = 'cái bàn'
+V['стул'] = 'cái ghế tựa, ghế đẩu'
 
-V["дом"] = "ngôi nhà, toà nhà (bản thân công trình, không phải \"ở nhà\")"
-V["шкаф"] = "cái tủ đứng (tủ quần áo, tủ sách)"
-V["кровать"] = "cái giường (khung giường để nằm ngủ)"
-V["ведро"] = "cái xô xách nước (thùng có quai)"
-V["пакет"] = "cái túi đựng đồ (túi nilon, túi giấy), gói hàng — không phải túi xách"
-V["компьютер"] = "máy vi tính (để bàn hoặc laptop, không phải máy tính bỏ túi)"
-V["бюро"] = "văn phòng dịch vụ, quầy chỉ dẫn (từ mượn, không biến cách)"
+V['дом'] = 'ngôi nhà, toà nhà, gia đình'
+V['шкаф'] = 'cái tủ đứng, tủ quần áo, tủ sách'
+V['кровать'] = 'cái giường'
+V['ведро'] = 'cái xô, cái thùng'
+V['пакет'] = 'cái túi, gói hàng, bưu kiện'
+V['компьютер'] = 'máy vi tính, máy tính'
+V['бюро'] = 'văn phòng, quầy chỉ dẫn'

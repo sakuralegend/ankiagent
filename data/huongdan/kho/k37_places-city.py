@@ -30,7 +30,7 @@ S["справа"] = (
     '<div class="hd-fam"><b>пра́вый</b> bên phải; đúng · <b>пра́вда</b> sự thật · '
     '<b>пра́вило</b> quy tắc · <b>напра́во</b> sang phải</div>'
 )
-V["справа"] = "ở bên phải, từ phía bên phải (chỉ vị trí, không phải hướng rẽ)"
+V['справа'] = 'ở bên phải, từ bên phải'
 
 S["слева"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -50,7 +50,7 @@ S["слева"] = (
     '<div class="hd-fam"><b>ле́вый</b> bên trái · <b>нале́во</b> sang trái · '
     '<b>спра́ва</b> ở bên phải (cùng khuôn с-…-а)</div>'
 )
-V["слева"] = "ở bên trái, từ phía bên trái (chỉ vị trí, không phải hướng rẽ)"
+V['слева'] = 'ở bên trái, từ bên trái'
 
 # ---------------------------------------------------------------- tên riêng
 S["москва"] = (
@@ -67,7 +67,7 @@ S["москва"] = (
     '<div class="hd-fam"><b>москви́ч</b> người Moscow · <b>моско́вский</b> thuộc Moscow '
     '(chú ý: trọng âm lùi vào giữa)</div>'
 )
-V["москва"] = "Moscow (tên thành phố)"
+V['москва'] = 'Moscow, sông Moskva'
 
 S["киев"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -132,7 +132,7 @@ S["улица"] = (
     '<div class="hd-sec">Họ hàng</div>'
     '<div class="hd-fam"><b>у́личный</b> ngoài đường · <b>переу́лок</b> ngõ, hẻm</div>'
 )
-V["улица"] = "đường phố (trong thành phố)"
+V['улица'] = 'đường phố, phố'
 
 S["дорога"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -149,7 +149,7 @@ S["дорога"] = (
     '<div class="hd-fam"><b>доро́жка</b> lối nhỏ, đường chạy (г→ж) · <b>доро́жный</b> thuộc '
     'đường sá · желе́зная <b>доро́га</b> đường sắt</div>'
 )
-V["дорога"] = "con đường (để đi lại); chuyến đi đường"
+V['дорога'] = 'con đường, đường đi, chuyến đi'
 
 S["вход"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -166,7 +166,7 @@ S["вход"] = (
     '<div class="hd-fam"><b>входи́ть</b> đi vào · <b>ход</b> nước đi, sự chạy · '
     '<b>вы́ход</b> lối ra · <b>похо́д</b> chuyến đi bộ đường dài</div>'
 )
-V["вход"] = "cửa vào, chỗ đi vào (nói chung, ngược với “lối ra”); vé vào cửa"
+V['вход'] = 'cửa vào, lối vào, vé vào cửa'
 
 # ---------------------------------------------------------------- chỗ làm, chỗ học
 S["завод"] = (
@@ -185,7 +185,7 @@ S["завод"] = (
     '<div class="hd-fam"><b>заводи́ть</b> khởi động, lên dây · <b>води́ть</b> dẫn, lái · '
     '<b>заводско́й</b> thuộc nhà máy</div>'
 )
-V["завод"] = "nhà máy công nghiệp nặng, xí nghiệp cơ khí (luyện kim, chế tạo, ô tô)"
+V['завод'] = 'nhà máy, xí nghiệp'
 
 S["фабрика"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -201,7 +201,7 @@ S["фабрика"] = (
     '<div class="hd-sec">Họ hàng</div>'
     '<div class="hd-fam"><b>фабри́чный</b> thuộc nhà máy · <b>фабрика́нт</b> chủ nhà máy</div>'
 )
-V["фабрика"] = "nhà máy làm hàng tiêu dùng (dệt may, bánh kẹo, giấy)"
+V['фабрика'] = 'nhà máy, xưởng sản xuất'
 
 S["школа"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -265,7 +265,7 @@ S["почта"] = (
     '<div class="hd-fam"><b>почтальо́н</b> người đưa thư · <b>почто́вый</b> thuộc bưu điện '
     '(почто́вый я́щик hòm thư) · <b>почта́мт</b> bưu điện trung tâm</div>'
 )
-V["почта"] = "bưu điện; thư từ bưu phẩm chuyển qua bưu điện"
+V['почта'] = 'bưu điện, thư từ, bưu phẩm'
 
 S["машина"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -281,7 +281,7 @@ S["машина"] = (
     '<div class="hd-fam"><b>маши́нка</b> máy nhỏ (пи́шущая маши́нка máy chữ) · '
     '<b>механи́зм</b> cơ cấu máy · <b>меха́ник</b> thợ máy</div>'
 )
-V["машина"] = "xe hơi (từ nói hằng ngày); cỗ máy"
+V['машина'] = 'xe hơi, ô tô, cỗ máy'
 
 S["клуб"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -294,4 +294,4 @@ S["клуб"] = (
     '<div class="hd-sec">Họ hàng</div>'
     '<div class="hd-fam"><b>клу́бный</b> thuộc câu lạc bộ</div>'
 )
-V["клуб"] = "câu lạc bộ (hội, và ngôi nhà của hội)"
+V['клуб'] = 'câu lạc bộ, nhà câu lạc bộ'

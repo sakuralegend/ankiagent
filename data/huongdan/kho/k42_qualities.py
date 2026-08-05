@@ -379,44 +379,14 @@ S["горько"] = (
 # Không ghi từ loại / giống / thể — mặt đề bài đã in sẵn badge (cả 18 từ đều
 # adj hoặc adv, badge tự tách mọi cặp tính từ ↔ trạng từ trong lô).
 V = {
-    # прекрасный cũ = "tuyệt vời, xinh đẹp, rất tốt" — "xinh đẹp" đụng thẳng
-    # красивый (đẹp, xinh) và "rất tốt" đụng хороший, cả hai cùng badge adj.
-    "прекрасный": "tuyệt vời, tuyệt diệu (hay/đẹp đến mức xuất sắc)",
-
-    # 🔴 национальный cũ = "thuộc về quốc gia (xã hội)" — đúng vệt lỗi "nới
-    # rộng" của họ từ này (национальность từng bị dịch thành "quốc tịch").
-    # государственный trong kho đã tự ghi "(không phải 'thuộc dân tộc')" ⇒ nó
-    # nhường nghĩa dân tộc cho từ này, phải nhận đúng chỗ được nhường.
-    "национальный": "thuộc về dân tộc, mang bản sắc dân tộc (món ăn, trang phục)",
-
-    # сильный cũ = "mạnh, khỏe, dữ dội, cực kỳ" — "dữ dội" đụng острый (adj,
-    # "nhọn, sắc, cay, dữ dội"). Bỏ luôn "cực kỳ" vì đó là nghĩa trạng từ сильно.
-    "сильный": "mạnh, khỏe, có sức mạnh (người khỏe; gió to, mưa lớn)",
-
-    # добрый cũ = "tốt, tốt bụng, tử tế" — chữ "tốt" trần đụng хороший, хорошо
-    # và высокий. Cắt hẳn, chỉ giữ nghĩa về TÂM TÍNH.
-    "добрый": "tốt bụng, nhân hậu, tử tế (về tấm lòng)",
-
-    # много: thêm cách mà nó chi phối — thứ không badge nào chứa (README §2c),
-    # và немного trong kho đã ghi theo đúng lối này nên hai từ khớp nhau.
-    "много": "nhiều, rất nhiều (danh từ đứng sau đi cách 2)",
-
-    # 🔴 легко cũ = "dễ dàng, nhẹ nhàng, một chút" — "một chút" đụng немного
-    # (adv, lô k19 đã xong, không sửa được nữa) và "nhẹ nhàng" đụng тихо (adv).
-    # Gloss Anh chỉ có lightly/slightly/easily ⇒ "một chút" là dịch nới rộng.
-    # "không tốn công" lấy đúng chữ k40 đã chốt cho лёгкий ("dễ (không tốn
-    # công)") — cùng một nét nghĩa thì dùng cùng một chữ, badge adj/adv tách.
-    "легко": "dễ dàng, không tốn công",
-
-    # низко / высоко: viết đối xứng nhau cho khỏi lẫn, và bỏ nghĩa phụ
-    # "hèn hạ, đáng khinh" vốn là nhánh văn chương hiếm dùng.
-    "низко": "thấp, ở dưới thấp (bay thấp, cúi thấp)",
-    "высоко": "cao, ở trên cao (bay cao, treo cao)",
-
-    # громко cũ = "ồn, lớn tiếng" — "ồn" là шумно; громко là ÂM LƯỢNG lớn.
-    "громко": "to tiếng, lớn tiếng (nói to, cười to)",
-
-    # 🔴 ярко cũ = "sáng, rực rỡ, rõ ràng" — "sáng" đụng светло và "rõ ràng"
-    # đụng ясно + понятно, cả ba đều adv nên badge không cứu được.
-    "ярко": "rực rỡ, chói (màu sắc, ánh sáng)",
+    'прекрасный': 'tuyệt vời, tuyệt đẹp, xuất sắc',
+    'национальный': 'thuộc dân tộc, mang bản sắc dân tộc',
+    'сильный': 'mạnh, khoẻ, dữ dội, to',
+    'добрый': 'tốt bụng, nhân hậu, tử tế',
+    'много': 'nhiều, rất nhiều',
+    'легко': 'dễ dàng, không tốn công',
+    'низко': 'thấp, ở dưới thấp',
+    'высоко': 'cao, ở trên cao',
+    'громко': 'to tiếng, lớn tiếng',
+    'ярко': 'rực rỡ, chói, sáng',
 }

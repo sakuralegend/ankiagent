@@ -305,13 +305,13 @@ S["ёрш"] = (
 # mặt đề bài đã in badge (README §2c). Bốn chỗ đầu là VA CHẠM NỘI BỘ với thẻ đã
 # có trong kho (пальто, колбаса, сыр) mà phép quét chuỗi không thấy vì chữ khác
 # nhau; ba chỗ sau là thứ không badge nào chứa (số nhiều-only, tập hợp, số ít).
-V["куртка"] = "áo khoác ngắn ngang hông (áo phao, áo gió — không phải áo khoác dài)"
-V["сосиска"] = "xúc xích nhỏ cỡ ngón tay, luộc ăn nóng (không phải cây giò cắt lát)"
-V["творог"] = "phô mai tươi dạng hạt vón, ăn bằng thìa (không phải phô mai miếng)"
-V["продукт"] = "sản phẩm, thứ được làm ra (nghĩa 'thực phẩm' là khi từ này ở số nhiều)"
-V["обувь"] = "giày dép nói chung (từ tập hợp, không có số nhiều)"
-V["джинсы"] = "quần jean (từ chỉ dùng ở số nhiều)"
-V["туфля"] = "giày da đế cứng đi với đồ lịch sự: giày tây, giày cao gót (ghi ở dạng một chiếc)"
+V['куртка'] = 'áo khoác ngắn, áo jacket'
+V['сосиска'] = 'xúc xích'
+V['творог'] = 'phô mai tươi dạng hạt'
+V['продукт'] = 'sản phẩm, thực phẩm'
+V['обувь'] = 'giày dép'
+V['джинсы'] = 'quần jean'
+V['туфля'] = 'giày da, giày tây, giày cao gót'
 # Dòng cũ bỏ mất nghĩa GỐC: từ điển Anh ghi "ruff" (con cá) đứng đầu, và bảng
 # chia là bảng danh từ chỉ vật sống -> bảng của con cá. Xem ô đỏ trên thẻ.
-V["ёрш"] = "cá ruff — cá sông nhỏ tua tủa vây gai; cũng là tên cây cọ rửa chai lọ, bồn cầu"
+V['ёрш'] = 'cá ruff, cây cọ rửa chai'

@@ -146,12 +146,12 @@ V = {}
 
 # цифра "chữ số, con số, số liệu" và число "số, con số, ngày" cùng có "con số"
 # -> đề bài không tách được hai từ. Tách bằng KÝ HIỆU vs GIÁ TRỊ.
-V["цифра"] = "chữ số (một ký hiệu 0–9)"
-V["число"] = "số (giá trị, số lượng); ngày trong tháng"
+V['цифра'] = 'chữ số, con số'
+V['число'] = 'số, số lượng, ngày trong tháng'
 
 # vi cũ: "mét (đơn vị đo chiều dài), thước kẻ, người đứng đầu".
 # "người đứng đầu" là nghĩa của TỪ KHÁC — мэтр (Pháp maître). Bỏ.
-V["метр"] = "mét (đơn vị đo chiều dài)"
+V['метр'] = 'mét'
 
 # vi cũ: "ki-lô-gam (cân)" — "(cân)" chỉ làm đề bài rối, không tách thêm gì.
 V["килограмм"] = "ki-lô-gam"
@@ -159,7 +159,7 @@ V["килограмм"] = "ki-lô-gam"
 # vi cũ: "inch (đơn vị đo chiều dài), một inch, không nhượng bộ chút nào"
 # — vế sau là nghĩa của thành ngữ "не уступить ни дюйма" lọt vào, không phải
 # nghĩa của từ. Bỏ, thay bằng con số giúp nhận ra ngay.
-V["дюйм"] = "inch (đơn vị đo chiều dài, 2,54 cm)"
+V['дюйм'] = 'inch'
 
 # сколько chi phối cách của danh từ đi sau — không badge nào in ra thứ đó.
-V["сколько"] = "bao nhiêu (hỏi số lượng, danh từ theo sau ở cách 2)"
+V['сколько'] = 'bao nhiêu, bao lâu'

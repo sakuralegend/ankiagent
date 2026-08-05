@@ -32,7 +32,7 @@ S["шуба"] = (
     '<div class="hd-fam"><b>шу́бка</b> áo lông ngắn, áo lông trẻ em · '
     '<b>полушу́бок</b> áo lông nửa thân (dài đến hông)</div>'
 )
-V["шуба"] = "áo lông thú (áo khoác bằng da lông, mặc mùa đông)"
+V['шуба'] = 'áo lông thú'
 
 S["пальто"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -67,7 +67,7 @@ S["одежда"] = (
     '<div class="hd-fam"><b>оде́ться</b> mặc đồ vào · <b>разде́ться</b> cởi đồ ra · '
     '<b>одея́ло</b> chăn</div>'
 )
-V["одежда"] = "quần áo, trang phục (nói chung, không đếm từng cái)"
+V['одежда'] = 'quần áo, trang phục'
 
 # ---------------------------------------------------------------- nhóm -ка
 S["юбка"] = (
@@ -83,7 +83,7 @@ S["юбка"] = (
     '<div class="hd-sec">Họ hàng</div>'
     '<div class="hd-fam"><b>ю́бочка</b> váy nhỏ, váy trẻ em</div>'
 )
-V["юбка"] = "chân váy (chỉ phần dưới, mặc rời)"
+V['юбка'] = 'chân váy, váy'
 
 S["сумка"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -98,7 +98,7 @@ S["сумка"] = (
     '<div class="hd-sec">Họ hàng</div>'
     '<div class="hd-fam"><b>сума́</b> bị, đãy (từ cổ) · <b>су́мочка</b> túi xách nhỏ</div>'
 )
-V["сумка"] = "túi xách, cặp (vật đựng rời, mang theo người)"
+V['сумка'] = 'túi xách, cặp, túi'
 
 S["шапка"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -114,7 +114,7 @@ S["шапка"] = (
     '<div class="hd-sec">Họ hàng</div>'
     '<div class="hd-fam"><b>ша́почка</b> mũ nhỏ, mũ vải mỏng</div>'
 )
-V["шапка"] = "mũ len, mũ ấm trùm đầu (không có lưỡi trai)"
+V['шапка'] = 'mũ len, mũ ấm, tiêu đề'
 
 S["кепка"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -145,7 +145,7 @@ S["рубашка"] = (
     '<div class="hd-sec">Họ hàng</div>'
     '<div class="hd-fam"><b>руба́ха</b> áo cánh dân dã</div>'
 )
-V["рубашка"] = "áo sơ mi (có cổ, cài khuy)"
+V['рубашка'] = 'áo sơ mi'
 
 # ---------------------------------------------------------------- đi chân
 S["сапог"] = (
@@ -162,7 +162,7 @@ S["сапог"] = (
     '<div class="hd-sec">Họ hàng</div>'
     '<div class="hd-fam"><b>сапо́жник</b> thợ đóng, sửa giày · <b>сапожо́к</b> ủng nhỏ</div>'
 )
-V["сапог"] = "ủng, giày ống cao cổ (một chiếc)"
+V['сапог'] = 'ủng, giày ống cao cổ'
 
 S["кеды"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -175,7 +175,7 @@ S["кеды"] = (
     '(<b>па́ра кед</b>). Phân biệt với <b>кроссо́вки</b>: đó mới là giày thể thao có '
     'đế đệm, còn <b>ке́ды</b> chỉ là giày vải đế phẳng.</div>'
 )
-V["кеды"] = "giày vải đế bằng, giày ba ta (từ chỉ dùng ở số nhiều)"
+V['кеды'] = 'giày vải đế bằng, giày ba ta'
 
 # ---------------------------------------------------------------- bộ đồ, phụ kiện
 S["платье"] = (
@@ -191,7 +191,7 @@ S["платье"] = (
     '<div class="hd-sec">Họ hàng</div>'
     '<div class="hd-fam"><b>плато́к</b> khăn vuông (trùm đầu, khăn tay)</div>'
 )
-V["платье"] = "váy liền thân, đầm (áo và váy liền một mảnh)"
+V['платье'] = 'váy liền thân, đầm'
 
 S["костюм"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -203,7 +203,7 @@ S["костюм"] = (
     'một dạng: <b>спорти́вный костю́м</b> bộ đồ thể thao, <b>купа́льный костю́м</b> '
     'đồ bơi, <b>маскара́дный костю́м</b> đồ hoá trang.</div>'
 )
-V["костюм"] = "bộ đồ đồng bộ (bộ vest nam, bộ đồ thể thao)"
+V['костюм'] = 'bộ vest, bộ đồ, trang phục'
 
 S["галстук"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -227,7 +227,7 @@ S["шарф"] = (
     '<div class="hd-sec">Họ hàng</div>'
     '<div class="hd-fam"><b>ша́рфик</b> khăn quàng nhỏ</div>'
 )
-V["шарф"] = "khăn quàng cổ (dải dài quấn quanh cổ)"
+V['шарф'] = 'khăn quàng cổ'
 
 S["карман"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -241,7 +241,7 @@ S["карман"] = (
     '<div class="hd-sec">Họ hàng</div>'
     '<div class="hd-fam"><b>карма́нный</b> cỡ bỏ túi · <b>карма́нник</b> kẻ móc túi</div>'
 )
-V["карман"] = "túi áo, túi quần (may liền trên quần áo)"
+V['карман'] = 'túi áo, túi quần'
 
 S["кольцо"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -257,7 +257,7 @@ S["кольцо"] = (
     '<div class="hd-fam"><b>колесо́</b> bánh xe · <b>о́коло</b> quanh, gần · '
     '<b>кольцева́я</b> (tuyến, đường) vành đai</div>'
 )
-V["кольцо"] = "nhẫn; cái vòng, khoen (hình tròn khép kín)"
+V['кольцо'] = 'cái nhẫn, cái vòng, khoen'
 
 S["ткань"] = (
     '<div class="hd-sec">Chẻ từ</div>'

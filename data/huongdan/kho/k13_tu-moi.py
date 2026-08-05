@@ -83,8 +83,6 @@ S["столица"] = (
 # `лучше` (tốt hơn) và `столица` (thủ đô) đã đủ sát, không đụng từ nào khác
 # trong kho -> giữ nguyên.
 V = {
-    # "tòa nhà" trần trụi dễ bị gõ thành `дом` (nhà, ngôi nhà, tổ ấm)
-    "здание": "tòa nhà, công trình xây (trường, cao ốc — không phải nhà để ở)",
-    # tiếng Nga có hai từ cho "khách sạn": отель (mượn) và гостиница (gốc Nga)
-    "отель": "khách sạn (từ mượn, kiểu quốc tế)",
+    'здание': 'toà nhà, công trình',
+    'отель': 'khách sạn',
 }

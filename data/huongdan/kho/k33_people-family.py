@@ -361,30 +361,19 @@ S["замужем"] = (
 # FIELD `Vietnamese` — đề bài của deck 1-go, user GÕ từ Nga từ dòng này.
 # Chỉ ghi những từ cần sửa; không ghi từ loại / giống / thể (đã có badge).
 V = {
-    # bộ "bạn": друг ↔ подру́га tách bằng giới, tránh đụng ты/вы ("bạn")
-    "друг":     "người bạn nam",
-    "подруга":  "người bạn nữ",
-    # thang tuổi con gái: девочка (trẻ con) ↔ девушка (thiếu nữ)
-    "девочка":  "bé gái, cô bé",
-    "девушка":  "cô gái trẻ, thiếu nữ",
-    # мама ↔ мать (lô khác) và папа ↔ отец (lô khác): tách bằng chỗ dùng
-    "мама":     "mẹ — tiếng thân mật con gọi trong nhà",
-    "папа":     "bố — tiếng thân mật con gọi trong nhà",
-    # сестра không phân chị/em; tránh chữ "chị" trơn (đụng ты, твой)
-    "сестра":   "chị gái, em gái",
-    # ребята: từ CHỈ DÙNG SỐ NHIỀU — không badge nào chứa thông tin này
-    "ребята":   "các cậu, bọn trẻ — từ chỉ dùng ở số nhiều",
-    # "đối thủ" của từ điển là соперник/противник, không phải враг
-    "враг":     "kẻ thù, kẻ địch",
-    # народ ↔ человек: bỏ "người ta" của từ điển (rộng quá, đụng человек)
-    "народ":    "nhân dân, dân chúng",
-    # "cuộc gặp gỡ" đụng встреча/знакомство
-    "свидание": "buổi hẹn hò, cuộc hẹn gặp",
-    # родной là TÍNH TỪ: "quê hương" (danh từ) là của ро́дина; "thân thiết" đụng близкий
-    "родной":   "ruột thịt, cùng huyết thống",
-    # bộ cưới xin, ba từ phải ra ba đề bài khác nhau
-    "женатый":  "đã có vợ",
-    "замужем":  "đã có chồng",
-    # "con" trơn quá rộng
-    "ребёнок":  "đứa trẻ, đứa con nhỏ",
+    'друг': 'người bạn nam',
+    'подруга': 'người bạn nữ',
+    'девочка': 'bé gái, cô bé',
+    'девушка': 'cô gái trẻ, thiếu nữ',
+    'мама': 'mẹ, má',
+    'папа': 'bố, ba',
+    'сестра': 'chị gái, em gái',
+    'ребята': 'các cậu, bọn trẻ, đám bạn',
+    'враг': 'kẻ thù, kẻ địch',
+    'народ': 'nhân dân, dân chúng',
+    'свидание': 'buổi hẹn hò, cuộc hẹn gặp',
+    'родной': 'ruột thịt, cùng huyết thống',
+    'женатый': 'đã có vợ',
+    'замужем': 'đã có chồng',
+    'ребёнок': 'đứa trẻ, đứa con nhỏ',
 }

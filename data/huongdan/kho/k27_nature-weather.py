@@ -255,20 +255,14 @@ S["дождь"] = (
 # badge n/adj/adv đã tách từ loại, nên ở đây chỉ lo phần NGHĨA cho khác nhau.
 # KHÔNG ghi từ loại · giống · thể · phản thân (mặt đề bài đã in badge).
 V = {
-    # Nguồn ghi "bão tố, sấm sét" — sai: bão là бу́ря/шторм, đây là cơn giông.
-    "гроза":    "cơn giông có sấm sét",
-    # Ba từ cùng gốc холод- phải tách hẳn nghĩa nhau.
-    "холод":    "cái lạnh, khí lạnh (bản thân sự lạnh)",
-    "холодный": "lạnh (vật, nước, thời tiết); lạnh lùng",
-    "холодно":  "(thấy) lạnh, trời lạnh — câu không có chủ ngữ",
-    # Ba từ cùng gốc жар-. Nguồn dễ bị hiểu thành "trời nóng" — đó là жара́.
-    "жар":      "cơn sốt trong người; hơi nóng hầm hập phả ra",
-    "жаркий":   "nóng nực (thời tiết, khí hậu, không khí)",
-    "жарко":    "(thấy) nóng, trời nóng — câu không có chủ ngữ",
-    # Tách khỏi холод: мороз là mức dưới 0°.
-    "мороз":    "băng giá, rét dưới 0 độ",
-    # Tránh đụng тепло (hơi ấm) và жаркий.
-    "тёплый":   "ấm, ấm áp; (nghĩa bóng) nồng hậu",
-    # Nguồn kèm nghĩa tin học "lưu trữ đám mây" -> bỏ, và tách khỏi ту́ча.
-    "облако":   "đám mây trắng trên trời",
+    'гроза': 'cơn giông có sấm sét',
+    'холод': 'cái lạnh, khí lạnh, trời rét',
+    'холодный': 'lạnh, lạnh lùng',
+    'холодно': 'lạnh, trời lạnh',
+    'жар': 'cơn sốt, hơi nóng hầm hập',
+    'жаркий': 'nóng, nóng nực',
+    'жарко': 'nóng, trời nóng',
+    'мороз': 'băng giá, rét dưới 0 độ',
+    'тёплый': 'ấm, ấm áp, nồng hậu',
+    'облако': 'đám mây trắng trên trời',
 }

@@ -308,13 +308,13 @@ S["зал"] = (
 # ================================================================= FIELD Vietnamese
 # Đề bài của deck 1-go: user nhìn dòng này rồi GÕ từ Nga, nên nó phải chỉ còn
 # đúng một đáp án. KHÔNG ghi từ loại / giống — mặt đề bài đã in badge sẵn.
-V["подушка"] = "cái gối (kê đầu khi ngủ)"
-V["дома"] = "ở nhà, đang ở nhà (không phải 'về nhà')"
-V["корзина"] = "cái giỏ, sọt (đồ đan có quai)"
-V["картина"] = "bức tranh vẽ (treo tường)"
-V["лампа"] = "cây đèn (đèn bàn, đèn trần)"
-V["квартира"] = "căn hộ (trong chung cư)"
-V["комната"] = "căn phòng (một phòng trong nhà)"
-V["утюг"] = "cái bàn là, bàn ủi (dụng cụ là quần áo)"
-V["зал"] = "phòng lớn, sảnh (hội trường, khán phòng)"
+V['подушка'] = 'cái gối, đệm lót'
+V['дома'] = 'ở nhà'
+V['корзина'] = 'cái giỏ, cái sọt, thùng rác'
+V['картина'] = 'bức tranh, cảnh tượng'
+V['лампа'] = 'cây đèn, bóng đèn'
+V['квартира'] = 'căn hộ'
+V['комната'] = 'căn phòng, buồng'
+V['утюг'] = 'cái bàn là, bàn ủi'
+V['зал'] = 'phòng lớn, sảnh, hội trường, phòng tập'
 V["полка"] = "cái kệ, giá gắn tường"

@@ -365,40 +365,40 @@ S["съезд"] = (
 # hoặc dịch sai hẳn loài/nghĩa. Không ghi từ loại/giống — mặt thẻ đã có badge.
 
 # "chim sáo" là DỊCH SAI: chim sáo là скворец. грач là loài quạ đen (rook).
-V["грач"] = "quạ đen loài rook (chim về làm tổ báo hiệu mùa xuân ở Nga)"
+V['грач'] = 'chim rook, quạ đen'
 
 # "áo choàng" đụng пальто, шуба — chốt lại đúng một hình ảnh.
 V["плащ"] = "áo mưa dài có mũ, áo khoác đi mưa"
 
 # "bảng quảng cáo" đụng проспект; giữ nghĩa cốt lõi cho khỏi hai đáp án.
-V["щит"] = "tấm khiên, lá chắn (vật cầm để đỡ đòn)"
+V['щит'] = 'tấm khiên, lá chắn, bảng'
 
 # từ chỉ dùng số nhiều — không field nào chứa thông tin này.
-V["щи"] = "súp bắp cải Nga (từ chỉ dùng ở SỐ NHIỀU)"
+V['щи'] = 'súp bắp cải Nga'
 
-V["щётка"] = "bàn chải (túm lông cứng cắm vào cán)"
+V['щётка'] = 'bàn chải, chổi'
 
 # "lòng thương hại" đụng nghĩa жалость; пощада là việc THA, không ra đòn tới cùng.
-V["пощада"] = "sự tha, sự nương tay (không ra đòn tới cùng)"
+V['пощада'] = 'sự tha thứ, sự nương tay'
 
 # động từ: diễn thể BẰNG LỜI, không chép nhãn — mặt đề bài đã in badge PERF/IMPF.
-V["объявить"] = "thông báo, tuyên bố công khai (một lần, xong việc)"
+V['объявить'] = 'thông báo, tuyên bố'
 
 # "quảng cáo" đụng проспект; đây là tờ/bản thông báo dán lên.
-V["объявление"] = "tờ thông báo, mẩu tin rao vặt (bản dán hoặc đăng công khai)"
+V['объявление'] = 'thông báo, tờ rao vặt, quảng cáo'
 
 # "khối lượng" đụng грамм; объём là sức chứa của thứ không đếm được.
-V["объём"] = "thể tích, dung tích, sức chứa (của thứ không đếm được)"
+V['объём'] = 'thể tích, dung tích, sức chứa, khối lượng'
 
 # "lối vào" đụng вход; подъезд là cả sảnh + cầu thang chung của chung cư.
-V["подъезд"] = "lối vào chung cư (cả sảnh và cầu thang chung, có đánh số)"
+V['подъезд'] = 'lối vào chung cư, sảnh cầu thang'
 
 # ba nghĩa rời rạc không cho ra một đáp án — gom về một hình ảnh chung "đi lên".
-V["подъём"] = "sự đi lên (leo dốc · thức dậy khỏi giường · tăng trưởng)"
+V['подъём'] = 'sự đi lên, sự leo dốc, sự thức dậy, sự tăng trưởng'
 
-V["разъезд"] = "sự tản đi mỗi người một ngả; việc đi công tác liên miên"
+V['разъезд'] = 'sự tản đi mỗi người một ngả, việc đi công tác, ga tránh tàu'
 
-V["съезд"] = "đại hội (người khắp nơi đổ về); lối rẽ xuống khỏi đường lớn"
+V['съезд'] = 'đại hội, lối rẽ xuống'
 
 # "tiếng khóc" đụng рёв «tiếng khóc thét» — tách bằng sắc thái.
-V["плач"] = "sự khóc, tiếng khóc rấm rứt kéo dài (không phải gào thét)"
+V['плач'] = 'sự khóc, tiếng khóc'

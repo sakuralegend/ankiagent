@@ -253,14 +253,14 @@ S["прыжок"] = (
 # ------------------------------------------------------------------ FIELD Vietnamese
 # README §2c — dòng này là ĐỀ BÀI của deck 1-go, user gõ từ Nga từ nó.
 # KHÔNG ghi từ loại/giống/thể (đã có badge), TRỪ từ có PoS = oth.
-V["палка"]    = "cây gậy, thanh gỗ dài (gậy chống, gậy đánh)"
-V["марка"]    = "con tem thư; nhãn hiệu, hãng (của xe, của hàng hoá)"
-V["форма"]    = "hình dạng, khuôn; biểu mẫu; bộ đồng phục"
-V["группа"]   = "nhóm (tập hợp người/vật cùng loại); ban nhạc"
-V["круг"]     = "hình tròn, vòng tròn; một vòng (chạy/bơi một vòng)"
+V['палка'] = 'cây gậy, thanh gỗ dài'
+V['марка'] = 'con tem, nhãn hiệu, thương hiệu'
+V['форма'] = 'hình dạng, khuôn, biểu mẫu, bộ đồng phục'
+V['группа'] = 'nhóm, tốp, ban nhạc'
+V['круг'] = 'hình tròn, vòng tròn, một vòng'
 V["алмаз"]    = "kim cương thô, chưa mài giác"
-V["деньги"]   = "tiền, tiền bạc (từ chỉ dùng ở số nhiều)"
-V["край"]     = "mép, rìa, bờ ngoài cùng; vùng đất, miền"
-V["прыжок"]   = "cú nhảy (một lần nhảy)"
+V['деньги'] = 'tiền, tiền bạc'
+V['край'] = 'mép, rìa, bờ, vùng đất, miền'
+V['прыжок'] = 'cú nhảy, bước nhảy'
 # PoS = oth ⇒ badge vô dụng, phải ghi rõ từ loại. Và phải tách khỏi hai thẻ khác
 # trong bộ sưu tập: по-кита́йски ("bằng tiếng Trung") và кита́йский (tính từ).

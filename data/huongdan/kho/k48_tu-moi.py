@@ -414,20 +414,20 @@ S["устать"] = (
 # Đề bài của deck 1-go: user nhìn dòng này rồi GÕ từ Nga. Chỉ sửa từ nào mơ hồ.
 # Không ghi từ loại (badge đã có) — TRỪ từ có PoS = oth: для, всегда́, иногда́.
 
-V["болеть"]      = "bị ốm; (bộ phận cơ thể) bị đau nhức; cổ vũ cho đội nào"
-V["весь"]        = "toàn bộ, cả (nguyên một khối — không phải \"mỗi/từng cái\")"
-V["всегда"]      = "trạng từ: luôn luôn, lúc nào cũng vậy (100% số lần)"
-V["встретиться"] = "gặp nhau, hẹn gặp (một cuộc gặp, đi với с + cách 5)"
-V["для"]         = "giới từ, đi với cách 2: cho, dành cho (vì lợi ích của ai/việc gì)"
-V["ждать"]       = "đợi, chờ, trông đợi (dạng trần, không tiền tố)"
-V["иногда"]      = "trạng từ: thỉnh thoảng, đôi khi (lúc có lúc không)"
+V['болеть'] = 'bị ốm, đau nhức, cổ vũ'
+V['весь'] = 'toàn bộ, cả, tất cả'
+V['всегда'] = 'luôn luôn, lúc nào cũng'
+V['встретиться'] = 'gặp nhau, hẹn gặp'
+V['для'] = 'cho, dành cho, để'
+V['ждать'] = 'đợi, chờ, trông đợi'
+V['иногда'] = 'thỉnh thoảng, đôi khi'
 V["кататься"]    = "đi lòng vòng cho vui bằng xe/thuyền, trượt băng, trượt tuyết"
-V["любить"]      = "yêu; thích lâu dài (NGƯỜI làm chủ ngữ: я люблю́ + cách 4)"
+V['любить'] = 'yêu, thích'
 V["нравиться"]   = "làm cho ai thấy ưng, hợp ý (VẬT làm chủ ngữ: мне нра́вится…)"
-V["помнить"]     = "nhớ, vẫn còn giữ trong đầu (trạng thái kéo dài, không có bản hoàn thành)"
-V["регулярно"]   = "đều đặn, lặp lại đúng nhịp theo lịch (không phải \"nhiều lần\" nói chung)"
-V["редко"]       = "hiếm khi, ít khi (ít lần hơn hẳn \"thỉnh thoảng\")"
-V["самый"]       = "…nhất (đặt trước tính từ để tạo bậc nhất); chính là cái đó — không phải \"tự mình\""
-V["слышать"]     = "nghe thấy, âm lọt vào tai (không chủ ý — khác với \"lắng nghe\")"
-V["тот"]         = "cái kia, cái đó (ở xa hoặc đã nhắc tới — đối lập với э́тот \"cái này\")"
+V['помнить'] = 'nhớ, ghi nhớ'
+V['регулярно'] = 'đều đặn, thường xuyên theo lịch'
+V['редко'] = 'hiếm khi, ít khi'
+V['самый'] = 'nhất, chính là cái đó'
+V['слышать'] = 'nghe thấy, nghe được'
+V['тот'] = 'cái kia, cái đó, người đó'
 V["устать"]      = "mệt, đuối sức (я уста́л = tôi mệt rồi)"

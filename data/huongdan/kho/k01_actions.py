@@ -30,7 +30,7 @@ S["идти"] = (
     '<div class="hd-warn">⚠️ Quá khứ ĐỔI HẲN THÂN, không còn <b>ид-</b> nào: '
     '<b>шёл · шла · шло · шли</b> — thuộc riêng như một từ khác.</div>'
 )
-V["идти"] = "đi (bằng chân), đang trên đường tới một nơi — một chiều, một lần"
+V['идти'] = 'đi, đi bộ, đang đi tới'
 
 S["войти"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -52,7 +52,7 @@ S["войти"] = (
     '<div class="hd-warn">⚠️ Quá khứ mượn nguyên thân bất quy tắc của <b>идти́</b>: '
     '<b>вошёл · вошла́ · вошли́</b>.</div>'
 )
-V["войти"] = "đi vào, bước vào bên trong (vào một lần rồi đã ở trong)"
+V['войти'] = 'đi vào, bước vào'
 
 S["выйти"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -72,7 +72,7 @@ S["выйти"] = (
     '<div class="hd-warn">⚠️ Quá khứ RỤNG chữ <b>й</b>: <b>вы́шел · вы́шла · вы́шли</b>, '
     'không phải *вы́йшел.</div>'
 )
-V["выйти"] = "đi ra, bước ra khỏi (ra một lần rồi đã ở ngoài)"
+V['выйти'] = 'đi ra, bước ra, ra mắt, được xuất bản'
 
 # ------------------------------------------------------------------ да- CHO
 S["давать"] = (
@@ -95,7 +95,7 @@ S["давать"] = (
     '<div class="hd-warn">⚠️ Chia hiện tại thì BỎ HẲN <b>-ва-</b>: <b>даю́ · даёшь · '
     'даю́т</b>, không phải *дава́ю.</div>'
 )
-V["давать"] = "đưa, cho ai cái gì (đang đưa, thường đưa — người nhận ở cách 3)"
+V['давать'] = 'đưa, cho, trao'
 
 # ------------------------------------------------------------------ зв- GỌI
 S["звать"] = (
@@ -116,7 +116,7 @@ S["звать"] = (
     '<div class="hd-warn">⚠️ Hiện tại MỌC thêm <b>о</b> và dồn trọng âm ra đuôi: '
     '<b>зову́ · зовёшь · зову́т</b>; quá khứ giống cái cũng nhảy: <b>звала́</b>.</div>'
 )
-V["звать"] = "gọi tên ai, gọi ai lại, mời ai (không phải gọi điện thoại)"
+V['звать'] = 'gọi, gọi tên, mời'
 
 # ------------------------------------------------------------------ говор- NÓI
 S["разговаривать"] = (
@@ -139,7 +139,7 @@ S["разговаривать"] = (
     '<div class="hd-fam"><b>говори́ть</b> nói · <b>разгово́р</b> cuộc nói chuyện · '
     '<b>разгово́рный</b> thuộc khẩu ngữ</div>'
 )
-V["разговаривать"] ="nói chuyện, trò chuyện với ai (đi với с + cách 5)"
+V['разговаривать'] = 'nói chuyện, trò chuyện'
 
 # ------------------------------------------------------------------ прос-/праш- HỎI
 S["спрашивать"] = (
@@ -162,7 +162,7 @@ S["спрашивать"] = (
     '<div class="hd-fam"><b>спроси́ть</b> hỏi (một lần) · <b>проси́ть</b> xin, đề nghị · '
     '<b>вопро́с</b> câu hỏi · <b>про́сьба</b> lời đề nghị</div>'
 )
-V["спрашивать"] = "hỏi, đặt câu hỏi (đang hỏi, thường hỏi — hỏi ai thì ở cách 4)"
+V['спрашивать'] = 'hỏi, đặt câu hỏi'
 
 # ------------------------------------------------------------------ польз- LỢI
 S["использовать"] = (
@@ -185,7 +185,7 @@ S["использовать"] = (
     '<div class="hd-fam"><b>по́льза</b> lợi ích · <b>поле́зный</b> có ích, hữu dụng · '
     '<b>испо́льзование</b> việc sử dụng</div>'
 )
-V["использовать"] = "sử dụng, dùng cái gì (dùng làm phương tiện — cái được dùng ở cách 4)"
+V['использовать'] = 'sử dụng, dùng'
 
 S["дать"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -206,7 +206,7 @@ S["дать"] = (
     '(<b>дам · дашь · даст</b>), số nhiều mọc thêm một âm tiết và dồn trọng âm ra đuôi '
     '(<b>дади́м · дади́те · даду́т</b>); quá khứ giống cái cũng nhảy: <b>дала́</b>.</div>'
 )
-V["дать"] = "đưa, cho ai cái gì (đưa một lần rồi xong — người nhận ở cách 3)"
+V['дать'] = 'đưa, cho, trao, cho phép'
 
 # ------------------------------------------------------------------ каз- CHỈ RA
 S["рассказать"] = (
@@ -230,7 +230,7 @@ S["рассказать"] = (
     'đúng ngôi "tôi" rồi lùi về gốc: <b>расскажу́</b> nhưng <b>расска́жешь · '
     'расска́жут</b>.</div>'
 )
-V["рассказать"] = "kể lại, thuật lại một câu chuyện (kể trọn rồi xong — kể cho ai ở cách 3)"
+V['рассказать'] = 'kể lại, thuật lại'
 
 # ------------------------------------------------------------------ дел- VIỆC
 S["делать"] = (
@@ -250,7 +250,7 @@ S["делать"] = (
     '<b>Как дела́?</b> = dạo này thế nào) · <b>сде́лать</b> làm xong · <b>неде́ля</b> tuần '
     '— gốc là "không làm việc", tức ngày nghỉ</div>'
 )
-V["делать"] = "làm, thực hiện một việc gì (đang làm, thường làm)"
+V['делать'] = 'làm, thực hiện, chế tạo'
 
 S["знать"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -271,7 +271,7 @@ S["знать"] = (
     '<div class="hd-fam"><b>зна́ние</b> kiến thức · <b>знако́мый</b> người quen; quen '
     'biết · <b>знак</b> dấu hiệu, biển báo · <b>узна́ть</b> biết được, nhận ra</div>'
 )
-V["знать"] = "biết một điều, quen biết một người (không phải biết làm được việc gì)"
+V['знать'] = 'biết, quen biết'
 
 # ------------------------------------------------------------------ бр-/бер- LẤY
 S["брать"] = (
@@ -292,7 +292,7 @@ S["брать"] = (
     '<div class="hd-warn">⚠️ Hiện tại MỌC thêm <b>е</b> và dồn trọng âm ra đuôi: '
     '<b>беру́ · берёшь · беру́т</b>; quá khứ giống cái cũng nhảy: <b>брала́</b>.</div>'
 )
-V["брать"] = "lấy, cầm lấy, mang đi (đang lấy, thường lấy)"
+V['брать'] = 'lấy, cầm, mang đi, mượn, thuê'
 
 # ------------------------------------------------------------------ раб- LAO ĐỘNG
 S["работать"] = (
@@ -313,7 +313,7 @@ S["работать"] = (
     '<div class="hd-fam"><b>рабо́та</b> công việc · <b>рабо́чий</b> công nhân; thuộc về '
     'lao động · <b>раб</b> nô lệ · <b>зарабо́тать</b> kiếm được (tiền)</div>'
 )
-V["работать"] = "làm việc, đi làm; (máy móc) chạy, hoạt động được"
+V['работать'] = 'làm việc, đi làm, chạy, hoạt động'
 
 # ------------------------------------------------------------------ дых- HƠI THỞ
 S["отдыхать"] = (
@@ -335,4 +335,4 @@ S["отдыхать"] = (
     '<div class="hd-warn">⚠️ Cặp thể <b>отдохну́ть</b> (nghỉ một lát rồi xong) đổi gốc '
     '<b>дых→дох</b> và mọc thêm <b>-ну-</b> — nhận ra phép đổi này thì khỏi học lại.</div>'
 )
-V["отдыхать"] = "nghỉ ngơi, xả hơi; đi nghỉ mát, đi du lịch (đang nghỉ, thường nghỉ)"
+V['отдыхать'] = 'nghỉ ngơi, xả hơi, đi nghỉ mát'

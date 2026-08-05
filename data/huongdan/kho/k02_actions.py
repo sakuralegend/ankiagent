@@ -34,7 +34,7 @@ S["отвечать"] = (
     '<div class="hd-fam"><b>отве́т</b> câu trả lời · <b>отве́тственность</b> trách nhiệm · '
     '<b>приве́т</b> chào · <b>сове́т</b> lời khuyên, hội đồng</div>'
 )
-V["отвечать"] = "trả lời, hồi đáp (đang trả lời, hay trả lời); chịu trách nhiệm về (за + cách 4)"
+V['отвечать'] = 'trả lời, hồi đáp, chịu trách nhiệm'
 
 # ---------------------------------------------------------------- gốc слух- (tai, sự nghe)
 S["слушать"] = (
@@ -55,7 +55,7 @@ S["слушать"] = (
     '<div class="hd-fam"><b>слух</b> thính giác; tin truyền miệng · <b>слу́шатель</b> '
     'người nghe · <b>послу́шный</b> biết vâng lời · <b>послу́шать</b> nghe một lát</div>'
 )
-V["слушать"] = "nghe, lắng nghe (chủ ý hướng tai về; đang nghe, thường xuyên nghe)"
+V['слушать'] = 'nghe, lắng nghe'
 
 S["прослушать"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -77,7 +77,7 @@ S["прослушать"] = (
     '<div class="hd-fam"><b>слу́шать</b> nghe · <b>слух</b> thính giác · '
     '<b>слу́шатель</b> người nghe · <b>прочита́ть</b> đọc hết (cùng lối <b>про-</b>)</div>'
 )
-V["прослушать"] = "nghe hết từ đầu đến cuối, nghe trọn một lượt (cả bài, cả khoá)"
+V['прослушать'] = 'nghe hết một lượt, nghe trọn'
 
 # ---------------------------------------------------------------- gốc пе-/по- (hát)
 S["петь"] = (
@@ -96,7 +96,7 @@ S["петь"] = (
     '<div class="hd-fam"><b>пе́сня</b> bài hát · <b>певе́ц</b> / <b>певи́ца</b> ca sĩ · '
     '<b>пе́ние</b> việc ca hát · <b>спеть</b> hát xong một bài</div>'
 )
-V["петь"] = "hát, ca (đang hát, thường xuyên hát)"
+V['петь'] = 'hát, ca'
 
 # ---------------------------------------------------------------- gốc -мотр- (nhìn)
 S["смотреть"] = (
@@ -121,7 +121,7 @@ S["смотреть"] = (
     '<div class="hd-fam"><b>осмотре́ть</b> khám, xem khắp · <b>рассмотре́ть</b> xem xét '
     'kỹ · <b>осмо́тр</b> cuộc khám · <b>посмотре́ть</b> xem một lát</div>'
 )
-V["смотреть"] = "nhìn, xem (chủ ý hướng mắt về; đang xem, hay xem) — nhìn vào ai/cái gì: на + cách 4"
+V['смотреть'] = 'nhìn, xem, ngắm'
 
 S["посмотреть"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -141,7 +141,7 @@ S["посмотреть"] = (
     '<div class="hd-fam"><b>смотре́ть</b> nhìn, xem (chưa xong) · <b>рассмотре́ть</b> '
     'xem xét kỹ · <b>осмотре́ть</b> khám, xem khắp</div>'
 )
-V["посмотреть"] = "xem một lát, nhìn thử một cái (xem rồi thôi)"
+V['посмотреть'] = 'xem, nhìn thử'
 
 # ---------------------------------------------------------------- gốc хот-/хоч- (muốn)
 S["хотеть"] = (
@@ -165,7 +165,7 @@ S["хотеть"] = (
     '<b>охо́тно</b> sẵn lòng · <b>захоте́ть</b> chợt muốn · <b>хоте́ться</b>: '
     '<b>мне хо́чется</b> tôi thấy muốn</div>'
 )
-V["хотеть"] = "muốn (đang muốn, thường muốn) — đi với cách 4 hoặc động từ nguyên thể"
+V['хотеть'] = 'muốn, thích, định'
 
 # ---------------------------------------------------------------- gốc би-/бь- (giáng, đánh)
 S["бить"] = (
@@ -186,7 +186,7 @@ S["бить"] = (
     '<div class="hd-fam"><b>уби́ть</b> giết (đánh cho mất mạng) · <b>разби́ть</b> đập vỡ · '
     '<b>поби́ть</b> đánh cho một trận · <b>би́тва</b> trận đánh · <b>бой</b> cuộc chiến</div>'
 )
-V["бить"] = "đánh, giáng, gõ (đánh ai/cái gì — cách 4; đang đánh, hay đánh)"
+V['бить'] = 'đánh, đập, gõ, giáng'
 
 # ------------------------------------------- gốc -став- (làm cho đứng) — ba tiền tố khác nhau
 S["вставить"] = (
@@ -209,7 +209,7 @@ S["вставить"] = (
     '<div class="hd-fam"><b>вставля́ть</b> đang chèn vào · <b>вста́вка</b> phần chèn thêm · '
     '<b>ста́вить</b> đặt, dựng · <b>стоя́ть</b> đứng</div>'
 )
-V["вставить"] = "cắm vào, chèn vào, nhét vào (đặt vào bên trong — một lần rồi xong)"
+V['вставить'] = 'cắm vào, chèn vào, nhét vào'
 
 S["поставить"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -230,7 +230,7 @@ S["поставить"] = (
     '<div class="hd-fam"><b>ста́вить</b> đang đặt · <b>поставля́ть</b> cung cấp · '
     '<b>вста́вить</b> chèn vào · <b>соста́вить</b> lập ra</div>'
 )
-V["поставить"] = "đặt cho đứng, dựng lên, để vào (đặt một lần rồi xong — không phải đặt nằm)"
+V['поставить'] = 'đặt đứng, dựng lên, để vào'
 
 S["составить"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -250,7 +250,7 @@ S["составить"] = (
     '<div class="hd-fam"><b>соста́в</b> thành phần, đội hình · <b>составля́ть</b> đang lập; '
     'chiếm (con số) · <b>ста́вить</b> đặt · <b>вста́вить</b> chèn vào</div>'
 )
-V["составить"] = "lập ra, soạn thảo, gộp thành (một lần rồi xong); lên tới, chiếm (một con số)"
+V['составить'] = 'lập ra, soạn thảo, gộp thành, lên tới'
 
 # ---------------------------------------------------------------- gốc -полн- (đầy)
 S["выполнить"] = (
@@ -271,7 +271,7 @@ S["выполнить"] = (
     '<div class="hd-fam"><b>по́лный</b> đầy · <b>по́лностью</b> hoàn toàn · '
     '<b>выполня́ть</b> đang thực hiện · <b>выполне́ние</b> việc thực hiện</div>'
 )
-V["выполнить"] = "thực hiện xong, hoàn thành (kế hoạch, nhiệm vụ, lời hứa — làm trọn rồi xong)"
+V['выполнить'] = 'thực hiện, hoàn thành'
 
 # ---------------------------------------------------------------- gốc говор- (lời nói)
 S["говорить"] = (
@@ -292,7 +292,7 @@ S["говорить"] = (
     '<div class="hd-fam"><b>разгово́р</b> cuộc trò chuyện · <b>разгова́ривать</b> trò '
     'chuyện · <b>догово́р</b> hợp đồng · <b>погово́рка</b> câu tục ngữ</div>'
 )
-V["говорить"] = "nói, trò chuyện, nói được (thứ tiếng nào) — đang nói, thường xuyên nói"
+V['говорить'] = 'nói, trò chuyện, nói được'
 
 S["поговорить"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -311,4 +311,4 @@ S["поговорить"] = (
     '<div class="hd-fam"><b>говори́ть</b> nói, trò chuyện · <b>разгово́р</b> cuộc trò '
     'chuyện · <b>договори́ться</b> thoả thuận xong · <b>погово́рка</b> câu tục ngữ</div>'
 )
-V["поговорить"] = "nói chuyện một lúc, trò chuyện một hồi rồi thôi (với ai: с + cách 5)"
+V['поговорить'] = 'nói chuyện một lúc, trò chuyện một hồi'

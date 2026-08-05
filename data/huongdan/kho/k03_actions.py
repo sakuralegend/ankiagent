@@ -149,7 +149,7 @@ S["стоять"] = (
 # KHÔNG ghi từ loại · giống · THỂ · phản thân: bốn badge đã in sẵn ở mặt đề bài.
 # курить và забыть không đụng: trong kho 950 từ không có từ nào khác dịch ra
 # “hút thuốc” / “quên”, nên đề bài cũ đã chỉ có một đáp án.
-V["ответить"] = "trả lời, đáp lại (một lần rồi xong; trả lời câu hỏi = на + cách 4)"
-V["быть"] = "là, có mặt, tồn tại (là/làm ai thì đi với cách 5)"
-V["взять"] = "lấy, cầm lấy, mượn (lấy một phát rồi xong)"
-V["стоять"] = "đứng, ở tại chỗ (người đứng, đồ vật đặt đứng ở đâu)"
+V['ответить'] = 'trả lời, đáp lại'
+V['быть'] = 'là, có, có mặt, tồn tại'
+V['взять'] = 'lấy, cầm, mượn, thuê'
+V['стоять'] = 'đứng, ở tại chỗ, dừng'

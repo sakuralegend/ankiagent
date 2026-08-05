@@ -317,12 +317,12 @@ V = {}
 # VA CHẠM 'phòng học': аудитория đụng класс (đã có trong kho: "lớp học, lớp
 # (trường học), phòng học, tuyệt vời"). Trả "phòng học" về cho класс; аудитория
 # giữ nét "giảng đường đại học" + nghĩa "người nghe" mà класс không có.
-V["аудитория"] = "giảng đường, phòng học lớn ở trường đại học; toàn thể người nghe"
+V['аудитория'] = 'giảng đường, phòng học lớn, người nghe'
 
 # PoS = oth -> badge vô dụng, phải ghi từ loại. Nghĩa cũ "không có, thiếu" đụng
 # нет ("không, không có, không tồn tại") và ничего. Cách mà nó đòi là thứ không
 # badge nào chứa -> ghi vào.
-V["без"] = "giới từ: không có, thiếu, vắng (đi với cách 2); nói giờ thì là 'kém'"
+V['без'] = 'không có, thiếu, vắng, kém'
 
 # VA CHẠM 'giày': ботинок đụng обувь ("giày dép") và сапог ("ủng, đôi ủng").
 # Gloss Anh "ankle-high shoe / dress boot" mới đúng: giày da cao đến mắt cá.
@@ -330,20 +330,20 @@ V["ботинок"] = "chiếc giày da cao đến mắt cá, có dây buộc"
 
 # Cặp занято / занятый: badge đã tách adv với adj, nhưng nghĩa Việt cũ gần trùng
 # nhau. Tách bằng cách DÙNG: занято là lời báo tình trạng đứng một mình.
-V["занято"] = "bận rồi!, có người rồi! (báo tình trạng: máy điện thoại bận, ghế đã có người)"
-V["занятый"] = "bận rộn, nhiều việc; hoặc đã bị chiếm chỗ"
+V['занято'] = 'bận, có người rồi, kín chỗ'
+V['занятый'] = 'bận rộn, đã bị chiếm chỗ'
 
 # VA CHẠM 'mà': который đụng а ("nhưng, mà (dùng để tương phản)"). а nối hai vế
 # tương phản, который nối danh từ với mệnh đề mô tả nó.
-V["который"] = "người mà, cái mà (nối danh từ với vế sau: quyển sách MÀ tôi mua)"
+V['который'] = 'người mà, cái mà, nào'
 
 # VA CHẠM 'một chút' + 'một lát': минута đụng легко, немного, некоторый, минутка.
 # минута là ĐƠN VỊ đo, trả các nghĩa mơ hồ về cho những từ kia.
-V["минута"] = "phút (đơn vị thời gian, 60 giây)"
+V['минута'] = 'phút, chốc lát'
 
 # минутка là dạng nhỏ/thân mật của минута — phải nói rõ để không lẫn với chính
 # минута, với немного và với легко.
-V["минутка"] = "một phút xíu, một thoáng (cách nói nhỏ nhẹ, thân mật của 'phút')"
+V['минутка'] = 'một phút, một thoáng'
 
 # vi cũ "di động, điện thoại di động" kéo về телефон ("điện thoại"). Nghĩa lõi
 # của мобильный là tính chất DI CHUYỂN ĐƯỢC, không phải cái điện thoại.
@@ -351,16 +351,16 @@ V["мобильный"] = "di động, cơ động, mang đi được"
 
 # VA CHẠM 'số': номер đụng число ("số, con số, ngày"). число là con số/số lượng,
 # номер là số HIỆU gán cho một vật để phân biệt.
-V["номер"] = "số hiệu, số thứ tự (số điện thoại, số nhà, số phòng)"
+V['номер'] = 'số, số hiệu, phòng khách sạn, số báo'
 
 # vi cũ mở đầu "đưa cho, chuyển cho" đụng дать và давать (cả hai đều "đưa, cho").
 # Nét riêng của передать: trao QUA TAY người khác / nhắn hộ lời.
-V["передать"] = "trao lại tận tay, chuyển hộ, nhắn hộ lời (một lần, trao xong là xong)"
+V['передать'] = 'trao lại, chuyển hộ, nhắn hộ, truyền'
 
 # vi cũ "12 giờ 30 phút" đọc ra thì user dễ gõ kiểu đọc số rời. Nói rõ đây là
 # một từ gộp chỉ mốc rưỡi.
-V["полпервого"] = "12 giờ rưỡi, 12:30 (nói gộp lại thành một từ)"
+V['полпервого'] = 'mười hai giờ rưỡi'
 
 # PoS = oth -> badge vô dụng, phải ghi từ loại. "để" trơn còn đụng поставить
 # ("đặt, để, dựng") và давать ("đưa, cho, để").
-V["чтобы"] = "liên từ: để, để mà (nêu mục đích của việc vừa nói)"
+V['чтобы'] = 'để, để mà'

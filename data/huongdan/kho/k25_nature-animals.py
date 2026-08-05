@@ -246,20 +246,20 @@ S["окунь"] = (
 V = {}
 
 # кошка · кот · пёс: ba từ đâm nhau nặng nhất trong lô.
-V["кошка"] = "con mèo (mèo cái, và là từ nói chung về loài mèo)"
+V['кошка'] = 'con mèo, mèo cái'
 V["кот"] = "con mèo đực"
-V["пёс"] = "con chó đực (cách gọi dân dã, thường là chó to)"
+V['пёс'] = 'con chó đực, con chó'
 
 # коза: 'con dê' trần để lọt cả козёл (dê đực).
 V["коза"] = "con dê cái"
 
 # ёж: 'con nhím' trần để lọt cả дикобраз (nhím lông dài).
-V["ёж"] = "con nhím gai (loài nhỏ, cuộn tròn lại khi sợ)"
+V['ёж'] = 'con nhím gai'
 
 # орёл: bản cũ ghi kèm nghĩa 'mặt ngửa đồng xu' -> đề bài hai đường, bỏ.
 V["орёл"] = "con đại bàng"
 
 # Ba tên loài dưới đây bản cũ dịch SAI hoặc quá mơ hồ — xem báo cáo lô.
-V["зяблик"] = "chim sẻ ngực nâu hồng châu Âu (chaffinch)"
-V["окунь"] = "cá rô châu Âu, cá nước ngọt vây gai lưng (perch)"
-V["хек"] = "cá hake (cá biển thịt trắng, họ gần cá tuyết)"
+V['зяблик'] = 'chim chaffinch, sẻ ngực hồng'
+V['окунь'] = 'cá rô châu Âu, cá perch'
+V['хек'] = 'cá hake'

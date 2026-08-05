@@ -37,7 +37,7 @@ S["здравствовать"] = (
     '<div class="hd-fam"><b>здоро́вье</b> sức khoẻ · <b>здоро́вый</b> khoẻ mạnh · '
     '<b>здра́вый</b> sáng suốt (<b>здра́вый смысл</b> lẽ thường) · <b>поздравля́ть</b> chúc mừng</div>'
 )
-V["здравствовать"] = "mạnh khoẻ, an khang, trường tồn (như trong câu chúc muôn năm)"
+V['здравствовать'] = 'mạnh khoẻ, an khang, trường tồn'
 
 # ───────────────────────────────────────────────────────────── извинить
 S["извинить"] = (
@@ -62,7 +62,7 @@ S["извинить"] = (
     '<div class="hd-fam"><b>извине́ние</b> lời xin lỗi · <b>извиня́ться</b> tự mình xin lỗi '
     '(từ này là THA lỗi cho người khác) · <b>вина́</b> lỗi</div>'
 )
-V["извинить"] = "tha lỗi, bỏ qua cho (ai — cách 4)"
+V['извинить'] = 'tha lỗi, bỏ qua, thứ lỗi'
 
 # ──────────────────────────────────────────────────────────────── часть
 S["часть"] = (
@@ -87,7 +87,7 @@ S["часть"] = (
     '<b>уча́сток</b> thửa đất, khu vực · <b>ча́стный</b> riêng, tư nhân (đừng lẫn với '
     '<b>ча́сто</b> thường xuyên) · <b>сча́стье</b> hạnh phúc</div>'
 )
-V["часть"] = "phần, bộ phận (của một tổng thể)"
+V['часть'] = 'phần, bộ phận'
 
 # ───────────────────────────────────────────────────────────────── речь
 S["речь"] = (
@@ -110,4 +110,4 @@ S["речь"] = (
     '<div class="hd-fam"><b>наре́чие</b> trạng từ; phương ngữ · <b>противоре́чие</b> mâu thuẫn · '
     '<b>уро́к</b> bài học (cùng gốc, ở bậc <b>-рок-</b>) · <b>речево́й</b> thuộc về lời nói</div>'
 )
-V["речь"] = "bài phát biểu, bài diễn văn; lời nói, cách nói năng"
+V['речь'] = 'bài phát biểu, bài diễn văn, lời nói, cách nói năng'

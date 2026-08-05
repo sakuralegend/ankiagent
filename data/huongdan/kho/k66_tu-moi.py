@@ -96,11 +96,7 @@ S["через"] = (
 V["позже"] = ("trạng từ so sánh hơn: muộn hơn, trễ hơn (có một mốc đem ra so, "
               "mốc đó ở cách 2 — không phải «sau đó», "
               "không phải «muộn hơn một chút»)")
-V["попозже"] = ("trạng từ: muộn hơn MỘT CHÚT, để lát nữa hẵng (dạng đã làm dịu bằng "
-                "tiền tố — không phải «muộn hơn» trơn, không phải "
-                "«sau đó»)")
-V["через"] = ("giới từ đi với cách 4, luôn đứng TRƯỚC một danh từ: băng qua, xuyên qua; "
-              "hoặc «sau … nữa» tính từ bây giờ (một tiếng nữa) — "
-              "không phải trạng từ đứng một mình")
+V['попозже'] = 'muộn hơn một chút, lát nữa'
+V['через'] = 'qua, xuyên qua, băng qua, sau'
 V["учёба"] = ("việc học, chuyện đi học (quá trình học của học sinh, sinh viên — "
               "không phải nền giáo dục, không phải trình độ học vấn)")

@@ -294,33 +294,33 @@ V = {}
 
 # VA CHẠM 'tiền': деньга đụng деньги (đã có trong kho: "tiền, tiền bạc (từ chỉ
 # dùng ở số nhiều)"). Hai từ gần như là một -> phải nói rõ đây là dạng số ít cổ.
-V["деньга"] = "tiền — dạng số ít cổ, nay hiếm dùng (vốn là tên đồng xu nửa kopek)"
+V['деньга'] = 'tiền, đồng xu cổ'
 
 # vi cũ "bọ, côn trùng" QUÁ RỘNG: côn trùng nói chung là насекомое.
 # Gloss Anh của nguồn ghi "beetle" mới đúng — жук là bọ CÁNH CỨNG.
-V["жук"] = "con bọ cánh cứng (bọ hung, bọ rùa)"
+V['жук'] = 'con bọ cánh cứng, bọ hung'
 
 # vi cũ mở đầu bằng "nhà sư" -> kéo về nhà chùa. монах là người tu sống trong
 # tu viện (mặc định Chính Thống giáo / Thiên Chúa giáo).
-V["монах"] = "thầy tu, tu sĩ (người nam sống trong tu viện)"
+V['монах'] = 'thầy tu, tu sĩ, nhà sư'
 
 # vi cũ "liên minh, liên hiệp, sự kết hợp" — vế "sự kết hợp" sát với связь
 # ("mối liên hệ, sự gắn kết") đã có trong kho. Bỏ vế đó.
-V["союз"] = "liên minh, liên hiệp (nhiều bên kết lại thành một khối)"
+V['союз'] = 'liên minh, liên hiệp, liên từ'
 
 # VA CHẠM 'hàng đợi': хвост đụng очередь (đã có trong kho: "hàng đợi, hàng chờ,
 # lượt"). Trả nghĩa "hàng đợi" về cho очередь, giữ cho хвост đúng nghĩa đen.
-V["хвост"] = "cái đuôi (của con vật, máy bay, sao chổi)"
+V['хвост'] = 'cái đuôi, phần đuôi, hàng dài'
 
 # VA CHẠM 'đi': ходить đụng идти ("đi (bằng chân), đang trên đường tới một nơi
 # — một chiều, một lần") và ехать ("đi (bằng phương tiện)"). Thêm nữa пешком đã
 # giữ nghĩa "đi bộ" -> đề bài KHÔNG được mở đầu bằng "đi bộ".
-V["ходить"] = "đi lại, lui tới bằng chân (nhiều lần, thường xuyên, không theo một hướng cố định)"
+V['ходить'] = 'đi, đi lại, lui tới'
 
 # VA CHẠM 'xưởng': цех đụng фабрика (đã có trong kho: "nhà máy, xưởng").
 # цех là một BỘ PHẬN bên trong nhà máy, không phải cả nhà máy.
-V["цех"] = "phân xưởng (một bộ phận sản xuất bên trong nhà máy)"
+V['цех'] = 'phân xưởng'
 
 # VA CHẠM 'thanh niên': юноша đụng молодёжь (đã có trong kho: "giới trẻ, thanh
 # niên, người trẻ"). молодёжь là cả một khối, юноша là một người.
-V["юноша"] = "chàng trai trẻ (một người con trai tuổi mới lớn)"
+V['юноша'] = 'chàng trai trẻ, thanh niên'

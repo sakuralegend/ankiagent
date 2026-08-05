@@ -362,25 +362,22 @@ S["час"] = (
 # V — sửa field Vietnamese (đề bài của deck 1-go): phải chỉ có MỘT đáp án đúng.
 # Không ghi từ loại/giống (mặt thẻ đã có badge), TRỪ từ có PoS = oth.
 V = {
-    # tính từ dân tộc: bỏ "tiếng Anh/Pháp…" vì nó đụng chính các trạng từ по-…-и
-    "английский":    "thuộc về nước Anh, kiểu Anh",
-    "немецкий":      "thuộc về nước Đức, kiểu Đức",
-    "французский":   "thuộc về nước Pháp, kiểu Pháp",
-    "русский":       "thuộc về nước Nga; cũng dùng làm 'người Nga'",
-    # PoS = oth -> badge vô dụng, phải tự ghi từ loại
-    "по-русски":     "trạng từ: bằng tiếng Nga, theo kiểu Nga (đi sau nói/đọc/viết)",
-    "по-французски": "trạng từ: bằng tiếng Pháp, theo kiểu Pháp",
-    "за":            "giới từ: đằng sau; vì, đổi lấy; trong vòng (cách 4 hoặc cách 5)",
-    "или":           "liên từ: hoặc, hay là",
-    "про":           "giới từ: về, nói về (khẩu ngữ, đi với cách 4)",
-    "только":        "tiểu từ: chỉ, mỗi (không hơn); cũng là 'vừa mới'",
-    # tách khỏi từ đồng nghĩa gần
-    "спортивный":    "thuộc về thể thao, kiểu thể thao",
-    "спряжение":     "sự chia động từ theo ngôi",
-    "близко":        "gần, ở gần (khoảng cách ngắn)",
-    "отлично":       "xuất sắc, tuyệt vời (cũng là điểm 5 — điểm cao nhất)",
-    "правильно":     "đúng, chính xác (làm đúng theo quy tắc)",
-    "себя":          "bản thân, chính mình (dùng chung cho mọi ngôi)",
-    "час":           "giờ, một tiếng đồng hồ",
-    "часто":         "thường xuyên, hay xảy ra",
+    'английский': 'thuộc về nước Anh, kiểu Anh',
+    'немецкий': 'thuộc về nước Đức, kiểu Đức',
+    'французский': 'thuộc về nước Pháp, kiểu Pháp',
+    'русский': 'thuộc về nước Nga, người Nga, tiếng Nga',
+    'по-русски': 'bằng tiếng Nga, theo kiểu Nga',
+    'по-французски': 'bằng tiếng Pháp, theo kiểu Pháp',
+    'за': 'đằng sau, phía sau, vì, đổi lấy, trong vòng',
+    'или': 'hoặc, hay là',
+    'про': 'về, nói về, dành cho',
+    'только': 'chỉ, mỗi, vừa mới',
+    'спортивный': 'thuộc về thể thao, kiểu thể thao',
+    'спряжение': 'sự chia động từ theo ngôi',
+    'близко': 'gần, ở gần',
+    'отлично': 'xuất sắc, tuyệt vời, điểm 5',
+    'правильно': 'đúng, chính xác',
+    'себя': 'bản thân, chính mình',
+    'час': 'giờ, một tiếng đồng hồ',
+    'часто': 'thường xuyên, hay xảy ra',
 }

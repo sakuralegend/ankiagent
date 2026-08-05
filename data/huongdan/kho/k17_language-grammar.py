@@ -270,19 +270,17 @@ S["ничего"] = (
 #    кто · что · какой · этот là `pron`, badge lo rồi -> không ghi.
 V = {}
 
-V["кто"] = "ai? (hỏi về NGƯỜI — “AI vừa đến đấy?”)"
-V["что"] = "gì?, cái gì? (hỏi về VẬT); và “rằng” khi nối hai vế câu"
-V["какой"] = "…nào?, loại nào? (hỏi tính chất, đứng trước danh từ — “ngôi nhà NÀO”)"
-V["почему"] = "(trạng từ) tại sao?, vì sao? — hỏi NGUYÊN NHÂN, không phải mục đích"
-V["потому"] = ("(trạng từ) vì thế, chính vì vậy — trỏ ngược về lí do vừa nói; "
-               "phải thêm “что” phía sau mới thành “bởi vì”")
-V["как"] = ("(trạng từ) như thế nào?, bằng cách nào? — hỏi cách thức; "
-            "cũng là “như, giống như” khi so sánh")
-V["это"] = "(từ chỉ trỏ) đây là…, đó là… — mở đầu câu giới thiệu: “ĐÂY LÀ quyển sách”"
-V["этот"] = "…này (đứng trước danh từ và hợp giống với nó — “ngôi nhà NÀY”)"
-V["там"] = "(trạng từ) ở đó, đằng đó — đang Ở đó, không phải đi TỚI đó"
-V["тут"] = "(trạng từ) ở đây — cách nói khẩu ngữ; còn dùng với nghĩa “ngay lúc ấy”"
-V["здесь"] = "(trạng từ) ở đây, tại chỗ này — từ trung tính, dùng cả khi viết"
-V["вот"] = "(từ chỉ trỏ) đây này!, đây rồi — chỉ tay hoặc chìa ra vật ngay trước mặt"
-V["вон"] = "(từ chỉ trỏ) kia kìa, ở tít đằng kia — chỉ vật Ở XA"
-V["ничего"] = "(đại từ phủ định) không gì cả, chẳng có gì — động từ vẫn phải có “не”"
+V['кто'] = 'ai'
+V['что'] = 'gì, cái gì, rằng'
+V['какой'] = 'nào, loại nào, thế nào'
+V['почему'] = 'tại sao, vì sao'
+V['потому'] = 'vì thế, chính vì vậy'
+V['как'] = 'như thế nào, bằng cách nào, như, giống như'
+V['это'] = 'đây là, đó là, cái này'
+V['этот'] = 'này, cái này'
+V['там'] = 'ở đó, đằng đó'
+V['тут'] = 'ở đây, chỗ này, ngay lúc ấy'
+V['здесь'] = 'ở đây, tại đây, chỗ này'
+V['вот'] = 'đây này, đây rồi, đó'
+V['вон'] = 'kia kìa, đằng kia, ra ngoài'
+V['ничего'] = 'không gì cả, chẳng có gì, không sao'

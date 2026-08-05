@@ -28,7 +28,7 @@ S["гибкий"] = (
     '<div class="hd-fam"><b>ги́бкость</b> sự dẻo, sự linh hoạt · '
     '<b>сгиба́ть</b> gập lại · <b>изги́б</b> chỗ uốn cong</div>'
 )
-V["гибкий"] = "dẻo, uốn cong được mà không gãy; (nghĩa bóng) linh hoạt"
+V['гибкий'] = 'dẻo, uốn cong được, linh hoạt'
 
 S["мягкий"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -48,7 +48,7 @@ S["мягкий"] = (
     '<div class="hd-fam"><b>мя́гкость</b> sự mềm mại · <b>мя́гко</b> nhẹ nhàng, êm · '
     '<b>смягчи́ть</b> làm dịu bớt</div>'
 )
-V["мягкий"] = "mềm khi sờ vào; (tính tình, giọng nói) dịu, êm"
+V['мягкий'] = 'mềm, dịu, êm'
 
 S["лёгкий"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -66,7 +66,7 @@ S["лёгкий"] = (
     '<div class="hd-fam"><b>легко́</b> dễ dàng, nhẹ nhàng · <b>ле́гче</b> nhẹ hơn, dễ hơn · '
     '<b>лёгкие</b> phổi (nghĩa đen: «những cái nhẹ», bộ phận nổi được trên nước)</div>'
 )
-V["лёгкий"] = "nhẹ (ít cân nặng); dễ (không tốn công)"
+V['лёгкий'] = 'nhẹ, dễ'
 
 S["низкий"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -84,7 +84,7 @@ S["низкий"] = (
     '<div class="hd-fam"><b>низ</b> phía dưới · <b>сни́зу</b> từ dưới lên · '
     '<b>пони́зить</b> hạ xuống (giá, giọng)</div>'
 )
-V["низкий"] = "thấp (chiều cao hoặc mức độ); trầm (giọng)"
+V['низкий'] = 'thấp, trầm, hèn hạ'
 
 S["громкий"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -102,7 +102,7 @@ S["громкий"] = (
     '<div class="hd-fam"><b>гром</b> sấm · <b>гро́мко</b> to tiếng · '
     '<b>гро́мкость</b> âm lượng</div>'
 )
-V["громкий"] = "to, vang (nói về âm thanh)"
+V['громкий'] = 'to, vang, ầm ĩ'
 
 # ------------------------------------------------------- kích thước, kích cỡ
 S["высокий"] = (
@@ -123,7 +123,7 @@ S["высокий"] = (
     '<div class="hd-fam"><b>высота́</b> chiều cao, độ cao · <b>вы́сший</b> cao nhất, tối cao · '
     '<b>повы́сить</b> nâng lên, tăng</div>'
 )
-V["высокий"] = "cao (chiều cao, độ cao, nhiệt độ)"
+V['высокий'] = 'cao'
 
 S["короткий"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -143,7 +143,7 @@ S["короткий"] = (
     '<div class="hd-fam"><b>коро́тко</b> ngắn, gọn · <b>коро́че</b> ngắn hơn; «nói gọn lại là…» · '
     '<b>укороти́ть</b> làm ngắn lại</div>'
 )
-V["короткий"] = "ngắn (chiều dài hoặc khoảng thời gian)"
+V['короткий'] = 'ngắn'
 
 S["маленький"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -164,7 +164,7 @@ S["маленький"] = (
     '<div class="hd-fam"><b>ма́ло</b> ít · <b>ме́ньше</b> nhỏ hơn, ít hơn · '
     '<b>уме́ньшить</b> làm giảm bớt</div>'
 )
-V["маленький"] = "nhỏ, bé (về kích thước)"
+V['маленький'] = 'nhỏ, bé'
 
 S["средний"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -183,7 +183,7 @@ S["средний"] = (
     '<div class="hd-fam"><b>середи́на</b> chính giữa · <b>среда́</b> thứ Tư; môi trường · '
     '<b>сре́дство</b> phương tiện, cách thức</div>'
 )
-V["средний"] = "ở giữa; trung bình"
+V['средний'] = 'ở giữa, trung bình, giống trung'
 
 # ------------------------------------------------- cảm nhận: tiếng, nhiệt, giá
 S["тихий"] = (
@@ -201,7 +201,7 @@ S["тихий"] = (
     '<div class="hd-fam"><b>ти́хо</b> khẽ, lặng lẽ · <b>тишина́</b> sự yên lặng · '
     '<b>зати́хнуть</b> lặng đi, ngớt dần</div>'
 )
-V["тихий"] = "yên tĩnh, khẽ (ít tiếng động)"
+V['тихий'] = 'yên tĩnh, khẽ, êm ả'
 
 S["горячий"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -220,7 +220,7 @@ S["горячий"] = (
     '<div class="hd-fam"><b>горе́ть</b> cháy · <b>горячо́</b> nóng bỏng; sôi nổi · '
     '<b>загора́ть</b> phơi nắng cho rám da</div>'
 )
-V["горячий"] = "nóng khi chạm vào (nước, trà, đồ ăn); nồng nhiệt"
+V['горячий'] = 'nóng, nồng nhiệt, nóng tính'
 
 S["хороший"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -238,7 +238,7 @@ S["хороший"] = (
     '<div class="hd-fam"><b>хорошо́</b> tốt, được, ổn · <b>лу́чше</b> tốt hơn · '
     '<b>хороше́ть</b> đẹp ra, tươi ra</div>'
 )
-V["хороший"] = "tốt, giỏi, khá (về chất lượng)"
+V['хороший'] = 'tốt, giỏi, khá, hay'
 
 S["настоящий"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -258,7 +258,7 @@ S["настоящий"] = (
     '<div class="hd-fam"><b>стоя́ть</b> đứng · <b>настоя́щее вре́мя</b> thì hiện tại · '
     '<b>постоя́нный</b> thường xuyên, liên tục</div>'
 )
-V["настоящий"] = "thật, đích thực (không phải đồ giả)"
+V['настоящий'] = 'thật, đích thực, hiện tại'
 
 # ---------------------------------------- đuôi -о́й có trọng âm: giá, tuổi, nết
 S["дорогой"] = (
@@ -281,7 +281,7 @@ S["дорогой"] = (
     '<div class="hd-fam"><b>до́рого</b> đắt (trạng từ) · <b>доро́же</b> đắt hơn · '
     '<b>дорожа́ть</b> lên giá</div>'
 )
-V["дорогой"] = "đắt tiền; (xưng hô, đầu thư) thân mến, kính mến"
+V['дорогой'] = 'đắt, đắt tiền, quý giá, thân mến'
 
 S["молодой"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -319,7 +319,7 @@ S["злой"] = (
     '<div class="hd-fam"><b>зло</b> điều ác · <b>зло́сть</b> cơn tức giận · '
     '<b>зли́ться</b> nổi cáu, bực mình</div>'
 )
-V["злой"] = "hung dữ, độc ác; đang cáu giận"
+V['злой'] = 'hung dữ, độc ác, đang cáu giận'
 
 S["плохой"] = (
     '<div class="hd-sec">Chẻ từ</div>'
@@ -340,7 +340,7 @@ S["плохой"] = (
     '<div class="hd-fam"><b>пло́хо</b> tệ, không tốt · <b>ху́же</b> tệ hơn · '
     '<b>ху́дший</b> tệ nhất</div>'
 )
-V["плохой"] = "tồi, kém, dở (về chất lượng)"
+V['плохой'] = 'tồi, kém, dở, xấu'
 
 # ------------------------------------------------------------ cặp -ский: nam/nữ
 S["женский"] = (

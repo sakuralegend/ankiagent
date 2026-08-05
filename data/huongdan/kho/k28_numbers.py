@@ -376,10 +376,7 @@ S["двадцать"] = (
 # ── Field Vietnamese (README §2c) — đề bài của deck 1-go, chỉ được có MỘT đáp án đúng.
 # Số đếm gần như tự phân biệt (viết đúng chữ số là xong), nên chỉ sửa 3 chỗ thật sự mơ hồ.
 V = {
-    # nguồn: "số không, không có gì, trắng tay" -> "trắng tay" gợi cả пусто́й/ничего́
-    "ноль":  "số không (0)",
-    # nguồn: "một, một mình" -> "một mình" gợi одино́кий/сам
-    "один":  "một (1)",
-    # nguồn: "hai" -> không cho biết chọn два hay две
-    "два":   "hai (2) — dạng đi với danh từ giống đực và giống trung",
+    'ноль': 'số không, số 0',
+    'один': 'một, một mình',
+    'два': 'hai',
 }

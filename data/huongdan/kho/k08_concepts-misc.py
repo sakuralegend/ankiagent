@@ -281,16 +281,16 @@ S["бюст"] = (
 # Cả 15 từ đều là danh từ nên badge PoS/giống đã lo phần từ loại; ở đây chỉ
 # lo đúng một việc: chặn những từ Nga KHÁC cũng dịch ra đúng dòng tiếng Việt đó.
 # --------------------------------------------------------------------------
-V["рисунок"] = "hình vẽ, bản vẽ (vẽ bằng nét)"          # đụng карти́на = bức hoạ
-V["диск"] = "đĩa tròn kỹ thuật (CD, DVD, ổ đĩa)"        # đụng таре́лка = đĩa ăn
-V["угол"] = "góc (góc phòng, góc phố; góc hình học)"
-V["фильм"] = "bộ phim (một tác phẩm cụ thể)"            # đụng кино́ = điện ảnh, rạp
+V['рисунок'] = 'hình vẽ, bản vẽ, hoạ tiết'
+V['диск'] = 'đĩa tròn, đĩa CD, ổ đĩa'
+V['угол'] = 'góc'
+V['фильм'] = 'bộ phim'
 V["гимн"] = "quốc ca, bài ca chính thức của một nước hay tổ chức"   # đụng пе́сня
 V["пятно"] = "vết bẩn, vết ố, đốm trên bề mặt"
-V["золото"] = "vàng (kim loại quý)"                     # bỏ nghĩa màu: đụng жёлтый
-V["фото"] = "bức ảnh, tấm hình (dạng nói ngắn, không biến cách)"    # đụng фотогра́фия
-V["место"] = "chỗ, nơi chốn (chỗ trống, chỗ ngồi, chỗ làm)"
+V['золото'] = 'vàng'
+V['фото'] = 'bức ảnh, tấm hình'
+V['место'] = 'chỗ, nơi, chỗ ngồi, chỗ làm'
 V["пожар"] = "đám cháy, vụ hoả hoạn"                    # đụng ого́нь = ngọn lửa
-V["шар"] = "khối cầu, quả bóng tròn (bóng bay, quả địa cầu)"        # đụng мяч
-V["билет"] = "vé (vé tàu, vé xem phim); phiếu đề thi"
-V["бюст"] = "tượng bán thân; vòng ngực"
+V['шар'] = 'khối cầu, quả bóng tròn, bóng bay'
+V['билет'] = 'vé, thẻ, phiếu đề thi'
+V['бюст'] = 'tượng bán thân, vòng ngực'

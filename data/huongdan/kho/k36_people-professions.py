@@ -297,23 +297,23 @@ S["профессия"] = (
 
 # 'giáo viên' trước đây là đề bài của CẢ HAI từ dưới, cùng `n` + MASC ♂ nên
 # badge không tách được -> tách bằng BẬC HỌC, mỗi bên giữ một từ riêng.
-V["преподаватель"] = "giảng viên (dạy đại học, cao đẳng)"
+V['преподаватель'] = 'giảng viên, giáo viên đại học'
 # Bỏ "cô giáo": đó là đáp án của `учительница`, và mâu thuẫn với badge MASC ♂.
-V["учитель"] = "thầy giáo (dạy trường phổ thông)"
+V['учитель'] = 'thầy giáo, giáo viên'
 
 # "(nam)" lặp đúng badge MASC ♂ mà user đang nhìn -> bỏ; `певица` có FEM ♀.
 V["певец"] = "ca sĩ"
 
 # Từ điển ghi rõ: студент là bậc ĐẠI HỌC, học sinh phổ thông là ученик.
-V["студент"] = "sinh viên (bậc đại học)"
+V['студент'] = 'sinh viên'
 
 # "quý ông" là dịch nới rộng, sai hẳn: князь là TƯỚC quý tộc, không phải lối
 # xưng hô lịch sự.
-V["князь"] = "vương công, công tước (tước quý tộc Nga thời xưa)"
+V['князь'] = 'vương công, công tước'
 
 # Bỏ chữ "mẫu" đứng trơ (đụng `образец` mẫu, vật mẫu, hình mẫu).
-V["модель"] = "người mẫu; kiểu, dòng (của xe, máy, sản phẩm)"
+V['модель'] = 'người mẫu, mẫu, kiểu'
 
 # Nghĩa "công ty" đứng trơ đụng `фирма` (công ty, hãng, thương hiệu) — cả hai
 # đều `n` + FEM ♀ nên badge không tách. Đưa nghĩa RIÊNG của компания lên trước.
-V["компания"] = "hội bạn đi cùng nhau (cũng dùng cho: công ty, doanh nghiệp)"
+V['компания'] = 'hội bạn, nhóm bạn, công ty'
