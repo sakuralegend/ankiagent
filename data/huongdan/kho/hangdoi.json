@@ -1,7 +1,22 @@
 {
- "tong_tu": 1039,
- "tong_lo": 65,
+ "tong_tu": 1043,
+ "tong_lo": 66,
  "lo": [
+  {
+   "id": "k66",
+   "topic": "tu-moi",
+   "tu": [
+    "позже",
+    "попозже",
+    "учёба",
+    "через"
+   ],
+   "trangthai": "xong",
+   "file": "k66_tu-moi.py",
+   "tuMoi": true,
+   "thucong": "TU MOI user vua them. Cac tu co the KHONG cung ho nhau — soan tung the doc lap, dung ep mot truc chung va dung dung khoi he thong. Chuan: README muc 2 (1 man hinh iPhone, toi da 2 o do) + muc 2c (sua field Vietnamese cho chi co 1 dap an dung).",
+   "daNap": true
+  },
   {
    "id": "k65",
    "topic": "tu-moi",

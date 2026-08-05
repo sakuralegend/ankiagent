@@ -8310,5 +8310,37 @@
   "pos": "oth",
   "topic": "language::grammar",
   "cu": false
+ },
+ {
+  "wc": "позже",
+  "w": "по́зже",
+  "en": "<ol class=\"meaning-list\"><li>later</li></ol>",
+  "pos": "oth",
+  "topic": "time",
+  "cu": false
+ },
+ {
+  "wc": "попозже",
+  "w": "попо́зже",
+  "en": "<ol class=\"meaning-list\"><li>later</li></ol>",
+  "pos": "oth",
+  "topic": "time",
+  "cu": false
+ },
+ {
+  "wc": "учёба",
+  "w": "учёба",
+  "en": "<ol class=\"meaning-list\"><li>studies</li><li>learning</li><li>study</li><li>training</li><li>education</li></ol>",
+  "pos": "n",
+  "topic": "language::education",
+  "cu": false
+ },
+ {
+  "wc": "через",
+  "w": "че́рез",
+  "en": "<ol class=\"meaning-list\"><li>across</li><li>over</li><li>at</li><li>through</li><li>through</li><li>using</li><li>in (time) (no more than)</li></ol>",
+  "pos": "oth",
+  "topic": "language::grammar",
+  "cu": false
  }
 ]
