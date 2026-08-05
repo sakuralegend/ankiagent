@@ -16,7 +16,7 @@
       "AGENTS.md": 1,
       "VPS_SETUP.md": 7,
       "data/huongdan/CHUAN.md": 4,
-      "data/huongdan/kho/TIEPTUC.md": 28,
+      "data/huongdan/kho/TIEPTUC.md": 25,
       "data/huongdan/README.md": 17,
       ".claude/commands/ycau.md": 3,
       ".claude/commands/kehoach.md": 3,
@@ -32,11 +32,13 @@
       "anki_tools/anki_client.py": 547,
       "anki_tools/grammar.py": 502,
       "data/huongdan/kho/congcu.py": 491,
+      "soat/cua_nguong.py": 463,
       "tgbot/dispatch.py": 430
     }
   },
   "phienban": {"qd": "QD-07", "giu_ban": 10, "muc_moi_ban": 5},
   "so_quyetdinh": {"qd": "QD-23", "tran_dong": 250, "tran_so_quyetdinh": 16, "tran_so_dado": 14},
   "so_no": {"qd": "QD-25", "tran_dong": 330},
-  "viecdanglam": {"qd": "QD-25", "tran_muc": 1, "tran_dong": 14}
+  "viecdanglam": {"qd": "QD-25", "tran_muc": 1, "tran_dong": 14},
+  "tieptuc": {"qd": "QD-33", "tran_muc_phien": 3, "tran_baihoc_ky_tu": 4500}
 }

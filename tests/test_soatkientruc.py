@@ -114,7 +114,7 @@ class TestSoatKienTruc(unittest.TestCase):
 
     # --- soat_nguong.json giả cho các mục đọc ngưỡng (QD-21) --------------
     def _nguong_gia(self, phut_doc=None, dong_py=None, phienban=None, so_qd=None,
-                    batbuoc=None, viecdanglam=None, tho=None):
+                    batbuoc=None, viecdanglam=None, tieptuc=None, tho=None):
         """Ghi `soat_nguong.json` vào repo giả — test đi qua ĐÚNG bộ đọc thật.
         `tho` = chuỗi JSON thô, cho ca kiểm khoá trùng/parse hỏng."""
         if tho is None:
@@ -134,6 +134,9 @@ class TestSoatKienTruc(unittest.TestCase):
             if viecdanglam is not None:
                 cau["viecdanglam"] = {"qd": "QD-25", "tran_muc": 1,
                                       "tran_dong": 14, **viecdanglam}
+            if tieptuc is not None:
+                cau["tieptuc"] = {"qd": "QD-33", "tran_muc_phien": 3,
+                                  "tran_baihoc_ky_tu": 4500, **tieptuc}
             tho = json.dumps(cau)
         self.ghi("soat_nguong.json", tho)
 
@@ -296,6 +299,49 @@ class TestSoatKienTruc(unittest.TestCase):
         self.assertEqual(cua_nguong.s16_no_da_tra_con_nam_lai(), [])
 
     # --- S19: phiếu việc không được hoá thành sổ nợ thứ hai (QD-25) -------
+    # --- S21: TIEPTUC.md sức chứa cố định cho nhật ký (QD-33) -------------
+    _TIEP = "data/huongdan/kho/TIEPTUC.md"
+
+    def _tieptuc(self, so_phien, baihoc=""):
+        than = "".join(f"### ✅ PHIÊN 0{i}/08 đợt 1: k4{i} = 3 lô\n\nso lieu\n\n"
+                       for i in range(so_phien))
+        if baihoc:
+            than += f"### 📕 BÀI HỌC CÒN SỐNG — khối có TRẦN\n\n{baihoc}\n\n## Muc khac\n\nx\n"
+        return self.ghi(self._TIEP, "# Chay tiep kho\n\n" + than)
+
+    def test_s21_du_muc_phien_thi_im(self):
+        self._nguong_gia(tieptuc={})
+        self._tieptuc(3)
+        self.assertEqual(cua_nguong.s21_tieptuc_suc_chua(), [])
+
+    def test_s21_bat_nhat_ky_vuot_suc_chua(self):
+        self._nguong_gia(tieptuc={})
+        self._tieptuc(4)
+        ra = cua_nguong.s21_tieptuc_suc_chua()
+        self.assertEqual([ph.khoa for ph in ra], [f"{self._TIEP}|muc PHIEN"])
+        self.assertIn("SINH PHAI BANG TU", ra[0].mo_ta)
+
+    def test_s21_bat_nhat_ky_chay_sang_khoi_BAI_HOC(self):
+        """🔴 Đường thoát DUY NHẤT của trần số mục — bịt thì trần kia mới có nghĩa.
+
+        Không có trần thứ hai thì người ta giữ đúng 3 mục `PHIÊN` rồi dồn hết
+        nhật ký cũ vào khối "BÀI HỌC CÒN SỐNG", và file phình y như cũ trong khi
+        cửa soát vẫn xanh — đúng kiểu hỏng IM LẶNG mà QD-29 đã đặt tên."""
+        self._nguong_gia(tieptuc={"tran_baihoc_ky_tu": 40})
+        self._tieptuc(3, baihoc="x" * 200)
+        ra = cua_nguong.s21_tieptuc_suc_chua()
+        self.assertEqual([ph.khoa for ph in ra], [f"{self._TIEP}|BAI HOC CON SONG"])
+        self.assertIn("cho mot bai hoc cu chet", ra[0].mo_ta)
+
+    def test_s21_khoi_BAI_HOC_dung_o_muc_ke_tiep_khong_nuot_ca_file(self):
+        """Đếm phải DỪNG ở tiêu đề kế tiếp, không thì mọi chữ phía dưới bị tính
+        vào khối và cửa kêu oan mãi mãi."""
+        self._nguong_gia(tieptuc={"tran_baihoc_ky_tu": 40})
+        self.ghi(self._TIEP,
+                 "# Chay tiep kho\n\n### 📕 BÀI HỌC CÒN SỐNG — khối có TRẦN\n\nngan\n\n"
+                 "## Muc van hanh\n\n" + "y" * 5000 + "\n")
+        self.assertEqual(cua_nguong.s21_tieptuc_suc_chua(), [])
+
     def test_s19_mot_dau_viec_ngan_thi_im(self):
         self._nguong_gia(viecdanglam={})
         self.ghi("VIECDANGLAM.md", "# viec\n\n## chay lo k40\n\ndoc TIEPTUC.md la du\n")

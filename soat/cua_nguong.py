@@ -394,3 +394,70 @@ def s19_viecdanglam_con_ton():
                            f"doan van (du chi mot muc ##); no sang SONO.md, luat chung sang file "
                            f"nguoi ta doc luc can"))
     return ra
+
+
+_MUC_PHIEN = re.compile(r"^###\s+✅\s+PHIÊN\b")
+_MUC_BAIHOC = re.compile(r"^###\s+📕\s+BÀI HỌC CÒN SỐNG\b")
+
+
+def s21_tieptuc_suc_chua():
+    """`TIEPTUC.md` có sức chứa CỐ ĐỊNH cho phần NHẬT KÝ (QD-33, 05/08/2026).
+
+    Cùng một bệnh mà S20 chữa cho `QUYETDINH.md`, chỉ khác chỗ mọc: mỗi phiên
+    chạy lô đẻ thêm một mục `### ✅ PHIÊN …` dài 1 000–6 600 ký tự, mà **không có
+    vế chết**. Đo 05/08: nhật ký chiếm **14 672/39 199 ký tự = 37%** file, riêng
+    mục `PHIÊN 04/08 đợt 1` (6 593) to hơn mọi mục VẬN HÀNH trong cùng file.
+    Đó đúng là cơ chế đã giết `CHANGELOG.md` (QD-06).
+
+    🔴 Vì sao trần KÝ TỰ (S10) không đủ — đã thấy tận mắt 05/08: nó không tạo ra
+    tỷ lệ chết, nó chỉ bắt người thêm mục phải đi nén chữ ở chỗ khác. Phiên đó
+    mất 6 lượt sửa liên tiếp chỉ để lùi lại dưới trần, và mỗi lượt nén là cắt
+    phần *vì sao* — thứ duy nhất còn dùng được khi gặp tình huống mới.
+
+    Kho lưu trữ đã hứng sẵn nên "bỏ" là rẻ: **70 commit chạy lô** kể từ 28/07,
+    thân trung bình ~1 300 ký tự; riêng hai ngày 04–05/08 các commit chứa
+    ≈18 800 ký tự trong khi bốn mục `PHIÊN` trong file chỉ có 11 607 — `git log`
+    dày gấp **1,6 lần** và gắn liền với diff nên không nói dối được.
+
+    ⚠️ Khối `📕 BÀI HỌC CÒN SỐNG` PHẢI có trần riêng, nếu không nhật ký chỉ chảy
+    hết sang đó và trần số mục thành vô dụng — đúng cặp trần mà S20 đang dùng cho
+    `QUYETDINH.md` (sổ quyết định + bảng "ĐÃ ĐO RỒI BÁC").
+
+    Mục phiên phải chết thì áp phép thử QD-29: bài học nào có NHÀ (README §2b/§2c,
+    `CHUAN.md`, docstring, lời báo lỗi của cửa soát) thì chép sang đúng đó rồi xoá;
+    không có nhà thì nén vào khối `BÀI HỌC CÒN SỐNG`; số liệu từng lô để `git log`.
+    """
+    try:
+        ng = nguong()["tieptuc"]
+        tran_muc, tran_bh = ng["tran_muc_phien"], ng["tran_baihoc_ky_tu"]
+    except (OSError, ValueError, KeyError):
+        return []                              # config hỏng: S12 kêu ĐỎ
+    p = khung.GOC / "data/huongdan/kho/TIEPTUC.md"
+    if not p.exists():
+        return []
+    dong = p.read_text(encoding="utf-8").splitlines()
+    ra = []
+    n = sum(1 for d in dong if _MUC_PHIEN.match(d))
+    if n > tran_muc:
+        ra.append(PhatHien(
+            "data/huongdan/kho/TIEPTUC.md|muc PHIEN", n,
+            f"{n} muc PHIEN > suc chua {tran_muc} — SINH PHAI BANG TU: muc cu nhat phai "
+            f"chet. Bai hoc co NHA thi chep sang do (README/CHUAN/docstring), khong co nha "
+            f"thi nen vao khoi 'BAI HOC CON SONG'; so lieu tung lo doc bang `git log`"))
+
+    # Trần thứ hai: chặn đường thoát duy nhất của trần thứ nhất.
+    trong_khoi, ky_tu = False, 0
+    for d in dong:
+        if _MUC_BAIHOC.match(d):
+            trong_khoi = True
+            continue
+        if trong_khoi and re.match(r"^#{2,3}\s", d):
+            break
+        if trong_khoi:
+            ky_tu += len(d) + 1
+    if ky_tu > tran_bh:
+        ra.append(PhatHien(
+            "data/huongdan/kho/TIEPTUC.md|BAI HOC CON SONG", ky_tu,
+            f"{ky_tu} ky tu > tran {tran_bh} — khoi nay DAY nghia la den luc cho mot bai hoc "
+            f"cu chet, KHONG phai den luc viet ngan lai"))
+    return ra

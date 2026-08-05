@@ -1,9 +1,10 @@
 # Chạy tiếp kho — đọc file này là đủ
 
-> ✅ **Đợt dọn dự án G0→G4 đã XONG (31/07/2026)** — kho **hết đóng băng**, chạy tiếp bình thường.
-> Lô kế tiếp là `k22`. Kiến trúc dự án nay có tài liệu riêng (`KIENTRUC.md`) và cửa soát bằng máy
-> (`python soatkientruc.py`); dây chuyền kho **không đổi gì** ngoài việc `MIEN_TRU` nay nằm ở
-> `data/huongdan/mientru.py` (một nơi duy nhất, `congcu.py` và `kiemtra.py` cùng import).
+> ♻️ **NHẬT KÝ CÓ SỨC CHỨA CỐ ĐỊNH: đúng 3 mục `### ✅ PHIÊN`** (cửa **S21**, QD-33). Thêm phiên mới
+> ⇒ **mục cũ nhất phải chết**: bài học nào có nhà thật (README §2b/§2c · `CHUAN.md` · docstring ·
+> lời báo lỗi của cửa soát) thì chép sang đó, không có nhà thì nén vào khối `📕 BÀI HỌC CÒN SỐNG`
+> (khối đó cũng có trần riêng). Số liệu từng lô **không cần chép lại** — `git log --grep kNN` dày
+> gấp 1,6 lần phần từng nằm ở đây. Lô kế tiếp: xem `VIECDANGLAM.md`, đừng ghi số vào chỗ này.
 
 Bạn (user) chỉ cần gõ một câu: **"chạy tiếp kho"**. Phần dưới là cho tôi.
 
@@ -85,136 +86,64 @@ Agent vẫn tự tìm thêm hai ca máy mù: `вход` đụng `подъезд`
 lô nào còn chạm tới (đo 05/08, đã vá tay). 🔴 **"Để lô sau lo" chỉ đúng khi từ đó CÒN trong
 lô `cho` — mở `hangdoi.json` kiểm trước khi hứa.**
 
-### ✅ PHIÊN 04/08 đợt 1: k65(16 TỪ MỚI) · k32(12) · k33(21) · k34(20) = **69 từ / 4 lô**
+### 📕 BÀI HỌC CÒN SỐNG — khối có TRẦN (S21, QD-33)
 
-Cả bốn lô: `QUA 1 MAN HINH: 0` · `QUA 2 O DO: 0` · khối chung **0%** · `nap` khớp tuyệt đối.
+> Nơi hạ cánh của bài học từ những mục `PHIÊN` đã rời sổ. **Khối này ĐẦY nghĩa là đến lúc cho một
+> bài học cũ chết, KHÔNG phải đến lúc viết ngắn lại.** Bài học nào tìm được nhà thật (README §2b/
+> §2c · `CHUAN.md` · docstring · lời báo lỗi của cửa soát) thì chép sang đó rồi xoá khỏi đây.
+> Số liệu từng lô: `git log --grep kNN`.
 
-🔴🔴 **QUÉT `vacham` TRƯỚC KHI GIAO LÔ, DÁN DANH SÁCH VÀO LỜI NHẮN** (dựng 03/08; phiên này dùng lần
-hai: k65 **5** · k32 **0** · k33 **6** · k34 **5**). Agent soạn một lô **không nhìn thấy hơn 1000 thẻ
-còn lại** nên không tự biết `'đi'` đang là đề bài chung của `ехать·идти·ходить`. ⚠️ Phép quét **chỉ
-khớp CHUỖI** ⇒ là **sàn sau**: cả bốn agent lại tự tìm thêm va chạm máy mù (`передать` đụng
-`дать`/`давать`; `мобильный` kéo về `телефон`; `семья` đụng `род`). 🔴 **Báo 0 thì phải nói thẳng
-trong lời nhắn rằng "0 là sàn, không phải bằng chứng sạch"** — không nói thì agent đọc cái im lặng
-thành xác nhận, đúng lỗi mà §5 đã cảnh báo với danh sách "phải đọc bằng mắt".
+🔴🔴 **LUỒNG CHÍNH BỊA LUẬT NGỮ PHÁP TRONG LỜI NHẮN — bài học đắt nhất.** Lời nhắn giao k28 tự dặn
+*"11–19 trọng âm giữ nguyên ở gốc"* rồi nêu ba ví dụ **tự mâu thuẫn với chính nó**; agent tin `tiep`
+chứ không tin lời nhắn nên soạn đúng — ngoan ngoãn nghe thì 21 thẻ số đếm dạy sai trọng âm. Cùng họ:
+trục lô k59 đặt bằng HÌNH THỨC (tiền tố) chỉ đúng **3/13**. ⇒ **Lời nhắn được dặn "nguồn HAY SAI Ở
+ĐÂU", KHÔNG được dạy luật ngôn ngữ** — luồng chính không đọc file lô, không tra từ điển, là chỗ ít
+thẩm quyền nhất mà nói to nhất.
 
-🆕 **Hai lô cùng topic song song: chỉ cần dán danh sách từ của lô kia vào lời nhắn** kèm câu *"chỉ
-nêu nghĩa, đừng dựng hệ thống chung"*. k33 tự đẩy `мама`/`папа` sang phía **thân mật** rồi báo lên
-để k34 lấy phía **trang trọng** — nó làm đúng thế mà không cần dặn. **Luồng chính không làm trọng tài.**
+🆕 **AGENT CŨNG BỊA LUẬT NGỮ PHÁP — hai agent độc lập bịa đúng cùng một luật.** k32 lẫn k34 đều viết
+*"đuôi `-ь` cho biết đây là danh từ giống cái"* (sai: `роди́тель`/`день` là `-ь` giống đực); cùng loạt
+`де́вочка` phóng thành "**mọi** danh từ cái đuôi `-ка` chèn `е`". Cả hai **tự bắt được lúc rà ngược**.
+⇒ **Lời dặn "rà lại bằng mắt một lượt nữa" là cửa DUY NHẤT bắt được lời giải thích sai — đừng bao
+giờ cắt nó khỏi lời nhắn cho gọn.**
 
-⚠️ **`moi` KHÔNG tự chia lô khi vượt trần 22 — nó chỉ CẢNH BÁO rồi vẫn gom cả cục.** 47 từ sáng
-03/08 vào chung một `k62`. Luồng chính phải tự chia (`hangdoi.json` lưu từ **không dấu trọng âm**,
-khớp bằng chuỗi có dấu là trượt sạch). 🔴 **Chia theo TAG CHỦ ĐỀ lấy từ chính Anki, đừng tự đặt trục
-ngôn ngữ** — bài học k59 còn nguyên: luồng chính không đọc file lô, không tra từ điển, đặt trục bằng
-hình thức thì agent bác lại, chỉ đúng 3/13.
+🔴 **RÀ NGƯỢC TỪ CUỐI LÊN ĐẦU — LUẬT, xác nhận ba lần.** Rà xuôi thì lỗi dồn ở nửa đầu (k30: 11/13);
+rà ngược thì lỗi hiện ra ở nửa cuối (k64 5/5 · k34 4/9). **Lô 16–21 từ vẫn rà kỹ được, miễn đổi
+chiều rà** — trần cỡ lô chưa cần hạ.
 
-🔴 **RÀ NGƯỢC TỪ CUỐI LÊN ĐẦU — LUẬT, xác nhận lần thứ ba.** Rà xuôi thì lỗi dồn ở nửa đầu (k30:
-11/13); rà ngược thì lỗi hiện ra ở nửa cuối (k64 5/5 · k34 4/9). Nghi ngờ cũ *"lô to bắt 0 lỗi vì
-hết chú ý"* đã lật hẳn: **lô 16–21 từ vẫn rà kỹ được, miễn là đổi chiều rà.** Trần cỡ lô chưa cần hạ.
+🔴 **NGUỒN DỊCH SAI KIỂU "NỚI RỘNG" LÀ VỆT DÀY NHẤT** (14 lần bác/47 từ · 18/69 · 24/55 ba phiên
+liên tiếp). Không dịch sai mà dịch **rộng ra** nên khó thấy hơn hẳn: `сыпь` một nốt ban → cả lớp
+"bệnh da liễu"; `национальность` (dân tộc) → "quốc tịch"; `ребята` → "đám đông". ⇒ **Cách bác rẻ
+nhất là đối chiếu gloss tiếng Anh; bảng chia là nhân chứng thứ hai** (`ёрш` lộ ra vì bảng chia là
+bảng danh từ chỉ vật sống). **Hư từ · trạng từ · động từ khiếm khuyết là nơi nguồn sai dày nhất.**
 
-🔴 **NGUỒN DỊCH SAI KIỂU "NỚI RỘNG" LÀ VỆT DÀY NHẤT — riêng phiên 04/08 thu 18 lần bác trên 69 từ.**
-Không phải dịch sai mà dịch **rộng ra**, nên khó thấy hơn hẳn: `сыпь` một nốt ban → cả lớp "bệnh da
-liễu"; `родитель` số ít bị gán nghĩa số nhiều "bố mẹ"; `национальность` (dân tộc) → "quốc tịch" (vốn
-là `гражда́нство`); `мобильный` tính từ → cụm danh từ "điện thoại di động"; `ребята` → "đám đông"
-(vốn là `толпа́`); `коса` đánh rơi hẳn nghĩa "lưỡi hái". Cùng vệt với loạt tên loài cũ (`жук` "bọ"→
-"côn trùng"; `ёрш` mất nghĩa "cá ruff"; `грач` · `зя́блик` · `о́кунь`). ⇒ **Cách bác rẻ nhất vẫn là
-đối chiếu gloss tiếng Anh; bảng chia là nhân chứng thứ hai** (`ёрш` lộ ra vì bảng chia là bảng danh
-từ chỉ vật sống, `acc = gen = ерша́`).
-✅ **Bước "đồng bộ `V` sang `tudien.json`" ĐÃ CHẾT (QD-27).** `tiep` lấy nghĩa Việt **thẳng từ
-thẻ Anki**; `nap` ghi xong là hết việc, không còn "hai nơi phải vá".
+⚠️ **RÁC TẦNG DỮ LIỆU — giữ CÁCH NHẬN BIẾT, đừng dựng danh sách** (danh sách sẽ cũ đi im lặng).
+Cửa soát máy **không đo phần này**: bảng chia do máy nối vào thẻ lúc ghi, `soat`/`dodai` chỉ đo phần
+agent VIẾT. Bốn dấu hiệu rẻ: ① **thiếu dấu phẩy** giữa hai dạng (`сте́пью сте́ипю`) · ② **ô mất dấu
+trọng âm trong khi ô hàng xóm có đủ** (`тётя` → `те́тей`) · ③ **hai ô đảo chỗ** (`фотограф` đảo cách 3
+số ít ↔ số nhiều) · ④ **đúng dữ liệu nhưng THIẾU NHÃN** (dạng "lối cổ", cách 5 cũ `-ою/-ею` in như
+dạng thường ⇒ thẻ tự mâu thuẫn với chính bảng của nó). Ba ca đã bắt: `шофё́р` · `кеды` · `степь`.
+🔴 Nguồn còn **gán nhầm cả từ loại** (`спра́ва` trạng từ bị dán bảng danh từ giống cái) và có thể
+**sai BA lần trên cùng một từ** (`быть`: thiếu thời tương lai, badge BI-ASP sai, `motion` vô nghĩa).
 
-🆕 **KHỐI `BAT THUONG` BÁO **THỪA** — lần đầu bắt được kiểu này.** k63: nhãn *"DẠNG NGẮN có biến đổi
-(trọng âm dịch)"* bị dán cho `оригина́льный`·`ра́зный`·`удо́бный` trong khi cả ba **trọng âm đứng
-yên**, chỉ có nguyên âm chạy `е` ở giống đực = hoàn toàn theo quy tắc. Agent không viết câu chú ý
-nào cho ba từ đó (đúng). Sáu từ còn lại nhãn ĐÚNG. Trước giờ chỉ biết khối này báo THIẾU hoặc in
-rác. **Chưa đủ điểm để sửa `congcu.py`** — ghi lại đã, lô sau lại gặp thì mới mở ra đo.
-
-⚠️ **RÁC TẦNG DỮ LIỆU — không dựng danh sách, chỉ giữ CÁCH NHẬN BIẾT** (danh sách sẽ cũ đi im lặng).
-Cửa soát máy **không đo phần này** (bảng chia do máy nối vào thẻ lúc ghi). Bốn dấu hiệu rẻ, dặn agent
-soi đúng bốn cái này là đủ: ① **thiếu dấu phẩy** giữa hai dạng (`сте́пью сте́ипю`) — lọc rẻ nhất là
-"ô có dấu CÁCH mà KHÔNG có dấu phẩy"; đo 976 thẻ ra **217 ô nhiều dạng, 216 ô có phẩy và đều THẬT**,
-chỉ mình `степь` là rác (`край` = `'кра́е краю́'` cũng thiếu phẩy nhưng cả hai dạng thật — đừng sửa) · ② **ô mất dấu
-trọng âm trong khi ô hàng xóm có đủ** (`тётя` → `те́тей`) · ③ **hai ô đảo chỗ cho nhau** (`фотограф`
-đảo cách 3 số ít ↔ số nhiều) · ④ **đúng dữ liệu nhưng THIẾU NHÃN** — dạng "lối cổ" và cách 5 cũ
-`-ою/-ею` in như dạng thường, khiến thẻ **tự mâu thuẫn với chính bảng của nó**.
-🔴 Ngoài ra nguồn còn **gán nhầm cả từ loại**: `спра́ва` (trạng từ) bị dán nguyên bảng danh từ giống
-cái. ⇒ **Nghi ngờ thì đối chiếu gloss tiếng Anh với `pos`, đừng chỉ đọc bảng.**
-
-🔴🔴 **BÀI HỌC ĐẮT NHẤT: LUỒNG CHÍNH BỊA LUẬT NGỮ PHÁP TRONG LỜI NHẮN, AGENT BẮT ĐƯỢC.**
-Lời nhắn giao k28 tự dặn *"11–19 trọng âm giữ nguyên ở gốc"* rồi nêu ba ví dụ **tự mâu thuẫn với
-chính nó** (`двена́дцать`, `трина́дцать`, `пятна́дцать` đều nhấn `-на́-`); và dặn `пятна́дцать` có
-"т câm" (sai — chỉ `шестна́дцать` rụng `т`). Agent **tin `tiep` chứ không tin lời nhắn** ⇒ soạn
-đúng. Nếu nó ngoan ngoãn nghe thì 21 thẻ số đếm dạy sai trọng âm.
-⇒ **Lời nhắn được dặn "nguồn HAY SAI Ở ĐÂU", KHÔNG được dạy luật ngôn ngữ.** Ranh giới: *"lô tên
-loài thì nguồn hay dịch sai tên tiếng Việt, tự kiểm qua tiếng Anh"* = tốt (đúng, và đã thu về hàng
-chục lần bác). *"Trọng âm từ 11–19 rơi vào chỗ X"* = **luồng chính không có tư cách nói**.
-
-🔴 **NHẮC "NGUỒN SAI Ở ĐÂU" TRONG LỜI NHẮN LÀ CÓ ĂN** — 14 lần bác/47 từ (03/08), **18 lần bác/69 từ
-(04/08)**. Ca cũ đắt nhất: `так` gloss thành "a/an/the"; `курок` gloss phẳng "trigger" nhưng thật ra
-là búa đập kim hoả. ⇒ **Hư từ · trạng từ · động từ khiếm khuyết là nơi nguồn sai dày nhất** (30/07).
-
-🆕 **AGENT CŨNG BỊA LUẬT NGỮ PHÁP — VÀ HAI AGENT ĐỘC LẬP BỊA ĐÚNG CÙNG MỘT LUẬT.** k32 lẫn k34 đều
-viết *"đuôi `-ь` cho biết đây là danh từ giống cái"* — sai, `роди́тель`/`день` là `-ь` giống đực. Cả
-hai **tự bắt được lúc rà ngược**, không cửa máy nào đụng tới lớp này. Cùng loạt phiên này: `друг`/
-`враг` "đổi đúng một chữ đầu" (thật ra hai chữ), `де́вочка` phóng thành "**mọi** danh từ cái đuôi
-`-ка` chèn `е`" (có thể là `о`: `ба́нка → ба́нок`). ⇒ **Lời dặn "rà lại bằng mắt một lượt nữa" là cửa
-DUY NHẤT bắt được lời giải thích sai — đừng bao giờ cắt nó khỏi lời nhắn cho gọn.**
-
-🔴 **LÔ SỐ THỨ TỰ SUÝT ĐẺ RA ĐỀ BÀI KHÔNG CÓ ĐÁP ÁN ĐÚNG.** Nghĩa Việt của bảy số thứ tự đầu trùng
-ĐÚNG TỪNG CHỮ với tên ngày trong tuần đã có trong kho: `тре́тий` "thứ ba" đụng `вто́рник`… Badge
-`{{PoS}}` **không cứu được** vì user nhìn đề bài trước rồi mới gõ. Ca này chính là thứ đẻ ra bước
-quét `vacham` trước ở đầu mục — nhưng nhớ nó vẫn nằm ngoài tầm quét chuỗi, vì hai bên **không
-trùng chữ**, chỉ trùng hệ thống. 🔴 Cách chữa hồi đó (chú *"không phải ngày trong tuần"*) **nay
-bị cấm** — `вто́рник` liệt kê "thứ Ba, ngày trong tuần" là tự tách hộ.
-
-
-📌 **Có lô im lặng hoàn toàn** (k27: không một khối `CUM CO DINH`/`CACH DUNG` nào) ⇒ mất sạch
-nguồn ô đỏ. Đừng đọc im lặng đó thành *"không gì đáng cảnh báo"*.
-
-📊 **Chi phí: xem bảng "📊 CHI PHÍ" phía dưới** — tính bằng **% hạn mức**, không bằng token.
-
-### 📕 BÀI HỌC CÒN SỐNG từ ba phiên 30/07 (nén 02/08 — số liệu từng lô đọc bằng `git log`)
-
-🔴 **Badge đã lo phần thể — ĐỪNG ép field `Vietnamese` phân biệt thể.** User bác: *"dịch giống nhau
-cũng được tại có badge imf rồi"*. Đo cả 976 thẻ (nhóm theo `Vietnamese`+`PoS`+3 badge): **0 cụm va
-chạm là cặp thể** — badge tách sạch. ⇒ **Hỏi "còn va chạm không" thì ĐI ĐO** (một lần `notesInfo` +
-gom nhóm, rẻ), đừng liệt kê cặp trông giống nhau bằng mắt.
-
-🔴 **Đặt trục lô bằng HÌNH THỨC (tiền tố) thì dễ sai.** Trục k59 "tiền tố rỗng, chỉ đổi thể" bị agent
-bác, **chỉ đúng 3/13** — `по-` là delimitative ("một lát"), `вы-`/`с-` mang "hết sạch". Cùng họ với
-bài học *"bịa luật ngữ pháp trong lời nhắn"* ở mục 02/08 trên: **luồng chính chớ phán về nội dung
-tiếng Nga** — nó không đọc file lô, không tra từ điển, là chỗ ít thẩm quyền nhất mà nói to nhất.
+🔴 **`soat` CHỈ soi cụm in đậm `<b>`.** Chữ Nga trong `<i>` hoặc trong câu giải thích **không được
+soi trọng âm gì cả** — `о деньга́х`, `на связи́` lọt đúng chỗ này. 📌 Kèm một luật đáng nhớ: danh từ
+giống cái đuôi `-ь` có **cách vị trí** (второй предложный) — với `в`/`на` chỉ trạng thái thì trọng âm
+nhảy xuống đuôi (`в связи́`, `на печи́`), còn bảng máy nối chỉ in `о свя́зи`. **Hai dạng KHÔNG mâu
+thuẫn**, đừng "sửa" bảng.
 
 ⚠️ **Đừng tin báo cáo agent về CẤU TRÚC CÔNG CỤ mà không mở mã ra xem.** Hai agent cùng báo nhầm một
-"lỗ hổng": `<b>` lồng trong `<b>` **KHÔNG** lọt — cửa (a) quét theo độ sâu (`congcu.py:356`).
+"lỗ hổng": `<b>` lồng trong `<b>` **KHÔNG** lọt — cửa (a) quét theo độ sâu.
 
-🔴 **`soat` CHỈ soi cụm in đậm `<b>`.** Chữ Nga trong ví dụ `<i>` hoặc trong câu giải thích **không
-được soi trọng âm gì cả** — hai lỗi lọt hôm đó (`о деньга́х`, `на связи́`) đều nằm đúng chỗ này.
-📌 Kèm một luật đáng nhớ: danh từ giống cái đuôi `-ь` có **cách vị trí** (второй предложный) — với
-`в`/`на` chỉ trạng thái thì trọng âm nhảy xuống đuôi (`в связи́`, `на связи́`, `в степи́`, `в тени́`,
-`на печи́`), còn bảng máy nối chỉ in `о свя́зи`. **Hai dạng KHÔNG mâu thuẫn**, đừng "sửa" bảng.
-
-🔴 **Cửa soát KHÔNG đo phần MÁY nối vào thẻ** — `congcu.py bang` nối bảng chia vào MỌI thẻ lúc ghi,
-nên lỗi tầng dữ liệu chảy thẳng ra mặt thẻ trong khi `soat`/`dodai` chỉ đo phần agent VIẾT. Ba ca đã
-bắt: `шофё́р` (**`ё` bị đóng thêm dấu**, mà `ё` luôn mang trọng âm sẵn) · `кеды` (đảo cách 5↔6, nay có
-cửa canh QD-15) · `степь` (rác `сте́ипю`, 02/08). **Lớp này chỉ agent đọc bằng mắt mới bắt được.**
-
-🔴 **Hai nguồn CÙNG THƯỢNG NGUỒN thì trùng nhau không chứng minh gì.** `фон` bị gán khuôn trọng âm
-di động (`фоны́`), thật ra loại **1a đứng yên** (`фо́ны`) — nhưng `nouns.csv` cũng là ảnh chụp
-OpenRussian nên **cả hai nguồn cùng in sai**. Đối chiếu chéo không bắt được lớp lỗi này.
-
-🔴 **`быть`: nguồn có thể sai BA lần trên cùng một từ** (thiếu hẳn thời tương lai, `aspect=both` ⇒
-badge BI-ASP sai, `motion` vô nghĩa; trang nguồn tự thú *"This page needs fixing"*). **Lô động từ là
-nơi nguồn sai nhiều nhất** — cùng loạt: cặp thể sai, `делать` ghi sai cách chi phối, `несмотря на`
-viết tách. Cờ `BAT THUONG` nay soi được cả đuôi `-ти` và động từ phản thân (vá `_goc_qua_khu()`,
-`e83350e`: 73 → 89 động từ), tin được hơn trước **nhưng không được tin MỘT MÌNH** — nguồn sai thì
-cờ đúng cũng vô nghĩa.
+📌 **Va chạm hệ thống nằm NGOÀI tầm quét chuỗi** — bảy số thứ tự đầu trùng đúng từng chữ với tên
+ngày trong tuần mà hai bên **không trùng mặt chữ**. Quét `vacham` chỉ khớp chuỗi ⇒ là **sàn**, không
+phải bằng chứng sạch; báo 0 thì phải nói thẳng điều đó trong lời nhắn. 📌 Cũng có lô im lặng hoàn
+toàn (k27: không một khối `CUM CO DINH`/`CACH DUNG` nào) — đừng đọc im lặng thành "không có gì".
 
 ⚠️ **Anki trên PC KHÔNG tự chạy** — `moi`/`nap` chết ngay với `WinError 10061`. Mở bằng
 `C:\Users\Asus\AppData\Local\Programs\Anki\anki.exe` rồi chờ ~10 s. Đừng nghĩ đó là lỗi cấu hình.
 
-🗑️ **Thẻ kiểu "dạng ràng buộc" thì HỎI USER, đừng cố soạn cho hay hơn.** Đã xoá `китайски` (chỉ sống
-trong `по-кита́йски`, mà kho đã có sẵn thẻ đó) — dọn đủ **bốn chỗ**: note Anki + `tudien.json` +
-`hangdoi.json` + file lô.
+🗑️ **Thẻ kiểu "dạng ràng buộc" thì HỎI USER, đừng cố soạn cho hay hơn.** Đã xoá `китайски` — dọn đủ
+**bốn chỗ**: note Anki + `tudien.json` + `hangdoi.json` + file lô.
 
 ---
 
