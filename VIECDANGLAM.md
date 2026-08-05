@@ -1,7 +1,9 @@
 # 🎯 VIỆC ĐANG LÀM
 
 > Phiếu này bị GHI ĐÈ ở việc kế tiếp. Xong phiên: để TRỐNG hoặc chừa đúng MỘT đầu
-> việc (cửa **S19** đếm mục `##`, QD-25). Việc chưa tới lượt ⇒ `SONO.md` kèm HẠN XOÁ.
+> việc (cửa **S19**, QD-25). Việc chưa tới lượt ⇒ `SONO.md` kèm HẠN XOÁ.
+> 🔴 S19 đếm **cả mục `##` lẫn số dòng** (trần ở `soat_nguong.json`): nhét nợ vào
+> đoạn văn dưới một `##` là mẹo đã dùng rồi và đã bị bịt — dài ra là ĐỎ.
 
 ## ⏭️ Phiên sau bắt đầu từ đây: chạy lô **k40**
 

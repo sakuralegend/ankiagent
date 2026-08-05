@@ -114,7 +114,7 @@ class TestSoatKienTruc(unittest.TestCase):
 
     # --- soat_nguong.json giả cho các mục đọc ngưỡng (QD-21) --------------
     def _nguong_gia(self, phut_doc=None, dong_py=None, phienban=None, so_qd=None,
-                    batbuoc=None, tho=None):
+                    batbuoc=None, viecdanglam=None, tho=None):
         """Ghi `soat_nguong.json` vào repo giả — test đi qua ĐÚNG bộ đọc thật.
         `tho` = chuỗi JSON thô, cho ca kiểm khoá trùng/parse hỏng."""
         if tho is None:
@@ -131,6 +131,9 @@ class TestSoatKienTruc(unittest.TestCase):
                                    **phienban}
             if so_qd is not None:
                 cau["so_quyetdinh"] = {"qd": "QD-23", "tran_dong": 250, **so_qd}
+            if viecdanglam is not None:
+                cau["viecdanglam"] = {"qd": "QD-25", "tran_muc": 1,
+                                      "tran_dong": 14, **viecdanglam}
             tho = json.dumps(cau)
         self.ghi("soat_nguong.json", tho)
 
@@ -291,6 +294,41 @@ class TestSoatKienTruc(unittest.TestCase):
     def test_s16_so_sach_thi_im(self):
         self.ghi("SONO.md", "# no\n\n- [ ] con no that\n")
         self.assertEqual(cua_nguong.s16_no_da_tra_con_nam_lai(), [])
+
+    # --- S19: phiếu việc không được hoá thành sổ nợ thứ hai (QD-25) -------
+    def test_s19_mot_dau_viec_ngan_thi_im(self):
+        self._nguong_gia(viecdanglam={})
+        self.ghi("VIECDANGLAM.md", "# viec\n\n## chay lo k40\n\ndoc TIEPTUC.md la du\n")
+        self.assertEqual(cua_nguong.s19_viecdanglam_con_ton(), [])
+
+    def test_s19_bat_nhieu_dau_viec(self):
+        self._nguong_gia(viecdanglam={})
+        self.ghi("VIECDANGLAM.md", "# viec\n\n## viec mot\n\n## viec hai\n")
+        ra = cua_nguong.s19_viecdanglam_con_ton()
+        self.assertEqual([ph.khoa for ph in ra], ["VIECDANGLAM.md"])
+        self.assertIn("dau viec", ra[0].mo_ta)
+
+    def test_s19_bat_no_NAP_TRONG_DOAN_VAN_du_chi_mot_muc(self):
+        """🔴 Ca bản đếm-`##` BỎ LỌT — chính nó đẻ ra trần dòng (05/08/2026).
+
+        Phiên 05/08 nhét hai món nợ thành đoạn in đậm dưới CÙNG MỘT `##`; máy đếm
+        ra "1 đầu việc" nên xanh, user là người phát hiện. Đếm dòng bịt lỗ đó mà
+        không phải đoán kiểu chữ — nợ luôn dài vì phải giải thích *vì sao hoãn*."""
+        self._nguong_gia(viecdanglam={"tran_dong": 6})
+        self.ghi("VIECDANGLAM.md",
+                 "# viec\n\n## chay lo k40\n\n"
+                 + "".join(f"**No {i}:** vi sao con hoan mon nay\n" for i in range(5)))
+        ra = cua_nguong.s19_viecdanglam_con_ton()
+        self.assertEqual([ph.khoa for ph in ra], ["VIECDANGLAM.md"])
+        self.assertIn("dong", ra[0].mo_ta)
+
+    def test_s19_thieu_tran_dong_trong_config_thi_im(self):
+        """Config cũ chưa có `tran_dong` ⇒ im, vì S12 đã kêu ĐỎ (quy ước file này)."""
+        self.ghi("soat_nguong.json", json.dumps(
+            {"ky_tu_moi_phut": {"so": KT_MOI_PHUT, "qd": "QD-20"},
+             "viecdanglam": {"qd": "QD-25", "tran_muc": 1}}))
+        self.ghi("VIECDANGLAM.md", "# x\n\n## a\n\n## b\n")
+        self.assertEqual(cua_nguong.s19_viecdanglam_con_ton(), [])
 
     # --- S20: SINH PHẢI BẰNG TỬ (QD-29) -----------------------------------
     def _so_gia(self, so_qd, so_dado=0):

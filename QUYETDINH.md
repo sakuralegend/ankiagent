@@ -64,7 +64,6 @@
 | QD-30 | 04/08 | Ngân sách đọc chia HAI TẦNG: `batbuoc` (nạp tự động, trần TỔNG chặt) tách khỏi tra-khi-cần | Đo 04/08: **không máy nào bắt đọc 14/16 file** — chỉ `CLAUDE.md` nạp tự động. Tổng cũ đo thứ chưa chắc xảy ra, mà đau nén chữ thì thật |
 | QD-15 | 02/08 | 🔨 Cửa canh DỮ LIỆU ngữ pháp `anki_tools/soat_nguphap.py` đứng riêng, KHÔNG import `grammar` | Tránh đẻ vòng import. Cửa đòi lệch cả hai chiều mới báo ⇒ đo 516 thẻ ra 0 kêu oan. Chỉ IN RA, không tự sửa |
 | QD-04 | 31/07 | 🔨 Cảnh báo "bot chết" gọi thẳng Telegram bằng `curl`, KHÔNG qua `tgbot/alerts.py` | `alerts.py` gửi qua chính con bot ⇒ bot chết thì cảnh báo chết theo. Đường báo không được nạp dòng Python nào của dự án |
-| QD-01 | 30/07 | 🔨 Nhận hệ CACHLAM v1 + `CLAUDE.md`; wrapper riêng của `data/huongdan/kho/` đóng băng làm ngoại lệ L1 | 🔴 Hết hạn khi hàng đợi hết lô `cho`. Đã bị nới ba lần (QD-11/16/19) ⇒ gần như đã chết, giữ để chặn viết wrapper mới |
 | — | 29/07 | Gom 3 luồng chạy nền của bot về một hàm `core.chay_hang_loat()` | Ba bản sao lệch nhau âm thầm; nguyên tắc user chốt: **một chức năng một script**, trùng thì tách tầng chứ đừng đồng bộ tay |
 | — | 26/07 | Gỡ sạch trần thẻ mới (`new/perDay = 9999` cả 3 preset) | User: *"học đến bao giờ hết thì thôi"*. 🔴 Hằng số nguồn ở **`scripts/setup_inbox.py`** — script này **ghi đè GUI mỗi lần chạy**, chỉnh tay trong Anki là vô ích |
 | — | 22/07 | 🔨 Gợi ý (hint) dựng bằng **JS trong mặt trước thẻ**, KHÔNG thêm card template | Chỉ card template mới nhân đôi số thẻ — thêm template là tự nhân đôi cả bộ sưu tập |
@@ -75,4 +74,5 @@
 | — | 20/07 | 🔨 Bot **tự tải bytes** audio rồi `storeMediaFile`, không để AnkiConnect tải hộ qua URL | OpenRussian trả 500 thì AnkiConnect ghi **nguyên câu lỗi** vào ô Audio ⇒ thẻ hỏng nhận ra bằng *thiếu `[sound:]`*, KHÔNG phải ô rỗng |
 | — | 20/07 | `/sua` = **làm lại thẻ hoàn toàn** (cào + sinh lại), xoá hẳn cơ chế "preset tinh chỉnh" cũ | Preset gần như không ai dùng; làm lại dùng chung `build_card_fields` với thêm thẻ mới nên **một chức năng một lõi** |
 | QD-31 | 05/08 | Hook mỗi lượt KÊU khi có commit đụng **code bot** mà chưa deploy; im khi không lệch | User: *"toàn phải để tôi nhắc"*. Đo lúc chốt: lệch 7 commit nhưng **0 cái** đụng code VPS ⇒ đếm commit suông là báo động giả ngay lần đầu |
+| QD-32 | 05/08 | S19 canh `VIECDANGLAM.md` bằng **trần DÒNG**, không chỉ đếm mục `##` | Nợ nhét vào đoạn văn dưới một `##` lọt cửa suốt, user bắt được chứ không phải máy. Bác cách đếm đoạn 🔴: chỉ chặn đúng một kiểu chữ, đổi kiểu là lọt lại |
 | — | 19/07 | 🔨 `bot.py` chỉ còn ~10 dòng điểm vào, ruột tách vào gói `tgbot/` 4 tầng | Tầng một chiều `core ← flows ← dispatch ← app`; **`dispatch` chỉ chia việc**, cấm để logic nghiệp vụ vào đó (S3 canh) |

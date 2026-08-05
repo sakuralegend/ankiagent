@@ -37,17 +37,10 @@ def s10_tri_nho_phinh():
     """Chạm trần KHÔNG có nghĩa "cấm viết thêm" — nghĩa là phải dừng lại CHỌN:
     cắt mục đã hết giá trị, hay nâng ngân sách trong `soat_nguong.json` kèm QD-nn.
 
-    🔴 HAI TẦNG, ĐỪNG CỘNG CHUNG (QD-30, 04/08/2026). Trước đó cửa này cộng cả 16
-    file thành một con số "101/112 phút" và trình bày như thể mỗi phiên đều phải
-    đọc từng ấy. **Đo 04/08: không máy nào bắt đọc 14 trong 16 file đó.** Chỉ
-    `CLAUDE.md` là được nạp tự động, cộng 2.437 ký tự hook chèn mỗi lượt; 14 file
-    còn lại chỉ được đọc NẾU AI tự giác tuân một dòng luật viết trong `CLAUDE.md`.
-    ⇒ Con số tổng cũ đo một thứ phần lớn chưa chắc từng xảy ra, trong khi cái đau
-    (nén chữ cho vừa trần) thì có thật mỗi phiên.
-
-    Nay: `batbuoc` = tầng THẬT SỰ bị nhồi vào đầu, có trần TỔNG chặt. Các file
-    còn lại giữ trần riêng làm lưới an toàn, nhưng KHÔNG cộng vào tầng bắt buộc —
-    một file tra-cứu dài ra không cướp chỗ của file bắt-đọc, và ngược lại.
+    🔴 HAI TẦNG, ĐỪNG CỘNG CHUNG — vì sao: QD-30. `batbuoc` = tầng THẬT SỰ bị nhồi
+    vào đầu mỗi phiên, có trần TỔNG chặt. Các file còn lại giữ trần riêng làm lưới
+    an toàn nhưng KHÔNG cộng vào tầng bắt buộc — một file tra-cứu dài ra không
+    cướp chỗ của file bắt-đọc, và ngược lại.
     """
     try:
         ng = nguong()
@@ -378,21 +371,26 @@ def s18_sono_dong_dai_hoac_qua_han():
 def s19_viecdanglam_con_ton():
     """`VIECDANGLAM.md` xong phiên phải TRỐNG, hoặc còn đúng **một** đầu việc.
 
-    User chốt 04/08. Phiếu này là thứ phiên sau đọc đầu tiên; để tồn nhiều đầu
-    việc thì nó thành sổ nợ thứ hai — mà nợ đã có `SONO.md`, và hai sổ song song
-    thì không sổ nào được tin. Đếm theo mục `##` (mỗi đầu việc một mục).
+    User chốt 04/08. Phiếu này là thứ phiên sau đọc đầu tiên; để tồn nhiều đầu việc
+    thì nó thành sổ nợ thứ hai — mà nợ đã có `SONO.md`, hai sổ song song thì không
+    sổ nào được tin. 🔴 Đếm `##` KHÔNG đủ, phải đếm CẢ SỐ DÒNG — vì sao: QD-32.
     """
     try:
-        tran = nguong()["viecdanglam"]["tran_muc"]
+        ng = nguong()["viecdanglam"]
+        tran, tran_dong = ng["tran_muc"], ng["tran_dong"]
     except (OSError, ValueError, KeyError):
         return []                              # config hỏng: S12 kêu ĐỎ
     p = khung.GOC / "VIECDANGLAM.md"
     if not p.exists():
         return []
-    muc = [d for d in p.read_text(encoding="utf-8").splitlines()
-           if re.match(r"##\s+\S", d)]
-    if len(muc) <= tran:
-        return []
-    return [PhatHien("VIECDANGLAM.md", 0,
-                     f"{len(muc)} dau viec > tran {tran} — xong phien thi phieu phai TRONG "
-                     f"hoac con dung {tran}; viec chua lam day sang SONO.md kem HAN XOA")]
+    dong = p.read_text(encoding="utf-8").splitlines()
+    ra = []
+    if len([d for d in dong if re.match(r"##\s+\S", d)]) > tran:
+        ra.append(PhatHien("VIECDANGLAM.md", 0,
+                           f"nhieu hon {tran} dau viec — viec chua lam day sang SONO.md kem HAN XOA"))
+    if len(dong) > tran_dong:
+        ra.append(PhatHien("VIECDANGLAM.md", 0,
+                           f"{len(dong)} dong > tran {tran_dong} — dai the nay la dang CHUA NO trong "
+                           f"doan van (du chi mot muc ##); no sang SONO.md, luat chung sang file "
+                           f"nguoi ta doc luc can"))
+    return ra
