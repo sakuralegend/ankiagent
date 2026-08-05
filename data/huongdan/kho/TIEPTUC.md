@@ -12,7 +12,39 @@ Bạn (user) chỉ cần gõ một câu: **"chạy tiếp kho"**. Phần dưới
 > 🔄 **02/08: `nap --apply` và `cao_nguphap` nay TỰ kéo sync về trước khi đọc/ghi** (QD-16). Sync
 > hỏng thì chúng DỪNG, không ghi gì — đúng cái đã làm hỏng 23 thẻ đêm 31/07. Không phải nhớ gì thêm.
 
-### ✅ PHIÊN 05/08: k66(4 TỪ MỚI) · k38(16) · k39(16) = **36 từ / 3 lô** — kế tiếp **k40**
+### ✅ PHIÊN 05/08 đợt 2: k40(19) · k41(18) · k42(18) = **55 từ / 3 lô** — kế tiếp **k43**
+
+Cả ba: `QUA 1 MAN HINH: 0` · `QUA 2 O DO: 0` · khối chung **0%** · `nap` khớp tuyệt đối 18/18 và
+37/37. User vào phiên **80% hạn mức**, được trình 3 phương án cỡ phiên và **chốt bộ đắt nhất** (55
+từ ≈ 77%) sau khi nghe cảnh báo chỉ chừa ~3% đóng phiên. **Vẫn lọt** — nhưng n=1, đừng lấy làm luật.
+
+🔴🔴 **BADGE `adj`/`adv` TÁCH SẠCH CẶP TÍNH TỪ ↔ TRẠNG TỪ — đo trên cả 1043 thẻ.** Quét chuỗi báo
+k40 **25** cụm va chạm, k42 **18**, k43 **22**; soi `PoS` thật thì **13/18 của k42 và phần lớn của
+k40 là KÊU OAN** (`высокий`/`высоко` · `тихий`/`тихо` · `дорогой`/`дорого`…). ⇒ Khối `qualities`
+trông như bãi mìn nhưng thực ra chỉ có adj↔adj mới là va chạm thật. **Dán kết luận này vào lời nhắn
+là thứ tiết kiệm nhiều chữ nhất phiên** — không nói thì ba agent cùng đốt chữ tách cặp badge đã
+tách hộ.
+
+🆕 **BA LÔ CHẠY SONG SONG HỘI TỤ ĐÚNG VÀO NHAU MÀ KHÔNG CẦN TRỌNG TÀI.** k40 và k42 độc lập gửi
+đề nghị *"bỏ 'đẹp' khỏi `хороший`, bỏ 'tốt/lớn' khỏi `высокий`, `громкий` phải kèm chữ âm thanh"* —
+**trùng khớp từng chữ**, và k41 đã tự chọn đúng phần còn lại (`большой`/`крупный`/`некрасивый`)
+trước khi nhận được lời nào. ⇒ **Cứ dặn mỗi agent "tách dứt khoát từ phía mình, muốn lô kia đổi thì
+BÁO LÊN, đừng tự sửa từ của lô khác"** — luồng chính chỉ chuyển lời, không phán. Lời chuyển vẫn phải
+kèm câu *"bạn không bắt buộc nghe, đây là lời của lô kia chứ không phải của tôi"*.
+
+🔴 **VỆT "NỚI RỘNG" ĐẬM NHẤT TỪ TRƯỚC TỚI NAY: 24 lần bác / 55 từ.** Riêng `высокий` ôm 5 nghĩa
+Việt và va vào 3 từ khác. Loạt bị cắt: `высокий` bỏ *lớn/nhiều/tốt/quý giá* · `низкий` bỏ
+*ngắn/nhỏ/kém* · `легко` bỏ *một chút* (là `немного`) · `громко` bỏ *ồn* (là `шумно`) ·
+`национальный` "thuộc về quốc gia" → **dân tộc** (`госуда́рственный` trong kho tự ghi "không phải
+thuộc dân tộc" ⇒ nó nhường nghĩa đó) · `коммуникативный` "cởi mở, giao tiếp tốt" → đó là
+`коммуника́бельный`. ⇒ **Tính từ chỉ phẩm chất là ổ nới rộng nặng nhất**, nặng hơn cả tên loài.
+
+🔴 **CỬA SOÁT MÙ HẲN VỚI TRỌNG ÂM NẰM Ở `ё`** — `soatlo.py:123` bỏ qua khi dạng chuẩn không có dấu
+sắc, `:125` lại gộp `ё→е` trước khi so. Agent k41 tự tay bắt được `тве́рдость` (đúng: `твёрдость`).
+Đã ghi `SONO.md`, **chưa sửa** vì trộn việc sửa công cụ vào phiên chạy lô là thứ đã đốt trọn một
+cửa sổ 5h. **Lô nào có từ dính `ё` thì dặn agent tự soi tay** — `soat` báo sạch ở đó không nghĩa gì.
+
+### ✅ PHIÊN 05/08 đợt 1: k66(4 TỪ MỚI) · k38(16) · k39(16) = **36 từ / 3 lô**
 
 Cả ba: `QUA 1 MAN HINH: 0` · `QUA 2 O DO: 0` · khối chung **0%** · `nap` khớp tuyệt đối 4/4,
 16/16, 16/16. User vào phiên **80% hạn mức**, chốt 3 lô sau khi nghe cảnh báo giá.
@@ -26,14 +58,9 @@ vào cùng lô. ⇒ **Trình CẢ HAI phương án cho user chọn; đừng mặ
 ⇒ **quét chuỗi chỉ thấy khoảng một nửa.** Ca đáng nhớ: `учёба` đụng `образова́ние` · `фильм` đụng
 `кино` · `стоя́нка` đụng `гараж` · `ба́нка` (cái lọ) là bẫy **mặt chữ** với `банк` dù không đụng đề bài.
 
-🆕 **CHUYỂN ĐỀ NGHỊ GIỮA HAI LÔ SONG SONG — chạy trơn lần thứ hai.** k38 xong trước, gửi 4 đề nghị;
-luồng chính `SendMessage` thẳng sang k39 **đang chạy**, k39 nhận cả 4. 🔴 Lời chuyển phải kèm câu
-*"bạn không bắt buộc nghe, đây là lời của lô kia chứ không phải của tôi"* — luồng chính không đọc
-file lô, không có tư cách phán nội dung tiếng Nga.
-
 🔴 **VA CHẠM MỒ CÔI — lớp lỗi MỚI, chưa cửa nào canh.** Đo 05/08: 118 cụm trùng chuỗi → **31** cụm
 mà mọi từ đều ở lô đã `xong` → lọc bằng badge còn **4**. Cơ chế "lô sau sẽ sửa" **không với tới
-chúng**; đã ghi `SONO.md`. 📌 Phép đo đúng vẫn là **badge có tách được không**, không phải trùng
+chúng** — 4 cụm đó đã trả tay xong 05/08 (`git log --grep SONO-vacham`). 📌 Phép đo đúng vẫn là **badge có tách được không**, không phải trùng
 chuỗi — 27/31 là cặp thể hoặc khác từ loại, badge lo sạch.
 
 ### ✅ PHIÊN 04/08 đợt 2: k35(15) · k36(15) · k37(17) = **47 từ / 3 lô**
@@ -55,15 +82,12 @@ cho agent. Nhờ đó agent k36 gỡ được ca `преподаватель`/`�
 ngay lượt đầu, và bắt luôn `учитель` tự mâu thuẫn (badge MASC ♂ mà nghĩa in "cô giáo").
 Agent vẫn tự tìm thêm hai ca máy mù: `вход` đụng `подъезд`, `компания` đụng `фирма`.
 ⚠️ Lời nhắc cũ *"`фирма` — tới lô của nó thì nhớ"* hoá ra **CHẾT**: k55 và k07 đều đã `xong`, không
-lô nào còn chạm tới (đo 05/08, nay ở `SONO.md`). 🔴 **"Để lô sau lo" chỉ đúng khi từ đó CÒN trong
+lô nào còn chạm tới (đo 05/08, đã vá tay). 🔴 **"Để lô sau lo" chỉ đúng khi từ đó CÒN trong
 lô `cho` — mở `hangdoi.json` kiểm trước khi hứa.**
 
 ### ✅ PHIÊN 04/08 đợt 1: k65(16 TỪ MỚI) · k32(12) · k33(21) · k34(20) = **69 từ / 4 lô**
 
 Cả bốn lô: `QUA 1 MAN HINH: 0` · `QUA 2 O DO: 0` · khối chung **0%** · `nap` khớp tuyệt đối.
-
-🔴 **69 từ lọt trong MỘT phiên dù mô hình cũ dự "vượt hạn mức"** ⇒ trần "~55 từ" là trần **thận
-trọng**, không phải trần cứng. (Phần tính bằng token đã bỏ 04/08 — xem bảng 📊 CHI PHÍ.)
 
 🔴🔴 **QUÉT `vacham` TRƯỚC KHI GIAO LÔ, DÁN DANH SÁCH VÀO LỜI NHẮN** (dựng 03/08; phiên này dùng lần
 hai: k65 **5** · k32 **0** · k33 **6** · k34 **5**). Agent soạn một lô **không nhìn thấy hơn 1000 thẻ
@@ -95,10 +119,9 @@ là `гражда́нство`); `мобильный` tính từ → cụm danh 
 "côn trùng"; `ёрш` mất nghĩa "cá ruff"; `грач` · `зя́блик` · `о́кунь`). ⇒ **Cách bác rẻ nhất vẫn là
 đối chiếu gloss tiếng Anh; bảng chia là nhân chứng thứ hai** (`ёрш` lộ ra vì bảng chia là bảng danh
 từ chỉ vật sống, `acc = gen = ерша́`).
-📌 **Vá CẢ HAI nơi, và vá cả dòng không bác được.** `nap` ghi field `Vietnamese` từ `V`, còn `tiep`
-in đề bài cho lô sau từ `tudien.json` — **hai nơi khác nhau**; để lệch là lô sau soạn lại đúng cái va
-chạm vừa gỡ. Phiên 04/08 đồng bộ **trọn 49 dòng `V`** vào `tudien.json` chứ không chỉ 18 dòng bác
-được, vì mọi dòng `V` đều là đề bài đã sửa. Tổng đã vá qua bốn phiên: **70 dòng `vi`**.
+✅ **Bước "đồng bộ `V` sang `tudien.json`" ĐÃ CHẾT, cắt 05/08.** QD-27 bỏ hẳn cột `vi` khỏi
+`tudien.json` (đo lại 05/08: 0/1043 dòng còn cột đó) — `tiep` nay lấy nghĩa Việt **thẳng từ thẻ
+Anki**. `nap` ghi xong là hết việc, không còn "hai nơi phải vá".
 
 🆕 **KHỐI `BAT THUONG` BÁO **THỪA** — lần đầu bắt được kiểu này.** k63: nhãn *"DẠNG NGẮN có biến đổi
 (trọng âm dịch)"* bị dán cho `оригина́льный`·`ра́зный`·`удо́бный` trong khi cả ba **trọng âm đứng
@@ -106,9 +129,11 @@ yên**, chỉ có nguyên âm chạy `е` ở giống đực = hoàn toàn theo 
 nào cho ba từ đó (đúng). Sáu từ còn lại nhãn ĐÚNG. Trước giờ chỉ biết khối này báo THIẾU hoặc in
 rác. **Chưa đủ điểm để sửa `congcu.py`** — ghi lại đã, lô sau lại gặp thì mới mở ra đo.
 
-⚠️ **RÁC TẦNG DỮ LIỆU — danh sách đầy đủ nay ở `SONO.md` (một mục), đây chỉ giữ CÁCH NHẬN BIẾT.**
+⚠️ **RÁC TẦNG DỮ LIỆU — không dựng danh sách, chỉ giữ CÁCH NHẬN BIẾT** (danh sách sẽ cũ đi im lặng).
 Cửa soát máy **không đo phần này** (bảng chia do máy nối vào thẻ lúc ghi). Bốn dấu hiệu rẻ, dặn agent
-soi đúng bốn cái này là đủ: ① **thiếu dấu phẩy** giữa hai dạng (`сте́пью сте́ипю`) · ② **ô mất dấu
+soi đúng bốn cái này là đủ: ① **thiếu dấu phẩy** giữa hai dạng (`сте́пью сте́ипю`) — lọc rẻ nhất là
+"ô có dấu CÁCH mà KHÔNG có dấu phẩy"; đo 976 thẻ ra **217 ô nhiều dạng, 216 ô có phẩy và đều THẬT**,
+chỉ mình `степь` là rác (`край` = `'кра́е краю́'` cũng thiếu phẩy nhưng cả hai dạng thật — đừng sửa) · ② **ô mất dấu
 trọng âm trong khi ô hàng xóm có đủ** (`тётя` → `те́тей`) · ③ **hai ô đảo chỗ cho nhau** (`фотограф`
 đảo cách 3 số ít ↔ số nhiều) · ④ **đúng dữ liệu nhưng THIẾU NHÃN** — dạng "lối cổ" và cách 5 cũ
 `-ою/-ею` in như dạng thường, khiến thẻ **tự mâu thuẫn với chính bảng của nó**.
@@ -141,13 +166,6 @@ DUY NHẤT bắt được lời giải thích sai — đừng bao giờ cắt n�
 "(số thứ tự, không phải ngày trong tuần)". Ca này chính là thứ đẻ ra bước quét `vacham` trước ở đầu
 mục — nhưng nhớ nó vẫn nằm ngoài tầm quét chuỗi, vì hai bên **không trùng chữ**, chỉ trùng hệ thống.
 
-🔴 **Rác trong bảng chia: dấu hiệu nhận biết là THIẾU DẤU PHẨY.** Agent k26 bắt `степь` cách 5 số
-ít in `сте́пью сте́ипю` — dạng sau không có thật. Đây là lớp **máy nối vào thẻ** mà `soat`/`dodai`
-mù. Luồng chính quét cả 976 thẻ: **217 ô chứa nhiều dạng, 216 ô ngăn bằng dấu phẩy và đều là biến
-thể THẬT** (`-ой, -ою` cổ · `в лесу́` cách vị trí · `де́ти/ребя́та`), **chỉ mình ô này ngăn bằng dấu
-cách** ⇒ ca lẻ. Đã vá thẳng `GrammarJSON`, sao lưu `backups/_backup_grammarjson_step.json`.
-(`край` = `'кра́е краю́'` cũng thiếu phẩy nhưng **cả hai dạng đều thật** — đừng "sửa".)
-⇒ **Lần sau nghi rác bảng chia thì lọc theo "có dấu cách mà KHÔNG có dấu phẩy"**, rẻ và trúng.
 
 📌 **Có lô im lặng hoàn toàn: k27 (13 từ) không có lấy một khối `CUM CO DINH`/`CACH DUNG` nào** ⇒
 mất sạch nguồn ứng viên ô đỏ. **Đừng đọc cái im lặng đó thành "không có gì đáng cảnh báo".**
@@ -243,7 +261,7 @@ từ nào `congcu.py tiep` in khối `BAT THUONG` thì **bắt buộc có MỘT 
 | File | Là gì |
 |---|---|
 | `hangdoi.json` | 61 lô + `trangthai: cho\|xong` — **nguồn sự thật duy nhất** |
-| `tudien.json` | ảnh chụp 976 từ (WordClean, trọng âm, từ loại, nghĩa). Nối thêm khi user thêm từ mới, và **vá tay khi agent bác dòng `vi` sai** — xem dưới |
+| `tudien.json` | ảnh chụp 1043 từ: WordClean, trọng âm, từ loại, gloss Anh. **Không còn cột nghĩa Việt** (QD-27) — nghĩa Việt lấy thẳng từ thẻ Anki |
 | `kNN_*.py` | nội dung đã soạn, dữ liệu thuần `S = {...}` |
 
 ```bash
@@ -275,9 +293,6 @@ lượt chat** (mỗi lượt gửi lại cả hội thoại), không phải vi�
 nhiều phép đo vào một lượt thì gần như miễn phí. **Đừng lấy "sợ tốn" làm lý do bỏ bước đo trước
 khi giao lô** — đó chính là bước đẻ ra giá trị lớn nhất phiên này.
 ⚠️ n=2, đủ để hạ 1,5 → 1,4 và nới trần, **chưa đủ để hạ tiếp**. Điểm đo sau vẫn phải ghi.
-
-⚠️ **Con số "≈80 từ" cũ ĐÃ BỊ BÁC BẰNG SỐ ĐO — đừng khôi phục.** 80 ×1,4% = **112%**, vượt hẳn
-cửa sổ. Nó sai vì suy ra từ token chứ không đo bằng hạn mức.
 
 | Loại phiên | Từ chạy được | Ăn hết |
 |---|---|---|
@@ -324,21 +339,8 @@ tổng số từ và phiên sau tưởng còn việc.
 `nap --apply` đều bị từ chối. Đi vòng bằng **PowerShell tool** — tách từng lệnh một, commit
 message ghi ra file rồi `git commit -F <file>`. Đừng mất thời gian dò lại.
 
-### 🔴 8 lô GHÉP TAY — `chialai.py` sẽ xoá sạch nếu chạy lại
-
-`xephangdoi.py` sắp từ **theo hậu tố**. Với danh từ thì tuyệt (mọi từ `-ция` chung một luật
-trọng âm), nhưng **với hư từ và số từ thì hậu tố không phải họ hàng** — k16 cũ trộn
-`чей·ой·твой·какой·мой·к·как·сам·там·рядом` chỉ vì chúng vần với nhau, còn số thứ tự thì bị
-xé ra ba lô. Đã ghép tay lại theo **họ ngữ pháp thật**: k16–k19 (đại từ · nghi vấn · giới từ ·
-tiểu từ) và k28–k31 (số đếm · hàng chục · số thứ tự · đơn vị đo). **7/8 đã chạy xong tính đến
-05/08, chỉ còn `k16` — trục từng lô nay `tiep` tự in ra, không cần bảng ở đây nữa.**
-
-Tám lô này mang khoá `"thucong"` trong `hangdoi.json`. **`chialai.py` nay TỪ CHỐI chạy** khi
-thấy chúng (phải `--ep` mới ghi đè) — vì chạy lại là gom hết từ của topic rồi chia lại bằng
-máy, xoá công ghép mà không báo gì. `congcu.py tiep` cũng in dòng **`### TRUC CUA LO`** cho
-agent biết trục sẵn có, khỏi tự mò một trục khác rồi lô thành rời rạc.
-
-⚠️ Đổi lại mất thêm **2 lô** (31 → 33). Đó là đánh đổi đã chọn, không phải sơ suất.
+🔒 **Lô ghép tay** (khoá `"thucong"`, còn mỗi `k16`): `chialai.py` tự từ chối chạy và tự in lý do,
+`tiep` tự in `### TRUC CUA LO` — mục dài ở đây cắt 05/08 vì hai chỗ đó nói đủ, đúng lúc.
 
 ### 📏 CỠ LÔ — chốt lại 29/07: **GIỮ NGUYÊN 16–18, đừng to thêm**
 
@@ -489,8 +491,7 @@ PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py dodai kNN       # ph�
 #  → ghi MỘT DÒNG vào data/huongdan/kho/dolo.tsv (ba con số trong báo cáo agent)
 PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py xong kNN        # chỉ luồng chính được gọi
 PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py nap --apply     # đẩy vào Anki ngay + sync
-#  → rồi ĐỒNG BỘ mọi dòng `V` sang tudien.json (xem 📌 dưới), KHÔNG BỎ BƯỚC NÀY
-git add data/huongdan/kho/kNN_*.py data/huongdan/kho/hangdoi.json data/huongdan/kho/dolo.tsv data/huongdan/kho/tudien.json && git commit …
+git add data/huongdan/kho/kNN_*.py data/huongdan/kho/hangdoi.json data/huongdan/kho/dolo.tsv && git commit …
 ```
 
 ⚠️ **Sau `nap`, đối chiếu "ghi vào N note" với số từ của lô.** Lệch là có chuyện — chính con số

@@ -14,8 +14,7 @@
 
 | Nợ | Vì sao chưa trả | Hết hạn |
 |---|---|---|
-
-*(trống — không còn nợ nào)*
+| `soatlo.py:123` bỏ so khi chuẩn không có dấu sắc, `:125` gộp `ё→е` ⇒ **từ trọng âm ở `ё` chưa bao giờ được soi** (bắt 05/08: `тве́рдость`). | Sửa công cụ giữa phiên chạy lô đã đốt trọn một cửa sổ 5h. Cần phiên riêng + đo trước xem bỏ chốt `ё` thì kêu oan mấy chỗ. | 2026-08-20 |
 
 🔴 **Trước khi thêm dòng, hỏi: đây có phải NỢ không?** Nợ = việc mình BIẾT phải làm
 mà cố ý hoãn. KHÔNG phải nợ, và cấm ghi vào đây:

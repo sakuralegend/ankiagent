@@ -39,4 +39,26 @@ MIEN_TRU = {
              "куро́к · курка́ · курку́ · курко́м, thẻ k64 dạy đúng chỗ chữ о rơi mất; "
              "nouns.csv chỉ có danh từ phương ngữ đồng tự ку́рка = gà mái (glossed toàn tiếng Đức "
              "Henne, không có nghĩa tiếng Anh)",
+    "ни́зок": "DẠNG NGẮN giống đực của tính từ ни́зкий (thấp), dạng chèn nguyên âm chạy — "
+            "grammar_cache ghi rõ bộ dạng ngắn ни́зок · низка́ · ни́зко · ни́зки, thẻ k40 dạy "
+            "đúng chỗ chèn о này; nouns.csv chỉ có danh từ đồng tự низо́к = phần dưới nhỏ "
+            "(dạng nhỏ của низ). Cùng lớp với жарка́ đã miễn trừ ở trên",
+    "дорога́": "DẠNG NGẮN giống cái của tính từ дорого́й (đắt) — grammar_cache ghi rõ bộ "
+              "до́рог · дорога́ · до́рого · до́роги; thẻ k40 cố ý nêu cặp đối lập дорога́ (đắt) ↔ "
+              "доро́га (con đường) vì đây là cặp chỉ khác nhau ở chỗ trọng âm, "
+              "nouns.csv chỉ có доро́га. Cùng lớp với жарка́ và ни́зок ở trên",
+    "вели́к": "DẠNG NGẮN giống đực của tính từ вели́кий, đồng thời là dạng ngắn mà "
+             "большо́й mượn dùng — grammar_cache ghi rõ bộ вели́к · велика́ · велико́ · велики́, "
+             "thẻ k41 dạy đúng chỗ này; nouns.csv chỉ có danh từ khẩu ngữ đồng tự ве́лик = "
+             "cái xe đạp (rút gọn của велосипе́д). Cùng lớp với жарка́ và ни́зок ở trên",
+    "силён": "DẠNG NGẮN giống đực của tính từ си́льный (mạnh) — grammar_cache ghi rõ bộ "
+            "силён · сильна́ · си́льно · си́льны, thẻ k42 dạy đúng chỗ ь biến thành ё và "
+            "trọng âm chạy ra cuối. Máy đọc nhầm vì khoá tra từ điển gộp ё về е (như нёбо ở "
+            "trên), nên силён bị đọc thành силен rồi khớp phải danh từ đồng tự силе́н = "
+            "Silenus, thần rừng Hy Lạp (nouns.csv chỉ có nghĩa tiếng Đức Satyr, không có "
+            "nghĩa tiếng Anh)",
+    "до́бро": "DẠNG NGẮN giống trung của tính từ до́брый (tốt bụng) — grammar_cache ghi rõ bộ "
+             "добр · добра́ · до́бро · до́бры; thẻ k42 cố ý nêu cặp đối lập до́бро (dạng ngắn) ↔ "
+             "добро́ (DANH TỪ: điều thiện, của cải) vì hai từ chỉ khác nhau đúng chỗ trọng âm, "
+             "nouns.csv chỉ có добро́. Cùng lớp với жарка́, ни́зок, дорога́ ở trên",
 }

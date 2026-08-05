@@ -5,8 +5,8 @@
 > 🔴 S19 đếm **cả mục `##` lẫn số dòng** (trần ở `soat_nguong.json`): nhét nợ vào
 > đoạn văn dưới một `##` là mẹo đã dùng rồi và đã bị bịt — dài ra là ĐỎ.
 
-## ⏭️ Phiên sau bắt đầu từ đây: chạy lô **k40**
+## ⏭️ Phiên sau bắt đầu từ đây: chạy lô **k43**
 
-**46 lô / 698 từ duyệt / 345 chờ.** Đọc `data/huongdan/kho/TIEPTUC.md` là đủ.
+**49 lô / 753 từ duyệt / 290 chờ.** Đọc `data/huongdan/kho/TIEPTUC.md` là đủ.
 Trần phiên ~58 từ (1 từ ≈ 1,4% hạn mức) — nhìn quota còn bao nhiêu %, chia 1,4 ra số từ.
 Soạn ở **Opus mức high**, không đổi mức (lý do ở đầu `data/huongdan/kho/dolo.tsv`).
