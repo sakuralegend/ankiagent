@@ -150,82 +150,51 @@ ngược: *"tham quá khiến thẻ dài tôi đọc xong không nhớ gì"*. C�
 
 ## 2c. Việc thứ hai của mỗi lô: SỬA FIELD `Vietnamese`
 
-User chốt 28/07: *"phần dịch tiếng Việt đôi khi chưa được thoát ý, ví dụ phải chỉ ra đó là thể
-hoàn thành hay chưa hoàn thành thì tôi mới viết đúng được"*.
+🔴 **Dòng tiếng Việt là ĐỀ BÀI của deck `1-go`** — user nhìn nó rồi **gõ** từ Nga.
 
-🔴 **Dòng tiếng Việt là ĐỀ BÀI của deck `1-go`** — user nhìn nó rồi **gõ** từ Nga. Mơ hồ ở đây
-không phải lỗi thẩm mỹ mà là **đề bài không có đáp án đúng**: `nói` không phân biệt được
-`сказа́ть` (hoàn thành) với `говори́ть` (chưa hoàn thành), nên user gõ kiểu gì cũng có thể sai.
+**LUẬT (user chốt 05/08, đè lên mọi bản trước): đề bài là THUẦN DANH SÁCH NGHĨA của chính từ
+đó, ngăn bằng dấu phẩy. KHÔNG GÌ KHÁC.**
 
-**Tiêu chí:** *"tạo nghĩa tiếng Việt sát nhất, sao cho **chỉ có 1 đáp án đúng** thôi"* — user
-không biết trước sẽ học từ nào, nên không thể trông vào việc họ đoán ý.
+| ✅ Viết thế này | ❌ Cấm tuyệt đối |
+|---|---|
+| `большой` → `to, lớn, quan trọng, trưởng thành` | nhãn **từ loại · giống · thể · phản thân** — badge in sẵn rồi |
+| `слева` → `ở bên trái, từ bên trái` | **cách chi phối**: `+ C4`, `đi với с + cách 5` |
+| `налево` → `sang trái, về bên trái` | **lưu ý cách dùng**, sắc thái, ví dụ, ghi chú trong ngoặc |
+| `лук` → `củ hành, cây cung` | **mệnh đề phủ định** `(không phải «X»)` |
 
-🧠 **Dùng chính đầu óc của bạn, đừng chờ công cụ.** User nói rõ: *"nó phải tự biết từ này dễ
-nhầm với từ nào chứ"*. Không có bước bắt buộc nào phải chạy — bạn biết `сказа́ть` đụng
-`говори́ть`, `бли́зкий` đụng `бли́зко`, thì xử lý luôn.
+🔴 **Phân biệt với từ khác KHÔNG phải một việc riêng — nó là HỆ QUẢ của việc liệt kê đủ.**
+User: *"2 từ có thể chung một nghĩa, nhưng nếu liệt kê toàn bộ nghĩa của từ đó ra, chắc chắn
+sẽ có sự khác biệt"*. `большо́й` và `кру́пный` cùng có "lớn" — **không sao cả**: thấy *trưởng
+thành* là biết `большо́й`, thấy *thô, hạt to* là biết `кру́пный`.
 
-**Cách làm:** trong file lô, khai thêm dict `V` bên cạnh `S`, **chỉ những từ cần làm rõ**:
+**Chỉ nghĩa THÔNG DỤNG.** Bỏ nghĩa lóng (`класс` "tuyệt vời"), nghĩa văn chương (`высо́кий`
+"cao thượng"), nghĩa thân mật hiếm (`там` "later"). 🔴 Nhưng **đừng nới rộng cho dài** — chỉ
+liệt kê nghĩa THẬT, gloss tiếng Anh của chính thẻ xác nhận được. Luật chống nới rộng giữ
+nguyên. Chiều ngược lại cũng có thật: `пол` đang **thiếu hẳn** nghĩa "nửa" mà tiếng Anh có.
+
+⚠️ **Bí thì BÁO LÊN, CẤM tự mở lối thoát.** Hai từ trùng hết nghĩa mà cả bốn badge (`{{PoS}}`
+`{{GenderBadge}}` `{{AspectBadge}}` `{{ReflexiveBadge}}`) cũng không tách ⇒ **ghi vào báo cáo
+cho user**, đừng lén thêm một cái ngoặc. Đo 05/08 trên cả 1043 thẻ: bỏ sạch ngoặc thì chỉ còn
+**11 cụm nghĩa trùng / 22 thẻ**, mà **9 cụm được badge tách sạch** ⇒ ca thật rất hiếm. Ca mỏng
+nhất đã biết: `соси́ска` ↔ `колбаса́` (cùng `n` + `FEM ♀`, tiếng Anh cùng là "sausage").
+
+**Phần cắt ra thì VỨT ĐI — đừng đẩy sang ô Hướng dẫn.** Ô đó vốn đã là mục agent tự chắt lọc
+cái đáng dạy; user chốt 05/08 **không đụng vào nó**.
+
+**Cách làm:** trong file lô, khai dict `V` bên cạnh `S`, chỉ những từ cần sửa:
 
 ```python
-V = {
-    "сказать":  "nói, bảo (một lần rồi xong)",
-    "говорить": "nói, trò chuyện (đang nói, thường xuyên nói)",
-}
+V = {"большой": "to, lớn, quan trọng, trưởng thành"}
 ```
 
-🔴 **ĐỪNG GHI TỪ LOẠI — mặt đề bài đã có badge rồi** (user chốt 28/07: *"cái từ loại không cần
-ghi đâu, vì thẻ của tôi đã có field đó rồi"*). Front của card gõ in sẵn `{{PoS}}` và
-`{{GenderBadge}}`, nên viết thêm "(TÍNH TỪ)" · "(DANH TỪ)" · "— ĐỘNG TỪ" · "(giống cái)" là
-**lặp lại thứ user đang nhìn thấy**, chỉ tổ làm đề bài dài ra.
-
-| Field badge in sẵn | Không cần ghi lại |
-|---|---|
-| `{{PoS}}` — `n` `v` `adj` `adv` `pron` | từ loại |
-| `{{GenderBadge}}` — `M` / `Fe` / `Nt` | giống |
-| `{{AspectBadge}}` — `PERF` / `IMPF` | **THỂ hoàn thành / chưa hoàn thành** |
-| `{{ReflexiveBadge}}` — `REFL` | dạng phản thân `-ся` |
-
-⚠️ **Ngoại lệ `oth`**: từ nào có `PoS = oth` thì badge chỉ hiện "oth" — vô dụng. Với chúng
-(`по-ру́сски`, `за`, `про`, `то́лько`…) **vẫn phải ghi** "trạng từ" / "giới từ, đi với cách 4".
-Kiểm bằng `notesInfo` chứ đừng đoán.
-
-🔴 **THỂ CŨNG LÀ BADGE — sửa 29/07, mục này trước đây ghi NGƯỢC.** Bản cũ viết *"thể thì KHÔNG
-có field nào chứa ⇒ vẫn phải ghi"*; sai. `RU_Word` có đủ **`AspectBadge`** (88 note đang mang,
-`PERF`/`IMPF`) và **`ReflexiveBadge`**, `front_template.html` in cả hai ngay mặt đề bài.
-⇒ Viết `"(HOÀN THÀNH — …)"` vào `Vietnamese` là **lặp đúng thứ user đang nhìn**, y hệt lỗi ghi
-từ loại mà user đã bác 28/07.
-
-✅ **Cách đúng: diễn thể BẰNG LỜI, chỉ khi nó đổi nghĩa tiếng Việt.** Nhãn thì bỏ, sắc thái thì
-giữ — vì cái user cần khi gõ không phải chữ "PERF" (đã thấy rồi) mà là *biết chọn `сказа́ть` hay
-`говори́ть`*:
-
-| ❌ Lặp badge | ✅ Diễn bằng lời |
-|---|---|
-| `"nói, bảo (HOÀN THÀNH — một lần)"` | `"nói, bảo (một lần rồi xong)"` |
-| `"lặp lại (CHƯA HOÀN THÀNH)"` | `"lặp lại, ôn lại (đang lặp, lặp nhiều lần)"` |
-| `"gặp nhau (HOÀN THÀNH — phản thân -ся)"` | `"gặp nhau, hẹn gặp (một cuộc gặp)"` |
-
-⚠️ Thứ **thật sự** không field nào chứa, vẫn phải ghi: **so sánh hơn**, **từ chỉ dùng số nhiều**
-(`щи`), và **cách mà động từ chi phối** (`đi với с + cách 5`).
-
-⇒ Hệ quả cho **hai lớp dưới**: cặp *tính từ vs trạng từ* (`бли́зкий`/`бли́зко`) và cặp *động từ ↔
-danh từ cùng gốc* (`за́втракать`/`за́втрак`) **badge đã tự tách rồi** — chỉ cần lo phần nghĩa.
-
-Các lớp hay đụng nhất — gặp là xử lý, khỏi cân nhắc:
-1. **Cặp thể động từ** — luôn ghi *hoàn thành* / *chưa hoàn thành*. **Đây là lớp quan trọng nhất**
-   vì không badge nào đỡ.
-2. **Đồng nghĩa gần** (`ви́деть`/`смотре́ть` đều "nhìn") — thêm nét phân biệt.
-3. **Cùng từ loại, nghĩa Việt trùng** (`бу́дничный` "bình thường" đụng `обы́чный`) — badge không
-   cứu được, phải tách bằng nghĩa.
-4. **Cặp có tiền tố ↔ không tiền tố** và **phản thân ↔ không** (`учи́ть`/`учи́ться`) — cùng `v`,
-   badge không tách được.
-
 ⚠️ `nap` in từng dòng `cũ -> mới` để soát bằng mắt trước khi ghi — đổi đề bài của thẻ user đang
-học thì phải thấy được, không làm lặng lẽ.
+học thì phải thấy được, không làm lặng lẽ. 🔴 Và nghĩa tiếng Việt **chỉ ghi ĐÚNG MỘT LẦN, ở lần
+`nap` đầu của lô** (QD-27): sau đó user sửa tay thẳng trên thẻ, phát lại là bật ngược bản họ
+vừa chữa mà không có tiếng kêu nào.
 
-<sub>Có `congcu.py vacham` soi toàn bộ 908 thẻ tìm nghĩa Việt trùng nhau (đo 28/07: **186 nghĩa
-trùng, dính 414 lượt từ** — `ổn` ứng với 5 từ Nga). **Tuỳ chọn, không phải cửa bắt buộc** —
-dùng khi luồng chính muốn kiểm lại, đừng bắt agent chạy.</sub>
+<sub>Bản cũ (28/07–05/08) đòi *"sát tới mức chỉ có MỘT đáp án đúng"* và dạy hẳn công thức phủ
+định. User bác 05/08: nó đẻ ra đề bài dài gấp 5–8 lần (`по́зже` 133 ký tự → 17) và *"không cần
+phải báo tôi không phải từ này từ kia"*. Đo cùng ngày: **454/1043 thẻ** đã nhiễm.</sub>
 
 ## 3. Chia lô theo HỌ TỪ, không chia đều
 

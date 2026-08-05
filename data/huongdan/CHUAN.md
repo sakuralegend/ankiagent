@@ -14,12 +14,9 @@ Trước 29/07 chỉ có nhãn `dat` trong `hangdoi.json`, ghi *"thẻ này đ�
 chuẩn nào**. Chuẩn đổi bên dưới thì nhãn **hết hạn mà không ai biết** — đo lại 29/07 thì **7/75**
 thẻ mang nhãn đó đã vỡ trần, và cả một phiên bị loạn vì tưởng chúng còn tốt.
 
-Hai thứ chữa hai lỗ khác nhau, **phải có cả hai**:
-
-| | Chữa gì |
-|---|---|
-| **Số hiệu** (`chuan::3` trên tag thẻ) | "Thẻ này soạn theo chuẩn nào" — nằm trên chính thẻ nên không lệch được với bộ sưu tập |
-| **File này** | "Chuẩn đó đòi những gì" — không có nó thì số hiệu chỉ là con số vô nghĩa sau vài tháng |
+Hai thứ chữa hai lỗ khác nhau, **phải có cả hai**: **số hiệu** (`chuan::3` nằm trên chính thẻ
+nên không lệch được với bộ sưu tập) trả lời *"thẻ này soạn theo chuẩn nào"*; **file này** trả
+lời *"chuẩn đó đòi những gì"* — thiếu nó thì số hiệu chỉ là con số vô nghĩa sau vài tháng.
 
 ⚠️ Dùng **tag** chứ không phải field mới: thêm field là **schema mod** ⇒ Anki đòi full sync, mà
 mỗi lần như vậy VPS kẹt im lặng. Tag sync thường, lại tra được ngay trong app.
@@ -39,7 +36,7 @@ một số hiệu — câu hỏi "thẻ này đạt chuẩn nào" luôn có đá
 
 ## v3 — chuẩn HIỆN HÀNH (chốt 29/07/2026)
 
-Một thẻ đạt `chuan::3` khi thoả **tất cả** các điều dưới đây.
+Một thẻ đạt `chuan::3` khi thoả **tất cả** sáu mục A–F dưới đây.
 
 ### A. Ba con số cứng
 
@@ -49,8 +46,7 @@ Một thẻ đạt `chuan::3` khi thoả **tất cả** các điều dưới đ�
 | 2 | **Tối đa 2 ô đỏ** (`hd-warn`) mỗi thẻ | `congcu.py dodai kNN` → `QUA 2 O DO: 0` |
 | 3 | **Mặc định KHÔNG có khối hệ thống dùng chung**. Cần lắm thì trải đủ ở đúng một thẻ của lô, thẻ khác dẫn chiếu một dòng. | `congcu.py dodai kNN` → `khoi dung chung: 0%` |
 
-🔴 **Đừng canh theo BYTE** — byte là đại lượng sai: một bảng 6 dòng và một đoạn văn cùng số byte
-chiếm chiều cao khác nhau tới ba lần.
+🔴 **Đừng canh theo BYTE** — sai: bảng 6 dòng và đoạn văn cùng số byte cao khác nhau ba lần.
 
 ### B. Cấu trúc nội dung
 
@@ -65,7 +61,6 @@ chiếm chiều cao khác nhau tới ba lần.
 **Từ nào `congcu.py tiep` in ra khối `BAT THUONG` thì BẮT BUỘC có một câu chú ý** đặt phía trên
 bảng chia. Tiêu chí user nêu: *"đọc câu đó là hiểu toàn bộ bảng"*.
 
-- **364/950 từ (38%) rơi vào diện này** — đo 29/07.
 - Máy chỉ **trỏ chỗ** (`grammar.analyze()` báo thân từ đổi / nguyên âm chạy / trọng âm dịch /
   biến âm giữa các ngôi / dạng ngắn bất thường…). Câu chữ là người soạn viết —
   **đừng chép nguyên văn** mô tả thô của máy.
@@ -74,17 +69,20 @@ bảng chia. Tiêu chí user nêu: *"đọc câu đó là hiểu toàn bộ bả
 ### D. Mục "Họ hàng" — được phép vắng, agent quyết định
 
 Từ thật sự không có họ hàng (**gốc trơn, hư từ, từ mượn đứng một mình** như `бассе́йн` ← Pháp
-`bassin`) thì **bỏ hẳn mục đó**. `congcu.py soat` chỉ **đếm và in**, không chặn.
-
-🔴 Nhưng vắng phải là **lựa chọn có ý thức**, không phải chỗ quên. Và **chỉ viết khi chắc chắn
-cùng gốc** — hai lỗi đã bắt được: `о́блако`↔`во́лос`, `целова́ть`↔`цель` (nhìn giống gốc mà không
-cùng gốc). Không có dữ liệu máy cho mục này, và đó là chủ ý (xem README §2).
+`bassin`) thì **bỏ hẳn mục đó**; `soat` chỉ đếm và in, không chặn. 🔴 Nhưng vắng phải là **lựa
+chọn có ý thức**, và **chỉ viết khi chắc chắn cùng gốc** — hai lỗi đã bắt: `о́блако`↔`во́лос`,
+`целова́ть`↔`цель`. Không có dữ liệu máy cho mục này, và đó là chủ ý (README §2).
 
 ### E. Field `Vietnamese` — đề bài của deck `1-go`
 
-User **gõ từ Nga** từ dòng này, nên nó phải sát tới mức **chỉ có MỘT đáp án đúng**.
-Động từ **luôn ghi rõ thể**. 🔴 **Đừng ghi từ loại/giống** — mặt đề bài đã in sẵn badge
-(`PoS`, `GenderBadge`, `AspectBadge`); ngoại lệ là từ có `PoS = oth` thì badge vô dụng.
+User **gõ từ Nga** từ dòng này. **Thuần danh sách nghĩa, ngăn bằng dấu phẩy, không gì khác**
+(user chốt 05/08). Cấm nhãn từ loại · giống · thể · phản thân (badge in sẵn, kể cả với
+`PoS = oth`), cấm cách chi phối, cấm lưu ý cách dùng, cấm mệnh đề phủ định. Chỉ nghĩa thông
+dụng. Luật đầy đủ + vì sao: `data/huongdan/README.md` §2c.
+
+📌 **Sửa §E 05/08 mà CỐ Ý KHÔNG tăng `v4`**, dù thủ tục trên đòi: §E chưa bao giờ có cửa máy
+kiểm (mục F chỉ soi HTML/trọng âm), nên tăng số chỉ đẩy cả 1043 thẻ về diện *"soạn lại"* vì
+một dòng chữ mà cùng ngày đã sửa xong hết. Đổi chuẩn THẬT thì vẫn theo đủ ba bước.
 
 ### F. Ba cửa soát phải sạch
 
@@ -97,27 +95,18 @@ thích sai", và là chỗ duy nhất đỡ được lô động từ/tính từ
 
 ## v2 — §2b NGẮN GỌN (chốt 28/07/2026) · ĐÃ THAY
 
-Giống v3 ở mục **A, B, E, F**, **thiếu mục C** (chưa có khối `BAT THUONG` nên không ai viết câu
-chú ý), và mục **D ngược lại**: `.hd-fam` là **bắt buộc**, thiếu bị `soat` coi là lỗi cấu trúc.
-
-📌 Không thẻ nào được gắn `chuan::2` — dấu chỉ có từ v3 trở đi. Các thẻ soạn theo v2
-(k13, k51–k54 — 78 từ) nằm ở diện **"chưa có dấu"**.
+Giống v3 ở **A, B, F**; **thiếu C** (chưa có khối `BAT THUONG`), **D ngược lại** (`.hd-fam` bắt
+buộc), và **E là bản cũ** (đòi "chỉ một đáp án đúng", cho phép ghi chú trong ngoặc).
+📌 Không thẻ nào được gắn `chuan::2` — dấu chỉ có từ v3. Thẻ soạn theo v2 (k13, k51–k54) nằm ở
+diện **"chưa có dấu"**.
 
 ## v1 — chuẩn DÀI (trước 28/07/2026) · ĐÃ BỎ
 
 Nhắm **6–10 KB mỗi thẻ**, không đếm ô đỏ, không đếm khối lặp. User học hết rồi kết luận ngược:
-*"tham quá khiến thẻ dài tôi đọc xong không nhớ gì"*. Đo lại thì k04 trung bình **13 403 byte,
-10,5 ô đỏ, 80% là khối lặp** — đỉnh `реплика` cao **6 335px = 9 màn hình**.
-
-📌 Không thẻ nào được gắn `chuan::1`.
+*"tham quá khiến thẻ dài tôi đọc xong không nhớ gì"* — k04 đo lại **13 403 byte, 10,5 ô đỏ,
+80% khối lặp**, đỉnh `реплика` **9 màn hình**. 📌 Không thẻ nào được gắn `chuan::1`.
 
 ---
 
-## 📊 Ảnh chụp 29/07/2026
-
-| | Thẻ | |
-|---|---|---|
-| `chuan::3` | **38** | **4,0%** — k14 + k48 |
-| chưa có dấu | 912 | 96,0% |
-
-Đo lại bất cứ lúc nào: `python data/huongdan/dochuan.py`
+📊 **Bao nhiêu thẻ đã đạt chuẩn: `python data/huongdan/dochuan.py`.** Ảnh chụp 29/07 từng nằm
+đây (38 thẻ / 4%) đã bị cắt 05/08 — số mô tả hiện trạng thối rữa im lặng, cấm theo QD-23.

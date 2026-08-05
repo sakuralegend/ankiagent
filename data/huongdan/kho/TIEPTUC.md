@@ -25,12 +25,11 @@ trông như bãi mìn nhưng thực ra chỉ có adj↔adj mới là va chạm t
 là thứ tiết kiệm nhiều chữ nhất phiên** — không nói thì ba agent cùng đốt chữ tách cặp badge đã
 tách hộ.
 
-🆕 **BA LÔ CHẠY SONG SONG HỘI TỤ ĐÚNG VÀO NHAU MÀ KHÔNG CẦN TRỌNG TÀI.** k40 và k42 độc lập gửi
-đề nghị *"bỏ 'đẹp' khỏi `хороший`, bỏ 'tốt/lớn' khỏi `высокий`, `громкий` phải kèm chữ âm thanh"* —
-**trùng khớp từng chữ**, và k41 đã tự chọn đúng phần còn lại (`большой`/`крупный`/`некрасивый`)
-trước khi nhận được lời nào. ⇒ **Cứ dặn mỗi agent "tách dứt khoát từ phía mình, muốn lô kia đổi thì
-BÁO LÊN, đừng tự sửa từ của lô khác"** — luồng chính chỉ chuyển lời, không phán. Lời chuyển vẫn phải
-kèm câu *"bạn không bắt buộc nghe, đây là lời của lô kia chứ không phải của tôi"*.
+🆕 **BA LÔ SONG SONG HỘI TỤ MÀ KHÔNG CẦN TRỌNG TÀI.** k40 và k42 độc lập đề nghị cùng một sửa
+đổi, trùng từng chữ. ⇒ Dặn mỗi agent **"tách dứt khoát từ phía mình, muốn lô kia đổi thì BÁO
+LÊN, đừng tự sửa từ của lô khác"** — luồng chính chỉ chuyển lời, không phán, và phải kèm câu
+*"bạn không bắt buộc nghe, đây là lời của lô kia"*. (Luật đề bài đổi 05/08 làm chuyện thương
+lượng chéo lô hiếm hẳn: nay mỗi từ chỉ liệt kê nghĩa của chính nó.)
 
 🔴 **VỆT "NỚI RỘNG" ĐẬM NHẤT TỪ TRƯỚC TỚI NAY: 24 lần bác / 55 từ.** Riêng `высокий` ôm 5 nghĩa
 Việt và va vào 3 từ khác. Loạt bị cắt: `высокий` bỏ *lớn/nhiều/tốt/quý giá* · `низкий` bỏ
@@ -58,10 +57,9 @@ vào cùng lô. ⇒ **Trình CẢ HAI phương án cho user chọn; đừng mặ
 ⇒ **quét chuỗi chỉ thấy khoảng một nửa.** Ca đáng nhớ: `учёба` đụng `образова́ние` · `фильм` đụng
 `кино` · `стоя́нка` đụng `гараж` · `ба́нка` (cái lọ) là bẫy **mặt chữ** với `банк` dù không đụng đề bài.
 
-🔴 **VA CHẠM MỒ CÔI — lớp lỗi MỚI, chưa cửa nào canh.** Đo 05/08: 118 cụm trùng chuỗi → **31** cụm
-mà mọi từ đều ở lô đã `xong` → lọc bằng badge còn **4**. Cơ chế "lô sau sẽ sửa" **không với tới
-chúng** — 4 cụm đó đã trả tay xong 05/08 (`git log --grep SONO-vacham`). 📌 Phép đo đúng vẫn là **badge có tách được không**, không phải trùng
-chuỗi — 27/31 là cặp thể hoặc khác từ loại, badge lo sạch.
+🔴 **VA CHẠM MỒ CÔI — từ ở lô đã `xong` thì không lô nào sửa nữa, phải trả tay.** Đo 05/08: 118
+cụm trùng chuỗi → 31 cụm mồ côi → lọc bằng badge còn **4** (đã trả xong, `git log --grep
+SONO-vacham`). 📌 Phép đo đúng vẫn là **badge có tách được không**, không phải trùng chuỗi.
 
 ### ✅ PHIÊN 04/08 đợt 2: k35(15) · k36(15) · k37(17) = **47 từ / 3 lô**
 
@@ -70,11 +68,13 @@ chuỗi — 27/31 là cặp thể hoặc khác từ loại, badge lo sạch.
 
 🔴🔴 **BADGE GIỚI/THỂ CỨU ĐƯỢC VA CHẠM, `PoS` THÌ KHÔNG — đây là ranh giới phải nhớ.** `певец`/
 `певица` cùng là "ca sĩ" mà vẫn tách sạch vì mặt đề bài in MASC ♂/FEM ♀. Nhưng `слева`/`налево`
-**đều `PoS = oth`, không có badge nào** ⇒ phải tách bằng lời, và cách rẻ nhất là **mệnh đề phủ định
-cuối câu**: *"…(chỉ vị trí, **không phải hướng rẽ**)"* — nó loại thẳng từ kia khỏi đáp án. Cùng loạt
+**đều `PoS = oth`, không có badge nào** ⇒ phải tách bằng chính nghĩa. Cùng loạt
 `преподаватель`/`учитель` (cùng `n` + MASC) và `компания`/`фирма` (cùng `n` + FEM).
 ⇒ **Khi quét va chạm, cột đáng nhìn không phải "có trùng chuỗi không" mà là "badge có tách được
 không". Trùng chuỗi mà khác badge = kêu oan; khác chuỗi mà cùng badge = lỗi thật máy không thấy.**
+🔴 Cách chữa cũ của mục này (**mệnh đề phủ định** *"…không phải hướng rẽ"*) **bị user cấm hẳn
+05/08** — nay tách bằng chính nghĩa: `слева` "ở bên trái, từ bên trái" ≠ `налево` "sang trái,
+về bên trái". Luật đầy đủ ở §2c README.
 
 📌 **Soi FIELD THẬT trong Anki rồi dán vào lời nhắn — rẻ và ăn ngay.** Phiên này luồng chính đọc
 `Vietnamese`+`PoS`+`GenderBadge` của các từ nghi va chạm (một lần `notesInfo`) rồi dán nguyên bảng
@@ -119,9 +119,8 @@ là `гражда́нство`); `мобильный` tính từ → cụm danh 
 "côn trùng"; `ёрш` mất nghĩa "cá ruff"; `грач` · `зя́блик` · `о́кунь`). ⇒ **Cách bác rẻ nhất vẫn là
 đối chiếu gloss tiếng Anh; bảng chia là nhân chứng thứ hai** (`ёрш` lộ ra vì bảng chia là bảng danh
 từ chỉ vật sống, `acc = gen = ерша́`).
-✅ **Bước "đồng bộ `V` sang `tudien.json`" ĐÃ CHẾT, cắt 05/08.** QD-27 bỏ hẳn cột `vi` khỏi
-`tudien.json` (đo lại 05/08: 0/1043 dòng còn cột đó) — `tiep` nay lấy nghĩa Việt **thẳng từ thẻ
-Anki**. `nap` ghi xong là hết việc, không còn "hai nơi phải vá".
+✅ **Bước "đồng bộ `V` sang `tudien.json`" ĐÃ CHẾT (QD-27).** `tiep` lấy nghĩa Việt **thẳng từ
+thẻ Anki**; `nap` ghi xong là hết việc, không còn "hai nơi phải vá".
 
 🆕 **KHỐI `BAT THUONG` BÁO **THỪA** — lần đầu bắt được kiểu này.** k63: nhãn *"DẠNG NGẮN có biến đổi
 (trọng âm dịch)"* bị dán cho `оригина́льный`·`ра́зный`·`удо́бный` trong khi cả ba **trọng âm đứng
@@ -162,13 +161,14 @@ DUY NHẤT bắt được lời giải thích sai — đừng bao giờ cắt n�
 
 🔴 **LÔ SỐ THỨ TỰ SUÝT ĐẺ RA ĐỀ BÀI KHÔNG CÓ ĐÁP ÁN ĐÚNG.** Nghĩa Việt của bảy số thứ tự đầu trùng
 ĐÚNG TỪNG CHỮ với tên ngày trong tuần đã có trong kho: `тре́тий` "thứ ba" đụng `вто́рник`… Badge
-`{{PoS}}` **không cứu được** vì user nhìn đề bài trước rồi mới gõ. Agent đổi sang chữ số + chú
-"(số thứ tự, không phải ngày trong tuần)". Ca này chính là thứ đẻ ra bước quét `vacham` trước ở đầu
-mục — nhưng nhớ nó vẫn nằm ngoài tầm quét chuỗi, vì hai bên **không trùng chữ**, chỉ trùng hệ thống.
+`{{PoS}}` **không cứu được** vì user nhìn đề bài trước rồi mới gõ. Ca này chính là thứ đẻ ra bước
+quét `vacham` trước ở đầu mục — nhưng nhớ nó vẫn nằm ngoài tầm quét chuỗi, vì hai bên **không
+trùng chữ**, chỉ trùng hệ thống. 🔴 Cách chữa hồi đó (chú *"không phải ngày trong tuần"*) **nay
+bị cấm** — `вто́рник` liệt kê "thứ Ba, ngày trong tuần" là tự tách hộ.
 
 
-📌 **Có lô im lặng hoàn toàn: k27 (13 từ) không có lấy một khối `CUM CO DINH`/`CACH DUNG` nào** ⇒
-mất sạch nguồn ứng viên ô đỏ. **Đừng đọc cái im lặng đó thành "không có gì đáng cảnh báo".**
+📌 **Có lô im lặng hoàn toàn** (k27: không một khối `CUM CO DINH`/`CACH DUNG` nào) ⇒ mất sạch
+nguồn ô đỏ. Đừng đọc im lặng đó thành *"không gì đáng cảnh báo"*.
 
 📊 **Chi phí: xem bảng "📊 CHI PHÍ" phía dưới** — tính bằng **% hạn mức**, không bằng token.
 
@@ -440,18 +440,19 @@ Khuôn lời nhắn giao cho agent phụ (đổi `kNN` và phần chủ đề):
 > `soat` không chặn; nhưng vắng phải là lựa chọn có ý thức chứ không phải chỗ quên.
 > **3. Soạn** `data/huongdan/kho/kNN_<topic>.py`, chứa `S = {...}` và (nếu cần) `V = {...}`.
 > **Việc thứ hai bắt buộc — sửa field `Vietnamese` (§2c):** dòng tiếng Việt là **đề bài của
-> deck `1-go`, user GÕ từ Nga từ nó**, nên nó phải sát tới mức **chỉ có một đáp án đúng**.
-> **Tự nhận ra từ nào dễ nhầm với từ nào** — không có công cụ nào phải chạy. Thêm
-> `V["từ"] = "…"`.
-> 🔴 **ĐỪNG ghi từ loại · giống · THỂ · phản thân vào đó** — mặt đề bài đã in sẵn **bốn** badge
-> `{{PoS}}` + `{{GenderBadge}}` + `{{AspectBadge}}` + `{{ReflexiveBadge}}`
-> (`n·v·adj·adv·pron` + M/Fe/Nt + **PERF/IMPF** + REFL). Viết "(TÍNH TỪ)" hay
-> "(HOÀN THÀNH — …)" là lặp thứ user đang nhìn.
-> ✅ **Thể thì diễn BẰNG LỜI, chỉ khi nó đổi nghĩa tiếng Việt**: `"nói, bảo (một lần rồi xong)"`
-> chứ không phải `"nói, bảo (HOÀN THÀNH)"` — user cần biết chọn `сказа́ть` hay `говори́ть`,
-> không cần đọc lại chữ PERF.
-> **Ngoại lệ:** từ có `PoS = oth` thì badge vô dụng, vẫn phải ghi từ loại. Thứ thật sự không
-> field nào chứa: **so sánh hơn · từ chỉ dùng số nhiều · cách mà động từ chi phối**. ‹gợi ý hệ thống trục›
+> deck `1-go`, user GÕ từ Nga từ nó**. Thêm `V["từ"] = "…"`.
+> 🔴 **ĐỀ BÀI = THUẦN DANH SÁCH NGHĨA, ngăn bằng dấu phẩy. KHÔNG GÌ KHÁC** (user chốt 05/08).
+> Ví dụ đúng: `большой` → `to, lớn, quan trọng, trưởng thành` · `слева` → `ở bên trái, từ bên
+> trái` · `лук` → `củ hành, cây cung`.
+> **CẤM tuyệt đối bốn thứ:** ① nhãn từ loại · giống · THỂ · phản thân (bốn badge `{{PoS}}`
+> `{{GenderBadge}}` `{{AspectBadge}}` `{{ReflexiveBadge}}` đã in sẵn trên mặt đề bài, kể cả
+> từ `PoS = oth`) · ② cách chi phối (`+ C4`, `đi với с + cách 5`) · ③ lưu ý cách dùng, sắc
+> thái, ví dụ, mọi ghi chú trong ngoặc · ④ mệnh đề phủ định `(không phải «X»)`.
+> ✅ **Phân biệt với từ khác là HỆ QUẢ của liệt kê đủ, không phải việc làm riêng.** Hai từ trùng
+> một nghĩa là bình thường — bộ nghĩa đầy đủ tự khác nhau. **Chỉ nghĩa thông dụng**, bỏ nghĩa
+> lóng và nghĩa văn chương; nhưng **đừng nới rộng**, chỉ nghĩa gloss tiếng Anh xác nhận được.
+> ⚠️ Trùng HẾT nghĩa mà badge cũng không tách ⇒ **BÁO LÊN trong báo cáo, cấm tự thêm ngoặc**.
+> **Phần cắt ra thì vứt, ĐỪNG đẩy sang ô Hướng dẫn** — ô đó giữ nguyên luật cũ. ‹gợi ý hệ thống trục›
 > **4. Tự soát:** `… congcu.py soat kNN` — sửa tới khi **cả ba** mục đầu báo `(khong co)`,
 > rồi **đọc bằng mắt** danh sách "PHAI DOC BANG MAT".
 > **Và `… congcu.py dodai kNN` phải báo `QUA 1 MAN HINH (700px): 0` VÀ `QUA 2 O DO: 0`.**
