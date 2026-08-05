@@ -1147,9 +1147,10 @@
     "село",
     "кино"
    ],
-   "trangthai": "cho",
-   "file": null,
-   "thucong": "SOAN MOI HOAN TOAN. Noi dung cu tren the coi nhu KHONG CO - dung mo file lo cu ra xem, vua dat vua keo van phong dai tro lai. Chuan: README muc 2 (1 man hinh iPhone, toi da 2 o do) + muc 2c (field Vietnamese chi co 1 dap an dung). BAT BUOC: tu nao `tiep` in khoi BAT THUONG thi phai co MOT CAU chu y tren bang chia."
+   "trangthai": "xong",
+   "file": "k38_places-city.py",
+   "thucong": "SOAN MOI HOAN TOAN. Noi dung cu tren the coi nhu KHONG CO - dung mo file lo cu ra xem, vua dat vua keo van phong dai tro lai. Chuan: README muc 2 (1 man hinh iPhone, toi da 2 o do) + muc 2c (field Vietnamese chi co 1 dap an dung). BAT BUOC: tu nao `tiep` in khoi BAT THUONG thi phai co MOT CAU chu y tren bang chia.",
+   "daNap": true
   },
   {
    "id": "k39",
