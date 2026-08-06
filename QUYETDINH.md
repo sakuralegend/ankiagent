@@ -60,10 +60,10 @@
 
 | QD | Ngày | Quyết định | Vì sao (ngắn) |
 |---|---|---|---|
+| QD-34 | 06/08 | Dọn xong phải **chạm vào kho rồi ĐO ba số** mới được nói "đã đẩy lên"; mở thêm cửa ĐỌC kho (ngoại lệ L1) | `changeDeck` ghi thẳng SQL ⇒ đồng hồ kho không nhích ⇒ sync thoát ngay. Đo 06/08: 4 thẻ kẹt 7 tiếng, 14 nhịp sync đều OK |
 | QD-29 | 04/08 | **Sinh = tử.** Sổ có sức chứa CỐ ĐỊNH (S20 đếm); mục rời sổ về `git log`, không đẻ file song song | Vế sinh đã tự động, vế chết phó mặc ý chí ⇒ phình mãi. Trần ký tự không tạo tỷ lệ chết, chỉ bắt nén — nén thì mất *vì sao* |
 | QD-30 | 04/08 | Ngân sách đọc chia HAI TẦNG: `batbuoc` (nạp tự động, trần TỔNG chặt) tách khỏi tra-khi-cần | Đo 04/08: **không máy nào bắt đọc 14/16 file** — chỉ `CLAUDE.md` nạp tự động. Tổng cũ đo thứ chưa chắc xảy ra, mà đau nén chữ thì thật |
 | QD-15 | 02/08 | 🔨 Cửa canh DỮ LIỆU ngữ pháp `anki_tools/soat_nguphap.py` đứng riêng, KHÔNG import `grammar` | Tránh đẻ vòng import. Cửa đòi lệch cả hai chiều mới báo ⇒ đo 516 thẻ ra 0 kêu oan. Chỉ IN RA, không tự sửa |
-| QD-04 | 31/07 | 🔨 Cảnh báo "bot chết" gọi thẳng Telegram bằng `curl`, KHÔNG qua `tgbot/alerts.py` | `alerts.py` gửi qua chính con bot ⇒ bot chết thì cảnh báo chết theo. Đường báo không được nạp dòng Python nào của dự án |
 | — | 29/07 | Gom 3 luồng chạy nền của bot về một hàm `core.chay_hang_loat()` | Ba bản sao lệch nhau âm thầm; nguyên tắc user chốt: **một chức năng một script**, trùng thì tách tầng chứ đừng đồng bộ tay |
 | QD-33 | 05/08 | **`TIEPTUC.md` có sức chứa CỐ ĐỊNH** (S21): 3 mục `PHIÊN` + trần chữ cho khối `BÀI HỌC CÒN SỐNG` | Nhật ký chiếm **37%** file mà không có vế chết ⇒ bệnh `CHANGELOG.md`. `git log` hứng sẵn, dày gấp **1,6 lần** |
 | — | 22/07 | 🔨 Gợi ý (hint) dựng bằng **JS trong mặt trước thẻ**, KHÔNG thêm card template | Chỉ card template mới nhân đôi số thẻ — thêm template là tự nhân đôi cả bộ sưu tập |

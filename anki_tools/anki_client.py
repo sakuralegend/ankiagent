@@ -5,11 +5,13 @@
 # model/template ở anki_moitruong.py · đếm thống kê ở anki_thongke.py.
 # ==============================================================================
 import json
+import sqlite3
 from datetime import datetime, timedelta
 import requests
 
 
-from .config import ANKI_CONNECT_URL, MODEL_NAME, STAGE1_DECK, STAGE2_DECK, TOPIC_DECK_PARENT
+from .config import (ANKI_COLLECTION, ANKI_CONNECT_URL, MODEL_NAME, STAGE1_DECK,
+                     STAGE2_DECK, TOPIC_DECK_PARENT)
 from .topics import TOPIC_TAG_PREFIX, topic_tag, normalize_topic
 from .utils import log_warn, log_fail
 
@@ -395,10 +397,93 @@ def move_graduated_from_inbox():
             _call("createDeck", deck=deck)
             _call("changeDeck", cards=cids, deck=deck)
             moved[slug] = len(cids)
+        if moved:
+            # 🔴 BẮT BUỘC, đừng bỏ vì tưởng vô nghĩa: `changeDeck` một mình KHÔNG
+            # làm sync gửi được gì. Xem `cham_vao_kho()` — đặt ở ĐÂY vì đây là
+            # đường duy nhất chỉ-chuyển-deck-mà-không-đụng-note (QD-34).
+            cham_vao_kho(sorted(note_slug)[0])
         return moved, sum(moved.values())
     except Exception as e:
         log_warn(f"Không dọn được inbox: {e}")
         return None, 0
+
+
+def cham_vao_kho(note_id=None):
+    """Ghi lại MỘT field của một note ĐÚNG GIÁ TRỊ CŨ. Không đổi nội dung gì cả —
+    mục đích duy nhất là làm đồng hồ "sửa lần cuối" của kho nhích lên.
+
+    🔴 VÌ SAO CẦN CÁI NÀY (đo tay 06/08/2026, QD-34) — nghe vô nghĩa nhưng không:
+    `changeDeck` của AnkiConnect ghi THẲNG vào bảng `cards` bằng SQL (addon dòng
+    575–585, tự tính `mod`/`usn`), nên thẻ được dán dấu "chưa gửi" mà **đồng hồ
+    của KHO không nhích**. Mà sync của Anki CHỈ so cái đồng hồ đó với AnkiWeb:
+    khớp là nó kết luận "hai bên y hệt" rồi thoát ngay, **không bao giờ nhìn tới
+    dấu trên thẻ**. Hậu quả: một lượt `/don` chỉ chuyển deck (không đụng note nào)
+    để việc dọn nằm lại VPS mà vẫn báo "đã đẩy lên AnkiWeb".
+
+    Đêm 06/08 đúng thế: 4 thẻ chuyển lúc 03:00:01, 14 nhịp sync đều báo OK, tới
+    ~10:05 mới lên (thẻ đóng usn 1387 > usn 1386 của lượt ôn 09:51 trên iPhone —
+    tức chính lượt ôn đó mới vô tình phá được thế bí).
+    Đã đo từng cách: `reloadCollection` KHÔNG phá được; ghi lại một field THÌ CÓ
+    (đồng hồ nhảy 10:05:06 → 10:42:37, cú sync sau đẩy lên thật).
+
+    An toàn — ba lớp, vì ghi vào note là thao tác đã làm hỏng 23 thẻ hôm 31/07:
+    ghi lại CHÍNH giá trị vừa đọc · đúng MỘT note · chỉ chạy sau khi đã sync kéo
+    về (`run_don` bước 1), đúng kỷ luật `sync_truoc_khi_ghi_lo`.
+
+    Hỏng thì CHỈ log, không ném: chạm hỏng không phải là dọn hỏng, và cửa canh ba
+    con số ở `run_don` sẽ bắt được hậu quả. Trả True nếu đã chạm được."""
+    try:
+        if note_id is None:
+            # Lọc note:"<model>" là BẮT BUỘC ở mọi findNotes/findCards — một từ có
+            # thể có cả thẻ từ vựng lẫn thẻ ngữ pháp (bẫy đã trả học phí).
+            ids = _ac("findNotes", query=f'note:"{MODEL_NAME}" deck:"{TOPIC_DECK_PARENT}"')
+            if not ids:
+                log_warn("Chạm vào kho: không tìm được note nào để chạm.")
+                return False
+            note_id = sorted(ids)[0]
+        fields = _ac("notesInfo", notes=[note_id])[0]["fields"]
+        ten = next(iter(fields))
+        _ac("updateNoteFields",
+            note={"id": note_id, "fields": {ten: fields[ten]["value"]}})
+        return True
+    except Exception as e:
+        log_warn(f"Không chạm được vào kho ({note_id}): {e!r}")
+        return False
+
+
+def trang_thai_dong_bo():
+    """BA CON SỐ trả lời "kho trên máy này đã gửi hết lên AnkiWeb chưa".
+
+    Đọc file kho CHỈ-ĐỌC thay vì qua AnkiConnect (QD-34) vì AnkiConnect **vứt bỏ**
+    mã trạng thái sync (addon chỉ dùng nó để ném lỗi rồi thôi): `sync_now()` trả
+    `True` KHÔNG phân biệt được "đã gửi xong" với "thoát ngay vì tưởng không có gì
+    để gửi". Chính chỗ đó để 4 thẻ kẹt 7 tiếng đêm 06/08 mà không cửa nào thấy.
+
+    Trả dict — cả ba số đều cần, mỗi số bắt một kiểu hỏng khác nhau:
+      `chua_gui`  số thẻ + note còn dấu "chưa gửi lên AnkiWeb" (`usn = -1`)
+      `sua`       kho sửa lần cuối lúc nào (ms)
+      `dong_bo`   kho đồng bộ tới lúc nào (ms)
+
+    Hoặc `None` = **KHÔNG BIẾT** (chưa khai `ANKI_COLLECTION`, kho ở máy khác, file
+    đang bận). 🔴 Caller phải đọc `None` là "không kiểm được", TUYỆT ĐỐI không được
+    đọc thành "sạch" — nói dối là đúng cái bệnh hàm này sinh ra để chữa.
+
+    Mở chỉ-đọc nên KHÔNG thể làm hỏng kho, kể cả lúc Anki đang ghi."""
+    if not ANKI_COLLECTION:
+        return None
+    try:
+        con = sqlite3.connect(f"file:{ANKI_COLLECTION}?mode=ro", uri=True, timeout=5)
+        try:
+            c = con.cursor()
+            chua_gui = (c.execute("select count(*) from cards where usn=-1").fetchone()[0]
+                        + c.execute("select count(*) from notes where usn=-1").fetchone()[0])
+            sua, dong_bo = c.execute("select mod, ls from col").fetchone()
+        finally:
+            con.close()
+    except Exception as e:
+        log_warn(f"Không đọc được trạng thái đồng bộ ({ANKI_COLLECTION}): {e!r}")
+        return None
+    return {"chua_gui": chua_gui, "sua": sua, "dong_bo": dong_bo}
 
 
 def get_root_decks():

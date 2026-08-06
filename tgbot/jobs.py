@@ -63,12 +63,19 @@ async def _nightly_don(app):
         await _sleep_until(3, 0)
         res = await asyncio.to_thread(run_don)
         # Bất thường thì báo BẤT KỂ có thẻ nào được chuyển hay không.
-        if res["error"] or not res["sync_in"]:
+        # 🔴 `chua_gui` phải có trong điều kiện này: bản cũ chỉ xét sync KÉO VỀ, nên
+        # đêm 06/08 việc dọn nằm lại VPS 7 tiếng mà KHÔNG một tiếng còi nào — user
+        # bấm sync trên iPhone cả buổi sáng. (QD-34)
+        if res["error"] or not res["sync_in"] or res["chua_gui"]:
             await alerter.problem(
                 "don dem",
                 "Job dọn 3h sáng chạy không trọn:\n"
                 + (f"• {res['error']}\n" if res["error"] else "")
-                + ("• sync kéo về thất bại → dọn trên dữ liệu cũ\n" if not res["sync_in"] else ""),
+                + ("• sync kéo về thất bại → dọn trên dữ liệu cũ\n" if not res["sync_in"] else "")
+                + (f"• {res['chua_gui']} thứ dọn xong VẪN NẰM TRÊN VPS, AnkiWeb chưa "
+                   "nhận → iPhone kéo về không thấy gì đổi.\n"
+                   "  👉 Mở Anki trên laptop bấm Sync một lần là nó đi.\n"
+                   if res["chua_gui"] else ""),
                 after=1,
             )
         else:

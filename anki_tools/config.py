@@ -16,6 +16,13 @@ load_dotenv(_PROJECT_ROOT / ".env")
 
 ANKI_CONNECT_URL = os.environ.get("ANKI_CONNECT_URL", "http://127.0.0.1:8765")
 
+# Đường dẫn file kho Anki, dùng để ĐỌC (chỉ-đọc) ba con số xác nhận "đã gửi hết
+# lên AnkiWeb chưa" — xem `anki_client.trang_thai_dong_bo()` và QD-34.
+# CỐ Ý để RỖNG làm mặc định: máy nào không khai thì cửa canh trả "không biết" và
+# bot nói thật là chưa kiểm được, thay vì đoán bừa là sạch. Trên VPS khai trong
+# `.env`; trên laptop bỏ trống cũng không sao (chỉ mất phần kiểm chứng).
+ANKI_COLLECTION = os.environ.get("ANKI_COLLECTION", "")
+
 # --- Cấu hình AI (Gemini qua endpoint OpenAI-compatible) ---
 # Key chỉ dùng phía Python (bot/CLI trên server). Từ khi gỡ nút AI Refine
 # khỏi thẻ, key KHÔNG còn bị nhúng vào thẻ Anki nữa.

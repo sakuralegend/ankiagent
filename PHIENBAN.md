@@ -18,6 +18,16 @@
 
 ---
 
+## v1.0.5 — 06/08/2026
+
+- 🩹 **Sửa đúng cái bạn gặp sáng nay: dọn xong mà iPhone bấm sync mãi vẫn thấy thẻ ở `1-go`.**
+  Bot đã chuyển thẻ thật, nhưng kết quả **nằm lại trên VPS 7 tiếng** mà nó vẫn báo "đã đẩy lên
+  AnkiWeb". Nay sau khi dọn, bot **tự kiểm lại xem AnkiWeb đã nhận thật chưa** rồi mới dám nói.
+- 🚨 **Chưa tới AnkiWeb thì bot nhắn báo động cho bạn**, kèm câu phải làm: mở Anki trên laptop
+  bấm Sync một lần. Trước đây nó im lặng, nên bạn chỉ biết bằng cách bấm mò trên điện thoại.
+- ⚠️ **Câu trả lời của `/don` đổi lời.** Giờ nó nói một trong ba: *"AnkiWeb đã nhận"* · *"CHƯA
+  tới AnkiWeb"* · *"chưa kiểm được"*. Câu giữa nghĩa là **đừng tin là xong**, phải làm gì đó.
+
 ## v1.0.4 — 04/08/2026
 
 - 🪨 **402 thẻ "hoá thạch" đã được gỡ.** Đó là những từ bạn từng bấm Again nhiều lần rồi Anki

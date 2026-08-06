@@ -487,5 +487,107 @@ class OMayDungRiengKhoiOHuongDan(unittest.TestCase):
         self.assertEqual(grammar._nhan_bien_the("сою́зами"), "сою́зами")
 
 
+class DonXongMaAnkiWebChuaNhan(unittest.TestCase):
+    """BUG GỐC (06/08/2026, user phát hiện): sáng ra bot báo "đã dọn xong", nhưng
+    iPhone bấm sync bao nhiêu lần cũng thấy 4 thẻ còn ở deck gõ `1-go`. Job 3h đã
+    chuyển đúng 4 thẻ lúc 03:00:01 — mà **AnkiWeb chỉ nhận lúc ~10:05**, tức nằm
+    lại VPS 7 tiếng. Khoá chặt bằng usn: 4 thẻ đóng **1387**, lớn hơn **1386** của
+    lượt ôn 09:51 trên iPhone ⇒ chúng lên sau lượt ôn đó.
+
+    Nguyên nhân: `changeDeck` của AnkiConnect ghi thẳng bảng `cards` bằng SQL nên
+    thẻ có dấu "chưa gửi" mà đồng hồ của KHO không nhích; sync chỉ so đồng hồ nên
+    thoát ngay. 14 nhịp sync liên tiếp đều "thành công". Hỏng IM LẶNG hai lớp: bot
+    nói "đã đẩy lên AnkiWeb", và job đêm không xét bước đẩy lên nên không kêu.
+    (QD-34 — cơ chế đầy đủ ở `anki_client.cham_vao_kho()`)"""
+
+    def _kho_gia(self, chua_the=0, chua_note=0, sua=1000, dong_bo=1000):
+        """Dựng một file kho GIẢ đủ ba con số — không cần Anki, chạy được mọi lúc."""
+        import sqlite3 as sq
+        import tempfile
+        d = tempfile.TemporaryDirectory()
+        self.addCleanup(d.cleanup)
+        p = os.path.join(d.name, "collection.anki2")
+        con = sq.connect(p)
+        con.executescript("create table cards (id integer primary key, usn integer);"
+                          "create table notes (id integer primary key, usn integer);"
+                          "create table col (mod integer, ls integer);")
+        con.executemany("insert into cards values (?, -1)", [(i,) for i in range(chua_the)])
+        con.executemany("insert into notes values (?, -1)", [(i,) for i in range(chua_note)])
+        con.execute("insert into cards values (9999, 5)")      # thẻ đã gửi rồi
+        con.execute("insert into col values (?, ?)", (sua, dong_bo))
+        con.commit()
+        con.close()
+        return p
+
+    def _doc(self, **kw):
+        from anki_tools import anki_client
+        with unittest.mock.patch.object(anki_client, "ANKI_COLLECTION", self._kho_gia(**kw)):
+            return anki_client.trang_thai_dong_bo()
+
+    def test_dem_dung_so_thu_con_nam_lai(self):
+        self.assertEqual(self._doc(chua_the=4, chua_note=2)["chua_gui"], 6)
+        self.assertEqual(self._doc()["chua_gui"], 0)
+
+    def test_khong_khai_duong_dan_thi_None_chu_KHONG_phai_sach(self):
+        """🔴 `None` = KHÔNG BIẾT. Đọc thành "sạch" là tái diễn đúng bug: bot nói
+        đã đẩy lên trong khi chẳng ai kiểm gì."""
+        from anki_tools import anki_client
+        with unittest.mock.patch.object(anki_client, "ANKI_COLLECTION", ""):
+            self.assertIsNone(anki_client.trang_thai_dong_bo())
+        with unittest.mock.patch.object(anki_client, "ANKI_COLLECTION", "/khong/co/that.anki2"):
+            self.assertIsNone(anki_client.trang_thai_dong_bo())
+
+    def _kiem(self, truoc_dong_bo, **kw):
+        from tgbot import commands
+        from anki_tools import anki_client
+        with unittest.mock.patch.object(anki_client, "ANKI_COLLECTION", self._kho_gia(**kw)), \
+             unittest.mock.patch.object(commands.time, "sleep"), \
+             unittest.mock.patch.object(commands, "cham_vao_kho"), \
+             unittest.mock.patch.object(commands, "trigger_sync"):
+            return commands._kiem_da_len_ankiweb({"dong_bo": truoc_dong_bo}, so_lan=1)
+
+    def test_sach_va_dong_ho_da_nhich_thi_coi_la_DA_TOI(self):
+        self.assertEqual(self._kiem(500, sua=1000, dong_bo=1000), 0)
+
+    def test_con_dau_chua_gui_thi_bao_CHUA_TOI(self):
+        self.assertEqual(self._kiem(500, chua_the=4, sua=1000, dong_bo=1000), 4)
+
+    def test_dong_ho_DUNG_IM_thi_bao_CHUA_TOI_du_khong_con_dau_nao(self):
+        """CHÍNH CA 06/08: sync thoát ngay nên "đồng bộ tới" không nhích. Nếu chỉ
+        đếm dấu "chưa gửi" thì ca này lọt — nên câu hỏi 3 phải có."""
+        self.assertEqual(self._kiem(1000, sua=1000, dong_bo=1000), 1)
+
+    def test_bao_cao_KHONG_DUOC_noi_da_day_len_khi_chua_toi(self):
+        """Lời nói dối chính là thứ user gặp: "đã đẩy lên AnkiWeb" mà thực ra chưa."""
+        from tgbot.commands import _don_report
+        goc = {"sync_in": True, "promoted": 0, "moved": {"time": 4}, "total": 4,
+               "sync_out": True, "error": None}
+        self.assertNotIn("ĐÃ NHẬN", _don_report({**goc, "chua_gui": 4}))
+        self.assertIn("CHƯA TỚI ANKIWEB", _don_report({**goc, "chua_gui": 4}))
+        self.assertIn("ĐÃ NHẬN", _don_report({**goc, "chua_gui": 0}))
+        # Không kiểm được thì nói thật là không kiểm được, đừng khẳng định.
+        self.assertIn("CHƯA KIỂM ĐƯỢC", _don_report({**goc, "chua_gui": None}))
+
+    def test_job_dem_PHAI_xet_buoc_day_len(self):
+        """Lỗ hổng thứ hai: đêm 06/08 việc dọn nằm lại VPS mà không tiếng còi nào,
+        vì `_nightly_don` chỉ xét sync KÉO VỀ."""
+        goc = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        with open(os.path.join(goc, "tgbot", "jobs.py"), encoding="utf-8") as f:
+            nguon = f.read()
+        self.assertIn('res["chua_gui"]', nguon,
+                      "_nightly_don không xét chua_gui ⇒ đẩy lên hỏng lại im lặng")
+
+    def test_chuyen_deck_xong_PHAI_cham_vao_kho(self):
+        """Chặn đúng cách tái diễn: ai sửa `move_graduated_from_inbox` mà bỏ cú
+        chạm thì thẻ lại nằm lại VPS im lặng."""
+        goc = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        with open(os.path.join(goc, "anki_tools", "anki_client.py"), encoding="utf-8") as f:
+            nguon = f.read()
+        than = nguon.split("def move_graduated_from_inbox(")[1].split("\ndef ")[0]
+        self.assertIn("cham_vao_kho(", than,
+                      "chuyển deck mà không chạm vào kho ⇒ sync sẽ thoát ngay, "
+                      "việc dọn nằm lại VPS (xem docstring cham_vao_kho)")
+
+
 if __name__ == "__main__":
     unittest.main()

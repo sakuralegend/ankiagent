@@ -4,6 +4,7 @@
 # ==============================================================================
 import asyncio
 import os
+import time
 
 from telegram import Update
 from telegram.ext import ContextTypes
@@ -14,6 +15,7 @@ from anki_tools.utils import ban_ma_dang_chay, log_warn
 from anki_tools.topics import FALLBACK_TOPIC
 from anki_tools.anki_client import (
     CARD_STATES,
+    cham_vao_kho,
     ensure_deck_exists,
     get_card_state_stats,
     get_root_decks,
@@ -21,6 +23,7 @@ from anki_tools.anki_client import (
     move_graduated_from_inbox,
     promote_stage1_to_stage2,
     sync_now,
+    trang_thai_dong_bo,
     trigger_sync,
 )
 
@@ -184,11 +187,19 @@ def run_don():
     thực sự is:review trên VPS, nên cùng lắm là chuyển được ít thẻ hơn, lần /don
     sau bù. Nhưng phải BÁO RA để user không tưởng xong mà thực ra chưa đẩy lên.
 
+    ⚠️ BƯỚC 5 — KIỂM CHỨNG, thêm 06/08/2026 (QD-34): bấm sync xong KHÔNG có nghĩa
+    là AnkiWeb đã nhận. `sync_now()` trả `True` chỉ nghĩa là AnkiConnect không
+    phàn nàn. Đêm 06/08 bốn thẻ nằm lại VPS 7 tiếng trong khi 14 nhịp sync liên
+    tiếp đều "thành công" — xem `cham_vao_kho()` cho cơ chế. Nên từ nay phải ĐO
+    lại bằng ba con số của `trang_thai_dong_bo()`, và chỉ được nói "đã đẩy lên"
+    khi ba số đó xác nhận.
+
     Trả về dict để _don_report dựng tin nhắn (không tự format ở đây, để job đêm
     và lệnh tay dùng chung một chỗ)."""
     out = {"sync_in": False, "promoted": 0, "moved": None, "total": 0,
-           "sync_out": False, "error": None}
+           "sync_out": False, "error": None, "chua_gui": None}
     out["sync_in"] = trigger_sync()
+    truoc = trang_thai_dong_bo()      # mốc "đồng bộ tới" TRƯỚC khi dọn, cho câu hỏi 3
     try:
         out["promoted"] = promote_stage1_to_stage2()
     except Exception as e:
@@ -198,7 +209,40 @@ def run_don():
     out["moved"], out["total"] = moved, total
     if out["promoted"] or total:
         out["sync_out"] = trigger_sync()
+        out["chua_gui"] = _kiem_da_len_ankiweb(truoc)
     return out
+
+
+def _kiem_da_len_ankiweb(truoc, so_lan=2):
+    """BA CÂU HỎI xác nhận việc dọn đã thật sự tới AnkiWeb (QD-34). Chưa tới thì
+    chạm lại kho + sync lần nữa rồi hỏi lại; vẫn chưa thì trả số còn nằm lại.
+
+      1. Còn dấu "chưa gửi" trên thẻ/note không?           → phải là 0
+      2. Đồng hồ "sửa lần cuối" đã khớp "đồng bộ tới" chưa? → phải khớp
+      3. "Đồng bộ tới" có MỚI HƠN lúc trước khi dọn không?  → phải mới hơn
+
+    🔴 Câu 3 mới là câu bắt được ca 06/08, và nó chỉ hỏi được ở ĐÂY: ta vừa sửa
+    thẻ nên cú sync sau đó BẮT BUỘC phải có việc để làm; đồng hồ đứng im nghĩa là
+    nó đã thoát ngay mà không gửi gì. (Lúc kho thật sự sạch thì đứng im là bình
+    thường — nên đừng bê câu này ra chỗ khác dùng.)
+
+    Trả về: `0` đã tới · `n > 0` còn n thứ nằm lại VPS · `None` không kiểm được."""
+    sau = None
+    for lan in range(so_lan):
+        time.sleep(3)                 # chờ Anki ghi trạng thái sync xuống đĩa
+        sau = trang_thai_dong_bo()
+        if sau is None:
+            return None
+        con_no = sau["chua_gui"] or sau["sua"] != sau["dong_bo"]
+        dung_im = truoc is not None and sau["dong_bo"] == truoc["dong_bo"]
+        if not con_no and not dung_im:
+            return 0
+        if lan + 1 < so_lan:
+            log_warn(f"Dọn xong mà AnkiWeb chưa nhận (còn {sau['chua_gui']} thứ, "
+                     f"đồng hồ đứng im={dung_im}) — chạm lại kho rồi sync lần nữa.")
+            cham_vao_kho()
+            trigger_sync()
+    return sau["chua_gui"] or 1       # còn nợ mà không đếm được thì vẫn phải kêu
 
 
 def _don_report(res):
@@ -225,12 +269,23 @@ def _don_report(res):
     if not res["promoted"] and not res["total"] and not res["error"]:
         lines.append("✅ Không có thẻ nào tốt nghiệp — chưa có gì để chuyển.")
 
-    if res["sync_out"]:
-        lines.append("☁️ Đã đẩy kết quả lên AnkiWeb.")
-    elif res["promoted"] or res["total"]:
-        lines.append("⚠️ ĐẨY LÊN THẤT BẠI — kết quả dọn mới chỉ nằm trên VPS.")
-    else:
+    # 🔴 Câu "đã đẩy lên AnkiWeb" chỉ được nói khi ĐÃ ĐO (QD-34). Bản cũ nói câu đó
+    # chỉ dựa vào sync_now() trả True, và đêm 06/08 nó nói dối trong khi 4 thẻ còn
+    # nằm trên VPS — user bấm sync trên iPhone cả buổi sáng mà không hiểu vì sao.
+    chua = res.get("chua_gui")
+    if not (res["promoted"] or res["total"]):
         lines.append("☁️ Đã sync AnkiWeb." if res["sync_in"] else "")
+    elif chua == 0:
+        lines.append("☁️ AnkiWeb ĐÃ NHẬN (đã kiểm: không còn gì nằm lại VPS).")
+    elif chua:
+        lines.append(f"🚨 CHƯA TỚI ANKIWEB — còn {chua} thứ nằm lại trên VPS, "
+                     "iPhone kéo về sẽ KHÔNG thấy gì đổi.\n"
+                     "   👉 Mở Anki trên laptop bấm Sync một lần là nó đi (đã đo).")
+    elif res["sync_out"]:
+        lines.append("☁️ Đã bấm đẩy lên AnkiWeb — nhưng CHƯA KIỂM ĐƯỢC có tới thật "
+                     "hay không (máy này chưa khai đường dẫn kho).")
+    else:
+        lines.append("⚠️ ĐẨY LÊN THẤT BẠI — kết quả dọn mới chỉ nằm trên VPS.")
 
     lines.append("📱 Mở Anki trên iPhone để kéo về.")
     return "\n".join(l for l in lines if l)
