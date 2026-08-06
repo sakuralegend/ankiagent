@@ -537,14 +537,39 @@ class DonXongMaAnkiWebChuaNhan(unittest.TestCase):
         with unittest.mock.patch.object(anki_client, "ANKI_COLLECTION", "/khong/co/that.anki2"):
             self.assertIsNone(anki_client.trang_thai_dong_bo())
 
-    def _kiem(self, truoc_dong_bo, **kw):
+    def _kiem(self, truoc_dong_bo, cham_duoc=True, so_lan=1, **kw):
         from tgbot import commands
         from anki_tools import anki_client
         with unittest.mock.patch.object(anki_client, "ANKI_COLLECTION", self._kho_gia(**kw)), \
              unittest.mock.patch.object(commands.time, "sleep"), \
-             unittest.mock.patch.object(commands, "cham_vao_kho"), \
+             unittest.mock.patch.object(commands, "cham_vao_kho") as cham, \
              unittest.mock.patch.object(commands, "trigger_sync"):
-            return commands._kiem_da_len_ankiweb({"dong_bo": truoc_dong_bo}, so_lan=1)
+            ra = commands._kiem_da_len_ankiweb({"dong_bo": truoc_dong_bo},
+                                               cham_duoc=cham_duoc, so_lan=so_lan)
+        self._da_cham = cham.call_count
+        return ra
+
+    def test_sync_keo_ve_HONG_thi_KHONG_DUOC_cham_vao_kho(self):
+        """Cú chạm ghi vào note. Ghi note khi CHƯA kéo AnkiWeb về đúng là cơ chế đã
+        làm hỏng 23 thẻ hôm 31/07 — thà để việc dọn nằm lại rồi KÊU RA, còn hơn âm
+        thầm đè mất bản mới hơn ở máy khác."""
+        self.assertEqual(self._kiem(500, cham_duoc=False, so_lan=2,
+                                    chua_the=4, sua=1000, dong_bo=1000), 4)
+        self.assertEqual(self._da_cham, 0)
+        # Ngược lại: kéo về được thì PHẢI chạm để gỡ.
+        self._kiem(500, cham_duoc=True, so_lan=2, chua_the=4, sua=1000, dong_bo=1000)
+        self.assertEqual(self._da_cham, 1)
+
+    def test_chua_keo_ve_duoc_thi_KHONG_cham_luc_chuyen_deck(self):
+        """Chốt cùng luật ở đường chuyển deck: `move_graduated_from_inbox(cham=...)`
+        phải nhận cờ, và `run_don` phải truyền `sync_in` vào đó."""
+        goc = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        with open(os.path.join(goc, "anki_tools", "anki_client.py"), encoding="utf-8") as f:
+            self.assertIn("def move_graduated_from_inbox(cham=True)", f.read())
+        with open(os.path.join(goc, "tgbot", "commands.py"), encoding="utf-8") as f:
+            nguon = f.read()
+        self.assertIn('move_graduated_from_inbox(cham=out["sync_in"])', nguon)
+        self.assertIn('cham_duoc=out["sync_in"]', nguon)
 
     def test_sach_va_dong_ho_da_nhich_thi_coi_la_DA_TOI(self):
         self.assertEqual(self._kiem(500, sua=1000, dong_bo=1000), 0)

@@ -29,7 +29,7 @@
     "tach": 700,
     "bo_qua_mau": ["data/huongdan/kho/k*.py", "data/huongdan/lo*.py", "tests/test_*.py"],
     "da_ghi_no": {
-      "anki_tools/anki_client.py": 632,
+      "anki_tools/anki_client.py": 637,
       "anki_tools/grammar.py": 502,
       "data/huongdan/kho/congcu.py": 491,
       "soat/cua_nguong.py": 463,

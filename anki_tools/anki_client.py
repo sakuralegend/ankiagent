@@ -365,12 +365,17 @@ def thang_cap_gd2(card_ids, note_ids):
     return len(card_ids)
 
 
-def move_graduated_from_inbox():
+def move_graduated_from_inbox(cham=True):
     """GĐ2 -> kho: thẻ trong STAGE2_DECK đã TỐT NGHIỆP learning (is:review — gồm
     cả thẻ lỡ lapse) về deck chủ đề theo tag topic:: của note.
     changeDeck không đụng scheduling nên lịch ôn giữ nguyên tuyệt đối.
     Trả về (moved: dict slug->số thẻ đã chuyển, tổng số) hoặc (None, 0) nếu lỗi.
-    Idempotent: deck sạch thì trả ({}, 0)."""
+    Idempotent: deck sạch thì trả ({}, 0).
+
+    `cham=False` khi CHƯA kéo được AnkiWeb về: cú chạm ghi vào note, mà ghi note
+    trên dữ liệu cũ đúng là cơ chế đã làm hỏng 23 thẻ hôm 31/07 (xem
+    `sync_truoc_khi_ghi_lo`). Không chạm thì việc dọn nằm lại VPS — nhưng cửa canh
+    ba số sẽ KÊU RA, và kêu to còn hơn âm thầm đè mất dữ liệu."""
     def _call(action, **params):
         return _ac(action, **params)
 
@@ -397,7 +402,7 @@ def move_graduated_from_inbox():
             _call("createDeck", deck=deck)
             _call("changeDeck", cards=cids, deck=deck)
             moved[slug] = len(cids)
-        if moved:
+        if moved and cham:
             # 🔴 BẮT BUỘC, đừng bỏ vì tưởng vô nghĩa: `changeDeck` một mình KHÔNG
             # làm sync gửi được gì. Xem `cham_vao_kho()` — đặt ở ĐÂY vì đây là
             # đường duy nhất chỉ-chuyển-deck-mà-không-đụng-note (QD-34).

@@ -205,15 +205,17 @@ def run_don():
     except Exception as e:
         out["error"] = f"GĐ1→GĐ2: {e}"
         log_warn(f"promote_stage1_to_stage2 lỗi: {e!r}")
-    moved, total = move_graduated_from_inbox()
+    # cham=sync_in: cú chạm ghi vào note, nên CHƯA kéo được AnkiWeb về thì đừng
+    # chạm — ghi note trên dữ liệu cũ là cơ chế đã làm hỏng 23 thẻ hôm 31/07.
+    moved, total = move_graduated_from_inbox(cham=out["sync_in"])
     out["moved"], out["total"] = moved, total
     if out["promoted"] or total:
         out["sync_out"] = trigger_sync()
-        out["chua_gui"] = _kiem_da_len_ankiweb(truoc)
+        out["chua_gui"] = _kiem_da_len_ankiweb(truoc, cham_duoc=out["sync_in"])
     return out
 
 
-def _kiem_da_len_ankiweb(truoc, so_lan=2):
+def _kiem_da_len_ankiweb(truoc, cham_duoc=True, so_lan=2):
     """BA CÂU HỎI xác nhận việc dọn đã thật sự tới AnkiWeb (QD-34). Chưa tới thì
     chạm lại kho + sync lần nữa rồi hỏi lại; vẫn chưa thì trả số còn nằm lại.
 
@@ -237,11 +239,16 @@ def _kiem_da_len_ankiweb(truoc, so_lan=2):
         dung_im = truoc is not None and sau["dong_bo"] == truoc["dong_bo"]
         if not con_no and not dung_im:
             return 0
-        if lan + 1 < so_lan:
+        if lan + 1 < so_lan and cham_duoc:
             log_warn(f"Dọn xong mà AnkiWeb chưa nhận (còn {sau['chua_gui']} thứ, "
                      f"đồng hồ đứng im={dung_im}) — chạm lại kho rồi sync lần nữa.")
             cham_vao_kho()
             trigger_sync()
+        elif lan + 1 < so_lan:
+            log_warn("Dọn xong mà AnkiWeb chưa nhận, VÀ sync kéo về đang hỏng nên "
+                     "KHÔNG dám chạm vào kho (ghi note trên dữ liệu cũ = mất dữ "
+                     "liệu). Báo ra để user xử tay.")
+            break
     return sau["chua_gui"] or 1       # còn nợ mà không đếm được thì vẫn phải kêu
 
 
