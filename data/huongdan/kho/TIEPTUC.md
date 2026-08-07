@@ -154,8 +154,9 @@ toàn (k27: không một khối `CUM CO DINH`/`CACH DUNG` nào) — đừng đ�
 ⚠️ **Anki trên PC KHÔNG tự chạy** — `moi`/`nap` chết ngay với `WinError 10061`. Mở bằng
 `C:\Users\Asus\AppData\Local\Programs\Anki\anki.exe` rồi chờ ~10 s. Đừng nghĩ đó là lỗi cấu hình.
 
-🗑️ **Thẻ kiểu "dạng ràng buộc" thì HỎI USER, đừng cố soạn cho hay hơn.** Đã xoá `китайски` — dọn đủ
-**bốn chỗ**: note Anki + `tudien.json` + `hangdoi.json` + file lô.
+🗑️ **Thẻ kiểu "dạng ràng buộc" (chỉ sống sau `по-`) thì HỎI USER, đừng cố soạn cho hay hơn.** Đã xoá
+`китайски`·`русски`·`английски`, mỗi lần dọn đủ **bốn chỗ**: note Anki + `tudien.json` +
+`hangdoi.json` + file lô. **Lớp này nay đã sạch** (đo 07/08 trên cả 1041 thẻ).
 
 ---
 
@@ -224,7 +225,7 @@ hai thước đo song song chỉ khiến chúng đá nhau. Ước lượng bằn
 
 User nhìn quota còn bao nhiêu %, chia 1,4 ra số từ. 🔴 **Đây là ước lượng THẬN TRỌNG, không phải
 hằng số**: bốn phép đo thật rải từ 1,14 tới 1,49%/từ, và phiên càng to thì mỗi từ càng RẺ (xem
-dòng 07/08). Ước bằng 1,4 rồi thừa quota là chuyện tốt; ước sát rồi hết giữa lô là mất trắng lô đó.
+dòng 07/08).
 
 🔴🔴 **ĐIỂM ĐO THỨ HAI (04/08 đợt 2) LẬT MỘT GIẢ ĐỊNH — cùng 47 từ, mà phiên BẨN lại RẺ HƠN phiên
 sạch.** Hai điểm đo cùng cỡ 47 từ, tức so sánh có đối chứng thật: phiên "sạch" 03/08 ăn **70%**
