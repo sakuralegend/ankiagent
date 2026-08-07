@@ -1696,9 +1696,10 @@
     "англичанка",
     "немка"
    ],
-   "trangthai": "cho",
-   "file": null,
-   "thucong": "SOAN MOI HOAN TOAN. Noi dung cu tren the coi nhu KHONG CO - dung mo file lo cu ra xem, vua dat vua keo van phong dai tro lai. Chuan: README muc 2 (1 man hinh iPhone, toi da 2 o do) + muc 2c (field Vietnamese chi co 1 dap an dung). BAT BUOC: tu nao `tiep` in khoi BAT THUONG thi phai co MOT CAU chu y tren bang chia. Lo nay tach ra tu nhom 75 tu tung duoc gan nhan 'dat chuan san' ngay 28/07 - nhan do NAY DA HET HAN (7/75 tu vo tran sau khi the co them bang chia + badge). Cac tu co the khong cung mot ho."
+   "trangthai": "xong",
+   "file": "k57_concepts-abstract.py",
+   "thucong": "SOAN MOI HOAN TOAN. Noi dung cu tren the coi nhu KHONG CO - dung mo file lo cu ra xem, vua dat vua keo van phong dai tro lai. Chuan: README muc 2 (1 man hinh iPhone, toi da 2 o do) + muc 2c (field Vietnamese chi co 1 dap an dung). BAT BUOC: tu nao `tiep` in khoi BAT THUONG thi phai co MOT CAU chu y tren bang chia. Lo nay tach ra tu nhom 75 tu tung duoc gan nhan 'dat chuan san' ngay 28/07 - nhan do NAY DA HET HAN (7/75 tu vo tran sau khi the co them bang chia + badge). Cac tu co the khong cung mot ho.",
+   "daNap": true
   },
   {
    "id": "k58",
