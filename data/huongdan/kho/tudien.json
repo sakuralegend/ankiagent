@@ -5080,14 +5080,6 @@
   "cu": true
  },
  {
-  "wc": "русски",
-  "w": "ру́сски",
-  "en": "<ol class=\"meaning-list\"><li>Only used as part of \"по-русски\"</li></ol>",
-  "pos": "oth",
-  "topic": "language::education",
-  "cu": true
- },
- {
   "wc": "у",
   "w": "у",
   "en": "<ol class=\"meaning-list\"><li>(possession)</li><li>by</li><li>at (place)</li><li>with</li><li>from (take, borrow)</li></ol>",
@@ -5212,14 +5204,6 @@
   "w": "ско́бка",
   "en": "<ol class=\"meaning-list\"><li>brackets</li><li>parenthesis</li></ol>",
   "pos": "n",
-  "topic": "language::education",
-  "cu": true
- },
- {
-  "wc": "английски",
-  "w": "англи́йски",
-  "en": "<ol class=\"meaning-list\"><li>English</li></ol>",
-  "pos": "adv",
   "topic": "language::education",
   "cu": true
  },
