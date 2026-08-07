@@ -15,6 +15,7 @@
 | Nợ | Vì sao chưa trả | Hết hạn |
 |---|---|---|
 | `soatlo.py:123` bỏ so khi chuẩn không có dấu sắc, `:125` gộp `ё→е` ⇒ **từ trọng âm ở `ё` chưa bao giờ được soi** (bắt 05/08: `тве́рдость`). | Sửa công cụ giữa phiên chạy lô đã đốt trọn một cửa sổ 5h. Cần phiên riêng + đo trước xem bỏ chốt `ё` thì kêu oan mấy chỗ. | 2026-08-20 |
+| Bảng chia máy nối vào thẻ in dạng cách 5 **`-ою` (lối cổ/thi ca) KHÔNG có nhãn nào** ⇒ mọi danh từ giống cái đều dạy người mới rằng hai dạng ngang nhau (bắt 07/08 ở cả 10 danh từ cái của k09). | Sửa ở `grammar.go_bang()`, đụng **mọi thẻ đã nạp** ⇒ phải đo trước rồi nạp lại cả kho. L4 cấm gộp vào phiên chạy lô. | 2026-08-27 |
 | Mẫu phiếu việc ở `ycau.md`/`kehoach.md` **không lọt nổi trần 14 dòng của S19**, và `kehoach.md` bắt thêm mục `##` thứ hai mà S19 chỉ cho 1 (bắt 06/08 khi đi đúng ba cửa). | Phải chọn: nới trần hay viết lại hai mẫu. Đang giữa việc vá sync, L4 cấm gộp. | 2026-08-20 |
 
 🔴 **Trước khi thêm dòng, hỏi: đây có phải NỢ không?** Nợ = việc mình BIẾT phải làm

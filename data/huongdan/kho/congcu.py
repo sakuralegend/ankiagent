@@ -310,8 +310,8 @@ def cmd_moi():
 
     n_sau = (len(dich["tu"]) if dich else 0) + len(moi)
     if n_sau < 10:
-        print(f"   ⚠️ moi {n_sau} tu. Lo duoi 10 tu dat gap ~3 lan tren moi tu "
-              f"(phan co dinh 53K/lo ap dao). Nen doi gom them roi hay chay.")
+        print(f"   ⚠️ moi {n_sau} tu. Lo duoi 10 tu dat gap ~3 lan tren moi tu (phan co dinh ~110K/lo ap dao, do lai 07/08).")
+        print("   🔴 HAI LUAT DA NHAU, da co ca that (05/08, lo 4 tu): dong tren bao HOAN, luat 'tu moi uu tien hon moi thu' (user chot 28/07) bao CHAY. Cach hoa: lenh nay GOP DON san — hoan mot ngay thi mai noi tiep vao cung lo. => TRINH CA HAI PHUONG AN CHO USER CHON, dung mac dinh chay ma cung dung mac dinh hoan.")
     if n_sau > 22:   # truc lo dat bang hinh thuc ngon ngu chi dung 3/13 (k59)
         print(f"   ⚠️ {n_sau} tu, qua tran 22. Lenh nay KHONG tu chia — no van gom ca cuc vao mot lo. Tu chia theo TAG CHU DE lay tu Anki (`hangdoi.json` luu tu KHONG dau trong am) truoc khi chay.")
 

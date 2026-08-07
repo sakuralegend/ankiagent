@@ -13,6 +13,24 @@ Bạn (user) chỉ cần gõ một câu: **"chạy tiếp kho"**. Phần dưới
 > 🔄 **02/08: `nap --apply` và `cao_nguphap` nay TỰ kéo sync về trước khi đọc/ghi** (QD-16). Sync
 > hỏng thì chúng DỪNG, không ghi gì — đúng cái đã làm hỏng 23 thẻ đêm 31/07. Không phải nhớ gì thêm.
 
+### ✅ PHIÊN 07/08 đợt 2: k47(20) · k09(15) · k10(15) · k11(15) = **65 từ / 4 LÔ** — kế tiếp **k12**
+
+🔴🔴 **VA CHẠM PHẢI GIAO KÈM LÔ ĐỐI PHƯƠNG ĐANG `cho` HAY `xong`.** Lọc badge ra 4 va chạm thật,
+nhưng cái quyết định agent ĐƯỢC LÀM GÌ là trạng thái lô kia: còn `cho` ⇒ *"liệt kê đủ phía mình,
+lô kia tự lo"*; đã `xong` ⇒ **mồ côi**, chỉ được BÁO LÊN. Thiếu vế này, agent hoặc tự sửa từ ngoài
+lô (sai) hoặc dừng hỏi (đắt). Một vòng lặp trên `hangdoi.json`, rẻ hơn giá một lần đoán sai.
+
+🔴🔴 **CÓ LỖI CHỈ HIỆN KHI NHÌN CẢ HỌ TỪ — agent không thấy được vì chỉ thấy lô mình.** 11 tên
+tháng ghi bằng **4 kiểu** (`tháng Ba`·`tháng sáu`·`tháng 7`·`tháng Mười Hai`), không lô nào sai cả.
+⇒ **Lô có họ đồng nhất (tháng, ngày, màu, mùa, số): đọc field thật CẢ HỌ trước khi giao.**
+
+🆕 **Dặn agent tự quét lại va chạm SAU khi viết `V` mới** — k47 tự nghĩ ra bước này, bắt được 2 va
+chạm do chính nó vừa đẻ. Quét trước lúc soạn về nguyên lý không thấy được loại đó.
+
+🔴 **Hai chỗ MỌI cửa đều báo xanh:** thẻ tự mâu thuẫn với **bảng máy nối vào nó** (`лексика` ghi
+"không dùng số nhiều", bảng ngay dưới in `ле́ксики`); và **dấu huyền U+0300 giả làm dấu trọng âm
+U+0301** (`тяну̀ть за язы̀к`) — `soat` tìm *thiếu* dấu, không kiểm *đúng* dấu.
+
 ### ✅ PHIÊN 07/08: k43(18) · k44(11) · k45(21) · k46(21) = **71 từ / 4 LÔ** — kế tiếp **k47**
 
 Cả bốn: `QUA 1 MAN HINH: 0` · `QUA 2 O DO: 0` · khối chung **0%** · `nap` khớp tuyệt đối
@@ -80,23 +98,6 @@ sắc, `:125` lại gộp `ё→е` trước khi so. Agent k41 tự tay bắt đ
 Đã ghi `SONO.md`, **chưa sửa** vì trộn việc sửa công cụ vào phiên chạy lô là thứ đã đốt trọn một
 cửa sổ 5h. **Lô nào có từ dính `ё` thì dặn agent tự soi tay** — `soat` báo sạch ở đó không nghĩa gì.
 
-### ✅ PHIÊN 05/08 đợt 1: k66(4 TỪ MỚI) · k38(16) · k39(16) = **36 từ / 3 lô**
-
-Cả ba: `QUA 1 MAN HINH: 0` · `QUA 2 O DO: 0` · khối chung **0%** · `nap` khớp tuyệt đối 4/4,
-16/16, 16/16. User vào phiên **80% hạn mức**, chốt 3 lô sau khi nghe cảnh báo giá.
-
-🔴🔴 **LÔ 4 TỪ ĐẮT ĐÚNG NHƯ `moi` CẢNH BÁO — và nó phơi ra HAI LUẬT ĐÁ NHAU.** `moi` in *"lô dưới
-10 từ đắt gấp ~3 lần mỗi từ"* (ước ~16% hạn mức cho 4 từ, ≈4%/từ), nhưng luật **"từ mới ưu tiên hơn
-mọi thứ"** (28/07) lại bảo chạy. Cách hoà: `moi` **gộp dồn sẵn** — hoãn một ngày thì mai nối tiếp
-vào cùng lô. ⇒ **Trình CẢ HAI phương án cho user chọn; đừng mặc định chạy mà cũng đừng mặc định hoãn.**
-
-🔴🔴 **"BÁO N CỤM LÀ SÀN" — nay có hệ số.** Luồng chính giao 2·5·6 cụm; agent tự tìm thêm **1·5·4**
-⇒ **quét chuỗi chỉ thấy khoảng một nửa.** Ca đáng nhớ: `учёба` đụng `образова́ние` · `фильм` đụng
-`кино` · `стоя́нка` đụng `гараж` · `ба́нка` (cái lọ) là bẫy **mặt chữ** với `банк` dù không đụng đề bài.
-
-🔴 **VA CHẠM MỒ CÔI — từ ở lô đã `xong` thì không lô nào sửa nữa, phải trả tay.** Đo 05/08: 118
-cụm trùng chuỗi → 31 cụm mồ côi → lọc bằng badge còn **4** (đã trả xong, `git log --grep
-SONO-vacham`). 📌 Phép đo đúng vẫn là **badge có tách được không**, không phải trùng chuỗi.
 
 ### 📕 BÀI HỌC CÒN SỐNG — khối có TRẦN (S21, QD-33)
 
