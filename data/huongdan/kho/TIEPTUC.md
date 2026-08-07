@@ -13,19 +13,42 @@ Bạn (user) chỉ cần gõ một câu: **"chạy tiếp kho"**. Phần dưới
 > 🔄 **02/08: `nap --apply` và `cao_nguphap` nay TỰ kéo sync về trước khi đọc/ghi** (QD-16). Sync
 > hỏng thì chúng DỪNG, không ghi gì — đúng cái đã làm hỏng 23 thẻ đêm 31/07. Không phải nhớ gì thêm.
 
-### ✅ PHIÊN 07/08 đợt 2: k47(20) · k09(15) · k10(15) · k11(15) = **65 từ / 4 LÔ** — kế tiếp **k12**
+### ✅ PHIÊN 08/08: k12(17) · k15(7) · k16(14) · k49(19) = **57 từ / 4 LÔ** — kế tiếp **k50**
 
-🔴🔴 **VA CHẠM PHẢI GIAO KÈM LÔ ĐỐI PHƯƠNG ĐANG `cho` HAY `xong`.** Lọc badge ra 4 va chạm thật,
-nhưng cái quyết định agent ĐƯỢC LÀM GÌ là trạng thái lô kia: còn `cho` ⇒ *"liệt kê đủ phía mình,
-lô kia tự lo"*; đã `xong` ⇒ **mồ côi**, chỉ được BÁO LÊN. Thiếu vế này, agent hoặc tự sửa từ ngoài
-lô (sai) hoặc dừng hỏi (đắt). Một vòng lặp trên `hangdoi.json`, rẻ hơn giá một lần đoán sai.
+Cả bốn: `QUA 1 MAN HINH: 0` · `QUA 2 O DO: 0` · khối chung **0%** · `nap` khớp tuyệt đối
+17/17, 7/7, 14/14, 19/19. Cụm trùng nghĩa toàn bộ sưu tập **173 → 163**.
+
+🔴🔴 **LUỒNG CHÍNH KHAI SAI LẦN THỨ HAI, AGENT ĐO RỒI BÁC — cơ chế này đã bắt được lỗi ba phiên
+liên tiếp.** Lần này tôi lọc va chạm quên `GenderBadge` (báo nhầm `образец`↔`модель` là va chạm)
+và bịa trước rằng `tiep` sẽ gán nhãn `BAT THUONG` sai cho bộ sở hữu (thật ra in **0 khối** cho cả
+14 từ). ⇒ Dòng *"tin `tiep` + `hangdoi.json`, đừng tin luồng chính"* **đang trả tiền đều đặn**.
+
+🔴🔴 **GỠ VA CHẠM BẰNG RÚT GỌN RẺ HƠN BẰNG THÊM CHỮ.** k16 có hai cặp trùng (`ты`/`вы` cùng "bạn",
+`твой`/`ваш` cùng "của bạn"); hoá ra chỉ cần **bỏ "bạn" khỏi phía `вы`/`ваш`** là cả hai cặp hết
+chồng — sửa 2 thẻ thay vì 4. Cùng khuôn ở k49: **cắt nghĩa vốn là của từ khác** (`ехать` bỏ "đi",
+`недалеко` bỏ "gần", `схема` bỏ "mô hình") làm tan luôn ba va chạm mồ côi. ⇒ **Hỏi "nghĩa này có
+thật là của từ này không" TRƯỚC, đừng hỏi "thêm gì để phân biệt"** — nới rộng chính là thứ đẻ ra
+va chạm.
+
+🔴 **TRÙNG MỘT TOKEN KHÔNG PHẢI LÚC NÀO CŨNG PHẢI GỠ.** `он`/`она` cùng có "nó" nhưng cả dòng đề
+bài tách sạch ⇒ để yên, đúng §2c (*"hai từ trùng một nghĩa là bình thường"*). Khác hẳn `ты`/`вы`
+nơi **cả dòng** lẫn nhau. Phép thử là **cả dòng đề bài**, không phải từng token.
+
+🆕 **HỌ TỪ BỊ CHẺ ĐÔI GIỮA HAI LÔ CHẠY SONG SONG là ca đáng đo nhất.** Đại từ nhân xưng nằm ở
+k12 (`она`,`они`) lẫn k16 (phần còn lại); đọc field thật cả họ trước khi giao mới thấy `он` có
+"nó" mà `она` không, `они` chỉ 1 nghĩa trong khi cả họ có 2–4. Hai agent thương lượng qua luồng
+chính rồi tự hội tụ.
+
+📊 **Rà ngược tiếp tục là cửa duy nhất bắt lỗi nội dung: 12+8+5+4 = 29 lỗi tự bắt, agent nào cũng
+khai là chỉ lộ ở vòng đó.** Vệt đậm nhất phiên này là **PHÓNG ĐẠI luật ngữ pháp** (*"sau `ш` luôn
+viết `и`"* — còn `ше/шо/шу`; *"mọi danh từ đuôi `-ка` chạy nguyên âm"* — `рука→рук` thì không).
+Lô hư từ k12 lập kỷ lục **10 lần bác từ điển / 17 từ** — đúng chỗ tài liệu vẫn cảnh báo.
+
+### ✅ PHIÊN 07/08 đợt 2: k47(20) · k09(15) · k10(15) · k11(15) = **65 từ / 4 LÔ** — kế tiếp **k12**
 
 🔴🔴 **CÓ LỖI CHỈ HIỆN KHI NHÌN CẢ HỌ TỪ — agent không thấy được vì chỉ thấy lô mình.** 11 tên
 tháng ghi bằng **4 kiểu** (`tháng Ba`·`tháng sáu`·`tháng 7`·`tháng Mười Hai`), không lô nào sai cả.
 ⇒ **Lô có họ đồng nhất (tháng, ngày, màu, mùa, số): đọc field thật CẢ HỌ trước khi giao.**
-
-🆕 **Dặn agent tự quét lại va chạm SAU khi viết `V` mới** — k47 tự nghĩ ra bước này, bắt được 2 va
-chạm do chính nó vừa đẻ. Quét trước lúc soạn về nguyên lý không thấy được loại đó.
 
 🔴 **Hai chỗ MỌI cửa đều báo xanh:** thẻ tự mâu thuẫn với **bảng máy nối vào nó** (`лексика` ghi
 "không dùng số nhiều", bảng ngay dưới in `ле́ксики`); và **dấu huyền U+0300 giả làm dấu trọng âm
@@ -44,17 +67,6 @@ Tôi khai `хорошо` là "từ mồ côi ở lô đã xong"; agent k43 mở 
 trong k43 và tự sửa. ⇒ **Dòng "tin `tiep` + `hangdoi.json`, đừng tin luồng chính" phải nằm
 trong MỌI lời nhắn** — luồng chính không đọc file lô, là chỗ ít thẩm quyền nhất mà nói to nhất.
 
-🔴🔴 **QUÉT `vacham` BỎ SÓT VÌ NÓ KHỚP CHUỖI — có ca chứng minh.** Máy không thấy `синий`
-"**màu** xanh dương" đụng `голубой` "xanh dương" (khác đúng một chữ), mà cả hai đều `adj` nên
-badge cũng không cứu; agent k44 tự tìm ra. ⇒ **Lời nhắn phải nói thẳng "danh sách này là SÀN"**,
-và phải dặn agent tự soi VA CHẠM NỘI BỘ trong lô — họ từ đồng nhất (màu, ngày, mùa) là ổ nặng nhất.
-
-📌 **Bù lại, phần luồng chính đo được thì tiết kiệm rất nhiều chữ cho agent.** Đọc field thật
-(`Vietnamese`+`PoS`+badge) của 38 cụm nghi va chạm rồi **lọc sẵn phần kêu oan** trước khi giao:
-tên ngày trong tuần ↔ số thứ tự (`thứ ba`, `thứ bảy`…) trùng nghĩa Việt đúng từng chữ mà **không
-va chạm** vì badge `n` vs `num`; tính từ ↔ danh từ cùng gốc (`зимний`/`зима`) cũng vậy. Chỉ
-**cùng từ loại + cùng badge** mới là va chạm thật. Ba agent đều xác nhận lại bằng máy sau khi sửa.
-
 🔴 **"NỚI RỘNG" LÔ TRẠNG TỪ = LẤY NGHĨA CỦA TỪ KHÁC.** k43 bác 7 lần, cả 7 cùng một khuôn:
 `плохо` ← "khó khăn" (là `трудно`) · `тихо` ← "chậm" (là `медленно`) · `важно` ← "cần thiết"
 (là `нужно`) · `понятно` ← "rõ ràng" (là `ясно`). ⇒ **Chính cái nới rộng đẻ ra va chạm đề bài**;
@@ -66,37 +78,6 @@ sửa đề bài cho đúng nghĩa là gỡ luôn va chạm, không phải hai v
 
 📊 **Rà ngược lại chứng minh giá trị: 6+6+6+5 = 23 lỗi nội dung tự bắt, và cả bốn agent đều khai
 là chỉ lộ ra ở vòng rà ngược.** Lô 21 từ vẫn bắt được 6 — **trần cỡ lô chưa cần hạ**.
-
-### ✅ PHIÊN 05/08 đợt 2: k40(19) · k41(18) · k42(18) = **55 từ / 3 lô** — kế tiếp **k43**
-
-Cả ba: `QUA 1 MAN HINH: 0` · `QUA 2 O DO: 0` · khối chung **0%** · `nap` khớp tuyệt đối 18/18 và
-37/37. User vào phiên **80% hạn mức**, được trình 3 phương án cỡ phiên và **chốt bộ đắt nhất** (55
-từ ≈ 77%) sau khi nghe cảnh báo chỉ chừa ~3% đóng phiên. **Vẫn lọt** — nhưng n=1, đừng lấy làm luật.
-
-🔴🔴 **BADGE `adj`/`adv` TÁCH SẠCH CẶP TÍNH TỪ ↔ TRẠNG TỪ — đo trên cả 1043 thẻ.** Quét chuỗi báo
-k40 **25** cụm va chạm, k42 **18**, k43 **22**; soi `PoS` thật thì **13/18 của k42 và phần lớn của
-k40 là KÊU OAN** (`высокий`/`высоко` · `тихий`/`тихо` · `дорогой`/`дорого`…). ⇒ Khối `qualities`
-trông như bãi mìn nhưng thực ra chỉ có adj↔adj mới là va chạm thật. **Dán kết luận này vào lời nhắn
-là thứ tiết kiệm nhiều chữ nhất phiên** — không nói thì ba agent cùng đốt chữ tách cặp badge đã
-tách hộ.
-
-🆕 **BA LÔ SONG SONG HỘI TỤ MÀ KHÔNG CẦN TRỌNG TÀI.** k40 và k42 độc lập đề nghị cùng một sửa
-đổi, trùng từng chữ. ⇒ Dặn mỗi agent **"tách dứt khoát từ phía mình, muốn lô kia đổi thì BÁO
-LÊN, đừng tự sửa từ của lô khác"** — luồng chính chỉ chuyển lời, không phán, và phải kèm câu
-*"bạn không bắt buộc nghe, đây là lời của lô kia"*. (Luật đề bài đổi 05/08 làm chuyện thương
-lượng chéo lô hiếm hẳn: nay mỗi từ chỉ liệt kê nghĩa của chính nó.)
-
-🔴 **VỆT "NỚI RỘNG" ĐẬM NHẤT TỪ TRƯỚC TỚI NAY: 24 lần bác / 55 từ.** Riêng `высокий` ôm 5 nghĩa
-Việt và va vào 3 từ khác. Loạt bị cắt: `высокий` bỏ *lớn/nhiều/tốt/quý giá* · `низкий` bỏ
-*ngắn/nhỏ/kém* · `легко` bỏ *một chút* (là `немного`) · `громко` bỏ *ồn* (là `шумно`) ·
-`национальный` "thuộc về quốc gia" → **dân tộc** (`госуда́рственный` trong kho tự ghi "không phải
-thuộc dân tộc" ⇒ nó nhường nghĩa đó) · `коммуникативный` "cởi mở, giao tiếp tốt" → đó là
-`коммуника́бельный`. ⇒ **Tính từ chỉ phẩm chất là ổ nới rộng nặng nhất**, nặng hơn cả tên loài.
-
-🔴 **CỬA SOÁT MÙ HẲN VỚI TRỌNG ÂM NẰM Ở `ё`** — `soatlo.py:123` bỏ qua khi dạng chuẩn không có dấu
-sắc, `:125` lại gộp `ё→е` trước khi so. Agent k41 tự tay bắt được `тве́рдость` (đúng: `твёрдость`).
-Đã ghi `SONO.md`, **chưa sửa** vì trộn việc sửa công cụ vào phiên chạy lô là thứ đã đốt trọn một
-cửa sổ 5h. **Lô nào có từ dính `ё` thì dặn agent tự soi tay** — `soat` báo sạch ở đó không nghĩa gì.
 
 
 ### 📕 BÀI HỌC CÒN SỐNG — khối có TRẦN (S21, QD-33)
@@ -369,6 +350,26 @@ Nó tự: kéo từ Anki mọi note `RU_Word` **chưa có trong hàng đợi** �
 User đã chốt cách này sau khi chỉ ra: gộp nhiều lô vào một context làm chất lượng **nhạt dần**
 — người soạn bắt đầu chép khuôn lô trước thay vì nghĩ lại cho từ mới, mà nhạt dần thì **chính
 người soạn khó tự thấy**. User không kiểm được nội dung, nên đây là kiểu xuống cấp nguy hiểm nhất.
+
+### 🔎 Luồng chính ĐO trước khi giao — cách lọc va chạm
+
+`congcu.py vacham` chỉ khớp **chuỗi** ⇒ là **SÀN**, không phải bằng chứng sạch. Lọc phần kêu oan
+bằng **field thật** rồi giao kèm cho agent: bước này đẻ ra giá trị lớn nhất mỗi phiên và nó **rẻ**
+(giá đi theo số LƯỢT CHAT, không theo việc làm trong một lượt).
+
+🔴 **Đọc ĐỦ BA badge, đừng chỉ `PoS`** — đo trên cả 1041 thẻ: `PoS` tách sạch adj↔adv
+(`высокий`/`высоко`), n↔pron, v↔oth; **`GenderBadge` tách tiếp danh từ cùng nghĩa khác giống**
+(`образец` MASC ♂ ↔ `модель` FEM ♀); `AspectBadge` tách cặp thể. **Trùng cả ba mới là va chạm
+thật.** Tên field đúng là `GenderBadge`/`AspectBadge` — gõ `Gender` thì AnkiConnect trả **rỗng**
+và bộ lọc **im lặng nhận nhầm**; đúng lỗi đó làm luồng chính khai sai 08/08, agent đo mới bác được.
+🔴 **Giao kèm TRẠNG THÁI lô đối phương** — đó mới là thứ quyết định agent ĐƯỢC LÀM GÌ: còn `cho`
+⇒ *"liệt kê đủ phía mình, lô kia tự lo, muốn nó đổi thì BÁO LÊN"*; đã `xong` ⇒ **mồ côi**, chỉ
+được BÁO LÊN. Thiếu vế này agent hoặc tự sửa từ ngoài lô (sai) hoặc dừng lại hỏi (đắt).
+Kèm luôn câu **"danh sách này là SÀN"** và dặn agent **quét lại sau khi viết `V` mới** — `V` mới
+tự đẻ va chạm, và máy mù với cặp lệch một chữ (`синий` "**màu** xanh dương" ↔ `голубой`).
+
+⚠️ Nhưng nhãn máy **gán không nhất quán trong cùng một họ** (`близко`=adv mà `недалеко`=oth, cùng
+họ trạng từ vị trí) ⇒ badge lệch **bên trong một họ đồng nhất** không đủ để kết luận kêu oan.
 
 Khuôn lời nhắn giao cho agent phụ (đổi `kNN` và phần chủ đề):
 
