@@ -13,6 +13,42 @@ Bạn (user) chỉ cần gõ một câu: **"chạy tiếp kho"**. Phần dưới
 > 🔄 **02/08: `nap --apply` và `cao_nguphap` nay TỰ kéo sync về trước khi đọc/ghi** (QD-16). Sync
 > hỏng thì chúng DỪNG, không ghi gì — đúng cái đã làm hỏng 23 thẻ đêm 31/07. Không phải nhớ gì thêm.
 
+### ✅ PHIÊN 07/08: k43(18) · k44(11) · k45(21) · k46(21) = **71 từ / 4 LÔ** — kế tiếp **k47**
+
+Cả bốn: `QUA 1 MAN HINH: 0` · `QUA 2 O DO: 0` · khối chung **0%** · `nap` khớp tuyệt đối
+11/11, 18/18, 21/21, 21/21. **Điểm đo tách được phần CỐ ĐỊNH mỗi lô**: user vào phiên
+**100% hạn mức**, được cảnh báo 71 × 1,4% ≈ 99% và **vẫn chốt 4 lô** — chạy lọt cả bốn, kể cả
+nạp + commit + đóng phiên. ⇒ **Trần ~58 từ là quá dè dặt; 4 lô / 71 từ có thật.** n=1, và đây
+là phiên luồng chính đo nhiều (quét `vacham` + đọc field thật) mà vẫn lọt.
+
+🔴🔴 **LỜI NHẮN CỦA LUỒNG CHÍNH SAI, AGENT ĐI KIỂM RỒI BÁC — đây là cách duy nhất bắt được.**
+Tôi khai `хорошо` là "từ mồ côi ở lô đã xong"; agent k43 mở `hangdoi.json` thấy nó nằm ngay
+trong k43 và tự sửa. ⇒ **Dòng "tin `tiep` + `hangdoi.json`, đừng tin luồng chính" phải nằm
+trong MỌI lời nhắn** — luồng chính không đọc file lô, là chỗ ít thẩm quyền nhất mà nói to nhất.
+
+🔴🔴 **QUÉT `vacham` BỎ SÓT VÌ NÓ KHỚP CHUỖI — có ca chứng minh.** Máy không thấy `синий`
+"**màu** xanh dương" đụng `голубой` "xanh dương" (khác đúng một chữ), mà cả hai đều `adj` nên
+badge cũng không cứu; agent k44 tự tìm ra. ⇒ **Lời nhắn phải nói thẳng "danh sách này là SÀN"**,
+và phải dặn agent tự soi VA CHẠM NỘI BỘ trong lô — họ từ đồng nhất (màu, ngày, mùa) là ổ nặng nhất.
+
+📌 **Bù lại, phần luồng chính đo được thì tiết kiệm rất nhiều chữ cho agent.** Đọc field thật
+(`Vietnamese`+`PoS`+badge) của 38 cụm nghi va chạm rồi **lọc sẵn phần kêu oan** trước khi giao:
+tên ngày trong tuần ↔ số thứ tự (`thứ ba`, `thứ bảy`…) trùng nghĩa Việt đúng từng chữ mà **không
+va chạm** vì badge `n` vs `num`; tính từ ↔ danh từ cùng gốc (`зимний`/`зима`) cũng vậy. Chỉ
+**cùng từ loại + cùng badge** mới là va chạm thật. Ba agent đều xác nhận lại bằng máy sau khi sửa.
+
+🔴 **"NỚI RỘNG" LÔ TRẠNG TỪ = LẤY NGHĨA CỦA TỪ KHÁC.** k43 bác 7 lần, cả 7 cùng một khuôn:
+`плохо` ← "khó khăn" (là `трудно`) · `тихо` ← "chậm" (là `медленно`) · `важно` ← "cần thiết"
+(là `нужно`) · `понятно` ← "rõ ràng" (là `ясно`). ⇒ **Chính cái nới rộng đẻ ra va chạm đề bài**;
+sửa đề bài cho đúng nghĩa là gỡ luôn va chạm, không phải hai việc.
+
+🔴 **NHÃN MÁY CỦA `tiep` CŨNG SAI ĐƯỢC, không chỉ từ điển.** `tiep` gán `прошедшее` là "NGUYÊN
+ÂM CHẠY" + "đuôi KHÔNG theo mẫu chuẩn" — thật ra `-его/-ему/-им` chỉ là đuôi **tính từ** (phân từ
+đã danh từ hoá). Chép theo nhãn đó là dạy ngược. **Khối `BAT THUONG` là ứng viên, không phải phán quyết.**
+
+📊 **Rà ngược lại chứng minh giá trị: 6+6+6+5 = 23 lỗi nội dung tự bắt, và cả bốn agent đều khai
+là chỉ lộ ra ở vòng rà ngược.** Lô 21 từ vẫn bắt được 6 — **trần cỡ lô chưa cần hạ**.
+
 ### ✅ PHIÊN 05/08 đợt 2: k40(19) · k41(18) · k42(18) = **55 từ / 3 lô** — kế tiếp **k43**
 
 Cả ba: `QUA 1 MAN HINH: 0` · `QUA 2 O DO: 0` · khối chung **0%** · `nap` khớp tuyệt đối 18/18 và
@@ -61,30 +97,6 @@ vào cùng lô. ⇒ **Trình CẢ HAI phương án cho user chọn; đừng mặ
 🔴 **VA CHẠM MỒ CÔI — từ ở lô đã `xong` thì không lô nào sửa nữa, phải trả tay.** Đo 05/08: 118
 cụm trùng chuỗi → 31 cụm mồ côi → lọc bằng badge còn **4** (đã trả xong, `git log --grep
 SONO-vacham`). 📌 Phép đo đúng vẫn là **badge có tách được không**, không phải trùng chuỗi.
-
-### ✅ PHIÊN 04/08 đợt 2: k35(15) · k36(15) · k37(17) = **47 từ / 3 lô**
-
-**43 lô / 662 từ duyệt / 377 chờ.** Cả ba: `QUA 1 MAN HINH: 0` · `QUA 2 O DO: 0` · khối chung **0%**
-· `nap` khớp tuyệt đối 47/47. User vào phiên với **85% hạn mức**, chốt 3 lô.
-
-🔴🔴 **BADGE GIỚI/THỂ CỨU ĐƯỢC VA CHẠM, `PoS` THÌ KHÔNG — đây là ranh giới phải nhớ.** `певец`/
-`певица` cùng là "ca sĩ" mà vẫn tách sạch vì mặt đề bài in MASC ♂/FEM ♀. Nhưng `слева`/`налево`
-**đều `PoS = oth`, không có badge nào** ⇒ phải tách bằng chính nghĩa. Cùng loạt
-`преподаватель`/`учитель` (cùng `n` + MASC) và `компания`/`фирма` (cùng `n` + FEM).
-⇒ **Khi quét va chạm, cột đáng nhìn không phải "có trùng chuỗi không" mà là "badge có tách được
-không". Trùng chuỗi mà khác badge = kêu oan; khác chuỗi mà cùng badge = lỗi thật máy không thấy.**
-🔴 Cách chữa cũ của mục này (**mệnh đề phủ định** *"…không phải hướng rẽ"*) **bị user cấm hẳn
-05/08** — nay tách bằng chính nghĩa: `слева` "ở bên trái, từ bên trái" ≠ `налево` "sang trái,
-về bên trái". Luật đầy đủ ở §2c README.
-
-📌 **Soi FIELD THẬT trong Anki rồi dán vào lời nhắn — rẻ và ăn ngay.** Phiên này luồng chính đọc
-`Vietnamese`+`PoS`+`GenderBadge` của các từ nghi va chạm (một lần `notesInfo`) rồi dán nguyên bảng
-cho agent. Nhờ đó agent k36 gỡ được ca `преподаватель`/`учитель` **không có đáp án đúng duy nhất**
-ngay lượt đầu, và bắt luôn `учитель` tự mâu thuẫn (badge MASC ♂ mà nghĩa in "cô giáo").
-Agent vẫn tự tìm thêm hai ca máy mù: `вход` đụng `подъезд`, `компания` đụng `фирма`.
-⚠️ Lời nhắc cũ *"`фирма` — tới lô của nó thì nhớ"* hoá ra **CHẾT**: k55 và k07 đều đã `xong`, không
-lô nào còn chạm tới (đo 05/08, đã vá tay). 🔴 **"Để lô sau lo" chỉ đúng khi từ đó CÒN trong
-lô `cho` — mở `hangdoi.json` kiểm trước khi hứa.**
 
 ### 📕 BÀI HỌC CÒN SỐNG — khối có TRẦN (S21, QD-33)
 
