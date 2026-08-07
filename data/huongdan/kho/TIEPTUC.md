@@ -13,7 +13,7 @@ Bạn (user) chỉ cần gõ một câu: **"chạy tiếp kho"**. Phần dưới
 > 🔄 **02/08: `nap --apply` và `cao_nguphap` nay TỰ kéo sync về trước khi đọc/ghi** (QD-16). Sync
 > hỏng thì chúng DỪNG, không ghi gì — đúng cái đã làm hỏng 23 thẻ đêm 31/07. Không phải nhớ gì thêm.
 
-### ✅ PHIÊN 08/08: k12(17) · k15(7) · k16(14) · k49(19) = **57 từ / 4 LÔ** — kế tiếp **k50**
+### ✅ PHIÊN 08/08: k12(17) · k15(7) · k16(14) · k49(19) = **57 từ / 4 LÔ, hết 95%** — kế tiếp **k50**
 
 Cả bốn: `QUA 1 MAN HINH: 0` · `QUA 2 O DO: 0` · khối chung **0%** · `nap` khớp tuyệt đối
 17/17, 7/7, 14/14, 19/19. Cụm trùng nghĩa toàn bộ sưu tập **173 → 163**.
@@ -209,16 +209,10 @@ User nhìn quota còn bao nhiêu %, chia 1,4 ra số từ. 🔴 **Đây là ư�
 hằng số**: bốn phép đo thật rải từ 1,14 tới 1,49%/từ, và phiên càng to thì mỗi từ càng RẺ (xem
 dòng 07/08).
 
-🔴🔴 **ĐIỂM ĐO THỨ HAI (04/08 đợt 2) LẬT MỘT GIẢ ĐỊNH — cùng 47 từ, mà phiên BẨN lại RẺ HƠN phiên
-sạch.** Hai điểm đo cùng cỡ 47 từ, tức so sánh có đối chứng thật: phiên "sạch" 03/08 ăn **70%**
-(1,49%/từ); phiên 04/08 đợt 2 ăn **65%** (**1,38%/từ**) — trong khi luồng chính phiên này **làm
-nhiều hơn hẳn**: quét `vacham` rồi lọc theo lô, đọc field thật trong Anki, đồng bộ 20 dòng sang
-`tudien.json`, sửa `SONO.md`/`TIEPTUC.md`, cộng hai lần bị classifier chặn.
-⇒ **Điều kiện "luồng chính phải IM TUYỆT ĐỐI" KHÔNG đắt như tài liệu vẫn doạ.** Cái đắt là **số
-lượt chat** (mỗi lượt gửi lại cả hội thoại), không phải việc luồng chính làm trong MỘT lượt. Gộp
-nhiều phép đo vào một lượt thì gần như miễn phí. **Đừng lấy "sợ tốn" làm lý do bỏ bước đo trước
-khi giao lô** — đó chính là bước đẻ ra giá trị lớn nhất phiên này.
-⚠️ n=2, đủ để hạ 1,5 → 1,4 và nới trần, **chưa đủ để hạ tiếp**. Điểm đo sau vẫn phải ghi.
+🔴 **LUỒNG CHÍNH LÀM NHIỀU TRONG MỘT LƯỢT thì KHÔNG đắt** — hai phiên cùng 47 từ chứng minh:
+phiên "sạch" 03/08 ăn **70%**, phiên 04/08 đợt 2 luồng chính làm nhiều hơn hẳn mà chỉ **65%**.
+Cái đắt là **số LƯỢT chat**, không phải việc làm trong một lượt. ⇒ **Đừng lấy "sợ tốn" làm lý do
+bỏ bước đo trước khi giao lô**; cứ gộp hết phép đo vào một lượt.
 
 | Loại phiên | Từ chạy được | Ăn hết |
 |---|---|---|
@@ -228,20 +222,29 @@ khi giao lô** — đó chính là bước đẻ ra giá trị lớn nhất phi�
 | Đo thật 04/08 đợt 2 (luồng chính làm nhiều) | 47 từ / 3 lô | **65%** — 1,38%/từ |
 | Đo thật 05/08 đợt 2 | 55 từ / 3 lô | **77%** — 1,40%/từ |
 | 🆕 Đo thật 07/08 (phiên sạch, **4 LÔ**) | 71 từ / 4 lô | **81%** — **1,14%/từ** |
+| 🆕 Đo thật 08/08 (phiên sạch, 4 lô, **lời nhắn dài gấp đôi**) | 57 từ / 4 lô | **95%** — **1,67%/từ** |
 
-🔴🔴 **PHIÊN 4 LÔ LẬT MÔ HÌNH "NHÂN THEO TỪ".** Ba điểm đo 3 lô nằm gọn quanh 1,4%/từ nên trước
-đây tưởng chi phí tỉ lệ thẳng với số từ; điểm 07/08 dự đoán **99%** mà thực tế chỉ **81%**. Lý do
-nhìn thấy được: token của bốn agent phiên này là **108K · 117K · 128K · 140K** cho **11 · 18 · 21 ·
-21 từ** ⇒ mỗi lô có phần **CỐ ĐỊNH ~110K** và chỉ **~1,6K/từ** cộng thêm. **Số TỪ gần như không
-quyết định giá; số LÔ mới quyết định.** ⇒ Lô nhỏ đắt kinh khủng tính trên mỗi từ (k44: 11 từ mà
-vẫn gần bằng lô 21 từ), và **thêm từ vào một lô đã mở thì gần như miễn phí**.
-⚠️ n=1 cho cỡ 4 lô, và user tự nhắc *"con số chỉ mang tính tương đối"*. **Đừng hạ 1,4 xuống 1,15
-để ép thêm lô** — cứ ghi điểm đo mới, tự nhìn quota đầu/cuối phiên mà điền.
+🔴🔴 **KHÔNG PHẢI SỐ TỪ, CŨNG KHÔNG PHẢI SỐ LÔ — LÀ ĐỘ DÀI LỜI NHẮN.** Hai phiên 4 lô liền
+nhau, cùng phiên sạch, mà lệch nhau rất xa: 07/08 chạy **71 từ hết 81%**, 08/08 chạy **57 từ hết
+95%**. Ít từ hơn 20% mà đắt hơn 17% ⇒ **cả hai mô hình cũ đều chết**. Thứ đo được thì khớp: token
+bốn agent là **493K** (07/08) so với **558K** (08/08), tức **6 944 → 9 785 token/từ, +41%**.
+Biến duy nhất tôi cố ý đổi giữa hai phiên là **lời nhắn giao lô dài gấp đôi khuôn** và đặt hàng
+thêm việc (đọc field thật cả họ từ, quét lại `vacham` sau khi viết `V`, lọc ba badge).
+⇒ **Giá đi theo LƯỢNG VIỆC MÌNH ĐẶT HÀNG, không theo số từ.** Lời nhắn là cái van duy nhất, và
+nó nằm trong tay luồng chính.
+⚖️ **Đắt hơn nhưng KHÔNG phải lãng phí** — lỗi tự bắt cũng lên theo: **0,51 lỗi/từ** (29/57) so
+với **0,32** (23/71) phiên trước, và agent bác được **2 lời khai sai của luồng chính**. Đây là
+đánh đổi thật, **user chốt**, đừng tự ý cắt lời nhắn cho rẻ mà không nói.
 
-⇒ **Mốc "≈55 từ" user chốt 02/08 SỐNG SÓT hai phép đo, và nay nới được lên ~58.** Trước khi giao
-việc thì cộng số từ của các lô định chạy: quá 58 thì bớt một lô; **biết trước sẽ có việc sửa hoặc
-nhiều lượt chat qua lại thì hạ về ~45**. Điều kiện đi kèm nay chỉ còn MỘT: **ít lượt chat** — giao
-hết lô trong một tin nhắn. Việc luồng chính ĐO trước khi giao thì cứ làm, nó rẻ (xem điểm đo thứ hai).
+⇒ **Cỡ phiên nay phải chốt cùng lúc với ĐỘ DÀI LỜI NHẮN, không chốt riêng.** Lời nhắn đầy đủ
+(như 08/08) ⇒ **~45 từ / 3 lô**. Lời nhắn theo đúng khuôn ⇒ **~58 từ / 4 lô** vẫn lọt.
+Điều kiện đi kèm không đổi: **giao hết lô trong MỘT tin nhắn**.
+
+🔴 **ĐUÔI PHIÊN LÀ CHỖ ĐẮT NHẤT, ĐỪNG ĐỂ CỬA SOÁT DẠY MÌNH TỪNG CÁI MỘT.** Mỗi lượt chat gửi lại
+cả hội thoại, nên lượt cuối phiên đắt gấp nhiều lần lượt đầu. 08/08 tôi sửa tài liệu rồi ăn **ba
+lần đỏ liên tiếp** (S19 → S10 → trần dòng `SONO.md`), mỗi lần một vòng round-trip ở chỗ hội thoại
+to nhất. ⇒ **Trước khi sửa `TIEPTUC.md`/`VIECDANGLAM.md`/`SONO.md`, ĐO trần trước** (`len()` file
+so `soat_nguong.json`, đếm dòng phiếu việc) rồi sửa **một lượt**.
 📌 **"Mặc định 3 lô" (user chốt 02/08) nay là SÀN chứ không phải trần** — 07/08 chạy **4 lô / 71 từ
 hết 81%**, còn dư chỗ nạp + commit + đóng phiên. Lời giải thích cũ (*"4 lô k22–k25 vượt vì
 68 ×1,4% = 95%"*) đã **chết**: cùng cỡ đó phiên 07/08 chỉ ăn 81%, nên cái làm k22–k25 vượt là
