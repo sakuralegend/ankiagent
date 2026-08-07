@@ -1576,10 +1576,11 @@
     "пересадка",
     "остановка"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k49_places-city.py",
    "thucong": "SOAN MOI HOAN TOAN. Noi dung cu tren the coi nhu KHONG CO - dung mo file lo cu ra xem, vua dat vua keo van phong dai tro lai. Chuan: README muc 2 (1 man hinh iPhone, toi da 2 o do) + muc 2c (field Vietnamese chi co 1 dap an dung). BAT BUOC: tu nao `tiep` in khoi BAT THUONG thi phai co MOT CAU chu y tren bang chia.",
-   "soanlai": true
+   "soanlai": true,
+   "daNap": true
   },
   {
    "id": "k50",
