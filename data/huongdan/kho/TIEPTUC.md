@@ -13,6 +13,35 @@ Bạn (user) chỉ cần gõ một câu: **"chạy tiếp kho"**. Phần dưới
 > 🔄 **02/08: `nap --apply` và `cao_nguphap` nay TỰ kéo sync về trước khi đọc/ghi** (QD-16). Sync
 > hỏng thì chúng DỪNG, không ghi gì — đúng cái đã làm hỏng 23 thẻ đêm 31/07. Không phải nhớ gì thêm.
 
+### ✅ PHIÊN 08/08 đợt 2: k50(20) · k61(19) · k56(19) · k57(19) = **77 từ / 4 LÔ** — kế tiếp **k58, LÔ CUỐI**
+
+Cả bốn: `QUA 1 MAN HINH: 0` · `QUA 2 O DO: 0` · khối chung **0%** · `nap` khớp tuyệt đối
+20/20, 19/19, 19/19, 19/19. Rà ngược bắt **27 lỗi nội dung**, bác từ điển **25 lần**.
+
+🔴🔴 **ĐIỂM ĐO LẬT DÒNG "GIÁ ĐI THEO ĐỘ DÀI LỜI NHẮN".** Token bốn agent, ba phiên 4 lô liên
+tiếp: **493K** (71 từ) · **558K** (57 từ) · **568K** (77 từ). Số từ chạy từ 57 lên 77 mà token
+**gần như đứng yên** ⇒ biến chính là **SỐ LÔ**; trong vùng 57–77 từ, thêm từ gần như **miễn
+phí**. Lời nhắn phiên này dài hơn 08/08 đợt 1 (thêm bảng đo cả họ từ) mà mỗi từ vẫn rẻ hơn 25%.
+⇒ **Cỡ lô chọn theo CHẤT LƯỢNG, không theo chi phí** — trùng kết luận mục 📏 CỠ LÔ từ phía khác.
+
+🔴🔴 **LUỒNG CHÍNH KHAI SAI LẦN THỨ TƯ, và lần này CẢ BỐN agent đều bác được ít nhất một chỗ.**
+Nặng nhất: tôi khai ba khuôn viết danh từ dân tộc giống cái nằm ở ba lô khác nhau; đo field
+thật thì **cả ba nằm trong MỘT lô k56** — tôi suy rộng từ hai từ mà không đọc hết họ. Cũng khai
+ngược thứ tự hai vế của tính từ ngôn ngữ (8/9 thẻ mở bằng "thuộc về nước X"), và kết luận sai
+`станция`↔`вокзал` là kêu oan: **`do_va_cham` so TỪNG CỤM chứ không so cả dòng, nên badge giống
+khác nhau KHÔNG cứu được gì ở tầng đó.** 🔴 Lọc va chạm bằng badge chỉ đúng ở tầng "hai từ có
+phải một cặp không", không đúng ở tầng "cụm này có trùng không".
+
+🆕 **BẢNG CHIA MÁY KHÔNG CHỈ THIẾU NHÃN — NÓ HỎNG HẲN ĐƯỢC.** `щепка` sai 5/6 ô số ít (nom/acc
+in dạng cách 2 số nhiều, inst in đuôi giống ĐỰC, gen số nhiều bịa hẳn); `отрицательный` mất chữ
+cuối của dạng ngắn giống cái. Nhãn `BAT THUONG` chỉ là **hệ quả** của rác đó — thêm một điểm đo
+cho "`BAT THUONG` là ứng viên, không phải phán quyết".
+
+📊 **Gỡ va chạm bằng RÚT GỌN — xác nhận lần ba, mạnh nhất:** k61 bỏ 9 nghĩa nới rộng (đều là
+nghĩa vốn của từ khác) làm cụm trùng dính lô tụt **10 → 5**, không thêm một chữ nào. Cùng khuôn
+ở k57: nguồn hay dịch **cụm** rồi gán cho **từ** (`сожаление` ← `к сожалению`, `точка` ←
+`точка зрения`, `особенность` ← trạng từ `особенно`).
+
 ### ✅ PHIÊN 08/08: k12(17) · k15(7) · k16(14) · k49(19) = **57 từ / 4 LÔ, hết 95%** — kế tiếp **k50**
 
 Cả bốn: `QUA 1 MAN HINH: 0` · `QUA 2 O DO: 0` · khối chung **0%** · `nap` khớp tuyệt đối
@@ -34,11 +63,6 @@ va chạm.
 bài tách sạch ⇒ để yên, đúng §2c (*"hai từ trùng một nghĩa là bình thường"*). Khác hẳn `ты`/`вы`
 nơi **cả dòng** lẫn nhau. Phép thử là **cả dòng đề bài**, không phải từng token.
 
-🆕 **HỌ TỪ BỊ CHẺ ĐÔI GIỮA HAI LÔ CHẠY SONG SONG là ca đáng đo nhất.** Đại từ nhân xưng nằm ở
-k12 (`она`,`они`) lẫn k16 (phần còn lại); đọc field thật cả họ trước khi giao mới thấy `он` có
-"nó" mà `она` không, `они` chỉ 1 nghĩa trong khi cả họ có 2–4. Hai agent thương lượng qua luồng
-chính rồi tự hội tụ.
-
 📊 **Rà ngược tiếp tục là cửa duy nhất bắt lỗi nội dung: 12+8+5+4 = 29 lỗi tự bắt, agent nào cũng
 khai là chỉ lộ ở vòng đó.** Vệt đậm nhất phiên này là **PHÓNG ĐẠI luật ngữ pháp** (*"sau `ш` luôn
 viết `и`"* — còn `ше/шо/шу`; *"mọi danh từ đuôi `-ка` chạy nguyên âm"* — `рука→рук` thì không).
@@ -53,32 +77,6 @@ tháng ghi bằng **4 kiểu** (`tháng Ba`·`tháng sáu`·`tháng 7`·`tháng 
 🔴 **Hai chỗ MỌI cửa đều báo xanh:** thẻ tự mâu thuẫn với **bảng máy nối vào nó** (`лексика` ghi
 "không dùng số nhiều", bảng ngay dưới in `ле́ксики`); và **dấu huyền U+0300 giả làm dấu trọng âm
 U+0301** (`тяну̀ть за язы̀к`) — `soat` tìm *thiếu* dấu, không kiểm *đúng* dấu.
-
-### ✅ PHIÊN 07/08: k43(18) · k44(11) · k45(21) · k46(21) = **71 từ / 4 LÔ** — kế tiếp **k47**
-
-Cả bốn: `QUA 1 MAN HINH: 0` · `QUA 2 O DO: 0` · khối chung **0%** · `nap` khớp tuyệt đối
-11/11, 18/18, 21/21, 21/21. **Điểm đo tách được phần CỐ ĐỊNH mỗi lô**: user vào phiên
-**100% hạn mức**, được cảnh báo 71 × 1,4% ≈ 99% nên **rất có thể mất trắng lô cuối**, và **vẫn
-chốt 4 lô**. Thực tế chỉ hết **81%** — lời cảnh báo của tôi quá đắt vì nó nhân theo TỪ, trong khi
-giá thật đi theo LÔ (chi tiết ở bảng 📊 CHI PHÍ). ⇒ **Trần ~58 từ là quá dè dặt.**
-
-🔴🔴 **LỜI NHẮN CỦA LUỒNG CHÍNH SAI, AGENT ĐI KIỂM RỒI BÁC — đây là cách duy nhất bắt được.**
-Tôi khai `хорошо` là "từ mồ côi ở lô đã xong"; agent k43 mở `hangdoi.json` thấy nó nằm ngay
-trong k43 và tự sửa. ⇒ **Dòng "tin `tiep` + `hangdoi.json`, đừng tin luồng chính" phải nằm
-trong MỌI lời nhắn** — luồng chính không đọc file lô, là chỗ ít thẩm quyền nhất mà nói to nhất.
-
-🔴 **"NỚI RỘNG" LÔ TRẠNG TỪ = LẤY NGHĨA CỦA TỪ KHÁC.** k43 bác 7 lần, cả 7 cùng một khuôn:
-`плохо` ← "khó khăn" (là `трудно`) · `тихо` ← "chậm" (là `медленно`) · `важно` ← "cần thiết"
-(là `нужно`) · `понятно` ← "rõ ràng" (là `ясно`). ⇒ **Chính cái nới rộng đẻ ra va chạm đề bài**;
-sửa đề bài cho đúng nghĩa là gỡ luôn va chạm, không phải hai việc.
-
-🔴 **NHÃN MÁY CỦA `tiep` CŨNG SAI ĐƯỢC, không chỉ từ điển.** `tiep` gán `прошедшее` là "NGUYÊN
-ÂM CHẠY" + "đuôi KHÔNG theo mẫu chuẩn" — thật ra `-его/-ему/-им` chỉ là đuôi **tính từ** (phân từ
-đã danh từ hoá). Chép theo nhãn đó là dạy ngược. **Khối `BAT THUONG` là ứng viên, không phải phán quyết.**
-
-📊 **Rà ngược lại chứng minh giá trị: 6+6+6+5 = 23 lỗi nội dung tự bắt, và cả bốn agent đều khai
-là chỉ lộ ra ở vòng rà ngược.** Lô 21 từ vẫn bắt được 6 — **trần cỡ lô chưa cần hạ**.
-
 
 ### 📕 BÀI HỌC CÒN SỐNG — khối có TRẦN (S21, QD-33)
 
@@ -219,18 +217,16 @@ bỏ bước đo trước khi giao lô**; cứ gộp hết phép đo vào một 
 | Đo thật 05/08 đợt 2 | 55 từ / 3 lô | **77%** — 1,40%/từ |
 | 🆕 Đo thật 07/08 (phiên sạch, **4 LÔ**) | 71 từ / 4 lô | **81%** — **1,14%/từ** |
 | 🆕 Đo thật 08/08 (phiên sạch, 4 lô, **lời nhắn dài gấp đôi**) | 57 từ / 4 lô | **95%** — **1,67%/từ** |
+| 🆕 Đo thật 08/08 đợt 2 (phiên sạch, 4 lô, lời nhắn dài + bảng đo cả họ từ) | 77 từ / 4 lô | *(chờ user đọc quota)* — token 568K |
 
-🔴🔴 **KHÔNG PHẢI SỐ TỪ, CŨNG KHÔNG PHẢI SỐ LÔ — LÀ ĐỘ DÀI LỜI NHẮN.** Hai phiên 4 lô liền
-nhau, cùng phiên sạch, mà lệch nhau rất xa: 07/08 chạy **71 từ hết 81%**, 08/08 chạy **57 từ hết
-95%**. Ít từ hơn 20% mà đắt hơn 17% ⇒ **cả hai mô hình cũ đều chết**. Thứ đo được thì khớp: token
-bốn agent là **493K** (07/08) so với **558K** (08/08), tức **6 944 → 9 785 token/từ, +41%**.
-Biến duy nhất tôi cố ý đổi giữa hai phiên là **lời nhắn giao lô dài gấp đôi khuôn** và đặt hàng
-thêm việc (đọc field thật cả họ từ, quét lại `vacham` sau khi viết `V`, lọc ba badge).
-⇒ **Giá đi theo LƯỢNG VIỆC MÌNH ĐẶT HÀNG, không theo số từ.** Lời nhắn là cái van duy nhất, và
-nó nằm trong tay luồng chính.
-⚖️ **Đắt hơn nhưng KHÔNG phải lãng phí** — lỗi tự bắt cũng lên theo: **0,51 lỗi/từ** (29/57) so
-với **0,32** (23/71) phiên trước, và agent bác được **2 lời khai sai của luồng chính**. Đây là
-đánh đổi thật, **user chốt**, đừng tự ý cắt lời nhắn cho rẻ mà không nói.
+🔴🔴 **BIẾN CHÍNH LÀ SỐ LÔ, KHÔNG PHẢI SỐ TỪ** (chốt lại 08/08 đợt 2, sau khi đo ba phiên 4 lô
+liên tiếp). Token bốn agent: **493K**/71 từ · **558K**/57 từ · **568K**/77 từ — số từ chạy 35%
+mà token đứng yên trong 2%. Dòng cũ *"giá đi theo ĐỘ DÀI LỜI NHẮN"* (viết 08/08 đợt 1, chỉ có
+hai điểm đo) **đã chết**: phiên đợt 2 lời nhắn còn dài hơn mà mỗi từ rẻ hơn 25%. Điểm 558K vẫn
+chưa có lời giải riêng — nhiều khả năng là chuyện của phiên ấy, không phải của mô hình.
+⚖️ **Lời nhắn dài KHÔNG phải lãng phí** — lỗi tự bắt đi lên theo: 0,51 lỗi/từ (29/57) · 0,35
+(27/77) so với 0,32 (23/71) khi lời nhắn ngắn, và ba phiên liền agent đều bác được lời khai sai
+của luồng chính. Đây là đánh đổi thật, **user chốt**, đừng tự ý cắt lời nhắn cho rẻ mà không nói.
 
 ⇒ 🔴 **USER CHỐT 08/08 sau khi nghe đủ đánh đổi: GIỮ CẢ HAI — 4 lô + lời nhắn dài, chấp nhận
 ~95%.** Tôi khuyến nghị hạ 3 lô, user bác; **đừng đề xuất lại** trừ khi có điểm đo mới. Cỡ phiên
@@ -313,12 +309,13 @@ lấy từ topic (`topic.replace('::','-')`), nên topic cũ `gop:concepts::misc
 bước `Write` mà không hiểu vì sao. Đã đổi thành `concepts::misc`. **Đặt tên topic mới thì chỉ
 dùng chữ, số và `::`.**
 
-✅ **Đã chứng minh: trần 12 KB giữ được bằng lời dặn, kể cả với lô 19–20 từ.** Hai lô này to
-hơn thường lệ và chủ đề rất đồng nhất — đúng điều kiện làm **k04 vỡ trần**. Chỉ cần thêm hai
-dòng vào lời nhắn agent là đủ chặn: **trần 12 KB là cứng** (`congcu.py dodai` để tự kiểm) và
-**tối đa 2 khối dùng chung / thẻ**. Kết quả: k49 trung bình 4 657 (đỉnh 6 569), k50 trung bình
-5 896 (đỉnh 6 832), **0 thẻ quá trần** ở cả hai. ⇒ Giữ hai dòng này trong MỌI lời nhắn về sau;
-k04 phình là do thiếu lời dặn, không phải do lô to.
+✅ **Đã chứng minh: trần độ cao giữ được bằng lời dặn, kể cả với lô 19–21 từ chủ đề đồng nhất**
+— đúng điều kiện làm **k04 vỡ trần**. Hai dòng đủ chặn, giữ trong MỌI lời nhắn: **trần 700px là
+cứng** (`congcu.py dodai` tự kiểm) và **tối đa 2 khối dùng chung / thẻ**. k04 phình là do thiếu
+lời dặn, không phải do lô to.
+🔴 **ĐỪNG viết "trần 12 KB" vào lời nhắn** (dòng cũ ở đây ghi thế, agent k61 đo rồi bác 08/08):
+`dodai` in byte kèm chữ **`(tham khao)`** và **không có cửa 12 KB nào**; README §2 nói thẳng
+*"byte là đại lượng sai"*. Hai cửa thật là **700px** và **2 ô đỏ**.
 
 **Bài học chung — bổ sung từ mới thì phải chạm HAI file.** `hangdoi.json` quyết định lô nào
 được soạn, nhưng `congcu.py tiep` lấy nghĩa/trọng âm từ `tudien.json`. Thêm vào một file mà
