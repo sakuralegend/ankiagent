@@ -17,9 +17,9 @@ Bạn (user) chỉ cần gõ một câu: **"chạy tiếp kho"**. Phần dưới
 
 Cả bốn: `QUA 1 MAN HINH: 0` · `QUA 2 O DO: 0` · khối chung **0%** · `nap` khớp tuyệt đối
 11/11, 18/18, 21/21, 21/21. **Điểm đo tách được phần CỐ ĐỊNH mỗi lô**: user vào phiên
-**100% hạn mức**, được cảnh báo 71 × 1,4% ≈ 99% và **vẫn chốt 4 lô** — chạy lọt cả bốn, kể cả
-nạp + commit + đóng phiên. ⇒ **Trần ~58 từ là quá dè dặt; 4 lô / 71 từ có thật.** n=1, và đây
-là phiên luồng chính đo nhiều (quét `vacham` + đọc field thật) mà vẫn lọt.
+**100% hạn mức**, được cảnh báo 71 × 1,4% ≈ 99% nên **rất có thể mất trắng lô cuối**, và **vẫn
+chốt 4 lô**. Thực tế chỉ hết **81%** — lời cảnh báo của tôi quá đắt vì nó nhân theo TỪ, trong khi
+giá thật đi theo LÔ (chi tiết ở bảng 📊 CHI PHÍ). ⇒ **Trần ~58 từ là quá dè dặt.**
 
 🔴🔴 **LỜI NHẮN CỦA LUỒNG CHÍNH SAI, AGENT ĐI KIỂM RỒI BÁC — đây là cách duy nhất bắt được.**
 Tôi khai `хорошо` là "từ mồ côi ở lô đã xong"; agent k43 mở `hangdoi.json` thấy nó nằm ngay
@@ -220,9 +220,11 @@ hai thước đo song song chỉ khiến chúng đá nhau. Ước lượng bằn
 động tới**, luồng chính im, giao hết lô ngay tin nhắn đầu. Kết quả user tự kiểm sau khi xong:
 **3 lô / 47 từ (16·16·15) = hết 70% hạn mức.**
 
-> ### 🔴 **1 TỪ ≈ 1,4% HẠN MỨC.** Ước lượng phiên bằng con số này, đừng quy qua token.
+> ### 🔴 **1 TỪ ≈ 1,15–1,5% HẠN MỨC — ƯỚC LƯỢNG BẰNG 1,4 CHO AN TOÀN.** Đừng quy qua token.
 
-Đây là số **dùng thẳng được**: user nhìn quota còn bao nhiêu %, chia 1,4 ra số từ chạy được.
+User nhìn quota còn bao nhiêu %, chia 1,4 ra số từ. 🔴 **Đây là ước lượng THẬN TRỌNG, không phải
+hằng số**: bốn phép đo thật rải từ 1,14 tới 1,49%/từ, và phiên càng to thì mỗi từ càng RẺ (xem
+dòng 07/08). Ước bằng 1,4 rồi thừa quota là chuyện tốt; ước sát rồi hết giữa lô là mất trắng lô đó.
 
 🔴🔴 **ĐIỂM ĐO THỨ HAI (04/08 đợt 2) LẬT MỘT GIẢ ĐỊNH — cùng 47 từ, mà phiên BẨN lại RẺ HƠN phiên
 sạch.** Hai điểm đo cùng cỡ 47 từ, tức so sánh có đối chứng thật: phiên "sạch" 03/08 ăn **70%**
@@ -239,30 +241,37 @@ khi giao lô** — đó chính là bước đẻ ra giá trị lớn nhất phi�
 |---|---|---|
 | **Bình thường** (luồng chính có đo có sửa, gộp trong ít lượt chat) | **~58 từ** | ~82%, chừa 18% đóng phiên |
 | **Có sửa lỗi giữa chừng / nhiều lượt chat qua lại** | **~45–50 từ** | ~70% |
-| Đo thật 03/08 (phiên "sạch") | 47 từ / 3 lô | **70%** |
-| Đo thật 04/08 đợt 2 (luồng chính làm nhiều) | 47 từ / 3 lô | **65%** |
-Phần CỐ ĐỊNH mỗi lô vẫn chưa tách được khỏi phần tính theo từ — cả ba điểm đo đều 3 lô.
-Phiên nào tình cờ chạy **số lô khác 3** thì ghi lại, đó là lúc tách được; **đừng bắt user
-canh số hộ**, tự nhìn quota đầu/cuối phiên mà điền.
+| Đo thật 03/08 (phiên "sạch") | 47 từ / 3 lô | **70%** — 1,49%/từ |
+| Đo thật 04/08 đợt 2 (luồng chính làm nhiều) | 47 từ / 3 lô | **65%** — 1,38%/từ |
+| Đo thật 05/08 đợt 2 | 55 từ / 3 lô | **77%** — 1,40%/từ |
+| 🆕 Đo thật 07/08 (phiên sạch, **4 LÔ**) | 71 từ / 4 lô | **81%** — **1,14%/từ** |
+
+🔴🔴 **PHIÊN 4 LÔ LẬT MÔ HÌNH "NHÂN THEO TỪ".** Ba điểm đo 3 lô nằm gọn quanh 1,4%/từ nên trước
+đây tưởng chi phí tỉ lệ thẳng với số từ; điểm 07/08 dự đoán **99%** mà thực tế chỉ **81%**. Lý do
+nhìn thấy được: token của bốn agent phiên này là **108K · 117K · 128K · 140K** cho **11 · 18 · 21 ·
+21 từ** ⇒ mỗi lô có phần **CỐ ĐỊNH ~110K** và chỉ **~1,6K/từ** cộng thêm. **Số TỪ gần như không
+quyết định giá; số LÔ mới quyết định.** ⇒ Lô nhỏ đắt kinh khủng tính trên mỗi từ (k44: 11 từ mà
+vẫn gần bằng lô 21 từ), và **thêm từ vào một lô đã mở thì gần như miễn phí**.
+⚠️ n=1 cho cỡ 4 lô, và user tự nhắc *"con số chỉ mang tính tương đối"*. **Đừng hạ 1,4 xuống 1,15
+để ép thêm lô** — cứ ghi điểm đo mới, tự nhìn quota đầu/cuối phiên mà điền.
 
 ⇒ **Mốc "≈55 từ" user chốt 02/08 SỐNG SÓT hai phép đo, và nay nới được lên ~58.** Trước khi giao
 việc thì cộng số từ của các lô định chạy: quá 58 thì bớt một lô; **biết trước sẽ có việc sửa hoặc
 nhiều lượt chat qua lại thì hạ về ~45**. Điều kiện đi kèm nay chỉ còn MỘT: **ít lượt chat** — giao
 hết lô trong một tin nhắn. Việc luồng chính ĐO trước khi giao thì cứ làm, nó rẻ (xem điểm đo thứ hai).
-📌 **Mặc định 3 lô (user chốt 02/08) là ĐÚNG** — 3 lô cỡ 16 từ ăn 65–70%, còn 4 lô từng chạy thử
-thật (k22–k25, 68 từ) thì vượt, nay giải thích được: 68 ×1,4% = **95%**, không chừa chỗ đóng phiên.
+📌 **"Mặc định 3 lô" (user chốt 02/08) nay là SÀN chứ không phải trần** — 07/08 chạy **4 lô / 71 từ
+hết 81%**, còn dư chỗ nạp + commit + đóng phiên. Lời giải thích cũ (*"4 lô k22–k25 vượt vì
+68 ×1,4% = 95%"*) đã **chết**: cùng cỡ đó phiên 07/08 chỉ ăn 81%, nên cái làm k22–k25 vượt là
+chuyện khác của phiên ấy chứ không phải số lô.
 
-🎯 **Cách chọn lô của phiên này đáng giữ**: user muốn ưu tiên thẻ **đang học**, nên luồng chính
-đối chiếu deck thật với hàng đợi trước khi giao việc (đếm `deck:RUSSIAN::1-go` rơi vào lô nào).
-Ra: `1-go` = k51(5) · k52(**14**) · k53(9) · k54(8) · k55(7) · k47(1) · 26 thẻ đã `dat`.
-⇒ **Chạy k54 + k55 là hết sạch phần `1-go`.** Đừng chọn lô bằng thứ tự số khi user nêu ưu tiên
-theo deck.
+🎯 **User nêu ưu tiên theo DECK thì đừng chọn lô bằng thứ tự số** — đếm `deck:RUSSIAN::1-go` rơi
+vào lô nào rồi giao đúng lô đó. (Bảng đếm cụ thể của 02/08 đã chết: k54/k55 đều `xong` từ lâu.)
 
 📝 **Đừng đoán nội dung lô từ tên topic.** Lời nhắn giao k52 mô tả "hư từ, đại từ, tiểu từ" (suy
 từ `language-grammar`) trong khi lô thật gần như toàn **danh từ cụ thể**, trục là luật chính tả
 `ъ` / ЧА ЩА. Agent soạn theo `tiep` — đúng. Muốn nhắc trục thì đọc `tiep` trước, hoặc đừng nhắc.
 
-### 🗂️ Ba luật sống sót từ hai lần quy hoạch 28/07 (phần còn lại đã bị mục 29/07 đè, đã cắt 02/08)
+### 🗂️ Ba luật sống sót từ hai lần quy hoạch 28/07
 
 ⚠️ **Thứ tự chạy ≠ thứ tự số hiệu**: `tiep` lấy lô `cho` **đầu danh sách**. Đừng sắp xếp lại.
 ✅ **Thẻ trong Anki KHÔNG bị xoá** — user vẫn học bằng nội dung hiện có, từng lô thay khi tới lượt.
@@ -293,9 +302,9 @@ vào hai lý do mà nay **chỉ còn một**:
 | Chia đều 65K cố định mỗi lô | ✅ Còn |
 | *"Các từ cùng họ thì một khối dùng chung mới gánh được nhiều thẻ"* | ❌ **Chết rồi** — chuẩn v3 cấm khối dùng chung, cả 5 lô 29/07 đo ra **`khoi dung chung: 0%`** |
 
-Và đường chi phí **không có điểm gãy nào** để mà chọn 20: nó là hyperbol trơn, cứ to lên là rẻ
-đi đều đều (7 từ = 12,0K/từ · 14 = 7,3 · 20 = 5,9 · 30 = 4,8). Nếu chỉ nhìn token thì lô **40 từ**
-mới đáng. ⇒ **Cỡ lô phải do phía CHẤT LƯỢNG quyết định, không phải phía chi phí.**
+Và đường chi phí **không có điểm gãy nào** để mà chọn 20 — nó là hyperbol trơn, cứ to lên là rẻ
+đi đều đều (đo lại 07/08: mỗi lô ~110K cố định + ~1,6K/từ). Nhìn riêng chi phí thì lô **40 từ** mới
+đáng. ⇒ **Cỡ lô phải do phía CHẤT LƯỢNG quyết định, không phải phía chi phí.**
 
 🔴 **Dấu hiệu 29/07 (n=5, chưa đủ chắc): lỗi tự bắt tụt về 0 ở lô 19–21 từ.**
 `k13` 4 từ bắt **3** lỗi · `k53` 14 từ bắt **1** · `k51`/`k52`/`k54` (19–21 từ) bắt **0**.
@@ -306,8 +315,8 @@ lô 20 từ đẻ ra **62–87 hình thái** phải soi bằng mắt (3–4,6 l�
 Và **đừng dựng "agent soát riêng"**: lô 22 từ + agent rà lại ≈ **7,9K/từ**, đắt hơn lô 14 từ tự
 soát (**7,3K/từ**) mà chưa chắc tốt hơn — người viết biết chỗ mình lăn tăn, người rà phải dựng lại.
 
-📓 **Đang đo tiếp ở `dolo.tsv`** — mỗi lô một dòng, sau ~52 lô là đủ điểm để biết đường cong
-lỗi/từ có thật dốc theo cỡ lô hay chỉ là nhiễu của một phiên. Không tốn thêm token nào.
+📓 **`dolo.tsv` đã đủ điểm (53 lô, 07/08)** — ai muốn biết đường cong lỗi/từ có thật dốc theo cỡ
+lô hay chỉ là nhiễu thì đọc thẳng bảng đó, đừng đoán.
 
 📌 **Lô nhỏ là GIÁ ĐÃ CHẤP NHẬN, không phải sơ suất.** `chialai.py` đã bỏ hẳn cơ chế gộp topic
 khác nhau, nên `k15 concepts::misc` chỉ có **7 từ**, `k18` có **8**, `k42 qualities::colors` có
@@ -411,9 +420,6 @@ Khuôn lời nhắn giao cho agent phụ (đổi `kNN` và phần chủ đề):
 🔴 **MỖI PHIÊN 3 LÔ** (chuẩn §2b — user hạ từ 4 xuống 3 ngày 02/08 sau khi 4 lô vẫn vượt hạn mức),
 **VÀ PHIÊN ĐÓ CHỈ ĐƯỢC CHẠY LÔ.**
 
-⚠️ **Con số chi phí sống ở bảng "📊 CHI PHÍ" phía trên, tính bằng % HẠN MỨC** — dòng cũ ở đây in
-lại mô hình token đã bỏ, tự mâu thuẫn với chính bảng đó nên cắt 05/08.
-
 📊 **Hai điều đã đo và còn đúng:** (1) phần cố định mỗi lô **không phụ thuộc số từ**, nên lô to rẻ
 hơn tính trên mỗi từ; (2) mỗi lượt chat của luồng chính **gửi lại toàn bộ hội thoại đã tích**, nên
 chat cuối phiên đắt hơn chat đầu phiên rất nhiều. Phiên rẻ nhất từng đo (1,9%/từ) là phiên **user
@@ -458,8 +464,6 @@ loại dữ liệu khác nhau, Anki gộp được — không phải chọn chi�
 ⚠️ **Thẻ NGẮN không mặc nhiên là thẻ lỗi.** Ảnh chụp 28/07 có 6 thẻ dưới 3 KB đều hợp lệ:
 `пока · пожалуйста · все · не · гиря · адрес` — từ gốc trơn / hư từ, README §2 **cấm bịa cấu
 trúc** cho chúng. **Ngắn vì không chẻ được là đúng, đừng "sửa" cho dày lên.**
-(Ảnh chụp toàn deck 28/07 đã cắt 04/08: deck nay 1039 thẻ chứ không phải 908 nên nó hết dùng
-được làm mốc đối chiếu; số đúng luôn lấy bằng `congcu.py trangthai`.)
 
 ## Khi HẾT các lô còn lại (`congcu.py trangthai` luôn là số đúng)
 
