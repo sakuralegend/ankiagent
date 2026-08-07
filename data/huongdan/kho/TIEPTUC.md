@@ -199,10 +199,6 @@ PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py trangthai
 hai thước đo song song chỉ khiến chúng đá nhau. Ước lượng bằng **% hạn mức**, chấm hết.
 (Số token vẫn dùng được cho **một** việc: so chi phí mỗi từ giữa các CỠ LÔ — xem mục 📏 CỠ LÔ.)
 
-🔴🔴 **ĐIỂM ĐO 03/08 chiều — PHIÊN SẠCH, ĐO BẰNG % HẠN MỨC.** User bắt đầu với **100% quota chưa
-động tới**, luồng chính im, giao hết lô ngay tin nhắn đầu. Kết quả user tự kiểm sau khi xong:
-**3 lô / 47 từ (16·16·15) = hết 70% hạn mức.**
-
 > ### 🔴 **1 TỪ ≈ 1,15–1,5% HẠN MỨC — ƯỚC LƯỢNG BẰNG 1,4 CHO AN TOÀN.** Đừng quy qua token.
 
 User nhìn quota còn bao nhiêu %, chia 1,4 ra số từ. 🔴 **Đây là ước lượng THẬN TRỌNG, không phải
@@ -236,9 +232,11 @@ nó nằm trong tay luồng chính.
 với **0,32** (23/71) phiên trước, và agent bác được **2 lời khai sai của luồng chính**. Đây là
 đánh đổi thật, **user chốt**, đừng tự ý cắt lời nhắn cho rẻ mà không nói.
 
-⇒ **Cỡ phiên nay phải chốt cùng lúc với ĐỘ DÀI LỜI NHẮN, không chốt riêng.** Lời nhắn đầy đủ
-(như 08/08) ⇒ **~45 từ / 3 lô**. Lời nhắn theo đúng khuôn ⇒ **~58 từ / 4 lô** vẫn lọt.
-Điều kiện đi kèm không đổi: **giao hết lô trong MỘT tin nhắn**.
+⇒ 🔴 **USER CHỐT 08/08 sau khi nghe đủ đánh đổi: GIỮ CẢ HAI — 4 lô + lời nhắn dài, chấp nhận
+~95%.** Tôi khuyến nghị hạ 3 lô, user bác; **đừng đề xuất lại** trừ khi có điểm đo mới. Cỡ phiên
+và độ dài lời nhắn là MỘT quyết định, không chốt riêng. Điều kiện: **giao hết lô trong MỘT tin
+nhắn**. ⚠️ 95% không chừa chỗ sửa ⇒ **commit ngay sau mỗi lô** (đã là luật) và **đóng phiên phải
+rẻ**: chỉ còn ~5% cho việc dọn tài liệu, sai một lượt là hết.
 
 🔴 **ĐUÔI PHIÊN LÀ CHỖ ĐẮT NHẤT, ĐỪNG ĐỂ CỬA SOÁT DẠY MÌNH TỪNG CÁI MỘT.** Mỗi lượt chat gửi lại
 cả hội thoại, nên lượt cuối phiên đắt gấp nhiều lần lượt đầu. 08/08 tôi sửa tài liệu rồi ăn **ba
