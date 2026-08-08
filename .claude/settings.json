@@ -1,8 +1,7 @@
 {
   "permissions": {
     "allow": [
-      "Bash(PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py nap)",
-      "PowerShell(git add data/huongdan/kho/k58_nature-plants.py data/huongdan/kho/hangdoi.json data/huongdan/kho/dolo.tsv .claude/settings.json)"
+      "Bash(PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py nap)"
     ]
   },
   "hooks": {
