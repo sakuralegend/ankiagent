@@ -12,7 +12,7 @@
 # ==============================================================================
 import re
 
-from .chu_nga import ACUTE, CASES, GIONG_TT, PASTS, PERSONS, VOWELS
+from .chu_nga import ACUTE, CASES, GIONG_TT, PASTS, PERSONS, VOWELS, acc
 from .hinh_thai import analyze
 
 
@@ -28,6 +28,43 @@ def thieu_dau(form):
             and ACUTE not in t and "ё" not in t.lower())
 
 
+def tach_hai_trong_am(form):
+    """Ô dính LIỀN hai biến thể khác trọng âm -> tách bằng dấu phẩy.
+
+    Một từ Nga có ĐÚNG một trọng âm, nên hai dấu trên cùng một token là chuyện
+    bất khả — nguồn quên dấu phẩy giữa hai biến thể (`мо́дны́` = `мо́дны, модны́`).
+    Đo 08/08 trên cả 1041 thẻ: đúng 3 ô (`мо́дный`·`у́зкий`·`кру́пный`), tất cả đều
+    là dạng ngắn số nhiều.
+
+    Tách chứ KHÔNG bịa: bỏ hết dấu rồi đặt lại từng dấu một, nên hai biến thể in
+    ra đều là chữ vốn đã có trong ô. Không đủ điều kiện (ít hơn 2 dấu) thì trả về
+    nguyên văn.
+    """
+    # 🔴 Chỉ ra tay khi có MỘT TỪ mang 2 dấu. Đếm dấu trên cả ô là sai: ô lành
+    # `ма́мой, ма́мою` cũng có 2 dấu, đụng vào là ghi lại 54 thẻ chẳng để làm gì
+    # (đo 08/08: 17 thẻ đáng đổi, bản đếm-cả-ô báo 71).
+    if not any(t.count(ACUTE) >= 2 for t in re.split(r"[,\s]+", form or "")):
+        return form
+    ra = []
+    for phan in [p.strip() for p in form.split(",")]:
+        if phan.count(ACUTE) < 2:
+            ra.append(phan)
+            continue
+        vi = [i for i, c in enumerate(phan) if c == ACUTE]
+        tran = phan.replace(ACUTE, "")
+        for thu, v in enumerate(vi):
+            # trừ đi số dấu đứng trước để đổi vị trí trên chuỗi đã bỏ dấu
+            cho = v - thu
+            ra.append(tran[:cho] + ACUTE + tran[cho:])
+    # 🔴 BỎ TRÙNG: ô hay có sẵn một biến thể rồi mới dính thêm ô hỏng
+    # (`мо́дны, мо́дны́` -> tách ra là `мо́дны` xuất hiện hai lần).
+    thay = []
+    for x in ra:
+        if x and x not in thay:
+            thay.append(x)
+    return ", ".join(thay)
+
+
 def _o(text, nong=False, nhan_bien_the=False):
     """Một ô bảng. `nhan_bien_the` = ô này là cách 5 số ít, có thể chứa dạng
     `-ою` cần dán nhãn (xem `_nhan_bien_the`).
@@ -39,6 +76,7 @@ def _o(text, nong=False, nhan_bien_the=False):
     ngo = '<span class="gt-ngo">?</span>' if text and thieu_dau(text) else ""
     if not text:
         return f'<td class="{lop}">—</td>'
+    text = tach_hai_trong_am(text)
     return f'<td class="{lop}">{_nhan_bien_the(text) if nhan_bien_the else text}{ngo}</td>'
 
 
@@ -54,14 +92,37 @@ NHAN_COT = {"sg": "ít", "pl": "nhiều",
 # nhắn nghe như đọc thơ. Nhãn ở ĐÂY chứ không sửa dữ liệu: dạng đó CÓ THẬT, chỉ
 # là thiếu chú thích — sửa một chỗ là khỏi cả 139 từ, và từ mới cào về cũng khỏi.
 _OU_RE = re.compile(r"^(.+?),\s*(\S+?[оеё]́?ю)$")
+# Ô chỉ có MỖI dạng `-ою`, không có dạng đời nay đi kèm — nặng hơn hẳn ca có cặp:
+# user không đọc thấy dạng thật, nên học luôn dạng thơ ca làm dạng duy nhất. Đo
+# 08/08 trên 1041 thẻ: 13 ô, toàn số thứ tự (`пе́рвою`·`второ́ю`·`тре́тьею`…) + `ты́сячею`.
+_OU_TRO_TROI_RE = re.compile(r"^(\S+?[оеё]́?)ю$")
+
+
+def _dang_doi_nay(co):
+    """`пе́рвою` -> `пе́рвой`. Đổi đúng chữ cuối `ю`->`й`, không đụng gì khác.
+
+    🔴 Đây KHÔNG phải luật ngữ pháp tự nghĩ ra: đo trên **316 cặp có sẵn** trong
+    chính bộ sưu tập (ô đã in cả hai dạng), luật này đúng **316/316** — ba ca
+    trông như lệch (`зло́ю`·`то́ю`·`чье́ю`) chỉ lệch ở chỗ từ điển bỏ dấu trọng âm
+    cho từ một nguyên âm, nên `acc()` xử nốt.
+    """
+    return acc(co[:-1] + "й")
 
 
 def _nhan_bien_the(text):
-    """`'ма́мой, ма́мою'` -> dạng đời nay + dạng `-ою` có dán nhãn văn chương."""
-    m = _OU_RE.match((text or "").strip())
-    if not m:
-        return text
-    return f'{m.group(1)}<span class="gt-bt">· {m.group(2)} (văn chương)</span>'
+    """`'ма́мой, ма́мою'` -> dạng đời nay + dạng `-ою` có dán nhãn văn chương.
+
+    Ô trơ trọi mỗi dạng `-ою` thì DỰNG LẠI dạng đời nay rồi mới dán nhãn — thiếu
+    vế đó là thẻ dạy dạng thơ ca như thể nó là dạng duy nhất.
+    """
+    t = (text or "").strip()
+    m = _OU_RE.match(t)
+    if m:
+        return f'{m.group(1)}<span class="gt-bt">· {m.group(2)} (văn chương)</span>'
+    m = _OU_TRO_TROI_RE.match(t)
+    if m:
+        return f'{_dang_doi_nay(t)}<span class="gt-bt">· {t} (văn chương)</span>'
+    return text
 
 
 def _bang_cach(ten, du_lieu, nong, tien_to=""):

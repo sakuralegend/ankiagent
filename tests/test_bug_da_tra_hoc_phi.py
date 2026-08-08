@@ -486,6 +486,27 @@ class OMayDungRiengKhoiOHuongDan(unittest.TestCase):
         self.assertEqual(grammar._nhan_bien_the("сою́зом"), "сою́зом")
         self.assertEqual(grammar._nhan_bien_the("сою́зами"), "сою́зами")
 
+    def test_o_chi_co_moi_dang_ou_thi_dung_lai_dang_doi_nay(self):
+        """13 ô (đo 08/08 trên 1041 thẻ) chỉ in MỖI dạng thơ ca `пе́рвою`, không có
+        `пе́рвой` đi kèm ⇒ thẻ dạy dạng cổ như thể nó là dạng duy nhất."""
+        ra = grammar._nhan_bien_the("пе́рвою")
+        self.assertIn("пе́рвой", ra)
+        self.assertIn("văn chương", ra)
+        # từ MỘT nguyên âm: từ điển in `злой` không dấu, dựng lại phải theo đúng lệ đó
+        self.assertIn("злой", grammar._nhan_bien_the("зло́ю"))
+
+    def test_hai_dau_trong_am_tren_mot_tu_thi_tach_lam_hai_bien_the(self):
+        """BUG NGUỒN: `мо́дны́` là hai biến thể `мо́дны` + `модны́` bị dính liền vì
+        thiếu dấu phẩy. Một từ Nga có ĐÚNG một trọng âm nên đây là ô chắc chắn
+        hỏng — 3 ô như vậy trên 1041 thẻ (`мо́дный`·`у́зкий`·`кру́пный`)."""
+        self.assertEqual(grammar.tach_hai_trong_am("мо́дны́"), "мо́дны, модны́")
+        self.assertEqual(grammar.tach_hai_trong_am("у́зки́"), "у́зки, узки́")
+        # ô THẬT của `мо́дный` có sẵn một biến thể rồi mới dính ô hỏng -> không được đẻ trùng
+        self.assertEqual(grammar.tach_hai_trong_am("мо́дны, мо́дны́"), "мо́дны, модны́")
+        # ô lành thì KHÔNG được đụng vào
+        self.assertEqual(grammar.tach_hai_trong_am("ма́мой, ма́мою"), "ма́мой, ма́мою")
+        self.assertEqual(grammar.tach_hai_trong_am("сто́л"), "сто́л")
+
 
 class DonXongMaAnkiWebChuaNhan(unittest.TestCase):
     """BUG GỐC (06/08/2026, user phát hiện): sáng ra bot báo "đã dọn xong", nhưng

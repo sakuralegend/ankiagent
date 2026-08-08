@@ -42,7 +42,7 @@ from .hinh_thai import (DUOI_DANH_TU, DOI_CHUAN, DUOI_DONG_TU, analyze,        #
                         _soi_danh_tu, _than_dong_tu, _than_tu_nguyen_the,
                         _goc_qua_khu, _soi_dong_tu, _soi_tinh_tu)
 from .bang_chia import (NHAN_COT, NHAN_PHAN_TU, thieu_dau, go_bang, khoi_may,  # noqa: F401
-                        cap_the_html, _nhan_bien_the, build_table,
+                        cap_the_html, _nhan_bien_the, build_table, tach_hai_trong_am,
                         _BANG_RE, _BANG, _o, _bang_cach,
                         _bang_hang, _bang_danh_tu, _o_phan_tu, _bang_phan_tu,
                         _bang_dong_tu, _bang_tinh_tu, _bang_dai_tu, _bang_so_tu)
