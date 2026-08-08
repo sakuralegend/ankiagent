@@ -35,6 +35,7 @@
 
 | Hướng nghe hợp lý | Phán quyết | Vì (số liệu thật) |
 |---|---|---|
+| Sửa field `animate` của nguồn cho đúng (sai ở `ме́неджер`·`о́кунь`·`коза́`·`матрёшка`) | **BÁC** | Bảng chia thôi đọc nó từ QD-35. Chỗ DUY NHẤT còn đọc là bộ đoán giống, theo chiều NGƯỢC — "đồ vật + đuôi -а" mới dám kết luận giống cái ⇒ sửa thành "sinh vật" là bắt nó im ở 2 từ đang trả lời đúng |
 | Dùng `_family()` của OpenRussian để dựng mục "Họ hàng" | **BÁC** | Nó gộp `groups` (cùng gốc) với `relateds` (đồng nghĩa **khác gốc hẳn**) vào một rổ ⇒ dạy sai từ nguyên. Mục Họ hàng do người soạn tự nghĩ, cố ý không có cửa máy |
 | Lọc từ theo tag trình độ A1–C2 của OpenRussian | **BÁC** | `паспорт`, `яблоко`, `сахар` bị gắn **C1**. Dùng **thứ hạng tần suất** thay thế (top 2500 danh từ ≈ A1→B2) |
 | Đối chiếu chéo `nouns.csv` với `grammar_cache.json` để bắt lỗi dữ liệu | **KHÔNG ĐỦ** | Hai file **cùng thượng nguồn OpenRussian** ⇒ trùng nhau không chứng minh đúng. `фон` sai ở **cả hai**. Cửa duy nhất còn lại là người đọc bằng mắt |
