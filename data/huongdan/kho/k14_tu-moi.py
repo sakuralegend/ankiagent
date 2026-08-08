@@ -318,7 +318,7 @@ S["чек"] = (
     '<div class="hd-fam"><b>че́ковый</b> thuộc về séc — <b>че́ковая кни́жка</b> quyển séc '
     '(đúng tiếng Anh <i>checkbook</i>)</div>'
 )
-V["чек"] = "biên lai, tờ giấy máy tính tiền in ra sau khi đã trả tiền"
+V["чек"] = "biên lai, phiếu tính tiền"
 
 # ─────────────────────────────────────────────────────────── штука
 S["штука"] = (

@@ -362,9 +362,9 @@ S["час"] = (
 # V — sửa field Vietnamese (đề bài của deck 1-go): phải chỉ có MỘT đáp án đúng.
 # Không ghi từ loại/giống (mặt thẻ đã có badge), TRỪ từ có PoS = oth.
 V = {
-    'английский': 'thuộc về nước Anh, kiểu Anh',
-    'немецкий': 'thuộc về nước Đức, kiểu Đức',
-    'французский': 'thuộc về nước Pháp, kiểu Pháp',
+    'английский': 'thuộc về nước Anh, tiếng Anh',
+    'немецкий': 'thuộc về nước Đức, tiếng Đức',
+    'французский': 'thuộc về nước Pháp, tiếng Pháp',
     'русский': 'thuộc về nước Nga, người Nga, tiếng Nga',
     'по-русски': 'bằng tiếng Nga, theo kiểu Nga',
     'по-французски': 'bằng tiếng Pháp, theo kiểu Pháp',

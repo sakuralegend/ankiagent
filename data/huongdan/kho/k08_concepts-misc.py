@@ -291,6 +291,6 @@ V['золото'] = 'vàng'
 V['фото'] = 'bức ảnh, tấm hình'
 V['место'] = 'chỗ, nơi, chỗ ngồi, chỗ làm'
 V["пожар"] = "đám cháy, vụ hoả hoạn"                    # đụng ого́нь = ngọn lửa
-V['шар'] = 'khối cầu, quả bóng tròn, bóng bay'
+V['шар'] = 'khối cầu, hình cầu, bóng bay'
 V['билет'] = 'vé, thẻ, phiếu đề thi'
 V['бюст'] = 'tượng bán thân, vòng ngực'
