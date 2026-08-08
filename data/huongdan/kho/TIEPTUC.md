@@ -13,6 +13,25 @@ Bạn (user) chỉ cần gõ một câu: **"chạy tiếp kho"**. Phần dưới
 > 🔄 **02/08: `nap --apply` và `cao_nguphap` nay TỰ kéo sync về trước khi đọc/ghi** (QD-16). Sync
 > hỏng thì chúng DỪNG, không ghi gì — đúng cái đã làm hỏng 23 thẻ đêm 31/07. Không phải nhớ gì thêm.
 
+### ✅ PHIÊN 08/08 đợt 4 — **LÔ TỪ MỚI ĐẦU TIÊN**: k67(12) + k68(12) = 24 từ
+
+`moi --apply` gom 24 từ ⇒ **vượt trần 22**, lệnh không tự chia nên luồng chính chia đôi theo
+**tag chủ đề lấy từ Anki**. Cả hai lô: ba mục soát `(khong co)` · `dodai` **0/0** · `nap` khớp
+tuyệt đối 12/12 và 12/12 · `kiemtra.py` trên **1065 thẻ thật**: `TRONG AM LECH (khong co)`.
+
+🔴🔴 **ĐIỂM ĐO CHỐT LẠI "BIẾN CHÍNH LÀ SỐ LÔ": 2 lô ăn 273K token, đúng ~một nửa của bốn phiên
+4 lô (493K · 558K · 568K).** Mỗi lô ~137K bất kể 12 hay 20 từ ⇒ **lô 12 từ đắt gấp rưỡi mỗi từ**
+so với lô 19 từ. Nhưng **lỗi tự bắt đi ngược lại: 11 lỗi / 24 từ = 0,46 lỗi/từ**, cao hơn hẳn
+0,35 và 0,32 của các phiên lô to. ⇒ Củng cố dấu hiệu 29/07 (*"lỗi tự bắt tụt về 0 ở lô 19–21
+từ"*) — **lô nhỏ đắt hơn nhưng soi kỹ hơn thật**, không phải nhiễu.
+
+🔴🔴 **LUỒNG CHÍNH KHAI SAI LẦN THỨ SÁU — CẢ HAI agent bác được, tổng 7 điểm.** Nặng nhất là một
+**giới hạn của chính cách tôi đo**, không phải lỗi gõ tay: quét họ từ bằng "chứa chuỗi" **mù với
+từ cùng gốc không mang mặt chữ** — tôi khai `животное` không có họ trong bộ sưu tập, thật ra có
+`жить`/`жизнь` (gốc `жив-`). Cùng loạt: khai `скрипка` là từ mượn trơn (thật ra thuần Nga,
+`скрип-` cót két + `-ка`), khai `лежать` va chạm với `стоять` trong khi chỗ va chạm thật là
+`находиться`. **Danh sách tôi giao là SÀN — dặn agent quét lại là thứ đã cứu phiên này.**
+
 ### ✅ PHIÊN 08/08 đợt 3: k58(18) — **LÔ CUỐI. HÀNG ĐỢI HẾT: 66/66 lô · 1041/1041 từ**
 
 `soat` cả ba mục `(khong co)` · `dodai` **0/0** (cao TB 403px, khối chung 0%) · `nap` khớp
@@ -57,32 +76,6 @@ cho "`BAT THUONG` là ứng viên, không phải phán quyết".
 nghĩa vốn của từ khác) làm cụm trùng dính lô tụt **10 → 5**, không thêm một chữ nào. Cùng khuôn
 ở k57: nguồn hay dịch **cụm** rồi gán cho **từ** (`сожаление` ← `к сожалению`, `точка` ←
 `точка зрения`, `особенность` ← trạng từ `особенно`).
-
-### ✅ PHIÊN 08/08: k12(17) · k15(7) · k16(14) · k49(19) = **57 từ / 4 LÔ, hết 95%** — kế tiếp **k50**
-
-Cả bốn: `QUA 1 MAN HINH: 0` · `QUA 2 O DO: 0` · khối chung **0%** · `nap` khớp tuyệt đối
-17/17, 7/7, 14/14, 19/19. Cụm trùng nghĩa toàn bộ sưu tập **173 → 163**.
-
-🔴🔴 **LUỒNG CHÍNH KHAI SAI LẦN THỨ HAI, AGENT ĐO RỒI BÁC — cơ chế này đã bắt được lỗi ba phiên
-liên tiếp.** Lần này tôi lọc va chạm quên `GenderBadge` (báo nhầm `образец`↔`модель` là va chạm)
-và bịa trước rằng `tiep` sẽ gán nhãn `BAT THUONG` sai cho bộ sở hữu (thật ra in **0 khối** cho cả
-14 từ). ⇒ Dòng *"tin `tiep` + `hangdoi.json`, đừng tin luồng chính"* **đang trả tiền đều đặn**.
-
-🔴🔴 **GỠ VA CHẠM BẰNG RÚT GỌN RẺ HƠN BẰNG THÊM CHỮ.** k16 có hai cặp trùng (`ты`/`вы` cùng "bạn",
-`твой`/`ваш` cùng "của bạn"); hoá ra chỉ cần **bỏ "bạn" khỏi phía `вы`/`ваш`** là cả hai cặp hết
-chồng — sửa 2 thẻ thay vì 4. Cùng khuôn ở k49: **cắt nghĩa vốn là của từ khác** (`ехать` bỏ "đi",
-`недалеко` bỏ "gần", `схема` bỏ "mô hình") làm tan luôn ba va chạm mồ côi. ⇒ **Hỏi "nghĩa này có
-thật là của từ này không" TRƯỚC, đừng hỏi "thêm gì để phân biệt"** — nới rộng chính là thứ đẻ ra
-va chạm.
-
-🔴 **TRÙNG MỘT TOKEN KHÔNG PHẢI LÚC NÀO CŨNG PHẢI GỠ.** `он`/`она` cùng có "nó" nhưng cả dòng đề
-bài tách sạch ⇒ để yên, đúng §2c (*"hai từ trùng một nghĩa là bình thường"*). Khác hẳn `ты`/`вы`
-nơi **cả dòng** lẫn nhau. Phép thử là **cả dòng đề bài**, không phải từng token.
-
-📊 **Rà ngược tiếp tục là cửa duy nhất bắt lỗi nội dung: 12+8+5+4 = 29 lỗi tự bắt, agent nào cũng
-khai là chỉ lộ ở vòng đó.** Vệt đậm nhất phiên này là **PHÓNG ĐẠI luật ngữ pháp** (*"sau `ш` luôn
-viết `и`"* — còn `ше/шо/шу`; *"mọi danh từ đuôi `-ка` chạy nguyên âm"* — `рука→рук` thì không).
-Lô hư từ k12 lập kỷ lục **10 lần bác từ điển / 17 từ** — đúng chỗ tài liệu vẫn cảnh báo.
 
 ### 📕 BÀI HỌC CÒN SỐNG — khối có TRẦN (S21, QD-33)
 
@@ -204,6 +197,7 @@ bỏ bước đo trước khi giao lô**; cứ gộp hết phép đo vào một 
 | 🆕 Đo thật 07/08 (phiên sạch, **4 LÔ**) | 71 từ / 4 lô | **81%** — **1,14%/từ** |
 | 🆕 Đo thật 08/08 (phiên sạch, 4 lô, **lời nhắn dài gấp đôi**) | 57 từ / 4 lô | **95%** — **1,67%/từ** |
 | 🆕 Đo thật 08/08 đợt 2 (phiên sạch, 4 lô, lời nhắn dài + bảng đo cả họ từ) | 77 từ / 4 lô | *(chờ user đọc quota)* — token 568K |
+| 🆕 Đo thật 08/08 đợt 4 (lô TỪ MỚI, **2 lô**) | 24 từ / 2 lô | token **273K** — đúng nửa phiên 4 lô |
 
 🔴🔴 **BIẾN CHÍNH LÀ SỐ LÔ, KHÔNG PHẢI SỐ TỪ** (chốt lại 08/08 đợt 2, sau khi đo ba phiên 4 lô
 liên tiếp). Token bốn agent: **493K**/71 từ · **558K**/57 từ · **568K**/77 từ — số từ chạy 35%
@@ -369,6 +363,10 @@ Hai`) mà không lô nào sai cả. 🔴 Và **đọc HẾT họ rồi hãy khai
 khuôn từ 2–3 từ rồi khai sai (dân tộc giống cái 08/08; trạng từ thời gian 08/08 đợt 3 — hàng xóm
 đúng khuôn của `вечером` là `у́тром`, không phải `вчера`). Grep gốc từ phải tính cả **tiền tố**
 (`startswith('ход')` sót `выход`).
+🔴 **Và quét "chứa chuỗi" vẫn MÙ với từ cùng gốc KHÔNG mang mặt chữ** — `животное` không chứa
+`жить`, nên tôi khai nó "không có họ trong bộ sưu tập" trong khi có cả `жить` lẫn `жизнь`
+(gốc `жив-`). ⇒ **Khai với agent là "máy tìm được", đừng khai là "không có"** — vắng trong kết
+quả quét chỉ có nghĩa là máy không thấy.
 
 Khuôn lời nhắn giao cho agent phụ (đổi `kNN` và phần chủ đề):
 
