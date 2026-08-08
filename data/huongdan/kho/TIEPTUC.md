@@ -13,6 +13,22 @@ Bạn (user) chỉ cần gõ một câu: **"chạy tiếp kho"**. Phần dưới
 > 🔄 **02/08: `nap --apply` và `cao_nguphap` nay TỰ kéo sync về trước khi đọc/ghi** (QD-16). Sync
 > hỏng thì chúng DỪNG, không ghi gì — đúng cái đã làm hỏng 23 thẻ đêm 31/07. Không phải nhớ gì thêm.
 
+### ✅ PHIÊN 08/08 đợt 3: k58(18) — **LÔ CUỐI. HÀNG ĐỢI HẾT: 66/66 lô · 1041/1041 từ**
+
+`soat` cả ba mục `(khong co)` · `dodai` **0/0** (cao TB 403px, khối chung 0%) · `nap` khớp
+**18 note / 18 từ**. `kiemtra.py` chạy trên **1041 THẺ THẬT**: `TRONG AM LECH (khong co)`.
+Khối CSS `mn-*` di sản đã xoá — đo trước khi xoá: **0/1041 note** còn dùng (trước là 54).
+
+🔴🔴 **LUỒNG CHÍNH KHAI SAI LẦN THỨ NĂM LIÊN TIẾP, agent đo lại bác được cả hai chỗ.**
+① Khai *"họ `выход` không có trong bộ sưu tập"* — **sai**, vì tôi grep gốc bằng `startswith`
+nên **sót mọi từ có tiền tố**. ② Khai khuôn trạng từ thời gian là *"trần, không có «vào»"*
+(`вчера`/`завтра`) — hàng xóm ĐÚNG khuôn là `у́тром` = "vào buổi sáng", cùng kiểu cách-5-hoá
+trạng từ ⇒ `вечером` giữ nguyên. **Cơ chế này đã trả tiền năm phiên liền, đừng cắt.**
+
+📌 **Từ nay chỉ còn lô TỪ MỚI** — `congcu.py moi --apply` gộp dồn vào MỘT lô, chạy khi đã
+gom đủ (dưới 10 từ thì đắt gấp ~3 lần mỗi từ, nó tự cảnh báo). Mọi mục dưới đây giữ nguyên
+giá trị cho lô đó.
+
 ### ✅ PHIÊN 08/08 đợt 2: k50(20) · k61(19) · k56(19) · k57(19) = **77 từ / 4 LÔ** — kế tiếp **k58, LÔ CUỐI**
 
 Cả bốn: `QUA 1 MAN HINH: 0` · `QUA 2 O DO: 0` · khối chung **0%** · `nap` khớp tuyệt đối
@@ -68,16 +84,6 @@ khai là chỉ lộ ở vòng đó.** Vệt đậm nhất phiên này là **PHÓ
 viết `и`"* — còn `ше/шо/шу`; *"mọi danh từ đuôi `-ка` chạy nguyên âm"* — `рука→рук` thì không).
 Lô hư từ k12 lập kỷ lục **10 lần bác từ điển / 17 từ** — đúng chỗ tài liệu vẫn cảnh báo.
 
-### ✅ PHIÊN 07/08 đợt 2: k47(20) · k09(15) · k10(15) · k11(15) = **65 từ / 4 LÔ** — kế tiếp **k12**
-
-🔴🔴 **CÓ LỖI CHỈ HIỆN KHI NHÌN CẢ HỌ TỪ — agent không thấy được vì chỉ thấy lô mình.** 11 tên
-tháng ghi bằng **4 kiểu** (`tháng Ba`·`tháng sáu`·`tháng 7`·`tháng Mười Hai`), không lô nào sai cả.
-⇒ **Lô có họ đồng nhất (tháng, ngày, màu, mùa, số): đọc field thật CẢ HỌ trước khi giao.**
-
-🔴 **Hai chỗ MỌI cửa đều báo xanh:** thẻ tự mâu thuẫn với **bảng máy nối vào nó** (`лексика` ghi
-"không dùng số nhiều", bảng ngay dưới in `ле́ксики`); và **dấu huyền U+0300 giả làm dấu trọng âm
-U+0301** (`тяну̀ть за язы̀к`) — `soat` tìm *thiếu* dấu, không kiểm *đúng* dấu.
-
 ### 📕 BÀI HỌC CÒN SỐNG — khối có TRẦN (S21, QD-33)
 
 > Nơi hạ cánh của bài học từ những mục `PHIÊN` đã rời sổ. **Khối này ĐẦY nghĩa là đến lúc cho một
@@ -110,10 +116,12 @@ bảng danh từ chỉ vật sống). **Hư từ · trạng từ · động từ
 
 ⚠️ **RÁC TẦNG DỮ LIỆU — giữ CÁCH NHẬN BIẾT, đừng dựng danh sách** (danh sách sẽ cũ đi im lặng).
 Cửa soát máy **không đo phần này**: bảng chia do máy nối vào thẻ lúc ghi, `soat`/`dodai` chỉ đo phần
-agent VIẾT. Bốn dấu hiệu rẻ: ① **thiếu dấu phẩy** giữa hai dạng (`сте́пью сте́ипю`) · ② **ô mất dấu
+agent VIẾT. Sáu dấu hiệu rẻ: ① **thiếu dấu phẩy** giữa hai dạng (`сте́пью сте́ипю`) · ② **ô mất dấu
 trọng âm trong khi ô hàng xóm có đủ** (`тётя` → `те́тей`) · ③ **hai ô đảo chỗ** (`фотограф` đảo cách 3
 số ít ↔ số nhiều) · ④ **đúng dữ liệu nhưng THIẾU NHÃN** (dạng "lối cổ", cách 5 cũ `-ою/-ею` in như
-dạng thường ⇒ thẻ tự mâu thuẫn với chính bảng của nó). Ba ca đã bắt: `шофё́р` · `кеды` · `степь`.
+dạng thường ⇒ thẻ tự mâu thuẫn với chính bảng của nó) · ⑤ **CHỮ agent viết cãi nhau với BẢNG ngay
+dưới nó** (`лексика` ghi "không dùng số nhiều", bảng in `ле́ксики`) · ⑥ **dấu huyền U+0300 giả làm
+dấu trọng âm U+0301** (`тяну̀ть`) — `soat` tìm *thiếu* dấu, **không** kiểm *đúng* dấu.
 🔴 Nguồn còn **gán nhầm cả từ loại** (`спра́ва` trạng từ bị dán bảng danh từ giống cái) và có thể
 **sai BA lần trên cùng một từ** (`быть`: thiếu thời tương lai, badge BI-ASP sai, `motion` vô nghĩa).
 
@@ -122,9 +130,6 @@ soi trọng âm gì cả** — `о деньга́х`, `на связи́` lọt 
 giống cái đuôi `-ь` có **cách vị trí** (второй предложный) — với `в`/`на` chỉ trạng thái thì trọng âm
 nhảy xuống đuôi (`в связи́`, `на печи́`), còn bảng máy nối chỉ in `о свя́зи`. **Hai dạng KHÔNG mâu
 thuẫn**, đừng "sửa" bảng.
-
-⚠️ **Đừng tin báo cáo agent về CẤU TRÚC CÔNG CỤ mà không mở mã ra xem.** Hai agent cùng báo nhầm một
-"lỗ hổng": `<b>` lồng trong `<b>` **KHÔNG** lọt — cửa (a) quét theo độ sâu.
 
 📌 **Va chạm hệ thống nằm NGOÀI tầm quét chuỗi** — bảy số thứ tự đầu trùng đúng từng chữ với tên
 ngày trong tuần mà hai bên **không trùng mặt chữ**. Quét `vacham` chỉ khớp chuỗi ⇒ là **sàn**, không
@@ -140,25 +145,6 @@ toàn (k27: không một khối `CUM CO DINH`/`CACH DUNG` nào) — đừng đ�
 
 ---
 
-## 🔴 QUY HOẠCH LẠI 29/07 — ĐỌC TRƯỚC MỌI THỨ KHÁC, ĐÈ LÊN MỌI MỤC BÊN DƯỚI
-
-User chốt 29/07 sau khi xem bảng trạng thái theo **đời soạn**:
-
-> *"Những từ được như lô vừa làm là đạt chuẩn (phải có hướng dẫn trọng âm nếu đặc biệt…).
-> Những cái còn lại coi như không có, làm lại từ đầu."*
-
-⇒ Lúc đó chỉ `k14`+`k48` được tính là xong, 912 từ còn lại trả về `cho` — kể cả 75 từ từng mang
-nhãn *"đạt chuẩn sẵn"*. (Số tiến độ hiện tại luôn lấy bằng `congcu.py trangthai`, đừng đọc ở đây.)
-
-| Bỏ đi | Vì sao |
-|---|---|
-| Trạng thái **`dat`** | Nhãn gán 28/07 đã hết hạn — 7/75 từ nay vỡ trần sau khi thẻ có thêm bảng chia + badge. Nhóm đó nay là 4 lô thường (`k56`–`k58`, `k61`). |
-| Chế độ **`sua`** | "Làm lại từ đầu" ⇒ mọi lô soạn mới. Vá còn **đắt hơn** soạn mới (+15% với thẻ mỏng) vì agent vẫn phải xuất toàn bộ nội dung, chỉ cộng thêm phần đọc bản cũ. |
-
-⚠️ File `kNN_*.py` cũ còn trên đĩa nhưng lô `cho` thì `nap` không đọc ⇒ **không thể lọt vào thẻ**,
-agent ghi đè khi tới lượt. 🔴 **Đừng mở file cũ ra xem lúc soạn lại** (lời dặn này cũng nằm sẵn
-trong `thucong` của từng lô, nên mọi agent đều thấy).
-
 ### 🔴 LUẬT THỨ TỰ — user chốt 29/07
 
 > *"Cứ đẩy hết vào hàng chờ. Lô từ hàng chờ sẽ đến lượt **sau khi xử lí toàn bộ từ mới của
@@ -167,7 +153,7 @@ trong `thucong` của từng lô, nên mọi agent đều thấy).
 **Mỗi phiên: `congcu.py moi --apply` TRƯỚC, chạy hết lô từ mới, rồi mới lấy lô hàng chờ.**
 `moi` tự chèn lô từ mới vào **đầu** hàng đợi và gộp dồn vào lô từ mới chưa chạy (không đẻ lô
 nhỏ mỗi ngày), nên chỉ cần chạy nó rồi lấy lô đầu danh sách là đúng thứ tự.
-⚠️ Luật này **thay** luật cũ "ưu tiên deck 0-quen → 1-go" ở mục bên dưới.
+⚠️ Luật này **thay** luật cũ "ưu tiên deck 0-quen → 1-go" (đã bỏ hẳn).
 
 📕 **Bộ tiêu chuẩn đầy đủ: `data/huongdan/CHUAN.md`** (chuẩn hiện hành **v3**). Thẻ đã đạt
 mang tag `chuan::3` — `congcu.py nap` tự gắn, `dochuan.py` đo theo dấu đó chứ không đoán.
@@ -182,8 +168,8 @@ từ nào `congcu.py tiep` in khối `BAT THUONG` thì **bắt buộc có MỘT 
 
 | File | Là gì |
 |---|---|
-| `hangdoi.json` | 61 lô + `trangthai: cho\|xong` — **nguồn sự thật duy nhất** |
-| `tudien.json` | ảnh chụp 1043 từ: WordClean, trọng âm, từ loại, gloss Anh. **Không còn cột nghĩa Việt** (QD-27) — nghĩa Việt lấy thẳng từ thẻ Anki |
+| `hangdoi.json` | 66 lô + `trangthai: cho\|xong` — **nguồn sự thật duy nhất** (lô từ mới cộng thêm vào đây) |
+| `tudien.json` | ảnh chụp 1041 từ: WordClean, trọng âm, từ loại, gloss Anh. **Không còn cột nghĩa Việt** (QD-27) — nghĩa Việt lấy thẳng từ thẻ Anki |
 | `kNN_*.py` | nội dung đã soạn, dữ liệu thuần `S = {...}` |
 
 ```bash
@@ -255,7 +241,8 @@ từ `language-grammar`) trong khi lô thật gần như toàn **danh từ cụ 
 
 ⚠️ **Thứ tự chạy ≠ thứ tự số hiệu**: `tiep` lấy lô `cho` **đầu danh sách**. Đừng sắp xếp lại.
 ✅ **Thẻ trong Anki KHÔNG bị xoá** — user vẫn học bằng nội dung hiện có, từng lô thay khi tới lượt.
-💰 **Vá ĐẮT HƠN soạn mới** — chi tiết đã có ở bảng mục 29/07 phía trên, đừng chép lại xuống đây.
+💰 **Vá ĐẮT HƠN soạn mới (+15% với thẻ mỏng)** — agent vẫn phải xuất toàn bộ nội dung, chỉ cộng
+thêm phần đọc bản cũ. Muốn nâng chuẩn một lô cũ thì **soạn lại từ đầu**, đừng dựng chế độ "sửa".
 
 🆕 **Trạng thái `"dat"`**: thẻ đã đạt chuẩn sẵn — **không phải `xong`** (không có file, `nap` bỏ
 qua) và **không phải `cho`** (không ai phải làm gì). Thiếu nó thì bộ đếm `tu:` không bao giờ khớp
@@ -342,6 +329,13 @@ Nó tự: kéo từ Anki mọi note `RU_Word` **chưa có trong hàng đợi** �
   trên 22 từ thì báo phải chia hai.
 - `congcu.py trangthai` **tự nhắc** khi phát hiện từ mới, khỏi phải nhớ chạy lệnh nào.
 
+📕 **Vì sao lô từ mới đáng chạy sớm:** ô Hướng dẫn có giá trị nhất **ở đúng lúc user đang học từ**,
+không phải ở chỗ nào trống nhất. Tôi từng khuyên ưu tiên thẻ rỗng, **user bác và đúng hơn**:
+*"những từ mới, tôi chưa thuộc nên cần hướng dẫn hơn"*.
+
+🔎 **Soát trên THẺ THẬT sau mỗi đợt nạp lớn** (đọc field từ Anki chứ không đọc file lô):
+`python data/huongdan/kiemtra.py`.
+
 ## Mở lô kế tiếp — quy tắc bất di bất dịch
 
 🔴 **MỖI LÔ MỘT AGENT PHỤ, MỘT CONTEXT TRẮNG.** Luồng chính **không soạn chữ nào**.
@@ -368,6 +362,13 @@ tự đẻ va chạm, và máy mù với cặp lệch một chữ (`синий` 
 
 ⚠️ Nhưng nhãn máy **gán không nhất quán trong cùng một họ** (`близко`=adv mà `недалеко`=oth, cùng
 họ trạng từ vị trí) ⇒ badge lệch **bên trong một họ đồng nhất** không đủ để kết luận kêu oan.
+
+🔴 **ĐỌC FIELD THẬT CẢ HỌ TỪ, ĐỪNG ĐỌC MỖI LÔ SẮP GIAO** — agent chỉ thấy lô mình nên **không thể**
+bắt loại lỗi này: 11 tên tháng ghi bằng **4 kiểu** (`tháng Ba`·`tháng sáu`·`tháng 7`·`tháng Mười
+Hai`) mà không lô nào sai cả. 🔴 Và **đọc HẾT họ rồi hãy khai khuôn**: hai lần liên tiếp tôi suy
+khuôn từ 2–3 từ rồi khai sai (dân tộc giống cái 08/08; trạng từ thời gian 08/08 đợt 3 — hàng xóm
+đúng khuôn của `вечером` là `у́тром`, không phải `вчера`). Grep gốc từ phải tính cả **tiền tố**
+(`startswith('ход')` sót `выход`).
 
 Khuôn lời nhắn giao cho agent phụ (đổi `kNN` và phần chủ đề):
 
@@ -465,24 +466,6 @@ loại dữ liệu khác nhau, Anki gộp được — không phải chọn chi�
 ⚠️ **Thẻ NGẮN không mặc nhiên là thẻ lỗi.** Ảnh chụp 28/07 có 6 thẻ dưới 3 KB đều hợp lệ:
 `пока · пожалуйста · все · не · гиря · адрес` — từ gốc trơn / hư từ, README §2 **cấm bịa cấu
 trúc** cho chúng. **Ngắn vì không chẻ được là đúng, đừng "sửa" cho dày lên.**
-
-## Khi HẾT các lô còn lại (`congcu.py trangthai` luôn là số đúng)
-
-```bash
-python data/huongdan/kiemtra.py     # soát lại TRÊN THẺ THẬT, sau khi đã nạp hết
-```
-
-Sau khi nạp xong toàn bộ thẻ: **xoá khối CSS `mn-*` di sản** (6 quy tắc) trong
-`anki_tools/templates/card.css`.
-
-✅ **Xoá được — nhưng CHỈ sau khi hết hàng đợi.** Cả 54 thẻ mang mnemonic cũ (`mn-story`/`mn-tip`/
-`mn-read`) đều nằm trong lô CHƯA soạn ⇒ tự bị viết đè khi tới lượt. Xoá CSS sớm = vỡ giao diện 54
-thẻ đang sống. **Cũng đừng xoá NỘI DUNG mnemonic cho gọn** (đã bác 28/07): chúng là mnemonic thuần,
-xoá là để lại ô trống hàng tuần liền, mà nội dung phần lớn đúng (từ họ hàng, luật vô thanh hoá).
-
-📕 **Bài học còn giá trị:** ô Hướng dẫn có giá trị nhất **ở đúng lúc user đang học từ**, không phải
-ở chỗ nào trống nhất. Tôi từng khuyên ưu tiên thẻ rỗng, **user bác và đúng hơn**: *"những từ mới,
-tôi chưa thuộc nên cần hướng dẫn hơn"*.
 
 ## Bẫy đã dính, đừng dính lại
 

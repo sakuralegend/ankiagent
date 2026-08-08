@@ -18,6 +18,7 @@
 | Bảng chia máy nối vào thẻ in dạng cách 5 **`-ою` (lối cổ/thi ca) KHÔNG có nhãn nào** ⇒ mọi danh từ giống cái đều dạy người mới rằng hai dạng ngang nhau (bắt 07/08 ở cả 10 danh từ cái của k09). | Sửa ở `grammar.go_bang()`, đụng **mọi thẻ đã nạp** ⇒ phải đo trước rồi nạp lại cả kho. L4 cấm gộp vào phiên chạy lô. | 2026-08-27 |
 | **7 đề bài `Vietnamese` sai/lệch khuôn ở lô đã `xong`**, agent bắt khi soạn lô khác — `git log --grep k15` và `--grep k56`. | Hàng đợi không chạy lại lô `xong`; sửa tay giữa phiên chạy lô là trộn việc (L4). | 2026-09-05 |
 | **Bảng chia máy SAI DỮ LIỆU, không chỉ thiếu nhãn** — 5 từ bắt 08/08 đợt 2, nặng nhất `щепка` sai 5/6 ô số ít; nhãn `BAT THUONG` ăn theo rác nên sai lây (`git log --grep k57`). | Nguồn ở tầng cào, chữ trên thẻ không vá được. Cùng chỗ với nợ `-ою` ngay trên ⇒ trả một lượt; L4 cấm gộp vào phiên chạy lô. | 2026-08-27 |
+| `dochuan.py` + `kiemtra.py` **tự mở kết nối AnkiConnect riêng**, phạm L1. Điều kiện hoãn ghi trong `soat_baseline.json` là *"trả cùng đợt gộp wrapper (sau 61 lô)"* — **kho đóng 66/66 ngày 08/08 nên hạn đó đã tới**. | Trả nợ là sửa code hai file + xoá hai dòng miễn trừ; không gộp được vào phiên chạy lô (L4). | 2026-08-22 |
 | Mẫu phiếu việc ở `ycau.md`/`kehoach.md` **không lọt nổi trần 14 dòng của S19**, và `kehoach.md` bắt thêm mục `##` thứ hai mà S19 chỉ cho 1 (bắt 06/08 khi đi đúng ba cửa). | Phải chọn: nới trần hay viết lại hai mẫu. Đang giữa việc vá sync, L4 cấm gộp. | 2026-08-20 |
 
 🔴 **Trước khi thêm dòng, hỏi: đây có phải NỢ không?** Nợ = việc mình BIẾT phải làm
