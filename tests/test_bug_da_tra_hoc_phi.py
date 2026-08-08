@@ -635,5 +635,38 @@ class DonXongMaAnkiWebChuaNhan(unittest.TestCase):
                       "việc dọn nằm lại VPS (xem docstring cham_vao_kho)")
 
 
+class ChotYoLamBoSoatMuMotVungLon(unittest.TestCase):
+    """BUG GỐC (ghi sổ nợ 05/08/2026, trả 08/08): thẻ viết `тве́рдость` trong khi
+    từ đúng là `твёрдость`, mà `congcu.py soat` báo XANH.
+
+    Hai chốt cộng lại thành một vùng mù: ô chuẩn không có dấu sắc thì bỏ so, mà
+    dạng mang `ё` thì `nouns.csv` không đánh dấu sắc (ё đã là trọng âm) ⇒ **5 230
+    dạng** không bao giờ được soi. Chốt thứ hai gộp `ё→е` hai phía nên kể cả có so
+    cũng không thấy. Mở khoá xong đo lại toàn kho: đúng **1** chỗ kêu oan
+    (`лет` ↔ `лёт`), đã vào `MIEN_TRU` kèm lý do."""
+
+    @staticmethod
+    def _soatlo():
+        goc = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        sys.path.insert(0, os.path.join(goc, "data", "huongdan", "kho"))
+        sys.path.insert(0, os.path.join(goc, "data", "huongdan"))
+        import soatlo
+        return soatlo
+
+    def test_viet_e_o_cho_dang_le_la_yo_thi_PHAI_bao(self):
+        s = self._soatlo()
+        self.assertTrue(s.lech_trong_am("тве́рдость", "твёрдость"))
+        self.assertFalse(s.lech_trong_am("твёрдость", "твёрдость"))
+
+    def test_chuan_KHONG_co_yo_thi_van_gop_nhu_cu(self):
+        """`nouns.csv` in `ё` thành `е` ở phần lớn dòng — bắt bẻ chỗ đó là kêu oan."""
+        s = self._soatlo()
+        self.assertFalse(s.lech_trong_am("силён", "силен"))
+
+    def test_tu_dong_tu_da_mien_tru_thi_im(self):
+        s = self._soatlo()
+        self.assertFalse(s.lech_trong_am("лет", "лёт"))
+
+
 if __name__ == "__main__":
     unittest.main()

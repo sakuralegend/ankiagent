@@ -22,29 +22,25 @@ theo thẻ — một mục lặp ở ≥50% số thẻ mới là khối dùng ch
 Thẻ được chia làm bốn nhóm loại trừ nhau, cộng lại đúng bằng tổng số thẻ.
 """
 import io
-import json
 import os
 import re
 import sys
-import urllib.request
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, "..", ".."))
 sys.path.insert(0, os.path.join(HERE, "kho"))
 
 import congcu                                                    # noqa: E402
+from anki_tools import goi_anki                                  # noqa: E402
 
-ANKI = "http://127.0.0.1:8765"
 MODEL = "RU_Word"
 
 
 def ac(action, **params):
-    req = urllib.request.Request(
-        ANKI, json.dumps({"action": action, "version": 6, "params": params}).encode())
-    out = json.load(urllib.request.urlopen(req, timeout=300))
-    if out.get("error"):
-        raise RuntimeError(f"{action}: {out['error']}")
-    return out["result"]
+    """Vỏ mỏng quanh CỬA DUY NHẤT `anki_client` (L1) — giữ tên `ac` để ruột file
+    không đổi. Trước 08/08 file này tự mở cổng AnkiConnect riêng; miễn trừ trong
+    `soat_baseline.json` hẹn trả "sau 61 lô" và kho đóng 66/66 nên hạn đã tới."""
+    return goi_anki(action, timeout=300, **params)
 
 
 def doc_dau(tags):
@@ -64,7 +60,7 @@ def phan_loai(html):
     # Bảng chia máy nối vào MỌI thẻ, kể cả thẻ chưa soạn chữ nào. Nên "rỗng"
     # phải đo trên phần NGƯỜI viết, sau khi gỡ bảng — nếu không thì 466 thẻ
     # trống trơn sẽ được đếm là "có nội dung".
-    than = congcu._BANG_RE.sub("", html or "").strip()
+    than = congcu.BANG_RE.sub("", html or "").strip()
     than = re.sub(r"<[^>]+>", "", than).strip()
     if not than:
         return "trong", None

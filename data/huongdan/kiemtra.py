@@ -20,27 +20,30 @@ Chạy: python data/huongdan/kiemtra.py
 """
 import csv
 import io
-import json
 import re
 import sys
-import urllib.request
 from pathlib import Path
 
-from mientru import MIEN_TRU
+# 3 dòng bootstrap: file này chạy thẳng bằng `python data/huongdan/kiemtra.py`
+# nên gốc repo chưa có trong sys.path.
+GOC = Path(__file__).resolve().parent.parent.parent
+sys.path.insert(0, str(GOC))
+sys.path.insert(0, str(GOC / "data" / "huongdan" / "kho"))
 
-ANKI = "http://127.0.0.1:8765"
+from anki_tools import goi_anki                                     # noqa: E402
+from mientru import MIEN_TRU                                         # noqa: E402
+from soatlo import lech_trong_am                                     # noqa: E402
+
 NOUNS = Path(__file__).resolve().parent.parent / "nouns.csv"
 ACUTE = "\u0301"          # dấu trọng âm tổ hợp, đứng SAU nguyên âm
 ZWSP = "\u200b"
 
 
 def ac(action, **params):
-    req = urllib.request.Request(
-        ANKI, json.dumps({"action": action, "version": 6, "params": params}).encode())
-    out = json.load(urllib.request.urlopen(req, timeout=180))
-    if out.get("error"):
-        raise RuntimeError(f"{action}: {out['error']}")
-    return out["result"]
+    """Vỏ mỏng quanh CỬA DUY NHẤT `anki_client` (L1) — giữ tên `ac` để ruột file
+    không đổi. Trước 08/08 file này tự mở cổng AnkiConnect riêng; miễn trừ trong
+    `soat_baseline.json` hẹn trả "sau 61 lô" và kho đóng 66/66 nên hạn đã tới."""
+    return goi_anki(action, timeout=180, **params)
 
 
 def bare(w):
@@ -84,16 +87,11 @@ def main():
                 if b not in nouns:
                     khong_tra_duoc.add(b)
                     continue
-                chuan = nouns[b]
-                # Từ điển KHÔNG ghi trọng âm cho nhiều tên riêng (Аме́рика, Кита́й,
-                # Коре́я lưu trần). So với mục trần thì mọi dấu tôi đặt đều bị coi
-                # là thừa -> báo nhầm hàng loạt. Không có dấu thì không so.
-                if ACUTE not in chuan:
-                    continue
-                if token in MIEN_TRU:
-                    continue
-                if token.replace(ZWSP, "").lower().replace("ё", "е") != chuan.lower().replace("ё", "е"):
-                    sai_trong_am.append((word, token, chuan))
+                # Luật so nằm ở MỘT chỗ (`soatlo.lech_trong_am`): file này và
+                # `congcu.py soat` từng giữ hai bản lệch nhau, và bản thiếu thì
+                # kêu oan — đúng lý do `MIEN_TRU` phải gộp về một cửa (QD-03).
+                if lech_trong_am(token, nouns[b]):
+                    sai_trong_am.append((word, token, nouns[b]))
 
     print("=== TRONG AM LECH so voi tu dien ===")
     if not sai_trong_am:

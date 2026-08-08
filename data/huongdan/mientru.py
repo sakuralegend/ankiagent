@@ -27,6 +27,9 @@ MIEN_TRU = {
             "user khỏi lẫn. Máy không tách được vì khoá tra từ điển gộp ё về е "
             "(nouns.csv in ё thành е), nên нёбо bị đọc thành небо rồi báo lệch trọng âm; "
             "bản thân нёбо không có mục riêng trong nouns.csv",
+    "лет": "cách 2 số nhiều của год (năm) — `пять лет`, thẻ k29 dạy đúng chỗ này. Từ điển "
+           "chỉ có đồng tự лёт = sự bay (на лету́). Miễn trừ này SINH RA 08/08 cùng lúc với "
+           "việc mở khoá so sánh `ё`: trước đó mọi dạng có `ё` bị bỏ qua nên chưa ai kêu",
     "жарка́": "DẠNG NGẮN giống cái của tính từ жа́ркий (nóng) — grammar_cache ghi rõ bộ dạng "
              "ngắn жа́рок · жарка́ · жа́рко · жа́рки, thẻ k27 dạy đúng chỗ trọng âm dịch này; "
              "nouns.csv chỉ có danh từ đồng tự жа́рка = việc rán (từ жа́рить)",

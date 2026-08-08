@@ -19,6 +19,26 @@ from mientru import MIEN_TRU                                              # noqa
 _BANG_RE = BANG_RE          # tên nội bộ giữ nguyên để ruột `uoc_cao` không đổi
 
 
+def lech_trong_am(token, chuan):
+    """Cụm in đậm có lệch trọng âm so với từ điển không? (`True` = lệch, phải báo)
+
+    🔴 `ё` LÀ TRỌNG ÂM SẴN nên chuẩn mang `ё` thì so được ngay cả khi nó không có
+    dấu sắc. Bản cũ bỏ qua mọi ô không có dấu sắc, tức thả nổi **5 230 dạng** của
+    `nouns.csv` (đo 08/08) — đúng cửa để lọt `тве́рдость` (thật: `твёрдость`).
+
+    Chuẩn có `ё` ⇒ so NGUYÊN VĂN: viết `е` chỗ đáng lẽ `ё` là sai chính tả.
+    Chuẩn không có `ё` ⇒ vẫn gộp `ё→е` như cũ, vì lúc đó `ё` bên phía thẻ có thể
+    là dạng ĐÚNG mà `nouns.csv` in thiếu (1 094/26 983 dòng có `ё`, phần còn lại
+    in trần) — bắt bẻ ở đó là kêu oan.
+    """
+    co_yo = "ё" in chuan.lower()
+    if (ACUTE not in chuan and not co_yo) or token in MIEN_TRU:
+        return False          # tên riêng lưu trần -> không so được
+    a = token.replace(ZWSP, "").lower()
+    c = chuan.lower()
+    return (a != c) if co_yo else (a.replace("ё", "е") != c.replace("ё", "е"))
+
+
 # --------------------------------------------------------------- lệnh: soat
 def load_nouns():
     import csv
@@ -119,11 +139,8 @@ def cmd_soat():
                 if b not in nouns:
                     chua_tra.add(b)
                     continue
-                chuan = nouns[b]
-                if ACUTE not in chuan or token in MIEN_TRU:
-                    continue          # tên riêng lưu trần -> không so được
-                if token.replace(ZWSP, "").lower().replace("ё", "е") != chuan.lower().replace("ё", "е"):
-                    sai.append((word, nguon[word], token, chuan))
+                if lech_trong_am(token, nouns[b]):
+                    sai.append((word, nguon[word], token, nouns[b]))
 
     print("=== CAU TRUC HTML ===")
     print("  (khong co)" if not hong else "")

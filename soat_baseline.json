@@ -6,16 +6,7 @@
       "data/huongdan/kho/congcu.py": "QD-01: wrapper riêng của data/huongdan/kho/ CỐ Ý đóng băng tới khi xong 61 lô. Sửa nó lúc dây chuyền đang chạy là rủi ro lớn hơn lợi.",
       "data/huongdan/kho/cao_nguphap.py": "QD-01 — cùng lý do trên, cùng thư mục đóng băng."
     },
-    "baseline": {
-      "data/huongdan/dochuan.py": {
-        "so": 1,
-        "vi_sao": "Công cụ đo chuẩn của dây chuyền kho, tự mở kết nối riêng. Trả cùng đợt gộp wrapper (sau 61 lô)."
-      },
-      "data/huongdan/kiemtra.py": {
-        "so": 1,
-        "vi_sao": "Bộ soát nội dung thẻ, tự mở kết nối riêng. Trả cùng đợt gộp wrapper."
-      }
-    }
+    "baseline": {}
   },
   "S2": {
     "mien_tru": {},
@@ -31,10 +22,6 @@
       "data/huongdan/kho/cao_nguphap.py|grammar._cache": {
         "so": 4,
         "vi_sao": "G4 sẽ thêm alias public `doc_cache`."
-      },
-      "data/huongdan/dochuan.py|congcu._BANG_RE": {
-        "so": 1,
-        "vi_sao": "Plan G1 bỏ sót chỗ này, phát hiện khi dựng cửa soát 31/07. Cùng loại với hai chỗ trên, trả cùng đợt G4."
       }
     }
   },
