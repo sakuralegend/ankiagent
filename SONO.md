@@ -14,6 +14,7 @@
 
 | Nợ | Vì sao chưa trả | Hết hạn |
 |---|---|---|
+| **Nguồn ghi SAI, sửa TAY trong Anki** (08/08): `о́кунь` cách 1 số ít quên dấu trọng âm · `президе́нт` ô cách 4 in kèm dạng thừa · field `animate` sai ở `ме́неджер`·`о́кунь`·`коза́`·`матрёшка` | Hết hại từ 08/08: bảng thôi đọc `animate`, tô theo quan sát cách 4 = cách 2 | 2026-09-30 |
 
 🔴 **Trước khi thêm dòng, hỏi: đây có phải NỢ không?** Nợ = việc mình BIẾT phải làm
 mà cố ý hoãn. KHÔNG phải nợ, và cấm ghi vào đây:

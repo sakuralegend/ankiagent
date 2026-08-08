@@ -28,8 +28,49 @@ DUOI_DANH_TU = {
 DOI_CHUAN = [{"ой", "ою"}, {"ей", "ею"}, {"ёй", "ёю"}]
 
 
+# Đuôi TÍNH TỪ. Danh từ chia bằng bộ đuôi này (`живо́тное`, `насеко́мое`) là
+# chuyện có thật và có luật trong sách — xem `_chia_nhu_tinh_tu`.
+DUOI_TINH_TU = {
+    "ый", "ий", "ой", "ая", "яя", "ое", "ее", "ые", "ие",
+    "ого", "его", "ому", "ему", "ым", "им", "ую", "юю", "ых", "их",
+    "ыми", "ими", "ом", "ем", "ей", "ыx",
+}
+
+
 def _yo(s):
     return (s or "").replace("ё", "е")
+
+
+def _bang_o(a, b):
+    """Hai ô viết GIỐNG NHAU (so biến thể đầu, bỏ ё và dấu trọng âm)."""
+    if not a or not b:
+        return False
+    return _yo(bare(a.split(",")[0].strip())) == _yo(bare(b.split(",")[0].strip()))
+
+
+def _chia_nhu_tinh_tu(o):
+    """Danh từ chia bằng bộ đuôi TÍNH TỪ -> trả về thân, không thì None.
+
+    `живо́тное`, `насеко́мое`, `проше́дшее` là tính từ được danh từ hoá: thân đứng
+    yên, mọi đuôi là đuôi tính từ. Đem so với mẫu đuôi DANH TỪ thì **mọi ô đều
+    lệch** — bản cũ vì thế gắn cho `живо́тным` nhãn "NGUYÊN ÂM CHẠY" (không có
+    nguyên âm nào chạy) rồi tô 10/12 ô. Cả hai lời khai đều sai, và agent soạn
+    lô k68 (08/08/2026) đã bác đúng chỗ này.
+
+    Đây là luật có trong sách giáo khoa nên **không tô ô nào** — chỉ nêu tên hệ
+    thống để người soạn viết một câu. Đúng luật user chốt 08/08: *"có quy tắc
+    suy ra được thì thôi, nhảy trọng âm hay khác từ mới tô"*.
+    """
+    nom = o.get(("sg", "nom")) or o.get(("pl", "nom")) or ""
+    n = _yo(bare(nom.split(",")[0].strip()))
+    for duoi in sorted(DUOI_TINH_TU, key=len, reverse=True):
+        if not n.endswith(duoi) or len(n) - len(duoi) < 3:
+            continue
+        than = n[: -len(duoi)]
+        dang = [_yo(bare(x.strip())) for f in o.values() for x in f.split(",") if x.strip()]
+        if all(d.startswith(than) and d[len(than):] in DUOI_TINH_TU for d in dang):
+            return than
+    return None
 
 
 def _than_danh_tu(nom):
@@ -85,6 +126,11 @@ def _soi_danh_tu(rec):
     if len({_yo(bare(f)) for f in o.values()}) == 1 and len(o) >= 6:
         return set(), [("batbien", "KHÔNG biến cách — mọi cách viết như nhau.")], set()
 
+    if _chia_nhu_tinh_tu(o):
+        return ({so for so, _ in o},
+                [("tinhtu", "Chia như TÍNH TỪ — thân đứng yên, đuôi là đuôi "
+                            "tính từ (danh từ hoá).")], set())
+
     than = _than_danh_tu(rec.get("acc") or "")
     co, flags, nong = set(), [], set()
     la_than, la_duoi, chay = [], [], []
@@ -122,8 +168,31 @@ def _soi_danh_tu(rec):
         nong.update(kc for kc, f in o.items()
                     if stress_pos(f) and stress_pos(f) != goc)
 
+    # CÁCH 4 VIẾT NHƯ CÁCH 2 — thứ không cửa nào cũ bắt được, vì đuôi (`-а`,
+    # `-ов`) hoàn toàn chuẩn: cái lệch nằm ở QUAN HỆ giữa hai ô, không ở mặt chữ.
+    # User bắt được 08/08/2026: thẻ `крокоди́л` có hẳn ô đỏ dạy điều này mà bảng
+    # dưới không tô ô nào, trong khi `президе́нт` cùng hiện tượng lại được tô.
+    #
+    # 🔴 CỐ Ý không đọc field `animate` của nguồn — đo 08/08 trên 575 danh từ:
+    # `ме́неджер`, `о́кунь`, `коза́`, `матрёшка` đều là sinh vật mà bị ghi `False`.
+    # Điều quan sát được (hai ô viết giống nhau) đáng tin hơn lời khai của nguồn.
+    # Cũng cố ý KHÔNG giải thích "vì là sinh vật" — máy chỉ trỏ chỗ, câu giải
+    # thích là của người soạn lô (README §2).
+    cach4 = {(so, "acc") for so in ("sg", "pl")
+             if _bang_o(o.get((so, "acc")), o.get((so, "gen")))}
+    if cach4:
+        co.update(so for so, _ in cach4)
+        nong.update(cach4)
+        flags.append(("cach4", "CÁCH 4 viết như CÁCH 2: " + " · ".join(
+            f"{'ít' if s == 'sg' else 'nhiều'} {o[(s, c)]}" for s, c in sorted(cach4))))
+
+    # Ô có hai dạng thật (`дете́й, ребя́т`) — nhưng BỎ QUA ô vừa nhận là cách 4,
+    # vì ở đó dạng thứ hai chỉ là ô mặc định của danh từ chỉ đồ vật mà nguồn in
+    # kèm (`президе́нта, президе́нт`), không phải hai dạng song song. Đo 08/08:
+    # đúng 1 từ dính khuôn đó; 7 từ còn lại (`ребёнок` · `сын` · `тётя` · `среда`
+    # · `род` · `цех` · `чу́до`) có hai dạng vì lý do thật ⇒ nhãn cũ ĐÚNG, giữ.
     that = [(s, c, f) for (s, c), f in o.items()
-            if "," in f and not _o_doi_chuan(f, than)]
+            if "," in f and not _o_doi_chuan(f, than) and (s, c) not in cach4]
     if that:
         flags.append(("biente", "Ô có nhiều dạng song song: " + " · ".join(
             f"{'ít' if s == 'sg' else 'nhiều'}/{c} {f}" for s, c, f in that[:2])))

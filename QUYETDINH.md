@@ -60,6 +60,7 @@
 
 | QD | Ngày | Quyết định | Vì sao (ngắn) |
 |---|---|---|---|
+| QD-35 | 08/08 | Bảng chia tô ô **cách 4 = cách 2** theo QUAN SÁT; CẤM đọc field `animate`; danh từ chia như tính từ thì nêu tên, KHÔNG tô | Thẻ `крокоди́л` dạy điều đó mà bảng im, `президе́нт` cùng thế lại tô kèm nhãn sai. `animate` sai 4/575 từ |
 | QD-34 | 06/08 | Dọn xong phải **chạm vào kho rồi ĐO ba số** mới được nói "đã đẩy lên"; mở thêm cửa ĐỌC kho (ngoại lệ L1) | `changeDeck` ghi thẳng SQL ⇒ đồng hồ kho không nhích ⇒ sync thoát ngay. Đo 06/08: 4 thẻ kẹt 7 tiếng, 14 nhịp sync đều OK |
 | QD-29 | 04/08 | **Sinh = tử.** Sổ có sức chứa CỐ ĐỊNH (S20 đếm); mục rời sổ về `git log`, không đẻ file song song | Vế sinh đã tự động, vế chết phó mặc ý chí ⇒ phình mãi. Trần ký tự không tạo tỷ lệ chết, chỉ bắt nén — nén thì mất *vì sao* |
 | QD-30 | 04/08 | Ngân sách đọc chia HAI TẦNG: `batbuoc` (nạp tự động, trần TỔNG chặt) tách khỏi tra-khi-cần | Đo 04/08: **không máy nào bắt đọc 14/16 file** — chỉ `CLAUDE.md` nạp tự động. Tổng cũ đo thứ chưa chắc xảy ra, mà đau nén chữ thì thật |
@@ -75,4 +76,3 @@
 | — | 20/07 | `/sua` = **làm lại thẻ hoàn toàn** (cào + sinh lại), xoá hẳn cơ chế "preset tinh chỉnh" cũ | Preset gần như không ai dùng; làm lại dùng chung `build_card_fields` với thêm thẻ mới nên **một chức năng một lõi** |
 | QD-31 | 05/08 | Hook mỗi lượt KÊU khi có commit đụng **code bot** mà chưa deploy; im khi không lệch | User: *"toàn phải để tôi nhắc"*. Đo lúc chốt: lệch 7 commit nhưng **0 cái** đụng code VPS ⇒ đếm commit suông là báo động giả ngay lần đầu |
 | QD-32 | 05/08 | S19 canh `VIECDANGLAM.md` bằng **trần DÒNG**, không chỉ đếm mục `##` | Nợ nhét vào đoạn văn dưới một `##` lọt cửa suốt, user bắt được chứ không phải máy. Bác cách đếm đoạn 🔴: chỉ chặn đúng một kiểu chữ, đổi kiểu là lọt lại |
-| — | 19/07 | 🔨 `bot.py` chỉ còn ~10 dòng điểm vào, ruột tách vào gói `tgbot/` 4 tầng | Tầng một chiều `core ← flows ← dispatch ← app`; **`dispatch` chỉ chia việc**, cấm để logic nghiệp vụ vào đó (S3 canh) |

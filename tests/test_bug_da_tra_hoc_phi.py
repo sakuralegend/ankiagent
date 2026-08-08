@@ -668,5 +668,87 @@ class ChotYoLamBoSoatMuMotVungLon(unittest.TestCase):
         self.assertFalse(s.lech_trong_am("лет", "лёт"))
 
 
+class ToBangChia(unittest.TestCase):
+    """User bắt 08/08/2026: thẻ `крокоди́л` có ô đỏ dạy "cách 4 mượn hình cách 2"
+    mà bảng ngay dưới **không tô ô nào**, trong khi `президе́нт` cùng hiện tượng
+    thì lại được tô — kèm nhãn sai ("ô có nhiều dạng song song").
+
+    Gốc: bộ dò chỉ biết tìm ô có MẶT CHỮ lệch chuẩn (thân đổi · đuôi lạ · nguyên
+    âm chạy · trọng âm dịch). Cách 4 = cách 2 là **quan hệ giữa hai ô**, đuôi `-а`
+    / `-ов` thì chuẩn không chê được ⇒ không luật nào bắt. Đo lúc sửa: 102 ô /
+    64 từ vô hình."""
+
+    @staticmethod
+    def _soi(decl, dang_goc, **them):
+        """`dang_goc` = ô `acc` của bản ghi (dạng nguyên thể CÓ trọng âm) — bộ dò
+        suy thân từ từ đó, thiếu nó thì mọi ô đều bị coi là lệch."""
+        from anki_tools.hinh_thai import analyze
+        return analyze(dict({"pos": "noun", "decl": decl, "acc": dang_goc}, **them))
+
+    KROK = {"sg": {"nom": "крокоди́л", "gen": "крокоди́ла", "dat": "крокоди́лу",
+                   "acc": "крокоди́ла", "inst": "крокоди́лом", "prep": "крокоди́ле"},
+            "pl": {"nom": "крокоди́лы", "gen": "крокоди́лов", "dat": "крокоди́лам",
+                   "acc": "крокоди́лов", "inst": "крокоди́лами", "prep": "крокоди́лах"}}
+
+    def test_cach4_giong_cach2_thi_PHAI_to(self):
+        a = self._soi(self.KROK, "крокоди́л")
+        self.assertIn(("sg", "acc"), a["nong"])
+        self.assertIn(("pl", "acc"), a["nong"])
+
+    def test_KHONG_to_lan_sang_o_khac(self):
+        """Chỉ ô cách 4 sáng — `крокоди́л` đều tăm tắp ở mọi ô còn lại."""
+        self.assertEqual(self._soi(self.KROK, "крокоди́л")["nong"],
+                         {("sg", "acc"), ("pl", "acc")})
+
+    def test_khong_doc_field_animate_cua_nguon(self):
+        """Nguồn ghi `animate` SAI được — đo 08/08 trên 575 danh từ: `ме́неджер`,
+        `о́кунь`, `коза́`, `матрёшка` đều là sinh vật mà bị ghi `False`. Tô phải
+        theo điều QUAN SÁT được (hai ô viết giống nhau), không theo lời khai."""
+        a = self._soi(self.KROK, "крокоди́л", animate=False)
+        self.assertIn(("sg", "acc"), a["nong"])
+
+    def test_o_acc_hai_dang_kieu_animacy_KHONG_con_bi_goi_la_biente(self):
+        """`президе́нта, президе́нт`: dạng thứ hai chỉ là ô mặc định của danh từ
+        chỉ ĐỒ VẬT mà nguồn in kèm, không phải hai dạng song song."""
+        d = {"sg": {"nom": "президе́нт", "gen": "президе́нта", "dat": "президе́нту",
+                    "acc": "президе́нта, президе́нт", "inst": "президе́нтом",
+                    "prep": "президе́нте"}}
+        DG = "президе́нт"
+        ma = [m for m, _ in self._soi(d, DG)["flags"]]
+        self.assertIn("cach4", ma)
+        self.assertNotIn("biente", ma)
+
+    def test_o_hai_dang_THAT_thi_van_giu_nhan_biente(self):
+        """Ngược lại phải giữ: đo 08/08 ra 7 từ (`ребёнок` дете́й/ребя́т ·
+        `сын` · `тётя` · `среда́`…) có hai dạng vì lý do THẬT. Bỏ nhãn của chúng
+        là phá dữ liệu đúng để dọn một ca sai."""
+        d = {"pl": {"nom": "де́ти, ребя́та", "gen": "дете́й, ребя́т",
+                    "dat": "де́тям, ребя́там", "acc": "дете́й, ребя́т",
+                    "inst": "детьми́, ребя́тами", "prep": "де́тях, ребя́тах"}}
+        DG = "ребёнок"
+        self.assertIn("biente", [m for m, _ in self._soi(d, DG)["flags"]])
+
+    def test_danh_tu_chia_nhu_tinh_tu_KHONG_bi_to_va_KHONG_bi_gan_nhan_bia(self):
+        """`живо́тное` từng sáng 10/12 ô với nhãn "NGUYÊN ÂM CHẠY" + "thân từ ĐỔI"
+        — cả hai đều bịa (agent lô k68 bác 08/08). Đuôi tính từ là luật có trong
+        sách ⇒ nêu tên hệ thống, không tô ô nào."""
+        d = {"sg": {"nom": "живо́тное", "gen": "живо́тного", "dat": "живо́тному",
+                    "acc": "живо́тное", "inst": "живо́тным", "prep": "живо́тном"},
+             "pl": {"nom": "живо́тные", "gen": "живо́тных", "dat": "живо́тным",
+                    "acc": "живо́тных", "inst": "живо́тными", "prep": "живо́тных"}}
+        a = self._soi(d, "живо́тное")
+        self.assertEqual(a["nong"], set())
+        ma = [m for m, _ in a["flags"]]
+        self.assertEqual(ma, ["tinhtu"])
+
+    def test_danh_tu_THUONG_khong_bi_nham_la_chia_nhu_tinh_tu(self):
+        """`ге́ний` kết thúc bằng `-ий` nhưng chia như danh từ — phép nhận dạng
+        phải soi CẢ BỘ đuôi, không chỉ nhìn mặt chữ ô cách 1."""
+        d = {"sg": {"nom": "ге́ний", "gen": "ге́ния", "dat": "ге́нию",
+                    "acc": "ге́ния", "inst": "ге́нием", "prep": "ге́нии"}}
+        DG = "ге́ний"
+        self.assertNotIn("tinhtu", [m for m, _ in self._soi(d, DG)["flags"]])
+
+
 if __name__ == "__main__":
     unittest.main()
