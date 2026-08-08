@@ -60,6 +60,10 @@ MIEN_TRU = {
             "trên), nên силён bị đọc thành силен rồi khớp phải danh từ đồng tự силе́н = "
             "Silenus, thần rừng Hy Lạp (nouns.csv chỉ có nghĩa tiếng Đức Satyr, không có "
             "nghĩa tiếng Anh)",
+    "двери́": "CÁCH VỊ TRÍ (locative) của дверь, chỉ dùng sau в/на: в двери́ = ở ngay khung "
+             "cửa — grammar_cache ghi rõ ô prep số ít là 'две́ри, в двери́', tức hai dạng cùng "
+             "tồn tại; thẻ k68 cố ý nêu cặp này để user khỏi tưởng bảng in sai. nouns.csv chỉ "
+             "có đồng tự две́ри = cách 2 số ít / cách 1 số nhiều",
     "до́бро": "DẠNG NGẮN giống trung của tính từ до́брый (tốt bụng) — grammar_cache ghi rõ bộ "
              "добр · добра́ · до́бро · до́бры; thẻ k42 cố ý nêu cặp đối lập до́бро (dạng ngắn) ↔ "
              "добро́ (DANH TỪ: điều thiện, của cải) vì hai từ chỉ khác nhau đúng chỗ trọng âm, "
