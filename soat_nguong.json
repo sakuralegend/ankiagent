@@ -1,44 +1,74 @@
 {
-  "ky_tu_moi_phut": {"so": 1400, "qd": "QD-20"},
-  "phut_doc": {
-    "qd": "QD-30",
-    "tran_tong_batbuoc": 8,
-    "batbuoc": ["CLAUDE.md", "VIECDANGLAM.md"],
-    "tran": {
-      "CLAUDE.md": 7,
-      "KIENTRUC.md": 9,
-      "QUYETDINH.md": 10,
-      "SONO.md": 3,
-      "CACHLAM.md": 8,
-      "README.md": 4,
-      "PHIENBAN.md": 3,
-      "VIECDANGLAM.md": 2,
-      "AGENTS.md": 1,
-      "VPS_SETUP.md": 7,
-      "data/huongdan/CHUAN.md": 4,
-      "data/huongdan/kho/TIEPTUC.md": 25,
-      "data/huongdan/README.md": 17,
-      ".claude/commands/ycau.md": 3,
-      ".claude/commands/kehoach.md": 3,
-      ".claude/commands/nghiemthu.md": 3
-    }
-  },
-  "dong_py": {
-    "qd": "QD-21",
-    "ghi_no": 400,
-    "tach": 700,
-    "bo_qua_mau": ["data/huongdan/kho/k*.py", "data/huongdan/lo*.py", "tests/test_*.py"],
-    "da_ghi_no": {
-      "anki_tools/anki_client.py": 637,
-      "anki_tools/grammar.py": 502,
-      "data/huongdan/kho/congcu.py": 491,
-      "soat/cua_nguong.py": 463,
-      "tgbot/dispatch.py": 430
-    }
-  },
-  "phienban": {"qd": "QD-07", "giu_ban": 10, "muc_moi_ban": 5},
-  "so_quyetdinh": {"qd": "QD-23", "tran_dong": 250, "tran_so_quyetdinh": 16, "tran_so_dado": 14},
-  "so_no": {"qd": "QD-25", "tran_dong": 330},
-  "viecdanglam": {"qd": "QD-25", "tran_muc": 1, "tran_dong": 14},
-  "tieptuc": {"qd": "QD-33", "tran_muc_phien": 3, "tran_baihoc_ky_tu": 4500}
+ "ky_tu_moi_phut": {
+  "so": 1400,
+  "qd": "QD-20"
+ },
+ "phut_doc": {
+  "qd": "QD-30",
+  "tran_tong_batbuoc": 8,
+  "batbuoc": [
+   "CLAUDE.md",
+   "VIECDANGLAM.md"
+  ],
+  "tran": {
+   "CLAUDE.md": 7,
+   "KIENTRUC.md": 9,
+   "QUYETDINH.md": 10,
+   "SONO.md": 3,
+   "CACHLAM.md": 8,
+   "README.md": 4,
+   "PHIENBAN.md": 3,
+   "VIECDANGLAM.md": 2,
+   "AGENTS.md": 1,
+   "VPS_SETUP.md": 7,
+   "data/huongdan/CHUAN.md": 4,
+   "data/huongdan/kho/TIEPTUC.md": 25,
+   "data/huongdan/README.md": 17,
+   ".claude/commands/ycau.md": 3,
+   ".claude/commands/kehoach.md": 3,
+   ".claude/commands/nghiemthu.md": 3
+  }
+ },
+ "dong_py": {
+  "qd": "QD-21",
+  "ghi_no": 400,
+  "tach": 700,
+  "bo_qua_mau": [
+   "data/huongdan/kho/k*.py",
+   "data/huongdan/lo*.py",
+   "tests/test_*.py"
+  ],
+  "da_ghi_no": {
+   "anki_tools/anki_client.py": 637,
+   "anki_tools/grammar.py": 502,
+   "data/huongdan/kho/congcu.py": 491,
+   "soat/cua_nguong.py": 523,
+   "tgbot/dispatch.py": 430
+  }
+ },
+ "phienban": {
+  "qd": "QD-07",
+  "giu_ban": 10,
+  "muc_moi_ban": 5
+ },
+ "so_quyetdinh": {
+  "qd": "QD-23",
+  "tran_dong": 250,
+  "tran_so_quyetdinh": 16,
+  "tran_so_dado": 14
+ },
+ "so_no": {
+  "qd": "QD-25",
+  "tran_dong": 330
+ },
+ "viecdanglam": {
+  "qd": "QD-25",
+  "tran_muc": 1,
+  "tran_dong": 14
+ },
+ "tieptuc": {
+  "qd": "QD-33",
+  "tran_muc_phien": 3,
+  "tran_baihoc_ky_tu": 4500
+ }
 }

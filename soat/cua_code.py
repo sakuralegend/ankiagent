@@ -197,6 +197,131 @@ def s7_lo_da_khai_tu():
 
 
 # ---------------------------------------------------------------------------
+# S22 — CHIỀU IMPORT MỘT CHIỀU giữa các mảng
+# ---------------------------------------------------------------------------
+# Các mảng (`tgbot`, `grammar_forms`, `data/huongdan`) được phép import
+# `anki_tools`; chiều ngược lại thì KHÔNG. Lý do user chốt 20/07/2026, và nó là
+# ưu tiên tuyệt đối của cả repo: *"ít ảnh hưởng đến deck RUSSIAN đang chạy ngon"*
+# — thứ đang chạy được thì không được để việc mới làm hỏng. Import ngược là
+# đường để một thay đổi bên thẻ ngữ pháp giết chết dây chuyền kho đang chạy.
+#
+# 🔴 Gộp luôn ca `anki_tools/soat_nguphap.py` KHÔNG được import `grammar` (chốt
+# 02/08/2026): cửa canh dữ liệu ngữ pháp phải đứng riêng để không đẻ vòng import
+# với chính thứ nó đi soi. Cùng một họ bệnh nên cùng một cửa.
+MANG_TREN = ("anki_tools",)
+MANG_DUOI = ("tgbot", "grammar_forms")
+CAM_RIENG = {"anki_tools/soat_nguphap.py": ("grammar",)}
+
+
+def _ten_import(cay):
+    """(tên module, dòng) cho mọi `import x` / `from x import ...`, kể cả
+    import-trong-hàm — chỗ người ta hay lách khi muốn bẻ vòng."""
+    for node in ast.walk(cay):
+        if isinstance(node, ast.Import):
+            for a in node.names:
+                yield a.name, node.lineno
+        elif isinstance(node, ast.ImportFrom):
+            # 🔴 Phải sinh CẢ `module` LẪN `module.tên` — `from anki_tools import
+            # grammar` mang tên thật ở `names`, không ở `module`. Bản đầu chỉ đọc
+            # `module` nên đúng ca này lọt, test S22 bắt được ngay.
+            for a in node.names:
+                yield f"{node.module or ''}.{a.name}".strip("."), node.lineno
+            yield (node.module or ""), node.lineno
+
+
+def s22_chieu_import_mot_chieu():
+    ra = []
+    for p in khung.cac_file_py():
+        src, cay = khung.doc_cay(p)
+        if cay is None:
+            continue
+        dd = khung.duong_dan(p)
+        for ten, dong in _ten_import(cay):
+            goc = (ten or "").split(".")[0]
+            if khung.goi_cua(p) in MANG_TREN and goc in MANG_DUOI:
+                ra.append(PhatHien(dd, dong,
+                                   f"IMPORT NGUOC: {khung.goi_cua(p)} khong duoc import "
+                                   f"`{goc}` — mang duoi hong thi mang tren chet theo"))
+            for file_cam, cam in CAM_RIENG.items():
+                if dd == file_cam and any(x in cam for x in ten.split(".")):
+                    ra.append(PhatHien(dd, dong,
+                                       f"`{dd}` khong duoc import `{ten}` — cua soi du lieu "
+                                       f"phai dung RIENG, khong deo vong import voi thu no soi"))
+    return ra
+
+
+# ---------------------------------------------------------------------------
+# S23 — AnkiConnect KHÔNG được tự tải media hộ
+# ---------------------------------------------------------------------------
+def s23_media_phai_tu_tai():
+    """Bot **tự tải bytes** rồi `storeMediaFile`, CẤM đưa `url` cho AnkiConnect.
+
+    Vì sao (chốt 20/07/2026): nguồn audio trả 500 thì AnkiConnect ghi **nguyên
+    câu lỗi** vào ô Audio. Thẻ hỏng khi đó nhận ra bằng *thiếu `[sound:]`* chứ
+    KHÔNG phải bằng ô rỗng — tức hỏng im lặng, đúng loại user không tự thấy.
+    Tự tải thì lỗi mạng nổ ngay tại chỗ, có `log_fail`.
+    """
+    ra = []
+    for p in khung.cac_file_py(ke_ca_minh=False):
+        src, cay = khung.doc_cay(p)
+        if cay is None:
+            continue
+        for node in ast.walk(cay):
+            # Lời gọi AnkiConnect là dict LỒNG: `action` ở ngoài, `url` nằm trong
+            # `params` ⇒ phải soi từ dict NGOÀI CÙNG rồi lặn vào, chứ đòi cả hai
+            # nằm chung một dict thì không ca thật nào khớp (test S23 bắt được).
+            if not isinstance(node, ast.Dict) or not _co_chuoi(node, "storeMediaFile"):
+                continue
+            if any(isinstance(k, ast.Constant) and k.value == "url"
+                   for con in ast.walk(node) if isinstance(con, ast.Dict)
+                   for k in con.keys):
+                ra.append(PhatHien(khung.duong_dan(p), node.lineno,
+                                   "dua `url` cho storeMediaFile — AnkiConnect tai ho thi "
+                                   "nguon loi 500 se bi GHI THANG vao o Audio"))
+                break
+    return ra
+
+
+def _co_chuoi(node, can):
+    return any(isinstance(x, ast.Constant) and x.value == can for x in ast.walk(node))
+
+
+# ---------------------------------------------------------------------------
+# S24 — model thẻ từ vựng chỉ được có ĐÚNG MỘT card template
+# ---------------------------------------------------------------------------
+def s24_mot_card_template():
+    """Gợi ý (hint) dựng bằng **JS trong mặt trước thẻ**, KHÔNG thêm template.
+
+    Vì sao (chốt 22/07/2026): chỉ card template mới nhân đôi số THẺ — thêm một
+    template là tự nhân đôi cả bộ sưu tập, và Anki không hỏi lại lần nào. Bao
+    nhiêu JS trên mặt thẻ cũng không đẻ ra thẻ mới.
+    """
+    ra = []
+    for p in khung.cac_file_py(ke_ca_minh=False):
+        src, cay = khung.doc_cay(p)
+        if cay is None:
+            continue
+        for node in ast.walk(cay):
+            # `createModel`: cardTemplates=[...]  ·  `updateModelTemplates`: templates={...}
+            if isinstance(node, ast.keyword) and node.arg == "cardTemplates":
+                n = len(node.value.elts) if isinstance(node.value, ast.List) else -1
+            elif (isinstance(node, ast.Dict) and any(
+                    isinstance(k, ast.Constant) and k.value in ("cardTemplates", "templates")
+                    for k in node.keys)):
+                v = next(v for k, v in zip(node.keys, node.values)
+                         if isinstance(k, ast.Constant) and k.value in ("cardTemplates", "templates"))
+                n = len(v.elts) if isinstance(v, ast.List) else (
+                    len(v.keys) if isinstance(v, ast.Dict) else -1)
+            else:
+                continue
+            if n > 1:
+                ra.append(PhatHien(khung.duong_dan(p), node.lineno,
+                                   f"khai {n} card template — moi template NHAN DOI so the "
+                                   f"cua ca bo suu tap; goi y phai dung bang JS o mat truoc"))
+    return ra
+
+
+# ---------------------------------------------------------------------------
 # S17 — nuốt lỗi im lặng
 # ---------------------------------------------------------------------------
 def s17_nuot_loi_im_lang():

@@ -56,6 +56,10 @@ MUC = [
     ("S19", "VIECDANGLAM.md CON TON DAU VIEC (QD-25)", cua_nguong.s19_viecdanglam_con_ton, True),
     ("S20", "SO QUYET DINH VUOT SUC CHUA — SINH != TU (QD-29)", cua_nguong.s20_suc_chua_co_dinh, True),
     ("S21", "TIEPTUC.md NHAT KY VUOT SUC CHUA (QD-33)", cua_nguong.s21_tieptuc_suc_chua, True),
+    ("S22", "IMPORT NGUOC GIUA CAC MANG", cua_code.s22_chieu_import_mot_chieu, True),
+    ("S23", "DUA URL CHO storeMediaFile", cua_code.s23_media_phai_tu_tai, True),
+    ("S24", "KHAI >1 CARD TEMPLATE", cua_code.s24_mot_card_template, True),
+    ("S25", "SO QUYET DINH CHUA PHAN LOAI / CON 🔨", cua_nguong.s25_so_phai_phan_loai, True),
     ("S17", "NUOT LOI IM LANG (except: pass)", cua_code.s17_nuot_loi_im_lang, False),
 ]
 

@@ -37,10 +37,17 @@ def s10_tri_nho_phinh():
     """Chạm trần KHÔNG có nghĩa "cấm viết thêm" — nghĩa là phải dừng lại CHỌN:
     cắt mục đã hết giá trị, hay nâng ngân sách trong `soat_nguong.json` kèm QD-nn.
 
-    🔴 HAI TẦNG, ĐỪNG CỘNG CHUNG — vì sao: QD-30. `batbuoc` = tầng THẬT SỰ bị nhồi
-    vào đầu mỗi phiên, có trần TỔNG chặt. Các file còn lại giữ trần riêng làm lưới
-    an toàn nhưng KHÔNG cộng vào tầng bắt buộc — một file tra-cứu dài ra không
-    cướp chỗ của file bắt-đọc, và ngược lại.
+    🔴 HAI TẦNG, ĐỪNG CỘNG CHUNG. `batbuoc` = tầng THẬT SỰ bị nhồi vào đầu mỗi
+    phiên, có trần TỔNG chặt. Các file còn lại giữ trần riêng làm lưới an toàn
+    nhưng KHÔNG cộng vào tầng bắt buộc — một file tra-cứu dài ra không cướp chỗ
+    của file bắt-đọc, và ngược lại.
+
+    Vì sao phải tách (đo 04/08/2026, chốt cùng ngày): trần TỔNG cũ cộng cả 16 file
+    lại, trong khi **không máy nào bắt ai đọc 14/16 file đó** — chỉ `CLAUDE.md`
+    được nạp tự động mỗi phiên. Tức là trần cũ đong một thứ **chưa chắc xảy ra**,
+    còn cái đau thì có thật: mỗi phiên phải nén chữ ở những file không ai bị bắt
+    đọc. Mà nén là cắt phần *vì sao* — thứ duy nhất còn dùng được khi gặp tình
+    huống mới. (Toàn văn: `git log --grep QD-30`.)
     """
     try:
         ng = nguong()
@@ -213,6 +220,59 @@ def _dem_dong_bang(p, tu, den):
     return sum(1 for d in khuc.splitlines()
                if d.startswith("|") and not re.match(r"\|[\s:|-]+\|$", d)
                and "Vì sao (ngắn)" not in d and "Vì (số liệu thật)" not in d)
+
+
+def _dong_du_lieu_so(p):
+    """Các dòng dữ liệu của SỔ QUYẾT ĐỊNH (dùng lại ranh giới mục của
+    `_dem_dong_bang`, KHÔNG dò bằng hình dạng chữ trong ô — xem docstring ở đó
+    để biết bản dò-nội-dung đã đếm hụt 2/11 dòng thế nào)."""
+    if not p.exists():
+        return []
+    nd = p.read_text(encoding="utf-8")
+    i = nd.find(_MOC_SO)
+    if i < 0:
+        return []
+    dau = len(nd[:i].splitlines())
+    return [(k, d) for k, d in enumerate(nd[i:].splitlines(), dau + 1)
+            if d.startswith("|") and not re.match(r"\|[\s:|-]+\|$", d)
+            and "Vì sao (ngắn)" not in d]
+
+
+def s25_so_phai_phan_loai():
+    """Mỗi dòng SỔ QUYẾT ĐỊNH phải mang 🔨 hoặc ⚖️ — và 🔨 nào cũng là ĐỎ.
+
+    🔴 Vì sao có cửa này (user chốt 09/08/2026): 🔨 nghĩa là *"có đường thoát,
+    chỉ là chưa ai xây"*, tức sổ là một **hàng đợi việc**. Đo hôm đó: **5/16 dòng
+    mang 🔨 và KHÔNG cái nào được xây**, cũ nhất treo **20 ngày**; đồng thời **8
+    dòng khác đã có cửa/test từ lâu mà vẫn nằm lì trong sổ** — tức mỗi phiên sau
+    đều trả tiền token đọc lại một thứ máy đã canh giùm. Nhãn không ai thi hành
+    thì không phải cơ chế, nó là lời hứa.
+
+    Hai vế, cố ý tách:
+    · **Thiếu cả hai dấu** = chưa phân loại. Trước đây "không 🔨" mang HAI nghĩa
+      lẫn nhau (*không xây được* vs *quên chưa nghĩ*) nên máy không thể ép; phải
+      cho vế "không xây được" một dấu RIÊNG (⚖️) thì mới đếm được.
+    · **Còn 🔨** = việc chưa xong. User chốt: *"không phiên nào hoàn thành xong mà
+      còn icon búa"* — búa chỉ sống GIỮA phiên. Cửa này chặn `deploy.ps1`, nên
+      không dọn xong thì không đẩy được lên VPS.
+
+    ⚖️ = đánh đổi người phải tự cân, không cửa nào thay được. Đó là loại DUY NHẤT
+    đáng chiếm chỗ trong sổ khi phiên đóng lại.
+    """
+    p = khung.GOC / "QUYETDINH.md"
+    ra = []
+    for dong, d in _dong_du_lieu_so(p):
+        if "🔨" in d:
+            ra.append(PhatHien("QUYETDINH.md", dong,
+                               "con 🔨 — day la VIEC CHUA XONG, khong phai mot muc so. "
+                               "Xay cua/test cho no roi cho dong RUNG SO (vi sao chep vao "
+                               "loi bao loi cua cua / docstring cua test). Bua chi song "
+                               "GIUA phien"))
+        elif "⚖️" not in d:
+            ra.append(PhatHien("QUYETDINH.md", dong,
+                               "chua phan loai — moi dong phai mang 🔨 (xay duoc, dang no) "
+                               "hoac ⚖️ (danh doi nguoi phai tu can, khong cua nao thay duoc)"))
+    return ra
 
 
 def s20_suc_chua_co_dinh():

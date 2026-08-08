@@ -130,6 +130,12 @@ def note_to_card_info(dup):
     ĐÚNG KHUÔN mà push_to_anki() trả về. Nhờ vậy bot hiện thẻ CŨ (tra từ điển) bằng
     đúng bộ khung hiển thị của thẻ MỚI, không phải viết hai kiểu trình bày.
 
+    🔴 RÀNG BUỘC VĨNH VIỄN đi kèm quyết định "gõ từ đã có thẻ ⇒ trả nguyên mục từ
+    điển" (21/07/2026): **mỗi hàm dựng HTML phải có hàm nghịch đọc ngược nó**. Đổi
+    cấu trúc HTML mà quên sửa hàm nghịch thì bảng tra hiện **TRỐNG RỖNG** — không
+    lỗi, không cảnh báo, chỉ là ô trắng. Khoá bằng test vòng tròn dựng→bóc
+    (`HighlightKhongBiNuot.test_dung_roi_boc_lai_KHONG_MAT_CHU`).
+
     dup: 1 phần tử find_duplicate_notes() trả về (đã có sẵn fields + tags).
     Các khóa THÊM so với card_info gốc (thẻ mới chưa có): note_id, status_text,
     has_audio, image, raw_count."""

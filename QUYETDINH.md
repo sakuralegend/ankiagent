@@ -53,27 +53,18 @@
 ## 🗂️ SỔ QUYẾT ĐỊNH
 
 > Chỉ còn mục **không có nhà nào khác**; mục đã có nhà đều rời sổ — tra `git log --grep QD-nn`.
-> 🔨 = **CÓ ĐƯỜNG THOÁT, chỉ là chưa ai xây**: dựng đúng cửa soát / test cho nó là dòng này rời sổ.
-> Đây là **hàng đợi việc** — sổ đầy thì đi xây một cái 🔨, đừng nén chữ. Dòng KHÔNG có 🔨 là đánh
-> đổi người phải tự cân, không máy nào thay được.
+> 🔴 **MỖI DÒNG PHẢI MANG MỘT TRONG HAI DẤU** (cửa **S25**, user chốt 09/08):
+> · 🔨 = **xây được cửa/test cho nó, mà chưa xây** ⇒ đây là VIỆC CHƯA XONG, **S25 kêu ĐỎ và
+>   chặn `deploy.ps1`**. Búa chỉ được sống GIỮA phiên — *"không phiên nào hoàn thành xong mà
+>   còn icon búa"*. Xây xong thì **chép VÌ SAO vào lời báo lỗi của cửa / docstring của test**
+>   rồi cho dòng rời sổ ngay, đừng để nó nằm lại tốn token đọc.
+> · ⚖️ = **đánh đổi người phải tự cân**, không cửa nào thay được. Loại DUY NHẤT đáng ở lại.
+> 
+> Đo 09/08 lúc dựng S25: sổ có **5 dòng 🔨 treo tới 20 ngày mà 0 cái được xây**, cộng **8 dòng
+> đã có cửa/test từ lâu mà vẫn nằm lì**. Nhãn không ai thi hành thì không phải cơ chế, là lời hứa.
 > — = quyết định trước khi có sổ (15/07–29/07), **cố ý không đánh số**: commit hồi đó không nhắc số
 > nên `git log --grep` ra rỗng, đánh số là đẻ ra lời hứa sai.
 
 | QD | Ngày | Quyết định | Vì sao (ngắn) |
 |---|---|---|---|
-| QD-35 | 08/08 | Bảng chia tô ô **cách 4 = cách 2** theo QUAN SÁT; CẤM đọc field `animate`; danh từ chia như tính từ thì nêu tên, KHÔNG tô | Thẻ `крокоди́л` dạy điều đó mà bảng im, `президе́нт` cùng thế lại tô kèm nhãn sai. `animate` sai 4/575 từ |
-| QD-34 | 06/08 | Dọn xong phải **chạm vào kho rồi ĐO ba số** mới được nói "đã đẩy lên"; mở thêm cửa ĐỌC kho (ngoại lệ L1) | `changeDeck` ghi thẳng SQL ⇒ đồng hồ kho không nhích ⇒ sync thoát ngay. Đo 06/08: 4 thẻ kẹt 7 tiếng, 14 nhịp sync đều OK |
-| QD-29 | 04/08 | **Sinh = tử.** Sổ có sức chứa CỐ ĐỊNH (S20 đếm); mục rời sổ về `git log`, không đẻ file song song | Vế sinh đã tự động, vế chết phó mặc ý chí ⇒ phình mãi. Trần ký tự không tạo tỷ lệ chết, chỉ bắt nén — nén thì mất *vì sao* |
-| QD-30 | 04/08 | Ngân sách đọc chia HAI TẦNG: `batbuoc` (nạp tự động, trần TỔNG chặt) tách khỏi tra-khi-cần | Đo 04/08: **không máy nào bắt đọc 14/16 file** — chỉ `CLAUDE.md` nạp tự động. Tổng cũ đo thứ chưa chắc xảy ra, mà đau nén chữ thì thật |
-| QD-15 | 02/08 | 🔨 Cửa canh DỮ LIỆU ngữ pháp `anki_tools/soat_nguphap.py` đứng riêng, KHÔNG import `grammar` | Tránh đẻ vòng import. Cửa đòi lệch cả hai chiều mới báo ⇒ đo 516 thẻ ra 0 kêu oan. Chỉ IN RA, không tự sửa |
-| — | 29/07 | Gom 3 luồng chạy nền của bot về một hàm `core.chay_hang_loat()` | Ba bản sao lệch nhau âm thầm; nguyên tắc user chốt: **một chức năng một script**, trùng thì tách tầng chứ đừng đồng bộ tay |
-| QD-33 | 05/08 | **`TIEPTUC.md` có sức chứa CỐ ĐỊNH** (S21): 3 mục `PHIÊN` + trần chữ cho khối `BÀI HỌC CÒN SỐNG` | Nhật ký chiếm **37%** file mà không có vế chết ⇒ bệnh `CHANGELOG.md`. `git log` hứng sẵn, dày gấp **1,6 lần** |
-| — | 22/07 | 🔨 Gợi ý (hint) dựng bằng **JS trong mặt trước thẻ**, KHÔNG thêm card template | Chỉ card template mới nhân đôi số thẻ — thêm template là tự nhân đôi cả bộ sưu tập |
-| — | 22/07 | Bỏ deck lọc "phòng tập", cày thẳng trong inbox bằng **undo** | Deck lọc rút thẻ khỏi inbox nên hai bên lệch nhau; undo hoàn nguyên trọn vẹn cả revlog lẫn lịch |
-| — | 21/07 | 🔨 Gõ từ **đã có thẻ** ⇒ trả nguyên mục từ điển, không báo "trùng" suông | Kéo theo ràng buộc vĩnh viễn: mỗi hàm dựng HTML phải có **hàm nghịch** đọc ngược; đổi HTML mà quên sửa hàm nghịch ⇒ bảng tra hiện **trống rỗng** |
-| — | 21/07 | **pymorphy3 offline làm trọng tài** đưa từ Nga về dạng từ điển; AI chỉ lo đọc ảnh | Lemma là việc **tất định**, không nên đoán bằng AI. `reconcile_lemma` có 4 luật giữ phần AI đúng — 🔴 đừng "đơn giản hoá" thành *từ điển luôn thắng* |
-| — | 20/07 | 🔨 Thẻ ngữ pháp tách hẳn thành mảng `grammar_forms/`, phụ thuộc **một chiều** vào `anki_tools` | User: *"ít ảnh hưởng đến deck RUSSIAN đang chạy ngon"* — ưu tiên tuyệt đối là không làm hỏng thứ đang chạy |
-| — | 20/07 | 🔨 Bot **tự tải bytes** audio rồi `storeMediaFile`, không để AnkiConnect tải hộ qua URL | OpenRussian trả 500 thì AnkiConnect ghi **nguyên câu lỗi** vào ô Audio ⇒ thẻ hỏng nhận ra bằng *thiếu `[sound:]`*, KHÔNG phải ô rỗng |
-| — | 20/07 | `/sua` = **làm lại thẻ hoàn toàn** (cào + sinh lại), xoá hẳn cơ chế "preset tinh chỉnh" cũ | Preset gần như không ai dùng; làm lại dùng chung `build_card_fields` với thêm thẻ mới nên **một chức năng một lõi** |
-| QD-31 | 05/08 | Hook mỗi lượt KÊU khi có commit đụng **code bot** mà chưa deploy; im khi không lệch | User: *"toàn phải để tôi nhắc"*. Đo lúc chốt: lệch 7 commit nhưng **0 cái** đụng code VPS ⇒ đếm commit suông là báo động giả ngay lần đầu |
-| QD-32 | 05/08 | S19 canh `VIECDANGLAM.md` bằng **trần DÒNG**, không chỉ đếm mục `##` | Nợ nhét vào đoạn văn dưới một `##` lọt cửa suốt, user bắt được chứ không phải máy. Bác cách đếm đoạn 🔴: chỉ chặn đúng một kiểu chữ, đổi kiểu là lọt lại |
+| — | 22/07 | ⚖️ Bỏ deck lọc "phòng tập", cày thẳng trong inbox bằng **undo** | Deck lọc rút thẻ khỏi inbox nên hai bên lệch nhau; undo hoàn nguyên trọn vẹn cả revlog lẫn lịch |

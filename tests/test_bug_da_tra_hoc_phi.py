@@ -750,5 +750,94 @@ class ToBangChia(unittest.TestCase):
         self.assertNotIn("tinhtu", [m for m, _ in self._soi(d, DG)["flags"]])
 
 
+class TrongTaiLemmaKHONGDuocDonGianHoa(unittest.TestCase):
+    """`reconcile_lemma` là TRỌNG TÀI giữa AI và từ điển hình thái — 4 luật có
+    thứ tự, chốt 21/07/2026. Lý do phải khoá bằng test: cả bốn luật trông thừa
+    thãi với người đọc lướt, và cám dỗ "đơn giản hoá thành *từ điển luôn thắng*"
+    xuất hiện mỗi lần có người mở file. Đơn giản hoá như thế thì luật 3 chết —
+    chỗ DUY NHẤT ngữ cảnh câu của AI được phép thắng.
+
+    Test mô phỏng từ điển (`possible_lemmas`) để chạy được cả khi máy KHÔNG cài
+    pymorphy3: thứ đang soi là LUẬT PHÂN XỬ, không phải chất lượng từ điển."""
+
+    def _xu(self, seen, ai, tu_dien):
+        with unittest.mock.patch("anki_tools.lemma.possible_lemmas",
+                                 return_value=tu_dien):
+            from anki_tools.lemma import reconcile_lemma
+            return reconcile_lemma(seen, ai)
+
+    def test_luat1_tu_dien_khong_biet_thi_GIU_AI(self):
+        """Typo và tên riêng: AI giỏi hơn hẳn từ điển."""
+        self.assertEqual(self._xu("Мосвка", "Москва", []), ("москва", False))
+
+    def test_luat2_chinh_seen_la_lemma_thi_CAM_AI_chia_sau_them(self):
+        """Ca thật: AI đổi `это` (this is) thành `этот` (this) vì đúng luật
+        "đại từ -> cách 1 giống đực" trong prompt. Cả loạt hư từ dính bẫy này."""
+        lemma, sua = self._xu("это", "этот", ["это", "этот"])
+        self.assertEqual(lemma, "это")
+        self.assertTrue(sua, "phai bao la DA LAT cau tra loi cua AI")
+
+    def test_luat3_dap_an_AI_hop_le_thi_GIU_du_KHONG_pho_bien_nhat(self):
+        """🔴 Luật chết đầu tiên nếu ai đó "đơn giản hoá thành từ điển luôn
+        thắng": `стали` trong `из стали` là `сталь` (thép), không phải `стать`
+        (trở nên) — chỉ ngữ cảnh câu mới biết, mà ngữ cảnh là thứ AI có."""
+        self.assertEqual(self._xu("стали", "сталь", ["стать", "сталь"]),
+                         ("сталь", False))
+
+    def test_luat4_AI_tra_ve_thu_KHONG_phai_lemma_thi_tu_dien_thang(self):
+        self.assertEqual(self._xu("дети", "дети", ["ребёнок"]), ("ребёнок", True))
+
+
+class MotChucNangMotLoi(unittest.TestCase):
+    """Nguyên tắc user chốt 29/07/2026: **một chức năng một script**, trùng thì
+    tách tầng chứ đừng đồng bộ tay. Hai ca đã trả học phí:
+
+    · **Ba luồng chạy nền của bot** từng là ba bản sao lệch nhau ÂM THẦM — sửa
+      một chỗ, hai chỗ kia vẫn chạy luật cũ. Gom về `core.chay_hang_loat()`.
+    · **`/sua`** = làm lại thẻ hoàn toàn, đi chung `build_card_fields` với đường
+      thêm thẻ mới. Cơ chế "preset tinh chỉnh" cũ đã xoá hẳn (20/07/2026).
+
+    Test khoá đúng một điều: **chỉ được có MỘT định nghĩa**. Mọc thêm bản thứ hai
+    là tái phạm, và đó là kiểu hỏng không ai thấy cho tới lúc hai bản lệch nhau."""
+
+    @staticmethod
+    def _dem_dinh_nghia(ten):
+        goc = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        import ast as _ast
+        n = []
+        for thu_muc, _, files in os.walk(goc):
+            if any(x in thu_muc for x in (".git", "_daxong", "__pycache__", "tests")):
+                continue
+            for f in files:
+                if not f.endswith(".py"):
+                    continue
+                duong = os.path.join(thu_muc, f)
+                try:
+                    with open(duong, encoding="utf-8") as fh:
+                        cay = _ast.parse(fh.read())
+                except (OSError, SyntaxError, UnicodeDecodeError):
+                    continue
+                for node in _ast.walk(cay):
+                    if (isinstance(node, (_ast.FunctionDef, _ast.AsyncFunctionDef))
+                            and node.name == ten):
+                        n.append(os.path.relpath(duong, goc))
+        return n
+
+    def test_chay_hang_loat_chi_co_MOT_ban(self):
+        noi = self._dem_dinh_nghia("chay_hang_loat")
+        self.assertEqual(len(noi), 1, f"co {len(noi)} ban chay_hang_loat: {noi}")
+
+    def test_build_card_fields_chi_co_MOT_ban(self):
+        noi = self._dem_dinh_nghia("build_card_fields")
+        self.assertEqual(len(noi), 1, f"co {len(noi)} ban build_card_fields: {noi}")
+
+    def test_duong_sua_the_di_chung_loi_voi_duong_them_moi(self):
+        """`/sua` phải đi qua `pipeline`, chứ không dựng lối tắt riêng."""
+        goc = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        with open(os.path.join(goc, "tgbot", "flow_edit.py"), encoding="utf-8") as fh:
+            src = fh.read()
+        self.assertIn("from anki_tools.pipeline import", src)
+
+
 if __name__ == "__main__":
     unittest.main()

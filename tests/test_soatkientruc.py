@@ -434,6 +434,76 @@ class TestSoatKienTruc(unittest.TestCase):
         self.assertEqual(sk._so_cua({"so": 2, "vi_sao": "x"}), 2)
         self.assertEqual(sk._so_cua(None), 0)
 
+    # --- S22: chiều import một chiều giữa các mảng ------------------------
+    def test_s22_bat_import_nguoc_va_tha_chieu_dung(self):
+        self.ghi("anki_tools/xau.py", "from grammar_forms.cards import x\n")
+        self.ghi("grammar_forms/tot.py", "from anki_tools.utils import y\n")
+        khoa = [ph.khoa for ph in cua_code.s22_chieu_import_mot_chieu()]
+        self.assertIn("anki_tools/xau.py", khoa)
+        self.assertNotIn("grammar_forms/tot.py", khoa)
+
+    def test_s22_bat_ca_import_TRONG_HAM(self):
+        """Chỗ người ta hay lách khi muốn bẻ vòng — cửa phải soi cả thân hàm."""
+        self.ghi("anki_tools/len_lut.py", "def f():\n    import tgbot\n")
+        self.assertIn("anki_tools/len_lut.py",
+                      [ph.khoa for ph in cua_code.s22_chieu_import_mot_chieu()])
+
+    def test_s22_soat_nguphap_khong_duoc_import_grammar(self):
+        self.ghi("anki_tools/soat_nguphap.py", "from anki_tools import grammar\n")
+        ra = [ph for ph in cua_code.s22_chieu_import_mot_chieu()
+              if ph.khoa == "anki_tools/soat_nguphap.py"]
+        self.assertTrue(ra)
+        self.assertIn("dung RIENG", ra[0].mo_ta)
+
+    # --- S23: AnkiConnect không được tải media hộ -------------------------
+    def test_s23_bat_url_va_tha_data(self):
+        self.ghi("tgbot/xau.py",
+                 'x = {"action": "storeMediaFile", "params": {"url": u, "filename": f}}\n')
+        self.ghi("tgbot/tot.py",
+                 'x = {"action": "storeMediaFile", "params": {"data": b, "filename": f}}\n')
+        khoa = [ph.khoa for ph in cua_code.s23_media_phai_tu_tai()]
+        self.assertIn("tgbot/xau.py", khoa)
+        self.assertNotIn("tgbot/tot.py", khoa)
+
+    # --- S24: chỉ được MỘT card template ----------------------------------
+    def test_s24_bat_hai_template_va_tha_mot(self):
+        self.ghi("anki_tools/xau.py",
+                 'm = {"cardTemplates": [{"Name": "A"}, {"Name": "B"}]}\n')
+        self.ghi("anki_tools/tot.py", 'm = {"cardTemplates": [{"Name": "A"}]}\n')
+        khoa = [ph.khoa for ph in cua_code.s24_mot_card_template()]
+        self.assertIn("anki_tools/xau.py", khoa)
+        self.assertNotIn("anki_tools/tot.py", khoa)
+
+    def test_s24_bat_ca_dang_dict_cua_updateModelTemplates(self):
+        self.ghi("anki_tools/hai.py",
+                 'p = {"templates": {"A": {"Front": 1}, "B": {"Front": 2}}}\n')
+        self.assertIn("anki_tools/hai.py",
+                      [ph.khoa for ph in cua_code.s24_mot_card_template()])
+
+    # --- S25: sổ phải phân loại, và còn búa là ĐỎ --------------------------
+    def _so_phan_loai(self, dong):
+        self.ghi("QUYETDINH.md",
+                 "# x\n\n## 🗂️ SỔ QUYẾT ĐỊNH\n\n"
+                 "| QD | Ngày | Quyết định | Vì sao (ngắn) |\n|---|---|---|---|\n" + "".join(dong))
+
+    def test_s25_thieu_ca_hai_dau_la_do(self):
+        self._so_phan_loai(["| QD-01 | 01/01 | chua phan loai | y |\n"])
+        ra = cua_nguong.s25_so_phai_phan_loai()
+        self.assertEqual(len(ra), 1)
+        self.assertIn("chua phan loai", ra[0].mo_ta)
+
+    def test_s25_con_bua_la_do_du_da_phan_loai(self):
+        """User chốt 09/08: búa chỉ sống GIỮA phiên — hết phiên phải sạch."""
+        self._so_phan_loai(["| QD-01 | 01/01 | 🔨 xay duoc ma chua xay | y |\n"])
+        ra = cua_nguong.s25_so_phai_phan_loai()
+        self.assertEqual(len(ra), 1)
+        self.assertIn("VIEC CHUA XONG", ra[0].mo_ta)
+
+    def test_s25_toan_can_thi_IM(self):
+        self._so_phan_loai(["| QD-01 | 01/01 | ⚖️ tu can | y |\n",
+                            "| QD-02 | 01/01 | ⚖️ tu can | y |\n"])
+        self.assertEqual(cua_nguong.s25_so_phai_phan_loai(), [])
+
 
 if __name__ == "__main__":
     unittest.main()
