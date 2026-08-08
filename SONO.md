@@ -14,6 +14,7 @@
 
 | Nợ | Vì sao chưa trả | Hết hạn |
 |---|---|---|
+| **S19 không thấy `VIECDANGLAM.md` bị RỖNG** — cửa chỉ đếm dòng thừa, nên file mất sạch phần khung vẫn XANH | Đã xảy ra thật 09/08: lệnh dọn xuống dòng mở file ở chế độ GHI rồi mới đọc lại chính nó ⇒ chép rỗng đè lên, lọt vào commit. File này nằm nhóm `batbuoc` nên phiên sau đọc TRƯỚC | 2026-09-15 |
 
 🔴 **Trước khi thêm dòng, hỏi: đây có phải NỢ không?** Nợ = việc mình BIẾT phải làm
 mà cố ý hoãn. KHÔNG phải nợ, và cấm ghi vào đây:
