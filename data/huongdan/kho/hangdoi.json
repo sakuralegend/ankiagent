@@ -1,7 +1,52 @@
 {
- "tong_tu": 1041,
- "tong_lo": 66,
+ "tong_tu": 1065,
+ "tong_lo": 68,
  "lo": [
+  {
+   "id": "k67",
+   "topic": "tu-moi",
+   "tu": [
+    "бедный",
+    "герой",
+    "гитара",
+    "журналист",
+    "история",
+    "мужчина",
+    "музыкант",
+    "официант",
+    "пианино",
+    "почтальон",
+    "президент",
+    "скрипка"
+   ],
+   "trangthai": "xong",
+   "file": "k67_tu-moi.py",
+   "tuMoi": true,
+   "thucong": "TU MOI user vua them. Cac tu co the KHONG cung ho nhau — soan tung the doc lap, dung ep mot truc chung va dung dung khoi he thong. Chuan: README muc 2 (1 man hinh iPhone, toi da 2 o do) + muc 2c (sua field Vietnamese cho chi co 1 dap an dung).",
+   "daNap": true
+  },
+  {
+   "id": "k68",
+   "topic": "tu-moi",
+   "tu": [
+    "дверь",
+    "диван",
+    "еда",
+    "животное",
+    "игрушка",
+    "интернет",
+    "крокодил",
+    "кухня",
+    "лежать",
+    "насекомое",
+    "перчатка",
+    "печенье"
+   ],
+   "trangthai": "cho",
+   "file": null,
+   "tuMoi": true,
+   "thucong": "TU MOI user vua them. Cac tu co the KHONG cung ho nhau — soan tung the doc lap, dung ep mot truc chung va dung dung khoi he thong. Chuan: README muc 2 (1 man hinh iPhone, toi da 2 o do) + muc 2c (sua field Vietnamese cho chi co 1 dap an dung)."
+  },
   {
    "id": "k66",
    "topic": "tu-moi",

@@ -8326,5 +8326,197 @@
   "pos": "oth",
   "topic": "language::grammar",
   "cu": false
+ },
+ {
+  "wc": "бедный",
+  "w": "бе́дный",
+  "en": "<ol class=\"meaning-list\"><li>poor</li></ol>",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "герой",
+  "w": "геро́й",
+  "en": "<ol class=\"meaning-list\"><li>hero</li><li>character.</li></ol>",
+  "pos": "n",
+  "topic": "people::family",
+  "cu": false
+ },
+ {
+  "wc": "гитара",
+  "w": "гита́ра",
+  "en": "<ol class=\"meaning-list\"><li>guitar</li></ol>",
+  "pos": "n",
+  "topic": "concepts::misc",
+  "cu": false
+ },
+ {
+  "wc": "дверь",
+  "w": "две́рь",
+  "en": "<ol class=\"meaning-list\"><li>[dvʲerʲ]</li><li>door</li></ol>",
+  "pos": "n",
+  "topic": "life::home",
+  "cu": false
+ },
+ {
+  "wc": "диван",
+  "w": "дива́н",
+  "en": "<ol class=\"meaning-list\"><li>sofa</li><li>couch</li><li>settee</li></ol>",
+  "pos": "n",
+  "topic": "life::home",
+  "cu": false
+ },
+ {
+  "wc": "еда",
+  "w": "еда́",
+  "en": "<ol class=\"meaning-list\"><li>food</li><li>meal</li></ol>",
+  "pos": "n",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "животное",
+  "w": "живо́тное",
+  "en": "<ol class=\"meaning-list\"><li>animal</li></ol>",
+  "pos": "n",
+  "topic": "nature::animals",
+  "cu": false
+ },
+ {
+  "wc": "журналист",
+  "w": "журнали́ст",
+  "en": "<ol class=\"meaning-list\"><li>journalist</li><li>pressman</li></ol>",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "игрушка",
+  "w": "игру́шка",
+  "en": "<ol class=\"meaning-list\"><li>toy</li><li>plaything</li></ol>",
+  "pos": "n",
+  "topic": "life::home",
+  "cu": false
+ },
+ {
+  "wc": "интернет",
+  "w": "интерне́т",
+  "en": "<ol class=\"meaning-list\"><li>internet</li><li>world wide web</li><li>interwebs</li></ol>",
+  "pos": "n",
+  "topic": "concepts::misc",
+  "cu": false
+ },
+ {
+  "wc": "история",
+  "w": "исто́рия",
+  "en": "<ol class=\"meaning-list\"><li>history</li><li>story</li><li>event</li><li>affair</li><li>thing</li></ol>",
+  "pos": "n",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "крокодил",
+  "w": "крокоди́л",
+  "en": "<ol class=\"meaning-list\"><li>crocodile</li></ol>",
+  "pos": "n",
+  "topic": "nature::animals",
+  "cu": false
+ },
+ {
+  "wc": "кухня",
+  "w": "ку́хня",
+  "en": "<ol class=\"meaning-list\"><li>kitchen</li><li>cook-house</li><li>galley</li><li>cooking</li><li>cuisine</li><li>machinations</li></ol>",
+  "pos": "n",
+  "topic": "life::home",
+  "cu": false
+ },
+ {
+  "wc": "лежать",
+  "w": "лежа́ть",
+  "en": "<ol class=\"meaning-list\"><li>to be lying down (Где?)</li><li>to be situated</li><li>to rest</li><li>be incumbent</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "мужчина",
+  "w": "мужчи́на",
+  "en": "<ol class=\"meaning-list\"><li>man</li></ol>",
+  "pos": "n",
+  "topic": "people::family",
+  "cu": false
+ },
+ {
+  "wc": "музыкант",
+  "w": "музыка́нт",
+  "en": "<ol class=\"meaning-list\"><li>musician</li></ol>",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "насекомое",
+  "w": "насеко́мое",
+  "en": "<ol class=\"meaning-list\"><li>insect</li></ol>",
+  "pos": "n",
+  "topic": "nature::animals",
+  "cu": false
+ },
+ {
+  "wc": "официант",
+  "w": "официа́нт",
+  "en": "<ol class=\"meaning-list\"><li>waiter</li></ol>",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "перчатка",
+  "w": "перча́тка",
+  "en": "<ol class=\"meaning-list\"><li>glove</li></ol>",
+  "pos": "n",
+  "topic": "life::clothing",
+  "cu": false
+ },
+ {
+  "wc": "печенье",
+  "w": "пече́нье",
+  "en": "<ol class=\"meaning-list\"><li>cookie</li><li>biscuit</li></ol>",
+  "pos": "n",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "пианино",
+  "w": "пиани́но",
+  "en": "<ol class=\"meaning-list\"><li>piano</li></ol>",
+  "pos": "n",
+  "topic": "life::home",
+  "cu": false
+ },
+ {
+  "wc": "почтальон",
+  "w": "почтальо́н",
+  "en": "<ol class=\"meaning-list\"><li>postman</li><li>letter-carrier</li></ol>",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "президент",
+  "w": "президе́нт",
+  "en": "<ol class=\"meaning-list\"><li>president</li></ol>",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "скрипка",
+  "w": "скри́пка",
+  "en": "<ol class=\"meaning-list\"><li>violin</li><li>fiddle</li></ol>",
+  "pos": "n",
+  "topic": "concepts::misc",
+  "cu": false
  }
 ]
