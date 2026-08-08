@@ -14,7 +14,6 @@
 
 | Nợ | Vì sao chưa trả | Hết hạn |
 |---|---|---|
-| Mẫu phiếu việc ở `ycau.md`/`kehoach.md` **không lọt nổi trần 14 dòng của S19**, và `kehoach.md` bắt thêm mục `##` thứ hai mà S19 chỉ cho 1 (bắt 06/08 khi đi đúng ba cửa). | Phải chọn: nới trần hay viết lại hai mẫu. Đang giữa việc vá sync, L4 cấm gộp. | 2026-08-20 |
 
 🔴 **Trước khi thêm dòng, hỏi: đây có phải NỢ không?** Nợ = việc mình BIẾT phải làm
 mà cố ý hoãn. KHÔNG phải nợ, và cấm ghi vào đây:

@@ -55,6 +55,9 @@ Kèm hai dòng nữa:
 
 ## Bước 4 — Nối kế hoạch vào phiếu việc, rồi DỪNG
 
-Thêm mục `## Kế hoạch (đã duyệt <ngày>)` vào `VIECDANGLAM.md` — giữ ngắn, cả file phải nằm
-trong ngân sách đọc (`soat_nguong.json`, S10 canh). Rồi **chờ user gật đầu**. User duyệt xong mới bắt đầu viết code; viết xong chạy
-`/nghiemthu`.
+Thêm mục **`### Kế hoạch (đã duyệt <ngày>)`** vào `VIECDANGLAM.md`. 🔴 **`###` chứ KHÔNG phải
+`##`**: cửa S19 đếm `##` để biết phiếu còn tồn mấy ĐẦU VIỆC và trần là 1 — mục thứ hai bằng `##`
+làm cửa đỏ ngay, mà kế hoạch không phải một đầu việc riêng, nó là phần của việc đang làm.
+
+Giữ ngắn: cả file phải lọt **14 dòng** (S19) *và* ngân sách đọc trong `soat_nguong.json` (S10).
+Rồi **chờ user gật đầu**. Duyệt xong mới viết code; viết xong chạy `/nghiemthu`.

@@ -59,28 +59,21 @@ canh bằng KÝ TỰ (QD-20).
 ĐẦU VIỆC (trần 1, QD-25) — viết mục con bằng `##` là phiếu đúng chuẩn nào cũng làm cửa đỏ.
 Đúng một `##` trong file, chính là dòng tiêu đề việc.
 
+🔴 **Trần S19 là 14 DÒNG cả file**, mẫu dưới mỗi mục đúng MỘT dòng. Cần dài hơn tức là phiếu
+đang chứa NỢ (→ `SONO.md`) hoặc LUẬT CHUNG (→ file người ta đọc lúc cần). Mẫu cũ 21 dòng, đỏ
+ngay lượt đầu — bắt 06/08.
+
 ```markdown
 # 🎯 VIỆC ĐANG LÀM
-> Phiếu này bị GHI ĐÈ ở việc kế tiếp. Xong việc thì xoá nội dung, để lại đúng dòng tiêu đề.
+> Phiếu bị GHI ĐÈ ở việc kế tiếp. Xong việc thì để trống, chừa đúng dòng tiêu đề.
 
 ## <tên việc bằng ngôn ngữ thường>          ← ĐẦU VIỆC duy nhất, S19 đếm dòng này
 
-### Một câu
-Chức năng này để ___, dùng khi ___.
-
-### User đã chốt (từ câu hỏi trắc nghiệm)
-- <điều đã chốt 1>
-- <điều đã chốt 2>
-
-### Coi là XONG khi
-- [ ] <cảnh cụ thể nhìn được bằng mắt: thẻ hiện thế này / bot trả lời thế kia>
-
-### CỐ Ý KHÔNG LÀM lần này
-- <thứ gần giống bị cắt khỏi phạm vi>
-
-### Đã đo trước khi nhận việc
-- Trùng bảng "ĐÃ ĐO RỒI BÁC"? <có/không + dòng nào>
-- Chức năng gần giống đã có? <tên hàm/file, hoặc "không có">
+**Một câu:** chức năng này để ___, dùng khi ___.
+**User đã chốt:** <điều 1> · <điều 2>
+**Coi là XONG khi:** <cảnh nhìn được bằng mắt: thẻ hiện thế này / bot trả lời thế kia>
+**CỐ Ý KHÔNG làm:** <thứ gần giống bị cắt khỏi phạm vi>
+**Đã đo:** trùng "ĐÃ ĐO RỒI BÁC"? <có/không + dòng nào> · hàm gần giống? <tên, hoặc "không có">
 ```
 
 ## Bước 4 — Đi thẳng sang cửa 2, ĐỪNG bắt user gõ gì
