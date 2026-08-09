@@ -728,6 +728,33 @@ class ToBangChia(unittest.TestCase):
         DG = "ребёнок"
         self.assertIn("biente", [m for m, _ in self._soi(d, DG)["flags"]])
 
+    def test_cach4_KHONG_duoc_in_duoi_tieu_de_BAT_THUONG(self):
+        """`CHUAN.md` §C: có khối `BAT THUONG` ⇒ BẮT BUỘC viết một câu chú ý.
+        Nhưng `cach4` là luật SINH VẬT đúng quy tắc (đo 09/08: 112/605 danh từ
+        dính nhãn, 100% là sinh vật) ⇒ lô đông danh từ chỉ người thì mọi thẻ
+        phải mang cùng MỘT câu — đúng "khối hệ thống dùng chung" README §3 cấm.
+        Đã xảy ra thật: 8/14 thẻ k69. Ô vẫn phải TÔ (QD-35), chỉ tiêu đề đổi."""
+        from data.huongdan.kho import khochung
+        rec = {"pos": "noun", "acc": "крокоди́л", "decl": self.KROK}
+        dong = "\n".join(khochung._dong_bat_thuong(rec))
+        self.assertIn("CÁCH 4", dong)              # vẫn trỏ chỗ cho agent
+        self.assertIn("KHONG can cau chu y", dong)
+        self.assertNotIn("BAT THUONG", dong)       # nhưng KHÔNG đội mũ bắt buộc
+        self.assertIn(("sg", "acc"), self._soi(self.KROK, "крокоди́л")["nong"])
+
+    def test_bat_thuong_THAT_van_giu_nguyen_tieu_de_bat_buoc(self):
+        """Vế ngược: lọc `cach4` không được làm câm nhãn thật. `сестра́` vừa có
+        cách 4 = cách 2 (sinh vật) vừa có trọng âm dịch — phải in CẢ HAI tiêu đề."""
+        from data.huongdan.kho import khochung
+        d = {"sg": {"nom": "сестра́", "gen": "сестры́", "dat": "сестре́",
+                    "acc": "сестру́", "inst": "сестро́й", "prep": "сестре́"},
+             "pl": {"nom": "сёстры", "gen": "сестёр", "dat": "сёстрам",
+                    "acc": "сестёр", "inst": "сёстрами", "prep": "сёстрах"}}
+        dong = "\n".join(khochung._dong_bat_thuong(
+            {"pos": "noun", "acc": "сестра́", "decl": d}))
+        self.assertIn("BAT THUONG", dong)
+        self.assertIn("KHONG can cau chu y", dong)
+
     def test_danh_tu_chia_nhu_tinh_tu_KHONG_bi_to_va_KHONG_bi_gan_nhan_bia(self):
         """`живо́тное` từng sáng 10/12 ô với nhãn "NGUYÊN ÂM CHẠY" + "thân từ ĐỔI"
         — cả hai đều bịa (agent lô k68 bác 08/08). Đuôi tính từ là luật có trong

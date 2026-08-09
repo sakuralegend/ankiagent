@@ -136,6 +136,22 @@ def _gon(s, n):
     return s if len(s) <= n else s[:n - 1].rstrip() + "…"
 
 
+# Nhãn `analyze` trỏ chỗ ĐÚNG QUY TẮC — tô trong bảng thì có ích, nhưng KHÔNG được
+# kéo theo nghĩa vụ "bắt buộc viết một câu chú ý" của `CHUAN.md` §C.
+#
+# `cach4` (cách 4 viết như cách 2) là **luật sinh vật**, không phải bất thường: đo
+# 09/08/2026 trên 605 danh từ có bảng chia trong thẻ thật — **112 từ dính nhãn,
+# 100% là sinh vật**, không lọt một đồ vật nào. Nhãn phải Ở LẠI trong `analyze()`
+# (ô vẫn tô — user chốt 08/08, QD-35: *"có quy tắc trong sách suy ra được thì thôi,
+# nhảy trọng âm hay khác từ là tô ngay, tôi không lo số lượng"*), nhưng in nó dưới
+# tiêu đề `BAT THUONG` thì lô nào đông danh từ chỉ người cũng phải viết cùng MỘT
+# câu: 8/14 thẻ k69 (09/08) dính đúng nhãn này ⇒ viết đủ 8 câu giống nhau chính là
+# "khối hệ thống dùng chung" mà README §3 cấm. Agent k69 bỏ hết và ĐÚNG.
+# 🔴 Sửa ở ĐÂY chứ không sửa `CHUAN.md`: lời dặn nằm ngay chỗ agent đang đọc lúc
+# cần, khỏi đẻ một luật có ngoại lệ nằm ở file khác (QD-29).
+TRO_CHO = {"cach4"}
+
+
 def _dong_bat_thuong(rec):
     """Câu mô tả chỗ BẤT THƯỜNG của bảng chia (`grammar.analyze`).
 
@@ -146,10 +162,16 @@ def _dong_bat_thuong(rec):
     """
     flags = grammar.analyze(rec).get("flags") or []
     flags = [(ma, c) for ma, c in flags if ma not in ("khongbien",)]
-    if not flags:
-        return []
-    return ["###   BAT THUONG trong bang chia (viet 1 cau chu y, DUNG chep nguyen):"] + \
-           [f"###     - {c}" for _, c in flags]
+    batbuoc = [c for ma, c in flags if ma not in TRO_CHO]
+    trocho = [c for ma, c in flags if ma in TRO_CHO]
+    ra = []
+    if batbuoc:
+        ra += ["###   BAT THUONG trong bang chia (viet 1 cau chu y, DUNG chep nguyen):"] + \
+              [f"###     - {c}" for c in batbuoc]
+    if trocho:
+        ra += ["###   DUNG QUY TAC — chi TRO CHO, o da to san trong bang, KHONG can cau chu y:"] + \
+              [f"###     - {c}" for c in trocho]
+    return ra
 
 
 def _dong_them(rec):
