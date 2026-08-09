@@ -1,7 +1,57 @@
 {
- "tong_tu": 1065,
- "tong_lo": 68,
+ "tong_tu": 1093,
+ "tong_lo": 70,
  "lo": [
+  {
+   "id": "k69",
+   "topic": "tu-moi",
+   "tu": [
+    "актёр",
+    "ветеринар",
+    "внук",
+    "директор",
+    "культура",
+    "мальчик",
+    "отпуск",
+    "ошибка",
+    "писатель",
+    "политика",
+    "посол",
+    "проблема",
+    "стоить",
+    "турист"
+   ],
+   "trangthai": "xong",
+   "file": "k69_tu-moi.py",
+   "tuMoi": true,
+   "thucong": "TU MOI user vua them. Cac tu co the KHONG cung ho nhau — soan tung the doc lap, dung ep mot truc chung va dung dung khoi he thong. Chuan: README muc 2 (1 man hinh iPhone, toi da 2 o do) + muc 2c (sua field Vietnamese cho chi co 1 dap an dung). Nua DAU cua 28 tu moi 09/08, chia theo TAG CHU DE: nguoi (professions+family) + khai niem truu tuong.",
+   "daNap": true
+  },
+  {
+   "id": "k70",
+   "topic": "tu-moi",
+   "tu": [
+    "вирус",
+    "заниматься",
+    "инструмент",
+    "концерт",
+    "кресло",
+    "мебель",
+    "пляж",
+    "спальня",
+    "спать",
+    "спектакль",
+    "тарелка",
+    "флейта",
+    "футболка",
+    "экзамен"
+   ],
+   "trangthai": "xong",
+   "file": "k70_tu-moi.py",
+   "tuMoi": true,
+   "thucong": "TU MOI user vua them. Cac tu co the KHONG cung ho nhau — soan tung the doc lap, dung ep mot truc chung va dung dung khoi he thong. Chuan: README muc 2 (1 man hinh iPhone, toi da 2 o do) + muc 2c (sua field Vietnamese cho chi co 1 dap an dung). Nua SAU cua 28 tu moi 09/08, chia theo TAG CHU DE: do vat trong nha + giai tri + hoat dong + noi chon.",
+   "daNap": true
+  },
   {
    "id": "k67",
    "topic": "tu-moi",
