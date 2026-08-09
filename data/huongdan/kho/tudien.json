@@ -8742,5 +8742,213 @@
   "pos": "n",
   "topic": "language::education",
   "cu": false
+ },
+ {
+  "wc": "баскетбол",
+  "w": "баскетбо́л",
+  "en": "<ol class=\"meaning-list\"><li>basketball</li></ol>",
+  "pos": "n",
+  "topic": "concepts::misc",
+  "cu": false
+ },
+ {
+  "wc": "видеоигра",
+  "w": "видеоигра́",
+  "en": "<ol class=\"meaning-list\"><li>video game</li></ol>",
+  "pos": "n",
+  "topic": "concepts::misc",
+  "cu": false
+ },
+ {
+  "wc": "внучка",
+  "w": "вну́чка",
+  "en": "<ol class=\"meaning-list\"><li>granddaughter</li><li>grandchild</li></ol>",
+  "pos": "n",
+  "topic": "people::family",
+  "cu": false
+ },
+ {
+  "wc": "война",
+  "w": "война́",
+  "en": "<ol class=\"meaning-list\"><li>war</li><li>warfare</li></ol>",
+  "pos": "n",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "встать",
+  "w": "встать",
+  "en": "<ol class=\"meaning-list\"><li>to get up</li><li>stand up</li><li>rise</li><li>to rise (sun)</li><li>to arise</li><li>come up (question)</li><li>to stop</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "встретить",
+  "w": "встре́тить",
+  "en": "<ol class=\"meaning-list\"><li>meet</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "встречать",
+  "w": "встреча́ть",
+  "en": "<ol class=\"meaning-list\"><li>meet</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "выставка",
+  "w": "вы́ставка",
+  "en": "<ol class=\"meaning-list\"><li>exhibition</li></ol>",
+  "pos": "n",
+  "topic": "concepts::misc",
+  "cu": false
+ },
+ {
+  "wc": "выходные",
+  "w": "выходны́е",
+  "en": "<ol class=\"meaning-list\"><li>weekend</li></ol>",
+  "pos": "n",
+  "topic": "time",
+  "cu": false
+ },
+ {
+  "wc": "гид",
+  "w": "гид",
+  "en": "<ol class=\"meaning-list\"><li>guide</li></ol>",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "искать",
+  "w": "иска́ть",
+  "en": "<ol class=\"meaning-list\"><li>[ɪˈskatʲ]</li><li>to look for</li><li>search</li><li>seek</li><li>to sue (law)</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "клиент",
+  "w": "клие́нт",
+  "en": "<ol class=\"meaning-list\"><li>client</li><li>customer</li></ol>",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "конференция",
+  "w": "конфере́нция",
+  "en": "<ol class=\"meaning-list\"><li>conference</li></ol>",
+  "pos": "n",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "курица",
+  "w": "ку́рица",
+  "en": "<ol class=\"meaning-list\"><li>hen</li><li>chicken</li></ol>",
+  "pos": "n",
+  "topic": "nature::animals",
+  "cu": false
+ },
+ {
+  "wc": "летом",
+  "w": "ле́том",
+  "en": "<ol class=\"meaning-list\"><li>in summer</li></ol>",
+  "pos": "oth",
+  "topic": "time",
+  "cu": false
+ },
+ {
+  "wc": "носить",
+  "w": "носи́ть",
+  "en": "<ol class=\"meaning-list\"><li>to carry something by hand or on the body</li><li>to wear</li><li>to bear</li></ol>",
+  "pos": "v",
+  "topic": "life::clothing",
+  "cu": false
+ },
+ {
+  "wc": "пациент",
+  "w": "пацие́нт",
+  "en": "<ol class=\"meaning-list\"><li>patient</li></ol>",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "племянник",
+  "w": "племя́нник",
+  "en": "<ol class=\"meaning-list\"><li>nephew</li></ol>",
+  "pos": "n",
+  "topic": "people::family",
+  "cu": false
+ },
+ {
+  "wc": "повар",
+  "w": "по́вар",
+  "en": "<ol class=\"meaning-list\"><li>cook</li><li>chef</li></ol>",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "приглашать",
+  "w": "приглаша́ть",
+  "en": "<ol class=\"meaning-list\"><li>invite</li><li>ask</li><li>call</li><li>engage</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "программа",
+  "w": "програ́мма",
+  "en": "<ol class=\"meaning-list\"><li>program</li></ol>",
+  "pos": "n",
+  "topic": "concepts::misc",
+  "cu": false
+ },
+ {
+  "wc": "рано",
+  "w": "ра́но",
+  "en": "<ol class=\"meaning-list\"><li>it is early</li><li>it is too early</li><li>early</li></ol>",
+  "pos": "oth",
+  "topic": "time",
+  "cu": false
+ },
+ {
+  "wc": "родина",
+  "w": "ро́дина",
+  "en": "<ol class=\"meaning-list\"><li>native land</li><li>home</li><li>homeland</li><li>motherland</li><li>birthplace</li></ol>",
+  "pos": "n",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "сосед",
+  "w": "сосе́д",
+  "en": "<ol class=\"meaning-list\"><li>neighbour</li></ol>",
+  "pos": "n",
+  "topic": "people::family",
+  "cu": false
+ },
+ {
+  "wc": "теннис",
+  "w": "те́ннис",
+  "en": "<ol class=\"meaning-list\"><li>tennis</li></ol>",
+  "pos": "n",
+  "topic": "concepts::misc",
+  "cu": false
+ },
+ {
+  "wc": "улыбка",
+  "w": "улы́бка",
+  "en": "<ol class=\"meaning-list\"><li>smile</li></ol>",
+  "pos": "n",
+  "topic": "people::body",
+  "cu": false
  }
 ]
