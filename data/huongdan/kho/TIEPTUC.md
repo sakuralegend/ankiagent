@@ -13,6 +13,26 @@ Bạn (user) chỉ cần gõ một câu: **"chạy tiếp kho"**. Phần dưới
 > 🔄 **02/08: `nap --apply` và `cao_nguphap` nay TỰ kéo sync về trước khi đọc/ghi** (QD-16). Sync
 > hỏng thì chúng DỪNG, không ghi gì — đúng cái đã làm hỏng 23 thẻ đêm 31/07. Không phải nhớ gì thêm.
 
+### ✅ PHIÊN 09/08 đợt 2 — 26 từ mới, luồng chính tự chia **k71(13) + k72(13)**
+
+Chia theo **tag chủ đề**: k71 = người (nghề · gia đình · thân thể) + hành động gặp gỡ; k72 = giải
+trí + trừu tượng + thời gian + ăn/mặc. Cả hai lô: ba mục soát `(khong co)` · `dodai` **0/0** ·
+`nap` khớp tuyệt đối **26 note / 26 từ** · `kiemtra.py` trên **1119 thẻ thật**: `TRONG AM LECH
+(khong co)`.
+
+🔴🔴 **LẦN ĐẦU LUỒNG CHÍNH SAI THEO HƯỚNG BÁO ĐỘNG GIẢ, KHÔNG PHẢI BỎ SÓT.** Sáu phiên trước tôi
+toàn khai THIẾU (khai "không có họ" trong khi có). Lần này ngược: tôi đọc danh mục "rác tầng dữ
+liệu" rồi **đoán trước ba thẻ hỏng** (`выходные` bị dán bảng danh từ · `летом`/`рано` cùng thế) —
+agent mở `GrammarJSON` thật thì **cả ba đều lành** (`declMode:"pl-only"`, bảng in đúng đuôi TÍNH
+TỪ; hai trạng từ không có khối `decl` nào). ⇒ **Danh mục sáu dấu hiệu là thứ để ĐI ĐO, không phải
+để đoán bằng.** Khai sai kiểu này đắt riêng: agent phải tốn lượt chứng minh điều KHÔNG xảy ra.
+
+📊 **HAI SỐ MỚI, CẢ HAI ĐỀU LÀM YẾU DÒNG CŨ.** ① Chi phí **277K token** (125K+152K) cho 2 lô/26 từ
+— trong khi phiên trước **225K** cho 2 lô/**28** từ. Cùng số lô, ít từ hơn mà đắt hơn 23% ⇒ *"biến
+chính là SỐ LÔ"* **chưa đủ**; khác biệt duy nhất là lời nhắn phiên này dài hơn hẳn (chép cả bảng đo
+họ từ + khuôn viết đề bài). ② Lỗi tự bắt **7/26 = 0,27 lỗi/từ**, THẤP hơn cả 0,29 của lô 14 từ và
+0,46 của lô 12 từ ⇒ **chốt lại: "lô nhỏ soi kỹ hơn" là NHIỄU, đừng hạ trần cỡ lô vì nó nữa.**
+
 ### ✅ PHIÊN 09/08 — 28 từ mới, luồng chính tự chia **k69(14) + k70(14)**
 
 Chia theo **tag chủ đề, KHÔNG cắt đôi danh sách**: cả 6 từ `people::professions` phải nằm chung một
@@ -51,22 +71,6 @@ từ cùng gốc không mang mặt chữ** — tôi khai `животное` khô
 `жить`/`жизнь` (gốc `жив-`). Cùng loạt: khai `скрипка` là từ mượn trơn (thật ra thuần Nga,
 `скрип-` cót két + `-ка`), khai `лежать` va chạm với `стоять` trong khi chỗ va chạm thật là
 `находиться`. **Danh sách tôi giao là SÀN — dặn agent quét lại là thứ đã cứu phiên này.**
-
-### ✅ PHIÊN 08/08 đợt 3: k58(18) — **LÔ CUỐI. HÀNG ĐỢI HẾT: 66/66 lô · 1041/1041 từ**
-
-`soat` cả ba mục `(khong co)` · `dodai` **0/0** (cao TB 403px, khối chung 0%) · `nap` khớp
-**18 note / 18 từ**. `kiemtra.py` chạy trên **1041 THẺ THẬT**: `TRONG AM LECH (khong co)`.
-Khối CSS `mn-*` di sản đã xoá — đo trước khi xoá: **0/1041 note** còn dùng (trước là 54).
-
-🔴🔴 **LUỒNG CHÍNH KHAI SAI LẦN THỨ NĂM LIÊN TIẾP, agent đo lại bác được cả hai chỗ.**
-① Khai *"họ `выход` không có trong bộ sưu tập"* — **sai**, vì tôi grep gốc bằng `startswith`
-nên **sót mọi từ có tiền tố**. ② Khai khuôn trạng từ thời gian là *"trần, không có «vào»"*
-(`вчера`/`завтра`) — hàng xóm ĐÚNG khuôn là `у́тром` = "vào buổi sáng", cùng kiểu cách-5-hoá
-trạng từ ⇒ `вечером` giữ nguyên. **Cơ chế này đã trả tiền năm phiên liền, đừng cắt.**
-
-📌 **Từ nay chỉ còn lô TỪ MỚI** — `congcu.py moi --apply` gộp dồn vào MỘT lô, chạy khi đã
-gom đủ (dưới 10 từ thì đắt gấp ~3 lần mỗi từ, nó tự cảnh báo). Mọi mục dưới đây giữ nguyên
-giá trị cho lô đó.
 
 ### 📕 BÀI HỌC CÒN SỐNG — khối có TRẦN (S21, QD-33)
 
@@ -190,6 +194,7 @@ bỏ bước đo trước khi giao lô**; cứ gộp hết phép đo vào một 
 | 🆕 Đo thật 08/08 đợt 2 (phiên sạch, 4 lô, lời nhắn dài + bảng đo cả họ từ) | 77 từ / 4 lô | *(chờ user đọc quota)* — token 568K |
 | 🆕 Đo thật 08/08 đợt 4 (lô TỪ MỚI, **2 lô**) | 24 từ / 2 lô | token **273K** — đúng nửa phiên 4 lô |
 | 🆕 Đo thật 09/08 (lô TỪ MỚI, 2 lô, **14 từ/lô**) | 28 từ / 2 lô | token **225K** — ~112K mỗi lô |
+| 🆕 Đo thật 09/08 đợt 2 (lô TỪ MỚI, 2 lô, 13 từ/lô, **lời nhắn dài hơn**) | 26 từ / 2 lô | token **277K** — ~138K mỗi lô |
 
 🔴🔴 **BIẾN CHÍNH LÀ SỐ LÔ, KHÔNG PHẢI SỐ TỪ** (chốt lại 08/08 đợt 2, sau khi đo ba phiên 4 lô
 liên tiếp). Token bốn agent: **493K**/71 từ · **558K**/57 từ · **568K**/77 từ — số từ chạy 35%
