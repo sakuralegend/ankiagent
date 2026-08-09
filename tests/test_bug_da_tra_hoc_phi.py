@@ -454,6 +454,25 @@ class OMayDungRiengKhoiOHuongDan(unittest.TestCase):
         self.assertIn("NGƯỜI SOẠN", ra)
         self.assertNotIn("BẢNG CŨ", ra)
 
+    def test_bang_in_TEN_the_no_sua_khong_chi_in_SO(self):
+        """🔴 Vá 1 ô của `видеоигра` 09/08 mà lệnh báo đổi **2 note**.
+
+        Note thứ hai không cách nào gọi tên lại: lệnh idempotent nên chạy lại chỉ
+        ra 0, và bộ sưu tập không nằm trong git. Đếm được mà không truy được thì
+        con số chỉ báo có chuyện, không nói chuyện gì."""
+        import inspect
+        import importlib.util
+        goc = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        kho = os.path.join(goc, "data", "huongdan", "kho")
+        sys.path.insert(0, kho)
+        spec = importlib.util.spec_from_file_location("congcu", os.path.join(kho, "congcu.py"))
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        nguon = inspect.getsource(mod.cmd_bang)
+        self.assertIn("for _, wc, o in doi:", nguon,
+                      "cmd_bang phai duyet `doi` de IN TEN tung the no sua")
+        self.assertIn("{wc}", nguon, "vong lap do phai in ra chinh tu, khong phai dem lai")
+
     def test_go_bang_goi_hai_lan_van_ra_mot_ket_qua(self):
         """Chạy `bang --apply` hai lần không được đội bảng / cụt chữ."""
         html = 'CHỮ<details class="gt-bang">B</details>'

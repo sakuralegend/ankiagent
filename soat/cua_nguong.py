@@ -445,6 +445,13 @@ def s19_viecdanglam_con_ton():
         return []
     dong = p.read_text(encoding="utf-8").splitlines()
     ra = []
+    # 🔴 Trần là chặn TRÊN — chỉ có nó thì file bị ghi RỖNG vẫn XANH (xảy ra thật
+    # 09/08, ca đầy đủ ở test `test_s19_bat_PHIEU_VIEC_BI_GHI_RONG`). Chặn DƯỚI
+    # bằng một điều kiện không đoán khuôn tài liệu: còn dòng tiêu đề `#` không.
+    if not [d for d in dong if re.match(r"#\s+\S", d)]:
+        ra.append(PhatHien("VIECDANGLAM.md", 0,
+                           "RONG hoac mat dong tieu de `# ` — phieu viec bi ghi de "
+                           "bang file trong; khoi phuc tu `git show HEAD:VIECDANGLAM.md`"))
     if len([d for d in dong if re.match(r"##\s+\S", d)]) > tran:
         ra.append(PhatHien("VIECDANGLAM.md", 0,
                            f"nhieu hon {tran} dau viec — viec chua lam day sang SONO.md kem HAN XOA"))

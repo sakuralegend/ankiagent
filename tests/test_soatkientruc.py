@@ -368,6 +368,26 @@ class TestSoatKienTruc(unittest.TestCase):
         self.assertEqual([ph.khoa for ph in ra], ["VIECDANGLAM.md"])
         self.assertIn("dong", ra[0].mo_ta)
 
+    def test_s19_bat_PHIEU_VIEC_BI_GHI_RONG(self):
+        """🔴 Trần là chặn TRÊN — mất sạch file thì mọi phép đếm đều ĐẠT.
+
+        Xảy ra thật 09/08/2026: một lệnh dọn xuống dòng mở `VIECDANGLAM.md` ở chế
+        độ GHI rồi mới đọc lại chính nó, chép rỗng đè lên, và commit đi qua S19
+        XANH. File này nằm nhóm `batbuoc` nên phiên sau đọc TRƯỚC — mất nó là
+        phiên sau khởi động mù, đúng kiểu hỏng IM LẶNG."""
+        self._nguong_gia(viecdanglam={})
+        self.ghi("VIECDANGLAM.md", "")
+        ra = cua_nguong.s19_viecdanglam_con_ton()
+        self.assertEqual([ph.khoa for ph in ra], ["VIECDANGLAM.md"])
+        self.assertIn("RONG", ra[0].mo_ta)
+
+    def test_s19_bat_phieu_viec_mat_dong_tieu_de(self):
+        """Cụt phần khung mà vẫn còn chữ cũng là hỏng — không chỉ file 0 byte."""
+        self._nguong_gia(viecdanglam={})
+        self.ghi("VIECDANGLAM.md", "chay lo k40\n")
+        ra = cua_nguong.s19_viecdanglam_con_ton()
+        self.assertEqual([ph.khoa for ph in ra], ["VIECDANGLAM.md"])
+
     def test_s19_thieu_tran_dong_trong_config_thi_im(self):
         """Config cũ chưa có `tran_dong` ⇒ im, vì S12 đã kêu ĐỎ (quy ước file này)."""
         self.ghi("soat_nguong.json", json.dumps(

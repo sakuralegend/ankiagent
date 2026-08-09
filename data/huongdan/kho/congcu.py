@@ -106,10 +106,12 @@ def cmd_bang():
             continue
         doi.append((n["noteId"], wc, o))
     print(f"{len(notes)} the | se doi {len(doi)} | giu nguyen {giu}")
+    # 🔴 IN TÊN, không chỉ in SỐ — lệnh idempotent nên chạy lại chỉ ra 0, số đã
+    # đếm rồi thì không truy ngược được (test `..._in_TEN_the_no_sua_...` kể ca thật).
+    for _, wc, o in doi:
+        print(f"  ~ {wc}  ({' + '.join(sorted(o))})")
     print(f"  trong so giu nguyen, {len(khong)} the KHONG CO BANG (khong bien cach "
           f"hoac tu dien khong co du lieu)")
-    if khong:
-        print("  " + " ".join(khong[:25]) + (" ..." if len(khong) > 25 else ""))
     if not apply:
         print("(CHAY KHAN — them --apply de ghi that)")
         return

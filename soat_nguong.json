@@ -41,8 +41,8 @@
   "da_ghi_no": {
    "anki_tools/anki_client.py": 637,
    "anki_tools/grammar.py": 502,
-   "data/huongdan/kho/congcu.py": 491,
-   "soat/cua_nguong.py": 523,
+   "data/huongdan/kho/congcu.py": 493,
+   "soat/cua_nguong.py": 530,
    "tgbot/dispatch.py": 430
   }
  },

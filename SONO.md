@@ -14,8 +14,6 @@
 
 | Nợ | Vì sao chưa trả | Hết hạn |
 |---|---|---|
-| **`congcu.py bang` không in TÊN thẻ nó sửa** — báo `se doi N` rồi thôi | Gặp thật 09/08: vá 1 ô của `видеоигра` mà lệnh báo đổi **2 note**, note thứ hai không gọi tên lại được. Hoãn vì trộn sửa công cụ vào phiên chạy lô đã đốt trọn một cửa sổ 5h | 2026-09-15 |
-| **S19 không thấy `VIECDANGLAM.md` bị RỖNG** — cửa chỉ đếm dòng thừa, nên file mất sạch phần khung vẫn XANH | Đã xảy ra thật 09/08: lệnh dọn xuống dòng mở file ở chế độ GHI rồi mới đọc lại chính nó ⇒ chép rỗng đè lên, lọt vào commit. File này nằm nhóm `batbuoc` nên phiên sau đọc TRƯỚC | 2026-09-15 |
 
 🔴 **Trước khi thêm dòng, hỏi: đây có phải NỢ không?** Nợ = việc mình BIẾT phải làm
 mà cố ý hoãn. KHÔNG phải nợ, và cấm ghi vào đây:
