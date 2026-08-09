@@ -8518,5 +8518,229 @@
   "pos": "n",
   "topic": "concepts::misc",
   "cu": false
+ },
+ {
+  "wc": "актёр",
+  "w": "актёр",
+  "en": "<ol class=\"meaning-list\"><li>actor</li><li>player</li></ol>",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "ветеринар",
+  "w": "ветерина́р",
+  "en": "<ol class=\"meaning-list\"><li>veterinarian</li></ol>",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "вирус",
+  "w": "ви́рус",
+  "en": "<ol class=\"meaning-list\"><li>virus</li></ol>",
+  "pos": "n",
+  "topic": "concepts::misc",
+  "cu": false
+ },
+ {
+  "wc": "внук",
+  "w": "внук",
+  "en": "<ol class=\"meaning-list\"><li>grandson</li><li>grandchild</li><li>descendant</li></ol>",
+  "pos": "n",
+  "topic": "people::family",
+  "cu": false
+ },
+ {
+  "wc": "директор",
+  "w": "дире́ктор",
+  "en": "<ol class=\"meaning-list\"><li>director</li><li>manager</li><li>head</li><li>principal</li><li>head master</li><li>head mistress</li></ol>",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "заниматься",
+  "w": "занима́ться",
+  "en": "<ol class=\"meaning-list\"><li>to be engaged in</li><li>to practice</li><li>to study</li><li>to build</li><li>to do</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "инструмент",
+  "w": "инструме́нт",
+  "en": "<ol class=\"meaning-list\"><li>instrument</li><li>tool</li><li>tools</li></ol>",
+  "pos": "n",
+  "topic": "life::home",
+  "cu": false
+ },
+ {
+  "wc": "концерт",
+  "w": "конце́рт",
+  "en": "<ol class=\"meaning-list\"><li>concert</li><li>recital</li><li>concerto</li></ol>",
+  "pos": "n",
+  "topic": "concepts::misc",
+  "cu": false
+ },
+ {
+  "wc": "кресло",
+  "w": "кре́сло",
+  "en": "<ol class=\"meaning-list\"><li>armchair</li><li>easy chair</li><li>stall</li><li>responsible position</li><li>post</li></ol>",
+  "pos": "n",
+  "topic": "life::home",
+  "cu": false
+ },
+ {
+  "wc": "культура",
+  "w": "культу́ра",
+  "en": "<ol class=\"meaning-list\"><li>culture</li><li>plant</li></ol>",
+  "pos": "n",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "мальчик",
+  "w": "ма́льчик",
+  "en": "<ol class=\"meaning-list\"><li>boy</li><li>lad</li><li>apprentice</li></ol>",
+  "pos": "n",
+  "topic": "people::family",
+  "cu": false
+ },
+ {
+  "wc": "мебель",
+  "w": "ме́бель",
+  "en": "<ol class=\"meaning-list\"><li>furniture</li></ol>",
+  "pos": "n",
+  "topic": "life::home",
+  "cu": false
+ },
+ {
+  "wc": "отпуск",
+  "w": "о́тпуск",
+  "en": "<ol class=\"meaning-list\"><li>holiday</li><li>vacation</li><li>leave</li></ol>",
+  "pos": "n",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "ошибка",
+  "w": "оши́бка",
+  "en": "<ol class=\"meaning-list\"><li>mistake</li></ol>",
+  "pos": "n",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "писатель",
+  "w": "писа́тель",
+  "en": "<ol class=\"meaning-list\"><li>writer</li><li>author</li></ol>",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "пляж",
+  "w": "пляж",
+  "en": "<ol class=\"meaning-list\"><li>beach</li></ol>",
+  "pos": "n",
+  "topic": "places::city",
+  "cu": false
+ },
+ {
+  "wc": "политика",
+  "w": "поли́тика",
+  "en": "<ol class=\"meaning-list\"><li>politics</li><li>policy</li></ol>",
+  "pos": "n",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "посол",
+  "w": "посо́л",
+  "en": "<ol class=\"meaning-list\"><li>ambassador</li><li>salting</li></ol>",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "проблема",
+  "w": "пробле́ма",
+  "en": "<ol class=\"meaning-list\"><li>[prɐˈblʲemʌ]</li><li>Problem</li></ol>",
+  "pos": "n",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "спальня",
+  "w": "спа́льня",
+  "en": "<ol class=\"meaning-list\"><li>main bedroom</li></ol>",
+  "pos": "n",
+  "topic": "life::home",
+  "cu": false
+ },
+ {
+  "wc": "спать",
+  "w": "спать",
+  "en": "<ol class=\"meaning-list\"><li>[spatʲ]</li><li>to sleep</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "спектакль",
+  "w": "спекта́кль",
+  "en": "<ol class=\"meaning-list\"><li>play</li><li>performance</li></ol>",
+  "pos": "n",
+  "topic": "concepts::misc",
+  "cu": false
+ },
+ {
+  "wc": "стоить",
+  "w": "сто́ить",
+  "en": "<ol class=\"meaning-list\"><li>[ˈstoɪtʲ]</li><li>to cost</li><li>worth</li><li>should</li></ol>",
+  "pos": "v",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "тарелка",
+  "w": "таре́лка",
+  "en": "<ol class=\"meaning-list\"><li>plate</li></ol>",
+  "pos": "n",
+  "topic": "life::home",
+  "cu": false
+ },
+ {
+  "wc": "турист",
+  "w": "тури́ст",
+  "en": "<ol class=\"meaning-list\"><li>tourist</li><li>hiker</li></ol>",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "флейта",
+  "w": "фле́йта",
+  "en": "<ol class=\"meaning-list\"><li>flute</li></ol>",
+  "pos": "n",
+  "topic": "concepts::misc",
+  "cu": false
+ },
+ {
+  "wc": "футболка",
+  "w": "футбо́лка",
+  "en": "<ol class=\"meaning-list\"><li>T-Shirt</li><li>sport shirt</li><li>football-jersey</li></ol>",
+  "pos": "n",
+  "topic": "life::clothing",
+  "cu": false
+ },
+ {
+  "wc": "экзамен",
+  "w": "экза́мен",
+  "en": "<ol class=\"meaning-list\"><li>examination</li><li>exam</li><li>test</li></ol>",
+  "pos": "n",
+  "topic": "language::education",
+  "cu": false
  }
 ]
