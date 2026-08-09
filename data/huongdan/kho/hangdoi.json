@@ -44,10 +44,11 @@
     "родина",
     "теннис"
    ],
-   "trangthai": "cho",
+   "trangthai": "xong",
    "file": "k72_tu-moi.py",
    "tuMoi": true,
-   "thucong": "TU MOI user vua them. Cac tu co the KHONG cung ho nhau — soan tung the doc lap, dung ep mot truc chung va dung dung khoi he thong. Chuan: README muc 2 (1 man hinh iPhone, toi da 2 o do) + muc 2c (sua field Vietnamese cho chi co 1 dap an dung). Nua SAU cua 26 tu moi 09/08 dot 2, chia theo TAG CHU DE: giai tri/the thao + khai niem truu tuong + thoi gian + do an/quan ao."
+   "thucong": "TU MOI user vua them. Cac tu co the KHONG cung ho nhau — soan tung the doc lap, dung ep mot truc chung va dung dung khoi he thong. Chuan: README muc 2 (1 man hinh iPhone, toi da 2 o do) + muc 2c (sua field Vietnamese cho chi co 1 dap an dung). Nua SAU cua 26 tu moi 09/08 dot 2, chia theo TAG CHU DE: giai tri/the thao + khai niem truu tuong + thoi gian + do an/quan ao.",
+   "daNap": true
   },
   {
    "id": "k69",
