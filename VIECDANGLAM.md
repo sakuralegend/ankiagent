@@ -5,9 +5,10 @@
 
 **Trống — không có việc dở dang.**
 
-Lô từ mới 08/08 xong (k67 · k68); hàng đợi kho đã đóng từ trước. Từ nay chỉ còn
-lô **từ mới**: `congcu.py moi --apply`, chạy theo `data/huongdan/kho/TIEPTUC.md`.
+Lô từ mới 09/08 xong (k69 · k70 = 28 từ, đã nạp Anki + commit). Từ nay chỉ còn lô
+**từ mới**: `congcu.py moi --apply`, chạy theo `data/huongdan/kho/TIEPTUC.md`.
 Quá 22 từ thì lệnh **không tự chia** — chia tay theo tag chủ đề trước khi giao.
 
-Sổ quyết định đã dọn **16 → 1 dòng**; cửa **S25** từ nay ép mỗi dòng mang 🔨 (là
-ĐỎ, chặn deploy) hoặc ⚖️. VPS đã deploy bản mới nhất 09/08, bot `active`.
+⏳ **User vẫn thêm từ mới bằng bot trong lúc phiên 09/08 chạy, và đã dặn ĐỂ YÊN.**
+`trangthai` sẽ báo có từ mới chưa vào hàng đợi — đó là BÌNH THƯỜNG, gom chúng lại
+khi user gõ "chạy lô tiếp" lần sau.

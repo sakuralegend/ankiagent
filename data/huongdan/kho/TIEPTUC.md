@@ -13,6 +13,26 @@ Bạn (user) chỉ cần gõ một câu: **"chạy tiếp kho"**. Phần dưới
 > 🔄 **02/08: `nap --apply` và `cao_nguphap` nay TỰ kéo sync về trước khi đọc/ghi** (QD-16). Sync
 > hỏng thì chúng DỪNG, không ghi gì — đúng cái đã làm hỏng 23 thẻ đêm 31/07. Không phải nhớ gì thêm.
 
+### ✅ PHIÊN 09/08 — 28 từ mới, luồng chính tự chia **k69(14) + k70(14)**
+
+Chia theo **tag chủ đề, KHÔNG cắt đôi danh sách**: cả 6 từ `people::professions` phải nằm chung một
+lô, vì tách họ từ ra hai agent là đúng cơ chế đã làm **11 tên tháng viết 4 kiểu**. Hai cặp dính nhau
+(`спать`↔`спальня`, `концерт`↔`спектакль`) cũng xếp cùng lô để một agent lo được cả hai phía. Cả hai
+lô: ba mục soát `(khong co)` · `dodai` **0/0** · `nap` khớp tuyệt đối **28 note / 28 từ** ·
+`kiemtra.py` trên **1093 thẻ thật**: `TRONG AM LECH (khong co)`.
+
+🔴🔴 **DẤU HIỆU "LÔ NHỎ SOI KỸ HƠN" BỊ SỐ LIỆU MỚI BẺ.** Lỗi tự bắt **8/28 = 0,29 lỗi/từ**, THẤP
+NHẤT bốn phiên gần đây — trong khi lô 12 từ cho **0,46** và lô 19–21 từ cho 0,32–0,35. Cỡ 14 nằm
+giữa mà thấp nhất ⇒ đường "nhỏ hơn = soi kỹ hơn" **không đơn điệu**, nhiều khả năng là nhiễu từng lô
+chứ không phải quy luật. **Đừng hạ trần cỡ lô dựa vào dấu hiệu 29/07 nữa.** Chi phí: 2 lô ăn **225K
+token** (119K+106K), rẻ hơn 273K của 2 lô phiên trước dù nhiều hơn 4 từ ⇒ củng cố "biến chính là SỐ LÔ".
+
+🔴🔴 **CẢ HAI AGENT LẠI BÁC ĐƯỢC PHẦN ĐO CỦA LUỒNG CHÍNH — lần thứ SÁU liên tiếp**, và lần này tôi
+sai đúng chỗ tôi đã tự cảnh báo: khai "máy không thấy họ" cho `отпуск` (thật ra `от-`+`пуск`) và
+`ошибка` (`ошибаться`). Điểm mới đáng giữ: **nguyên âm chạy trong bảng chia là thứ để lộ gốc thật**
+— `посол`→`посла` lộ gốc `сл-`, nối thẳng được với `посольство`. Dữ liệu để bác **đã nằm sẵn** trong
+khối `BAT THUONG`, máy chỉ không nối hai việc đó với nhau.
+
 ### ✅ PHIÊN 08/08 đợt 4 — **LÔ TỪ MỚI ĐẦU TIÊN**: k67(12) + k68(12) = 24 từ
 
 `moi --apply` gom 24 từ ⇒ **vượt trần 22**, lệnh không tự chia nên luồng chính chia đôi theo
@@ -47,35 +67,6 @@ trạng từ ⇒ `вечером` giữ nguyên. **Cơ chế này đã trả ti�
 📌 **Từ nay chỉ còn lô TỪ MỚI** — `congcu.py moi --apply` gộp dồn vào MỘT lô, chạy khi đã
 gom đủ (dưới 10 từ thì đắt gấp ~3 lần mỗi từ, nó tự cảnh báo). Mọi mục dưới đây giữ nguyên
 giá trị cho lô đó.
-
-### ✅ PHIÊN 08/08 đợt 2: k50(20) · k61(19) · k56(19) · k57(19) = **77 từ / 4 LÔ** — kế tiếp **k58, LÔ CUỐI**
-
-Cả bốn: `QUA 1 MAN HINH: 0` · `QUA 2 O DO: 0` · khối chung **0%** · `nap` khớp tuyệt đối
-20/20, 19/19, 19/19, 19/19. Rà ngược bắt **27 lỗi nội dung**, bác từ điển **25 lần**.
-
-🔴🔴 **ĐIỂM ĐO LẬT DÒNG "GIÁ ĐI THEO ĐỘ DÀI LỜI NHẮN".** Token bốn agent, ba phiên 4 lô liên
-tiếp: **493K** (71 từ) · **558K** (57 từ) · **568K** (77 từ). Số từ chạy từ 57 lên 77 mà token
-**gần như đứng yên** ⇒ biến chính là **SỐ LÔ**; trong vùng 57–77 từ, thêm từ gần như **miễn
-phí**. Lời nhắn phiên này dài hơn 08/08 đợt 1 (thêm bảng đo cả họ từ) mà mỗi từ vẫn rẻ hơn 25%.
-⇒ **Cỡ lô chọn theo CHẤT LƯỢNG, không theo chi phí** — trùng kết luận mục 📏 CỠ LÔ từ phía khác.
-
-🔴🔴 **LUỒNG CHÍNH KHAI SAI LẦN THỨ TƯ, và lần này CẢ BỐN agent đều bác được ít nhất một chỗ.**
-Nặng nhất: tôi khai ba khuôn viết danh từ dân tộc giống cái nằm ở ba lô khác nhau; đo field
-thật thì **cả ba nằm trong MỘT lô k56** — tôi suy rộng từ hai từ mà không đọc hết họ. Cũng khai
-ngược thứ tự hai vế của tính từ ngôn ngữ (8/9 thẻ mở bằng "thuộc về nước X"), và kết luận sai
-`станция`↔`вокзал` là kêu oan: **`do_va_cham` so TỪNG CỤM chứ không so cả dòng, nên badge giống
-khác nhau KHÔNG cứu được gì ở tầng đó.** 🔴 Lọc va chạm bằng badge chỉ đúng ở tầng "hai từ có
-phải một cặp không", không đúng ở tầng "cụm này có trùng không".
-
-🆕 **BẢNG CHIA MÁY KHÔNG CHỈ THIẾU NHÃN — NÓ HỎNG HẲN ĐƯỢC.** `щепка` sai 5/6 ô số ít (nom/acc
-in dạng cách 2 số nhiều, inst in đuôi giống ĐỰC, gen số nhiều bịa hẳn); `отрицательный` mất chữ
-cuối của dạng ngắn giống cái. Nhãn `BAT THUONG` chỉ là **hệ quả** của rác đó — thêm một điểm đo
-cho "`BAT THUONG` là ứng viên, không phải phán quyết".
-
-📊 **Gỡ va chạm bằng RÚT GỌN — xác nhận lần ba, mạnh nhất:** k61 bỏ 9 nghĩa nới rộng (đều là
-nghĩa vốn của từ khác) làm cụm trùng dính lô tụt **10 → 5**, không thêm một chữ nào. Cùng khuôn
-ở k57: nguồn hay dịch **cụm** rồi gán cho **từ** (`сожаление` ← `к сожалению`, `точка` ←
-`точка зрения`, `особенность` ← trạng từ `особенно`).
 
 ### 📕 BÀI HỌC CÒN SỐNG — khối có TRẦN (S21, QD-33)
 
@@ -198,6 +189,7 @@ bỏ bước đo trước khi giao lô**; cứ gộp hết phép đo vào một 
 | 🆕 Đo thật 08/08 (phiên sạch, 4 lô, **lời nhắn dài gấp đôi**) | 57 từ / 4 lô | **95%** — **1,67%/từ** |
 | 🆕 Đo thật 08/08 đợt 2 (phiên sạch, 4 lô, lời nhắn dài + bảng đo cả họ từ) | 77 từ / 4 lô | *(chờ user đọc quota)* — token 568K |
 | 🆕 Đo thật 08/08 đợt 4 (lô TỪ MỚI, **2 lô**) | 24 từ / 2 lô | token **273K** — đúng nửa phiên 4 lô |
+| 🆕 Đo thật 09/08 (lô TỪ MỚI, 2 lô, **14 từ/lô**) | 28 từ / 2 lô | token **225K** — ~112K mỗi lô |
 
 🔴🔴 **BIẾN CHÍNH LÀ SỐ LÔ, KHÔNG PHẢI SỐ TỪ** (chốt lại 08/08 đợt 2, sau khi đo ba phiên 4 lô
 liên tiếp). Token bốn agent: **493K**/71 từ · **558K**/57 từ · **568K**/77 từ — số từ chạy 35%
@@ -342,6 +334,14 @@ người soạn khó tự thấy**. User không kiểm được nội dung, nên
 `congcu.py vacham` chỉ khớp **chuỗi** ⇒ là **SÀN**, không phải bằng chứng sạch. Lọc phần kêu oan
 bằng **field thật** rồi giao kèm cho agent: bước này đẻ ra giá trị lớn nhất mỗi phiên và nó **rẻ**
 (giá đi theo số LƯỢT CHAT, không theo việc làm trong một lượt).
+
+🔴 **Badge chỉ cứu ở tầng "hai TỪ có phải một cặp không", KHÔNG cứu ở tầng "cụm này có trùng
+không"** — `do_va_cham` so **TỪNG CỤM** chứ không so cả dòng, nên hai từ khác giống vẫn báo trùng
+nếu dùng chung một cụm (`зачёт`/`тест`/`экзамен` cùng n·MASC mà vẫn dính "bài kiểm tra").
+📊 **Gỡ va chạm bằng RÚT GỌN, đừng thêm chữ — xác nhận LẦN THỨ TƯ (k70, 09/08).** Bỏ nghĩa nới
+rộng / bỏ lời giải thích lẫn trong đề bài làm cụm trùng biến mất mà không thêm một chữ nào: k61
+bỏ 9 nghĩa ⇒ 10→5; k70 bỏ "làm việc" khỏi `заниматься` và trả "bài kiểm tra" về `зачёт`/`тест`
+⇒ tổng cụm trùng cả bộ 154→153, không đẻ cụm mới. Nguồn hay dịch **cụm** rồi gán cho **từ**.
 
 🔴 **Đọc ĐỦ BA badge, đừng chỉ `PoS`** — đo trên cả 1041 thẻ: `PoS` tách sạch adj↔adv
 (`высокий`/`высоко`), n↔pron, v↔oth; **`GenderBadge` tách tiếp danh từ cùng nghĩa khác giống**
