@@ -1,0 +1,46 @@
+# DỮ LIỆU THẺ CHI PHỐI — 4 cột, ngăn bằng TAB. Dòng `#` là chú thích.
+#
+#   giới_từ	từ_nguyên_thể	cách	dòng_tiếng_Việt
+#
+# 🔴 Ở ĐÂY CHỈ VIẾT 4 CỘT NÀY. Cụm tiếng Nga (`в шко́лу`) và dòng đối chiếu trên
+#    thẻ đều do MÁY sinh lúc nạp, từ bảng chia trong ô `GrammarJSON` của chính
+#    thẻ từ vựng (QD-36). Gõ tay cụm Nga vào đây là sai luật: máy hết đường soát,
+#    và soạn theo lô nhỏ thì dòng đối chiếu của thẻ làm trước sẽ mục khi thẻ làm
+#    sau ra đời, không có gì nhắc quay lại.
+#
+# 🔴 CỘT 1 viết ĐÚNG DẠNG SẼ HIỆN (`во` · `со` · `об` · `ко`), không viết dạng gốc.
+#    Máy tự quy về `в`/`с`/`о`/`к` để xếp deck. Vì sao không để máy tự đoán:
+#    luật `в→во` phụ thuộc cụm phụ âm đứng sau, đoán sai là đẻ ra tiếng Nga sai
+#    mà vẫn báo XANH. Đã dính thật lúc chạy thử lô này (`в вто́рник` ❌).
+#
+# 🔴 CỘT 4 phải SẮC tới mức chỉ có MỘT đáp án đúng. "ở trường" ứng với cả
+#    `в шко́ле` lẫn `в шко́лу` ⇒ thẻ hỏng im lặng: gõ đúng bị chấm sai, bấm Again,
+#    học ngược. Cùng luật đã có cho deck 1-gõ (`data/huongdan/README.md`).
+#    Cửa soát bắt được hai thẻ cùng danh từ mà cùng cách, hoặc dòng Việt giống
+#    hệt — nhưng "khác chữ mà cùng nghĩa" thì máy chịu, phải người đọc.
+#
+# Cách thêm: mỗi CÔNG DỤNG mà chọn sai thì câu sai = MỘT dòng. Đếm riêng từng
+# giới từ, ra 3–7, cấm chia đều.
+
+# ── в (hạng 2) — hai cách: chuyển động vs vị trí; và thời gian tách theo độ dài
+во	Франция	6	đang ở bên Pháp
+во	вторник	4	vào thứ ba
+в	школа	4	đi vào trường
+в	школа	6	đang ở trong trường
+в	январь	6	vào tháng giêng
+
+# ── на (hạng 4) — hai cách, cộng nhóm danh từ BẮT BUỘC dùng на (không suy được)
+на	стол	4	đặt lên bàn
+на	стол	6	đang ở trên bàn
+на	работа	4	đi tới chỗ làm
+на	работа	6	đang ở chỗ làm
+на	улица	6	ở ngoài phố
+на	урок	6	đang trong giờ học
+на	вокзал	6	đang ở nhà ga
+
+# ── с (hạng 8) — hai nghĩa ngược nhau, phân biệt hoàn toàn bằng CÁCH
+с	молоко	5	cà phê có sữa
+с	друг	5	đi cùng với bạn
+с	работа	2	từ chỗ làm về
+со	стол	2	lấy khỏi mặt bàn
+со	я	5	cùng với tôi
