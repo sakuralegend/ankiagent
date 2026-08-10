@@ -15,6 +15,9 @@ from anki_tools.config import ANKI_CONNECT_URL
 from anki_tools.utils import apply_hl, log_fail, log_warn, strip_accents_perfectly
 
 from .config import (
+    CHIPHOI_CARD_NAME,
+    CHIPHOI_FIELDS,
+    CHIPHOI_MODEL,
     KIND_LABELS,
     PLURAL_CARD_NAME,
     PLURAL_DECK,
@@ -72,6 +75,59 @@ def setup_model():
     anki("updateModelStyling", model={"name": PLURAL_MODEL, "css": css})
     print(f"✅ Đã cập nhật template + CSS cho '{PLURAL_MODEL}' (card: {card_name}).")
     return True
+
+
+def setup_chiphoi_model():
+    """Tạo/cập nhật model RU_ChiPhoi. Idempotent — chạy lại bao nhiêu lần cũng được.
+
+    🔴 Lần ĐẦU chạy là **schema mod** ⇒ Anki đòi full sync. Đó là việc phải có
+    tay người (laptop Upload → VPS Download); `setup.py` in cảnh báo, đừng tự
+    gọi `trigger_sync()` sau hàm này — AnkiConnect không chọn được chiều sync,
+    mà chọn nhầm chiều là ghi đè sạch bản còn lại, không lùi được.
+    """
+    css = read_template("chiphoi.css")
+    front = read_template("chiphoi_front.html")
+    back = read_template("chiphoi_back.html")
+
+    if CHIPHOI_MODEL not in (anki("modelNames") or []):
+        anki("createModel", modelName=CHIPHOI_MODEL, inOrderFields=CHIPHOI_FIELDS, css=css,
+             cardTemplates=[{"Name": CHIPHOI_CARD_NAME, "Front": front, "Back": back}])
+        print(f"✅ Đã tạo model '{CHIPHOI_MODEL}' (LẦN ĐẦU ⇒ cần full sync).")
+        return "moi"
+
+    existing = anki("modelFieldNames", modelName=CHIPHOI_MODEL) or []
+    for field in CHIPHOI_FIELDS:
+        if field not in existing:
+            anki("modelFieldAdd", modelName=CHIPHOI_MODEL, fieldName=field)
+            print(f"➕ Thêm ô '{field}' vào model '{CHIPHOI_MODEL}'.")
+
+    names = list((anki("modelTemplates", modelName=CHIPHOI_MODEL) or {}).keys())
+    card_name = names[0] if names else CHIPHOI_CARD_NAME
+    anki("updateModelTemplates",
+         model={"name": CHIPHOI_MODEL, "templates": {card_name: {"Front": front, "Back": back}}})
+    anki("updateModelStyling", model={"name": CHIPHOI_MODEL, "css": css})
+    print(f"✅ Đã cập nhật template + CSS cho '{CHIPHOI_MODEL}' (card: {card_name}).")
+    return "cu"
+
+
+def doc_nghia_tu_vung(tu_clean):
+    """Nghĩa tiếng Việt của vài từ trong deck TỪ VỰNG -> `{WordClean: nghĩa}`.
+
+    Dùng để đặt TÊN DECK (`в — cách 4/6 — trong, ở trong, vào`) mà không phải gõ
+    lại nghĩa vào file dữ liệu: gõ lại là dựng bản chép thứ hai, rồi sửa một bên
+    quên bên kia. Hỏi đúng mấy từ cần chứ không kéo cả 1138 thẻ về.
+    """
+    ra = {}
+    for tu in tu_clean:
+        try:
+            ids = anki("findNotes", query=f'note:"RU_Word" WordClean:"{tu}"') or []
+            if not ids:
+                continue
+            info = (anki("notesInfo", notes=ids[:1]) or [{}])[0]
+            ra[tu] = (info.get("fields", {}).get("Vietnamese", {}).get("value") or "").strip()
+        except Exception as e:
+            log_warn(f"Không đọc được nghĩa của '{tu}': {e}")
+    return ra
 
 
 def rename_legacy_deck(old_name, new_name):
@@ -178,13 +234,17 @@ def existing_words():
         return None
 
 
-def add_note(fields, deck=PLURAL_DECK, tags=None):
-    """Thêm note mới. Trả về (note_id | None, lỗi | '')."""
+def add_note(fields, deck=PLURAL_DECK, tags=None, model=PLURAL_MODEL):
+    """Thêm note mới. Trả về (note_id | None, lỗi | '').
+
+    `model` mặc định là RU_Plural để mọi lời gọi cũ không phải sửa; mảng thẻ chi
+    phối truyền `CHIPHOI_MODEL` vào.
+    """
     try:
         anki("createDeck", deck=deck)
         note_id = anki("addNote", note={
             "deckName": deck,
-            "modelName": PLURAL_MODEL,
+            "modelName": model,
             "fields": fields,
             "options": {"allowDuplicate": False},
             "tags": tags or [],

@@ -1,0 +1,20 @@
+<div class="card-container">
+    <div class="eyebrow">Chi phối · chia cho đúng</div>
+
+    <!-- Hiện GIỚI TỪ DẠNG GỐC (`в`) chứ không phải dạng sẽ viết (`во`): user chốt
+         10/08 là tự nhớ luật `в→во`. Đáp án ở mặt sau mới lộ dạng đúng. -->
+    <div class="ghep">
+        <span class="g-tu">{{GioiTu}}</span><span class="g-cong">+</span><span class="g-goc">{{Lemma}}</span>
+        <span class="np">hai từ ở dạng gốc</span>
+    </div>
+
+    <div class="vietnamese-box">
+        <div class="vi-label">Tiếng Việt</div>
+        <div class="vi-content">{{Vietnamese}}</div>
+    </div>
+
+    <!-- CỐ Ý không hiện ô `Cach` ở mặt trước: nói trước "cách 4" là trả lời hộ
+         đúng cái câu hỏi thẻ này đang hỏi. -->
+    <div class="prompt-hint">Gõ cả cụm (không cần dấu nhấn)</div>
+    {{type:CumClean}}
+</div>

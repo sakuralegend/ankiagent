@@ -1,0 +1,17 @@
+<div class="card-container">
+    <div class="section-title" style="text-align: center;">Đáp án của bạn</div>
+    {{type:CumClean}}
+    <hr class="ngan">
+
+    <div class="dapan"><span class="da-cum">{{Cum}}</span></div>
+    <div class="badge-container"><span class="badge">{{Cach}}</span></div>
+
+    <!-- Mặt sau CỐ Ý không có mục giải thích nào (user chốt 10/08: "sai thì bấm
+         Again, để lịch ôn lo phần nhớ"). Vế đối lập không dạy bằng lời mà bằng
+         MỘT THẺ RIÊNG — dòng dưới đây chỉ để đối chiếu lúc đã trả lời xong. -->
+    {{#DoiChieu}}
+    <hr class="ngan">
+    <div class="dc-sec">Các cách khác của <span class="dc-tu">{{Lemma}}</span></div>
+    <div class="dc">{{DoiChieu}}</div>
+    {{/DoiChieu}}
+</div>

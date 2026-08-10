@@ -1,0 +1,47 @@
+/* ==========================================================================
+   THẺ CHI PHỐI (RU_ChiPhoi)
+   Đứng riêng, KHÔNG dùng chung với `plural.css`: hai loại thẻ này phải đổi
+   được độc lập. Nền/viền/phông lấy đúng giá trị của `plural.css` để hai deck
+   trong cùng cây GRAMMAR nhìn ra một nhà.
+   🔴 Thẻ CỐ Ý ngắn — không có mục giải thích nào (user chốt 10/08). Đo bản mẫu:
+   ~350px, còn xa trần một màn hình iPhone (700px, chuẩn v3 mục A).
+   ========================================================================== */
+.card { background-color: #0d1117; color: #c9d1d9; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif !important; -webkit-font-smoothing: antialiased; }
+.card-container { background-color: #0d1117; max-width: 500px; margin: 10px auto; padding: 20px; border-radius: 16px; border: 1px solid #21262d; text-align: left; }
+.section-title { font-size: 11px; text-transform: uppercase; color: #8b949e; letter-spacing: 1px; margin-bottom: 8px; font-weight: 700; }
+hr.ngan { border: none; border-top: 1px solid #21262d; margin: 17px 0; }
+
+/* --- mặt trước: hai mảnh ghép --- */
+.eyebrow { font-size: 10px; color: #d29922; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; text-align: center; margin-bottom: 18px; }
+.ghep { text-align: center; margin-bottom: 4px; }
+.ghep .g-tu { font-size: 27px; font-weight: 800; color: #58a6ff; }
+.ghep .g-cong { font-size: 19px; color: #6e7681; margin: 0 9px; }
+.ghep .g-goc { font-size: 27px; font-weight: 700; color: #c9d1d9; }
+.ghep .np { display: block; margin-top: 6px; font-size: 11px; color: #6e7681; letter-spacing: 1px; text-transform: uppercase; }
+
+.vietnamese-box { padding: 12px 16px; background-color: #161b22; border: 1px solid #21262d; border-left: 4px solid #3fb950; border-radius: 8px; margin: 18px 0; }
+.vi-label { font-size: 10px; color: #3fb950; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; font-weight: bold; }
+.vi-content { font-size: 16px; color: #a5d6a7; font-weight: 500; }
+.prompt-hint { font-size: 12px; color: #8b949e; text-align: center; margin: 16px 0 9px; }
+
+/* --- mặt sau: đáp án + huy hiệu cách --- */
+.dapan { text-align: center; }
+.dapan .da-cum { font-size: 31px; font-weight: 800; color: #3fb950; letter-spacing: .3px; line-height: 1.25; text-rendering: optimizeLegibility; }
+.badge-container { display: flex; justify-content: center; margin: 14px 0 2px; }
+.badge { background-color: rgba(88, 166, 255, .12); color: #58a6ff; border: 1px solid rgba(88, 166, 255, .3); padding: 4px 13px; border-radius: 999px; font-size: 12px; font-weight: 700; letter-spacing: .4px; }
+
+/* --- dòng đối chiếu: các cách khác của CÙNG danh từ ---
+   Gom theo DANH TỪ chứ không theo giới từ, vì cặp đáng giá nhất bắt chéo hai
+   giới từ (`на рабо́ту` đi tới ↔ `с рабо́ты` từ đó về). MÁY SINH lúc nạp. */
+.dc-sec { font-size: 10px; color: #d29922; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 9px; }
+.dc-sec .dc-tu { color: #c9d1d9; }
+.dc { display: grid; grid-template-columns: auto auto 1fr; gap: 7px 11px; font-size: 13.5px; align-items: baseline; }
+.dc .c-cum { color: #58a6ff; font-weight: 700; white-space: nowrap; }
+.dc .c-cach { color: #6e7681; font-size: 11.5px; white-space: nowrap; letter-spacing: .3px; }
+.dc .c-ngh { color: #b1a077; }
+
+/* Ô gõ của Anki — cùng cỡ chữ với đáp án cho dễ soi từng ký tự */
+input#typeans { font-size: 18px !important; }
+.typeGood { background-color: #1a4d2e; color: #7ee787; }
+.typeBad { background-color: #4d1a1a; color: #ff7b72; }
+.typeMissed { background-color: #3d3416; color: #d29922; }

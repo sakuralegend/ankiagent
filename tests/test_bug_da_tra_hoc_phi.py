@@ -885,5 +885,81 @@ class MotChucNangMotLoi(unittest.TestCase):
         self.assertIn("from anki_tools.pipeline import", src)
 
 
+class TheChiPhoi(unittest.TestCase):
+    """BUG THẬT 10/08/2026 — máy ghép đáp án đẻ ra tiếng Nga SAI mà vẫn báo XANH.
+
+    Chạy thử lô đầu (17 thẻ) thì lối ghép ngây thơ `giới từ + dạng chia` nuốt mất
+    luật biến thể chính tả, ra ba cụm sai: `в вто́рник` (phải `во вто́рник`),
+    `в Фра́нции` (phải `во`), `с стола́` (phải `со стола́`). Không có gì kêu —
+    người học chính là người duy nhất chịu hậu quả, mà lại không biết.
+
+    Cách chữa: người soạn viết THẲNG dạng sẽ hiện vào cột 1 của
+    `data/chi_phoi.tsv`; máy chỉ quy ngược về dạng gốc để xếp deck. CẤM làm chiều
+    ngược lại — luật `в→во` phụ thuộc cụm phụ âm đứng sau, đoán là sai im lặng.
+    """
+
+    def setUp(self):
+        from grammar_forms import chi_phoi
+        self.cp = chi_phoi
+
+    def test_bien_the_chi_quy_MOT_CHIEU_ve_dang_goc(self):
+        from grammar_forms.config import BIEN_THE_GOC
+        self.assertEqual(BIEN_THE_GOC["во"], "в")
+        self.assertEqual(BIEN_THE_GOC["со"], "с")
+        # Chiều ngược lại PHẢI không tồn tại: có nó là mời máy đoán rồi sai im lặng.
+        self.assertNotIn("в", BIEN_THE_GOC)
+        self.assertNotIn("с", BIEN_THE_GOC)
+
+    def test_dang_chia_doc_duoc_ca_ba_kieu_bang(self):
+        """Danh từ · đại từ · số từ lồng khác nhau trong dữ liệu OpenRussian."""
+        danh_tu = {"decl": {"sg": {"acc": "шко́лу", "prep": "шко́ле"}}}
+        dai_tu = {"proDecl": {"m": {"inst": "мной"}}}
+        so_tu = {"numDecl": {"dat": "пяти́"}}
+        self.assertEqual(self.cp.dang_chia(danh_tu, "4"), "шко́лу")
+        self.assertEqual(self.cp.dang_chia(dai_tu, "5"), "мной")
+        self.assertEqual(self.cp.dang_chia(so_tu, "3"), "пяти́")
+        self.assertIsNone(self.cp.dang_chia({"decl": {"sg": {}}}, "2"))
+
+    def test_soat_bat_hai_the_cung_tu_cung_cach(self):
+        rows = [
+            {"so_dong": 1, "lemma": "школа", "cach": "4", "viet": "đi vào trường"},
+            {"so_dong": 2, "lemma": "школа", "cach": "4", "viet": "vào trường học"},
+        ]
+        tra = {"школа": {"decl": {"sg": {"acc": "шко́лу"}}}}
+        loi = self.cp.soat(rows, tra)
+        self.assertTrue(any("trùng" in l for l in loi), loi)
+
+    def test_soat_bat_de_bai_MO_HO_hai_dap_an_dung(self):
+        """Cùng danh từ, khác cách, mà dòng Việt giống hệt ⇒ gõ đúng bị chấm sai."""
+        rows = [
+            {"so_dong": 1, "lemma": "школа", "cach": "4", "viet": "ở trường"},
+            {"so_dong": 2, "lemma": "школа", "cach": "6", "viet": "Ở TRƯỜNG"},
+        ]
+        tra = {"школа": {"decl": {"sg": {"acc": "шко́лу", "prep": "шко́ле"}}}}
+        loi = self.cp.soat(rows, tra)
+        self.assertTrue(any("GIỐNG HỆT" in l for l in loi), loi)
+
+    def test_soat_bat_tu_chua_co_trong_deck(self):
+        rows = [{"so_dong": 1, "lemma": "ктотокхонгcó", "cach": "2", "viet": "x"}]
+        self.assertTrue(self.cp.soat(rows, {}))
+
+    def test_doi_chieu_gom_theo_DANH_TU_nen_bat_cheo_duoc_gioi_tu(self):
+        """`на рабо́ту` và `с рабо́ты` khác giới từ nhưng phải thấy nhau."""
+        a = {"gt_hien": "на", "form": "рабо́ту", "cach": "4", "viet": "đi tới chỗ làm"}
+        b = {"gt_hien": "с", "form": "рабо́ты", "cach": "2", "viet": "từ chỗ làm về"}
+        html = self.cp.dung_doi_chieu(a, [a, b])
+        self.assertIn("с рабо́ты", html)
+        self.assertNotIn("на рабо́ту", html)   # không tự liệt kê chính mình
+
+    def test_file_du_lieu_that_van_soat_sach(self):
+        """Dữ liệu trong repo phải luôn đọc được và đúng cú pháp 4 cột."""
+        rows, loi = self.cp.doc_tsv()
+        self.assertEqual(loi, [], loi)
+        self.assertTrue(rows)
+        for r in rows:
+            self.assertIn(r["cach"], list("123456"))
+            self.assertTrue(r["viet"].strip(), f"dòng {r['so_dong']} thiếu tiếng Việt")
+
+
 if __name__ == "__main__":
     unittest.main()

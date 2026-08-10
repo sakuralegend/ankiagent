@@ -9,7 +9,7 @@
 from anki_tools.anki_client import check_anki_ready, trigger_sync
 
 from . import cards
-from .config import PLURAL_DECK, PLURAL_DECK_LEGACY
+from .config import CHIPHOI_DECK_GIOITU, PLURAL_DECK, PLURAL_DECK_LEGACY
 
 
 def main():
@@ -29,7 +29,26 @@ def main():
 
     cards.setup_model()
 
-    print("☁️  Sync AnkiWeb..." if trigger_sync() else "⚠️  Sync AnkiWeb thất bại.")
+    # --- Loại thẻ thứ hai của mảng: CHI PHỐI ---
+    cards.anki("createDeck", deck=CHIPHOI_DECK_GIOITU)
+    trang_thai = cards.setup_chiphoi_model()
+
+    if trang_thai == "moi":
+        # 🔴 Tạo model mới = schema mod ⇒ Anki đòi FULL SYNC. CỐ Ý không gọi
+        # `trigger_sync()`: AnkiConnect không chọn được CHIỀU sync, mà chiều sai
+        # là ghi đè sạch bản còn lại và không lùi được. Việc này phải có tay
+        # người, và `KIENTRUC.md` ghi rõ triệu chứng khi lỡ: VPS kẹt
+        # "Sync status 2" mà KHÔNG báo Telegram tiếng nào.
+        print("\n" + "=" * 62)
+        print("🔴 VỪA TẠO LOẠI THẺ MỚI ⇒ ANKI SẼ ĐÒI FULL SYNC.")
+        print("   Đừng để máy tự sync. Làm tay đúng thứ tự này:")
+        print("   1. Trên LAPTOP:  Tools → Sync  →  chọn UPLOAD (đẩy lên)")
+        print("   2. Trên VPS:     vnc.bat → Sync  →  chọn DOWNLOAD (kéo về)")
+        print("   Chọn sai chiều là mất dữ liệu và KHÔNG có gì kêu.")
+        print("   Xong bước 2 thì kiểm:  journalctl -u anki-bot -n 50")
+        print("=" * 62)
+    else:
+        print("☁️  Sync AnkiWeb..." if trigger_sync() else "⚠️  Sync AnkiWeb thất bại.")
     print("--- Hoàn tất. ---")
 
 
