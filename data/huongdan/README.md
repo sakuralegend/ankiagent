@@ -58,6 +58,11 @@ sách họ từ của OpenRussian trộn từ **cùng gốc** với từ **đồ
 (`ги́бкий` → `мя́гкий`, `бога́тый`), nên đưa ra là mời gọi đúng loại lỗi cần tránh.
 Bạn tự nghĩ như trước — nhưng **chỉ viết khi chắc**; hai lỗi đã bắt được là
 `о́блако`↔`во́лос` và `целова́ть`↔`цель` (nhìn giống gốc mà không cùng gốc).
+🔴 **Bẫy NGƯỢC LẠI, đắt hơn: quét họ từ bằng "chứa chuỗi" thì MÙ với từ cùng gốc không mang mặt
+chữ** — `живо́тное` bị khai "không có họ" trong khi bộ sưu tập có `жить`/`жизнь` (gốc `жив-`).
+Chỗ lộ gốc thật là **nguyên âm chạy trong bảng chia** (`посо́л`→`посла́` lộ gốc `сл-`, nối thẳng
+được `посо́льство`). Danh sách máy in ra là **SÀN, không phải trần** — quét lại bằng gốc, đừng
+bằng mặt chữ.
 
 ✅ **Từ nào thật sự không có họ hàng thì BỎ HẲN MỤC ĐÓ — bạn quyết định, không ai
 chặn.** User chốt 29/07: *"những từ thực sự không có như vậy thì không cần họ hàng,

@@ -8950,5 +8950,461 @@
   "pos": "n",
   "topic": "people::body",
   "cu": false
+ },
+ {
+  "wc": "балет",
+  "w": "бале́т",
+  "en": "<ol class=\"meaning-list\"><li>ballet</li></ol>",
+  "pos": "n",
+  "topic": "concepts::misc",
+  "cu": false
+ },
+ {
+  "wc": "барабан",
+  "w": "бараба́н",
+  "en": "<ol class=\"meaning-list\"><li>drum</li><li>barrel</li></ol>",
+  "pos": "n",
+  "topic": "concepts::misc",
+  "cu": false
+ },
+ {
+  "wc": "блин",
+  "w": "блин",
+  "en": "<ol class=\"meaning-list\"><li>pancake</li><li>damn</li></ol>",
+  "pos": "n",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "бутерброд",
+  "w": "бутербро́д",
+  "en": "<ol class=\"meaning-list\"><li>sandwich</li></ol>",
+  "pos": "n",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "вместе",
+  "w": "вме́сте",
+  "en": "<ol class=\"meaning-list\"><li>[ˈvmʲesʲtʲɪ]</li><li>together</li></ol>",
+  "pos": "oth",
+  "topic": "people::family",
+  "cu": false
+ },
+ {
+  "wc": "водка",
+  "w": "во́дка",
+  "en": "<ol class=\"meaning-list\"><li>vodka</li><li>schnaps</li><li>aqua vitae</li></ol>",
+  "pos": "n",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "волейбол",
+  "w": "волейбо́л",
+  "en": "<ol class=\"meaning-list\"><li>volleyball</li></ol>",
+  "pos": "n",
+  "topic": "concepts::misc",
+  "cu": false
+ },
+ {
+  "wc": "всего",
+  "w": "всего́",
+  "en": "<ol class=\"meaning-list\"><li>in all</li><li>only</li><li>in total</li><li>merely</li><li>just</li><li>only</li></ol>",
+  "pos": "oth",
+  "topic": "numbers",
+  "cu": false
+ },
+ {
+  "wc": "вставать",
+  "w": "встава́ть",
+  "en": "<ol class=\"meaning-list\"><li>get up</li><li>rise</li><li>be up</li><li>stand up</li><li>go</li><li>fit</li><li>arise</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "гимнастика",
+  "w": "гимна́стика",
+  "en": "<ol class=\"meaning-list\"><li>gymnastics</li></ol>",
+  "pos": "n",
+  "topic": "concepts::misc",
+  "cu": false
+ },
+ {
+  "wc": "гость",
+  "w": "гость",
+  "en": "<ol class=\"meaning-list\"><li>visitor</li><li>guest</li></ol>",
+  "pos": "n",
+  "topic": "people::family",
+  "cu": false
+ },
+ {
+  "wc": "дальше",
+  "w": "да́льше",
+  "en": "<ol class=\"meaning-list\"><li>farther</li><li>further</li><li>next</li><li>then</li><li>any longer</li><li>here on</li></ol>",
+  "pos": "oth",
+  "topic": "time",
+  "cu": false
+ },
+ {
+  "wc": "диета",
+  "w": "дие́та",
+  "en": "<ol class=\"meaning-list\"><li>diet</li></ol>",
+  "pos": "n",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "днём",
+  "w": "днём",
+  "en": "<ol class=\"meaning-list\"><li>in the day-time</li><li>by day</li><li>in the afternoon</li></ol>",
+  "pos": "adv",
+  "topic": "time",
+  "cu": false
+ },
+ {
+  "wc": "ездить",
+  "w": "е́здить",
+  "en": "<ol class=\"meaning-list\"><li>to travel or go by vehicle</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "заняться",
+  "w": "заня́ться",
+  "en": "<ol class=\"meaning-list\"><li>to busy oneself</li><li>to take up</li><li>to flame up</li><li>flare up</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "интересоваться",
+  "w": "интересова́ться",
+  "en": "<ol class=\"meaning-list\"><li>be interested</li></ol>",
+  "pos": "v",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "каникулы",
+  "w": "кани́кулы",
+  "en": "<ol class=\"meaning-list\"><li>student vacation</li><li>vacation</li><li>holidays</li></ol>",
+  "pos": "n",
+  "topic": "time",
+  "cu": false
+ },
+ {
+  "wc": "каша",
+  "w": "ка́ша",
+  "en": "<ol class=\"meaning-list\"><li>porridge</li><li>jumble/mess</li></ol>",
+  "pos": "n",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "кефир",
+  "w": "кефи́р",
+  "en": "<ol class=\"meaning-list\"><li>kefir</li></ol>",
+  "pos": "n",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "классический",
+  "w": "класси́ческий",
+  "en": "<ol class=\"meaning-list\"><li>classic</li><li>classical</li></ol>",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "команда",
+  "w": "кома́нда",
+  "en": "<ol class=\"meaning-list\"><li>team</li><li>crew</li><li>party</li><li>command</li><li>order</li><li>detachment</li></ol>",
+  "pos": "n",
+  "topic": "people::family",
+  "cu": false
+ },
+ {
+  "wc": "композитор",
+  "w": "компози́тор",
+  "en": "<ol class=\"meaning-list\"><li>composer</li></ol>",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "компот",
+  "w": "компо́т",
+  "en": "<ol class=\"meaning-list\"><li>stewed fruit</li><li>compote</li></ol>",
+  "pos": "n",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "кулинария",
+  "w": "кулинари́я",
+  "en": "<ol class=\"meaning-list\"><li>cooking</li><li>cookery</li></ol>",
+  "pos": "n",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "лечь",
+  "w": "лечь",
+  "en": "<ol class=\"meaning-list\"><li>to lie down</li><li>to go to bed</li><li>to fall</li><li>to flow</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "литература",
+  "w": "литерату́ра",
+  "en": "<ol class=\"meaning-list\"><li>literature</li></ol>",
+  "pos": "n",
+  "topic": "language::education",
+  "cu": false
+ },
+ {
+  "wc": "ложиться",
+  "w": "ложи́ться",
+  "en": "<ol class=\"meaning-list\"><li>lie down (4)</li><li>go to bed</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "любимый",
+  "w": "люби́мый",
+  "en": "<ol class=\"meaning-list\"><li>favorite</li><li>favourite</li><li>beloved</li><li>loved</li><li>adored</li></ol>",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "матч",
+  "w": "матч",
+  "en": "<ol class=\"meaning-list\"><li>match</li></ol>",
+  "pos": "n",
+  "topic": "concepts::misc",
+  "cu": false
+ },
+ {
+  "wc": "некогда",
+  "w": "не́когда",
+  "en": "<ol class=\"meaning-list\"><li>there is no time</li><li>once</li><li>in former times</li><li>in the old days</li></ol>",
+  "pos": "oth",
+  "topic": "time",
+  "cu": false
+ },
+ {
+  "wc": "ночью",
+  "w": "но́чью",
+  "en": "<ol class=\"meaning-list\"><li>at night</li><li>by night</li></ol>",
+  "pos": "adv",
+  "topic": "time",
+  "cu": false
+ },
+ {
+  "wc": "обычно",
+  "w": "обы́чно",
+  "en": "<ol class=\"meaning-list\"><li>[ɐˈbɨt͡ɕnʌ]</li><li>usually</li><li>generally</li><li>commonly</li><li>as a rule</li></ol>",
+  "pos": "adv",
+  "topic": "time",
+  "cu": false
+ },
+ {
+  "wc": "опера",
+  "w": "о́пера",
+  "en": "<ol class=\"meaning-list\"><li>opera</li><li>opera-house</li></ol>",
+  "pos": "n",
+  "topic": "concepts::misc",
+  "cu": false
+ },
+ {
+  "wc": "опять",
+  "w": "опя́ть",
+  "en": "<ol class=\"meaning-list\"><li>[ɐˈpʲætʲ]</li><li>again (occurring another time)</li></ol>",
+  "pos": "oth",
+  "topic": "time",
+  "cu": false
+ },
+ {
+  "wc": "передача",
+  "w": "переда́ча",
+  "en": "<ol class=\"meaning-list\"><li>transmission</li><li>TV program</li><li>broadcast</li><li>transferring</li></ol>",
+  "pos": "n",
+  "topic": "concepts::misc",
+  "cu": false
+ },
+ {
+  "wc": "пирог",
+  "w": "пиро́г",
+  "en": "<ol class=\"meaning-list\"><li>pie</li><li>tart</li></ol>",
+  "pos": "n",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "плавание",
+  "w": "пла́вание",
+  "en": "<ol class=\"meaning-list\"><li>swimming</li><li>swimming school</li><li>navigation</li><li>voyage</li><li>sailing</li></ol>",
+  "pos": "n",
+  "topic": "concepts::misc",
+  "cu": false
+ },
+ {
+  "wc": "подарок",
+  "w": "пода́рок",
+  "en": "<ol class=\"meaning-list\"><li>present</li><li>gift</li></ol>",
+  "pos": "n",
+  "topic": "concepts::misc",
+  "cu": false
+ },
+ {
+  "wc": "поздно",
+  "w": "по́здно",
+  "en": "<ol class=\"meaning-list\"><li>it is late</li><li>late</li></ol>",
+  "pos": "adv",
+  "topic": "time",
+  "cu": false
+ },
+ {
+  "wc": "пойти",
+  "w": "пойти́",
+  "en": "<ol class=\"meaning-list\"><li>[pɐɪ̯ˈtʲi]</li><li>to go</li><li>to walk</li><li>to be going</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "полезный",
+  "w": "поле́зный",
+  "en": "<ol class=\"meaning-list\"><li>useful</li><li>helpful</li><li>healthy</li><li>good</li><li>wholesome</li><li>beneficial</li></ol>",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "поэт",
+  "w": "поэ́т",
+  "en": "<ol class=\"meaning-list\"><li>poet</li></ol>",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "пригласить",
+  "w": "пригласи́ть",
+  "en": "<ol class=\"meaning-list\"><li>invite</li><li>ask</li><li>call</li><li>engage</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "прошлый",
+  "w": "про́шлый",
+  "en": "<ol class=\"meaning-list\"><li>[ˈproʂɫɨɪ̯]</li><li>in the past</li><li>bygone</li><li>last</li><li>yester-</li></ol>",
+  "pos": "adj",
+  "topic": "time",
+  "cu": false
+ },
+ {
+  "wc": "свободный",
+  "w": "свобо́дный",
+  "en": "<ol class=\"meaning-list\"><li>[svɐˈbodnɨɪ̯]</li><li>free</li><li>available</li></ol>",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "свой",
+  "w": "свой",
+  "en": "<ol class=\"meaning-list\"><li>[svoɪ̯]</li><li>one's own (reflexive)</li></ol>",
+  "pos": "pron",
+  "topic": "language::grammar",
+  "cu": false
+ },
+ {
+  "wc": "следующий",
+  "w": "сле́дующий",
+  "en": "<ol class=\"meaning-list\"><li>[ˈslʲedʊjʉɕːɪɪ̯] [ˈslʲedʊɕːɪɪ̯]</li><li>following</li><li>next</li></ol>",
+  "pos": "adj",
+  "topic": "time",
+  "cu": false
+ },
+ {
+  "wc": "торт",
+  "w": "торт",
+  "en": "<ol class=\"meaning-list\"><li>cake</li></ol>",
+  "pos": "n",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "увлекаться",
+  "w": "увлека́ться",
+  "en": "<ol class=\"meaning-list\"><li>to take an interest in</li><li>be carried away be fond of be engrossed</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "увлечься",
+  "w": "увле́чься",
+  "en": "<ol class=\"meaning-list\"><li>to be absorbed in</li><li>to be extremely interested in</li><li>to be keen on</li></ol>",
+  "pos": "v",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "удобно",
+  "w": "удо́бно",
+  "en": "<ol class=\"meaning-list\"><li>it is convenient</li><li>it suits</li><li>it is proper</li><li>comfortably</li></ol>",
+  "pos": "adv",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "удовольствие",
+  "w": "удово́льствие",
+  "en": "<ol class=\"meaning-list\"><li>pleasure</li><li>amusement</li></ol>",
+  "pos": "n",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "ужимать",
+  "w": "ужима́ть",
+  "en": "<ol class=\"meaning-list\"><li>shrink (to fit)</li><li>cut down</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "хобби",
+  "w": "хо́бби",
+  "en": "<ol class=\"meaning-list\"><li>[ˈxobʲ(ː)ɪ]</li><li>hobby</li></ol>",
+  "pos": "n",
+  "topic": "concepts::misc",
+  "cu": false
+ },
+ {
+  "wc": "хоккей",
+  "w": "хокке́й",
+  "en": "<ol class=\"meaning-list\"><li>hockey</li></ol>",
+  "pos": "n",
+  "topic": "concepts::misc",
+  "cu": false
+ },
+ {
+  "wc": "экскурсия",
+  "w": "экску́рсия",
+  "en": "<ol class=\"meaning-list\"><li>excursion</li><li>trip</li><li>outing</li><li>excursion party</li><li>party of excursionists</li><li>group of sightseers</li></ol>",
+  "pos": "n",
+  "topic": "places::city",
+  "cu": false
  }
 ]

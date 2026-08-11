@@ -10,8 +10,27 @@ Bạn (user) chỉ cần gõ một câu: **"chạy tiếp kho"**. Phần dưới
 
 ---
 
-> 🔄 **02/08: `nap --apply` và `cao_nguphap` nay TỰ kéo sync về trước khi đọc/ghi** (QD-16). Sync
-> hỏng thì chúng DỪNG, không ghi gì — đúng cái đã làm hỏng 23 thẻ đêm 31/07. Không phải nhớ gì thêm.
+### ✅ PHIÊN 11/08 — 57 từ mới, luồng chính chia **k73(19) + k74(19) + k75(19)**
+
+Lần đầu chạy **3 lô một phiên**. Chia theo tag chủ đề, giữ cặp dễ lẫn CHUNG lô (`увлекаться`↔
+`увлечься`, `лечь`↔`ложиться`+`вставать`). Cả ba lô: ba mục soát `(khong co)` · `dodai` trên 57 thẻ
+**cao nhất 516px/700, quá 2 ô đỏ 0, khối chung 0%** · `nap` khớp tuyệt đối **57 note / 57 từ** ·
+`kiemtra.py` trên **1176 thẻ thật**: `TRONG AM LECH (khong co)`.
+
+📊 **RẺ NHẤT TỪNG ĐO TRÊN MỖI TỪ: 424K token / 57 từ = 7,4K/từ** (so với 10,7K và 8,0K của hai
+phiên 2 lô). Mỗi lô vẫn ~141K bất kể gì ⇒ **"biến chính là SỐ LÔ" đứng vững thêm một lần, và cỡ
+19 từ/lô là điểm rẻ nhất đo được** — cách trần 22 chỉ 3 từ. Lô nhỏ đừng chạy nữa.
+
+🔴🔴 **BÀI HỌC MỚI, KHÔNG PHẢI VỀ NỘI DUNG MÀ VỀ CÁCH ĐỐI XỬ VỚI CỬA SOÁT.** k74 bị `soat` báo
+trọng âm lệch ở `пирога́` — vì `nouns.csv` có **từ đồng tự** `пиро́га` (xuồng độc mộc). Agent
+**đổi ví dụ sang `пироги́/пирого́м`** thay vì thêm vào `MIEN_TRU`. Đó là lựa chọn đúng và phải giữ
+thành nếp: **nới miễn trừ để lô của mình xanh là làm mù cửa cho MỌI lô sau** — cái giá trả một
+lần, thu về mãi mãi. Dặn agent điều này ngay trong lời giao việc.
+
+🆕 **`GrammarJSON` có trường `rank`** (hạng tần suất) — trả lời được câu *"từ này có đáng học
+không"* bằng SỐ thay vì cảm tính. k75 đo `ужимать` = **51 848**, hiếm tới mức gần như không gặp;
+thẻ vẫn soạn tử tế nhưng cắm ô đỏ khai độ hiếm + từ thay thế (`уменьша́ть`). Dùng lại chiêu này
+mỗi khi user thêm một từ trông lạ.
 
 ### ✅ PHIÊN 09/08 đợt 2 — 26 từ mới, luồng chính tự chia **k71(13) + k72(13)**
 
@@ -52,25 +71,6 @@ sai đúng chỗ tôi đã tự cảnh báo: khai "máy không thấy họ" cho 
 `ошибка` (`ошибаться`). Điểm mới đáng giữ: **nguyên âm chạy trong bảng chia là thứ để lộ gốc thật**
 — `посол`→`посла` lộ gốc `сл-`, nối thẳng được với `посольство`. Dữ liệu để bác **đã nằm sẵn** trong
 khối `BAT THUONG`, máy chỉ không nối hai việc đó với nhau.
-
-### ✅ PHIÊN 08/08 đợt 4 — **LÔ TỪ MỚI ĐẦU TIÊN**: k67(12) + k68(12) = 24 từ
-
-`moi --apply` gom 24 từ ⇒ **vượt trần 22**, lệnh không tự chia nên luồng chính chia đôi theo
-**tag chủ đề lấy từ Anki**. Cả hai lô: ba mục soát `(khong co)` · `dodai` **0/0** · `nap` khớp
-tuyệt đối 12/12 và 12/12 · `kiemtra.py` trên **1065 thẻ thật**: `TRONG AM LECH (khong co)`.
-
-🔴🔴 **ĐIỂM ĐO CHỐT LẠI "BIẾN CHÍNH LÀ SỐ LÔ": 2 lô ăn 273K token, đúng ~một nửa của bốn phiên
-4 lô (493K · 558K · 568K).** Mỗi lô ~137K bất kể 12 hay 20 từ ⇒ **lô 12 từ đắt gấp rưỡi mỗi từ**
-so với lô 19 từ. Nhưng **lỗi tự bắt đi ngược lại: 11 lỗi / 24 từ = 0,46 lỗi/từ**, cao hơn hẳn
-0,35 và 0,32 của các phiên lô to. ⇒ Củng cố dấu hiệu 29/07 (*"lỗi tự bắt tụt về 0 ở lô 19–21
-từ"*) — **lô nhỏ đắt hơn nhưng soi kỹ hơn thật**, không phải nhiễu.
-
-🔴🔴 **LUỒNG CHÍNH KHAI SAI LẦN THỨ SÁU — CẢ HAI agent bác được, tổng 7 điểm.** Nặng nhất là một
-**giới hạn của chính cách tôi đo**, không phải lỗi gõ tay: quét họ từ bằng "chứa chuỗi" **mù với
-từ cùng gốc không mang mặt chữ** — tôi khai `животное` không có họ trong bộ sưu tập, thật ra có
-`жить`/`жизнь` (gốc `жив-`). Cùng loạt: khai `скрипка` là từ mượn trơn (thật ra thuần Nga,
-`скрип-` cót két + `-ка`), khai `лежать` va chạm với `стоять` trong khi chỗ va chạm thật là
-`находиться`. **Danh sách tôi giao là SÀN — dặn agent quét lại là thứ đã cứu phiên này.**
 
 ### 📕 BÀI HỌC CÒN SỐNG — khối có TRẦN (S21, QD-33)
 
