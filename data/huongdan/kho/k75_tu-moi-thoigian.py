@@ -353,27 +353,6 @@ S["следующий"] = (
     '<b>после́дний</b> cuối cùng</div>'
 )
 
-# --------------------------------------------------------------- ужимать
-S["ужимать"] = (
-    '<div class="hd-sec">Chẻ từ</div>'
-    '<div class="hd-row"><span class="hd-piece">у-</span>'
-    '<span class="hd-gloss">làm cho ít đi (như <b>уменьша́ть</b>)</span></div>'
-    '<div class="hd-row"><span class="hd-piece">-жим-</span>'
-    '<span class="hd-gloss">gốc ÉP, BÓP (<b>жать</b>, <b>сжима́ть</b>)</span></div>'
-    '<div class="hd-row"><span class="hd-piece">-а́ть</span>'
-    '<span class="hd-gloss">đuôi thể chưa hoàn thành</span></div>'
-    '<div class="hd-sec">Cách nhớ</div>'
-    '<div class="hd-why">Nghĩa đen «ép cho nhỏ lại» → thu nhỏ, cắt bớt cho vừa. Cặp thể: '
-    '<b>ужима́ть</b> đang làm, <b>ужа́ть</b> đã xong.</div>'
-    '<div class="hd-warn">⚠️ Mức tin về ĐỘ THÔNG DỤNG: đây là từ hiếm, hạng tần suất khoảng '
-    '51 800. Nghĩa «thu nhỏ» thường ngày người Nga nói <b>уменьша́ть</b>.</div>'
-    '<div class="hd-warn">Chỗ nó thật sự hay gặp là nghĩa bóng: <b>ужа́ть текст</b> rút gọn bài '
-    'viết · <b>ужа́ть файл</b> nén tệp · <b>ужа́ть бюдже́т</b> ép ngân sách.</div>'
-    '<div class="hd-sec">Họ hàng</div>'
-    '<div class="hd-fam"><b>жать</b> ép, bóp · <b>сжима́ть</b> nén, siết · '
-    '<b>пожа́ть ру́ку</b> bắt tay</div>'
-)
-
 # ============================================================ field Vietnamese
 # Chỉ sửa dòng thật sự hỏng: có ngoặc chú thích (README §2c cấm), nghĩa sai,
 # hoặc trùng NGUYÊN CỤM với một thẻ khác mà bốn badge không tách nổi.
@@ -384,8 +363,6 @@ V = {
     "ездить": "đi lại bằng xe, lui tới bằng xe",
     # bỏ ngoặc; nghĩa "bắt đầu mưa/tuyết" không có trong gloss tiếng Anh của thẻ
     "пойти": "đi, bắt đầu đi, khởi hành",
-    # bỏ ngoặc
-    "ужимать": "thu nhỏ, nén lại, cắt bớt",
     # "thực hiện" là nghĩa của выполнить, không phải заняться
     "заняться": "bắt tay vào làm, bắt đầu làm, chuyên tâm vào việc gì",
     # thêm nghĩa vị ngữ vô nhân xưng "it is late" mà по́здний không có
