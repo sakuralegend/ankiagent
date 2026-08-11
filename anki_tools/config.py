@@ -31,13 +31,13 @@ CLAUDE_API_URL = os.environ.get(
     "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
 )
 CLAUDE_API_KEY = os.environ.get("CLAUDE_API_KEY", "")
-CLAUDE_MODEL = os.environ.get("CLAUDE_MODEL", "gemini-3.5-flash")
+CLAUDE_MODEL = os.environ.get("CLAUDE_MODEL", "gemini-3.5-flash-lite")
 # Model dự phòng (phân cách bằng dấu phẩy): khi model chính hết hạn mức miễn phí
 # trong ngày (lỗi 429), tự động thử lần lượt các model này. Các model *-lite
 # có hạn mức free/ngày cao hơn hẳn dòng flash thường.
 CLAUDE_FALLBACK_MODELS = [
     m.strip() for m in os.environ.get(
-        "CLAUDE_FALLBACK_MODELS", "gemini-3.1-flash-lite,gemini-flash-lite-latest"
+        "CLAUDE_FALLBACK_MODELS", "gemini-3.1-flash-lite"
     ).split(",") if m.strip()
 ]
 
