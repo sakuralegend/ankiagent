@@ -21,6 +21,20 @@
 #
 # Cách thêm: mỗi CÔNG DỤNG mà chọn sai thì câu sai = MỘT dòng. Đếm riêng từng
 # giới từ, ra 3–7, cấm chia đều.
+#
+# ── ĐANG ĐẾN ĐÂU (user HOÃN VÔ THỜI HẠN 10/08/2026) ──────────────────────────
+# Xong 3/14 giới từ: `в` · `на` · `с`. 17 thẻ đang chạy thật trên laptop + VPS.
+# Còn 11 từ chưa soạn, kèm số thẻ đã đếm sẵn từ ô `HuongDan` của chính chúng:
+#     на̶ 7 ✓ · к 6 · по 6 · за 6 · в̶ 5 ✓ · с̶ 5 ✓ · у 5 · о 4 · для 4 · до 4 ·
+#     без 4 · ме́жду 4 · че́рез 3 · про 3
+# 🔴 Muốn làm tiếp thì KHÔNG cần dựng lại gì: thêm dòng vào file này rồi chạy
+#     python -m grammar_forms.chi_phoi            (xem trước, chưa ghi gì)
+#     python -m grammar_forms.chi_phoi --apply    (ghi vào Anki)
+# Sửa dòng CŨ cũng an toàn — thẻ dựng lại mà GIỮ NGUYÊN tiến trình học.
+# Toàn bộ lý do vì sao thiết kế thế này: `git log --grep "CHI PHOI"`.
+#
+# Việc kế tiếp nếu quay lại: user ôn thật vài ngày rồi báo thẻ nào đề bài mơ hồ
+# — đó là lỗi duy nhất máy không bắt được, và nó chỉ lộ lúc ngập ngừng trước thẻ.
 
 # ── в (hạng 2) — hai cách: chuyển động vs vị trí; và thời gian tách theo độ dài
 во	Франция	6	đang ở bên Pháp
