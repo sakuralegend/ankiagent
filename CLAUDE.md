@@ -35,17 +35,18 @@ làm rồi mới báo — trừ khi lệch theo hướng mạnh hơn mức cần
 
 Sổ tay đầy đủ: `CACHLAM.md` (luật `L1`–`L5`, có số hiệu để viện dẫn). Quyết định kỹ thuật: `QUYETDINH.md` (`QD-nn`). Nợ kỹ thuật: `SONO.md`. AI ngoài Claude Code vào bằng `AGENTS.md`.
 
-✂️ **CHỐNG LOÃNG (QD-12, đã cắm vào hook nên nhắc lại mỗi lượt).** Thêm dòng vào repo phải **trả giá bằng cắt chỗ khác**; file có sẵn chứa được thì **cấm đẻ file mới**. Đổi lại: **quyết định nào ĐỔI CODE thì ghi NGAY một dòng** vào bảng "SỔ VẮN TẮT" ở `QUYETDINH.md` — ngắn thì mới có người ghi và có người đọc. `CHANGELOG.md` chết vì 2 809 dòng, không phải vì thiếu.
+✂️ **CHỐNG LOÃNG (QD-12, đã cắm vào hook nên nhắc lại mỗi lượt).** Thêm dòng vào repo phải **trả giá bằng cắt chỗ khác**; file có sẵn chứa được thì **cấm đẻ file mới**. Đổi lại: **quyết định ĐỔI CODE phải khai VÌ SAO ngay** — vào thân commit, và chỉ vào `QUYETDINH.md` khi nó là thứ người sau còn phải tự cân. `CHANGELOG.md` chết vì 2 809 dòng, không phải vì thiếu.
 
-🧭 **User XIN MỘT CHỨC NĂNG ⇒ TỰ ĐỘNG đi ba cửa, KHÔNG chờ user gõ lệnh gì** (QD-09). User tự nhận
-*"không giỏi diễn đạt tính năng"* và **không có nghĩa vụ nhớ quy trình** — nhớ hộ là việc của bạn.
-Thứ tự bắt buộc: đọc `.claude/commands/ycau.md` → làm theo (đo trước, rồi **hỏi user bằng
-AskUserQuestion trắc nghiệm** tới khi rõ, ghi `VIECDANGLAM.md`) → `kehoach.md` chờ duyệt → viết code
-→ `nghiemthu.md`. **Cấm viết code trước khi qua cửa 1–2.** Hỏi đáp / sửa lỗi vặt thì đi thẳng.
+🧭 **NGHE XONG THÌ RẼ NGAY, user KHÔNG gõ lệnh gì** — nhớ hộ quy trình là việc của bạn (QD-09).
+· **"chạy lô / soạn lô / thêm từ mới"** ⇒ `.claude/commands/lo.md` — **đi THẲNG**, không ba cửa,
+không lục chỗ khác: đó là nơi DUY NHẤT nói về chạy lô.
+· **Xin thêm/sửa chức năng** ⇒ ba cửa: `ycau.md` (đo trước, **hỏi bằng AskUserQuestion trắc
+nghiệm**, ghi `VIECDANGLAM.md`) → `kehoach.md` chờ duyệt → viết code → `nghiemthu.md`.
+**Cấm viết code trước khi qua cửa 1–2.** · Hỏi đáp / sửa lỗi vặt ⇒ đi thẳng.
 
 📜 **Lịch sử = `git log`, KHÔNG phải `CHANGELOG.md`** (đã đóng sổ 31/07/2026, QD-06 — đừng ghi thêm vào đó). Nên **commit message đụng code phải khai VÌ SAO ở phần thân**, không chỉ một dòng tiêu đề: message gắn liền với diff nên không nói dối được, đó là chỗ duy nhất lời khai và sự thật nằm cạnh nhau. Thiếu thân là `soatkientruc.py` mục S9 chặn deploy. ⏱️ **KHI NÀO commit: xong một việc + ba cửa nghiệm thu XANH ⇒ TỰ commit ngay, KHÔNG hỏi user** (QD-10) — user không phải nhớ nhắc; `commit` chỉ ghi vào máy, cửa thật là `deploy.ps1`. User bảo "kết thúc phiên" mà cây còn bẩn ⇒ commit nốt rồi mới chào.
 
-👤 **`PHIENBAN.md` là file DUY NHẤT viết cho USER — mọi file khác viết cho người sửa code.** Mốc là **DEPLOY**, và chỉ khi **CẤU TRÚC LÕI đổi** (nút mới, lỗi họ từng gặp đã sửa, cách app cư xử khác đi): thêm mục `vX.Y.Z` + vài gạch đầu dòng, **ngôn ngữ thường, không thuật ngữ** (trần bản/mục: `soat_nguong.json`, cửa S14 canh). 🔴 **THÊM TỪ / SOẠN LÔ KHO / SỬA NGHĨA TIẾNG VIỆT ⇒ KHÔNG GHI** — user bác 02/08, phải nhắc lại 04/08 vì mục cũ trong file là tiền lệ ngược (nay đã xoá). Dọn code / thêm cửa soát cũng không ghi. (QD-07)
+👤 **`PHIENBAN.md` là file DUY NHẤT viết cho USER — mọi file khác viết cho người sửa code.** Mốc là **DEPLOY**, và chỉ khi **CẤU TRÚC LÕI đổi** (nút mới, lỗi họ từng gặp đã sửa, cách app cư xử khác đi): thêm mục `vX.Y.Z` + vài gạch đầu dòng, **ngôn ngữ thường, không thuật ngữ** (trần bản/mục: `soat_nguong.json`, cửa S14 canh). 🔴 **THÊM TỪ / SOẠN LÔ KHO / SỬA NGHĨA TIẾNG VIỆT ⇒ KHÔNG GHI** — user bác 02/08. Dọn code / thêm cửa soát cũng không ghi. (QD-07)
 
 🔴 **Thấy chỗ nào "tối ưu được" → mở bảng "📏 ĐÃ ĐO RỒI BÁC" đầu `QUYETDINH.md` TRƯỚC.** Mười một hướng nghe rất hợp lý đã bị đo bằng số liệu thật rồi loại bỏ; làm lại là tốn tiền lần hai. Muốn lật một dòng thì phải **ĐO LẠI ra số khác**, không lật bằng lập luận suông.
 

@@ -22,7 +22,7 @@
    "AGENTS.md": 1,
    "VPS_SETUP.md": 7,
    "data/huongdan/CHUAN.md": 4,
-   "data/huongdan/kho/TIEPTUC.md": 25,
+   ".claude/commands/lo.md": 7,
    "data/huongdan/README.md": 17,
    ".claude/commands/ycau.md": 3,
    ".claude/commands/kehoach.md": 3,
@@ -65,10 +65,5 @@
   "qd": "QD-25",
   "tran_muc": 1,
   "tran_dong": 14
- },
- "tieptuc": {
-  "qd": "QD-33",
-  "tran_muc_phien": 3,
-  "tran_baihoc_ky_tu": 4500
  }
 }
