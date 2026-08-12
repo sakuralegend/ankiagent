@@ -11,7 +11,8 @@
 # ==============================================================================
 import re
 
-from anki_tools.ai_client import _parse_ai_response, _send_ai_request
+from anki_tools.ai_client import (_parse_ai_response, _send_ai_request,
+                                  KHUON_THE_KHONG_TOPIC)
 from anki_tools.utils import log_fail, log_warn, strip_accents_perfectly
 
 _SYSTEM_PROMPT = (
@@ -116,7 +117,7 @@ def generate_plural_content(word_clean, plural, plural_clean, english_meanings,
                 f"Every single ru sentence must contain the exact word '{plural_clean}' "
                 f"in the nominative plural. Try again."
             )
-        raw = _send_ai_request(_SYSTEM_PROMPT, prompt)
+        raw = _send_ai_request(_SYSTEM_PROMPT, prompt, khuon=KHUON_THE_KHONG_TOPIC)
         if not raw:
             return None
 

@@ -39,6 +39,7 @@
    "tests/test_*.py"
   ],
   "da_ghi_no": {
+   "anki_tools/ai_client.py": 486,
    "anki_tools/anki_client.py": 637,
    "anki_tools/grammar.py": 502,
    "data/huongdan/kho/congcu.py": 493,

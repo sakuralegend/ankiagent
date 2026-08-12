@@ -70,6 +70,74 @@ _CORE_SYSTEM_PROMPT = (
 )
 
 
+# ==============================================================================
+# --- KHUÔN JSON BẮT BUỘC (đo 12/08/2026) ---
+# Gửi kèm `response_format` thì Google KHÔNG cho model đẻ ra chữ lệch khuôn nữa —
+# nó ép ngay lúc sinh chữ, chứ không phải nhắc suông trong prompt rồi cầu may.
+#
+# VÌ SAO PHẢI LÀM: prompt đã dặn "Return ONLY a valid JSON object" mà model vẫn
+# sai, hai kiểu bắt được thật trên VPS 12/08:
+#   1. thừa dấu phẩy trước `}` / `]`  (`красивый`)
+#   2. QUÊN DẤU NHÁY MỞ ở câu tiếng Nga (`думать`: `"ru": Я сижу и ...`) — kiểu
+#      này vá tay là đoán mò, vì không biết câu bắt đầu từ đâu.
+# Cả hai đều bị `json.loads` từ chối ⇒ code tưởng "AI hỏng" ⇒ gọi lại freestyle
+# 1–2 lượt nữa. Đo trước khi vá: 4/16 từ phải gọi AI nhiều lượt. Sau khi ép
+# khuôn: 0/16, và mỗi lượt chỉ chậm thêm ~0,1s.
+#
+# Trần 3 ví dụ đặt luôn trong khuôn: `_validate_ai_result` đằng nào cũng đòi đủ 3,
+# ép sẵn thì khỏi phải quay lại hỏi.
+# ==============================================================================
+_KHUON_THE = {
+    "type": "object",
+    "properties": {
+        "vietnamese_meaning": {"type": "string"},
+        "topic": {"type": "string"},
+        "simplified_examples": {
+            "type": "array", "minItems": 3, "maxItems": 3,
+            "items": {
+                "type": "object",
+                "properties": {"ru": {"type": "string"}, "en": {"type": "string"},
+                               "vi": {"type": "string"}},
+                "required": ["ru", "en", "vi"],
+            },
+        },
+    },
+    "required": ["vietnamese_meaning", "topic", "simplified_examples"],
+}
+
+# Mảng thẻ ngữ pháp (`grammar_forms/ai.py`) dùng CÙNG hình dạng nhưng KHÔNG hỏi
+# chủ đề — ép `topic` ở đó chỉ tổ bắt model bịa ra một field không ai đọc.
+_KHUON_THE_KHONG_TOPIC = {
+    "type": "object",
+    "properties": {k: v for k, v in _KHUON_THE["properties"].items() if k != "topic"},
+    "required": [k for k in _KHUON_THE["required"] if k != "topic"],
+}
+
+_KHUON_LEMMA = {
+    "type": "object",
+    "properties": {
+        "lemma": {"type": "string"},
+        "reason_vi": {"type": "string"},
+        "alternatives": {"type": "array", "maxItems": 2, "items": {"type": "string"}},
+    },
+    "required": ["lemma", "reason_vi", "alternatives"],
+}
+
+_KHUON_TOPIC = {
+    "type": "object",
+    "properties": {"topic": {"type": "string"}},
+    "required": ["topic"],
+}
+
+
+def _response_format(khuon):
+    """Bọc khuôn thành field `response_format` kiểu OpenAI. None -> không ép."""
+    if not khuon:
+        return None
+    return {"type": "json_schema",
+            "json_schema": {"name": "khuon", "schema": khuon, "strict": True}}
+
+
 def _parse_ai_response(raw_response):
     """Tách JSON từ raw response, xử lý markdown code block. Trả về dict hoặc None.
 
@@ -153,7 +221,7 @@ def _model_chain():
 
 
 def _call_model_once(model, system_prompt, user_prompt, use_reasoning=True, rpm_waits=2,
-                     max_tokens=900, reasoning_effort="minimal", timeout=60):
+                     max_tokens=900, reasoning_effort="minimal", timeout=60, khuon=None):
     """Gọi 1 model đúng 1 lần. Trả về (content | None, nên_thử_model_khác: bool).
 
     user_prompt: str, hoặc list content parts kiểu OpenAI (để gửi kèm ảnh).
@@ -172,6 +240,9 @@ def _call_model_once(model, system_prompt, user_prompt, use_reasoning=True, rpm_
         "temperature": 0.7,
         "max_tokens": max_tokens,
     }
+    rf = _response_format(khuon)
+    if rf:
+        payload["response_format"] = rf
     if use_reasoning:
         # Model "thinking" (vd gemini-3.5-flash) mặc định ngốn max_tokens vào suy nghĩ ẩn
         # -> reasoning_effort thấp để dồn token cho câu trả lời JSON.
@@ -209,11 +280,22 @@ def _call_model_once(model, system_prompt, user_prompt, use_reasoning=True, rpm_
         log_warn(f"Model '{model}' hết hạn mức miễn phí trong NGÀY (429) -> thử model dự phòng...")
         return None, True
 
-    if res.status_code == 400 and use_reasoning:
-        # Model có thể không hỗ trợ reasoning_effort (hoặc không nhận đúng mức được
-        # yêu cầu) -> thử lại chính model đó, bỏ hẳn field này
-        return _call_model_once(model, system_prompt, user_prompt, use_reasoning=False,
-                                max_tokens=max_tokens, timeout=timeout)
+    if res.status_code == 400:
+        # XUỐNG BẬC TỪNG NẤC, bỏ thứ ÍT QUAN TRỌNG TRƯỚC — để một model kén field
+        # vẫn dùng được, mà không vứt luôn thứ đang giữ cho JSON khỏi hỏng.
+        if use_reasoning:
+            # Model có thể không hỗ trợ reasoning_effort (hoặc không nhận đúng mức
+            # được yêu cầu) -> thử lại chính model đó, bỏ field này. GIỮ khuôn.
+            return _call_model_once(model, system_prompt, user_prompt, use_reasoning=False,
+                                    max_tokens=max_tokens, timeout=timeout, khuon=khuon)
+        if khuon:
+            # Nấc cuối: model không nhận `response_format`. Bỏ khuôn thì chạy tiếp
+            # được, nhưng MẤT bảo đảm JSON đúng dạng -> nói ra, đừng im lặng: im
+            # lặng đúng là thứ đã làm bot chậm gấp 2-3 lần mà không ai biết vì sao.
+            log_warn(f"Model '{model}' không nhận khuôn JSON bắt buộc -> chạy KHÔNG khuôn "
+                     f"(có thể lại gặp JSON hỏng — xem khối `_KHUON_THE`).")
+            return _call_model_once(model, system_prompt, user_prompt, use_reasoning=False,
+                                    max_tokens=max_tokens, timeout=timeout, khuon=None)
 
     if res.status_code != 200 or not data.get("choices"):
         err_msg = ""
@@ -231,13 +313,16 @@ def _call_model_once(model, system_prompt, user_prompt, use_reasoning=True, rpm_
 
 
 def _send_ai_request(system_prompt, user_prompt, max_tokens=900,
-                     reasoning_effort="minimal", timeout=60):
+                     reasoning_effort="minimal", timeout=60, khuon=None):
     """Gửi request AI, tự động chuyển model dự phòng khi hết quota/lỗi.
-    Trả về raw text response hoặc None."""
+    Trả về raw text response hoặc None.
+
+    khuon: khuôn JSON bắt buộc — MỌI lời gọi sinh dữ liệu có cấu trúc đều phải
+    truyền, xem khối `_KHUON_*` để biết vì sao."""
     for model in _model_chain():
         content, try_next = _call_model_once(
             model, system_prompt, user_prompt, max_tokens=max_tokens,
-            reasoning_effort=reasoning_effort, timeout=timeout,
+            reasoning_effort=reasoning_effort, timeout=timeout, khuon=khuon,
         )
         if content:
             return content
@@ -264,7 +349,7 @@ def call_claude_ai(word_clean, raw_examples, english_meanings):
         "Return ONLY the JSON."
     )
 
-    raw_response = _send_ai_request(system_prompt, user_prompt)
+    raw_response = _send_ai_request(system_prompt, user_prompt, khuon=_KHUON_THE)
     if not raw_response:
         return None
 
@@ -295,7 +380,7 @@ def call_claude_ai_freestyle(word_clean, english_meanings):
         "Return ONLY the JSON."
     )
 
-    raw_response = _send_ai_request(system_prompt, user_prompt)
+    raw_response = _send_ai_request(system_prompt, user_prompt, khuon=_KHUON_THE)
     if not raw_response:
         return None
 
@@ -332,7 +417,7 @@ def call_claude_lemma(word):
     )
     user_prompt = f"Word as typed: [{word}]. Return ONLY the JSON."
 
-    raw_response = _send_ai_request(system_prompt, user_prompt)
+    raw_response = _send_ai_request(system_prompt, user_prompt, khuon=_KHUON_LEMMA)
     if not raw_response:
         return None
     parsed = _parse_ai_response(raw_response)
@@ -366,7 +451,7 @@ def call_claude_topic(word, english_meanings):
     )
     user_prompt = f"Word: [{word}]. English meanings: [{en_str}]. Return ONLY the JSON."
 
-    raw_response = _send_ai_request(system_prompt, user_prompt)
+    raw_response = _send_ai_request(system_prompt, user_prompt, khuon=_KHUON_TOPIC)
     if not raw_response:
         return None
     parsed = _parse_ai_response(raw_response)
@@ -398,3 +483,4 @@ def check_claude_ready():
 # ==============================================================================
 parse_ai_response = _parse_ai_response      # bóc JSON từ câu trả lời thô của AI
 send_ai_request = _send_ai_request          # gọi API, tự chuyển model khi 429
+KHUON_THE_KHONG_TOPIC = _KHUON_THE_KHONG_TOPIC   # khuôn JSON cho thẻ ngữ pháp

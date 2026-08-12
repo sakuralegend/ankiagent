@@ -318,6 +318,77 @@ class JsonPhayThuaKhongDuocCoiLaAiHong(unittest.TestCase):
             self.assertIsNone(self.parse(rac), repr(rac))
 
 
+class MoiLoiGoiAiPhaiEpKHUONJson(unittest.TestCase):
+    """BUG GỐC (đo 12/08/2026, cùng gốc với lớp trên). Vá dấu phẩy thừa xong đo
+    lại vẫn 4/16 từ phải gọi AI nhiều lượt — còn kiểu hỏng THỨ HAI: model QUÊN
+    DẤU NHÁY MỞ ở câu tiếng Nga (`думать`: `"ru": Я сижу и <hl>думаю</hl>,...`).
+    Kiểu này KHÔNG vá tay được vì không biết câu bắt đầu từ đâu.
+
+    Cách chữa tận gốc là ép khuôn ngay lúc API sinh chữ (`response_format`) thay
+    vì dặn suông trong prompt: đo 16/16 đúng, chỉ chậm thêm ~0,1s mỗi lượt.
+
+    Test này canh cái DỄ MẤT nhất: một lời gọi AI mới được viết mà QUÊN truyền
+    khuôn — lúc đó nó chạy vẫn ra kết quả, chỉ thỉnh thoảng chậm gấp ba, đúng
+    kiểu hỏng im lặng đã ngốn cả buổi để tìm ra."""
+
+    def test_khuon_duoc_gan_vao_payload(self):
+        from anki_tools import ai_client
+        bat = {}
+
+        class FakeRes:
+            status_code = 200
+            def json(self):
+                return {"choices": [{"message": {"content": '{"a": 1}'}}]}
+
+        def fake_post(url, headers=None, json=None, timeout=None):
+            bat.update(json or {})
+            return FakeRes()
+
+        with unittest.mock.patch.object(ai_client.requests, "post", fake_post):
+            ai_client._call_model_once("m", "sys", "user", khuon=ai_client._KHUON_THE)
+        self.assertIn("response_format", bat, "khuôn KHÔNG được gửi lên API")
+        self.assertEqual(bat["response_format"]["type"], "json_schema")
+        self.assertEqual(bat["response_format"]["json_schema"]["schema"], ai_client._KHUON_THE)
+
+    def test_khong_khuon_thi_khong_gui_field(self):
+        from anki_tools import ai_client
+        bat = {}
+
+        class FakeRes:
+            status_code = 200
+            def json(self):
+                return {"choices": [{"message": {"content": '{"a": 1}'}}]}
+
+        with unittest.mock.patch.object(ai_client.requests, "post",
+                lambda url, headers=None, json=None, timeout=None: (bat.update(json or {}), FakeRes())[1]):
+            ai_client._call_model_once("m", "sys", "user", khuon=None)
+        self.assertNotIn("response_format", bat)
+
+    def test_moi_ham_call_claude_deu_truyen_khuon(self):
+        """Ai thêm hàm gọi AI mới mà quên khuôn thì gãy Ở ĐÂY, không phải gãy
+        bằng việc bot chậm dần mà không ai hiểu vì sao."""
+        import inspect
+        from anki_tools import ai_client
+        thieu = []
+        for ten, ham in vars(ai_client).items():
+            if not (ten.startswith("call_claude") and callable(ham)):
+                continue
+            if ten == "call_claude_ready" or ten == "check_claude_ready":
+                continue
+            src = inspect.getsource(ham)
+            if "_send_ai_request(" in src and "khuon=" not in src:
+                thieu.append(ten)
+        self.assertEqual(thieu, [], "hàm gọi AI quên truyền khuôn JSON: %s" % thieu)
+
+    def test_khuon_ngu_phap_bo_topic_nhung_giu_phan_con_lai(self):
+        from anki_tools import ai_client
+        kt = ai_client._KHUON_THE_KHONG_TOPIC
+        self.assertNotIn("topic", kt["required"])
+        self.assertNotIn("topic", kt["properties"])
+        self.assertEqual(kt["properties"]["simplified_examples"],
+                         ai_client._KHUON_THE["properties"]["simplified_examples"])
+
+
 class GhiLoPhaiSyncTruoc(unittest.TestCase):
     """BUG GỐC (31/07/2026, phát hiện 02/08): 23 thẻ nằm ở deck gõ `1-go` mà hiện
     mặt LÀM QUEN. Bot trên VPS thăng chúng lên GĐ2 lúc 03:00 (ghi Stage="type");
