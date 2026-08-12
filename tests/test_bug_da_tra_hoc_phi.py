@@ -270,6 +270,54 @@ class AliasPublicConSong(unittest.TestCase):
         self.assertIs(ai_client.send_ai_request, ai_client._send_ai_request)
 
 
+class JsonPhayThuaKhongDuocCoiLaAiHong(unittest.TestCase):
+    """BUG GỐC (đo 12/08/2026): thêm từ qua bot chậm gấp đôi-ba, có ca 26 GIÂY
+    cho MỘT từ (log VPS 07:53:18 -> 07:53:44) trong khi một lượt AI chỉ 1,8s.
+
+    Nguyên nhân: Gemini thỉnh thoảng trả JSON kiểu JavaScript, thừa dấu phẩy
+    trước `}` hoặc `]`. `json.loads` từ chối, `_parse_ai_response` trả None, và
+    `build_examples_html` hiểu nhầm thành "AI hỏng" nên gọi lại freestyle thêm
+    1-2 lượt nữa -> 3-4 lượt AI cho 1 từ. Hỏng IM LẶNG theo nghĩa xấu nhất: thẻ
+    vẫn ra đúng nên không ai nghi, chỉ thấy "sao dạo này chậm thế".
+
+    Đo được 1/12 từ dính. KHÔNG phải lỗi model: 3.1-flash-lite và 3.5-flash-lite
+    đều 1,7-1,9s/lượt, cả hai đều thỉnh thoảng thừa phẩy."""
+
+    def setUp(self):
+        from anki_tools import ai_client
+        self.parse = ai_client._parse_ai_response
+
+    def _json_du(self, duoi_vi):
+        return ('{"vietnamese_meaning": "dep", "topic": "qualities", '
+                '"simplified_examples": ['
+                '{"ru": "a", "en": "b", "vi": "c"},'
+                '{"ru": "d", "en": "e", "vi": "f"},'
+                '{"ru": "g", "en": "h", "vi": "%s"}' % duoi_vi)
+
+    def test_phay_thua_truoc_ngoac_nhon(self):
+        raw = '{"vietnamese_meaning": "dep", "topic": "qualities",}'
+        self.assertEqual(self.parse(raw).get("vietnamese_meaning"), "dep")
+
+    def test_phay_thua_truoc_ngoac_vuong_va_nhon_cung_luc(self):
+        # đúng hình dạng đã bắt được thật ở từ `красивый` trên VPS 12/08
+        raw = self._json_du("i") + ',\n  ]\n}'
+        parsed = self.parse(raw)
+        self.assertIsNotNone(parsed, "phẩy thừa vẫn bị coi là AI hỏng")
+        self.assertEqual(len(parsed["simplified_examples"]), 3)
+
+    def test_phay_trong_cau_KHONG_bi_dung(self):
+        """Vá không được nuốt dấu phẩy nằm trong chính câu tiếng Việt/Nga —
+        đó là lý do không dùng regex quét cả chuỗi."""
+        raw = '{"vietnamese_meaning": "chao, ban", "simplified_examples": []}'
+        self.assertEqual(self.parse(raw)["vietnamese_meaning"], "chao, ban")
+
+    def test_rac_that_thi_van_tra_None(self):
+        """Tha thứ phẩy thừa KHÔNG được biến thành 'nuốt mọi thứ' — câu trả lời
+        hỏng thật vẫn phải trả None để caller còn biết đường chạy freestyle."""
+        for rac in ("xin loi toi khong the", '{"a": ', "", "```json\n{oops```"):
+            self.assertIsNone(self.parse(rac), repr(rac))
+
+
 class GhiLoPhaiSyncTruoc(unittest.TestCase):
     """BUG GỐC (31/07/2026, phát hiện 02/08): 23 thẻ nằm ở deck gõ `1-go` mà hiện
     mặt LÀM QUEN. Bot trên VPS thăng chúng lên GĐ2 lúc 03:00 (ghi Stage="type");

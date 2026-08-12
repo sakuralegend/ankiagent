@@ -71,7 +71,23 @@ _CORE_SYSTEM_PROMPT = (
 
 
 def _parse_ai_response(raw_response):
-    """Tách JSON từ raw response, xử lý markdown code block. Trả về dict hoặc None."""
+    """Tách JSON từ raw response, xử lý markdown code block. Trả về dict hoặc None.
+
+    THA THỨ DẤU PHẨY THỪA (đo 12/08/2026). Gemini thỉnh thoảng trả JSON kiểu
+    JavaScript — thừa một dấu phẩy trước `}` hoặc `]`:
+        {"vi": "...",
+        }
+    `json.loads` từ chối thẳng, và trước bản vá này nó bị hiểu nhầm thành "AI
+    hỏng" ⇒ `build_examples_html` gọi lại freestyle 1–2 lượt nữa. Một từ tốn 3–4
+    lượt AI thay vì 1: log VPS 12/08 có ca 07:53:18 → 07:53:44 = 26 GIÂY cho một
+    từ, trong khi một lượt AI chỉ 1,8s. Tỉ lệ đo được: 1/12 từ dính.
+
+    Vá bằng cách xoá ĐÚNG dấu phẩy mà trình đọc vấp phải, không phải regex quét
+    cả chuỗi: `json.loads` cho biết vị trí lỗi, ta lùi lại tìm dấu phẩy ngay
+    trước đó và chỉ xoá khi giữa hai chỗ toàn khoảng trắng. Nhờ vậy dấu phẩy nằm
+    TRONG câu tiếng Việt/tiếng Nga không bao giờ bị đụng — một regex quét cả
+    chuỗi thì có thể nuốt nhầm dấu phẩy trong chính câu, kiểu "chào, ]".
+    """
     raw_content = raw_response.strip()
     if raw_content.startswith("```json"):
         raw_content = raw_content[7:]
@@ -79,11 +95,21 @@ def _parse_ai_response(raw_response):
         raw_content = raw_content[3:]
     if raw_content.endswith("```"):
         raw_content = raw_content[:-3]
-    try:
-        parsed = json.loads(raw_content.strip())
-        return parsed
-    except json.JSONDecodeError:
-        return None
+    raw_content = raw_content.strip()
+
+    # Tối đa 8 vòng: đủ cho JSON 3 ví dụ (mỗi ví dụ 1 dấu + 2 dấu bao ngoài),
+    # có trần để một câu trả lời rác không quay vòng mãi.
+    for _ in range(8):
+        try:
+            return json.loads(raw_content)
+        except json.JSONDecodeError as e:
+            # e.pos có thể trỏ VÀO chính dấu phẩy ("Illegal trailing comma")
+            # hoặc trỏ vào `}`/`]` đứng sau nó -> tìm cả tại chỗ lẫn lùi về trước.
+            vi_tri_phay = raw_content.rfind(",", 0, e.pos + 1)
+            if vi_tri_phay == -1 or raw_content[vi_tri_phay + 1:e.pos].strip():
+                return None  # không phải lỗi phẩy thừa -> chịu, để caller lo
+            raw_content = raw_content[:vi_tri_phay] + raw_content[vi_tri_phay + 1:]
+    return None
 
 
 def _validate_ai_result(parsed):
