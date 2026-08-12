@@ -9398,5 +9398,301 @@
   "pos": "n",
   "topic": "places::city",
   "cu": false
+ },
+ {
+  "wc": "весело",
+  "w": "ве́село",
+  "en": "<ol class=\"meaning-list\"><li>fun</li><li>funny</li><li>happily</li><li>cheerfully</li></ol>",
+  "pos": "adv",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "вилка",
+  "w": "ви́лка",
+  "en": "<ol class=\"meaning-list\"><li>fork</li><li>bracket</li><li>an electrical plug</li></ol>",
+  "pos": "n",
+  "topic": "life::home",
+  "cu": false
+ },
+ {
+  "wc": "вставлять",
+  "w": "вставля́ть",
+  "en": "<ol class=\"meaning-list\"><li>put</li><li>fix</li><li>put in</li><li>insert</li><li>introduce</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "гостеприимный",
+  "w": "гостеприи́мный",
+  "en": "<ol class=\"meaning-list\"><li>hospitable</li></ol>",
+  "pos": "adj",
+  "topic": "people::family",
+  "cu": false
+ },
+ {
+  "wc": "дарить",
+  "w": "дари́ть",
+  "en": "<ol class=\"meaning-list\"><li>give</li><li>make a present</li><li>grant</li><li>present</li><li>favour</li><li>bestow</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "духи",
+  "w": "духи́",
+  "en": "<ol class=\"meaning-list\"><li>perfume</li><li>scent</li></ol>",
+  "pos": "n",
+  "topic": "life::home",
+  "cu": false
+ },
+ {
+  "wc": "желать",
+  "w": "жела́ть",
+  "en": "<ol class=\"meaning-list\"><li>wish</li><li>desire</li><li>covet</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "здоровье",
+  "w": "здоро́вье",
+  "en": "<ol class=\"meaning-list\"><li>health</li></ol>",
+  "pos": "n",
+  "topic": "people::body",
+  "cu": false
+ },
+ {
+  "wc": "иностранец",
+  "w": "иностра́нец",
+  "en": "<ol class=\"meaning-list\"><li>foreigner</li></ol>",
+  "pos": "n",
+  "topic": "people::family",
+  "cu": false
+ },
+ {
+  "wc": "иностранка",
+  "w": "иностра́нка",
+  "en": "<ol class=\"meaning-list\"><li>foreigner</li></ol>",
+  "pos": "n",
+  "topic": "people::family",
+  "cu": false
+ },
+ {
+  "wc": "круглый",
+  "w": "кру́глый",
+  "en": "<ol class=\"meaning-list\"><li>round</li></ol>",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "мечтать",
+  "w": "мечта́ть",
+  "en": "<ol class=\"meaning-list\"><li>dream</li></ol>",
+  "pos": "v",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "объявлять",
+  "w": "объявля́ть",
+  "en": "<ol class=\"meaning-list\"><li>to declare</li><li>announce</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "по-другому",
+  "w": "по-друго́му",
+  "en": "<ol class=\"meaning-list\"><li>differently</li></ol>",
+  "pos": "adv",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "подумать",
+  "w": "поду́мать",
+  "en": "<ol class=\"meaning-list\"><li>to think a little</li><li>for a while</li><li>think</li><li>(над чем?)to consider</li><li>reflect</li><li>ponder</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "пожелать",
+  "w": "пожела́ть",
+  "en": "<ol class=\"meaning-list\"><li>wish</li><li>desire</li><li>covet</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "поздравить",
+  "w": "поздра́вить",
+  "en": "<ol class=\"meaning-list\"><li>congratulate</li></ol>",
+  "pos": "v",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "поздравлять",
+  "w": "поздравля́ть",
+  "en": "<ol class=\"meaning-list\"><li>congratulate</li></ol>",
+  "pos": "v",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "полезно",
+  "w": "поле́зно",
+  "en": "<ol class=\"meaning-list\"><li>it is useful</li><li>it is healthy</li><li>it is wholesome</li></ol>",
+  "pos": "adv",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "помечтать",
+  "w": "помечта́ть",
+  "en": "<ol class=\"meaning-list\"><li>to dream</li></ol>",
+  "pos": "v",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "праздник",
+  "w": "пра́здник",
+  "en": "<ol class=\"meaning-list\"><li>holiday</li><li>celebration</li><li>party</li></ol>",
+  "pos": "n",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "приятный",
+  "w": "прия́тный",
+  "en": "<ol class=\"meaning-list\"><li>nice</li><li>pleasant</li><li>pleasing</li><li>agreeable</li></ol>",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "рабочий",
+  "w": "рабо́чий",
+  "en": "<ol class=\"meaning-list\"><li>worker</li><li>workman</li><li>working man</li><li>labourer</li><li>hand</li><li>working</li><li>working-class</li><li>labour</li><li>work</li></ol>",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "радость",
+  "w": "ра́дость",
+  "en": "<ol class=\"meaning-list\"><li>joy</li></ol>",
+  "pos": "n",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "разговорить",
+  "w": "разговори́ть",
+  "en": "<ol class=\"meaning-list\"><li>get talking</li><li>dissuade</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "рождение",
+  "w": "рожде́ние",
+  "en": "<ol class=\"meaning-list\"><li>birth</li></ol>",
+  "pos": "n",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "серьёзный",
+  "w": "серьёзный",
+  "en": "<ol class=\"meaning-list\"><li>serious</li><li>earnest</li><li>grave</li></ol>",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "спагетти",
+  "w": "спаге́тти",
+  "en": "<ol class=\"meaning-list\"><li>spaghetti</li></ol>",
+  "pos": "n",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "спорить",
+  "w": "спо́рить",
+  "en": "<ol class=\"meaning-list\"><li>to argue with someone</li><li>to spar</li><li>contest in words</li><li>to discuss</li><li>to bet</li><li>to wager</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "тост",
+  "w": "тост",
+  "en": "<ol class=\"meaning-list\"><li>toast</li></ol>",
+  "pos": "n",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "уважаемый",
+  "w": "уважа́емый",
+  "en": "<ol class=\"meaning-list\"><li>respected</li><li>dear</li><li>reputable</li></ol>",
+  "pos": "adj",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "удача",
+  "w": "уда́ча",
+  "en": "<ol class=\"meaning-list\"><li>good luck</li><li>success</li><li>good fortune</li></ol>",
+  "pos": "n",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "удивительно",
+  "w": "удиви́тельно",
+  "en": "<ol class=\"meaning-list\"><li>amazingly</li><li>surprisingly</li></ol>",
+  "pos": "adv",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "успех",
+  "w": "успе́х",
+  "en": "<ol class=\"meaning-list\"><li>success</li></ol>",
+  "pos": "n",
+  "topic": "concepts::abstract",
+  "cu": false
+ },
+ {
+  "wc": "успешный",
+  "w": "успе́шный",
+  "en": "<ol class=\"meaning-list\"><li>successful (adj)</li></ol>",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "фотографироваться",
+  "w": "фотографи́роваться",
+  "en": "<ol class=\"meaning-list\"><li>be photographed</li><li>take a photo</li></ol>",
+  "pos": "v",
+  "topic": "concepts::misc",
+  "cu": false
+ },
+ {
+  "wc": "что-нибудь",
+  "w": "что́-нибудь",
+  "en": "<ol class=\"meaning-list\"><li>anything at all</li></ol>",
+  "pos": "pron",
+  "topic": "language::grammar",
+  "cu": false
  }
 ]

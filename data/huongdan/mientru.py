@@ -64,6 +64,18 @@ MIEN_TRU = {
              "cửa — grammar_cache ghi rõ ô prep số ít là 'две́ри, в двери́', tức hai dạng cùng "
              "tồn tại; thẻ k68 cố ý nêu cặp này để user khỏi tưởng bảng in sai. nouns.csv chỉ "
              "có đồng tự две́ри = cách 2 số ít / cách 1 số nhiều",
+    "ду́хи": "SỐ NHIỀU của дух (linh hồn, hơi) — ду́хи · ду́хов; thẻ k76 cố ý nêu cặp đối lập "
+            "ду́хи (các linh hồn) ↔ духи́ (nước hoa) vì hai từ chỉ khác nhau đúng chỗ trọng âm, "
+            "nouns.csv chỉ có духи́ = nước hoa (danh từ chỉ dùng số nhiều). Cùng lớp với "
+            "дорога́ và до́бро ở dưới",
+    "ви́лок": "số nhiều cách 2 của ви́лка (cái nĩa), dạng chèn nguyên âm chạy — thẻ k77 dạy "
+             "đúng cặp này, và chính nouns.csv ghi pl_gen của ви́лка là ви́лок. Máy vẫn kêu vì "
+             "khoá tra là mặt chữ trần: nó khớp phải DÒNG RIÊNG của đồng tự вило́к = bắp cải "
+             "(head of cabbage), một lexeme khác hẳn. Cùng lớp với бе́лок và по́лок ở trên",
+    "замо́к": "замо́к = Ổ KHOÁ, đồng tự với за́мок = lâu đài — nouns.csv có ĐỦ CẢ HAI dòng "
+             "(за'мок castle · замо'к lock) nhưng khoá tra gộp về một mặt chữ nên chỉ một dòng "
+             "sống sót; thẻ k77 dùng đúng nghĩa ổ khoá trong вста́вить ключ в замо́к. "
+             "Đây là cặp trọng âm kinh điển của tiếng Nga, không phải lỗi soạn",
     "до́бро": "DẠNG NGẮN giống trung của tính từ до́брый (tốt bụng) — grammar_cache ghi rõ bộ "
              "добр · добра́ · до́бро · до́бры; thẻ k42 cố ý nêu cặp đối lập до́бро (dạng ngắn) ↔ "
              "добро́ (DANH TỪ: điều thiện, của cải) vì hai từ chỉ khác nhau đúng chỗ trọng âm, "
