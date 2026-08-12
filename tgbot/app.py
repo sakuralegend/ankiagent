@@ -16,7 +16,8 @@ from telegram.ext import (
     filters,
 )
 
-from anki_tools.config import TELEGRAM_BOT_TOKEN, TELEGRAM_USER_ID
+from anki_tools.config import (TELEGRAM_BOT_TOKEN, TELEGRAM_USER_ID,
+                               CLAUDE_MODEL, CLAUDE_FALLBACK_MODELS)
 from anki_tools.ai_client import check_claude_ready
 from anki_tools.utils import ban_ma_dang_chay
 from anki_tools.anki_client import check_anki_ready, setup_anki_environment, trigger_sync
@@ -98,10 +99,18 @@ def main():
         return
     print("✅ AnkiConnect sẵn sàng.")
 
+    # 🔴 KHAI RA MODEL THẬT ĐANG CHẠY. Bẫy đã trả học phí 12/08/2026: `.env` trên
+    # VPS ghi đè `config.py`, nên repo ghi `gemini-3.5-flash-lite` mà máy chủ chạy
+    # `gemini-3.1-flash-lite` suốt 6 ngày — không ai thấy, và khi bot chậm thì
+    # model MỚI bị nghi oan (thủ phạm thật là JSON phẩy thừa, xem
+    # `ai_client._parse_ai_response`). Một dòng log là hết phải đoán: đối chiếu
+    # bằng `journalctl -u anki-bot | grep 'AI (Gemini)'`.
+    du_phong = ", ".join(CLAUDE_FALLBACK_MODELS) or "(không có)"
     if check_claude_ready():
-        print("✅ AI (Gemini) sẵn sàng.")
+        print(f"✅ AI (Gemini) sẵn sàng — model: {CLAUDE_MODEL} | dự phòng: {du_phong}")
     else:
-        print("⚠️ AI chưa phản hồi - bot vẫn chạy, sẽ thử lại khi có yêu cầu.")
+        print(f"⚠️ AI chưa phản hồi - bot vẫn chạy, sẽ thử lại khi có yêu cầu. "
+              f"(model: {CLAUDE_MODEL} | dự phòng: {du_phong})")
 
     # ⚠️ THỨ TỰ QUAN TRỌNG: SYNC KÉO VỀ TRƯỚC, rồi mới đẩy template.
     # Bài học 27/07/2026: bản cũ làm ngược (setup rồi mới sync). Hôm đổi tên field

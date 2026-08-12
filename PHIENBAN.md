@@ -18,6 +18,16 @@
 
 ---
 
+## v1.0.6 — 12/08/2026
+
+- ⚡ **Sửa đúng cái bạn báo: thêm từ bỗng chậm hẳn, có lúc 12-13 giây.** Không phải tại model
+  mới như bạn nghi. Thỉnh thoảng AI trả lời thừa một dấu phẩy, bot đọc không ra nên **tưởng AI
+  hỏng và hỏi lại từ đầu 2-3 lần** — mỗi lần hỏi lại tốn thêm mấy giây. Đo được cứ khoảng 10 từ
+  thì 1 từ dính, và có ca tốn tới 26 giây cho một từ. Nay bot đọc được luôn, hỏi đúng một lần.
+- 🔍 **Chuyện đáng nói: model bạn tưởng đã đổi thì thật ra chưa bao giờ đổi.** Máy chủ có một
+  cài đặt riêng đè lên, vẫn giữ model cũ suốt từ 06/08. Nay đã sửa cho khớp, và **bot tự khai
+  model nó đang chạy mỗi lần khởi động** để lần sau không ai phải đoán nữa.
+
 ## v1.0.5 — 06/08/2026
 
 - 🩹 **Sửa đúng cái bạn gặp sáng nay: dọn xong mà iPhone bấm sync mãi vẫn thấy thẻ ở `1-go`.**
@@ -40,17 +50,6 @@
   cách nhìn, nhưng nó đúng: Anki vừa học lại từ dữ liệu thật của bạn và thấy nó đang cho bạn
   nghỉ hơi lâu. Ngày đến hạn của thẻ đang có **không đổi** — chỉ lần ôn tới mới áp mức mới.
 
-## v1.0.2 — 03/08/2026
-
-- 🔄 **Sửa 21 thẻ trong deck `0-quen` sáng nay bị lật sang mặt gõ.** Đêm qua máy chủ đã nâng chúng
-  lên chặng gõ, nhưng sáng nay bạn học chúng trên thiết bị **chưa tải bản mới về**, nên khi đồng bộ
-  thì thẻ bị kéo ngược về deck cũ mà cái nhãn "đã lên chặng gõ" thì còn nguyên — thành ra sai mặt.
-  Nay 21 thẻ đã về đúng mặt làm quen, bạn không phải làm gì. Đêm nay máy chủ sẽ tự nâng chúng lên
-  chặng gõ như bình thường (và xoá lịch ôn của chúng — đó vốn là mục đích của chặng gõ).
-- 🔄 **Từ nay bot tự canh việc này mỗi 30 phút.** Thẻ nào hiện sai mặt thì nó tự sửa rồi nhắn cho
-  bạn biết; lúc mọi thứ bình thường thì nó im lặng, không thêm tin nhắn nào.
-- 💡 **Vẫn nên: buổi sáng để app Anki đồng bộ xong rồi mới bắt đầu học.** Nếu app đã mở sẵn từ tối
-  hôm trước, nó không tự tải bản mới về — cửa canh chỉ sửa lại được sau đó, không ngăn được.
-
-<sub>Bản cũ hơn đã xoá — `git log` giữ đủ. v1.0.1 là cùng một lỗi mặt thẻ với v1.0.2 ở trên;
-v1.0.0 là mốc hạ tầng (bot, sao lưu, máy soát code), không phải thứ đổi lõi thẻ.</sub>
+<sub>Bản cũ hơn đã xoá — `git log` giữ đủ. v1.0.2 và v1.0.1 là cùng một lỗi: thẻ trong
+`0-quen` hiện sai mặt vì học trên máy chưa tải bản mới; bot đã tự canh việc đó mỗi 30 phút từ
+03/08. v1.0.0 là mốc hạ tầng, không đổi lõi thẻ.</sub>
