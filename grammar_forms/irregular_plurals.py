@@ -16,6 +16,7 @@
 import csv
 import json
 import os
+import sys
 from concurrent.futures import ThreadPoolExecutor
 
 # `requests` ở đây CHỈ để tải dump `nouns.csv` từ GitHub (NOUNS_URL) — nguồn khác
@@ -36,6 +37,10 @@ NOUNS_URL = "https://raw.githubusercontent.com/Badestrand/russian-dictionary/mas
 # Cache level/plural cào từ web (1 request/từ) — để chạy lại không tải lại.
 CACHE_FILE = os.path.join(DATA_DIR, "openrussian_cache.json")
 OUT_TSV = os.path.join(DATA_DIR, "irregular_plurals.tsv")
+
+# Lát cắt 3 KB của nouns.csv mà BOT cần (xem `grammar.chi_so_nhieu`). File này
+# ĐI THEO REPO, khác hẳn nouns.csv 8 MB bị gitignore vì là dump tải về.
+OUT_PL_ONLY = os.path.join(DATA_DIR, "chi_so_nhieu.txt")
 
 # Chỉ xét N danh từ thông dụng nhất (nouns.csv xếp sẵn theo tần suất).
 # 2500 phủ trọn A1-B1 và phần lớn B2 — xa hơn nữa toàn từ hiếm không đáng học.
@@ -293,9 +298,44 @@ def write_tsv(rows, path=OUT_TSV):
     print(f"💾 Đã ghi {len(rows)} dòng -> {path}")
 
 
+def viet_chi_so_nhieu():
+    """Trích cột `pl_only` của nouns.csv ra file 3 KB đi theo repo.
+
+    🔴 BUG GỐC (12/08/2026): `nouns.csv` bị gitignore (8 MB, là dump tải về từ
+    GitHub) nên CHƯA BAO GIỜ có mặt trên VPS. Bot ở đó dựng badge giống bằng dữ
+    liệu OpenRussian, mà OpenRussian ghi giống của danh từ CHỈ CÓ SỐ NHIỀU theo
+    dạng số ít cổ ⇒ `перила` (lan can) ra `FEM ♀`, `сани` (xe trượt) ra `MASC ♂`.
+    Badge sai kiểu đó dạy user nói "э́та перила" — tệ hơn hẳn không có badge.
+    Đo 12/08: 6 từ thử, 3 sai hẳn, 3 mất badge; trên laptop cả 6 đều đúng `PL 👥`.
+
+    Vì sao TRÍCH chứ không đưa cả nouns.csv vào repo: bot chỉ cần 381 tên từ
+    trong 26.982 dòng × 12 ô biến cách. 3 KB đi theo repo thì máy nào cũng có,
+    còn 8 MB thì vừa phình repo vừa lặp lại dữ liệu tải về được.
+    """
+    tu = []
+    with open(NOUNS_CSV, encoding="utf-8", newline="") as fh:
+        for r in csv.DictReader(fh, delimiter="	"):
+            if (r.get("pl_only") or "").strip() == "1":
+                bare_ = (r.get("bare") or "").strip()
+                if bare_:
+                    tu.append(bare_)
+    with open(OUT_PL_ONLY, "w", encoding="utf-8", newline="\n") as fh:
+        fh.write("# Danh từ CHỈ DÙNG SỐ NHIỀU (pluralia tantum), trích từ cột pl_only\n")
+        fh.write("# của data/nouns.csv. SINH RA TỰ ĐỘNG — đừng sửa tay, chạy lại bằng:\n")
+        fh.write("#     python -m grammar_forms.irregular_plurals --chi-so-nhieu\n")
+        for t in sorted(set(tu)):
+            fh.write(t + "\n")
+    print(f"💾 Đã ghi {len(set(tu))} từ chỉ-số-nhiều -> {OUT_PL_ONLY}")
+    return len(set(tu))
+
+
 def main():
     if not download_nouns_csv():
         return
+    if "--chi-so-nhieu" in sys.argv:
+        viet_chi_so_nhieu()
+        return
+    viet_chi_so_nhieu()   # rẻ (1 lượt đọc file đã có sẵn) -> luôn giữ đồng bộ
     cands, regular = enrich_levels(find_candidates())
     if regular:
         print(f"🧹 Bỏ {len(regular)} từ mà web nói ĐÚNG quy tắc (dump cũ/sai): "

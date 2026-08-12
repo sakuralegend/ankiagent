@@ -367,24 +367,24 @@ _PL_ONLY = None
 def chi_so_nhieu(word):
     """Danh từ CHỈ DÙNG SỐ NHIỀU (pluralia tantum: `де́ньги`, `ша́хматы`, `щи`).
 
-    🔴 OpenRussian ghi `gender` cho chúng theo dạng số ít về mặt LÝ THUYẾT
-    (`де́ньги` -> `f`, theo `деньга́` cổ) ⇒ badge hiện "FEM ♀", mà từ này KHÔNG
-    có số ít trong tiếng Nga hiện đại. Badge sai kiểu đó tệ hơn không có badge:
-    nó dạy user nói "э́та де́ньга". `data/nouns.csv` có cột `pl_only` dứt khoát,
-    dùng nó đè lên. Đo trên bộ sưu tập: 4 từ, 2 đang hiện sai.
+    🔴 OpenRussian ghi `gender` cho chúng theo dạng số ít LÝ THUYẾT (`де́ньги` ->
+    `f`, theo `деньга́` cổ) ⇒ badge "FEM ♀" cho từ KHÔNG có số ít. Badge sai kiểu đó
+    tệ hơn không badge: dạy user nói "э́та де́ньга". Đo: 4 từ, 2 hiện sai.
+
+    🔴 Nguồn là `data/chi_so_nhieu.txt` (381 từ), KHÔNG phải `data/nouns.csv`: dump
+    8 MB đó bị gitignore nên VPS chưa bao giờ có, bot lặng lẽ bỏ qua luật này và
+    `перила` thêm qua Telegram ra `FEM ♀`, `сани` ra `MASC ♂` (đo 12/08/2026).
     """
     global _PL_ONLY
     if _PL_ONLY is None:
-        import csv
         _PL_ONLY = set()
-        duong = os.path.join(_HERE, "..", "data", "nouns.csv")
+        duong = os.path.join(_HERE, "..", "data", "chi_so_nhieu.txt")
         try:
-            with io.open(duong, encoding="utf-8", newline="") as fh:
-                for r in csv.DictReader(fh, delimiter="\t"):
-                    if (r.get("pl_only") or "").strip() == "1":
-                        _PL_ONLY.add((r.get("bare") or "").strip().lower().replace("ё", "е"))
+            with io.open(duong, encoding="utf-8") as fh:
+                _PL_ONLY = {d.strip().lower().replace("ё", "е") for d in fh
+                            if d.strip() and not d.startswith("#")}
         except OSError as e:
-            log_warn(f"khong doc duoc nouns.csv ({e}) -> bo qua luat pluralia tantum")
+            log_warn(f"khong doc duoc chi_so_nhieu.txt ({e}) -> bo qua luat pluralia tantum")
     return bare(word).replace("ё", "е") in _PL_ONLY
 
 

@@ -109,9 +109,11 @@ Cửa nào bị mở lậu thì `soatkientruc.py` mục S1 kêu.
 
 Đây là loại phụ thuộc nguy hiểm nhất vì **grep `import` không thấy**:
 
-- **`data/nouns.csv`**: `grammar_forms/irregular_plurals.py` **tải nó về** (dump từ GitHub);
-  `anki_tools/grammar.py` **đọc nó** để biết từ nào chỉ dùng số nhiều; dây chuyền kho cũng đọc nó
-  để soát trọng âm. Đổi định dạng file này là chạm cả ba mảng cùng lúc.
+- **`data/nouns.csv`** (dump 8 MB, `irregular_plurals.py` tải về, dây chuyền kho đọc để soát
+  trọng âm) 🔴 **BỊ GITIGNORE nên KHÔNG có trên VPS**. Thứ gì BOT cần thì phải TRÍCH ra file nhỏ
+  đi theo repo — đọc thẳng dump thì laptop chạy đúng còn VPS hỏng IM LẶNG (badge `перила` →
+  `FEM ♀`, 12/08/2026). Lát cắt đang có: **`data/chi_so_nhieu.txt`** (381 từ chỉ dùng số nhiều,
+  `irregular_plurals.py --chi-so-nhieu` sinh ra, `grammar.py` đọc để dựng badge `PL 👥`).
 - **Ô `GrammarJSON` trong chính thẻ Anki`** là nguồn DUY NHẤT của dữ liệu ngữ pháp (QD-11, thay
   QD-08 — không còn file `data/grammar_cache.json` trên đĩa). `anki_tools/grammar.py` giữ một bộ
   nhớ đệm CHỈ TRONG RAM, lấp một lần từ thẻ lúc chạy; Anki đóng thì các lệnh cần dữ liệu ngữ pháp
@@ -195,6 +197,7 @@ Tài liệu nói dối thì máy chỉ mặt. Sửa cấu trúc dự án mà qu�
   "diem_vao": ["bot.py", "main.py", "soatkientruc.py"],
   "du_lieu_chung": [
     "data/nouns.csv",
+    "data/chi_so_nhieu.txt",
     "data/huongdan/kho/hangdoi.json",
     "data/huongdan/kho/tudien.json"
   ],

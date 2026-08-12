@@ -15,6 +15,7 @@ KHÔNG cần Anki, KHÔNG cần mạng — chạy được mọi lúc, đó là 
 
     python -m unittest discover -s tests -v
 """
+import inspect
 import os
 import sys
 import unicodedata
@@ -387,6 +388,47 @@ class MoiLoiGoiAiPhaiEpKHUONJson(unittest.TestCase):
         self.assertNotIn("topic", kt["properties"])
         self.assertEqual(kt["properties"]["simplified_examples"],
                          ai_client._KHUON_THE["properties"]["simplified_examples"])
+
+
+class BadgeChiSoNhieuPhaiSongKhiKhongCoNounsCsv(unittest.TestCase):
+    """BUG GỐC (đo 12/08/2026): `data/nouns.csv` bị gitignore (8 MB, là dump tải
+    về từ GitHub) nên CHƯA BAO GIỜ có mặt trên VPS. `grammar.chi_so_nhieu` đọc
+    thẳng file đó, không thấy thì chỉ log_warn rồi bỏ qua luật — nên mọi danh từ
+    CHỈ CÓ SỐ NHIỀU thêm qua bot Telegram đều đeo badge giống SAI:
+        перила (lan can) -> FEM ♀      сани (xe trượt) -> MASC ♂
+    Đo 6 từ trên VPS: 3 sai hẳn, 3 mất badge; cùng mã trên laptop cả 6 đúng PL.
+    Badge sai tệ hơn không badge — nó dạy user nói "э́та перила".
+
+    Nay đọc `data/chi_so_nhieu.txt` (381 từ, 3 KB) ĐI THEO REPO. Test này canh
+    đúng cái đã hỏng: chạy KHI KHÔNG CÓ nouns.csv."""
+
+    def test_bay_tu_that_van_nhan_dung_khi_khong_co_nouns_csv(self):
+        from anki_tools import grammar
+        with unittest.mock.patch.object(grammar, "_PL_ONLY", None):
+            for tu in ("перила", "сани", "сутки", "брюки", "деньги", "шахматы"):
+                self.assertTrue(grammar.chi_so_nhieu(tu), f"{tu} phải là chỉ-số-nhiều")
+            for tu in ("стол", "город", "книга"):
+                self.assertFalse(grammar.chi_so_nhieu(tu), f"{tu} KHÔNG phải chỉ-số-nhiều")
+        # test này chỉ có nghĩa nếu nó KHÔNG dựa vào nouns.csv
+        self.assertNotIn("nouns.csv", inspect.getsource(grammar.chi_so_nhieu).split('"""')[-1],
+                         "chi_so_nhieu lại đọc nouns.csv — file đó không có trên VPS")
+
+    def test_file_nho_di_theo_repo(self):
+        """File 3 KB này PHẢI được git theo dõi. Nếu ai lỡ cho nó vào .gitignore
+        thì bug quay lại y hệt, và lại hỏng IM LẶNG trên VPS."""
+        goc = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        duong = os.path.join(goc, "data", "chi_so_nhieu.txt")
+        self.assertTrue(os.path.exists(duong), "thiếu data/chi_so_nhieu.txt")
+        with open(duong, encoding="utf-8") as fh:
+            tu = [d.strip() for d in fh if d.strip() and not d.startswith("#")]
+        self.assertGreater(len(tu), 300, "danh sách chỉ-số-nhiều ngắn bất thường")
+
+    def test_badge_ra_dung_PL(self):
+        """Đi hết đường tới badge, vì đó là thứ user NHÌN THẤY."""
+        from anki_tools import grammar
+        with unittest.mock.patch.object(grammar, "_PL_ONLY", None):
+            html = grammar.gender_badge_html("перила", "f")
+        self.assertIn("plural", html, "перила vẫn ra badge giống số ít")
 
 
 class GhiLoPhaiSyncTruoc(unittest.TestCase):
