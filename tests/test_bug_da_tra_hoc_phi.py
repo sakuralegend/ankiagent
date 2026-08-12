@@ -961,5 +961,40 @@ class TheChiPhoi(unittest.TestCase):
             self.assertTrue(r["viet"].strip(), f"dòng {r['so_dong']} thiếu tiếng Việt")
 
 
+class BadgeGiongDienTayKhongDuocBiXoaNguoc(unittest.TestCase):
+    """BUG GỐC (12/08/2026): `backfill_badge.py` tầng 3 so NHÃN hiển thị với 4 ký
+    tự đầu của KHOÁ — `"FEM ♀".startswith("femi")` là False. Hai thứ chỉ trùng
+    nhau do tình cờ ở `masculine`/`neuter`, nên FEM/PL/M-F trượt hết và script
+    XOÁ MẤT badge đúng mà user (hoặc lô trước) đã điền tay — trái ngược điều
+    docstring của chính nó hứa. Bắt được khi vá `иностранка` thiếu `GenderBadge`:
+    chạy khan báo `FEM ♀ -> (xoá)`.
+    """
+
+    def setUp(self):
+        import importlib.util
+        goc = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        spec = importlib.util.spec_from_file_location(
+            "_bb", os.path.join(goc, "scripts", "backfill_badge.py"))
+        self.bb = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(self.bb)
+
+    def _giu(self, nhan):
+        """Từ điển KHÔNG ghi giống ⇒ tầng 3 phải đọc lại nhãn cũ trên thẻ."""
+        cu = f'<div class="badge x">{nhan}</div>'
+        return self.bb.chu(self.bb.gender_badge_wc("тест", {}, cu, []))
+
+    def test_moi_giong_deu_giu_duoc_nhan_cu(self):
+        for nhan in grammar.NHAN_GIONG.values():
+            with self.subTest(nhan=nhan):
+                self.assertEqual(self._giu(nhan), nhan)
+
+    def test_FEM_la_ca_da_hong_that(self):
+        self.assertEqual(self._giu("FEM ♀"), "FEM ♀")
+
+    def test_khong_co_nhan_cu_thi_van_tra_rong(self):
+        """Không được vì vá mà đâm ra bịa badge cho thẻ trắng."""
+        self.assertEqual(self.bb.gender_badge_wc("тест", {}, "", []), "")
+
+
 if __name__ == "__main__":
     unittest.main()

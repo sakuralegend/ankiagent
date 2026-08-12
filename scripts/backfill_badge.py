@@ -16,6 +16,10 @@ Thẻ tạo từ 29/07/2026 trở đi tự có đủ ba (scraper lấy `verb.asp
 Nguồn là `data/grammar_cache.json` (đã cào sẵn cả bộ sưu tập). Từ nào chưa có
 trong cache thì gọi mạng lấy về, nên chạy được cả với thẻ mới thêm sau này.
 
+🔴 CHỪA `быть` (12/08/2026): chạy khan luôn đòi `IMPF -> BI-ASP` vì OpenRussian
+ghi `aspect=both`. Ngữ pháp chuẩn xếp `быть` là CHƯA HOÀN THÀNH, nên thẻ giữ IMPF
+là đúng — đây là chênh lệch CỐ Ý, đừng thấy nó đỏ mà "sửa" cho sạch bảng.
+
 🔴 TRƯỚC KHI CHẠY: hai field mới phải tồn tại. Chạy `setup_anki_environment()`
 một lần (nó tự thêm qua `modelFieldAdd`). Thêm field LÀ schema mod ⇒ Anki đòi
 FULL SYNC một lần ⇒ gom hết thay đổi schema rồi Upload MỘT lần, và sau đó kiểm
@@ -82,8 +86,12 @@ def gender_badge_wc(wc, rec, badge_cu, suy_ra):
         return _badge("plural")
     lop = grammar.MA_GIONG.get((rec.get("gender") or "").strip().lower())
     if not lop:
-        cu = chu(badge_cu).lower()
-        lop = next((k for k in GIONG if cu.startswith(k[:4])), None)
+        # So NHAN voi NHAN. Ban cu so nhan hien thi ("FEM ♀") voi 4 ky tu dau
+        # cua KHOA ("femi") — hai thu chi trung nhau do tinh co o masculine/neuter,
+        # nen FEM/PL/M-F truot het va tang 3 XOA MAT badge dung, trai nguoc voi
+        # dieu docstring hua ngay tren.
+        cu = chu(badge_cu)
+        lop = next((k for k, nhan in GIONG.items() if nhan == cu), None)
     if lop:
         return _badge(lop)
     ma, ly_do = grammar.suy_giong(rec)
