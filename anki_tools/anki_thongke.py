@@ -111,6 +111,12 @@ def get_topic_stats():
                 untagged += 1
                 continue
             slug = normalize_topic(tags[0])
+            if slug is None:
+                # Có tag nhưng tag trỏ tới chủ đề KHÔNG còn tồn tại (vd rọ rác đã
+                # xoá ở QD-37). Đếm vào "chưa có tag" chứ đừng đẻ khoá None: thẻ này
+                # cần người xếp lại, y hệt thẻ chưa gắn gì.
+                untagged += 1
+                continue
             stats[slug] = stats.get(slug, 0) + len(n.get("cards", []))
         return stats, untagged
     except Exception as e:

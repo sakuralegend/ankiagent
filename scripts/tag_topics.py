@@ -1,25 +1,29 @@
 # ==============================================================================
 # --- GẮN TAG CHỦ ĐỀ (topic::...) CHO THẺ ANKI ---
 # Cách dùng (chạy trên máy có Anki + AnkiConnect đang mở):
-#   python tag_topics.py            -> DRY-RUN: chỉ in thống kê + ghi file preview,
-#                                      KHÔNG đụng gì vào Anki
-#   python tag_topics.py --apply    -> gắn tag thật (chỉ addTags, không sửa nội dung
-#                                      thẻ, không ảnh hưởng tiến độ học)
-#   python tag_topics.py --missing  -> dùng AI phân loại những thẻ KHÔNG có trong
-#                                      bảng tra bên dưới và chưa có tag topic::
-#                                      (vd thẻ mới tạo lúc AI hỏng). Tốn quota AI,
-#                                      mỗi thẻ 1 request nhỏ.
+#   python tag_topics.py           -> NHÁP: chỉ in kế hoạch, KHÔNG đụng gì vào Anki
+#   python tag_topics.py --apply   -> gắn tag thật (chỉ tag, không sửa nội dung thẻ,
+#                                     không ảnh hưởng tiến độ học)
+#   python tag_topics.py --fix     -> xếp lại CẢ thẻ ĐÃ có tag (dùng khi đổi cây chủ đề)
+#
+# AI XẾP, KHÔNG PHẢI BẢNG TRA (user chốt 23/08/2026, QD-37).
+# Trước đây chỗ này có dict `TOPIC_WORDS` ~100 dòng chép tay cho ~610 từ. Đã thử
+# thay bằng nhãn sẵn của ros-edu.ru rồi BỎ: đo ra nhãn từng từ của họ sai có hệ
+# thống — 6/16 cặp từ đối nhau bị tách sang hai chủ đề khác nhau (`папа` ở "Семья"
+# mà `мама` ở "Жизнь человека"; `жена` một chỗ, `муж` chỗ khác; `вопрос` bị xếp
+# vào "từ để hỏi" dù nó là danh từ; màu sắc bị dồn hết vào "đặc điểm đồ vật", làm
+# rỗng nhánh `qualities::colors` đang chạy tốt).
+# Từ ros-edu chỉ lấy DANH SÁCH TỪ + TRÌNH ĐỘ (`data/rosedu_muc.json`) — phần đó
+# là chuẩn ТРКИ đã xuất bản, tin được. Chủ đề thì AI xếp theo `anki_tools/topics.py`.
 #
 # An toàn:
-# - Thẻ ĐÃ có tag topic:: nào đó -> luôn bỏ qua (chạy lại bao nhiêu lần cũng được).
+# - Không có --fix: thẻ ĐÃ có tag topic:: -> bỏ qua (chạy lại bao nhiêu lần cũng được).
 # - Chỉ đụng note thuộc model của bot (MODEL_NAME trong config.py).
-#
-# Bảng WORD_TOPIC bên dưới do Claude phân loại thủ công cho ~610 từ có sẵn
-# (07/2026). Từ mới thêm sau ngày đó được AI tự gắn tag ngay lúc tạo thẻ
-# (xem ai_client.py / anki_client.py) nên KHÔNG cần thêm vào đây.
-# Quy tắc từ dính nhiều chủ đề: chọn theo nghĩa PHỔ BIẾN nhất, mỗi từ đúng 1 tag.
+# - Từ AI không xếp được -> ĐỂ TRỐNG tag, in ra danh sách. KHÔNG ép vào rọ (QD-38).
 # ==============================================================================
 import argparse
+import json
+import os
 import sys
 from collections import Counter
 
@@ -27,129 +31,41 @@ import requests
 
 # Chay duoc tu bat cu dau: file nay khong con nam o goc repo nen phai tu tro
 # duong dan goc vao sys.path truoc khi import anki_tools (G3, 31/07/2026).
-import os
-import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from anki_tools.config import ANKI_CONNECT_URL, MODEL_NAME
-from anki_tools.topics import TOPICS, topic_tag, TOPIC_TAG_PREFIX, LEGACY_ALIASES, FALLBACK_TOPIC
+from anki_tools.topics import TOPICS, topic_tag, TOPIC_TAG_PREFIX, LEGACY_ALIASES
 from anki_tools.utils import strip_accents_perfectly
 
-# Nhóm theo chủ đề cho dễ soát; script tự lật thành dict word -> topic.
-TOPIC_WORDS = {
-    "people::family": [
-        "мама", "папа", "брат", "сестра", "сын", "дочь", "мать", "муж", "семья",
-        "друг", "подруга", "тётя", "дядя", "няня", "малыш", "ребята", "народ",
-        "девочка", "молодёжь", "родитель", "юра", "чех", "гений", "враг",
-    ],
-    "people::professions": [
-        "врач", "студент", "продавец", "продавщица", "певец", "певица", "шофёр",
-        "физик", "химик", "диктор", "учёный", "князь",
-    ],
-    "people::body": [
-        "глаз", "ухо", "рука", "нога", "голова", "грудь", "ладонь", "нёбо",
-        "коса", "сыпь", "вдох", "выдох", "слеза",
-    ],
-    "life::food": [
-        "суп", "сок", "сыр", "рис", "лук", "сахар", "масло", "молоко", "мясо",
-        "мёд", "хлеб", "соль", "салат", "капуста", "картошка", "картофель",
-        "помидор", "шоколад", "блюдо", "колбаса", "яйцо", "огурец", "сметана",
-        "груша", "вишня", "изюм", "пюре", "пиво", "чай", "борщ", "щи", "икра",
-        "батон", "завтрак", "обед", "конфета", "свёкла", "рожь", "мята", "вода",
-        "яблоко", "мясной", "куриный", "варенный", "вкусный", "кислый",
-        "сладкий", "завтракать", "обедать", "ужинать", "пить",
-    ],
-    "life::home": [
-        "дом", "дома", "комната", "квартира", "зал", "стена", "окно", "потолок",
-        "этаж", "стул", "стол", "шкаф", "кровать", "лампа", "полка", "зеркало",
-        "ковёр", "подушка", "одеяло", "ведро", "корзина", "ваза", "мыло",
-        "ложка", "чашка", "нож", "утюг", "щётка", "телефон", "телевизор",
-        "дачка", "балка", "бюро", "пакет", "пол", "картина",
-    ],
-    "life::clothing": [
-        "одежда", "шапка", "шарф", "шуба", "юбка", "рубашка", "платье",
-        "костюм", "пальто", "сапог", "кепка", "кеды", "галстук", "плащ",
-        "ткань", "сумка", "карман", "кольцо",
-    ],
-    "nature::animals": [
-        "кот", "кошка", "пёс", "ёж", "муха", "коза", "рыба", "белка", "голубь",
-        "мышь", "лев", "окунь", "щука", "грач", "зяблик", "хек",
-    ],
-    "nature::plants": [
-        "дуб", "сад", "ёлка", "дерево", "трава", "липа", "лён", "хвощ",
-        "листва", "поле", "поляна", "остров", "болото", "земля", "небо",
-        "луна", "солнце", "море", "озеро", "лес", "степь", "зерно", "луч", "юг",
-    ],
-    "nature::weather": [
-        "дождь", "снег", "мороз", "гроза", "ветер", "погода", "облако",
-        "холод", "жар", "лёд", "солнечный", "облачный", "дождливый", "снежный",
-        "ветреный", "пасмурный", "морозный", "холодный", "жаркий", "тёплый",
-        "холодно", "жарко",
-    ],
-    "time": [
-        "год", "час", "утро", "вечер", "день", "ночь", "сегодня", "вчера",
-        "завтра", "позавчера", "сегодняшний", "вчерашний", "завтрашний",
-        "утренний", "вечерний", "ночной", "дневной", "ранний", "поздний",
-        "весенний", "летний", "осенний", "зимний", "майский", "весна", "лето",
-        "осень", "зима", "весной", "осенью", "зимой", "март", "апрель", "май",
-        "июнь", "июль", "август", "сентябрь", "октябрь", "ноябрь", "декабрь",
-        "январь", "февраль", "понедельник", "вторник", "среда", "четверг",
-        "пятница", "суббота", "воскресенье", "сейчас", "часто", "потом",
-        "когда", "выходной", "будничный",
-    ],
-    "numbers": [
-        "цифра", "число", "сколько", "метр", "килограмм", "дюйм", "дробь",
-    ],
-    "qualities::colors": [
-        "цвет", "красный", "белый", "жёлтый", "чёрный", "оранжевый",
-        "коричневый", "фиолетовый", "голубой", "зелёный", "розовый", "синий",
-    ],
-    "places::city": [
-        "город", "страна", "деревня", "село", "улица", "площадь", "центр",
-        "банк", "парк", "цирк", "школа", "вокзал", "музей", "магазин",
-        "институт", "университет", "больница", "библиотека", "кинотеатр",
-        "кино", "гараж", "завод", "рынок", "собор", "клуб", "бар", "буфет",
-        "проспект", "фонтан", "москва", "россия", "индия", "франция", "киев",
-        "автобус", "машина", "автомобиль", "дорога", "багаж", "вход", "выход",
-    ],
-    "language::education": [
-        "класс", "урок", "книга", "буква", "слово", "тетрадь", "учебник",
-        "словарь", "карандаш", "ручка", "лекция", "письмо", "газета", "журнал",
-        "вопрос", "рассказ", "сказка", "стих", "роман", "зачёт", "доска",
-        "физика", "химия", "бумага", "открытка", "мел",
-        "читать", "писать", "учиться", "повторять",
-    ],
-    # Tách khỏi other 18/07/2026 khi other chạm ngưỡng 15% (xem git log)
-    "language::grammar": [
-        "да", "нет", "он", "она", "ты", "мы", "вы", "кто", "что", "чей",
-        "наш", "ваш", "их", "мой", "твой", "сам", "это", "есть", "там", "тут",
-        "здесь", "вот", "вон", "как", "тоже", "куда", "хотя", "всё", "или",
-        "только", "ничего", "нельзя", "можно", "вперёд", "назад",
-    ],
-    "concepts::abstract": [
-        "правда", "дружба", "счастье", "любовь", "помощь", "защита", "обида",
-        "вина", "дело", "работа", "игра", "охота", "мир", "род", "начало",
-        "порядок", "очередь", "связь", "факт", "чудо", "шутка", "пощада",
-        "быль", "плач", "звук", "запах", "привет",
-    ],
-    # actions / qualities / other: chủ yếu để fallback theo từ loại lo (xem dưới),
-    # chỉ liệt kê từ cần ép riêng.
-    "actions": [],
-    "qualities": [],
-    "concepts::misc": ["карта", "угол"],
-}
+# Số từ gửi AI mỗi lượt. 25 là chỗ cân: danh sách 35 chủ đề (~2K token) là phần
+# cố định của mỗi request, chia cho 25 từ thì rẻ; to hơn nữa thì model bắt đầu
+# trả thiếu mục và phải gọi lại, mất luôn cái vừa tiết kiệm.
+CO_LO = 25
 
-WORD_TOPIC = {}
-for _topic, _words in TOPIC_WORDS.items():
-    for _w in _words:
-        if _w in WORD_TOPIC:
-            raise SystemExit(f"Từ '{_w}' bị khai báo ở 2 chủ đề: {WORD_TOPIC[_w]} và {_topic}")
-        WORD_TOPIC[_w] = _topic
+BAN_CHUP = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                        "data", "rosedu_muc.json")
 
-# Từ không có trong bảng tra -> đoán theo từ loại (field PoS của thẻ)
-POS_FALLBACK = {"num": "numbers", "v": "actions", "adj": "qualities", "adv": "qualities"}
-# pron / oth / n còn lại -> thùng chứa
-DEFAULT_TOPIC = FALLBACK_TOPIC
+
+def doc_muc_trki():
+    """-> dict {từ không dấu nhấn: 1=A1 2=A2 3=B1 4=B2}. {} nếu chưa có bản chụp.
+
+    CHỈ dùng để in kèm cho dễ soát (biết từ nào là từ vỡ lòng), KHÔNG dùng để
+    quyết định chủ đề — xem ghi chú đầu file."""
+    try:
+        with open(BAN_CHUP, encoding="utf-8") as f:
+            d = json.load(f)
+    except (OSError, ValueError):
+        return {}
+    muc = {}
+    for w, m, _cats in d["tu"]:
+        key = strip_accents_perfectly(w).strip().lower()
+        if key:
+            muc[key] = min(m, muc.get(key, 9))
+    return muc
+
+
+WORD_MUC = doc_muc_trki()
+TEN_MUC = {1: "A1", 2: "A2", 3: "B1", 4: "B2"}
 
 
 def call(action, **params):
@@ -160,110 +76,104 @@ def call(action, **params):
     return j["result"]
 
 
-def classify(word_clean, pos):
-    """Trả về (topic_slug, nguồn) — nguồn: 'map' (bảng tra) hoặc 'pos' (fallback từ loại)."""
-    w = word_clean.strip().lower()
-    if w in WORD_TOPIC:
-        return WORD_TOPIC[w], "map"
-    return POS_FALLBACK.get(pos.strip().lower(), DEFAULT_TOPIC), "pos"
+def xep_bang_ai(can_xep):
+    """can_xep: list (note_id, từ, nghĩa Anh) -> dict {note_id: slug hoặc None}."""
+    from anki_tools.ai_client import call_claude_topic
+    ra = {}
+    for i in range(0, len(can_xep), CO_LO):
+        lo = can_xep[i:i + CO_LO]
+        print(f"   AI lượt {i // CO_LO + 1}/{-(-len(can_xep) // CO_LO)} "
+              f"({len(lo)} từ)...", flush=True)
+        ket = call_claude_topic([(w, en) for _nid, w, en in lo])
+        for nid, w, _en in lo:
+            ra[nid] = ket.get(w)
+    return ra
 
 
 def main():
     sys.stdout.reconfigure(encoding="utf-8")
     ap = argparse.ArgumentParser(description="Gắn tag chủ đề topic:: cho thẻ Anki")
-    ap.add_argument("--apply", action="store_true", help="gắn tag thật (mặc định: dry-run)")
-    ap.add_argument("--missing", action="store_true",
-                    help="dùng AI phân loại thẻ không có trong bảng tra (tốn quota)")
+    ap.add_argument("--apply", action="store_true", help="gắn tag thật (mặc định: nháp)")
     ap.add_argument("--fix", action="store_true",
-                    help="đổi lại tag topic:: của thẻ ĐÃ có tag cho khớp bảng tra "
-                         "(vd sau khi tách chủ đề mới; chỉ đụng từ CÓ trong bảng, "
-                         "từ do AI phân loại được giữ nguyên)")
+                    help="xếp lại CẢ thẻ đã có tag (dùng khi đổi cây chủ đề). "
+                         "Không có cờ này thì chỉ đụng thẻ chưa có tag.")
     args = ap.parse_args()
 
     note_ids = call("findNotes", query=f'note:"{MODEL_NAME}"')
     notes = call("notesInfo", notes=note_ids)
     print(f"Tổng số note: {len(notes)}")
 
-    plan = {}          # topic_slug -> [note_ids]
-    fallback_words = []  # từ phải đoán theo PoS (để soát mắt)
-    fixes = []           # (note_id, [tag cũ], slug mới, word) — chỉ khi --fix
-    skipped = 0
+    can_xep = []     # (note_id, từ, nghĩa Anh) — sẽ hỏi AI
+    tag_cu = {}      # note_id -> [tag topic:: đang có]
+    bo_qua = 0
     for n in notes:
         f = n["fields"]
         word = f.get("WordClean", {}).get("value", "") or strip_accents_perfectly(
             f.get("Word", {}).get("value", ""))
-        pos = f.get("PoS", {}).get("value", "")
-
-        current_topics = [t for t in n.get("tags", []) if t.startswith(TOPIC_TAG_PREFIX)]
-        if current_topics:
-            if args.fix:
-                w = word.strip().lower()
-                cur_slug = current_topics[0][len(TOPIC_TAG_PREFIX):]
-                # Ưu tiên bảng tra; từ không có trong bảng (AI phân loại) chỉ được
-                # DỊCH TÊN slug cũ -> mới theo LEGACY_ALIASES, giữ nguyên lựa chọn AI.
-                desired = WORD_TOPIC.get(w) or LEGACY_ALIASES.get(cur_slug)
-                if desired and current_topics != [topic_tag(desired)]:
-                    fixes.append((n["noteId"], current_topics, desired, word))
-                    continue
-            skipped += 1
+        hien_co = [t for t in n.get("tags", []) if t.startswith(TOPIC_TAG_PREFIX)]
+        if hien_co and not args.fix:
+            bo_qua += 1
             continue
+        tag_cu[n["noteId"]] = hien_co
+        en = f.get("Meaning", {}).get("value", "")
+        can_xep.append((n["noteId"], word.strip().lower(), en[:200]))
 
-        if args.missing and word.strip().lower() not in WORD_TOPIC:
-            from anki_tools.ai_client import call_claude_topic
-            en = f.get("Meaning", {}).get("value", "")
-            slug = call_claude_topic(word, [en[:200]])
-            source = "ai"
-            if not slug:
-                print(f"  ⚠️ AI không phân loại được '{word}' -> bỏ qua")
-                continue
-        else:
-            slug, source = classify(word, pos)
-            if source == "pos":
-                fallback_words.append(f"{word} ({pos or '?'}) -> {slug}")
-
-        plan.setdefault(slug, []).append(n["noteId"])
-
-    print(f"Bỏ qua (đã có tag topic::): {skipped}")
-    print("\nKế hoạch gắn tag:")
-    total = 0
-    for slug in TOPICS:
-        ids = plan.get(slug, [])
-        if ids:
-            print(f"  {topic_tag(slug):28} {len(ids):4} thẻ")
-            total += len(ids)
-    print(f"  {'TỔNG':28} {total:4} thẻ")
-
-    if fallback_words:
-        print(f"\nTừ KHÔNG có trong bảng tra, đoán theo từ loại ({len(fallback_words)}):")
-        for line in fallback_words:
-            print("  ", line)
-
-    if fixes:
-        print(f"\nĐổi tag theo bảng tra (--fix, {len(fixes)} thẻ):")
-        for _nid, olds, slug, w in fixes:
-            print(f"   {w}: {', '.join(olds)} -> {topic_tag(slug)}")
+    print(f"Bỏ qua (đã có tag, không có --fix): {bo_qua}")
+    if not can_xep:
+        print("Không có thẻ nào cần xếp.")
+        return
+    so_lo = -(-len(can_xep) // CO_LO)
+    print(f"Cần xếp: {len(can_xep)} thẻ -> {so_lo} lượt gọi AI\n")
 
     if not args.apply:
-        print("\n(DRY-RUN — chưa gắn gì. Chạy lại với --apply để gắn thật.)")
+        print("(NHÁP — chưa gọi AI, chưa gắn gì. Chạy lại với --apply để làm thật.)")
+        print("Mẫu 15 thẻ sẽ đem đi xếp:")
+        for nid, w, _en in can_xep[:15]:
+            muc = TEN_MUC.get(WORD_MUC.get(w), "—")
+            print(f"   [{muc}] {w:18s} đang: {', '.join(tag_cu[nid]) or '(chưa có)'}")
         return
 
-    for slug, ids in plan.items():
-        call("addTags", notes=ids, tags=topic_tag(slug))
-        print(f"✅ Đã gắn {topic_tag(slug)} cho {len(ids)} thẻ")
+    ket = xep_bang_ai(can_xep)
 
-    if fixes:
-        remove_map, add_map = {}, {}
-        for nid, olds, slug, _w in fixes:
-            for old in olds:
-                remove_map.setdefault(old, []).append(nid)
-            add_map.setdefault(slug, []).append(nid)
-        for old, ids in remove_map.items():
-            call("removeTags", notes=ids, tags=old)
-        for slug, ids in add_map.items():
-            call("addTags", notes=ids, tags=topic_tag(slug))
-            print(f"🔁 Đã đổi {len(ids)} thẻ sang {topic_tag(slug)}")
+    doi, giu, mo_coi = {}, 0, []
+    for nid, w, _en in can_xep:
+        slug = ket.get(nid)
+        if not slug:
+            mo_coi.append(f"{w} (đang: {', '.join(tag_cu[nid]) or 'chưa có'})")
+            continue
+        if tag_cu[nid] == [topic_tag(slug)]:
+            giu += 1
+            continue
+        doi[nid] = slug
 
-    print("\nXong. Kiểm tra lại trong Anki Browser (cây Tags bên trái).")
+    print(f"\nGiữ nguyên: {giu} | Đổi tag: {len(doi)} | Chưa xếp được: {len(mo_coi)}")
+    dem = Counter(doi.values())
+    for slug, n in dem.most_common():
+        print(f"   {topic_tag(slug):32} +{n}")
+
+    # 🔴 PHẢI IN, kể cả rỗng (QD-38). Đây là con số thay cho cái rọ rác cũ: trước
+    # đây chúng lặng lẽ vào `concepts::misc` và trông như đã phân loại xong.
+    print(f"\nCHƯA XẾP ĐƯỢC (để trống tag, /thongke sẽ đếm): {len(mo_coi)}")
+    for line in mo_coi:
+        print("  ", line)
+
+    for nid, slug in doi.items():
+        cu = [t for t in tag_cu[nid] if t != topic_tag(slug)]
+        if cu:
+            call("removeTags", notes=[nid], tags=" ".join(cu))
+        call("addTags", notes=[nid], tags=topic_tag(slug))
+    print(f"\n✅ Đã gắn tag cho {len(doi)} thẻ.")
+
+    # Tag cũ trỏ chủ đề đã bị xoá thì phải GỠ, không thì `build_subdecks` thấy thẻ
+    # "có tag" mà tag chết, rồi bỏ lại đúng chỗ cũ — im lặng y như trước.
+    go = [nid for nid, w, _en in can_xep
+          if not ket.get(nid) and tag_cu[nid]
+          and any(t[len(TOPIC_TAG_PREFIX):] not in TOPICS for t in tag_cu[nid])]
+    for nid in go:
+        call("removeTags", notes=[nid], tags=" ".join(tag_cu[nid]))
+    if go:
+        print(f"🧹 Đã gỡ tag CHẾT khỏi {len(go)} thẻ (chủ đề không còn tồn tại).")
+    print(f"\nBước tiếp: python scripts/build_subdecks.py  (nháp) rồi --apply")
 
 
 if __name__ == "__main__":

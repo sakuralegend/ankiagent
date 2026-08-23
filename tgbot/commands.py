@@ -12,7 +12,6 @@ from telegram.ext import ContextTypes
 from anki_tools.config import TOPIC_DECK_PARENT
 from anki_tools.backup import human_size, list_backups, run_backup
 from anki_tools.utils import ban_ma_dang_chay, log_warn
-from anki_tools.topics import FALLBACK_TOPIC
 from anki_tools.anki_client import (
     CARD_STATES,
     cham_vao_kho,
@@ -80,9 +79,10 @@ async def cmd_deck(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("❌ Không tạo/kiểm tra được deck (AnkiConnect lỗi?).")
 
 
-# Ngưỡng "đèn báo" cần tách chủ đề (xem git log quanh 18/07/2026: quy tắc 100 thẻ / 15% other)
+# Ngưỡng "đèn báo" cần tách chủ đề (xem git log quanh 18/07/2026: quy tắc 100 thẻ).
+# Ngưỡng "15% other" đi cùng nó đã chết 23/08/2026 vì rọ `other` bị xoá (QD-38);
+# thay bằng: có thẻ nào chưa xếp được là báo, không cần ngưỡng.
 TOPIC_DECK_WARN = 100     # deck con vượt mức này -> nên tách chủ đề con
-OTHER_WARN_PCT = 15       # other chiếm quá % này của kho -> phân loại đang "rò rỉ"
 
 
 async def _card_state_section():
@@ -144,18 +144,19 @@ async def thongke_report():
         if n >= TOPIC_DECK_WARN:
             warns.append(f"⚠️ '{slug}' đã {n} thẻ (≥{TOPIC_DECK_WARN}) — nên tách chủ đề con "
                          f"(thêm slug dạng '{slug}::nhanh-con' vào topics.py).")
-    other_pct = (stats.get(FALLBACK_TOPIC, 0) * 100 // total) if total else 0
-    if other_pct > OTHER_WARN_PCT:
-        warns.append(f"⚠️ '{FALLBACK_TOPIC}' chiếm {other_pct}% kho (>{OTHER_WARN_PCT}%) — trong đó chắc "
-                     "đã có cụm từ đủ lớn để thành chủ đề riêng.")
+    # 23/08/2026 (QD-38): trước đây chỗ này canh tỉ lệ của rọ `concepts::misc`.
+    # Rọ đó bị xoá, nên thứ cần canh nay là số thẻ CHƯA XẾP ĐƯỢC — cùng một bệnh,
+    # nhưng đếm ở chỗ nhìn thấy được thay vì nấp trong một chủ đề trông như thật.
+    chua_xep_pct = (untagged * 100 // total) if total else 0
     if untagged:
-        warns.append(f"⚠️ {untagged} thẻ CHƯA có tag chủ đề — chạy `python scripts/tag_topics.py --missing` trên PC.")
+        warns.append(f"⚠️ {untagged} thẻ ({chua_xep_pct}%) CHƯA có chủ đề — chạy "
+                     "`python scripts/tag_topics.py --fix --missing --apply` trên PC.")
 
     lines.append("─" * 22)
     if warns:
         lines.extend(warns)
     else:
-        lines.append(f"✅ Chưa chạm ngưỡng tách deck ({TOPIC_DECK_WARN} thẻ/chủ đề, {FALLBACK_TOPIC} ≤{OTHER_WARN_PCT}%).")
+        lines.append(f"✅ Chưa chạm ngưỡng tách deck ({TOPIC_DECK_WARN} thẻ/chủ đề) và 0 thẻ chưa có chủ đề.")
     # Bản mã đang chạy — đối chiếu với `git rev-parse --short HEAD` trên laptop là
     # biết ngay VPS có đang chạy code cũ không (đã có lần cũ 3 ngày mà không gì báo).
     lines.append(f"🔖 Bản mã đang chạy: {ban_ma_dang_chay()}")

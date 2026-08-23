@@ -67,5 +67,7 @@
 
 | QD | Ngày | Quyết định | Vì sao (ngắn) |
 |---|---|---|---|
+| QD-38 | 23/08 | ⚖️ BỎ `FALLBACK_TOPIC`: không xếp được thì để **TRỐNG tag** | Rọ `concepts::misc` khai thẳng là *"fallback when nothing fits"* ⇒ thẻ đổ vào đó TRÔNG NHƯ đã xong, không ai tìm lại. Giá: thẻ trống tag chỉ `/thongke` thấy |
+| QD-37 | 23/08 | ⚖️ Cây chủ đề theo chuẩn ТРКИ, nhưng **chỉ lấy danh sách từ + trình độ**, nhãn tự xếp | Nhãn từng từ của nguồn sai hệ thống: 6/16 cặp đối nhau bị tách (`папа` ở Семья mà `мама` ở Жизнь человека). Cấu trúc cây thì tốt |
 | QD-36 | 23/08 | ⚖️ Gộp 4 preset deck thành **1**, bỏ trần thẻ mới/ngày | Đo 23/08: 3 preset cai quản **0 thẻ**, 21 tham số FSRS + bước học giống hệt. Giá: hết tinh chỉnh riêng `0-quen` (không gõ) vs `1-go` (gõ từng ký tự) |
 | — | 22/07 | ⚖️ Bỏ deck lọc "phòng tập", cày thẳng trong inbox bằng **undo** | Deck lọc rút thẻ khỏi inbox nên hai bên lệch nhau; undo hoàn nguyên trọn vẹn cả revlog lẫn lịch |

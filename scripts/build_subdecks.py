@@ -86,6 +86,12 @@ def main():
             continue
         raw_slug = topic_tags[0][len(TOPIC_TAG_PREFIX):]
         slug = normalize_topic(raw_slug)
+        if slug is None:
+            # Tag trỏ tới chủ đề KHÔNG còn tồn tại (rọ rác đã xoá ở QD-37).
+            # KHÔNG di chuyển: ghép thẳng sẽ đẻ ra deck "RUSSIAN::None" trông như
+            # thật. Thẻ nằm im, `tag_topics.py --fix --missing` xếp lại rồi chạy lại.
+            untagged.append(f"{word} (tag chết: {raw_slug})")
+            continue
         if raw_slug != slug:
             legacy_tags[raw_slug] += 1
         cards = [c for c in n.get("cards", []) if c not in inbox_cards]

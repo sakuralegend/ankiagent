@@ -188,7 +188,9 @@ def push_to_anki(word, data, deck_name, is_forced=False):
     audio_field, audio_source = store_word_audio(clean_word)
 
     # Thêm trùng (force) dùng option allowDuplicate chính thống của AnkiConnect.
-    note_tags = [topic_tag(topic_slug)] if topic_slug else []
+    # topic_tag() trả None khi slug không xếp được (QD-38) -> lọc, đừng để lọt
+    # [None] vào tags: Anki sẽ nhận một tag rỗng/hỏng mà không báo gì.
+    note_tags = [t for t in [topic_tag(topic_slug)] if t] if topic_slug else []
 
     # Chế độ tự động: thẻ mới vào deck LÀM QUEN; tag topic:: đã ghi deck đích.
     if not deck_name:
@@ -231,7 +233,7 @@ def push_to_anki(word, data, deck_name, is_forced=False):
         "is_forced": is_forced,
         "simplified_examples": built["simplified_examples"],
         "ai_degraded": built["ai_degraded"],
-        "topic": topic_tag(topic_slug) if topic_slug else "",
+        "topic": (topic_tag(topic_slug) or "") if topic_slug else "",
         "audio_source": audio_source,   # "openrussian" / "google_tts" / ""
     }
 

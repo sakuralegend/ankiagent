@@ -14,6 +14,7 @@
 
 | Nợ | Vì sao chưa trả | Hết hạn |
 |---|---|---|
+| `anki_tools/ai_client.py` 486 → 521 dòng (trần tách 700) | Lô hoá `call_claude_topic` để xếp lại 1212 thẻ bằng ~49 lượt thay vì 1212. Tách file lúc đang sửa cây chủ đề là trộn hai việc (L4) | 2026-10-31 |
 | Web luyện CHI PHỐI ĐỘNG TỪ (repo `slushai`) — cửa 1 xong 11/08, chưa duyệt kế hoạch | Nhường lượt cho việc thay cây chủ đề + lệnh thêm từ. Toàn văn: `git log --grep "CHI PHOI"` (5 commit) | 2026-10-31 |
 | Lệnh Telegram xin 10 từ mới mỗi ngày (hiện danh sách → bấm ✅ → thêm) | Phải có cây chủ đề mới + bản chụp ros-edu xong trước thì mới chọn từ được | 2026-10-31 |
 

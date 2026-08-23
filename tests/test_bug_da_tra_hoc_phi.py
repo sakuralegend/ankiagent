@@ -1157,5 +1157,83 @@ class BadgeGiongDienTayKhongDuocBiXoaNguoc(unittest.TestCase):
         self.assertEqual(self.bb.gender_badge_wc("тест", {}, "", []), "")
 
 
+class ChuDeKHONGDuocCoRoRac(unittest.TestCase):
+    """BUG GỐC (đo 23/08/2026): 335/1212 thẻ nằm sai chủ đề, mà KHÔNG cửa nào kêu.
+
+    Nguyên nhân không phải AI gắn ẩu — là chính lời mô tả trong `topics.py`:
+    `concepts::misc` được khai thẳng là *"fallback when nothing above fits"* và
+    còn được đặt làm `FALLBACK_TOPIC`. Thẻ đổ vào đấy TRÔNG NHƯ đã phân loại
+    xong nên không ai đi tìm lại. Đo độ tinh khiết (đối chiếu chuẩn ТРКИ):
+    `concepts::abstract` 19% · `concepts::misc` 28% · `people::family` 30% ·
+    `places::city` 33%.
+
+    Hai test dưới đây khoá lại đúng hai thứ đã sinh ra bug đó (QD-37, QD-38).
+    """
+
+    def test_khong_slug_nao_tu_nhan_la_cho_do_phan_du(self):
+        """Không mô tả chủ đề nào được mang nghĩa 'cái gì không xếp được thì vào đây'.
+
+        Đây là test đọc CHỮ chứ không đọc code — cố ý: bug này sống trong lời mô
+        tả mà AI đọc, không sống trong logic. Sửa logic mà để lại chữ 'fallback'
+        là bug quay lại nguyên vẹn."""
+        from anki_tools import topics
+        self.assertFalse(hasattr(topics, "FALLBACK_TOPIC"),
+                         "FALLBACK_TOPIC sống lại -> rọ rác sống lại (QD-38)")
+        cam = ("fallback", "when nothing", "anything else", "not covered by this list",
+               "misc", "other topics not")
+        for slug, mo_ta in topics.TOPICS.items():
+            thap = mo_ta.lower()
+            for tu in cam:
+                self.assertNotIn(
+                    tu, thap,
+                    f"mô tả của '{slug}' chứa '{tu}' -> đang tự khai là chỗ đổ phần dư")
+
+    def test_slug_hong_tra_ve_None_chu_khong_ep_vao_mot_ro(self):
+        """normalize_topic/topic_tag phải trả None, và KHÔNG được ghép 'topic::None'."""
+        from anki_tools.topics import normalize_topic, topic_tag
+        for xau in ["nonsense", "", None, 123, "concepts::misc", "concepts::abstract"]:
+            self.assertIsNone(normalize_topic(xau), f"{xau!r} phải ra None")
+            self.assertIsNone(topic_tag(xau), f"topic_tag({xau!r}) phải ra None")
+        # Tên cũ còn nghĩa tương đương thì vẫn phải dịch được, đừng vạ lây
+        self.assertEqual(normalize_topic("food"), "life::food")
+        self.assertEqual(topic_tag("places::transport"), "topic::places::transport")
+
+    def test_KHONG_dung_nhan_chu_de_cua_ros_edu(self):
+        """Nguồn ros-edu cho DANH SÁCH TỪ + TRÌNH ĐỘ tin được, nhưng nhãn CHỦ ĐỀ
+        từng từ thì sai có hệ thống — đo 23/08/2026: 6/16 cặp từ đối nhau bị tách:
+
+            папа·отец -> "Семья"   NHƯNG  мама·мать -> "Жизнь человека"
+            жена      -> "Семья"   NHƯNG  муж       -> "Жизнь человека"
+            вопрос    -> "Вопросительные слова" (nó là DANH TỪ)
+            белый·красный -> gộp vào "đặc điểm đồ vật", làm rỗng qualities::colors
+
+        Đã dựng bảng ánh xạ rồi bỏ. Test này khoá lại để phiên sau đừng dựng lại:
+        thấy `data/rosedu_muc.json` có sẵn cột chủ đề là rất dễ nghĩ 'dùng luôn'."""
+        from anki_tools import topics
+        self.assertFalse(hasattr(topics, "ROSEDU_THEME"),
+                         "Bảng ánh xạ chủ đề ros-edu sống lại -> chép nguyên lỗi của nguồn")
+        goc = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        with open(os.path.join(goc, "scripts", "tag_topics.py"), encoding="utf-8") as f:
+            nguon = f.read()
+        self.assertNotIn("categories", nguon,
+                         "tag_topics.py đọc cột chủ đề của nguồn -> xem docstring test này")
+
+    def test_ban_chup_trki_cho_dung_trinh_do(self):
+        """Phần DUY NHẤT còn lấy từ nguồn: từ + mức. Ba từ dưới là bài kiểm đã
+        đánh trượt nguồn CŨ (OpenRussian gắn chúng thành C1 — xem bảng 'ĐÃ ĐO RỒI
+        BÁC'). Nguồn mới phải xếp đúng A1, nếu không thì nó cũng không hơn gì."""
+        import importlib.util
+        goc = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        if not os.path.exists(os.path.join(goc, "data", "rosedu_muc.json")):
+            self.skipTest("chưa có bản chụp ros-edu")
+        spec = importlib.util.spec_from_file_location(
+            "_tt", os.path.join(goc, "scripts", "tag_topics.py"))
+        tt = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(tt)
+        for tu in ["паспорт", "яблоко", "сахар", "мама", "вода"]:
+            self.assertEqual(tt.WORD_MUC.get(tu), 1, f"'{tu}' phải là mức A1")
+        self.assertGreater(len(tt.WORD_MUC), 4000, "bản chụp thiếu từ")
+
+
 if __name__ == "__main__":
     unittest.main()

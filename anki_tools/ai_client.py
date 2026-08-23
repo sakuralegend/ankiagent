@@ -51,8 +51,9 @@ _CORE_SYSTEM_PROMPT = (
     "2) Write 3 short Russian example sentences, each in a DIFFERENT everyday situation "
     "(food, weather, work, friends, family, phone calls, etc — don't repeat contexts). "
     "3) Translate each sentence naturally (meaning-for-meaning, not word-for-word) into English and Vietnamese. "
-    "4) Classify the target word into EXACTLY ONE topic slug from the TOPIC LIST below "
-    "(based on the word's most common meaning; if nothing fits, use \"other\").\n\n"
+    "4) Classify the target word into EXACTLY ONE topic slug from the TOPIC LIST below, "
+    "based on the word's most common meaning. Use ONLY a slug from that list; if the word "
+    "genuinely fits none of them, return null — never force a loose fit.\n\n"
     "TOPIC LIST:\n"
     f"{topics_prompt_block()}\n\n"
     "HIGHLIGHT RULE: wrap the target word AND any of its grammatical forms (conjugated, declined, plural, "
@@ -91,7 +92,8 @@ _KHUON_THE = {
     "type": "object",
     "properties": {
         "vietnamese_meaning": {"type": "string"},
-        "topic": {"type": "string"},
+        # null hợp lệ: "chưa xếp được chủ đề" phải nói ra được, ép string là ép bịa (QD-38)
+        "topic": {"type": ["string", "null"]},
         "simplified_examples": {
             "type": "array", "minItems": 3, "maxItems": 3,
             "items": {
@@ -125,8 +127,20 @@ _KHUON_LEMMA = {
 
 _KHUON_TOPIC = {
     "type": "object",
-    "properties": {"topic": {"type": "string"}},
-    "required": ["topic"],
+    "properties": {
+        "ket_qua": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                # topic cho phép null: "chưa xếp được" là câu trả lời HỢP LỆ, không
+                # phải lỗi. Bắt buộc phải là string là ép AI bịa (QD-38).
+                "properties": {"tu": {"type": "string"},
+                               "topic": {"type": ["string", "null"]}},
+                "required": ["tu", "topic"],
+            },
+        }
+    },
+    "required": ["ket_qua"],
 }
 
 
@@ -202,8 +216,10 @@ def _validate_ai_result(parsed):
         if not ru or not en or not vi:
             return None
         cleaned.append({"ru": ru, "en": en, "vi": vi})
-    # topic là trường PHỤ: sai/thiếu chỉ bị ép về "other", KHÔNG làm hỏng cả kết quả
-    # (luồng refine /sua không dùng topic nên cũng vô hại).
+    # topic là trường PHỤ: sai/thiếu chỉ thành **None**, KHÔNG làm hỏng cả kết quả
+    # (luồng refine /sua không dùng topic nên cũng vô hại). None = thẻ ra đời KHÔNG
+    # có tag chủ đề, `/thongke` đếm nó vào "chưa có tag" — cố ý, xem QD-38: trước
+    # đây chỗ này ép về `concepts::misc` nên thẻ hỏng trông như thẻ đã phân loại.
     return {
         "vietnamese_meaning": vi_meaning.strip(),
         "simplified_examples": cleaned,
@@ -438,27 +454,46 @@ def call_claude_lemma(word):
     }
 
 
-def call_claude_topic(word, english_meanings):
-    """Phân loại CHỦ ĐỀ cho 1 từ (không sinh ví dụ) — dùng cho script scripts/tag_topics.py
-    khi gặp thẻ chưa có tag topic:: (vd thẻ tạo lúc AI hỏng nên thiếu topic).
-    Trả về slug hợp lệ trong TOPICS, hoặc None nếu AI không trả lời được."""
-    en_str = ", ".join(english_meanings) if english_meanings else "N/A"
+def call_claude_topic(cac_tu):
+    """Phân loại CHỦ ĐỀ cho MỘT LÔ từ — dùng bởi scripts/tag_topics.py.
+
+    `cac_tu`: list các cặp (từ Nga, nghĩa tiếng Anh). Trả về dict {từ: slug},
+    slug là None khi AI không xếp được — người gọi PHẢI để trống tag, đừng ép rọ.
+
+    Nhận cả lô chứ không phải từng từ (đổi 23/08/2026): xếp lại toàn bộ kho là
+    ~1200 từ, mỗi từ một request thì phần cố định (danh sách 35 chủ đề, ~2K token)
+    bị gửi lại 1200 lần. Gộp 25 từ/lượt ⇒ còn ~49 lượt, cùng một danh sách chủ đề
+    được trả tiền một lần cho 25 từ.
+
+    🔴 KHÔNG có nhánh "không hợp thì dùng other" trong prompt nữa (QD-38): câu đó
+    mời AI đổ rác vào một rọ, và rọ đó chính là thứ vừa phải dọn."""
+    if not cac_tu:
+        return {}
     system_prompt = (
-        "You classify a Russian vocabulary word into EXACTLY ONE topic slug from this list "
-        "(based on the word's most common meaning; if nothing fits, use \"other\"):\n"
+        "You classify Russian vocabulary words into EXACTLY ONE topic slug each, "
+        "from this list, based on the word's most common meaning:\n"
         f"{topics_prompt_block()}\n\n"
-        'Return ONLY a valid JSON object, no markdown: {"topic": "..."}'
+        "Rules: use ONLY slugs from the list above. If a word genuinely fits none "
+        'of them, return null for that word — do NOT force it into a loose fit. '
+        "Keep semantic pairs in the same topic (mother with father, wife with husband).\n"
+        'Return ONLY valid JSON, no markdown: '
+        '{"ket_qua": [{"tu": "...", "topic": "..." or null}, ...]} '
+        "with one entry per input word, in the same order."
     )
-    user_prompt = f"Word: [{word}]. English meanings: [{en_str}]. Return ONLY the JSON."
+    dong = [f'{i + 1}. [{w}] = {en or "N/A"}' for i, (w, en) in enumerate(cac_tu)]
+    user_prompt = "Classify these words:\n" + "\n".join(dong) + "\n\nReturn ONLY the JSON."
 
     raw_response = _send_ai_request(system_prompt, user_prompt, khuon=_KHUON_TOPIC)
+    ra = {w: None for w, _en in cac_tu}
     if not raw_response:
-        return None
+        return ra
     parsed = _parse_ai_response(raw_response)
     if not isinstance(parsed, dict):
-        return None
-    slug = normalize_topic(parsed.get("topic"))
-    return slug
+        return ra
+    for muc in parsed.get("ket_qua") or []:
+        if isinstance(muc, dict) and muc.get("tu") in ra:
+            ra[muc["tu"]] = normalize_topic(muc.get("topic"))
+    return ra
 
 
 def check_claude_ready():
