@@ -18,6 +18,25 @@
 
 ---
 
+## v2.0.0 — 23/08/2026
+
+- 🔴 **BẠN PHẢI LÀM MỘT VIỆC, nếu không máy chủ sẽ chạy sai:** trên laptop mở Anki, bấm
+  `Tools → Sync` và chọn **Upload**; sau đó trên máy chủ mở `vnc.bat`, bấm Sync và chọn
+  **Download**. Cần bước này vì các thư mục học đã bị sắp xếp lại, Anki không tự trộn được.
+- 📂 **Kho từ được chia lại từ 19 nhóm thành 35 nhóm.** Trước đây có hai nhóm kiểu "linh tinh"
+  và "trừu tượng" — thứ gì không biết xếp đâu thì bị bỏ vào đó, lâu ngày phình lên **335 thẻ
+  nằm sai chỗ**. Hai nhóm đó nay **bỏ hẳn**, và từ nay không nhóm nào được mang nghĩa
+  "phần còn lại" nữa.
+- 🚌 **497 thẻ được xếp lại cho đúng.** Ví dụ: *xe buýt, toa tàu* trước nằm chung với *trường
+  học, cửa hàng*, nay có nhóm **phương tiện đi lại** riêng; *người Mỹ, người nước ngoài* trước
+  nằm trong nhóm **gia đình**, nay ở nhóm **quốc tịch**; các từ chỉ **màu sắc** về đúng nhóm màu.
+- ♾️ **Bỏ giới hạn 20 thẻ mới mỗi ngày.** Trước đây có giới hạn này mà bạn không biết. Nay học
+  bao nhiêu từ mới một ngày là tuỳ bạn.
+- ✅ **Không mất thẻ nào và không mất tiến độ ôn.** Đã đếm lại: đủ 1.212 thẻ từ vựng, 124 thẻ
+  số nhiều, 17 thẻ chi phối. Lịch ôn của từng thẻ giữ nguyên như cũ.
+
+---
+
 ## v1.0.6 — 12/08/2026
 
 - ⚡ **Sửa đúng cái bạn báo: thêm từ bỗng chậm hẳn, có lúc 12-13 giây.** Không phải tại model
@@ -39,18 +58,3 @@
 - ⚠️ **Câu trả lời của `/don` đổi lời.** Giờ nó nói một trong ba: *"AnkiWeb đã nhận"* · *"CHƯA
   tới AnkiWeb"* · *"chưa kiểm được"*. Câu giữa nghĩa là **đừng tin là xong**, phải làm gì đó.
 
-## v1.0.4 — 04/08/2026
-
-- 🪨 **402 thẻ "hoá thạch" đã được gỡ.** Đó là những từ bạn từng bấm Again nhiều lần rồi Anki
-  đánh dấu khó vĩnh viễn — có gõ đúng bao nhiêu lần cũng không hạ xuống được. Lần Optimize hôm
-  nay của bạn đã gỡ gần hết; số còn kẹt lại sẽ tự thoát trong vài tuần.
-- 🔧 **Ba nhóm deck bị bỏ quên nay đã dùng chung thiết lập với các deck còn lại.** Trước đó
-  `0-quen` và `1-go` vẫn chạy thiết lập cũ từ tháng trước, nên mọi từ mới đều đi qua đúng chỗ
-  gây ra chuyện "hoá thạch" ở trên.
-- ⏳ **Chu kì ôn sắp tới sẽ ngắn lại khoảng một phần ba.** Đây là điều bạn muốn hay không tuỳ
-  cách nhìn, nhưng nó đúng: Anki vừa học lại từ dữ liệu thật của bạn và thấy nó đang cho bạn
-  nghỉ hơi lâu. Ngày đến hạn của thẻ đang có **không đổi** — chỉ lần ôn tới mới áp mức mới.
-
-<sub>Bản cũ hơn đã xoá — `git log` giữ đủ. v1.0.2 và v1.0.1 là cùng một lỗi: thẻ trong
-`0-quen` hiện sai mặt vì học trên máy chưa tải bản mới; bot đã tự canh việc đó mỗi 30 phút từ
-03/08. v1.0.0 là mốc hạ tầng, không đổi lõi thẻ.</sub>
