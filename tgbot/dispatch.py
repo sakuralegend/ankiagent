@@ -48,6 +48,7 @@ from .flow_edit import (
     _sd_load_resume,
 )
 from .flow_scan import _run_scan_add, _scan_clear, _scan_exclude
+from .flow_add import _tumoi_clear, run_tumoi_add, tumoi_exclude
 from .flow_special import do_add_plural, do_redo_plural, on_special_callback
 
 
@@ -97,6 +98,11 @@ async def on_word(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # --- Đang có danh sách quét ảnh chờ duyệt: nhắn 'bỏ 3 7 12' để loại từ ---
     if context.user_data.get("scan_words") and re.fullmatch(r"(bỏ|bo)[\s,.\d]+", text.lower()):
         await _scan_exclude(update, context, text)
+        return
+
+    # --- Đang có danh sách /tumoi chờ duyệt: 'bỏ 3 7' loại VÀ nhớ luôn ---
+    if context.user_data.get("tumoi_words") and re.fullmatch(r"(bỏ|bo)[\s,.\d]+", text.lower()):
+        await tumoi_exclude(update, context, text)
         return
 
     # --- Không chọn deck = chế độ TỰ ĐỘNG (AI tự bỏ vào deck con theo chủ đề), KHÔNG chặn nữa ---
@@ -321,6 +327,30 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await query.edit_message_text(f"🔄 Bắt đầu thêm {len(words)} từ đã duyệt...")
         # Task riêng để bot vẫn nhận update (đặc biệt nút ⏹ Dừng) trong lúc chạy
         asyncio.create_task(_run_scan_add(context, query.message.chat_id, query.message, words))
+        return
+
+    # --- Luồng /tumoi: hủy / dừng / xác nhận thêm loạt (cùng khuôn với scan*) ---
+    if data == "tumoicancel":
+        _tumoi_clear(context.user_data)
+        await query.edit_message_text("⏭️ Đã hủy — không thêm từ nào.")
+        return
+    if data == "tumoistop":
+        if context.bot_data.get("tumoi_running"):
+            context.bot_data["tumoi_stop"] = True
+        return
+    if data == "tumoiadd":
+        cap = context.user_data.get("tumoi_words")
+        if not cap:
+            await query.edit_message_text("⌛ Danh sách đã hết hạn, gõ /tumoi lại nhé.")
+            return
+        ban = dang_chay_hang_loat(context)
+        if ban:
+            await query.message.reply_text(
+                f"⏳ Đang chạy đợt '{ban}' — chờ xong rồi bấm lại nhé.")
+            return
+        _tumoi_clear(context.user_data)
+        await query.edit_message_text(f"🔄 Bắt đầu thêm {len(cap)} từ đã duyệt...")
+        asyncio.create_task(run_tumoi_add(context, query.message.chat_id, query.message, cap))
         return
 
     # --- Nút xác nhận từ nguyên mẫu (từ gõ vào không có trên OpenRussian) ---

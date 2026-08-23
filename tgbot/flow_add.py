@@ -7,18 +7,26 @@
 #    mẫu, user bấm nút xác nhận mới thêm.
 # ==============================================================================
 import asyncio
+import json
+import os
+import random
+import re
 import time
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
-from anki_tools.utils import strip_accents_perfectly
+from anki_tools.utils import log_warn, strip_accents_perfectly
 from anki_tools.ai_client import call_claude_lemma
 from anki_tools.lemma import guess_lemma_offline
 from anki_tools.pipeline import process_word
-from anki_tools.anki_client import find_duplicate_notes, note_to_card_info
+from anki_tools.anki_client import (find_duplicate_notes, get_known_words,
+                                    note_to_card_info)
 
-from .core import _current_deck, _degraded_fix_keyboard
+from .core import (_current_deck, _degraded_fix_keyboard, danh_sach_cho_duyet,
+                   them_loat_tu, _reset_idle_timer)
 from .hienthi import format_card_summary, format_dictionary_entry
+
+_GOC = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 async def _do_add(status_msg, word, deck_name, is_forced, context=None, chon_id=None):
@@ -177,3 +185,142 @@ def _duplicate_text_and_keyboard(pending):
         InlineKeyboardButton("➕ Vẫn thêm trùng", callback_data="act:trung"),
     ])
     return text, InlineKeyboardMarkup(rows)
+
+
+# ==============================================================================
+# --- 🆕 LỆNH /tumoi — xin 10 từ mới DỄ NHẤT còn thiếu theo chuẩn ТРКИ ---
+# User chốt 23/08/2026: lấy THEO TRÌNH ĐỘ (A1 hết mới sang A2, rồi B1), KHÔNG gom
+# theo chủ đề. Bấm ✅ mới thêm — giữ nguyên luật 19/07: bot không bao giờ tự thêm.
+# Từ user loại bằng "bỏ 3 7" thì GHI LẠI và không đưa ra nữa.
+#
+# 🔴 Chỉ đọc CỘT TỪ + CỘT MỨC của `data/rosedu_muc.json`. Cột chủ đề của nguồn cố
+# ý KHÔNG dùng — nhãn từng từ của họ sai có hệ thống (QD-37), chủ đề để AI xếp
+# lúc tạo thẻ như mọi từ khác.
+# ==============================================================================
+SO_TU_MOI = 10
+_BAN_CHUP = os.path.join(_GOC, "data", "rosedu_muc.json")
+# Trạng thái CHẠY, không phải dữ liệu -> gốc repo + gitignore, đi đúng nếp
+# `last_deck.json` / `suadeck_resume.json`: sống trên máy chạy bot, không lên git.
+BO_QUA_FILE = os.path.join(_GOC, "tumoi_bo_qua.json")
+TEN_MUC = {1: "A1", 2: "A2", 3: "B1", 4: "B2"}
+
+
+def _doc_bo_qua():
+    try:
+        with open(BO_QUA_FILE, encoding="utf-8") as f:
+            return set(json.load(f))
+    except (OSError, ValueError):
+        return set()
+
+
+def _ghi_bo_qua(tu):
+    """Thêm từ vào danh sách đã loại. Hỏng thì WARN chứ không ném: mất danh sách
+    loại chỉ làm từ đó hiện lại, còn ném ra là giết cả luồng."""
+    try:
+        with open(BO_QUA_FILE, "w", encoding="utf-8") as f:
+            json.dump(sorted(_doc_bo_qua() | set(tu)), f, ensure_ascii=False)
+    except OSError as e:
+        log_warn(f"khong ghi duoc {BO_QUA_FILE} ({e}) — tu vua loai se hien lai lan sau")
+
+
+def chon_tu_moi(da_co, bo_qua, n=SO_TU_MOI, rng=random):
+    """-> list (từ, mức) gồm n từ DỄ NHẤT còn thiếu. Hàm THUẦN (không đụng mạng,
+    không đụng Anki) để test được: `da_co` và `bo_qua` là hai set người gọi đưa vào.
+
+    Vét CẠN mức thấp rồi mới lên mức trên (A1 -> A2 -> B1 -> B2) — user chốt
+    23/08/2026: học hết mức dễ đã.
+
+    🔴 TRONG CÙNG MỘT MỨC thì LẤY NGẪU NHIÊN, không theo thứ tự nguồn. Nguồn xếp
+    theo bảng chữ cái, nên giữ nguyên thứ tự là 10 từ đầu ra toàn chữ А
+    (`а, август, автобус, автор, адрес...`) và phải bấm hết bảng chữ cái mới thấy
+    từ chữ Б. Ngẫu nhiên trong mức cho mỗi lần bấm một nhúm đa dạng, mà vẫn giữ
+    đúng luật "mức thấp trước"."""
+    with open(_BAN_CHUP, encoding="utf-8") as f:
+        kho = json.load(f)["tu"]
+    con = {}
+    for w, muc, _cats in kho:
+        tran = strip_accents_perfectly(w).strip().lower()
+        if tran and tran not in da_co and tran not in bo_qua:
+            con.setdefault(muc, []).append(tran)
+    ra = []
+    for muc in sorted(con):
+        con_muc = con[muc]
+        rng.shuffle(con_muc)
+        for tran in con_muc:
+            ra.append((tran, muc))
+            if len(ra) >= n:
+                return ra
+    return ra
+
+
+def _tumoi_clear(user_data):
+    user_data.pop("tumoi_words", None)
+    user_data.pop("tumoi_msg", None)
+
+
+def _tumoi_man_duyet(cap):
+    """cap: list (từ, mức) -> (chữ, bàn phím). Hiện mức để user biết mình đang ở
+    chặng nào; khung danh sách dùng chung với luồng quét ảnh."""
+    dem = {}
+    for _w, m in cap:
+        dem[m] = dem.get(m, 0) + 1
+    # Cả nhóm cùng một mức là chuyện thường (vét cạn mức thấp trước) -> nói gọn
+    # "toàn A1"; chỉ liệt kê số lượng khi nhóm vắt qua hai mức.
+    pho = (f"toàn {TEN_MUC.get(next(iter(dem)))}" if len(dem) == 1
+           else " · ".join(f"{TEN_MUC.get(m, m)}: {k}" for m, k in sorted(dem.items())))
+    return danh_sach_cho_duyet(
+        [f"{w}  ({TEN_MUC.get(m, m)})" for w, m in cap],
+        tieu_de=f"🆕 {len(cap)} từ mới chưa có thẻ — {pho}",
+        cb_them="tumoiadd", cb_huy="tumoicancel",
+        duoi=["ℹ️ Lấy từ Lexical Minimum chuẩn ТРКИ, mức thấp hết mới lên mức trên."])
+
+
+async def cmd_tumoi(update, context):
+    """/tumoi — xin SO_TU_MOI từ mới dễ nhất còn thiếu. KHÔNG tự thêm: user phải
+    bấm ✅ (luật 19/07/2026)."""
+    _reset_idle_timer(context, update.effective_chat.id)
+    msg = await update.message.reply_text("⏳ Đang dò từ mới...")
+    da_co = await asyncio.to_thread(get_known_words)
+    if da_co is None:
+        # None ≠ rỗng: AnkiConnect lỗi mà coi là "chưa có từ nào" thì đề nghị
+        # thêm lại cả kho. Dừng hẳn, đừng đoán.
+        await msg.edit_text("❌ Không đọc được kho thẻ (AnkiConnect lỗi?) — thử lại sau.")
+        return
+    cap = await asyncio.to_thread(chon_tu_moi, da_co, _doc_bo_qua())
+    if not cap:
+        await msg.edit_text("🎉 Hết từ trong danh sách ТРКИ — bạn đã có hết rồi.")
+        return
+    context.user_data["tumoi_words"] = cap
+    text, kb = _tumoi_man_duyet(cap)
+    await msg.edit_text(text, reply_markup=kb)
+    context.user_data["tumoi_msg"] = msg
+
+
+async def tumoi_exclude(update, context, text):
+    """'bỏ 3 7' -> loại khỏi danh sách VÀ ghi nhớ để không đưa ra nữa."""
+    idxs = {int(x) for x in re.findall(r"\d+", text)}
+    cap = context.user_data["tumoi_words"]
+    giu = [c for i, c in enumerate(cap, 1) if i not in idxs]
+    _ghi_bo_qua([w for i, (w, _m) in enumerate(cap, 1) if i in idxs])
+    if not giu:
+        _tumoi_clear(context.user_data)
+        await update.message.reply_text("🚫 Đã loại hết — hủy đợt này. Gõ /tumoi để xin nhóm khác.")
+        return
+    context.user_data["tumoi_words"] = giu
+    text2, kb = _tumoi_man_duyet(giu)
+    cu = context.user_data.get("tumoi_msg")
+    try:
+        await cu.edit_text(text2, reply_markup=kb)
+        await update.message.reply_text(
+            f"✂️ Đã loại {len(cap) - len(giu)} từ, sẽ KHÔNG hiện lại (danh sách ở tin trên).")
+    except Exception:
+        moi = await update.message.reply_text(text2, reply_markup=kb)
+        context.user_data["tumoi_msg"] = moi
+
+
+async def run_tumoi_add(context, chat_id, msg, cap):
+    """Thêm loạt từ user đã duyệt. Việc thật ở `core.them_loat_tu`."""
+    await them_loat_tu(
+        context, chat_id, msg, [w for w, _m in cap],
+        co="tumoi", stop_data="tumoistop", nhan="từ mới ТРКИ",
+        con_lai="gõ /tumoi lần nữa để lấy nhóm mới (từ đã thêm sẽ tự bị lọc).")

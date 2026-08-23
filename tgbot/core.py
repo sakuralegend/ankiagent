@@ -20,6 +20,9 @@ HELP_TEXT = (
     "═══ DÙNG HẰNG NGÀY ═══\n"
     "• Gõ 1 từ tiếng Nga → xong. AI chọn chủ đề (gắn tag), thẻ vào\n"
     "  📥 RUSSIAN::0-quen (LÀM QUEN: chỉ nhìn chữ Nga, chưa phải gõ)\n"
+    "• 🆕 /tumoi → 10 từ mới DỄ NHẤT chưa có thẻ (Lexical Minimum chuẩn ТРКИ,\n"
+    "  hết A1 mới sang A2). Bấm ✅ mới thêm; 'bỏ 3 7' để loại — từ đã loại\n"
+    "  KHÔNG hiện lại. Cần thêm nữa thì gõ /tumoi lần nữa\n"
     "• Làm quen xong (~15 phút) → thẻ thành thẻ GÕ mới tinh ở ⌨️ RUSSIAN::1-go\n"
     "• Gõ xong vòng đầu → thẻ về deck chủ đề theo tag\n"
     "• Học xong gõ /don một phát: sync về → dọn cả hai chặng → sync lên\n"
@@ -280,7 +283,8 @@ def _reset_idle_timer(context, chat_id):
 
 _LUONG_NEN = (("sd_running", "làm lại deck"),
               ("scan_running", "thêm từ đã quét từ ảnh"),
-              ("sp_running", "thêm thẻ số nhiều"))
+              ("sp_running", "thêm thẻ số nhiều"),
+              ("tumoi_running", "thêm từ mới ТРКИ"))
 
 
 def dang_chay_hang_loat(context, bo_qua=None):
@@ -368,3 +372,106 @@ async def bao_ket_qua(msg, lines):
         # Đây là dòng TÓM TẮT CUỐI ĐỢT — hụt là user không biết đợt chạy ra sao,
         # nên WARN chứ không DEBUG như dòng tiến độ giữa chừng.
         log_warn(f"khong in duoc tom tat cuoi dot ({e}) — ket qua van da ghi vao Anki")
+
+
+# Trần 1 tin nhắn Telegram là 4096 ký tự; vượt trần thì Telegram TỪ CHỐI CẢ TIN,
+# user không thấy gì để duyệt. Chừa chỗ cho phần đuôi (chú thích + lời nhắc).
+LIST_TEXT_BUDGET = 3500
+
+
+def danh_sach_cho_duyet(dong, *, tieu_de, cb_them, cb_huy, duoi=()):
+    """Danh sách đánh số + nút ✅/🚫. Đây là CHỐT AN TOÀN dùng chung: không bấm ✅
+    thì KHÔNG CÓ GÌ được thêm vào Anki (luật user chốt 19/07/2026).
+
+    Vì sao ở `core.py` chứ không ở flow: quét ảnh và lệnh xin từ mới cần ĐÚNG một
+    màn duyệt như nhau, mà luồng CẤM import ngang luồng (cửa S3). Đây là lần thứ
+    hai đi con đường của `chay_hang_loat` — ba bản chạy lô từng trôi lệch nhau
+    thật, đừng để màn duyệt lặp lại chuyện đó.
+
+    `dong`   : list chuỗi ĐÃ dựng sẵn, chưa đánh số (người gọi tự biết vẽ gì).
+    `duoi`   : các dòng chú thích thêm, đặt trước lời nhắc "bỏ 3 7".
+    """
+    lines, used, an = [tieu_de + ":"], len(tieu_de), 0
+    for i, d in enumerate(dong, 1):
+        line = f"{i}. {d}"
+        if used + len(line) > LIST_TEXT_BUDGET:
+            an = len(dong) - i + 1
+            break
+        lines.append(line)
+        used += len(line) + 1
+    if an:
+        lines.append(f"… và {an} mục nữa (không hiện hết được trong 1 tin nhắn).")
+
+    lines.append("")
+    lines.extend(duoi)
+    lines.append(f"⏱ Thêm hết tốn ~{max(1, round(len(dong) * 11 / 60))} phút, "
+                 f"{len(dong)} lượt AI.")
+    lines.append("Muốn loại từ nào: nhắn 'bỏ 3 7 12'. Chưa bấm ✅ thì chưa thêm gì.")
+    kb = InlineKeyboardMarkup([[
+        InlineKeyboardButton(f"✅ Thêm cả {len(dong)} từ", callback_data=cb_them),
+        InlineKeyboardButton("🚫 Hủy", callback_data=cb_huy),
+    ]])
+    return "\n".join(lines), kb
+
+
+def gop_tu(tu, gioi_han=30):
+    """Nối danh sách từ để in tóm tắt, cắt bớt khi quá dài."""
+    them = f" (+{len(tu) - gioi_han} từ nữa)" if len(tu) > gioi_han else ""
+    return ", ".join(tu[:gioi_han]) + them
+
+
+async def them_loat_tu(context, chat_id, msg, tu, *, co, stop_data, nhan, con_lai=""):
+    """THÊM MỘT LOẠT TỪ ĐÃ ĐƯỢC USER DUYỆT — bản dùng chung.
+
+    Vì sao ở đây: quét ảnh và lệnh xin từ mới làm ĐÚNG một việc — cho từng từ đi
+    qua `process_word`, dò trùng lần cuối, đếm sổ, sync một lần cuối đợt. Viết hai
+    bản là đi lại vết `_run_suadeck`/`_run_scan_add`/`_run_batch`: ba bản 11 bước
+    giống hệt nhau rồi trôi lệch thật (xem `chay_hang_loat`).
+
+    `tu`      : list chuỗi — dạng TỪ ĐIỂN, thứ đem đi cào.
+    `nhan`    : chữ mô tả đợt, vd "từ quét ảnh" / "từ mới ТРКИ".
+    `con_lai` : lời khuyên in thêm khi user bấm ⏹ Dừng giữa chừng.
+    """
+    from anki_tools.pipeline import process_word
+    from anki_tools.anki_client import find_duplicate_notes, trigger_sync
+    from anki_tools.config import STAGE1_DECK
+    from anki_tools.utils import strip_accents_perfectly
+
+    tong = len(tu)
+    them, trung, hong = [], [], []
+
+    async def lam(word):
+        # Dò trùng lần cuối ngay trước khi thêm (rẻ, không tốn AI) — phòng trường
+        # hợp từ vừa được thêm tay giữa lúc hiện danh sách và lúc bấm ✅.
+        if await asyncio.to_thread(find_duplicate_notes, strip_accents_perfectly(word)):
+            trung.append(word)
+            # False = lượt này KHÔNG gọi AI nên khỏi nghỉ chống giới hạn mỗi-phút.
+            return f"{word} ⏭ đã có", False
+        ok, _, _ = await asyncio.to_thread(process_word, word, None, False, False)
+        (them if ok else hong).append(word)
+        return f"{word} {'✅' if ok else '❌'}", True
+
+    def tien_do(lam_roi, tong_, vua_xong):
+        return (f"🔄 Thêm {nhan}: {lam_roi}/{tong_}\n"
+                f"📝 Vừa xong: {vua_xong}\n"
+                f"✅ thêm {len(them)} │ ⏭ trùng {len(trung)} │ ❌ lỗi {len(hong)}")
+
+    dung, da_chay = await chay_hang_loat(
+        context, chat_id, msg, tu, co=co, stop_data=stop_data, lam=lam, tien_do=tien_do)
+
+    synced = await asyncio.to_thread(trigger_sync) if them else True
+
+    dau = f"⏹ ĐÃ DỪNG thêm {nhan}" if dung else f"🏁 XONG thêm {nhan}"
+    lines = [f"{dau}: ✅ {len(them)} │ ⏭ trùng {len(trung)} │ ❌ lỗi {len(hong)} │ tổng {tong}"]
+    if them:
+        lines.append(f"📥 Đã vào {STAGE1_DECK}: {gop_tu(them)}")
+    if trung:
+        lines.append(f"⏭ Đã có thẻ từ trước: {gop_tu(trung)}")
+    if hong:
+        lines.append(f"❌ Chưa tạo được thẻ: {gop_tu(hong)}")
+        lines.append("   → gõ tay từng từ lỗi: bot sẽ dò OpenRussian + đoán từ nguyên mẫu như thường.")
+    if dung and da_chay < tong and con_lai:
+        lines.append(f"💤 Còn {tong - da_chay} từ chưa chạy tới — {con_lai}")
+    lines.append(SYNC_OK_TEXT if synced else SYNC_FAIL_TEXT)
+    await bao_ket_qua(msg, lines)
+    return them, trung, hong

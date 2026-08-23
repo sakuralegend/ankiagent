@@ -7,18 +7,15 @@
 import asyncio
 import re
 
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram import Update
 from telegram.error import TimedOut
 from telegram.ext import ContextTypes
 
-from anki_tools.config import STAGE1_DECK
 from anki_tools.utils import strip_accents_perfectly
 from anki_tools.ai_scan import call_claude_scan_words, image_mime_type
-from anki_tools.pipeline import process_word
-from anki_tools.anki_client import find_duplicate_notes, get_known_words, trigger_sync
+from anki_tools.anki_client import get_known_words
 
-from .core import (bao_ket_qua, chay_hang_loat,
-                   SYNC_FAIL_TEXT, SYNC_OK_TEXT, _reset_idle_timer)
+from .core import danh_sach_cho_duyet, them_loat_tu, _reset_idle_timer
 
 
 def _scan_clear(user_data):
@@ -26,22 +23,13 @@ def _scan_clear(user_data):
     user_data.pop("scan_msg", None)
 
 
-def _join_words(words, limit=30):
-    shown = ", ".join(words[:limit])
-    more = f" (+{len(words) - limit} từ nữa)" if len(words) > limit else ""
-    return shown + more
 
-
-# Trần 1 tin nhắn Telegram là 4096 ký tự — trang sách dày có thể ra hàng trăm từ,
-# vượt trần thì Telegram TỪ CHỐI cả tin, user không thấy gì để duyệt.
-_LIST_TEXT_BUDGET = 3500
-
-
-def _scan_line(index, word):
-    """1 dòng trong danh sách duyệt: 'stt. lemma ← dạng in trên sách' (chỉ hiện
-    dạng gốc khi nó KHÁC lemma, và 🔧 khi pymorphy3 phải sửa lại đáp án của AI)."""
+def _scan_line(word):
+    """1 dòng trong danh sách duyệt: 'lemma ← dạng in trên sách' (chỉ hiện dạng
+    gốc khi nó KHÁC lemma, và 🔧 khi pymorphy3 phải sửa lại đáp án của AI).
+    Số thứ tự do `danh_sach_cho_duyet` đánh."""
     lemma, seen = word["lemma"], word.get("seen", "")
-    line = f"{index}. {lemma}"
+    line = lemma
     if seen and seen != lemma:
         line += f" ← {seen}"
     if word.get("fixed"):
@@ -50,34 +38,15 @@ def _scan_line(index, word):
 
 
 def _scan_list_text_keyboard(words, scanned_total=None):
-    """Danh sách từ mới chờ user duyệt + nút xác nhận. Đây là CHỐT AN TOÀN:
-    không bấm ✅ thì không có gì được thêm vào Anki."""
-    minutes = max(1, round(len(words) * 11 / 60))  # ~8s AI + 3s nghỉ mỗi từ
+    """Màn duyệt của luồng QUÉT ẢNH. Phần khung (đánh số, cắt theo trần tin nhắn,
+    nút ✅/🚫, lời nhắc 'bỏ 3 7') dùng chung ở `core.danh_sach_cho_duyet`."""
     header = f"📷 {len(words)} từ MỚI chưa có thẻ"
     if scanned_total is not None and scanned_total > len(words):
         header += f" (quét được {scanned_total}, đã lọc {scanned_total - len(words)} từ có thẻ rồi)"
-
-    lines, used, hidden = [header + ":"], len(header), 0
-    for i, w in enumerate(words, 1):
-        line = _scan_line(i, w)
-        if used + len(line) > _LIST_TEXT_BUDGET:
-            hidden = len(words) - i + 1
-            break
-        lines.append(line)
-        used += len(line) + 1
-    if hidden:
-        lines.append(f"… và {hidden} từ nữa (không hiện hết được trong 1 tin nhắn).")
-
-    lines.append("")
-    if any(w.get("fixed") for w in words):
-        lines.append("🔧 = từ điển hình thái đã sửa lại dạng nguyên thể AI đọc được.")
-    lines.append(f"⏱ Thêm hết tốn ~{minutes} phút, {len(words)} lượt AI.")
-    lines.append("Muốn loại từ nào: nhắn 'bỏ 3 7 12'. Chưa bấm ✅ thì chưa thêm gì.")
-    kb = InlineKeyboardMarkup([[
-        InlineKeyboardButton(f"✅ Thêm cả {len(words)} từ", callback_data="scanadd"),
-        InlineKeyboardButton("🚫 Hủy", callback_data="scancancel"),
-    ]])
-    return "\n".join(lines), kb
+    duoi = (["🔧 = từ điển hình thái đã sửa lại dạng nguyên thể AI đọc được."]
+            if any(w.get("fixed") for w in words) else [])
+    return danh_sach_cho_duyet([_scan_line(w) for w in words], tieu_de=header,
+                               cb_them="scanadd", cb_huy="scancancel", duoi=duoi)
 
 
 # Ảnh gửi dạng FILE giữ nguyên độ nét, nhưng nhét nguyên bản vào request AI thì
@@ -196,54 +165,10 @@ async def _scan_exclude(update, context, text):
 
 
 async def _run_scan_add(context, chat_id, msg, words):
-    """Task nền thêm loạt từ user ĐÃ DUYỆT từ ảnh. Mỗi từ đi qua đúng pipeline
-    thêm từ thường (cào OpenRussian -> AI -> Anki; deck None = tự động -> inbox),
-    nghỉ giữa 2 từ chống chạm giới hạn mỗi-phút. Chạy bằng create_task để nút
-    ⏹ Dừng vẫn được xử lý (PTB xử lý update tuần tự — giống /suadeck)."""
-    total = len(words)
-    added, skipped_dup, failed = [], [], []
-
-    async def lam(item):
-        word = item["lemma"]  # dạng từ điển đã qua tay pymorphy3 — thứ dùng để cào
-        # Dò trùng lần cuối ngay trước khi thêm (rẻ, không tốn AI) — phòng
-        # trường hợp từ vừa được thêm tay giữa lúc quét và lúc bấm ✅
-        dups = await asyncio.to_thread(find_duplicate_notes, strip_accents_perfectly(word))
-        if dups:
-            skipped_dup.append(word)
-            # `False` = lượt này KHÔNG gọi AI nên khỏi nghỉ chống RPM. Đây là chỗ
-            # duy nhất trong ba luồng cần cửa đó, nên nó là tham số chứ không phải
-            # luật cứng của bộ chạy chung.
-            return f"{word} ⏭ đã có", False
-        success, _, _ = await asyncio.to_thread(
-            process_word, word, None, False, False   # sync 1 lần cuối đợt
-        )
-        (added if success else failed).append(word)
-        return f"{word} {'✅' if success else '❌'}", True
-
-    def tien_do(lam_roi, tong, nhan):
-        return (f"🔄 Thêm từ quét ảnh: {lam_roi}/{tong}\n"
-                f"📝 Vừa xong: {nhan}\n"
-                f"✅ thêm {len(added)} │ ⏭ trùng {len(skipped_dup)} │ ❌ lỗi {len(failed)}")
-
-    stopped, attempted = await chay_hang_loat(
-        context, chat_id, msg, words,
-        co="scan", stop_data="scanstop", lam=lam, tien_do=tien_do)
-
-    synced = await asyncio.to_thread(trigger_sync) if added else True
-
-    title = "⏹ ĐÃ DỪNG thêm từ quét ảnh" if stopped else "🏁 XONG thêm từ quét ảnh"
-    lines = [f"{title}: ✅ {len(added)} │ ⏭ trùng {len(skipped_dup)} │ ❌ lỗi {len(failed)} │ tổng {total}"]
-    if added:
-        lines.append(f"📥 Đã vào {STAGE1_DECK}: {_join_words(added)}")
-    if skipped_dup:
-        lines.append(f"⏭ Đã có thẻ từ trước: {_join_words(skipped_dup)}")
-    if failed:
-        lines.append(f"❌ Chưa tạo được thẻ: {_join_words(failed)}")
-        lines.append("   → gõ tay từng từ lỗi: bot sẽ dò OpenRussian + đoán từ nguyên mẫu như thường.")
-    if stopped and attempted < total:
-        lines.append(
-            f"💤 Còn {total - attempted} từ chưa chạy tới — gửi lại ảnh để quét lại "
-            "(từ đã thêm sẽ tự bị lọc)."
-        )
-    lines.append(SYNC_OK_TEXT if synced else SYNC_FAIL_TEXT)
-    await bao_ket_qua(msg, lines)
+    """Thêm loạt từ user ĐÃ DUYỆT từ ảnh. Việc thật nằm ở `core.them_loat_tu` —
+    ở đây chỉ còn phần RIÊNG của luồng quét: lấy dạng từ điển pymorphy3 đã chốt,
+    và lời khuyên khi user bấm ⏹ Dừng giữa chừng."""
+    await them_loat_tu(
+        context, chat_id, msg, [w["lemma"] for w in words],
+        co="scan", stop_data="scanstop", nhan="từ quét ảnh",
+        con_lai="gửi lại ảnh để quét lại (từ đã thêm sẽ tự bị lọc).")

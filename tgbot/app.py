@@ -33,6 +33,7 @@ from .commands import (
 )
 from .jobs import _nightly_backup, _nightly_don, _periodic_sync
 from .alerts import alerter
+from .flow_add import cmd_tumoi
 from .flow_edit import cmd_sua, cmd_suadeck
 from .flow_scan import on_photo
 from .flow_special import cmd_dacbiet
@@ -153,6 +154,7 @@ def main():
     app.add_handler(CommandHandler(["start", "help"], cmd_start, filters=only_me))
     app.add_handler(CommandHandler("menu", cmd_menu, filters=only_me))
     app.add_handler(CommandHandler("deck", cmd_deck, filters=only_me))
+    app.add_handler(CommandHandler("tumoi", cmd_tumoi, filters=only_me))
     app.add_handler(CommandHandler("thongke", cmd_thongke, filters=only_me))
     app.add_handler(CommandHandler("don", cmd_don, filters=only_me))
     app.add_handler(CommandHandler("sync", cmd_sync, filters=only_me))

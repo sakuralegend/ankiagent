@@ -14,6 +14,8 @@
 
 | Nợ | Vì sao chưa trả | Hết hạn |
 |---|---|---|
+| `tgbot/core.py` 370 → 477 dòng (trần tách 700) | Nhận 2 hàm dùng chung từ `flow_scan` (màn duyệt + thêm loạt từ); `flow_scan` giảm 249→174 nên code DỜI chứ không đẻ. Tách lúc này là trộn việc | 2026-10-31 |
+| `tgbot/dispatch.py` 430 → 460 dòng | Khối nút của 4 luồng chạy lô (sd·scan·sp·tumoi) gần như y hệt nhau: huỷ/dừng/xác nhận. Gom lại được, nhưng đợi luồng thứ 5 rồi gom một thể cho đáng | 2026-10-31 |
 | `anki_tools/ai_client.py` 486 → 521 dòng (trần tách 700) | Lô hoá `call_claude_topic` để xếp lại 1212 thẻ bằng ~49 lượt thay vì 1212. Tách file lúc đang sửa cây chủ đề là trộn hai việc (L4) | 2026-10-31 |
 | Web luyện CHI PHỐI ĐỘNG TỪ (repo `slushai`) — cửa 1 xong 11/08, chưa duyệt kế hoạch | Nhường lượt cho việc thay cây chủ đề + lệnh thêm từ. Toàn văn: `git log --grep "CHI PHOI"` (5 commit) | 2026-10-31 |
 | Lệnh Telegram xin 10 từ mới mỗi ngày (hiện danh sách → bấm ✅ → thêm) | Phải có cây chủ đề mới + bản chụp ros-edu xong trước thì mới chọn từ được | 2026-10-31 |

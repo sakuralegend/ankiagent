@@ -1235,5 +1235,51 @@ class ChuDeKHONGDuocCoRoRac(unittest.TestCase):
         self.assertGreater(len(tt.WORD_MUC), 4000, "bản chụp thiếu từ")
 
 
+class BoChonTuMoiPhaiLocDuBaNhom(unittest.TestCase):
+    """`/tumoi` chọn 10 từ mới. Ba thứ nếu lọt là user thấy ngay và mất lòng tin:
+    từ đã có thẻ, từ chính user vừa loại, và từ mức cao khi mức thấp còn chưa hết.
+
+    Ca thứ tư là BUG ĐÃ BẮT ĐƯỢC lúc viết (23/08/2026): bản đầu giữ nguyên thứ tự
+    của nguồn, mà nguồn xếp theo BẢNG CHỮ CÁI — 10 từ đầu ra `а, август, автобус,
+    автор, адрес...`, tức phải bấm hết bảng chữ cái mới thấy từ chữ Б. Nay lấy
+    ngẫu nhiên TRONG mức."""
+
+    def _mod(self):
+        import importlib
+        goc = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        if not os.path.exists(os.path.join(goc, "data", "rosedu_muc.json")):
+            self.skipTest("chưa có bản chụp ros-edu")
+        return importlib.import_module("tgbot.flow_add")
+
+    def test_bo_tu_da_co_the_va_tu_da_loai(self):
+        fa = self._mod()
+        dau = [w for w, _m in fa.chon_tu_moi(set(), set(), 30)]
+        self.assertEqual(len(dau), 30)
+        # Loại 10 từ đầu bằng CẢ HAI đường -> không từ nào được quay lại
+        da_co, bo_qua = set(dau[:5]), set(dau[5:10])
+        sau = [w for w, _m in fa.chon_tu_moi(da_co, bo_qua, 30)]
+        self.assertFalse(da_co & set(sau), "từ đã có thẻ vẫn được đề nghị")
+        self.assertFalse(bo_qua & set(sau), "từ user đã loại vẫn quay lại")
+
+    def test_vet_can_muc_thap_truoc_khi_len_muc_tren(self):
+        fa = self._mod()
+        cap = fa.chon_tu_moi(set(), set(), 200)
+        muc = [m for _w, m in cap]
+        self.assertEqual(muc, sorted(muc), "mức phải không giảm: A1 hết mới sang A2")
+        self.assertEqual(muc[0], 1, "phải bắt đầu từ A1")
+
+    def test_KHONG_lay_theo_bang_chu_cai(self):
+        """Bug đã bắt: nguồn xếp abc nên 10 từ đầu toàn chữ А."""
+        fa = self._mod()
+        dau = [w for w, _m in fa.chon_tu_moi(set(), set(), 10)]
+        self.assertLess(sum(1 for w in dau if w.startswith("а")), 5,
+                        f"đang bò theo bảng chữ cái: {dau}")
+
+    def test_het_tu_thi_tra_rong_chu_khong_no(self):
+        fa = self._mod()
+        tat_ca = {w for w, _m in fa.chon_tu_moi(set(), set(), 99999)}
+        self.assertEqual(fa.chon_tu_moi(tat_ca, set(), 10), [])
+
+
 if __name__ == "__main__":
     unittest.main()

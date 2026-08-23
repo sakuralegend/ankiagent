@@ -44,7 +44,8 @@
    "anki_tools/grammar.py": 502,
    "data/huongdan/kho/congcu.py": 493,
    "soat/cua_nguong.py": 530,
-   "tgbot/dispatch.py": 430
+   "tgbot/dispatch.py": 460,
+   "tgbot/core.py": 477
   }
  },
  "phienban": {
