@@ -14,6 +14,8 @@
 
 | Nợ | Vì sao chưa trả | Hết hạn |
 |---|---|---|
+| Web luyện CHI PHỐI ĐỘNG TỪ (repo `slushai`) — cửa 1 xong 11/08, chưa duyệt kế hoạch | Nhường lượt cho việc thay cây chủ đề + lệnh thêm từ. Toàn văn: `git log --grep "CHI PHOI"` (5 commit) | 2026-10-31 |
+| Lệnh Telegram xin 10 từ mới mỗi ngày (hiện danh sách → bấm ✅ → thêm) | Phải có cây chủ đề mới + bản chụp ros-edu xong trước thì mới chọn từ được | 2026-10-31 |
 
 🔴 **Trước khi thêm dòng, hỏi: đây có phải NỢ không?** Nợ = việc mình BIẾT phải làm
 mà cố ý hoãn. KHÔNG phải nợ, và cấm ghi vào đây:

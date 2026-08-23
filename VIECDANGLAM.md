@@ -3,18 +3,11 @@
 > Phiếu bị GHI ĐÈ ở việc kế tiếp. Xong phiên: để TRỐNG hoặc chừa đúng MỘT đầu
 > việc (cửa **S19**, QD-25). Việc chưa tới lượt ⇒ `SONO.md` kèm HẠN XOÁ.
 
-## Web luyện CHI PHỐI ĐỘNG TỪ — cửa 1 xong 11/08/2026, chờ duyệt kế hoạch
+## Thay cây chủ đề bằng chuẩn ТРКИ — cửa 1 xong 23/08/2026, chờ duyệt kế hoạch
 
-### 🔴 Việc này SỐNG Ở REPO `slushai`, không ở đây. User chốt QUY HOẠCH LẠI slushai
-### thành web NHIỀU MẢNG: mảng NGHE (số/điện thoại/giờ) chỉ còn là MỘT mảng, thêm
-### mảng NGỮ PHÁP. Nền dùng chung: cách chấm chữ Nga (`tiengnga.chuan_hoa`), kho
-### SQLite, tầng web, tên miền, deploy. Repo thứ ba bị bác vì nó buộc đẻ bản sao
-### thứ 3 của hàm so chuỗi Nga — ANKI từng đẻ 4 hàm cùng vai.
-### ANKI chỉ là KHO ĐỂ ĐỌC: web trên VPS gọi AnkiConnect nội bộ (`127.0.0.1:8765`,
-### cùng máy) lấy động từ + ô `HuongDan` + bảng chia ⇒ KHÔNG xuất file, KHÔNG duyệt
-### tay. Ba điều kiện user đã nghe: web sống được cả khi Anki chết (giữ bản chụp gần
-### nhất) · Anki trên VPS chỉ tươi tới lần Sync · cửa đọc bên slushai CHỈ ĐỌC, và
-### phải lọc `note:"RU_Word"`.
-### Đề = gõ dạng đúng của từ trong ngoặc; dấu nhấn GHÉP TỪ BẢNG CHIA. CỐ Ý chưa làm: sổ tiến độ · giới từ · tiếng đọc · đồng bộ ngược Anki · trần lượt
-### AI mỗi ngày (web không mật khẩu, nhưng hết quota là hậu quả nhẹ).
-### Số đo 4 model AI + vì sao chọn chỗ đặt: `git log --grep "CHI PHOI"` (11/08).
+**Một câu:** thay 19 chủ đề tự nghĩ trong `anki_tools/topics.py` bằng 33 nhánh gom từ 34 chủ đề chuẩn ТРКИ (ros-edu.ru), giữ nguyên 10 gốc cố định, rồi gắn tag lại 1212 thẻ — để mỗi chủ đề có ĐỊNH NGHĨA thay vì có thùng rác.
+**Đo 23/08 (lý do làm):** độ tinh khiết `concepts::abstract` 19% · `concepts::misc` 28% · `people::family` 30% · `places::city` 33% — bốn rọ ôm 335 thẻ. Thủ phạm là ĐỊNH NGHĨA (`misc` = *"fallback when nothing above fits"*, `places::city` = *"...cities, transport, roads"*), không phải AI gắn ẩu.
+**User đã chốt:** tên nhánh GIỮ TIẾNG ANH · 275 từ ngoài chuẩn nhờ AI xếp vào cây mới
+**Coi là XONG khi:** trong Anki không còn deck `concepts::misc` · `автобус` nằm ở `places::transport`, `американец` ở `people::nation` · `/thongke` ra 33 nhánh dưới 10 gốc cũ, 0 thẻ mất tag, lịch ôn FSRS không đổi
+**CỐ Ý KHÔNG làm:** chưa chẻ 4 nhánh quá 100 thẻ (`actions` 237 · `qualities` 137 · `time` 127 · `language::education` 121 — to vì định nghĩa rộng, khác thùng rác) · chưa lấy ô ghi chú ngữ pháp của nguồn vào thẻ · lệnh bot xin 10 từ = việc SAU (`SONO.md`)
+**Đã đo:** "ĐÃ ĐO RỒI BÁC" có dòng bác tag trình độ **OpenRussian** (`паспорт`·`яблоко`·`сахар` gắn nhầm C1) — đo lại 23/08 trên ros-edu: cả ba ra **A1** ⇒ dòng đó không phủ nguồn mới · hàm gần giống ĐÃ CÓ, dùng lại: `scripts/tag_topics.py --fix` + `scripts/build_subdecks.py`
