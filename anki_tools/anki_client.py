@@ -298,7 +298,16 @@ def ensure_deck_exists(deck_name):
 
 
 def _ac(action, timeout=60, **params):
-    """Gọi AnkiConnect, NÉM lỗi thay vì nuốt — người gọi tự bắt và báo cáo."""
+    """Gọi AnkiConnect, NÉM lỗi thay vì nuốt — người gọi tự bắt và báo cáo.
+
+    🔴 `ReadTimeout` ở đây KHÔNG CÓ NGHĨA LÀ LỆNH THẤT BẠI. AnkiConnect chạy trên
+    luồng chính của Anki, nên lệnh nào làm Anki bật HỘP THOẠI (đã dính thật với
+    `removeDeckConfigId`, hai lần trong ngày 23/08) sẽ treo mọi request cho tới
+    khi có người bấm — mà lệnh đó thường ĐÃ chạy xong bên trong. Nhìn từ ngoài
+    tiến trình vẫn "Responding" nên tưởng máy bình thường.
+    ⇒ Gặp timeout thì ĐI ĐỌC TRẠNG THÁI THẬT rồi mới kết luận, đừng báo thất bại
+    và đừng chạy lại lệnh (chạy lại có thể làm hỏng lần hai). Cách gỡ: bảo user
+    nhìn cửa sổ Anki và bấm hộp thoại đang chờ."""
     res = requests.post(ANKI_CONNECT_URL, json={
         "action": action, "version": 6, "params": params
     }, timeout=timeout)
