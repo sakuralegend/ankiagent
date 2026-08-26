@@ -35,6 +35,7 @@
 
 | Hướng nghe hợp lý | Phán quyết | Vì (số liệu thật) |
 |---|---|---|
+| Dựng sync server riêng bỏ AnkiWeb | **BÁC — user chốt** | Sập 26/08/2026: 3,5h, 0 thẻ mất (bot dồn trên VPS, đẩy sau). Đổi server = full sync 2 CHIỀU ⇒ "dựng sẵn, sập thì bật" vô dụng. Chuyển hẳn ⇒ App Store nâng Anki iPhone: sync chết im lặng |
 | Sửa field `animate` của nguồn cho đúng (sai ở `ме́неджер`·`о́кунь`·`коза́`·`матрёшка`) | **BÁC** | Bảng chia thôi đọc nó từ QD-35. Chỗ DUY NHẤT còn đọc là bộ đoán giống, theo chiều NGƯỢC — "đồ vật + đuôi -а" mới dám kết luận giống cái ⇒ sửa thành "sinh vật" là bắt nó im ở 2 từ đang trả lời đúng |
 | Dùng `_family()` của OpenRussian để dựng mục "Họ hàng" | **BÁC** | Nó gộp `groups` (cùng gốc) với `relateds` (đồng nghĩa **khác gốc hẳn**) vào một rổ ⇒ dạy sai từ nguyên. Mục Họ hàng do người soạn tự nghĩ, cố ý không có cửa máy |
 | Lọc từ theo tag trình độ A1–C2 của OpenRussian | **BÁC** | `паспорт`, `яблоко`, `сахар` bị gắn **C1**. Dùng **thứ hạng tần suất** thay thế (top 2500 danh từ ≈ A1→B2) |
