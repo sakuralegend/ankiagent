@@ -9694,5 +9694,621 @@
   "pos": "pron",
   "topic": "language::grammar",
   "cu": false
+ },
+ {
+  "wc": "варенье",
+  "w": "варе́нье",
+  "en": "<ol class=\"meaning-list\"><li>jam</li><li>preserve</li></ol>",
+  "pos": "n",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "волк",
+  "w": "волк",
+  "en": "<ol class=\"meaning-list\"><li>wolf</li></ol>",
+  "pos": "n",
+  "topic": "nature::animals",
+  "cu": false
+ },
+ {
+  "wc": "входить",
+  "w": "входи́ть",
+  "en": "<ol class=\"meaning-list\"><li>enter</li><li>come in</li><li>go in(side)</li><li>penetrate</li><li>include</li><li>be a member</li><li>take part</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "вымыть",
+  "w": "вы́мыть",
+  "en": "<ol class=\"meaning-list\"><li>to wash thoroughly</li><li>hollow out</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "выполнять",
+  "w": "выполня́ть",
+  "en": "<ol class=\"meaning-list\"><li>to perform to carry out</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "выходить",
+  "w": "выходи́ть",
+  "en": "<ol class=\"meaning-list\"><li>to go out</li><li>to come out</li><li>to leave</li><li>get off</li><li>to use up</li><li>to run out of</li><li>to be published</li><li>to be issued</li><li>to marry</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "голос",
+  "w": "го́лос",
+  "en": "<ol class=\"meaning-list\"><li>voice</li><li>part</li><li>vote</li></ol>",
+  "pos": "n",
+  "topic": "people::body",
+  "cu": false
+ },
+ {
+  "wc": "гриб",
+  "w": "гриб",
+  "en": "<ol class=\"meaning-list\"><li>mushroom</li><li>fungus</li><li>toadstool</li></ol>",
+  "pos": "n",
+  "topic": "nature::plants",
+  "cu": false
+ },
+ {
+  "wc": "дворец",
+  "w": "дворе́ц",
+  "en": "<ol class=\"meaning-list\"><li>palace</li></ol>",
+  "pos": "n",
+  "topic": "places::city",
+  "cu": false
+ },
+ {
+  "wc": "десерт",
+  "w": "десе́рт",
+  "en": "<ol class=\"meaning-list\"><li>dessert</li></ol>",
+  "pos": "n",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "доезжать",
+  "w": "доезжа́ть",
+  "en": "<ol class=\"meaning-list\"><li>reach</li><li>arrive</li><li>pester</li><li>worry to death</li><li>get to</li></ol>",
+  "pos": "v",
+  "topic": "places::transport",
+  "cu": false
+ },
+ {
+  "wc": "доходить",
+  "w": "доходи́ть",
+  "en": "<ol class=\"meaning-list\"><li>reach</li><li>touch</li><li>move</li><li>be done</li><li>ripen</li><li>amount</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "жаль",
+  "w": "жаль",
+  "en": "<ol class=\"meaning-list\"><li>it is a pity</li><li>sorry</li></ol>",
+  "pos": "oth",
+  "topic": "concepts::emotion",
+  "cu": false
+ },
+ {
+  "wc": "заболевать",
+  "w": "заболева́ть",
+  "en": "<ol class=\"meaning-list\"><li>get sick</li><li>fall ill</li><li>come down</li></ol>",
+  "pos": "v",
+  "topic": "life::health",
+  "cu": false
+ },
+ {
+  "wc": "забывать",
+  "w": "забыва́ть",
+  "en": "<ol class=\"meaning-list\"><li>to forget</li></ol>",
+  "pos": "v",
+  "topic": "concepts::mind",
+  "cu": false
+ },
+ {
+  "wc": "закурить",
+  "w": "закури́ть",
+  "en": "<ol class=\"meaning-list\"><li>start smoking (light up)</li><li>begin to smoke</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "записать",
+  "w": "записа́ть",
+  "en": "<ol class=\"meaning-list\"><li>jot down</li><li>take note</li><li>write it down</li><li>record</li><li>write over something</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "заяц",
+  "w": "за́яц",
+  "en": "<ol class=\"meaning-list\"><li>hare</li><li>rabbit</li><li>bunny.</li><li>stowaway</li><li>gate-crasher.</li></ol>",
+  "pos": "n",
+  "topic": "nature::animals",
+  "cu": false
+ },
+ {
+  "wc": "змея",
+  "w": "змея́",
+  "en": "<ol class=\"meaning-list\"><li>snake</li><li>serpent</li></ol>",
+  "pos": "n",
+  "topic": "nature::animals",
+  "cu": false
+ },
+ {
+  "wc": "зоопарк",
+  "w": "зоопа́рк",
+  "en": "<ol class=\"meaning-list\"><li>zoological gardens</li><li>zoo</li></ol>",
+  "pos": "n",
+  "topic": "places::city",
+  "cu": false
+ },
+ {
+  "wc": "извинять",
+  "w": "извиня́ть",
+  "en": "<ol class=\"meaning-list\"><li>excuse</li></ol>",
+  "pos": "v",
+  "topic": "concepts::emotion",
+  "cu": false
+ },
+ {
+  "wc": "интерес",
+  "w": "интере́с",
+  "en": "<ol class=\"meaning-list\"><li>interest</li></ol>",
+  "pos": "n",
+  "topic": "concepts::mind",
+  "cu": false
+ },
+ {
+  "wc": "коробка",
+  "w": "коро́бка",
+  "en": "<ol class=\"meaning-list\"><li>box</li><li>frame</li></ol>",
+  "pos": "n",
+  "topic": "life::home",
+  "cu": false
+ },
+ {
+  "wc": "корова",
+  "w": "коро́ва",
+  "en": "<ol class=\"meaning-list\"><li>cow</li><li>fat woman</li></ol>",
+  "pos": "n",
+  "topic": "nature::animals",
+  "cu": false
+ },
+ {
+  "wc": "кусок",
+  "w": "кусо́к",
+  "en": "<ol class=\"meaning-list\"><li>a piece</li><li>grand (one thousand of some currency)</li></ol>",
+  "pos": "n",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "лиса",
+  "w": "лиса́",
+  "en": "<ol class=\"meaning-list\"><li>male / female fox</li><li>foxy fellow</li></ol>",
+  "pos": "n",
+  "topic": "nature::animals",
+  "cu": false
+ },
+ {
+  "wc": "медведь",
+  "w": "медве́дь",
+  "en": "<ol class=\"meaning-list\"><li>bear</li></ol>",
+  "pos": "n",
+  "topic": "nature::animals",
+  "cu": false
+ },
+ {
+  "wc": "миска",
+  "w": "ми́ска",
+  "en": "<ol class=\"meaning-list\"><li>bowl</li><li>basin</li><li>tureen</li></ol>",
+  "pos": "n",
+  "topic": "life::home",
+  "cu": false
+ },
+ {
+  "wc": "мороженое",
+  "w": "моро́женое",
+  "en": "<ol class=\"meaning-list\"><li>ice-cream</li></ol>",
+  "pos": "n",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "мыть",
+  "w": "мыть",
+  "en": "<ol class=\"meaning-list\"><li>to wash</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "надо",
+  "w": "на́до",
+  "en": "<ol class=\"meaning-list\"><li>need</li><li>it is necessary</li><li>have to</li></ol>",
+  "pos": "oth",
+  "topic": "qualities::eval",
+  "cu": false
+ },
+ {
+  "wc": "найтись",
+  "w": "найти́сь",
+  "en": "<ol class=\"meaning-list\"><li>to be found</li><li>turn up</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "нарезать",
+  "w": "наре́зать",
+  "en": "<ol class=\"meaning-list\"><li>to cut (food)</li><li>to chop</li></ol>",
+  "pos": "v",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "научить",
+  "w": "научи́ть",
+  "en": "<ol class=\"meaning-list\"><li>to teach</li><li>train</li><li>help someone learn how to do something</li><li>to instruct</li></ol>",
+  "pos": "v",
+  "topic": "language::education",
+  "cu": false
+ },
+ {
+  "wc": "ни",
+  "w": "ни",
+  "en": "<ol class=\"meaning-list\"><li>neither</li><li>no</li></ol>",
+  "pos": "oth",
+  "topic": "language::grammar",
+  "cu": false
+ },
+ {
+  "wc": "новость",
+  "w": "но́вость",
+  "en": "<ol class=\"meaning-list\"><li>news</li></ol>",
+  "pos": "n",
+  "topic": "language::documents",
+  "cu": false
+ },
+ {
+  "wc": "овощи",
+  "w": "о́вощи",
+  "en": "<ol class=\"meaning-list\"><li>vegetables</li></ol>",
+  "pos": "n",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "олень",
+  "w": "оле́нь",
+  "en": "<ol class=\"meaning-list\"><li>deer</li><li>reindeer</li><li>Dumbass</li><li>retard</li></ol>",
+  "pos": "n",
+  "topic": "nature::animals",
+  "cu": false
+ },
+ {
+  "wc": "отдохнуть",
+  "w": "отдохну́ть",
+  "en": "<ol class=\"meaning-list\"><li>rest</li><li>be resting</li><li>be on holiday</li><li>relax</li></ol>",
+  "pos": "v",
+  "topic": "life::leisure",
+  "cu": false
+ },
+ {
+  "wc": "очки",
+  "w": "очки́",
+  "en": "<ol class=\"meaning-list\"><li>glasses</li><li>spectacles</li><li>goggles</li></ol>",
+  "pos": "n",
+  "topic": "life::clothing",
+  "cu": false
+ },
+ {
+  "wc": "паспорт",
+  "w": "па́спорт",
+  "en": "<ol class=\"meaning-list\"><li>passport</li><li>registration certificate</li></ol>",
+  "pos": "n",
+  "topic": "language::documents",
+  "cu": false
+ },
+ {
+  "wc": "передавать",
+  "w": "передава́ть",
+  "en": "<ol class=\"meaning-list\"><li>to pass / to hand over</li><li>to deliver/to convey /to tell</li><li>to transmit /to broadcast</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "повторить",
+  "w": "повтори́ть",
+  "en": "<ol class=\"meaning-list\"><li>to repeat</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "подарить",
+  "w": "подари́ть",
+  "en": "<ol class=\"meaning-list\"><li>give</li><li>make a present</li><li>grant</li><li>present</li><li>favour</li><li>bestow</li><li>gift</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "подготовить",
+  "w": "подгото́вить",
+  "en": "<ol class=\"meaning-list\"><li>to prepare</li><li>to make ready</li><li>to train</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "поехать",
+  "w": "пое́хать",
+  "en": "<ol class=\"meaning-list\"><li>to go</li><li>travel by vehicle in one direction</li></ol>",
+  "pos": "v",
+  "topic": "places::transport",
+  "cu": false
+ },
+ {
+  "wc": "позвать",
+  "w": "позва́ть",
+  "en": "<ol class=\"meaning-list\"><li>call</li><li>call upon</li><li>to invite</li><li>to ask</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "поинтересоваться",
+  "w": "поинтересова́ться",
+  "en": "<ol class=\"meaning-list\"><li>to inquire/ask</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "показывать",
+  "w": "пока́зывать",
+  "en": "<ol class=\"meaning-list\"><li>to show</li><li>to display</li><li>to reveal</li><li>to point</li><li>to depose</li><li>to testify</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "полюбить",
+  "w": "полюби́ть",
+  "en": "<ol class=\"meaning-list\"><li>to start loving</li></ol>",
+  "pos": "v",
+  "topic": "concepts::emotion",
+  "cu": false
+ },
+ {
+  "wc": "помыть",
+  "w": "помы́ть",
+  "en": "<ol class=\"meaning-list\"><li>to wash</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "попрыгать",
+  "w": "попры́гать",
+  "en": "<ol class=\"meaning-list\"><li>jump a little / jump briefly then stops</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "поспорить",
+  "w": "поспо́рить",
+  "en": "<ol class=\"meaning-list\"><li>to argue with someone</li><li>to wager</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "поцеловать",
+  "w": "поцелова́ть",
+  "en": "<ol class=\"meaning-list\"><li>kiss</li><li>give a kiss</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "приезжать",
+  "w": "приезжа́ть",
+  "en": "<ol class=\"meaning-list\"><li>to arrive by vehicle</li></ol>",
+  "pos": "v",
+  "topic": "places::transport",
+  "cu": false
+ },
+ {
+  "wc": "приходить",
+  "w": "приходи́ть",
+  "en": "<ol class=\"meaning-list\"><li>to arrive</li><li>come</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "проверить",
+  "w": "прове́рить",
+  "en": "<ol class=\"meaning-list\"><li>check</li><li>verify</li><li>test</li><li>examine</li><li>audit</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "прыгать",
+  "w": "пры́гать",
+  "en": "<ol class=\"meaning-list\"><li>jump</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "прыгнуть",
+  "w": "пры́гнуть",
+  "en": "<ol class=\"meaning-list\"><li>jump</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "птица",
+  "w": "пти́ца",
+  "en": "<ol class=\"meaning-list\"><li>bird</li></ol>",
+  "pos": "n",
+  "topic": "nature::animals",
+  "cu": false
+ },
+ {
+  "wc": "пусть",
+  "w": "пусть",
+  "en": "<ol class=\"meaning-list\"><li>let</li></ol>",
+  "pos": "oth",
+  "topic": "language::grammar",
+  "cu": false
+ },
+ {
+  "wc": "разбить",
+  "w": "разби́ть",
+  "en": "<ol class=\"meaning-list\"><li>break</li><li>crash</li><li>smash</li><li>divide</li><li>lay out</li><li>pitch</li><li>set up</li><li>beat</li><li>defeat</li><li>hurt badly</li><li>fracture</li><li>space</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "рождаться",
+  "w": "рожда́ться",
+  "en": "<ol class=\"meaning-list\"><li>be born</li><li>occur</li><li>come</li><li>arise</li><li>spring up</li><li>thrive</li><li>flourish</li></ol>",
+  "pos": "v",
+  "topic": "people::life",
+  "cu": false
+ },
+ {
+  "wc": "свинья",
+  "w": "свинья́",
+  "en": "<ol class=\"meaning-list\"><li>pig</li><li>swine</li><li>hog</li><li>sow</li><li>boar</li></ol>",
+  "pos": "n",
+  "topic": "nature::animals",
+  "cu": false
+ },
+ {
+  "wc": "секунда",
+  "w": "секу́нда",
+  "en": "<ol class=\"meaning-list\"><li>second</li></ol>",
+  "pos": "n",
+  "topic": "numbers::units",
+  "cu": false
+ },
+ {
+  "wc": "составлять",
+  "w": "составля́ть",
+  "en": "<ol class=\"meaning-list\"><li>make up/constitute/compose</li><li>in total</li><li>amount to</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "ставить",
+  "w": "ста́вить",
+  "en": "<ol class=\"meaning-list\"><li>to put</li><li>place</li><li>set</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "суметь",
+  "w": "суме́ть",
+  "en": "<ol class=\"meaning-list\"><li>to manage</li><li>to succeed</li><li>to be able to</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "суши",
+  "w": "су́ши",
+  "en": "<ol class=\"meaning-list\"><li>sushi</li></ol>",
+  "pos": "n",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "сыграть",
+  "w": "сыгра́ть",
+  "en": "<ol class=\"meaning-list\"><li>play</li><li>act out/perform</li></ol>",
+  "pos": "v",
+  "topic": "life::leisure",
+  "cu": false
+ },
+ {
+  "wc": "тигр",
+  "w": "тигр",
+  "en": "<ol class=\"meaning-list\"><li>tiger</li></ol>",
+  "pos": "n",
+  "topic": "nature::animals",
+  "cu": false
+ },
+ {
+  "wc": "туалет",
+  "w": "туале́т",
+  "en": "<ol class=\"meaning-list\"><li>toilet</li><li>lavatory</li><li>loo</li><li>bathroom</li><li>restroom</li><li>dress</li><li>attire</li></ol>",
+  "pos": "n",
+  "topic": "life::home",
+  "cu": false
+ },
+ {
+  "wc": "узнать",
+  "w": "узна́ть",
+  "en": "<ol class=\"meaning-list\"><li>learn</li><li>find out</li><li>recognize</li></ol>",
+  "pos": "v",
+  "topic": "concepts::mind",
+  "cu": false
+ },
+ {
+  "wc": "уметь",
+  "w": "уме́ть",
+  "en": "<ol class=\"meaning-list\"><li>to know how to do something</li><li>be able to</li></ol>",
+  "pos": "v",
+  "topic": "concepts::mind",
+  "cu": false
+ },
+ {
+  "wc": "уставать",
+  "w": "устава́ть",
+  "en": "<ol class=\"meaning-list\"><li>get tired</li><li>be tired</li></ol>",
+  "pos": "v",
+  "topic": "concepts::emotion",
+  "cu": false
+ },
+ {
+  "wc": "утка",
+  "w": "у́тка",
+  "en": "<ol class=\"meaning-list\"><li>duck</li><li>false rumor</li><li>false report</li><li>hoax</li></ol>",
+  "pos": "n",
+  "topic": "nature::animals",
+  "cu": false
+ },
+ {
+  "wc": "флаг",
+  "w": "флаг",
+  "en": "<ol class=\"meaning-list\"><li>flag</li><li>ensign</li></ol>",
+  "pos": "n",
+  "topic": "life::home",
+  "cu": false
  }
 ]

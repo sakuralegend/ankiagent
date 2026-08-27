@@ -80,4 +80,12 @@ MIEN_TRU = {
              "добр · добра́ · до́бро · до́бры; thẻ k42 cố ý nêu cặp đối lập до́бро (dạng ngắn) ↔ "
              "добро́ (DANH TỪ: điều thiện, của cải) vì hai từ chỉ khác nhau đúng chỗ trọng âm, "
              "nouns.csv chỉ có добро́. Cùng lớp với жарка́, ни́зок, дорога́ ở trên",
+    "у́ток": "số nhiều cách 2 của у́тка (con vịt), dạng chèn nguyên âm chạy — chính nouns.csv "
+            "ghi pl_gen của у́тка là у́ток, thẻ k78 dạy đúng cặp này. Máy vẫn kêu vì khoá tra là "
+            "mặt chữ trần: nó khớp phải DÒNG RIÊNG của đồng tự уто́к = sợi ngang khi dệt vải "
+            "(weft, woof), một lexeme khác hẳn. Cùng lớp với бе́лок, по́лок, ви́лок ở trên",
+    "коро́бок": "số nhiều cách 2 của коро́бка (cái hộp), dạng chèn nguyên âm chạy — chính "
+               "nouns.csv ghi pl_gen của коро́бка là коро́бок, thẻ k78 dạy đúng cặp này. Máy khớp "
+               "phải DÒNG RIÊNG của đồng tự коробо́к = hộp nhỏ, bao diêm (коробо́к спи́чек). "
+               "Cùng lớp với ви́лок ở trên",
 }
