@@ -118,11 +118,21 @@ def _chay():
         cu = [w for w, r in sorted(cache.items()) if grammar.ban_ghi_cu(r)]
         print(f"{len(cache)} ban ghi | can nang cap {len(cu)} "
               f"(len v{grammar.BAN_GHI_V})", flush=True)
+        keu = []
         for i, w in enumerate(cu, 1):
-            grammar.fetch_grammar(w, refresh=True)
+            try:
+                grammar.fetch_grammar(w, refresh=True)
+            except RuntimeError as e:
+                # Từ có HAI thẻ cùng mặt chữ (khác dấu nhấn) thì cửa ở
+                # `ghi_grammar_json` từ chối ghi, vì ghi theo tên là đè nhầm
+                # (QD-39). Vòng này duyệt theo TỪ nên không có note id để đưa
+                # -> gom lại báo cuối, đừng giết cả lượt nâng cấp vì một từ.
+                keu.append(f"{w}: {e}")
             if i % 25 == 0 or i == len(cu):
                 print(f"  {i}/{len(cu)}", flush=True)
-        print("XONG")
+        print("XONG" if not keu else "XONG (co tu phai sua tay):")
+        for d in keu:
+            print("  🔴 " + d)
         return
     if "--sotu" in sys.argv:
         va_so_tu()

@@ -32,6 +32,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, "..", "..", ".."))
 sys.path.insert(0, os.path.join(HERE, ".."))
 from anki_tools import grammar, soat_nguphap                      # noqa: E402
+from anki_tools.anki_the import nhom_dong_tu                      # noqa: E402
 from anki_tools.anki_client import sync_truoc_khi_ghi_lo          # noqa: E402
 # Tên lấy lại từ hai file ruột — GIỮ NGUYÊN cả bộ vì `dochuan.py` import congcu
 # như thư viện (congcu._BANG_RE, congcu.uoc_cao, congcu.TRAN_CAO…).
@@ -86,14 +87,26 @@ def cmd_bang():
     if apply and not sync_truoc_khi_ghi_lo("di tru BangMay"):
         return
     notes = ac("notesInfo", notes=ac("findNotes", query="note:RU_Word"))
-    doi, giu, khong = [], 0, []
+    # 🔴 Đọc `GrammarJSON` của CHÍNH thẻ đang xử lý, KHÔNG tra `get_cached(wc)`.
+    # Bộ đệm tra theo tên đã bỏ dấu nhấn, nên `нареза́ть` và `наре́зать` dùng
+    # chung một ô -> bản cũ dựng CÙNG một bảng chia rồi ghi lên CẢ HAI thẻ
+    # (QD-40). Thẻ tự mang dữ liệu của nó thì không thể lẫn; và đây cũng đúng
+    # tinh thần QD-11 hơn ("thẻ là nguồn duy nhất") so với đi vòng qua bộ đệm.
+    nhom = nhom_dong_tu(notes)
+    doi, giu, khong, ban_cu = [], 0, [], []
     for n in notes:
         f = n["fields"]
         wc = (f.get("WordClean", {}).get("value") or "").strip()
         hd_cu = f.get("HuongDan", {}).get("value", "")
         may_cu = f.get("BangMay", {}).get("value", "")
         hd_moi = gan_bang(hd_cu, wc)
-        may_moi = grammar.khoi_may(grammar.get_cached(wc))
+        try:
+            rec = json.loads((f.get("GrammarJSON", {}).get("value") or "").strip() or "{}")
+        except ValueError:
+            rec = {}
+        if grammar.ban_ghi_cu(rec):
+            ban_cu.append(wc)      # `get_cached` từng kêu hộ chuyện này — giữ lại
+        may_moi = grammar.khoi_may(rec, nhom=nhom.get(rec.get("acc") or ""))
         o = {}
         if hd_moi != hd_cu:
             o["HuongDan"] = hd_moi
@@ -112,6 +125,9 @@ def cmd_bang():
         print(f"  ~ {wc}  ({' + '.join(sorted(o))})")
     print(f"  trong so giu nguyen, {len(khong)} the KHONG CO BANG (khong bien cach "
           f"hoac tu dien khong co du lieu)")
+    if ban_cu:
+        print(f"  🔴 {len(ban_cu)} the mang ban ghi CU PHIEN BAN -> bang thieu muc moi. "
+              f"Chay: python data/huongdan/kho/cao_nguphap.py --nangcap")
     if not apply:
         print("(CHAY KHAN — them --apply de ghi that)")
         return

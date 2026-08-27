@@ -113,6 +113,45 @@ def main():
     print("⚠️ 'Khong tra duoc' KHONG co nghia la sai — chi la nouns.csv chi chua DANH TU.")
     print("   Nhung tinh tu/dong tu trong la trong danh sach nay thi PHAI kiem tay.")
 
+    soat_du_lieu_lac_the()
+
+
+def soat_du_lieu_lac_the():
+    """Thẻ nào mang bản ghi ngữ pháp của TỪ KHÁC -> in ra.
+
+    Cách bắt: ô `GrammarJSON` lưu sẵn `acc` = tên có dấu nhấn mà từ điển dùng.
+    Đem so với ô `Word` in trên mặt thẻ; lệch VỊ TRÍ dấu nhấn nghĩa là bản ghi
+    thuộc về từ khác. Chính phép so này tìm ra thẻ `нареза́ть` mang bảng chia của
+    `наре́зать` (27/08/2026) — hỏng im lặng nhiều tuần vì mặt thẻ vẫn trông ổn.
+    Đường ghi đè đã bịt (QD-40) nên đây là cửa canh, không phải cách chữa.
+
+    🔴 CHỈ kêu khi CẢ HAI bên đều có dấu nhấn. Từ một âm tiết thì từ điển không
+    đánh dấu (`стих`, `дверь`) mà người soạn có đánh — lệch đó vô hại, kêu là
+    kêu oan 2 thẻ mỗi lần chạy rồi chẳng ai đọc danh sách nữa.
+    """
+    import json
+    import unicodedata
+
+    def sach(x):
+        return unicodedata.normalize("NFC", (x or "").replace("​", "").strip())
+
+    lac = []
+    for n in ac("notesInfo", notes=ac("findNotes", query="note:RU_Word")):
+        f = n["fields"]
+        try:
+            rec = json.loads((f.get("GrammarJSON", {}).get("value") or "").strip() or "{}")
+        except ValueError:
+            continue
+        a, w = sach(rec.get("acc")), sach(f.get("Word", {}).get("value"))
+        if a and w and a != w and ACUTE in a and ACUTE in w:
+            lac.append((w, a))
+    print("")
+    print(f"=== THE MANG DU LIEU CUA TU KHAC: {len(lac)} ===")
+    for w, a in lac:
+        print(f"  🔴 mat the '{w}' nhung ban ghi la cua '{a}'")
+    if not lac:
+        print("  (khong co)")
+
 
 if __name__ == "__main__":
     main()

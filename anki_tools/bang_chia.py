@@ -284,27 +284,54 @@ def go_bang(html):
     return _BANG_RE.sub("", html or "").rstrip()
 
 
-def cap_the_html(rec):
-    """Dòng CẶP THỂ của động từ ('' nếu không phải động từ / không có cặp).
+NHAN_THE_CAP = {"perfective": "hoàn thành", "imperfective": "chưa hoàn thành"}
 
-    Dữ liệu đã nằm sẵn trong `GrammarJSON` từ lâu (`partners`, bóc ở
-    `boc_tudien.normalize`) nhưng chưa từng được hiện ra — đo 04/08: **112/116**
-    động từ trong bộ sưu tập đã có, cả kho ở bản ghi v4 ⇒ không phải cào lại một
-    từ nào.
 
-    🔴 CHỈ LẤY `partners[0]`, không liệt kê hết. Từ điển trả 1–3 mục và chỉ mục
-    đầu là cặp thể chuẩn (`aspectPartner` của OpenRussian trỏ đúng vào nó, đã đối
-    chiếu); các mục sau là từ GẦN NGHĨA khác hẳn về sắc thái — `сказа́ть` kéo theo
-    `ска́зывать` (kể lể, gần như không dùng), `чита́ть` kéo theo `почита́ть` (đọc
-    một lúc cho vui). In hết là dạy sai ba từ để được một từ đúng. User chốt
-    04/08: *"chỉ cặp chuẩn, hai từ"*.
+def cap_the_html(rec, nhom=None):
+    """Dòng CẶP THỂ / khối CÙNG GỐC của động từ ('' nếu không phải động từ).
+
+    Hai chế độ, quyết định bằng `nhom` (do `anki_the.nhom_dong_tu()` dựng — danh
+    sách các thẻ ĐÃ CÓ trong kho nối với nhau qua `partners`):
+
+    · `nhom` rỗng / dưới 3 thành viên -> **dòng cặp thể như cũ**, hai từ. Đây là
+      đường của 47/50 nhóm, giữ nguyên từng ký tự để đổi code không đụng 100 thẻ
+      đang đúng (test `..._nhom_hai_tu_in_y_het_...` canh).
+    · `nhom` từ 3 thành viên -> liệt kê CẢ NHÓM kèm nghĩa Việt của từng từ.
+
+    🔴 CHỈ IN TỪ ĐÃ CÓ THẺ (QD-39, lật QD-26). Lý do QD-26 cấm liệt kê là in ra
+    từ user CHƯA HỌC thì thành dạy từ lạ; ở đây mọi dòng đều là thẻ user đang
+    có, nên lý do đó không áp. Cái nó chữa: đo 27/08, ba nhóm 3 thẻ làm `слушать`
+    hiện ra HAI "bạn thể" khác nhau ở hai thẻ (`послушать` ở thẻ này, `слушать`
+    ở thẻ kia), mà cả ba cùng dán nhãn "hoàn thành" -> ôn thấy mâu thuẫn, không
+    thẻ nào nói cho user biết cái nào là cặp chuẩn, cái nào là sắc thái.
+
+    🔴 `partners[0]` là bạn thể PHỔ BIẾN NHẤT, không phải "bạn thể chính thức".
+    Đo 27/08 trên 38 động từ có nhiều hơn một bạn thể: `partners[0]` trùng từ
+    phổ biến nhất **38/38**, nhưng ô `aspectPartner` (lựa chọn của người biên
+    tập OpenRussian) **lệch 9/38** — và ở cả 9 chỗ lệch, `partners[0]` phổ biến
+    hơn (`мыть`: `вымыть` hạng 1622 vs `помыть` 3001). Comment cũ ở đây khai
+    "aspectPartner trỏ đúng vào partners[0], đã đối chiếu" là SAI, đã gỡ.
     """
     if rec.get("pos") != "verb":
         return ""
+    minh = rec.get("acc") or rec.get("wc") or ""
+    if nhom and len(nhom) >= 3:
+        dong = []
+        for m in nhom:
+            ten = m.get("acc") or ""
+            nhan = NHAN_THE_CAP.get(m.get("aspect"), "")
+            vi = (m.get("vi") or "").strip()
+            if len(vi) > 42:
+                vi = vi[:41].rstrip(" ,;") + "…"
+            ten_html = f"<b>{ten}</b>" if ten == minh else ten
+            dong.append(f'<div class="gt-cap">{ten_html}'
+                        + (f' <span class="gt-cap-n">({nhan})</span>' if nhan else "")
+                        + (f" — {vi}" if vi else "") + "</div>")
+        return (f'<div class="gt-ten">Cùng gốc — {len(nhom)} thẻ</div>'
+                + "".join(dong))
     ban = next((p for p in (rec.get("partners") or []) if p), "")
     if not ban:
         return ""
-    minh = rec.get("acc") or rec.get("wc") or ""
     nhan = {"perfective": ("hoàn thành", "chưa hoàn thành"),
             "imperfective": ("chưa hoàn thành", "hoàn thành")}.get(rec.get("aspect"))
     if not nhan:
@@ -314,15 +341,18 @@ def cap_the_html(rec):
             f' ↔ {ban} <span class="gt-cap-n">({nhan[1]})</span></div>')
 
 
-def khoi_may(rec, phan_tich=None):
+def khoi_may(rec, phan_tich=None, nhom=None):
     """TOÀN BỘ nội dung field `BangMay` = cặp thể + bảng chia ('' nếu không có gì).
 
     Đây là thứ DUY NHẤT được ghi vào `BangMay`, và `BangMay` là thứ DUY NHẤT máy
     ghi lên mặt thẻ — ô `HuongDan` từ nay thuần phần người soạn (QD-26).
+
+    `nhom` đi thẳng xuống `cap_the_html` — KHÔNG truyền thì ra đúng thẻ như
+    trước ngày QD-39, nên mọi caller cũ chạy y nguyên.
     """
     if not rec:
         return ""
-    cap = cap_the_html(rec)
+    cap = cap_the_html(rec, nhom)
     bang = build_table(rec, phan_tich)
     return (cap + bang) if (cap or bang) else ""
 

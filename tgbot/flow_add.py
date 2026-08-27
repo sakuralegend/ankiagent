@@ -20,7 +20,10 @@ from anki_tools.ai_client import call_claude_lemma
 from anki_tools.lemma import guess_lemma_offline
 from anki_tools.pipeline import process_word
 from anki_tools.anki_client import (find_duplicate_notes, get_known_words,
-                                    note_to_card_info)
+                                    note_to_card_info, update_note_fields)
+from anki_tools.anki_the import nhom_dong_tu
+from anki_tools.chu_nga import nfc
+from anki_tools import grammar
 
 from .core import (_current_deck, _degraded_fix_keyboard, danh_sach_cho_duyet,
                    them_loat_tu, _reset_idle_timer)
@@ -43,6 +46,10 @@ async def _do_add(status_msg, word, deck_name, is_forced, context=None, chon_id=
         await status_msg.edit_text(
             format_card_summary(card_info, time.time() - t0), reply_markup=markup
         )
+        # Động từ mới -> dựng lại nhóm cùng gốc + mời thêm bạn thể còn thiếu.
+        # CHỈ ở đây (gõ tay một từ); luồng thêm loạt cố ý im lặng (QD-39).
+        if context is not None and "verb" in (card_info.get("pos") or "").lower():
+            await _goi_y_ban_the(status_msg, context, card_info)
     elif (card_info or {}).get("nhieu_muc") and context is not None:
         # TỪ ĐỒNG TỰ -> hỏi user, chưa bấm thì CHƯA thẻ nào được thêm.
         await _show_homonym_buttons(status_msg, context, word,
@@ -324,3 +331,73 @@ async def run_tumoi_add(context, chat_id, msg, cap):
         context, chat_id, msg, [w for w, _m in cap],
         co="tumoi", stop_data="tumoistop", nhan="từ mới ТРКИ",
         con_lai="gõ /tumoi lần nữa để lấy nhóm mới (từ đã thêm sẽ tự bị lọc).")
+
+# ==============================================================================
+# --- SAU KHI THÊM MỘT ĐỘNG TỪ: dựng lại nhóm + mời thêm bạn thể (QD-39) ---
+# CHỈ ở luồng gõ tay MỘT từ. Quét ảnh / `/tumoi` cố ý im lặng — user chốt 27/08:
+# thêm loạt 30 từ mà hỏi 30 lần thì không ai bấm hết.
+# ==============================================================================
+def _dung_lai_nhom(acc):
+    """Dựng lại ô `BangMay` cho mọi thẻ cùng nhóm với `acc`. -> số thẻ đã ghi.
+
+    Phải chạy sau MỖI lần thêm động từ: thẻ mới biến nhóm 2 thẻ thành 3, mà mặt
+    hai thẻ CŨ đã dựng từ trước nên vẫn in dòng "Cặp thể" cũ — không dựng lại thì
+    nhóm mới chỉ hiện trên thẻ vừa thêm, sai IM LẶNG. Ghi theo `noteId` (QD-40).
+    """
+    nhom = nhom_dong_tu(lam_moi=True)
+    cum = nhom.get(acc) or []
+    ghi = 0
+    for m in cum:
+        moi = grammar.khoi_may(m["rec"], nhom=cum)
+        if moi != m["may"]:
+            update_note_fields(m["noteId"], {"BangMay": moi})
+            ghi += 1
+    return ghi
+
+
+def ban_the_con_thieu(acc):
+    """`(acc bạn thể, nghĩa Anh)` nếu động từ này thiếu bạn thể PHỔ BIẾN NHẤT.
+
+    `partners[0]` chính là từ phổ biến nhất — đo 27/08 trên 38 động từ có nhiều
+    hơn một bạn thể: khớp 38/38. Ô `aspectPartner` "chính thức" của OpenRussian
+    lệch 9/38 mà ở cả 9 chỗ chọn từ HIẾM hơn ⇒ đừng đổi sang nó. Gợi ý ĐÚNG MỘT
+    từ (user chốt 27/08).
+    """
+    nhom = nhom_dong_tu()
+    cum = nhom.get(acc) or []
+    minh = next((m for m in cum if m["acc"] == acc), None)
+    if not minh:
+        return None
+    ban = next((nfc(p) for p in (minh["rec"].get("partners") or []) if p), "")
+    if not ban or any(m["acc"] == ban for m in cum):
+        return None
+    return ban
+
+
+async def _goi_y_ban_the(status_msg, context, card_info):
+    """Thêm động từ xong -> dựng lại nhóm, rồi mời thêm bạn thể nếu còn thiếu."""
+    try:
+        acc = nfc(card_info.get("word"))
+        await asyncio.to_thread(_dung_lai_nhom, acc)
+        ban = await asyncio.to_thread(ban_the_con_thieu, acc)
+    except Exception as e:                       # gợi ý hỏng KHÔNG được giết thẻ vừa thêm
+        log_warn(f"goi y ban the ('{card_info.get('word')}') hong: {e}")
+        return
+    if not ban:
+        return
+    context.user_data["banthe_tu"] = ban
+    text, kb = danh_sach_cho_duyet(
+        [ban], tieu_de=f"🔗 '{card_info.get('word')}' còn thiếu bạn thể",
+        cb_them="bantheadd", cb_huy="banthecancel",
+        duoi=["ℹ️ Đây là nửa kia của cặp thể — biết một nửa thì không đặt câu được."])
+    await status_msg.reply_text(text, reply_markup=kb)
+
+
+async def run_banthe_add(context, chat_id, msg, tu):
+    """User bấm ✅ -> thêm bạn thể, xong thì dựng lại nhóm lần nữa."""
+    await them_loat_tu(context, chat_id, msg, [tu], co="banthe_running",
+                       stop_data="banthestop", nhan="bạn thể")
+    try:
+        await asyncio.to_thread(_dung_lai_nhom, tu)
+    except Exception as e:
+        log_warn(f"dung lai nhom sau khi them '{tu}' hong: {e}")

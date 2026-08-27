@@ -174,7 +174,7 @@ def fetch_word_object(word, timeout=25, chon_id=None):
     return _pick_word_object(info, bare(word))
 
 
-def fetch_grammar(word, refresh=False, delay=0.5):
+def fetch_grammar(word, refresh=False, delay=0.5, note_id=None):
     """Bản ghi ngữ pháp của một từ ({} nếu không có trên OpenRussian).
 
     Cache theo `bare(word)`. Từ đã cào MỘT lần thì không gọi mạng nữa — từ điển
@@ -193,7 +193,9 @@ def fetch_grammar(word, refresh=False, delay=0.5):
         return {}
 
     if rec:
-        remember(word, rec)                   # ghi RAM + thẳng vào thẻ (nếu thẻ đã có)
+        # `note_id` (luồng hàng loạt luôn có sẵn) để khỏi tìm thẻ lại bằng tên
+        # đã bỏ dấu nhấn — nhập nhằng ở 156 cặp động từ, xem QD-39.
+        remember(word, rec, note_id=note_id)  # ghi RAM + thẳng vào thẻ (nếu có)
     else:
         cache[key] = rec                      # {} cũng cache lại, khỏi thử lại vô ích
     if delay:
@@ -463,7 +465,7 @@ def bo_sung(rec, word):
     return rec
 
 
-def remember(word, rec):
+def remember(word, rec, note_id=None, ghi_the=True):
     """Ghi một bản ghi vào RAM + thẳng vào ô `GrammarJSON` của thẻ NẾU thẻ đã có
     (dùng khi vừa cào xong, hoặc vá lại dữ liệu cho từ cũ).
 
@@ -477,9 +479,11 @@ def remember(word, rec):
         return
     key = bare(word)
     _cache()[key] = rec
+    if not ghi_the:
+        return                      # chỉ nạp RAM — người gọi tự đưa rec vào field
     from . import anki_client
     try:
-        anki_client.ghi_grammar_json(key, rec)
+        anki_client.ghi_grammar_json(key, rec, note_id=note_id)
     except Exception as e:
         log_fail(f"remember('{word}'): ghi THE ANKI that bai ({e})")
         raise RuntimeError(

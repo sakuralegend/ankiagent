@@ -654,6 +654,68 @@ class OMayDungRiengKhoiOHuongDan(unittest.TestCase):
              "partners": ["пожени́ться"]}), "")
         self.assertEqual(grammar.cap_the_html({"pos": "noun", "partners": ["x"]}), "")
 
+    # --- NHÓM ĐỘNG TỪ CÙNG GỐC + DANH TÍNH THEO DẤU NHẤN (QD-39, QD-40) ---
+
+    def test_nhom_hai_tu_in_Y_HET_ban_truoc_khi_co_nhom(self):
+        """47/50 nhóm chỉ có 2 thẻ. Đổi code để lo cho 3 nhóm mà làm xê dịch 47
+        nhóm kia là hỏng nhiều hơn sửa — nên chốt đúng từng ký tự."""
+        rec = {"pos": "verb", "aspect": "imperfective", "acc": "чита́ть",
+               "partners": ["прочита́ть"]}
+        mong = ('<div class="gt-ten">Cặp thể</div>'
+                '<div class="gt-cap">чита́ть <span class="gt-cap-n">(chưa hoàn thành)</span>'
+                ' ↔ прочита́ть <span class="gt-cap-n">(hoàn thành)</span></div>')
+        self.assertEqual(grammar.cap_the_html(rec), mong)
+        nhom2 = [{"acc": "чита́ть", "aspect": "imperfective", "vi": "đọc"},
+                 {"acc": "прочита́ть", "aspect": "perfective", "vi": "đọc xong"}]
+        self.assertEqual(grammar.cap_the_html(rec, nhom2), mong)
+
+    def test_nhom_ba_tu_in_DU_CA_BA_kem_sac_thai(self):
+        """Ba nhóm 3 thẻ làm `слушать` hiện HAI bạn thể khác nhau ở hai thẻ, mà
+        cả ba cùng nhãn "hoàn thành" -> ôn thấy mâu thuẫn (QD-39)."""
+        nhom = [{"acc": "слу́шать", "aspect": "imperfective", "vi": "nghe"},
+                {"acc": "послу́шать", "aspect": "perfective", "vi": "nghe một lát"},
+                {"acc": "прослу́шать", "aspect": "perfective", "vi": "nghe hết một lượt"}]
+        ra = grammar.cap_the_html(
+            {"pos": "verb", "aspect": "imperfective", "acc": "слу́шать",
+             "partners": ["послу́шать"]}, nhom)
+        for x in ("слу́шать", "послу́шать", "прослу́шать", "nghe một lát",
+                  "nghe hết một lượt"):
+            self.assertIn(x, ra)
+        self.assertIn("<b>слу́шать</b>", ra)      # thẻ đang mở được tô đậm
+        self.assertNotIn("↔", ra)                 # không còn khai "cặp" hai từ
+
+    def test_nhom_KHONG_BAO_GIO_in_tu_chua_co_the(self):
+        """Lý do QD-26 cấm liệt kê là in ra từ user CHƯA HỌC. Nhóm chỉ được dựng
+        từ thẻ ĐANG CÓ, nên `partners` trỏ ra ngoài kho phải biến mất."""
+        ra = grammar.cap_the_html(
+            {"pos": "verb", "aspect": "imperfective", "acc": "пе́ть",
+             "partners": ["спе́ть", "пропе́ть"]},
+            [{"acc": "пе́ть", "aspect": "imperfective", "vi": "hát"},
+             {"acc": "спе́ть", "aspect": "perfective", "vi": "hát xong"},
+             {"acc": "запе́ть", "aspect": "perfective", "vi": "cất tiếng hát"}])
+        self.assertNotIn("пропе́ть", ra)
+
+    def test_nfc_coi_HAI_DAU_NHAN_KHAC_CHO_la_hai_tu_khac(self):
+        """`нареза́ть` (đang thái) và `наре́зать` (thái xong) là HAI TỪ. Bỏ dấu
+        nhấn đi là gộp chúng làm một — đúng chỗ đã ghi đè thẻ thật (QD-40)."""
+        from anki_tools.chu_nga import bare, nfc
+        a, b = "нареза́ть", "наре́зать"
+        self.assertEqual(bare(a), bare(b))        # bỏ dấu: KHÔNG phân biệt được
+        self.assertNotEqual(nfc(a), nfc(b))       # có dấu: phân biệt được
+        self.assertEqual(nfc(" ле​с "), "лес")
+
+    def test_ghi_grammar_json_TU_CHOI_khi_tim_ra_nhieu_the(self):
+        """Vòng lặp cũ ghi CÙNG một bản ghi lên MỌI thẻ khớp `WordClean`, nên
+        thêm `наре́зать` là đè mất dữ liệu thẻ `нареза́ть` — im lặng, hàng tuần.
+        Người gọi biết mình ghi thẻ nào thì truyền `note_id` (QD-40)."""
+        from unittest import mock
+        from anki_tools import anki_client
+        with mock.patch.object(anki_client.requests, "post") as gia:
+            gia.return_value.json.return_value = {"result": [111, 222], "error": None}
+            with self.assertRaises(RuntimeError) as e:
+                anki_client.ghi_grammar_json("нарезать", {"acc": "нареза́ть"})
+        self.assertIn("note_id", str(e.exception))
+
     def test_dang_ou_duoc_dan_nhan_van_chuong(self):
         """139 danh từ + 170 tính từ có dạng `-ою/-ею` ở cách 5, từ điển in ngang
         hàng không nhãn ⇒ user tưởng dùng thay nhau được trong lời nói thường."""

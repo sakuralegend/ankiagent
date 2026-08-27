@@ -122,7 +122,7 @@ def main():
             continue
         rec = grammar.get_cached(wc)
         if not rec:
-            rec = grammar.fetch_grammar(wc)
+            rec = grammar.fetch_grammar(wc, note_id=n["noteId"])
             goi_mang += 1
         pos_the = (f.get("PoS", {}).get("value") or "").strip().lower()
         la_dong_tu = rec.get("pos") == "verb" or pos_the in ("v", "verb")

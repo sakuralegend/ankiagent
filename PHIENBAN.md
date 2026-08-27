@@ -18,6 +18,21 @@
 
 ---
 
+## v2.1.0 — 27/08/2026
+
+- 🔗 **Thẻ động từ nào có 3 từ cùng gốc thì hiện cả ba, kèm nghĩa từng từ.** Trước đây thẻ
+  `слушать` khai bạn thể là `послушать`, còn thẻ `прослушать` lại khai bạn thể là `слушать` —
+  ôn hai thẻ thấy mâu thuẫn, mà cả ba đều dán chung nhãn "hoàn thành". Giờ cả ba nằm cùng một
+  chỗ: `слушать` (nghe) · `послушать` (nghe một lát) · `прослушать` (nghe hết một lượt). Chỉ
+  liệt kê từ bạn ĐÃ CÓ thẻ, không thêm từ lạ. Ba nhóm bị đổi: nghe, nói, nhảy.
+- ➕ **Thêm một động từ bằng cách gõ tay xong, bot hỏi luôn nửa kia của cặp thể.** Ví dụ thêm
+  `готовить` thì bot mời thêm `подготовить`. Bấm ✅ mới thêm. Quét ảnh và `/tumoi` vẫn im lặng như cũ —
+  thêm 30 từ mà hỏi 30 lần thì không ai bấm hết.
+- 🐛 **Sửa lỗi thẻ mang bảng chia của từ khác.** Thẻ `нареза́ть` (đang thái) đang hiện dữ liệu
+  của `наре́зать` (thái xong) — hai từ khác nhau, viết giống hệt, chỉ khác chỗ nhấn giọng. Máy trước
+  đây tìm thẻ bằng cách bỏ dấu nhấn nên coi chúng là một rồi ghi đè lẫn nhau. Đã sửa thẻ đó và
+  bịt đường gây lỗi — từ điển có 156 cặp kiểu này, 22 cặp nằm trong danh sách từ bạn sắp học.
+
 ## v2.0.0 — 23/08/2026
 
 - 🔴 **BẠN PHẢI LÀM MỘT VIỆC, nếu không máy chủ sẽ chạy sai:** trên laptop mở Anki, bấm
@@ -47,14 +62,3 @@
 - 🔍 **Chuyện đáng nói: model bạn tưởng đã đổi thì thật ra chưa bao giờ đổi.** Máy chủ có một
   cài đặt riêng đè lên, vẫn giữ model cũ suốt từ 06/08. Nay đã sửa cho khớp, và **bot tự khai
   model nó đang chạy mỗi lần khởi động** để lần sau không ai phải đoán nữa.
-
-## v1.0.5 — 06/08/2026
-
-- 🩹 **Sửa đúng cái bạn gặp sáng nay: dọn xong mà iPhone bấm sync mãi vẫn thấy thẻ ở `1-go`.**
-  Bot đã chuyển thẻ thật, nhưng kết quả **nằm lại trên VPS 7 tiếng** mà nó vẫn báo "đã đẩy lên
-  AnkiWeb". Nay sau khi dọn, bot **tự kiểm lại xem AnkiWeb đã nhận thật chưa** rồi mới dám nói.
-- 🚨 **Chưa tới AnkiWeb thì bot nhắn báo động cho bạn**, kèm câu phải làm: mở Anki trên laptop
-  bấm Sync một lần. Trước đây nó im lặng, nên bạn chỉ biết bằng cách bấm mò trên điện thoại.
-- ⚠️ **Câu trả lời của `/don` đổi lời.** Giờ nó nói một trong ba: *"AnkiWeb đã nhận"* · *"CHƯA
-  tới AnkiWeb"* · *"chưa kiểm được"*. Câu giữa nghĩa là **đừng tin là xong**, phải làm gì đó.
-

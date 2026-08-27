@@ -69,3 +69,18 @@ def stress_pos(form):
     # mắt, nhưng ở đây phải trả lại, nếu không `стол → стола́` (trọng âm chạy từ
     # thân ra đuôi, đúng thứ cần bắt) sẽ lọt vì hai đầu cùng ra 0.
     return 1 if n == 1 else 0
+
+
+def nfc(s):
+    """Chuẩn hoá NFC + bỏ ký tự vô hình — để so hai chuỗi Nga CÓ dấu nhấn.
+
+    Bắt buộc vì hai nguồn ghi dấu nhấn hai kiểu: Anki tự chuẩn hoá NFC lúc ghi
+    field, chuỗi vừa cào thì chưa — cùng một từ mà so `==` ra False (đúng họ với
+    bug `U+0341` vs `U+0301` ở `бу́ква`, 31/07/2026). Ô `Word` của thẻ `лес` còn
+    dính ký tự rộng-bằng-không, nên quét luôn.
+
+    🔴 Đây là DANH TÍNH của một từ trong mảng từ vựng (QD-40): so bằng dạng CÓ
+    dấu nhấn, không bỏ dấu. Bỏ dấu là gộp `нареза́ть` với `наре́зать` làm một.
+    """
+    import unicodedata
+    return unicodedata.normalize("NFC", (s or "").replace("​", "").strip())

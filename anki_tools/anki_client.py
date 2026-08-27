@@ -156,7 +156,7 @@ def doc_grammar_json_tat_ca():
     return ra
 
 
-def ghi_grammar_json(word_clean, rec):
+def ghi_grammar_json(word_clean, rec, note_id=None):
     """Ghi thẳng một bản ghi ngữ pháp vào ô `GrammarJSON` của thẻ khớp
     `word_clean` — cửa DUY NHẤT của `grammar.remember()`/`fetch_grammar()` để
     persist dữ liệu (QD-11, không còn file cache dự phòng).
@@ -165,13 +165,26 @@ def ghi_grammar_json(word_clean, rec):
     `addNote`) thì đây là chuyện BÌNH THƯỜNG — trả `False`, không phải lỗi;
     người gọi tự đưa `rec` vào field lúc tạo note. LỖI KẾT NỐI thì NÉM THẲNG để
     nơi gọi kêu to, vì im lặng ở đây là ghi hụt dữ liệu vĩnh viễn."""
-    res = requests.post(ANKI_CONNECT_URL, json={
-        "action": "findNotes", "version": 6,
-        "params": {"query": f'note:"{MODEL_NAME}" WordClean:"{word_clean}"'}
-    }, timeout=15)
-    note_ids = res.json().get("result") or []
-    if not note_ids:
-        return False
+    if note_id is not None:
+        note_ids = [note_id]
+    else:
+        res = requests.post(ANKI_CONNECT_URL, json={
+            "action": "findNotes", "version": 6,
+            "params": {"query": f'note:"{MODEL_NAME}" WordClean:"{word_clean}"'}
+        }, timeout=15)
+        note_ids = res.json().get("result") or []
+        if not note_ids:
+            return False
+        # 🔴 HAI THẺ CÙNG `WordClean` = hai TỪ KHÁC NHAU chỉ khác dấu nhấn
+        # (`нареза́ть` thái dở / `наре́зать` thái xong). Vòng lặp cũ ghi CÙNG một
+        # bản ghi lên CẢ HAI — chính là cách thẻ `нареза́ть` mang dữ liệu từ kia,
+        # im lặng hàng tuần. Từ điển có 156 cặp thế, 22 cặp nằm trong ТРКИ user
+        # chưa học ⇒ không hi hữu. Biết ghi thẻ nào thì TRUYỀN `note_id` (QD-39).
+        if len(note_ids) > 1:
+            raise RuntimeError(
+                f"ghi_grammar_json('{word_clean}'): tim ra {len(note_ids)} the cung "
+                "WordClean (hai tu khac dau nhan?) - KHONG ghi de tranh de nham. "
+                "Nguoi goi phai truyen note_id cua dung the can ghi.")
     payload = json.dumps(rec, ensure_ascii=False, separators=(",", ":")) if rec else ""
     for nid in note_ids:
         res = requests.post(ANKI_CONNECT_URL, json={

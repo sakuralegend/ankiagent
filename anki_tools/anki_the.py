@@ -9,9 +9,11 @@
 import base64
 import json
 import re
+
 import requests
 
 from . import grammar
+from .chu_nga import nfc
 from .config import ANKI_CONNECT_URL, MODEL_NAME, STAGE1_DECK
 from .topics import TOPIC_TAG_PREFIX, topic_tag
 from .utils import log_warn, log_fail, strip_accents_perfectly, hl_to_bracket
@@ -69,9 +71,15 @@ def build_card_fields(word, data):
     # luôn ra cùng một thứ — nhãn giống nay chỉ còn MỘT bảng, ở grammar.NHAN_GIONG.
     grammar_rec = data.get("grammar") or {}
     if grammar_rec:
-        # ghi vào cache ngay: từ user thêm hằng ngày tự có mặt, không phải chạy
-        # `cao_nguphap.py --anki` bù về sau
-        grammar.remember(clean_word, grammar_rec)
+        # Nạp cache RAM ngay: từ user thêm hằng ngày tự có mặt, không phải chạy
+        # `cao_nguphap.py --anki` bù về sau.
+        # 🔴 `ghi_the=False` — hàm này KHÔNG ĐỤNG AnkiConnect (xem docstring), và
+        # phần ghi thẻ ở đây vốn THỪA: `GrammarJSON` đi thẳng vào `fields` ngay
+        # bên dưới, `push_to_anki`/`redo_note_id` ghi nó cùng cả thẻ theo ĐÚNG
+        # note id. Bản cũ ghi thêm một lần nữa bằng cách TÌM THẺ THEO TÊN đã bỏ
+        # dấu nhấn ⇒ lúc tạo `наре́зать` nó đè lên thẻ `нареза́ть` đang có. Đó là
+        # nguồn gốc thẻ hỏng phát hiện 27/08 (QD-39).
+        grammar.remember(clean_word, grammar_rec, ghi_the=False)
     gender_badge_html = (grammar.gender_badge_html(clean_word, gender_lower, grammar_rec)
                          if pos_clean in ("n", "noun") else "")
     aspect_badge_html = grammar.aspect_badge_html(data.get("aspect", ""))
@@ -295,3 +303,91 @@ def print_card_summary(card_info, elapsed):
 
     print(f"  ─────────────────────────────────────")
     print(f"  📦 Bộ bài: {deck} │ ⏱️ {elapsed:.1f}s\n")
+
+
+# ==============================================================================
+# --- NHÓM ĐỘNG TỪ CÙNG GỐC (QD-39) ---
+# 🔴 DANH TÍNH MỘT TỪ Ở ĐÂY LÀ `acc` (CÓ dấu nhấn), KHÔNG phải `WordClean`. Đo
+# 27/08 trên 14 871 động từ: mặt chữ bỏ dấu nhấn nhập nhằng **156 ca**, `acc`
+# còn **5**, `acc`+thể còn **2** — và 2 ca cuối là từ điển lặp dòng y hệt nên
+# chọn mục nào cũng thế. Bỏ dấu nhấn là bỏ đúng thứ phân biệt `нареза́ть` (đang
+# thái) với `наре́зать` (thái xong); chính chỗ đó đã ghi đè thẻ thật.
+# Đã cân nhắc lưu `id` mục từ OpenRussian: BÁC — thêm khoá ⇒ phải cào lại cả
+# 1253 thẻ, mà id là số của người khác nên không tự kiểm được; còn `acc` đem so
+# với ô `Word` là biết ngay thẻ có mang nhầm dữ liệu từ khác không — chính phép
+# so đó tìm ra thẻ `нареза́ть` hỏng.
+# ==============================================================================
+_NHOM_MEMO = None
+
+
+def nhom_dong_tu(notes=None, lam_moi=False):
+    """Bản đồ `acc` -> danh sách các thẻ ĐỘNG TỪ cùng gốc ĐANG CÓ trong kho.
+
+    Mỗi thành viên: `{"acc", "aspect", "vi", "wc", "noteId", "rank", "rec",
+    "may"}` — kèm luôn bản ghi và ô `BangMay` hiện tại để người gọi dựng lại mặt
+    thẻ mà khỏi đọc kho lần hai. Nhóm gồm
+    cả chính nó, xếp CHƯA HOÀN THÀNH trước rồi tới hạng tần suất tăng dần —
+    `rank` đã nằm sẵn trên cả 1253 thẻ, không phải tra nguồn ngoài.
+
+    Cạnh nối = `partners` thẻ này trỏ đúng `acc` thẻ kia, so khớp CHÍNH XÁC:
+    đo 27/08 ra 106 cạnh khớp trong kho, 91 cạnh trỏ ra ngoài (từ chưa có thẻ —
+    đúng, không phải lỗi). `notes` = `notesInfo` sẵn có, để lệnh chạy hàng loạt
+    khỏi đọc kho lần hai; không đưa thì tự đọc rồi nhớ trong cùng tiến trình.
+    """
+    global _NHOM_MEMO
+    tu_doc = notes is None
+    if tu_doc:
+        if _NHOM_MEMO is not None and not lam_moi:
+            return _NHOM_MEMO
+        from . import anki_client
+        notes = anki_client._ac(
+            "notesInfo", timeout=120,
+            notes=anki_client._ac("findNotes", query=f'note:"{MODEL_NAME}"'))
+
+    thanh_vien, canh = {}, {}
+    for n in notes or []:
+        f = n.get("fields", {})
+        try:
+            rec = json.loads((f.get("GrammarJSON", {}).get("value") or "").strip() or "{}")
+        except ValueError:
+            continue                    # ô hỏng -> bỏ qua, đừng giết cả lượt
+        if rec.get("pos") != "verb":
+            continue
+        a = nfc(rec.get("acc"))
+        if not a or a in thanh_vien:
+            continue                    # `acc` trùng = thẻ mang nhầm dữ liệu; test bắt riêng
+        thanh_vien[a] = {
+            "acc": a, "aspect": rec.get("aspect"), "rank": rec.get("rank") or 10 ** 9,
+            "wc": (f.get("WordClean", {}).get("value") or "").strip(),
+            "vi": re.sub(r"<[^>]+>", "", f.get("Vietnamese", {}).get("value") or "").strip(),
+            "noteId": n.get("noteId"), "rec": rec,
+            "may": f.get("BangMay", {}).get("value") or "",
+        }
+        canh[a] = [nfc(p) for p in (rec.get("partners") or []) if p]
+
+    ke = {a: set() for a in thanh_vien}
+    for a, ps in canh.items():
+        for p in ps:
+            if p in thanh_vien and p != a:
+                ke[a].add(p)
+                ke[p].add(a)
+
+    ra, da_xet = {}, set()
+    for a in thanh_vien:
+        if a in da_xet:
+            continue
+        cum, hang_doi = [], [a]
+        while hang_doi:
+            x = hang_doi.pop()
+            if x in da_xet:
+                continue
+            da_xet.add(x)
+            cum.append(x)
+            hang_doi += [y for y in ke[x] if y not in da_xet]
+        cum = sorted((thanh_vien[x] for x in cum),
+                     key=lambda m: (m["aspect"] != "imperfective", m["rank"]))
+        for m in cum:
+            ra[m["acc"]] = cum
+    if tu_doc:
+        _NHOM_MEMO = ra
+    return ra

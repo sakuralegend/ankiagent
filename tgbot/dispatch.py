@@ -48,7 +48,8 @@ from .flow_edit import (
     _sd_load_resume,
 )
 from .flow_scan import _run_scan_add, _scan_clear, _scan_exclude
-from .flow_add import _tumoi_clear, run_tumoi_add, tumoi_exclude
+from .flow_add import (_tumoi_clear, run_banthe_add, run_tumoi_add,
+                       tumoi_exclude)
 from .flow_special import do_add_plural, do_redo_plural, on_special_callback
 
 
@@ -351,6 +352,29 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         _tumoi_clear(context.user_data)
         await query.edit_message_text(f"🔄 Bắt đầu thêm {len(cap)} từ đã duyệt...")
         asyncio.create_task(run_tumoi_add(context, query.message.chat_id, query.message, cap))
+        return
+
+    # --- Bạn thể còn thiếu (hiện ngay sau khi thêm một động từ, QD-39) ---
+    if data == "banthecancel":
+        context.user_data.pop("banthe_tu", None)
+        await query.edit_message_text("⏭️ Bỏ qua — không thêm bạn thể.")
+        return
+    if data == "banthestop":
+        if context.bot_data.get("banthe_running"):
+            context.bot_data["banthe_stop"] = True
+        return
+    if data == "bantheadd":
+        tu = context.user_data.pop("banthe_tu", None)
+        if not tu:
+            await query.edit_message_text("⌛ Hết hạn — gõ lại từ gốc để hiện lại gợi ý.")
+            return
+        ban = dang_chay_hang_loat(context)
+        if ban:
+            await query.message.reply_text(
+                f"⏳ Đang chạy đợt '{ban}' — chờ xong rồi bấm lại nhé.")
+            return
+        await query.edit_message_text(f"🔄 Đang thêm '{tu}'...")
+        asyncio.create_task(run_banthe_add(context, query.message.chat_id, query.message, tu))
         return
 
     # --- Nút xác nhận từ nguyên mẫu (từ gõ vào không có trên OpenRussian) ---

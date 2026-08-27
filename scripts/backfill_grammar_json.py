@@ -62,7 +62,7 @@ def main():
             continue
         rec = grammar.get_cached(wc)
         if not rec:
-            rec = grammar.fetch_grammar(wc)
+            rec = grammar.fetch_grammar(wc, note_id=n["noteId"])
             goi_mang += 1
         if not rec:
             trong.append(wc)
