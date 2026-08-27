@@ -324,3 +324,8 @@ V['цех'] = 'phân xưởng'
 # VA CHẠM 'thanh niên': юноша đụng молодёжь (đã có trong kho: "giới trẻ, thanh
 # niên, người trẻ"). молодёжь là cả một khối, юноша là một người.
 V['юноша'] = 'chàng trai trẻ, thanh niên'
+
+# VA CHẠM 'đi': ходить đụng идти — CẢ HAI [v/IMPF] nên badge KHÔNG tách được,
+# chỉ dòng tiếng Việt tách. Bỏ "đi" trần ở cả hai vế; ходить giữ phần nghĩa
+# ĐA HƯỚNG / LẶP LẠI vốn là chỗ nó khác идти.
+V['ходить'] = 'đi lại, lui tới'

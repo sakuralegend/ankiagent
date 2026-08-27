@@ -336,3 +336,6 @@ S["отдыхать"] = (
     '<b>дых→дох</b> và mọc thêm <b>-ну-</b> — nhận ra phép đổi này thì khỏi học lại.</div>'
 )
 V['отдыхать'] = 'nghỉ ngơi, xả hơi, đi nghỉ mát'
+# VA CHẠM 'đi': идти đụng ходить (cả hai [v/IMPF], badge không tách). Bỏ "đi"
+# trần; идти giữ phần ĐƠN HƯỚNG, đang-đi — chỗ nó khác ходить.
+V['идти'] = 'đi bộ, đang đi tới'

@@ -361,4 +361,8 @@ V = {
     # bồn cầu, KHÔNG phải phòng tắm. Nhà người Nga tách hẳn туалет với ванная, nên
     # "phòng tắm" đang dạy sai nghĩa ngay trên đề bài mà user phải gõ từ Nga ra.
     "туалет": "nhà vệ sinh, phòng vệ sinh",
+    # "cái bát" đụng чашка "cái tách, chén": với người Việt bát = chén, mà hai
+    # thẻ cùng [n/FEM ♀] nên badge không tách. Máy không bắt được vì khác mặt
+    # chữ. Bỏ "cái bát" — tô/chậu vẫn tả đúng миска, chén nhường cho чашка.
+    "миска": "cái tô, cái chậu nhỏ",
 }

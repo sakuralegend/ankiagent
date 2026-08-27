@@ -322,7 +322,10 @@ S["остановка"] = (
 # động tiếng Nga nên được viết thẳng vào danh sách, không phải chú thích.
 V["дойти"]      = "đi bộ tới tận nơi, đi bộ đến được, đạt tới"
 V["доехать"]    = "đi xe tới tận nơi, đi xe đến được"
-V["прийти"]     = "đến, tới, đến nơi"
+# THE ANKI dang la "đến, tới, đến nơi (đi bộ)" — ngoac chu thich pham cam 3 cua
+# muc 2c, con "đến/tới" tran thi dung nguyen cum voi приезжать. Viet theo dung
+# loi goc ход = đi bộ ma дойти/приходить da dung; badge PERF tach khoi приходить.
+V["прийти"]     = "đi bộ đến, đi bộ tới nơi"
 V["приехать"]   = "đến bằng xe, tới nơi bằng xe"
 V["ехать"]      = "đi xe, đi bằng xe, đang đi tới bằng xe"
 V["находиться"] = "nằm ở, tọa lạc, được đặt ở"
