@@ -1,14 +1,26 @@
 # -*- coding: utf-8 -*-
 """Điền lại TOÀN BỘ badge ngữ pháp cho thẻ đã có trong Anki.
 
-    python backfill_badge.py            # CHẠY KHAN — in ra, không ghi gì
-    python backfill_badge.py --apply    # ghi thật
+    python backfill_badge.py                        # CHẠY KHAN — in ra, không ghi gì
+    python backfill_badge.py --apply                # ghi thật, CẢ BỐN chiều
+    python backfill_badge.py --chi-tuloai --apply   # ghi ĐÚNG chiều từ loại
 
-Ba field, ba chiều ngữ pháp, không chiều nào chồng chiều nào:
+Bốn field, bốn chiều ngữ pháp, không chiều nào chồng chiều nào:
 
   GenderBadge     danh từ   MASC ♂ · FEM ♀ · NEUT ⚧ · PL 👥
   AspectBadge     động từ   PERF · IMPF · BI-ASP
   ReflexiveBadge  động từ   REFL -ся
+  PoS / PoSFull   MỌI thẻ   n · v · adj · adv · num · pron · prep · conj · part · pred · interj
+
+🔴 CHIỀU THỨ TƯ (từ loại) LÀ CHIỀU DUY NHẤT PHẢI HỎI AI, và chỉ hỏi cho thẻ mà
+nguồn bỏ trống. OpenRussian trả thẳng chữ "other" cho 93/1290 thẻ (đo 01/09/2026)
+— trạng từ, giới từ, liên từ, trợ từ dồn chung một rọ, badge in ra `oth` tức là
+mặt thẻ có một ô mà không dạy gì. Hỏi lại nguồn KHÔNG cứu được: 74/93 nó vẫn trả
+"other", và nó trả SAI 2 từ (`тут`, `справа` -> nó bảo là DANH TỪ). Xem QD-41.
+
+⚠️ Vì thế chạy khan CŨNG tốn lượt gọi AI, và `--apply` gọi lại lượt nữa (kết quả
+có thể lệch vài từ hai-từ-loại so với bản vừa xem). Đây là cùng một nết với
+`scripts/tag_topics.py` — giữ giống nhau để khỏi phải nhớ hai kiểu.
 
 Thẻ tạo từ 29/07/2026 trở đi tự có đủ ba (scraper lấy `verb.aspect` +
 `verb.isReflexive` lúc cào). Script này lo phần quá khứ: 950 thẻ có sẵn.
@@ -37,7 +49,9 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from anki_tools import grammar
 from anki_tools.anki_client import sync_truoc_khi_ghi_lo
+from anki_tools.ai_client import call_claude_pos
 from anki_tools.config import ANKI_CONNECT_URL, MODEL_NAME
+from anki_tools.topics import normalize_pos, pos_full as ten_pos_day_du
 
 # 🔴 KHÔNG khai lại bảng nhãn ở đây. Nó từng có bản sao riêng trong file này và
 # một bản trong `anki_client.build_card_fields()` — hai bản thì sớm muộn lệch
@@ -101,8 +115,25 @@ def gender_badge_wc(wc, rec, badge_cu, suy_ra):
     return _badge(lop)
 
 
+# Chiều nào được phép GHI. Mặc định cả bốn; `--chi-tuloai` bó lại còn ô từ loại.
+#
+# 🔴 VÌ SAO CẦN BÓ (bắt 01/09/2026, lúc vá 93 thẻ `oth`). Chạy khan hôm đó đòi đổi
+# 93 ô từ loại — đúng việc — KÈM 2 ô thể KHÔNG ai nhờ:
+#     быть      IMPF -> BI-ASP   (nguồn ghi aspect="both")
+#     нарезать  IMPF -> PERF     (наре́зать/нареза́ть trùng tên khi bỏ dấu nhấn)
+# Ca `быть` chính là ca docstring trên đã dặn CHỪA từ 12/08 — nhưng lời dặn nằm ở
+# CHỮ, không có dòng code nào thi hành, nên `--apply` vẫn ghi đè nó. Ca `нарезать`
+# là bẫy đồng tự của QD-40: một tên bỏ dấu, hai động từ khác thể.
+# Cả hai phải cân từng ca, mà L4 cấm gộp việc đó vào việc đang làm.
+CHIEU = {
+    "tuloai": ("PoS", "PoSFull"),
+    "badge": ("GenderBadge", "AspectBadge", "ReflexiveBadge"),
+}
+
+
 def main():
     apply = "--apply" in sys.argv
+    chi = CHIEU["tuloai"] if "--chi-tuloai" in sys.argv else None
 
     co = ac("modelFieldNames", modelName=MODEL_NAME)
     thieu = [f for f in ("AspectBadge", "ReflexiveBadge") if f not in co]
@@ -113,6 +144,24 @@ def main():
 
     notes = ac("notesInfo", notes=ac("findNotes", query=f'note:"{MODEL_NAME}"'))
     print(f"{len(notes)} thẻ {MODEL_NAME}")
+
+    # --- CHIỀU 4 chạy TRƯỚC vòng lặp vì nó hỏi AI theo LÔ ---
+    # Chỉ hỏi cho thẻ mà ô từ loại hiện KHÔNG đọc được ("oth"/"other"/rỗng/rác).
+    # Thẻ đang ghi `noun`/`verb`... thì nguồn đã nói chắc, AI chỉ đoán -> không đụng.
+    can_xep = [n for n in notes
+               if not normalize_pos((n["fields"].get("PoS", {}).get("value") or ""))]
+    xep_pos = {}
+    if can_xep:
+        print(f"🤖 {len(can_xep)} thẻ chưa có từ loại đọc được -> nhờ AI xếp "
+              f"({(len(can_xep) + 24) // 25} lượt gọi)...")
+        xep_pos = call_claude_pos([
+            (n["fields"]["WordClean"]["value"].strip(),
+             chu(n["fields"].get("Meaning", {}).get("value", ""))[:80])
+            for n in can_xep])
+        chua = [w for w, ma in xep_pos.items() if not ma]
+        if chua:
+            print(f"   ⚠️ {len(chua)} từ AI KHÔNG xếp được -> để TRỐNG, không ép "
+                  f"'other': {' · '.join(chua[:20])}")
 
     doi, giu, ngo, goi_mang, suy_ra = [], 0, [], 0, []
     for n in notes:
@@ -137,19 +186,28 @@ def main():
             "ReflexiveBadge": (grammar.reflexive_badge_html(grammar.is_reflexive(wc, rec))
                                if la_dong_tu else ""),
         }
+        # Từ loại: giữ nguyên nếu ô hiện tại đọc được; không thì lấy bản AI vừa
+        # xếp. AI cũng chịu -> để RỖNG. 🔴 KHÔNG ép về "other": rọ "phần còn lại"
+        # làm thẻ TRÔNG NHƯ đã xếp xong nên không ai đi tìm lại (QD-38, QD-41).
+        ma_pos = normalize_pos(f.get("PoS", {}).get("value") or "") or xep_pos.get(wc)
+        moi["PoS"] = ma_pos or ""
+        moi["PoSFull"] = ten_pos_day_du(ma_pos) or ""
+
         if la_dong_tu and not moi["AspectBadge"]:
             ngo.append(f"{wc}(thể)")
         if la_danh_tu and not moi["GenderBadge"]:
             ngo.append(f"{wc}(giống)")
 
-        khac = {k: v for k, v in moi.items() if v != f.get(k, {}).get("value", "")}
+        khac = {k: v for k, v in moi.items()
+                if v != f.get(k, {}).get("value", "") and (chi is None or k in chi)}
         if not khac:
             giu += 1
             continue
         cu = {k: f.get(k, {}).get("value", "") for k in khac}
         doi.append((n["noteId"], wc, cu, khac))
 
-    print(f"\n=== SẼ ĐỔI {len(doi)} thẻ (giữ nguyên {giu}) ===")
+    pham_vi = (" — CHỈ chiều " + "/".join(chi)) if chi else " — cả bốn chiều"
+    print(f"\n=== SẼ ĐỔI {len(doi)} thẻ (giữ nguyên {giu}){pham_vi} ===")
     dem = {}
     for _, _, cu, khac in doi:
         for k, v in khac.items():

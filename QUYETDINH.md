@@ -36,6 +36,7 @@
 | Hướng nghe hợp lý | Phán quyết | Vì (số liệu thật) |
 |---|---|---|
 | Dựng sync server riêng bỏ AnkiWeb | **BÁC — user chốt** | Sập 26/08/2026: 3,5h, 0 thẻ mất (bot dồn trên VPS, đẩy sau). Đổi server = full sync 2 CHIỀU ⇒ "dựng sẵn, sập thì bật" vô dụng. Chuyển hẳn ⇒ App Store nâng Anki iPhone: sync chết im lặng |
+| Cào lại OpenRussian để sửa từ loại 93 thẻ `other` | **BÁC** | Đo 01/09/2026: hỏi lại cả 93 từ thì **74 vẫn trả "other"**, và nó trả SAI 2 từ — `тут` ("ở đây") với `справа` ("bên phải") nó xếp là DANH TỪ. Nguồn không biết thì hỏi lại lần nữa vẫn không biết |
 | Sửa field `animate` của nguồn cho đúng (sai ở `ме́неджер`·`о́кунь`·`коза́`·`матрёшка`) | **BÁC** | Bảng chia thôi đọc nó từ QD-35. Chỗ DUY NHẤT còn đọc là bộ đoán giống, theo chiều NGƯỢC — "đồ vật + đuôi -а" mới dám kết luận giống cái ⇒ sửa thành "sinh vật" là bắt nó im ở 2 từ đang trả lời đúng |
 | Dùng `_family()` của OpenRussian để dựng mục "Họ hàng" | **BÁC** | Nó gộp `groups` (cùng gốc) với `relateds` (đồng nghĩa **khác gốc hẳn**) vào một rổ ⇒ dạy sai từ nguyên. Mục Họ hàng do người soạn tự nghĩ, cố ý không có cửa máy |
 | Lọc từ theo tag trình độ A1–C2 của OpenRussian | **BÁC** | `паспорт`, `яблоко`, `сахар` bị gắn **C1**. Dùng **thứ hạng tần suất** thay thế (top 2500 danh từ ≈ A1→B2) |
@@ -68,6 +69,7 @@
 
 | QD | Ngày | Quyết định | Vì sao (ngắn) |
 |---|---|---|---|
+| QD-41 | 01/09 | ⚖️ Từ loại: nguồn trước, AI vá chỗ nguồn bỏ trống; bảng KHÔNG có mã "other" | "other" phủ 93/1290 thẻ ⇒ badge không dạy gì. AI khớp 89/93 bảng xếp tay, 4 chỗ lệch là từ HAI loại. Đi nhờ lượt AI sẵn có ⇒ 0 request thêm |
 | QD-39 | 27/08 | ⚖️ Thẻ động từ in CẢ NHÓM cùng gốc, chỉ từ ĐÃ CÓ thẻ | Lật QD-26: ba nhóm 3 thẻ làm `слушать` hiện HAI bạn thể khác nhau ở hai thẻ, cả ba cùng nhãn "hoàn thành" ⇒ ôn thấy mâu thuẫn. Cấm cũ là cấm in từ CHƯA HỌC |
 | QD-40 | 27/08 | ⚖️ Danh tính một từ = `acc` + thể, KHÔNG lưu `id` OpenRussian | Đo 14 871 động từ: tên bỏ dấu nhấn nhập nhằng 156 ca, `acc` còn 5, thêm thể còn 2 (hai ca đó lặp dòng y hệt). `id` bắt cào lại 1253 thẻ mà không tự kiểm được |
 | QD-38 | 23/08 | ⚖️ BỎ `FALLBACK_TOPIC`: không xếp được thì để **TRỐNG tag** | Rọ `concepts::misc` khai thẳng là *"fallback when nothing fits"* ⇒ thẻ đổ vào đó TRÔNG NHƯ đã xong, không ai tìm lại. Giá: thẻ trống tag chỉ `/thongke` thấy |

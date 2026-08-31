@@ -1,5 +1,10 @@
 # ==============================================================================
-# --- ĐỊNH NGHĨA CHỦ ĐỀ TỪ VỰNG (tag topic::...) — CÂY 2 TẦNG, 10 GỐC ---
+# --- HAI DANH SÁCH AI DÙNG ĐỂ XẾP MỘT TỪ: CHỦ ĐỀ (`TOPICS`) và TỪ LOẠI (`TU_LOAI`) ---
+# Cùng một file vì cùng một vai: đây là chỗ khai "được phép trả về những giá trị
+# nào", và cả hai đều được `ai_client` nhét thẳng vào prompt. Tách đôi thì
+# `ai_client` phải import hai file để làm đúng một việc.
+#
+# --- PHẦN 1: CHỦ ĐỀ TỪ VỰNG (tag topic::...) — CÂY 2 TẦNG, 10 GỐC ---
 # Đây là NGUỒN CHÂN LÝ DUY NHẤT về danh sách chủ đề:
 # - ai_client.py nhét danh sách này vào prompt để AI chọn topic khi tạo thẻ mới
 # - scripts/tag_topics.py (gắn/sửa tag hàng loạt) và scripts/build_subdecks.py (dựng cây deck)
@@ -150,3 +155,79 @@ def topics_prompt_block():
     """Danh sách chủ đề dạng text để nhét vào system prompt của AI."""
     lines = [f"- {slug}: {desc}" for slug, desc in TOPICS.items()]
     return "\n".join(lines)
+
+
+# ==============================================================================
+# --- PHẦN 2: TỪ LOẠI (ô `PoS` mặt trước / `PoSFull` mặt sau thẻ) ---
+#
+# 🔴 VÌ SAO CÓ BẢNG NÀY (01/09/2026, QD-41). OpenRussian trả thẳng chữ `"other"`
+# cho 93/1290 thẻ — trạng từ, giới từ, liên từ, trợ từ dồn chung một rọ. Badge in
+# ra chữ `oth`, tức là **mặt thẻ có một ô mà không dạy gì**; 12 file lô kho đã
+# phải viết tay câu "PoS = oth nên badge vô dụng, phải tự ghi từ loại".
+#
+# Đã ĐO ba đường trước khi chọn (01/09/2026):
+#  · Hỏi lại OpenRussian: VÔ ÍCH. 74/93 vẫn trả "other", và nó trả SAI 2 từ —
+#    `тут` ("ở đây") và `справа` ("bên phải") nó bảo là DANH TỪ.
+#  · Chép bảng tra viết tay 93 từ vào repo: chạy được, nhưng chỉ cứu 93 từ đã
+#    biết; từ mới gõ vào ngày mai lại ra "other".
+#  · AI xếp (đường đã chọn): đo trên đúng 93 từ đó, khớp 89/93 với bảng xếp tay.
+#    4 chỗ lệch đều là từ mang HAI từ loại (`всё` đại từ/trạng từ, `пока`
+#    thán từ/liên từ) — chỗ mà bản thân các nhà ngữ pháp cũng chia hai phe.
+#
+# 🔴 KHÔNG có mã "other"/"unknown" trong bảng này, CỐ Ý — cùng lý lẽ với QD-38:
+# một rọ chứa "phần còn lại" làm thẻ TRÔNG NHƯ đã phân loại xong nên không ai đi
+# tìm lại. `normalize_pos()` trả None; ô PoS để TRỐNG thì nhìn là thấy ngay.
+# ==============================================================================
+
+# mã ngắn (mặt TRƯỚC thẻ) -> (tên đầy đủ mặt SAU, mô tả cho prompt AI).
+# 🔴 Tên đầy đủ phải GIỮ NGUYÊN VĂN: 1197 thẻ có sẵn đang ghi đúng 6 chữ
+# noun/verb/adjective/adverb/numeral/pronoun (đo 01/09/2026). Đổi chữ ở đây mà
+# không chạy lại `scripts/backfill_badge.py` là kho lẫn hai cách gọi cùng một thứ.
+TU_LOAI = {
+    "n": ("noun", "noun (существительное)"),
+    "v": ("verb", "verb (глагол)"),
+    "adj": ("adjective", "adjective (прилагательное)"),
+    "adv": ("adverb", "adverb (наречие) — including pronominal adverbs: там, где, когда, почему"),
+    "num": ("numeral", "numeral (числительное)"),
+    "pron": ("pronoun", "pronoun (местоимение) — это, все, ничего, я, кто"),
+    "prep": ("preposition", "preposition (предлог) — в, на, до, для, через"),
+    "conj": ("conjunction", "conjunction (союз) — и, но, или, чтобы, хотя"),
+    "part": ("particle", "particle (частица) — не, ни, вот, пусть, да, нет, только"),
+    "pred": ("predicative", "impersonal predicative (предикатив, категория состояния) — нельзя, надо, жаль"),
+    "interj": ("interjection", "interjection (междометие) — ой, ах, здравствуйте"),
+}
+
+# Tên OpenRussian trả về / tên cũ -> mã ngắn. Nguồn viết đủ chữ ("preposition"),
+# thẻ lưu mã ngắn ("prep"), nên phải dịch. Nhận cả hai chiều để người gọi khỏi
+# phải nhớ mình đang cầm loại nào.
+_POS_ALIASES = {ten_du: ma for ma, (ten_du, _mo_ta) in TU_LOAI.items()}
+_POS_ALIASES.update({
+    "particuple": "adj",     # OpenRussian gõ nhầm "participle" ở vài mục
+    "participle": "adj",
+    "numeral": "num", "number": "num",
+    "conjunction": "conj", "preposition": "prep", "interjection": "interj",
+    "predicative": "pred", "particle": "part",
+})
+
+
+def normalize_pos(value):
+    """Chuẩn hoá từ loại (mã ngắn HOẶC tên đầy đủ) -> mã ngắn trong TU_LOAI.
+
+    🔴 Trả về **None** khi không xếp được — KHÔNG ép về "other" (xem khối comment
+    trên). Người gọi phải để ô PoS TRỐNG, đừng ghép chuỗi thẳng."""
+    if not isinstance(value, str):
+        return None
+    ma = value.strip().lower()
+    ma = _POS_ALIASES.get(ma, ma)
+    return ma if ma in TU_LOAI else None
+
+
+def pos_full(value):
+    """mã ngắn -> tên đầy đủ cho ô `PoSFull` ('adv' -> 'adverb'). None nếu không xếp được."""
+    ma = normalize_pos(value)
+    return TU_LOAI[ma][0] if ma else None
+
+
+def pos_prompt_block():
+    """Danh sách từ loại dạng text để nhét vào system prompt của AI."""
+    return "\n".join(f"- {ma}: {mo_ta}" for ma, (_ten, mo_ta) in TU_LOAI.items())

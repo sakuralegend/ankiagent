@@ -15,7 +15,7 @@ import requests
 from . import grammar
 from .chu_nga import nfc
 from .config import ANKI_CONNECT_URL, MODEL_NAME, STAGE1_DECK
-from .topics import TOPIC_TAG_PREFIX, topic_tag
+from .topics import TOPIC_TAG_PREFIX, topic_tag, pos_full as ten_pos_day_du
 from .utils import log_warn, log_fail, strip_accents_perfectly, hl_to_bracket
 from .html_builder import (
     build_examples_html,
@@ -90,11 +90,22 @@ def build_card_fields(word, data):
     for m in data["english_meanings"]: meaning_html += f"<li>{m}</li>"
     meaning_html += "</ol>"
 
-    examples_html, vi_meaning, simplified_examples, topic_slug = build_examples_html(
+    examples_html, vi_meaning, simplified_examples, topic_slug, pos_ai = build_examples_html(
         clean_word,
         data.get("raw_dictionary_examples", []),
         data.get("english_meanings", [])
     )
+
+    # 🔴 TỪ LOẠI: nguồn trước, AI VÁ CHỖ NGUỒN BỎ TRỐNG (QD-41). OpenRussian trả
+    # thẳng "other" cho 93/1290 thẻ (trạng từ, giới từ, liên từ, trợ từ dồn một
+    # rọ) — `scraper` đã đổi rọ đó thành RỖNG, và đây là chỗ lấp.
+    # Vì sao lấp ở ĐÂY chứ không gọi AI riêng: lượt AI ngay trên đằng nào cũng
+    # chạy cho MỌI thẻ mới VÀ mọi lần /sua, nên từ loại đi nhờ là 0 request thêm.
+    # Và vì `/sua` chui qua đúng hàm này, 93 thẻ vá xong KHÔNG bị lật ngược.
+    # Nguồn nói được thì tin nguồn: nó biết chắc `noun`/`verb`, AI chỉ đoán.
+    if not pos_clean and pos_ai:
+        pos_clean = pos_ai
+        pos_full = ten_pos_day_du(pos_ai) or ""
 
     fields = {
         "Word": data["word"], "WordClean": clean_word, "Meaning": meaning_html,

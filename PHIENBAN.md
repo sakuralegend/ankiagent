@@ -32,6 +32,7 @@
   của `наре́зать` (thái xong) — hai từ khác nhau, viết giống hệt, chỉ khác chỗ nhấn giọng. Máy trước
   đây tìm thẻ bằng cách bỏ dấu nhấn nên coi chúng là một rồi ghi đè lẫn nhau. Đã sửa thẻ đó và
   bịt đường gây lỗi — từ điển có 156 cặp kiểu này, 22 cặp nằm trong danh sách từ bạn sắp học.
+- 🏷️ **Ô "loại từ" trên thẻ hết hiện chữ `other`.** 93 thẻ — toàn từ hay dùng như `там`, `в`, `и`, `не`, `ой` — mặt sau chỉ ghi "other", tức là có một ô mà không dạy gì. Nguyên nhân: từ điển nguồn gom trạng từ, giới từ, liên từ, trợ từ vào chung một rọ tên "other". Giờ mỗi thẻ ghi đúng loại của nó (`adverb`, `preposition`, `conjunction`, `particle`, `pronoun`, `predicative`, `interjection`), và thẻ mới thêm từ nay cũng vậy.
 
 ## v2.0.0 — 23/08/2026
 
@@ -51,14 +52,3 @@
   số nhiều, 17 thẻ chi phối. Lịch ôn của từng thẻ giữ nguyên như cũ.
 
 ---
-
-## v1.0.6 — 12/08/2026
-
-- ⚡ **Sửa đúng cái bạn báo: thêm từ bỗng chậm hẳn, có lúc 12-13 giây.** Không phải tại model
-  mới như bạn nghi. Thỉnh thoảng AI trả lời sai vài dấu câu, bot đọc không ra nên **tưởng AI
-  hỏng và hỏi lại từ đầu 2-3 lần** — mỗi lần hỏi lại tốn thêm mấy giây, có ca tốn tới 26 giây
-  cho một từ. Nay bot **bắt AI trả lời đúng khuôn ngay từ đầu**, không còn cửa cho kiểu hỏng
-  này. Đo lại trên máy chủ: 20 từ liền, **không từ nào phải hỏi lại**, mỗi từ khoảng 5-6 giây.
-- 🔍 **Chuyện đáng nói: model bạn tưởng đã đổi thì thật ra chưa bao giờ đổi.** Máy chủ có một
-  cài đặt riêng đè lên, vẫn giữ model cũ suốt từ 06/08. Nay đã sửa cho khớp, và **bot tự khai
-  model nó đang chạy mỗi lần khởi động** để lần sau không ai phải đoán nữa.

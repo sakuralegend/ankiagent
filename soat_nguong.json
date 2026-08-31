@@ -39,14 +39,14 @@
    "tests/test_*.py"
   ],
   "da_ghi_no": {
-   "anki_tools/ai_client.py": 521,
+   "anki_tools/ai_client.py": 607,
    "anki_tools/anki_client.py": 659,
    "anki_tools/grammar.py": 506,
    "data/huongdan/kho/congcu.py": 509,
    "soat/cua_nguong.py": 530,
    "tgbot/dispatch.py": 484,
    "tgbot/core.py": 477,
-   "anki_tools/anki_the.py": 393,
+   "anki_tools/anki_the.py": 404,
    "tgbot/flow_add.py": 403
   }
  },

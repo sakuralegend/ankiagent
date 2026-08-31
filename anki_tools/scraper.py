@@ -6,6 +6,7 @@
 # chọn hai mục khác nhau cho cùng một từ.
 # ==============================================================================
 from . import grammar
+from .topics import normalize_pos, pos_full as ten_pos_day_du
 from .utils import log_fail, convert_stress_to_combining_accent
 
 
@@ -31,9 +32,14 @@ def process_pure_next_data(word, chon_id=None):
             log_fail(f"Từ '{clean_word}' không tồn tại trên OpenRussian.")
             return None
 
-        pos_full = main_word_obj.get("type", "unknown")
-        pos_short_map = {"noun": "n", "adjective": "adj", "verb": "v", "adverb": "adv", "pronoun": "pron", "conjunction": "conj"}
-        pos_short = pos_short_map.get(pos_full, pos_full[:3] if pos_full else "unk")
+        # TỪ LOẠI. Bảng dịch tên -> mã ngắn ở `topics.TU_LOAI` (nguồn chân lý).
+        # 🔴 Chỗ này TỪNG cắt 3 chữ cái đầu khi không có trong bảng, và chính nó
+        # đẻ ra 93 thẻ mang badge `oth` (nguồn trả "other") — badge in ra một ô
+        # không dạy gì. Cắt cụt còn sắp biến "preposition" thành `pre`, tức là
+        # kho có hai tên cho một thứ. Nay: không xếp được thì để RỖNG, và AI ở
+        # `build_examples_html` xếp hộ (QD-41). Rỗng thì nhìn thấy, `oth` thì không.
+        pos_short = normalize_pos(main_word_obj.get("type", "")) or ""
+        pos_full = ten_pos_day_du(pos_short) or ""
 
         gender_code = main_word_obj.get("gender")
         if not gender_code and isinstance(main_word_obj.get("noun"), dict):

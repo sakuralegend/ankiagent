@@ -25,6 +25,10 @@ import unittest.mock
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from anki_tools import grammar, soat_nguphap                         # noqa: E402
+from anki_tools import ai_client                                     # noqa: E402
+from anki_tools.html_builder import build_examples_html              # noqa: E402
+from anki_tools.topics import (TU_LOAI, normalize_pos,               # noqa: E402
+                               pos_full)
 from anki_tools.html_builder import (_build_example_block,           # noqa: E402
                                      parse_examples_html)
 from anki_tools.utils import (apply_hl, hl_to_bracket,               # noqa: E402
@@ -1341,6 +1345,79 @@ class BoChonTuMoiPhaiLocDuBaNhom(unittest.TestCase):
         fa = self._mod()
         tat_ca = {w for w, _m in fa.chon_tu_moi(set(), set(), 99999)}
         self.assertEqual(fa.chon_tu_moi(tat_ca, set(), 10), [])
+
+
+class TuLoaiKhongCoRoRac(unittest.TestCase):
+    """BUG GỐC (01/09/2026, QD-41): 93/1290 thẻ mang badge `oth` — OpenRussian trả
+    thẳng chữ "other" cho trạng từ/giới từ/liên từ/trợ từ, và `scraper` CẮT 3 CHỮ
+    CÁI ĐẦU của mọi tên lạ. Mặt thẻ có một ô mà không dạy gì.
+
+    Cắt-3-chữ còn là bom hẹn giờ thứ hai: nguồn có trả đúng "preposition" thì nó
+    cũng thành `pre`, tức kho mang HAI tên cho một thứ mà không ai báo."""
+
+    def test_other_KHONG_BAO_GIO_thanh_mot_ma_hop_le(self):
+        """Rọ rác không được sống lại dưới bất kỳ chính tả nào."""
+        for rac in ("other", "oth", "unknown", "unk", "", "   ", None, 123, "pre"):
+            self.assertIsNone(normalize_pos(rac), f"{rac!r} phải là 'chưa xếp được'")
+            self.assertIsNone(pos_full(rac), f"{rac!r} không được có tên đầy đủ")
+        self.assertNotIn("other", TU_LOAI, "bảng mọc lại rọ 'phần còn lại' (QD-38, QD-41)")
+
+    def test_sau_ma_cu_giu_DUNG_ten_1197_the_dang_ghi(self):
+        """Đo trên kho thật 01/09/2026. Đổi chữ ở đây mà không chạy lại
+        `scripts/backfill_badge.py` là kho lẫn hai cách gọi cùng một từ loại."""
+        for ma, ten in (("n", "noun"), ("v", "verb"), ("adj", "adjective"),
+                        ("adv", "adverb"), ("num", "numeral"), ("pron", "pronoun")):
+            self.assertEqual(pos_full(ma), ten)
+
+    def test_ten_day_du_va_ma_ngan_la_song_anh_MOT_DOI_MOT(self):
+        """Hai mã cùng một tên đầy đủ = badge mặt sau nhập nhằng, không cách nào
+        biết thẻ đang nói mã nào."""
+        ten = [t for t, _mo_ta in TU_LOAI.values()]
+        self.assertEqual(len(ten), len(set(ten)), f"tên đầy đủ bị trùng: {ten}")
+        for ma in TU_LOAI:
+            self.assertEqual(normalize_pos(pos_full(ma)), ma, f"{ma} đi vòng không về chỗ cũ")
+
+    def test_MOI_nhanh_build_examples_html_tra_du_5_o(self):
+        """🔴 Đây là ca IM LẶNG. `build_examples_html` có 4 nhánh thoát; ba nhánh
+        chỉ chạy khi AI hỏng nên chạy tay không bao giờ gặp. Nhánh nào quên `pos`
+        thì `build_card_fields` vỡ lúc gỡ tuple — đúng lúc AI đang hỏng, tức lúc
+        tệ nhất. Bịt bằng cách ép cả bốn nhánh cùng đi qua đây."""
+        goc = "anki_tools.html_builder."
+        raw = [{"ru": "Он там.", "en": "He is there."}]
+        du = {"vietnamese_meaning": "ở đó", "topic": "places::position", "pos": "adv",
+              "simplified_examples": [{"ru": "Он там.", "en": "He is there.", "vi": "Anh ấy ở đó."}] * 3}
+
+        # nhanh 1: AI rewrite chay ngon
+        with unittest.mock.patch(goc + "call_claude_ai", return_value=du):
+            ra = build_examples_html("там", raw, ["there"])
+        self.assertEqual(len(ra), 5)
+        self.assertEqual(ra[4], "adv", "nhánh AI rewrite nuốt mất từ loại")
+
+        # nhanh 2: rewrite truot -> freestyle do
+        with unittest.mock.patch(goc + "call_claude_ai", return_value=None), \
+             unittest.mock.patch(goc + "call_claude_ai_freestyle", return_value=du):
+            ra = build_examples_html("там", raw, ["there"])
+        self.assertEqual(len(ra), 5)
+        self.assertEqual(ra[4], "adv", "nhánh freestyle nuốt mất từ loại")
+
+        # nhanh 3: ca hai truot, con vi du tho
+        with unittest.mock.patch(goc + "call_claude_ai", return_value=None), \
+             unittest.mock.patch(goc + "call_claude_ai_freestyle", return_value=None):
+            ra = build_examples_html("там", raw, ["there"])
+        self.assertEqual(len(ra), 5)
+        self.assertIsNone(ra[4], "không có AI thì phải là 'chưa xếp được', đừng bịa")
+
+        # nhanh 4: trang tay
+        with unittest.mock.patch(goc + "call_claude_ai_freestyle", return_value=None):
+            ra = build_examples_html("там", [], ["there"])
+        self.assertEqual(len(ra), 5)
+        self.assertIsNone(ra[4])
+
+    def test_the_ngu_phap_KHONG_bi_hoi_tu_loai(self):
+        """Model thẻ số nhiều không có ô từ loại — ép nó trả `pos` là bắt model
+        bịa ra một field không ai đọc (cùng lý lẽ đã bỏ `topic` khỏi khuôn đó)."""
+        self.assertNotIn("pos", ai_client._KHUON_THE_KHONG_TOPIC["properties"])
+        self.assertIn("pos", ai_client._KHUON_THE["properties"])
 
 
 if __name__ == "__main__":

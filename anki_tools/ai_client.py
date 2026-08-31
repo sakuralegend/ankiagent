@@ -10,7 +10,8 @@ import time
 import requests
 
 from .config import CLAUDE_API_URL, CLAUDE_API_KEY, CLAUDE_MODEL, CLAUDE_FALLBACK_MODELS
-from .topics import TOPICS, normalize_topic, topics_prompt_block
+from .topics import (TOPICS, normalize_topic, topics_prompt_block,
+                     normalize_pos, pos_prompt_block)
 from .utils import log_fail, log_warn
 
 _FEWSHOT_EXAMPLES = [
@@ -19,7 +20,7 @@ _FEWSHOT_EXAMPLES = [
     (
         "adjective",
         "хороший",
-        '{"vietnamese_meaning": "tốt, ngon, hay", "topic": "qualities", "simplified_examples": ['
+        '{"vietnamese_meaning": "tốt, ngon, hay", "topic": "qualities", "pos": "adj", "simplified_examples": ['
         '{"ru": "У нас <hl>хорошая</hl> погода, пойдём гулять?", "en": "The weather\'s <hl>nice</hl>, wanna go for a walk?", "vi": "Trời <hl>đẹp</hl> quá, đi dạo không?"},'
         '{"ru": "Ты молодец, получилось <hl>лучше</hl>, чем в прошлый раз.", "en": "Nice job, that turned out <hl>better</hl> than last time.", "vi": "Giỏi lắm, lần này làm <hl>tốt hơn</hl> lần trước đó."}'
         ']}'
@@ -27,7 +28,7 @@ _FEWSHOT_EXAMPLES = [
     (
         "verb",
         "говорить",
-        '{"vietnamese_meaning": "nói, trò chuyện", "topic": "actions", "simplified_examples": ['
+        '{"vietnamese_meaning": "nói, trò chuyện", "topic": "actions", "pos": "v", "simplified_examples": ['
         '{"ru": "Она <hl>говорит</hl> по-английски свободно.", "en": "She <hl>speaks</hl> English fluently.", "vi": "Cô ấy <hl>nói</hl> tiếng Anh lưu loát lắm."},'
         '{"ru": "Прости, я не то <hl>сказал</hl>, не обижайся.", "en": "Sorry, I didn\'t mean what I <hl>said</hl>, don\'t be mad.", "vi": "Xin lỗi, tại tớ lỡ lời, đừng giận nha."}'
         ']}'
@@ -53,9 +54,15 @@ _CORE_SYSTEM_PROMPT = (
     "3) Translate each sentence naturally (meaning-for-meaning, not word-for-word) into English and Vietnamese. "
     "4) Classify the target word into EXACTLY ONE topic slug from the TOPIC LIST below, "
     "based on the word's most common meaning. Use ONLY a slug from that list; if the word "
-    "genuinely fits none of them, return null — never force a loose fit.\n\n"
+    "genuinely fits none of them, return null — never force a loose fit. "
+    "5) Give the target word's PART OF SPEECH as one code from the PART OF SPEECH LIST "
+    "below. If the word belongs to two classes (когда = adverb + conjunction), return the "
+    "PRIMARY one only — the one matching the meaning this card teaches. Use ONLY a code "
+    "from that list; if you genuinely cannot tell, return null. Never invent 'other'.\n\n"
     "TOPIC LIST:\n"
     f"{topics_prompt_block()}\n\n"
+    "PART OF SPEECH LIST:\n"
+    f"{pos_prompt_block()}\n\n"
     "HIGHLIGHT RULE: wrap the target word AND any of its grammatical forms (conjugated, declined, plural, "
     "comparative, short form, etc.) with <hl>...</hl> in the ru, en, AND vi sentence — only the word itself, "
     "never the whole sentence. Every sentence MUST have a highlighted word in ALL THREE languages: if a fully "
@@ -66,7 +73,7 @@ _CORE_SYSTEM_PROMPT = (
     "exactly 3 sentences in simplified_examples:\n\n"
     f"{_build_fewshot_block()}\n\n"
     "Return ONLY a valid JSON object, no markdown, no commentary, matching this schema:\n"
-    '{"vietnamese_meaning": "...", "topic": "...", "simplified_examples": '
+    '{"vietnamese_meaning": "...", "topic": "...", "pos": "...", "simplified_examples": '
     '[{"ru": "...","en": "...","vi": "..."},{"ru": "...","en": "...","vi": "..."},{"ru": "...","en": "...","vi": "..."}]}'
 )
 
@@ -94,6 +101,11 @@ _KHUON_THE = {
         "vietnamese_meaning": {"type": "string"},
         # null hợp lệ: "chưa xếp được chủ đề" phải nói ra được, ép string là ép bịa (QD-38)
         "topic": {"type": ["string", "null"]},
+        # Từ loại: null cũng hợp lệ, cùng lý lẽ. Hỏi Ở ĐÂY chứ không gọi riêng
+        # một lượt — lượt này đằng nào cũng chạy cho mọi thẻ MỚI và mọi lần
+        # /sua, nên từ loại đi nhờ là 0 request thêm. Nhờ vậy /sua không lật
+        # ngược 93 thẻ vừa vá về badge rỗng (QD-41).
+        "pos": {"type": ["string", "null"]},
         "simplified_examples": {
             "type": "array", "minItems": 3, "maxItems": 3,
             "items": {
@@ -104,15 +116,18 @@ _KHUON_THE = {
             },
         },
     },
-    "required": ["vietnamese_meaning", "topic", "simplified_examples"],
+    "required": ["vietnamese_meaning", "topic", "pos", "simplified_examples"],
 }
 
 # Mảng thẻ ngữ pháp (`grammar_forms/ai.py`) dùng CÙNG hình dạng nhưng KHÔNG hỏi
 # chủ đề — ép `topic` ở đó chỉ tổ bắt model bịa ra một field không ai đọc.
+# `pos` bỏ theo, y một lý do: model thẻ ngữ pháp không có ô từ loại.
+_BO_O_THE_NGU_PHAP = ("topic", "pos")
 _KHUON_THE_KHONG_TOPIC = {
     "type": "object",
-    "properties": {k: v for k, v in _KHUON_THE["properties"].items() if k != "topic"},
-    "required": [k for k in _KHUON_THE["required"] if k != "topic"],
+    "properties": {k: v for k, v in _KHUON_THE["properties"].items()
+                   if k not in _BO_O_THE_NGU_PHAP},
+    "required": [k for k in _KHUON_THE["required"] if k not in _BO_O_THE_NGU_PHAP],
 }
 
 _KHUON_LEMMA = {
@@ -123,6 +138,24 @@ _KHUON_LEMMA = {
         "alternatives": {"type": "array", "maxItems": 2, "items": {"type": "string"}},
     },
     "required": ["lemma", "reason_vi", "alternatives"],
+}
+
+_KHUON_POS = {
+    "type": "object",
+    "properties": {
+        "ket_qua": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                # null hợp lệ, y như `topic`: "chưa xếp được" là câu trả lời THẬT,
+                # không phải lỗi. Ép buộc string là ép AI bịa (QD-38, QD-41).
+                "properties": {"tu": {"type": "string"},
+                               "pos": {"type": ["string", "null"]}},
+                "required": ["tu", "pos"],
+            },
+        }
+    },
+    "required": ["ket_qua"],
 }
 
 _KHUON_TOPIC = {
@@ -220,10 +253,14 @@ def _validate_ai_result(parsed):
     # (luồng refine /sua không dùng topic nên cũng vô hại). None = thẻ ra đời KHÔNG
     # có tag chủ đề, `/thongke` đếm nó vào "chưa có tag" — cố ý, xem QD-38: trước
     # đây chỗ này ép về `concepts::misc` nên thẻ hỏng trông như thẻ đã phân loại.
+    # `pos` cũng là trường PHỤ và cũng None-được, cùng lý lẽ với `topic`: thẻ ra
+    # đời KHÔNG có từ loại thì badge TRỐNG, nhìn là thấy thiếu. Ép về "other" là
+    # đúng cái bẫy vừa phải dọn 93 thẻ (QD-41).
     return {
         "vietnamese_meaning": vi_meaning.strip(),
         "simplified_examples": cleaned,
         "topic": normalize_topic(parsed.get("topic")),
+        "pos": normalize_pos(parsed.get("pos")),
     }
 
 
@@ -493,6 +530,55 @@ def call_claude_topic(cac_tu):
     for muc in parsed.get("ket_qua") or []:
         if isinstance(muc, dict) and muc.get("tu") in ra:
             ra[muc["tu"]] = normalize_topic(muc.get("topic"))
+    return ra
+
+
+def call_claude_pos(cac_tu, co_lo=25):
+    """Xếp TỪ LOẠI cho một danh sách từ — dùng bởi `scripts/backfill_badge.py`.
+
+    `cac_tu`: list các cặp (từ Nga, nghĩa tiếng Anh). Trả về dict {từ: mã ngắn};
+    mã là None khi AI không xếp được — người gọi PHẢI để ô PoS TRỐNG, đừng ép về
+    "other". Danh sách mã hợp lệ ở `topics.TU_LOAI`, và ở đó CỐ Ý không có
+    "other"/"unknown" (QD-41): một rọ chứa "phần còn lại" làm thẻ TRÔNG NHƯ đã
+    xếp xong nên không ai đi tìm lại — đúng cái bẫy đã phải dọn 93 thẻ.
+
+    🔴 Hàm này TỰ CHIA LÔ, khác `call_claude_topic()` (bắt người gọi tự chia).
+    Vì sao lệch: vòng chia lô ở `tag_topics.py` dài ~10 dòng, chép sang
+    `backfill_badge.py` là dựng bản thứ hai của cùng một vòng — đúng bệnh
+    "10 wrapper AnkiConnect" repo đã trả học phí. Cỡ lô 25 lấy y `tag_topics.CO_LO`:
+    to hơn thì model bắt đầu trả thiếu mục, phải gọi lại, mất luôn cái vừa tiết kiệm.
+    """
+    ra = {w: None for w, _en in cac_tu}
+    if not cac_tu:
+        return ra
+    system_prompt = (
+        "You are a Russian linguist. Classify each Russian word into EXACTLY ONE "
+        "part-of-speech code from this list:\n"
+        f"{pos_prompt_block()}\n\n"
+        "Rules: use ONLY codes from the list above. If a word belongs to two classes "
+        "(когда = adverb + conjunction), return the PRIMARY one — the one matching the "
+        "meaning given for that word. If you genuinely cannot tell, return null for that "
+        "word; never invent 'other' or 'unknown'.\n"
+        'Return ONLY valid JSON, no markdown: '
+        '{"ket_qua": [{"tu": "...", "pos": "..." or null}, ...]} '
+        "with one entry per input word, in the same order."
+    )
+    for i in range(0, len(cac_tu), co_lo):
+        lo = cac_tu[i:i + co_lo]
+        dong = [f'{j + 1}. [{w}] = {en or "N/A"}' for j, (w, en) in enumerate(lo)]
+        user_prompt = ("Classify these words:\n" + "\n".join(dong)
+                       + "\n\nReturn ONLY the JSON.")
+        raw_response = _send_ai_request(system_prompt, user_prompt, khuon=_KHUON_POS)
+        if not raw_response:
+            log_warn(f"AI khong tra loi lo tu loai {i}-{i + len(lo)} — de trong, chay lai sau")
+            continue
+        parsed = _parse_ai_response(raw_response)
+        if not isinstance(parsed, dict):
+            log_warn(f"AI tra JSON hong o lo tu loai {i}-{i + len(lo)} — de trong")
+            continue
+        for muc in parsed.get("ket_qua") or []:
+            if isinstance(muc, dict) and muc.get("tu") in ra:
+                ra[muc["tu"]] = normalize_pos(muc.get("pos"))
     return ra
 
 
