@@ -207,7 +207,7 @@ def _duplicate_text_and_keyboard(pending):
 SO_TU_MOI = 10
 _BAN_CHUP = os.path.join(_GOC, "data", "rosedu_muc.json")
 # Trạng thái CHẠY, không phải dữ liệu -> gốc repo + gitignore, đi đúng nếp
-# `last_deck.json` / `suadeck_resume.json`: sống trên máy chạy bot, không lên git.
+# `last_deck.json`: sống trên máy chạy bot, không lên git.
 BO_QUA_FILE = os.path.join(_GOC, "tumoi_bo_qua.json")
 TEN_MUC = {1: "A1", 2: "A2", 3: "B1", 4: "B2"}
 

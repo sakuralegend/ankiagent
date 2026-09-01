@@ -36,7 +36,7 @@ from .anki_client import (
 #   1. `HuongDan` — làm lại thì GIỮ phần chữ, chỉ thay bảng chia. Đó là phần
 #      soạn tay qua Claude (README §2), máy không dựng lại được.
 #   2. `Stage` + deck + note_id — làm lại thì KHÔNG đụng, để giữ tiến trình học.
-#   3. `Audio` — làm lại chỉ tải khi thẻ ĐANG THIẾU tiếng, vì `/suadeck` chạy cả
+#   3. `Audio` — làm lại chỉ tải khi thẻ ĐANG THIẾU tiếng, vì sửa hàng loạt chạy cả
 #      deck mà tải lại toàn bộ audio là vô ích và rất chậm.
 # Thêm chỗ khác thứ tư thì phải ghi vào danh sách này, đừng để nó lặng lẽ trôi.
 
@@ -118,7 +118,7 @@ def redo_note_id(note_id, do_sync=False, chon_id=None):
     Cào lại OpenRussian + AI sinh lại nghĩa/ví dụ y như lúc thêm thẻ MỚI, rồi GHI
     ĐÈ lên đúng note đó (giữ note_id -> tiến trình học không đổi). Cũng làm mới
     tag chủ đề, và vá audio nếu thẻ đang thiếu tiếng.
-    Dùng chung cho /sua (1 thẻ) và /suadeck (cả deck).
+    Dùng cho /sua (1 thẻ) và các script sửa hàng loạt.
 
     Trả về (success, result, error_msg).
     - success=True  -> result = {"word","vi","examples","ai_degraded","topic",

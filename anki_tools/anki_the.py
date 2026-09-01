@@ -82,7 +82,7 @@ def build_card_fields(word, data):
         grammar.remember(clean_word, grammar_rec, ghi_the=False)
     gender_badge_html = (grammar.gender_badge_html(clean_word, gender_lower, grammar_rec)
                          if pos_clean in ("n", "noun") else "")
-    aspect_badge_html = grammar.aspect_badge_html(data.get("aspect", ""))
+    aspect_badge_html = grammar.aspect_badge_html(data.get("aspect", ""), clean_word)
     reflexive_badge_html = grammar.reflexive_badge_html(data.get("reflexive"))
     gender_label = re.sub(r"<[^>]+>", "", gender_badge_html)
 

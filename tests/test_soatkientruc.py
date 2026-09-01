@@ -219,6 +219,31 @@ class TestSoatKienTruc(unittest.TestCase):
         self.ghi("tgbot/no.py", "x = 1\n" * 431)
         self.assertEqual([ph.khoa for ph in cua_nguong.s13_tran_dong_code()], ["tgbot/no.py"])
 
+    def test_s13_moc_dang_dict_va_IN_RA_VI_SAO(self):
+        """QD-44: nợ trần dòng chỉ còn MỘT sổ (`da_ghi_no`), và lý do phải bật ra
+        ĐÚNG LÚC ai đó chạm trần — không phải lúc họ nghĩ ra đi lục sổ.
+        Trước 01/09 lời báo lỗi bảo ghi thêm `SONO.md`, trong khi chân trang
+        `SONO.md` CẤM ghi số trần vào đó; 8/12 dòng sổ nợ ra đời từ mâu thuẫn ấy."""
+        self._nguong_gia(dong_py={"da_ghi_no": {
+            "tgbot/no.py": {"so": 430, "vi_sao": "nhan 2 ham dung chung, code DOI chu khong de"}}})
+        self.ghi("tgbot/no.py", "x = 1\n" * 420)
+        self.assertEqual(cua_nguong.s13_tran_dong_code(), [], "duoi moc thi phai im")
+        self.ghi("tgbot/no.py", "x = 1\n" * 431)
+        ra = cua_nguong.s13_tran_dong_code()
+        self.assertEqual([ph.khoa for ph in ra], ["tgbot/no.py"])
+        self.assertIn("code DOI chu khong de", ra[0].mo_ta,
+                      "cham tran ma khong thay VI SAO thi doi sau khong dam tra no")
+
+    def test_s13_chua_khai_thi_KHONG_bao_ghi_SONO(self):
+        """Lời báo lỗi từng bảo 'ghi SONO.md + moc vao da_ghi_no' — chính câu đó
+        đẻ ra sổ thứ hai. Nay chỉ được trỏ về MỘT chỗ."""
+        self._nguong_gia(dong_py={"da_ghi_no": {}})
+        self.ghi("tgbot/to.py", "x = 1\n" * 401)
+        ra = cua_nguong.s13_tran_dong_code()
+        self.assertEqual([ph.khoa for ph in ra], ["tgbot/to.py"])
+        self.assertIn("da_ghi_no", ra[0].mo_ta)
+        self.assertNotIn("ghi SONO.md", ra[0].mo_ta)
+
     def test_s13_vuot_tran_tach_la_do_ke_ca_co_moc(self):
         self._nguong_gia(dong_py={"da_ghi_no": {"tgbot/qua.py": 999}})
         self.ghi("tgbot/qua.py", "x = 1\n" * 701)

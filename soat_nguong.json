@@ -39,15 +39,42 @@
    "tests/test_*.py"
   ],
   "da_ghi_no": {
-   "anki_tools/ai_client.py": 607,
-   "anki_tools/anki_client.py": 659,
-   "anki_tools/grammar.py": 506,
-   "data/huongdan/kho/congcu.py": 509,
-   "soat/cua_nguong.py": 530,
-   "tgbot/dispatch.py": 484,
-   "tgbot/core.py": 477,
-   "anki_tools/anki_the.py": 404,
-   "tgbot/flow_add.py": 403
+   "anki_tools/ai_client.py": {
+    "so": 607,
+    "vi_sao": "Lô hoá call_claude_topic (xếp 1212 thẻ bằng ~49 lượt thay vì 1212); +86 hỏi thêm TỪ LOẠI ở lượt AI sẵn có + call_claude_pos() (QD-41). Cùng file vì cùng MỘT cửa gọi AI (L1)."
+   },
+   "anki_tools/anki_client.py": {
+    "so": 659,
+    "vi_sao": "Bẫy ReadTimeout trong _ac(), và cửa TỪ CHỐI ghi khi 2 thẻ trùng WordClean (QD-39). Cả hai nằm ở đường mà MỌI lệnh AnkiConnect đi qua — đặt chỗ khác là đặt chỗ không ai đọc."
+   },
+   "anki_tools/grammar.py": {
+    "so": 529,
+    "vi_sao": "+4 luồn note_id qua fetch_grammar/remember để ghi thẻ theo id thay vì tìm lại bằng tên (QD-39); +23 bảng THE_NGUON_SAI sửa thể `быть` nguồn ghi sai (QD-43) — đặt đây vì đây là chỗ DUY NHẤT cả thẻ mới lẫn script vá badge đều đi qua."
+   },
+   "data/huongdan/kho/congcu.py": {
+    "so": 509,
+    "vi_sao": "+16: `bang` đọc GrammarJSON của CHÍNH thẻ thay vì tra bộ đệm theo tên (QD-40), + giữ lời kêu 'bản ghi cũ phiên bản' mà get_cached từng kêu hộ."
+   },
+   "soat/cua_nguong.py": {
+    "so": 483,
+    "vi_sao": "Chứa toàn bộ cửa canh NGƯỠNG (S10, S12–S16, S18–S20). Tách theo từng cửa là đẻ chục file mỗi file một hàm; tách đôi thì phải cắt ngang một nhóm luật gắn nhau."
+   },
+   "tgbot/dispatch.py": {
+    "so": 394,
+    "vi_sao": "5 khối nút huỷ/dừng/xác nhận đã GOM thành bảng `_NUT_LO` 01/09 (QD-42). Còn dài vì đây là bộ chia DUY NHẤT cho mọi nút — tách ra là phải đoán nút nào về file nào."
+   },
+   "tgbot/core.py": {
+    "so": 476,
+    "vi_sao": "Nhận 2 hàm dùng chung từ flow_scan (màn duyệt + thêm loạt từ); flow_scan giảm 249->174 nên code DỜI chứ không đẻ. Tách lúc này là trộn việc."
+   },
+   "anki_tools/anki_the.py": {
+    "so": 404,
+    "vi_sao": "+96 nhom_dong_tu() nối động từ cùng gốc (QD-39); +11 lấy từ loại AI vá khi nguồn bỏ trống (QD-41). Ở đây vì cả bot lẫn dây chuyền kho đều gọi, và nó đọc note y như phần còn lại của file."
+   },
+   "tgbot/flow_add.py": {
+    "so": 403,
+    "vi_sao": "+77: dựng lại nhóm sau khi thêm động từ + màn mời thêm bạn thể (QD-39). Đúng chỗ theo luật đặt code (chỉ bot dùng); tách ra là đẻ file thứ hai cho MỘT luồng."
+   }
   }
  },
  "phienban": {

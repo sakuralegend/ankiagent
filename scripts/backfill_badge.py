@@ -28,9 +28,9 @@ Thẻ tạo từ 29/07/2026 trở đi tự có đủ ba (scraper lấy `verb.asp
 Nguồn là `data/grammar_cache.json` (đã cào sẵn cả bộ sưu tập). Từ nào chưa có
 trong cache thì gọi mạng lấy về, nên chạy được cả với thẻ mới thêm sau này.
 
-🔴 CHỪA `быть` (12/08/2026): chạy khan luôn đòi `IMPF -> BI-ASP` vì OpenRussian
-ghi `aspect=both`. Ngữ pháp chuẩn xếp `быть` là CHƯA HOÀN THÀNH, nên thẻ giữ IMPF
-là đúng — đây là chênh lệch CỐ Ý, đừng thấy nó đỏ mà "sửa" cho sạch bảng.
+`быть` được CHỪA THẬT từ 01/09/2026 — bảng `grammar.THE_NGUON_SAI` thi hành,
+không còn là lời dặn suông trong docstring này (xem QD-43). `использовать` cũng
+mang `aspect=both` nhưng KHÔNG chừa: nó là động từ hai thể thật.
 
 🔴 TRƯỚC KHI CHẠY: hai field mới phải tồn tại. Chạy `setup_anki_environment()`
 một lần (nó tự thêm qua `modelFieldAdd`). Thêm field LÀ schema mod ⇒ Anki đòi
@@ -169,7 +169,19 @@ def main():
         wc = (f.get("WordClean", {}).get("value") or "").strip()
         if not wc:
             continue
-        rec = grammar.get_cached(wc)
+        # 🔴 ĐỌC GrammarJSON CỦA CHÍNH THẺ TRƯỚC, bộ đệm theo TÊN chỉ là phao
+        # (QD-40 + QD-43). Bỏ dấu nhấn thì `нареза́ть` (đang thái, CHƯA hoàn thành)
+        # và `наре́зать` (thái xong, HOÀN THÀNH) trùng tên nhau, nên bộ đệm tra
+        # theo tên trả CÙNG một bản ghi cho hai thẻ khác thể — đo 01/09: nó trả
+        # `perfective` cho cả hai, tức sắp dán nhãn SAI lên thẻ đang đúng.
+        # GrammarJSON nằm trong chính note nên không thể lẫn sang từ khác.
+        rec = {}
+        try:
+            rec = json.loads(f.get("GrammarJSON", {}).get("value") or "{}") or {}
+        except (ValueError, TypeError):
+            rec = {}
+        if not rec:
+            rec = grammar.get_cached(wc)
         if not rec:
             rec = grammar.fetch_grammar(wc, note_id=n["noteId"])
             goi_mang += 1
@@ -181,7 +193,7 @@ def main():
             "GenderBadge": (gender_badge_wc(wc, rec,
                                             f.get("GenderBadge", {}).get("value", ""), suy_ra)
                             if la_danh_tu else ""),
-            "AspectBadge": (grammar.aspect_badge_html(rec.get("aspect"))
+            "AspectBadge": (grammar.aspect_badge_html(rec.get("aspect"), wc)
                             if la_dong_tu else ""),
             "ReflexiveBadge": (grammar.reflexive_badge_html(grammar.is_reflexive(wc, rec))
                                if la_dong_tu else ""),

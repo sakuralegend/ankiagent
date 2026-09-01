@@ -13,7 +13,7 @@ kể cả **chụp ảnh trang sách để thêm từ hàng loạt** — không 
   **duyệt** rồi bot mới thêm (bot không bao giờ tự thêm).
 - **📥 Inbox + cây deck theo chủ đề**: từ mới gom một chỗ để học; thẻ tốt nghiệp learning thì tự
   chuyển về deck chủ đề theo tag.
-- **🔄 Làm lại thẻ** (`/sua`, `/suadeck`): cào lại + AI sinh lại, **giữ nguyên tiến trình học**.
+- **🔄 Làm lại thẻ** (`/sua`): cào lại + AI sinh lại, **giữ nguyên tiến trình học**.
 - **⭐ Thẻ ngữ pháp** (`/dacbiet`): mảng thứ hai, tách hẳn — dạng số nhiều bất quy tắc, model riêng.
 - **📖 Field hướng dẫn**: mỗi thẻ có phần chẻ gốc từ · cách nhớ · họ hàng, soạn theo lô có chuẩn
   và có cửa soát bằng máy.

@@ -298,8 +298,31 @@ NHAN_THE = {"perfective": ("pf", "PERF"),
 NHAN_PHAN_THAN = "REF"
 
 
-def aspect_badge_html(aspect):
-    """'perfective' -> HTML badge. Chuỗi rỗng nếu không phải động từ / không rõ."""
+# Từ mà NGUỒN ghi THỂ SAI. Sửa ở đây vì đây là chỗ DUY NHẤT cả thẻ mới lẫn
+# script vá badge hàng loạt đều đi qua (QD-43, 01/09/2026).
+#
+# 🔴 Lời dặn "chừa `быть`" có từ 12/08 nhưng nằm trong DOCSTRING của
+# `scripts/backfill_badge.py`, KHÔNG có dòng code nào thi hành — nên chạy
+# `--apply` vẫn ghi đè `быть` thành BI-ASP, và `/sua быть` cũng vậy. Lời dặn
+# không ai thi hành thì không phải cơ chế, chỉ là lời hứa.
+#
+# ⚠️ `использовать` cũng bị nguồn ghi `aspect="both"` nhưng ĐÚNG — nó là động
+# từ HAI THỂ thật (двувидовой). Đừng thấy giống mà "sửa" nốt cho sạch bảng.
+# Đo 01/09: cả kho chỉ có đúng hai từ mang `both`, và chúng khác nhau về bản chất.
+THE_NGUON_SAI = {
+    # OpenRussian: "both". Ngữ pháp chuẩn xếp `быть` là CHƯA HOÀN THÀNH
+    # (несовершенный вид) — nó không có cặp hoàn thành để mà "hai thể".
+    "быть": "imperfective",
+}
+
+
+def aspect_badge_html(aspect, word=None):
+    """'perfective' -> HTML badge. Chuỗi rỗng nếu không phải động từ / không rõ.
+
+    `word` (tuỳ chọn nhưng NÊN truyền): dùng để tra `THE_NGUON_SAI`. Không truyền
+    thì badge dựng theo đúng thứ nguồn nói, kể cả khi nguồn sai."""
+    if word:
+        aspect = THE_NGUON_SAI.get(bare(word).lower(), aspect)
     nhan = NHAN_THE.get((aspect or "").strip().lower())
     if not nhan:
         return ""

@@ -18,6 +18,10 @@
 
 ---
 
+## v2.2.0 — 01/09/2026
+
+- 🗑️ **Bỏ lệnh `/suadeck` và nút "📚 Cả deck".** Nó làm lại TOÀN BỘ thẻ của một thư mục bằng một nút bấm — không xem trước, không hoàn tác, mà dữ liệu lấy về có chỗ sai. Nó sinh ra hồi thư mục còn chia theo NGÀY, ba ngày sau đã đổi sang CHỦ ĐỀ. **`/sua` (làm lại MỘT thẻ) và nút "✏️ Làm lại thẻ" giữ nguyên.**
+
 ## v2.1.0 — 27/08/2026
 
 - 🔗 **Thẻ động từ nào có 3 từ cùng gốc thì hiện cả ba, kèm nghĩa từng từ.** Trước đây thẻ

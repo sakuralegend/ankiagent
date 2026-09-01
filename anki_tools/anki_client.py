@@ -273,7 +273,7 @@ def get_deck_names():
 
 def get_deck_note_ids(deck_name):
     """Lấy note_id của TOÀN BỘ note (model của bot) trong 1 deck, gồm cả subdeck.
-    Dùng cho luồng /suadeck (sửa hàng loạt). Trả về list note_ids ([] nếu lỗi/trống)."""
+    Trả về list note_ids ([] nếu lỗi/trống)."""
     try:
         safe_deck = deck_name.replace('"', '\\"')
         query = f'deck:"{safe_deck}" note:"{MODEL_NAME}"'

@@ -38,7 +38,6 @@ HELP_TEXT = (
     "═══ KHI CẦN SỬA (nút 🛠 trong /menu) ═══\n"
     "• 🔄 /sua → làm lại 1 thẻ TỪ VỰNG (cào lại + AI + audio), giữ tiến trình học\n"
     "  (thẻ ngữ pháp thì sửa trong /dacbiet)\n"
-    "• 📚 /suadeck → làm lại toàn bộ thẻ 1 deck (có xác nhận + nút Dừng)\n"
     "• 📊 /thongke → trạng thái học (mới/đang học/trẻ/trưởng thành) TÁCH RIÊNG từng\n"
     "  kho, + phân bố theo chủ đề và cảnh báo khi cần tách deck\n"
     "• 🧹 /don → chuyển ngay thẻ tốt nghiệp từ inbox về deck chủ đề\n"
@@ -54,8 +53,8 @@ HELP_TEXT = (
 SYNC_OK_TEXT = "☁️ Đã sync AnkiWeb."
 SYNC_FAIL_TEXT = "⚠️ SYNC ANKIWEB THẤT BẠI — thay đổi mới chỉ nằm trên VPS! Thử /sync hoặc xem log."
 
-# Gốc repo (cha của thư mục tgbot/) — các file trạng thái (last_deck.json,
-# suadeck_resume.json) vẫn nằm ở đây như thời bot.py 1 file, khỏi migrate.
+# Gốc repo (cha của thư mục tgbot/) — các file trạng thái (last_deck.json)
+# vẫn nằm ở đây như thời bot.py 1 file, khỏi migrate.
 _PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -190,7 +189,6 @@ def _tools_keyboard():
     return InlineKeyboardMarkup([
         [
             InlineKeyboardButton("🔄 Làm lại 1 thẻ", callback_data="menu:sua"),
-            InlineKeyboardButton("📚 Cả deck", callback_data="menu:suadeck"),
         ],
         [
             InlineKeyboardButton("📊 Thống kê", callback_data="menu:thongke"),
@@ -237,8 +235,8 @@ async def _idle_reset_job(context, chat_id):
         user_data.pop("awaiting", None)
         user_data.pop("deck_choices", None)
         user_data.pop("lemma_choices", None)
-        # Trạng thái CHỌN dở của /suadeck và quét ảnh (batch đang CHẠY không bị
-        # ảnh hưởng: _run_suadeck/_run_scan_add tự đẩy đồng hồ idle mỗi thẻ)
+        # Trạng thái CHỌN dở của quét ảnh (batch đang CHẠY không bị ảnh hưởng:
+        # _run_scan_add tự đẩy đồng hồ idle mỗi thẻ)
         for k in ("sd_deck_choices", "sd_deck", "sd_note_ids", "scan_words", "scan_msg",
                   "sp_rows"):
             user_data.pop(k, None)
@@ -268,21 +266,20 @@ def _reset_idle_timer(context, chat_id):
 #
 # Bot có BA luồng chạy nền dài, cả ba đều ghi vào Anki, đều gọi AI và đều
 # `trigger_sync()`:
-#     `sd_*`   /suadeck   — làm lại cả deck
 #     `scan_*` quét ảnh   — thêm loạt từ đã duyệt
 #     `sp_*`   /dacbiet   — thêm loạt thẻ số nhiều
 #
 # 🔴 Trước 29/07 mỗi luồng tự kiểm một tập cờ KHÁC NHAU, và bảng kiểm chéo bị
-# thủng: `/dacbiet` kiểm cả ba · quét ảnh kiểm hai (quên `sp_`) · `/suadeck`
-# **chỉ kiểm chính nó**. Nên bấm `/suadeck` giữa lúc đang quét ảnh thì hai đợt
-# cùng ghi Anki, cùng đốt hạn mức AI, cùng sync, và hai tin nhắn tiến độ đè nhau.
+# thủng: `/dacbiet` kiểm cả ba · quét ảnh kiểm hai (quên `sp_`) · luồng làm lại
+# deck **chỉ kiểm chính nó**. Nên chạy hai đợt chồng nhau thì cùng ghi Anki,
+# cùng đốt hạn mức AI, cùng sync, và hai tin nhắn tiến độ đè nhau. (Luồng làm
+# lại deck đã xoá 01/09, QD-42 — bài học giữ lại vì cơ chế cờ vẫn đang chạy.)
 #
 # Gom về MỘT hàm để không thể thủng lại: thêm luồng nền thứ tư thì chỉ cần thêm
 # một dòng vào `_LUONG_NEN` là mọi lối vào có nó, khỏi phải nhớ đi vá ba chỗ.
 # --------------------------------------------------------------------------
 
-_LUONG_NEN = (("sd_running", "làm lại deck"),
-              ("scan_running", "thêm từ đã quét từ ảnh"),
+_LUONG_NEN = (("scan_running", "thêm từ đã quét từ ảnh"),
               ("sp_running", "thêm thẻ số nhiều"),
               ("tumoi_running", "thêm từ mới ТРКИ"))
 
@@ -308,8 +305,9 @@ async def chay_hang_loat(context, chat_id, msg, items, *, co, stop_data, lam, ti
     🔴 User chốt 29/07: *"cùng 1 chức năng chỉ có đúng 1 script nhận nhiệm vụ,
     không được có 2 cái cùng làm 1 thứ. Nếu xảy ra thì phải quy về mô hình nhiều
     tầng, cái gì làm chung thì là 1 script, khi khác nhau thì tách ra."*
-    Trước đó `_run_suadeck` (87 dòng) · `_run_scan_add` (76) · `_run_batch` (72)
-    **đều có đủ 11 bước giống hệt nhau**, và ba bản đã trôi lệch nhau thật: chỉ
+    Trước đó `_run_suadeck` (87 dòng, đã xoá cùng lệnh /suadeck) · `_run_scan_add`
+    (76) · `_run_batch` (72) **đều có đủ 11 bước giống hệt nhau**, và ba bản đã
+    trôi lệch nhau thật: chỉ
     `_run_scan_add` nghỉ TRƯỚC khi hiện tiến độ, nên user phải chờ thêm 3 giây
     mới thấy từ vừa xong.
 
@@ -317,7 +315,7 @@ async def chay_hang_loat(context, chat_id, msg, items, *, co, stop_data, lam, ti
     hiện tiến độ · nuốt lỗi `edit_text` · nghỉ chống RPM · `finally` hạ cờ.
 
     PHẦN RIÊNG (người gọi truyền vào):
-      `co`        tiền tố cờ, ví dụ "sd" -> dùng `sd_running` / `sd_stop`
+      `co`        tiền tố cờ, ví dụ "scan" -> dùng `scan_running` / `scan_stop`
       `stop_data` `callback_data` của nút ⏹ Dừng
       `lam(item)` **async**, làm việc thật với một mục. Trả `(nhan, co_nghi)`:
                   `nhan` = chữ hiện ở dòng "Vừa xong"; `co_nghi=False` khi lượt
@@ -326,8 +324,8 @@ async def chay_hang_loat(context, chat_id, msg, items, *, co, stop_data, lam, ti
       `tien_do(attempted, total, nhan)` -> chữ của tin nhắn tiến độ.
 
     Việc dựng câu TÓM TẮT CUỐI vẫn để người gọi tự làm — ba luồng tóm tắt ba kiểu
-    khác hẳn nhau (suadeck có danh sách thẻ còn dở, quét ảnh có mục "đã có thẻ
-    từ trước", số nhiều có "vá thẻ cũ"), gom vào đây là ép chung một khuôn rồi
+    khác hẳn nhau (quét ảnh có mục "đã có thẻ từ trước", số nhiều có "vá thẻ
+    cũ", từ mới có mức A1–B2), gom vào đây là ép chung một khuôn rồi
     lại phải đẻ tham số cho từng ngoại lệ.
     """
     co_run, co_stop = f"{co}_running", f"{co}_stop"
@@ -425,7 +423,8 @@ async def them_loat_tu(context, chat_id, msg, tu, *, co, stop_data, nhan, con_la
 
     Vì sao ở đây: quét ảnh và lệnh xin từ mới làm ĐÚNG một việc — cho từng từ đi
     qua `process_word`, dò trùng lần cuối, đếm sổ, sync một lần cuối đợt. Viết hai
-    bản là đi lại vết `_run_suadeck`/`_run_scan_add`/`_run_batch`: ba bản 11 bước
+    bản là đi lại vết `_run_scan_add`/`_run_batch` (và `_run_suadeck` thời còn
+    lệnh /suadeck): ba bản 11 bước
     giống hệt nhau rồi trôi lệch thật (xem `chay_hang_loat`).
 
     `tu`      : list chuỗi — dạng TỪ ĐIỂN, thứ đem đi cào.

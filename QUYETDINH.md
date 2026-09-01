@@ -69,6 +69,9 @@
 
 | QD | Ngày | Quyết định | Vì sao (ngắn) |
 |---|---|---|---|
+| QD-44 | 01/09 | ⚖️ Trần dòng file: MỘT sổ (`da_ghi_no` kèm `vi_sao`), CẤM chép sang `SONO.md` | Cửa S13 bảo ghi HAI nơi trong khi chân trang `SONO.md` cấm ⇒ 8/12 dòng sổ nợ là số trần, sổ trông như 12 việc mà chỉ có 4. Hai bản đã lệch thật |
+| QD-43 | 01/09 | ⚖️ Thể động từ: bảng `THE_NGUON_SAI` ở `grammar.py`; vá badge đọc `GrammarJSON` CỦA THẺ trước bộ đệm theo tên | Dặn "chừa `быть`" ở docstring từ 12/08 mà 0 dòng code thi hành ⇒ `--apply` vẫn ghi đè. `нарезать` bỏ dấu trùng 2 thẻ |
+| QD-42 | 01/09 | ⚖️ XOÁ lệnh `/suadeck` (làm lại CẢ deck bằng 1 nút) | Ra đời 15/07 cho deck-theo-ngày, cây deck CHỦ ĐỀ ra đời 18/07 ⇒ chết từ đó. Nguy: ghi đè mọi thẻ, không xem trước, từ nguồn đo được là sai. Sửa hàng loạt ⇒ script có chạy khan |
 | QD-41 | 01/09 | ⚖️ Từ loại: nguồn trước, AI vá chỗ nguồn bỏ trống; bảng KHÔNG có mã "other" | "other" phủ 93/1290 thẻ ⇒ badge không dạy gì. AI khớp 89/93 bảng xếp tay, 4 chỗ lệch là từ HAI loại. Đi nhờ lượt AI sẵn có ⇒ 0 request thêm |
 | QD-39 | 27/08 | ⚖️ Thẻ động từ in CẢ NHÓM cùng gốc, chỉ từ ĐÃ CÓ thẻ | Lật QD-26: ba nhóm 3 thẻ làm `слушать` hiện HAI bạn thể khác nhau ở hai thẻ, cả ba cùng nhãn "hoàn thành" ⇒ ôn thấy mâu thuẫn. Cấm cũ là cấm in từ CHƯA HỌC |
 | QD-40 | 27/08 | ⚖️ Danh tính một từ = `acc` + thể, KHÔNG lưu `id` OpenRussian | Đo 14 871 động từ: tên bỏ dấu nhấn nhập nhằng 156 ca, `acc` còn 5, thêm thể còn 2 (hai ca đó lặp dòng y hệt). `id` bắt cào lại 1253 thẻ mà không tự kiểm được |

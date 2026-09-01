@@ -114,7 +114,18 @@ def s12_nguong_hop_le():
 def s13_tran_dong_code():
     """Trần dòng file CODE (trước 03/08 không máy nào canh): vượt `ghi_no` phải có
     trong `da_ghi_no` kèm mốc ratchet, vượt `tach` là ĐỎ thẳng. Lô kho (`k*.py`,
-    `lo*.py`) là DỮ LIỆU sinh ra, không phải code — bỏ qua theo `bo_qua_mau`."""
+    `lo*.py`) là DỮ LIỆU sinh ra, không phải code — bỏ qua theo `bo_qua_mau`.
+
+    🔴 MỘT SỔ, KHÔNG HAI (QD-44, 01/09/2026). `da_ghi_no` nhận cả số trần lẫn
+    `{"so": N, "vi_sao": "..."}`; dạng sau ĐƯỢC KHUYẾN KHÍCH và lý do được in ra
+    ĐÚNG LÚC ai đó chạm trần — tức đúng lúc người ta cần biết, không phải lúc đi
+    lục sổ. Trước 01/09 lời báo lỗi này bảo "ghi SONO.md + mốc vào da_ghi_no",
+    tức bắt ghi HAI nơi, mà chân trang `SONO.md` lại CẤM ghi số trần vào đó.
+    Kết quả: 8/12 dòng sổ nợ là số trần (sai luật của chính file đó), sổ trông
+    như 12 việc trong khi chỉ có 4 — user đọc xong kêu "còn nhiều nợ lắm". Và
+    hai bản số đã lệch thật: `soat/cua_nguong.py` có trong `da_ghi_no` mà chưa
+    bao giờ có dòng nào ở `SONO.md`. Cửa chỉ đọc file JSON, nên số trong
+    `SONO.md` là chữ trang trí — cũ đi mà không ai biết."""
     try:
         ng = nguong()["dong_py"]
     except (OSError, ValueError, KeyError):
@@ -128,13 +139,22 @@ def s13_tran_dong_code():
             so = len(p.read_text(encoding="utf-8").splitlines())
         except OSError:
             continue
-        moc = ng["da_ghi_no"].get(d)
+        khai = ng["da_ghi_no"].get(d)
+        if isinstance(khai, dict):
+            moc, vi_sao = khai.get("so"), khai.get("vi_sao", "")
+        else:
+            moc, vi_sao = khai, ""
         if so > ng["tach"]:
             ra.append(PhatHien(d, 0, f"{so} dong > tran tach {ng['tach']} — tach truoc khi them"))
         elif so > ng["ghi_no"] and moc is None:
-            ra.append(PhatHien(d, 0, f"{so} dong > {ng['ghi_no']} — ghi SONO.md + moc vao da_ghi_no"))
+            ra.append(PhatHien(d, 0,
+                f"{so} dong > {ng['ghi_no']} — khai vao `da_ghi_no` cua soat_nguong.json dang "
+                '{"so": N, "vi_sao": "vi sao file nay dai"}. DUNG chep con so sang SONO.md: '
+                "so tran KHONG phai no, va hai so song song thi khong so nao duoc tin "
+                "(chan trang SONO.md, QD-44)"))
         elif moc is not None and so > moc:
-            ra.append(PhatHien(d, 0, f"{so} dong, phinh qua moc da ghi no {moc} — dung them nua"))
+            ra.append(PhatHien(d, 0, f"{so} dong, phinh qua moc da ghi no {moc} — dung them nua."
+                               + (f" VI SAO no dai: {vi_sao}" if vi_sao else "")))
     return ra
 
 

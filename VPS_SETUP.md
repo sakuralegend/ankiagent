@@ -135,7 +135,6 @@ Bot trả về thẻ mới + tự sync. Mở app Anki trên iPhone → bấm syn
 | Đổi deck | `/deck` (hoặc nút 📚 trong menu) → bảng chọn deck bằng nút |
 | Thẻ AI bị khuyết (thiếu ví dụ) | bot cảnh báo kèm 2 nút: 🔄 Làm lại thẻ / ⏭ Bỏ qua |
 | Làm lại thẻ đã có | `/sua` → bot hỏi từ → gõ từ → cào lại + AI sinh lại, **giữ nguyên tiến trình học** |
-| Làm lại TOÀN BỘ deck (ít dùng) | `/suadeck` → chọn deck → xác nhận → tiến độ tự cập nhật, có nút ⏹ Dừng |
 | Thẻ ngữ pháp (số nhiều bất quy tắc) | `/dacbiet` → ➕ thêm 1 từ / 📋 thêm loạt / 🔄 làm lại / 🩹 vá thẻ thiếu |
 | Sao lưu ngay | `/backup` — bấm **trước** khi làm gì mạo hiểm |
 | Menu nút bấm | `/menu` (3 nút chính; công cụ sửa lỗi nằm sau nút 🛠) |

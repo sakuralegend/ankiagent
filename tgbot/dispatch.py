@@ -38,19 +38,32 @@ from .core import (
     _tools_keyboard,
 )
 from .flow_add import _add_with_dup_check, _do_add, _duplicate_text_and_keyboard
-from .flow_edit import (
-    _do_redo,
-    _run_suadeck,
-    _sd_clear,
-    _sd_confirm_text_keyboard,
-    _sd_deck_list_markup,
-    _sd_delete_resume,
-    _sd_load_resume,
-)
+from .flow_edit import _do_redo
 from .flow_scan import _run_scan_add, _scan_clear, _scan_exclude
 from .flow_add import (_tumoi_clear, run_banthe_add, run_tumoi_add,
                        tumoi_exclude)
 from .flow_special import do_add_plural, do_redo_plural, on_special_callback
+
+
+# Bảng ba luồng thêm hàng loạt — xem khối "BA LUỒNG..." trong `on_callback` để
+# biết vì sao là BẢNG chứ không phải ba khối chép tay.
+_NUT_LO = {
+    lo["co"]: lo for lo in (
+        {"co": "scan", "don": _scan_clear, "kho": "scan_words", "chay": _run_scan_add,
+         "huy": "⏭️ Đã hủy — không thêm từ nào.",
+         "het_han": "⌛ Danh sách quét đã hết hạn, gửi lại ảnh nhé.",
+         "bat_dau": lambda v: f"🔄 Bắt đầu thêm {len(v)} từ đã duyệt..."},
+        {"co": "tumoi", "don": _tumoi_clear, "kho": "tumoi_words", "chay": run_tumoi_add,
+         "huy": "⏭️ Đã hủy — không thêm từ nào.",
+         "het_han": "⌛ Danh sách đã hết hạn, gõ /tumoi lại nhé.",
+         "bat_dau": lambda v: f"🔄 Bắt đầu thêm {len(v)} từ đã duyệt..."},
+        {"co": "banthe", "don": lambda ud: ud.pop("banthe_tu", None),
+         "kho": "banthe_tu", "chay": run_banthe_add,
+         "huy": "⏭️ Bỏ qua — không thêm bạn thể.",
+         "het_han": "⌛ Hết hạn — gõ lại từ gốc để hiện lại gợi ý.",
+         "bat_dau": lambda v: f"🔄 Đang thêm '{v}'..."},
+    )
+}
 
 
 async def on_word(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -193,15 +206,6 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         elif action == "sua":
             context.user_data["awaiting"] = "sua_word"
             await query.edit_message_text("🔄 Gõ từ cần làm lại thẻ (chỉ cần gõ từ):")
-        elif action == "suadeck":
-            if context.bot_data.get("sd_running"):
-                await query.edit_message_text("⏳ Đang có một đợt làm lại deck chạy dở.")
-                return
-            text, kb = await _sd_deck_list_markup(context)
-            if not text:
-                await query.edit_message_text("📂 Chưa có deck nào trong Anki.")
-                return
-            await query.edit_message_text(text, reply_markup=kb)
         elif action == "thongke":
             await query.edit_message_text("⏳ Đang đếm thẻ theo chủ đề...")
             await query.edit_message_text(await thongke_report())
@@ -235,147 +239,53 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await query.edit_message_text(HELP_TEXT)
         return
 
-    # --- Luồng /suadeck: chọn deck -> xác nhận -> chạy/dừng ---
-    if data == "sdcancel":
-        _sd_clear(context.user_data)
-        await query.edit_message_text("⏭️ Đã hủy làm lại deck.")
-        return
-    if data == "sdstop":
-        if context.bot_data.get("sd_running"):
-            context.bot_data["sd_stop"] = True
-            # Tin tiến độ sẽ tự chuyển thành tổng kết ở vòng lặp kế tiếp
-        return
-    if data.startswith("sd:"):
-        idx = int(data.split(":", 1)[1])
-        choices = context.user_data.get("sd_deck_choices") or []
-        if idx >= len(choices):
-            await query.edit_message_text("⌛ Danh sách đã cũ, gọi lại /suadeck nhé.")
+    # --- BA LUỒNG THÊM HÀNG LOẠT DÙNG CHUNG BỘ BA NÚT: huỷ · dừng · xác nhận ---
+    #
+    # 🔴 Gom 01/09/2026 (nợ ghi 23/08, điều kiện gom đã tới khi luồng thứ 5 xuất
+    # hiện). Trước đó `scan*`, `tumoi*`, `banthe*` mỗi luồng chép lại đủ 9 nhánh
+    # giống hệt nhau — và ba bản chép ĐÃ trôi lệch thật: `bantheadd` **pop** dữ
+    # liệu chờ TRƯỚC khi kiểm có đợt nào đang chạy, nên khi bận nó vẫn bảo "chờ
+    # xong rồi bấm lại nhé" trong lúc từ cần thêm đã mất trắng. Bảng dưới đây
+    # buộc cả ba đi CÙNG một đường nên lệch kiểu đó không tái phát được.
+    #
+    # Khác biệt giữa ba luồng là DỮ LIỆU, không phải code:
+    #   don      dọn trạng thái chờ (nhận user_data)
+    #   huy      lời nhắn khi bấm Huỷ
+    #   kho      khoá trong user_data giữ thứ sắp thêm
+    #   het_han  lời nhắn khi trạng thái đã hết hạn
+    #   bat_dau  lời nhắn lúc khởi động (nhận chính thứ sắp thêm)
+    #   chay     hàm async làm việc thật
+    lo = _NUT_LO.get(data[:-6] if data.endswith("cancel") else
+                     data[:-4] if data.endswith("stop") else
+                     data[:-3] if data.endswith("add") else "")
+    if lo is not None:
+        co = lo["co"]
+        if data == f"{co}cancel":
+            lo["don"](context.user_data)
+            await query.edit_message_text(lo["huy"])
             return
-        deck_name = choices[idx]
-        note_ids = await asyncio.to_thread(get_deck_note_ids, deck_name)
-        if not note_ids:
-            _sd_clear(context.user_data)
-            await query.edit_message_text(
-                f"📂 Deck '{deck_name}' không có thẻ nào (của bot) để làm lại."
-            )
+        if data == f"{co}stop":
+            if context.bot_data.get(f"{co}_running"):
+                context.bot_data[f"{co}_stop"] = True
+                # Tin tiến độ tự chuyển thành tổng kết ở vòng lặp kế tiếp
             return
-        context.user_data["sd_deck"] = deck_name
-        context.user_data["sd_note_ids"] = note_ids
-        confirm_text, kb = _sd_confirm_text_keyboard(context)
-        await query.edit_message_text(confirm_text, reply_markup=kb)
-        return
-    if data == "sdresume":
-        state = _sd_load_resume()
-        if not state:
-            await query.edit_message_text("⌛ Không còn đợt làm lại dở nào, gọi lại /suadeck nhé.")
+        if data == f"{co}add":
+            gia_tri = context.user_data.get(lo["kho"])
+            if not gia_tri:
+                await query.edit_message_text(lo["het_han"])
+                return
+            ban = dang_chay_hang_loat(context)
+            if ban:
+                # Trả lời bằng tin MỚI để giữ danh sách + nút (bấm lại sau được)
+                await query.message.reply_text(
+                    f"⏳ Đang chạy đợt '{ban}' — chờ xong rồi bấm lại nhé.")
+                return
+            lo["don"](context.user_data)
+            await query.edit_message_text(lo["bat_dau"](gia_tri))
+            # Task riêng để bot vẫn nhận update (nhất là nút ⏹ Dừng) trong lúc chạy
+            asyncio.create_task(
+                lo["chay"](context, query.message.chat_id, query.message, gia_tri))
             return
-        context.user_data["sd_deck"] = state["deck"]
-        context.user_data["sd_note_ids"] = state["note_ids"]
-        confirm_text, kb = _sd_confirm_text_keyboard(context)
-        await query.edit_message_text(confirm_text, reply_markup=kb)
-        return
-    if data == "sdfresh":
-        _sd_delete_resume()
-        text, kb = await _sd_deck_list_markup(context)
-        if not text:
-            await query.edit_message_text("📂 Chưa có deck nào trong Anki.")
-            return
-        await query.edit_message_text(text, reply_markup=kb)
-        return
-    if data == "sdgo":
-        deck = context.user_data.get("sd_deck")
-        note_ids = context.user_data.get("sd_note_ids")
-        if not deck or not note_ids:
-            await query.edit_message_text("⌛ Phiên làm lại deck đã hết hạn, gọi lại /suadeck nhé.")
-            return
-        if context.bot_data.get("sd_running"):
-            await query.edit_message_text("⏳ Đang có một đợt làm lại deck khác chạy dở.")
-            return
-        ban = dang_chay_hang_loat(context, bo_qua="sd_running")
-        if ban:
-            await query.edit_message_text(f"⏳ Đang chạy đợt '{ban}' — chờ xong rồi bấm lại nhé.")
-            return
-        _sd_clear(context.user_data)
-        await query.edit_message_text(f"🔄 Bắt đầu làm lại deck '{deck}' ({len(note_ids)} thẻ)...")
-        # Task riêng để bot vẫn nhận update (đặc biệt là nút ⏹ Dừng) trong lúc chạy
-        asyncio.create_task(
-            _run_suadeck(context, query.message.chat_id, query.message, deck, note_ids)
-        )
-        return
-
-    # --- Luồng quét ảnh (scan*): hủy / dừng / xác nhận thêm loạt ---
-    if data == "scancancel":
-        _scan_clear(context.user_data)
-        await query.edit_message_text("⏭️ Đã hủy — không thêm từ nào.")
-        return
-    if data == "scanstop":
-        if context.bot_data.get("scan_running"):
-            context.bot_data["scan_stop"] = True
-            # Tin tiến độ sẽ tự chuyển thành tổng kết ở vòng lặp kế tiếp
-        return
-    if data == "scanadd":
-        words = context.user_data.get("scan_words")
-        if not words:
-            await query.edit_message_text("⌛ Danh sách quét đã hết hạn, gửi lại ảnh nhé.")
-            return
-        ban = dang_chay_hang_loat(context)
-        if ban:
-            # Trả lời bằng tin mới để GIỮ danh sách + nút (bấm lại sau được)
-            await query.message.reply_text(
-                f"⏳ Đang chạy đợt '{ban}' — chờ xong rồi bấm lại nhé.")
-            return
-        _scan_clear(context.user_data)
-        await query.edit_message_text(f"🔄 Bắt đầu thêm {len(words)} từ đã duyệt...")
-        # Task riêng để bot vẫn nhận update (đặc biệt nút ⏹ Dừng) trong lúc chạy
-        asyncio.create_task(_run_scan_add(context, query.message.chat_id, query.message, words))
-        return
-
-    # --- Luồng /tumoi: hủy / dừng / xác nhận thêm loạt (cùng khuôn với scan*) ---
-    if data == "tumoicancel":
-        _tumoi_clear(context.user_data)
-        await query.edit_message_text("⏭️ Đã hủy — không thêm từ nào.")
-        return
-    if data == "tumoistop":
-        if context.bot_data.get("tumoi_running"):
-            context.bot_data["tumoi_stop"] = True
-        return
-    if data == "tumoiadd":
-        cap = context.user_data.get("tumoi_words")
-        if not cap:
-            await query.edit_message_text("⌛ Danh sách đã hết hạn, gõ /tumoi lại nhé.")
-            return
-        ban = dang_chay_hang_loat(context)
-        if ban:
-            await query.message.reply_text(
-                f"⏳ Đang chạy đợt '{ban}' — chờ xong rồi bấm lại nhé.")
-            return
-        _tumoi_clear(context.user_data)
-        await query.edit_message_text(f"🔄 Bắt đầu thêm {len(cap)} từ đã duyệt...")
-        asyncio.create_task(run_tumoi_add(context, query.message.chat_id, query.message, cap))
-        return
-
-    # --- Bạn thể còn thiếu (hiện ngay sau khi thêm một động từ, QD-39) ---
-    if data == "banthecancel":
-        context.user_data.pop("banthe_tu", None)
-        await query.edit_message_text("⏭️ Bỏ qua — không thêm bạn thể.")
-        return
-    if data == "banthestop":
-        if context.bot_data.get("banthe_running"):
-            context.bot_data["banthe_stop"] = True
-        return
-    if data == "bantheadd":
-        tu = context.user_data.pop("banthe_tu", None)
-        if not tu:
-            await query.edit_message_text("⌛ Hết hạn — gõ lại từ gốc để hiện lại gợi ý.")
-            return
-        ban = dang_chay_hang_loat(context)
-        if ban:
-            await query.message.reply_text(
-                f"⏳ Đang chạy đợt '{ban}' — chờ xong rồi bấm lại nhé.")
-            return
-        await query.edit_message_text(f"🔄 Đang thêm '{tu}'...")
-        asyncio.create_task(run_banthe_add(context, query.message.chat_id, query.message, tu))
-        return
 
     # --- Nút xác nhận từ nguyên mẫu (từ gõ vào không có trên OpenRussian) ---
     if data.startswith("lemma:"):

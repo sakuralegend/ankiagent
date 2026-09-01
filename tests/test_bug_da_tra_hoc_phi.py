@@ -17,6 +17,7 @@ KHÔNG cần Anki, KHÔNG cần mạng — chạy được mọi lúc, đó là 
 """
 import inspect
 import os
+import re
 import sys
 import unicodedata
 import unittest
@@ -1418,6 +1419,110 @@ class TuLoaiKhongCoRoRac(unittest.TestCase):
         bịa ra một field không ai đọc (cùng lý lẽ đã bỏ `topic` khỏi khuôn đó)."""
         self.assertNotIn("pos", ai_client._KHUON_THE_KHONG_TOPIC["properties"])
         self.assertIn("pos", ai_client._KHUON_THE["properties"])
+
+
+class NutBamKhongDuocCHET(unittest.TestCase):
+    """BUG GỐC (01/09/2026): ba luồng thêm hàng loạt (`scan`, `tumoi`, `banthe`)
+    mỗi luồng CHÉP LẠI đủ 9 nhánh nút giống hệt nhau. Ba bản chép đã trôi lệch
+    thật — `bantheadd` **pop** dữ liệu chờ TRƯỚC khi kiểm có đợt nào đang chạy,
+    nên lúc bận nó vẫn bảo "chờ xong rồi bấm lại nhé" trong khi từ đã mất trắng.
+    Nay cả ba đi chung một bảng (`dispatch._NUT_LO`).
+
+    🔴 Ca này IM LẶNG một cách khó chịu: đổi tên nút ở `flow_*.py` mà quên bảng
+    thì bot KHÔNG báo lỗi gì — nút bấm vào không xảy ra chuyện gì, và người phát
+    hiện sẽ là user, giữa buổi học."""
+
+    _KWARG = re.compile(r'(?:cb_them|cb_huy|stop_data)\s*=\s*"([^"]+)"')
+
+    def _nut_that(self):
+        goc = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "tgbot")
+        ra = set()
+        for ten in os.listdir(goc):
+            if ten.endswith(".py"):
+                with open(os.path.join(goc, ten), encoding="utf-8") as f:
+                    ra |= set(self._KWARG.findall(f.read()))
+        return ra
+
+    @staticmethod
+    def _tien_to(data):
+        """Y HỆT cách `on_callback` bóc tiền tố — lệch là test vô nghĩa."""
+        for duoi in ("cancel", "stop", "add"):
+            if data.endswith(duoi):
+                return data[:-len(duoi)]
+        return ""
+
+    def test_moi_nut_ba_luong_deu_co_nguoi_nhan(self):
+        """Chỉ soi nút của BA luồng trong bảng. Luồng thẻ số nhiều đặt tên kiểu
+        khác (`sp:stop`, `sp:pl:go` — có tầng thứ hai) và có bộ nhận riêng
+        `on_special_callback`; nhét nó vào bảng là ép chung một khuôn rồi lại
+        phải đẻ tham số cho ngoại lệ. Test này chạy đúng lần đầu đã bắt được
+        `sp:stop` — giữ nguyên phạm vi hẹp đó."""
+        from tgbot import dispatch
+        thieu = [n for n in self._nut_that()
+                 if any(n.startswith(co) for co in dispatch._NUT_LO)
+                 and dispatch._NUT_LO.get(self._tien_to(n)) is None]
+        self.assertEqual(thieu, [], f"nút không ai nhận -> bấm vào im lặng: {thieu}")
+
+    def test_du_ca_ba_nut_cho_moi_luong(self):
+        from tgbot import dispatch
+        that = self._nut_that()
+        for co in dispatch._NUT_LO:
+            for duoi in ("cancel", "stop", "add"):
+                self.assertIn(co + duoi, that,
+                              f"bảng khai luồng '{co}' nhưng không file nào phát nút {co}{duoi}")
+
+    def test_lay_du_lieu_cho_TRUOC_khi_don(self):
+        """Chính là bug `bantheadd` đã trôi lệch: dọn trước khi kiểm bận = mất
+        trắng thứ đang chờ mà vẫn mời user bấm lại."""
+        import inspect
+        from tgbot import dispatch
+        ma = inspect.getsource(dispatch.on_callback)
+        i_lay = ma.find('gia_tri = context.user_data.get(lo["kho"])')
+        i_ban = ma.find("ban = dang_chay_hang_loat(context)", i_lay)
+        i_don = ma.find('lo["don"](context.user_data)', i_ban)
+        self.assertTrue(0 < i_lay < i_ban < i_don,
+                        "thứ tự phải là LẤY -> kiểm bận -> mới DỌN")
+
+    def test_bang_khong_con_luong_suadeck(self):
+        """/suadeck đã xoá 01/09 (QD-42) — bảng mọc lại nó là dựng lại nút nguy hiểm."""
+        from tgbot import dispatch
+        self.assertNotIn("sd", dispatch._NUT_LO)
+
+
+class TheDongTuNguonGhiSai(unittest.TestCase):
+    """BUG GỐC (bắt 01/09/2026, QD-43): `scripts/backfill_badge.py --apply` ghi đè
+    SAI ô thể của hai từ, mà chính docstring của nó đã dặn chừa một trong hai từ
+    12/08 — lời dặn nằm ở CHỮ, không dòng code nào thi hành."""
+
+    @staticmethod
+    def _chu(html):
+        return re.sub(r"<[^>]+>", "", html or "").strip()
+
+    def test_byt_la_CHUA_hoan_thanh_du_nguon_noi_both(self):
+        self.assertEqual(self._chu(grammar.aspect_badge_html("both", "быть")), "IMPF")
+        # có dấu nhấn cũng phải ra như vậy — thẻ lưu dạng có dấu
+        self.assertEqual(self._chu(grammar.aspect_badge_html("both", "бы́ть")), "IMPF")
+
+    def test_ispolzovat_KHONG_bi_sua_lay(self):
+        """Cũng mang aspect='both' nhưng nó là động từ HAI THỂ thật (двувидовой).
+        Sửa nốt cho 'sạch bảng' là dạy sai."""
+        self.assertEqual(self._chu(grammar.aspect_badge_html("both", "использовать")), "BI-ASP")
+
+    def test_khong_truyen_tu_thi_giu_nguyen_loi_nguon(self):
+        self.assertEqual(self._chu(grammar.aspect_badge_html("both")), "BI-ASP")
+
+    def test_backfill_doc_GrammarJSON_CUA_THE_truoc_bo_dem_theo_ten(self):
+        """`нареза́ть` (chưa hoàn thành) và `наре́зать` (hoàn thành) trùng tên khi
+        bỏ dấu nhấn ⇒ bộ đệm tra theo TÊN trả cùng một bản ghi cho hai thẻ khác
+        thể (đo 01/09: trả `perfective` cho cả hai). GrammarJSON nằm trong chính
+        note nên không lẫn được — phải đọc nó TRƯỚC."""
+        goc = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        with open(os.path.join(goc, "scripts", "backfill_badge.py"), encoding="utf-8") as f:
+            ma = f.read()
+        i_gj = ma.find('json.loads(f.get("GrammarJSON"')
+        i_ten = ma.find("grammar.get_cached(wc)")
+        self.assertTrue(0 < i_gj < i_ten,
+                        "phải đọc GrammarJSON của thẻ TRƯỚC khi tra bộ đệm theo tên")
 
 
 if __name__ == "__main__":

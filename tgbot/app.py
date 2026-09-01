@@ -34,7 +34,7 @@ from .commands import (
 from .jobs import _nightly_backup, _nightly_don, _periodic_sync
 from .alerts import alerter
 from .flow_add import cmd_tumoi
-from .flow_edit import cmd_sua, cmd_suadeck
+from .flow_edit import cmd_sua
 from .flow_scan import on_photo
 from .flow_special import cmd_dacbiet
 from .dispatch import on_callback, on_word
@@ -78,7 +78,7 @@ async def _post_init(app):
     _spawn(_nightly_backup(app))    # 3h30 sáng: sao lưu + dọn bản cũ
     _spawn(_periodic_sync())        # 30 phút/lần: sync HAI CHIỀU
     # Danh sách "/" CỐ Ý chỉ 4 mục hay dùng (user chốt 20/07/2026: 9 lệnh làm
-    # rối). Các lệnh còn lại (/sua /suadeck /thongke /don /sync) vẫn chạy khi gõ
+    # rối). Các lệnh còn lại (/sua /thongke /don /sync) vẫn chạy khi gõ
     # tay, và có nút trong menu 🛠 — chỉ không chiếm chỗ trong bảng gợi ý.
     await app.bot.set_my_commands([
         BotCommand("menu", "Menu nút bấm"),
@@ -159,7 +159,6 @@ def main():
     app.add_handler(CommandHandler("don", cmd_don, filters=only_me))
     app.add_handler(CommandHandler("sync", cmd_sync, filters=only_me))
     app.add_handler(CommandHandler("sua", cmd_sua, filters=only_me))
-    app.add_handler(CommandHandler("suadeck", cmd_suadeck, filters=only_me))
     app.add_handler(CommandHandler("dacbiet", cmd_dacbiet, filters=only_me))
     app.add_handler(CommandHandler("backup", cmd_backup, filters=only_me))
     app.add_handler(CallbackQueryHandler(on_callback))
