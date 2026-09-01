@@ -59,6 +59,7 @@ MUC = [
     ("S23", "DUA URL CHO storeMediaFile", cua_code.s23_media_phai_tu_tai, True),
     ("S24", "KHAI >1 CARD TEMPLATE", cua_code.s24_mot_card_template, True),
     ("S25", "SO QUYET DINH CHUA PHAN LOAI / CON 🔨", cua_nguong.s25_so_phai_phan_loai, True),
+    ("S26", "DONG SO QD DA CO NHA TRONG CODE", cua_nguong.s26_dong_so_da_co_nha, False),
     ("S17", "NUOT LOI IM LANG (except: pass)", cua_code.s17_nuot_loi_im_lang, False),
 ]
 

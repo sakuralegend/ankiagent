@@ -189,6 +189,59 @@ def s15_dong_quyetdinh_dai():
 _MOC_DADO = "📏 ĐÃ ĐO RỒI BÁC"
 _MOC_SO = "🗂️ SỔ QUYẾT ĐỊNH"
 
+def s26_dong_so_da_co_nha():
+    """Dòng sổ quyết định mà số hiệu của nó ĐÃ được trích trong code.
+
+    🔴 CỬA NÀY CỐ Ý KHÔNG CÓ SỐ `QD-nn` — và đó chính là phép thử của nó: lý do
+    nằm trọn trong docstring này, tức đã CÓ NHÀ, nên thêm một dòng sổ là tái
+    phạm đúng thứ cửa đang cấm. Toàn văn bàn bạc: `git log --grep S26`.
+
+    🔴 VÌ SAO CÓ CỬA NÀY — bệnh sử đo được ngày 01/09/2026. Sổ quyết định đã bị
+    dọn sạch về **0 dòng** ngày 09/08, rồi đầy lại **10 dòng trong 23 ngày**, mà
+    **5 dòng là của riêng một phiên**. Soi thì **8/10 dòng đã có nhà đầy đủ trong
+    code** (643–2.089 ký tự chú thích, gấp 3–8 lần dòng bảng 250 ký tự) — tức
+    chúng nằm HAI chỗ, đúng bệnh sổ đôi vừa dọn ở `SONO.md` cùng ngày.
+
+    Nguyên nhân KHÔNG phải lười. Sổ bắt chọn 🔨 hay ⚖️, mà 🔨 **chặn deploy** —
+    nên mọi phiên đều chọn ⚖️: đó là lựa chọn RẺ CHO NGƯỜI VIẾT, không phải lựa
+    chọn đúng. Kết quả đo: **10/10 dòng là ⚖️, 0 dòng 🔨**. `deploy.ps1` đã kết
+    luận sẵn từ lâu — *"không dựa vào tự giác (đã chứng minh không hiệu quả)"* —
+    mà sổ thì chạy hoàn toàn bằng tự giác.
+
+    LUẬT: trích được `QD-nn` ở một file `.py` nghĩa là **có chỗ để cắm lý do**.
+    Cắm vào đó rồi cho dòng sổ chết; số hiệu vẫn tra được vì `so_hieu_da_biet()`
+    đọc cả `git log`. Sổ chỉ giữ thứ **không có file nào để hang lên**: quyết
+    định về code ĐÃ XOÁ, hoặc về thứ nằm ngoài repo (cấu hình trong Anki).
+
+    Ngoại lệ thật thì khai vào `soat_baseline.json` kèm `vi_sao` — như mọi cửa
+    bậc-thang khác. Cố ý KHÔNG soi file `.md`: `CLAUDE.md`/`KIENTRUC.md` trích số
+    hiệu như CON TRỎ chứ không mang lý do, soi chúng là kêu oan hàng loạt."""
+    p = khung.GOC / "QUYETDINH.md"
+    if not p.exists():
+        return []
+    noi_dung = p.read_text(encoding="utf-8")
+    j = noi_dung.find("SỔ QUYẾT ĐỊNH")
+    if j < 0:
+        return []
+    so_hieu = set(re.findall(r"^\| (QD-\d+) \|", noi_dung[j:], re.M))
+    if not so_hieu:
+        return []
+    ra = []
+    for f in khung.cac_file_py():
+        d = khung.duong_dan(f)
+        if d.startswith("tests/"):
+            continue          # test là NHÀ hợp lệ, nhưng bắt ở đây thì trùng
+        try:
+            chu = f.read_text(encoding="utf-8")
+        except OSError:
+            continue
+        for ma in sorted(so_hieu & set(re.findall(r"QD-\d+", chu))):
+            ra.append(PhatHien(f"{ma}|{d}", 0,
+                               f"{ma} con dong o so NHUNG da duoc trich o {d} — "
+                               "cam ly do vao do roi cho dong so CHET "
+                               "(git log van tra ra so hieu). Ngoai le: khai soat_baseline.json"))
+    return ra
+
 def so_hieu_da_biet():
     """Mọi số hiệu `QD-nn` từng tồn tại = **sổ sống + `git log`** (QD-29).
 

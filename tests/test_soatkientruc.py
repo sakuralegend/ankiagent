@@ -244,6 +244,37 @@ class TestSoatKienTruc(unittest.TestCase):
         self.assertIn("da_ghi_no", ra[0].mo_ta)
         self.assertNotIn("ghi SONO.md", ra[0].mo_ta)
 
+    def test_s26_dong_so_da_co_nha_trong_code_thi_ke(self):
+        """Sổ quyết định đầy lại 0 -> 10 dòng trong 23 ngày (đo 01/09), 8/10 dòng
+        đã có nhà đầy đủ trong code. Nguyên nhân: luật cũ bắt chọn 🔨 hay ⚖️, mà
+        🔨 chặn deploy nên mọi phiên chọn ⚖️ — rẻ cho người viết, không đúng cho
+        repo (10/10 dòng là ⚖️). Cửa này thay chỗ của tự giác."""
+        self.ghi("QUYETDINH.md",
+                 "## 🗂️ SỔ QUYẾT ĐỊNH\n"
+                 "| QD | Ngày | Quyết định | Vì sao |\n"
+                 "|---|---|---|---|\n"
+                 "| QD-90 | 01/09 | ⚖️ co nha | ... |\n"
+                 "| QD-91 | 01/09 | ⚖️ khong nha | ... |\n")
+        self.ghi("tgbot/co_nha.py", "# ly do day du nam o day (QD-90)\nx = 1\n")
+        ra = cua_nguong.s26_dong_so_da_co_nha()
+        self.assertEqual([ph.khoa for ph in ra], ["QD-90|tgbot/co_nha.py"])
+        self.assertIn("QD-90", ra[0].mo_ta)
+
+    def test_s26_KHONG_ke_file_test(self):
+        """Test cũng là nhà hợp lệ, nhưng bắt ở đây thì mọi dòng có test đều kêu
+        hai lần — chỗ trích trong code mới là chỗ người ta CHẮC CHẮN đang mở."""
+        self.ghi("QUYETDINH.md",
+                 "## 🗂️ SỔ QUYẾT ĐỊNH\n| QD-90 | 01/09 | ⚖️ x | y |\n")
+        self.ghi("tests/test_gi_do.py", "# QD-90\n")
+        self.assertEqual(cua_nguong.s26_dong_so_da_co_nha(), [])
+
+    def test_s26_so_hieu_KHONG_con_dong_o_so_thi_im(self):
+        """Dòng đã chết rồi thì chỗ trích trong code là ĐÚNG, không phải vi phạm —
+        đó chính là trạng thái ta muốn."""
+        self.ghi("QUYETDINH.md", "## 🗂️ SỔ QUYẾT ĐỊNH\n| QD-90 | 01/09 | ⚖️ x | y |\n")
+        self.ghi("tgbot/da_chet.py", "# QD-77 da roi so, tra bang git log\n")
+        self.assertEqual(cua_nguong.s26_dong_so_da_co_nha(), [])
+
     def test_s13_vuot_tran_tach_la_do_ke_ca_co_moc(self):
         self._nguong_gia(dong_py={"da_ghi_no": {"tgbot/qua.py": 999}})
         self.ghi("tgbot/qua.py", "x = 1\n" * 701)

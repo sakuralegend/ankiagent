@@ -56,8 +56,8 @@
     "vi_sao": "+16: `bang` đọc GrammarJSON của CHÍNH thẻ thay vì tra bộ đệm theo tên (QD-40), + giữ lời kêu 'bản ghi cũ phiên bản' mà get_cached từng kêu hộ."
    },
    "soat/cua_nguong.py": {
-    "so": 483,
-    "vi_sao": "Chứa toàn bộ cửa canh NGƯỠNG (S10, S12–S16, S18–S20). Tách theo từng cửa là đẻ chục file mỗi file một hàm; tách đôi thì phải cắt ngang một nhóm luật gắn nhau."
+    "so": 536,
+    "vi_sao": "Chứa toàn bộ cửa canh NGƯỠNG (S10, S12–S16, S18–S20, S26). Tách theo từng cửa là đẻ chục file mỗi file một hàm; tách đôi thì phải cắt ngang một nhóm luật gắn nhau. +49 dòng ngày 01/09 là cửa S26 + lời khai vì sao nó tồn tại — phần chú thích đó CHÍNH LÀ chỗ ở của quyết định, cắt đi là đẩy nó về lại sổ."
    },
    "tgbot/dispatch.py": {
     "so": 394,

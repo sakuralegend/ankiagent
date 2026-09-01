@@ -1448,5 +1448,51 @@ class TheDongTuNguonGhiSai(unittest.TestCase):
                         "phải đọc GrammarJSON của thẻ TRƯỚC khi tra bộ đệm theo tên")
 
 
+class MangChiPhoiDaDongKHONGDUNGLAI(unittest.TestCase):
+    """USER CHỐT ĐÓNG HẲN 01/09/2026: mảng thẻ "chi phối" (từ nào bắt từ đứng sau
+    dùng cách nào) bị xoá sạch — 17 thẻ đang ôn, 5 deck, cả dây chuyền soạn.
+    Lý do user nêu: *"cách làm này ẩn chứa rủi ro lớn về độ chính xác về học
+    thuật"*; `slushai` giữ đúng vai ban đầu là tập NGHE.
+
+    🔴 VÌ SAO PHẢI LÀ TEST CHỨ KHÔNG PHẢI MỘT DÒNG TRONG SỔ. Code đã xoá nên
+    KHÔNG CÒN FILE NÀO để cắm lời cảnh báo — mà `git log` thì vẫn còn nguyên
+    `grammar_forms/chi_phoi.py` (293 dòng) và `data/chi_phoi.tsv`. Phiên sau lục
+    lịch sử rất dễ kết luận "tính năng hay bị bỏ quên, dựng lại thôi", và sẽ
+    KHÔNG có gì kêu. Test này là thứ duy nhất kêu được.
+
+    Muốn dựng lại thật thì phải HỎI USER trước rồi mới xoá test này — đừng xoá
+    test để code chạy qua. Toàn văn: `git log --grep QD-45`."""
+
+    XOA = ["grammar_forms/chi_phoi.py", "data/chi_phoi.tsv",
+           "grammar_forms/templates/chiphoi.css",
+           "grammar_forms/templates/chiphoi_front.html",
+           "grammar_forms/templates/chiphoi_back.html"]
+
+    def test_khong_file_nao_cua_mang_chi_phoi_song_lai(self):
+        goc = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        song_lai = [f for f in self.XOA if os.path.exists(os.path.join(goc, f))]
+        self.assertEqual(song_lai, [], "user đã chốt đóng hẳn mảng này (git log --grep QD-45); "
+                                       f"dựng lại phải hỏi user trước: {song_lai}")
+
+    def test_khong_con_code_nao_nhac_model_RU_ChiPhoi(self):
+        """Model rỗng `RU_ChiPhoi` CỐ Ý còn trong Anki (AnkiConnect không xoá
+        được model, mà xoá tay là full sync — không đáng). Nhưng CODE thì không
+        được còn chỗ nào dựng/ghi vào nó nữa."""
+        goc = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        pham = []
+        for thu_muc in ("anki_tools", "grammar_forms", "tgbot", "scripts", "soat"):
+            d = os.path.join(goc, thu_muc)
+            for r, _ds, fs in os.walk(d):
+                if "__pycache__" in r or "_daxong" in r:
+                    continue
+                for f in fs:
+                    if not f.endswith(".py"):
+                        continue
+                    with open(os.path.join(r, f), encoding="utf-8") as fh:
+                        if "RU_ChiPhoi" in fh.read():
+                            pham.append(os.path.join(thu_muc, f))
+        self.assertEqual(pham, [], f"code còn dựng model đã khai tử: {pham}")
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -32,51 +32,51 @@
 > không lật bằng lập luận suông. 🔴 **Nhưng số đo dùng để BÁC cũng HẾT HẠN** — "88 thẻ thiếu"
 > (31/07) đo lại 02/08 ra **0**, và hướng từng bị bác thành hướng thi hành. Việc nay đụng lại một
 > dòng ⇒ **đo lại trước**, đừng viện dòng cũ rồi thôi.
+> Bảng có trần (`soat_nguong.json`, cửa **S20**) và đã CHẠM trần 01/09. Thêm dòng ⇒ phải
+> giết một dòng, và **giết dòng có ngày đo CŨ NHẤT** — đó là dòng dễ đã thối rữa nhất.
+> Vì sao mỗi dòng phải đóng dấu ngày: bảng từng có **7/14 dòng không ngày** (vá 01/09),
+> mà số không ngày thì không ai biết nó hết hạn chưa.
 
 | Hướng nghe hợp lý | Phán quyết | Vì (số liệu thật) |
 |---|---|---|
 | Dựng sync server riêng bỏ AnkiWeb | **BÁC — user chốt** | Sập 26/08/2026: 3,5h, 0 thẻ mất (bot dồn trên VPS, đẩy sau). Đổi server = full sync 2 CHIỀU ⇒ "dựng sẵn, sập thì bật" vô dụng. Chuyển hẳn ⇒ App Store nâng Anki iPhone: sync chết im lặng |
 | Cào lại OpenRussian để sửa từ loại 93 thẻ `other` | **BÁC** | Đo 01/09/2026: hỏi lại cả 93 từ thì **74 vẫn trả "other"**, và nó trả SAI 2 từ — `тут` ("ở đây") với `справа` ("bên phải") nó xếp là DANH TỪ. Nguồn không biết thì hỏi lại lần nữa vẫn không biết |
-| Sửa field `animate` của nguồn cho đúng (sai ở `ме́неджер`·`о́кунь`·`коза́`·`матрёшка`) | **BÁC** | Bảng chia thôi đọc nó từ QD-35. Chỗ DUY NHẤT còn đọc là bộ đoán giống, theo chiều NGƯỢC — "đồ vật + đuôi -а" mới dám kết luận giống cái ⇒ sửa thành "sinh vật" là bắt nó im ở 2 từ đang trả lời đúng |
-| Dùng `_family()` của OpenRussian để dựng mục "Họ hàng" | **BÁC** | Nó gộp `groups` (cùng gốc) với `relateds` (đồng nghĩa **khác gốc hẳn**) vào một rổ ⇒ dạy sai từ nguyên. Mục Họ hàng do người soạn tự nghĩ, cố ý không có cửa máy |
-| Lọc từ theo tag trình độ A1–C2 của OpenRussian | **BÁC** | `паспорт`, `яблоко`, `сахар` bị gắn **C1**. Dùng **thứ hạng tần suất** thay thế (top 2500 danh từ ≈ A1→B2) |
-| Đối chiếu chéo `nouns.csv` với `grammar_cache.json` để bắt lỗi dữ liệu | **KHÔNG ĐỦ** | Hai file **cùng thượng nguồn OpenRussian** ⇒ trùng nhau không chứng minh đúng. `фон` sai ở **cả hai**. Cửa duy nhất còn lại là người đọc bằng mắt |
+| Sửa field `animate` của nguồn cho đúng (sai ở `ме́неджер`·`о́кунь`·`коза́`·`матрёшка`) | **BÁC** | **Đo 09/08.** Bảng chia thôi đọc nó từ QD-35. Chỗ DUY NHẤT còn đọc là bộ đoán giống, theo chiều NGƯỢC — "đồ vật + đuôi -а" mới dám kết luận giống cái ⇒ sửa thành "sinh vật" là bắt nó im ở 2 từ đang trả lời đúng |
+| Dùng `_family()` của OpenRussian để dựng mục "Họ hàng" | **BÁC** | **Đo 31/07.** Nó gộp `groups` (cùng gốc) với `relateds` (đồng nghĩa **khác gốc hẳn**) vào một rổ ⇒ dạy sai từ nguyên. Mục Họ hàng do người soạn tự nghĩ, cố ý không có cửa máy |
+| Lọc từ theo tag trình độ A1–C2 của OpenRussian | **BÁC** | **Đo 31/07.** `паспорт`, `яблоко`, `сахар` bị gắn **C1**. Dùng **thứ hạng tần suất** thay thế (top 2500 danh từ ≈ A1→B2) |
+| Đối chiếu chéo `nouns.csv` với `grammar_cache.json` để bắt lỗi dữ liệu | **KHÔNG ĐỦ** | **Đo 31/07.** Hai file **cùng thượng nguồn OpenRussian** ⇒ trùng nhau không chứng minh đúng. `фон` sai ở **cả hai**. Cửa duy nhất còn lại là người đọc bằng mắt |
 | Forget/Reset thẻ "hoá thạch" (Difficulty kẹt cao, không tự hồi phục) | **HẾT CẦN từ 04/08** — đừng đụng thẻ | Optimize đưa `w7` 0.001→0.0486 (610 lần Good → ~14): hoá thạch **402 → 0** mà không phải sửa thẻ nào. Số: `data/fsrs_moc.json` |
 | Suy ra "user đổi cách bấm nút" từ việc tỷ lệ Again giảm | **BÁC** (AI đã suy sai 04/08) | revlog **không chứa** tiêu chí bấm nút; user khai tiêu chí KHÔNG đổi từ đầu (**sai 1 ký tự = Again**) ⇒ mọi số "nhớ được" ở repo là thang **gõ đúng từng ký tự**, đừng đọc như "nhớ nghĩa". Cải thiện thật: **cùng chu kì 1 ngày 49,9% → 66,3%** (nhóm quên ≥6 lần), mà chu kì nhóm đó lại DÀI ra ⇒ không phải "câu hỏi dễ đi". Nguyên nhân không tách bạch được. Phép kiểm giả thuyết user: `scripts/do_fsrs.py --giathuyet` |
 | Gộp 4 hàm chuẩn hoá tiếng Nga làm một cho gọn | **CHƯA CẦN** | Đo 1748 từ Nga thật (31/07/2026): **0 bất đồng** ở cả hai cặp hàm cùng mục đích. Rủi ro `ё` tổ hợp có thật về lý thuyết nhưng chưa chạm dữ liệu nào ⇒ **đo lại trước khi gộp**, đừng gộp mò |
-| "Lô soạn kho càng to càng lợi" | **ĐÚNG MỘT NỬA** | Đúng về token, nhưng lý do thứ hai (khối dùng chung gánh nhiều thẻ) **chết rồi** — chuẩn v3 cấm khối dùng chung, đo ra `0%`. Cỡ lô do CHẤT LƯỢNG quyết định: chốt 16–18 từ |
-| Dựng "agent soát riêng" để kiểm lô sau khi soạn | **BÁC** | Lô 22 từ + agent rà lại ≈ **7,9K token/từ**, đắt hơn lô 14 từ tự soát (**7,3K**) mà chưa chắc tốt hơn: người viết biết chỗ mình lăn tăn, người rà phải dựng lại từ đầu |
+| "Lô soạn kho càng to càng lợi" | **ĐÚNG MỘT NỬA** | **Đo 31/07.** Đúng về token, nhưng lý do thứ hai (khối dùng chung gánh nhiều thẻ) **chết rồi** — chuẩn v3 cấm khối dùng chung, đo ra `0%`. Cỡ lô do CHẤT LƯỢNG quyết định: chốt 16–18 từ |
+| Dựng "agent soát riêng" để kiểm lô sau khi soạn | **BÁC** | **Đo 31/07.** Lô 22 từ + agent rà lại ≈ **7,9K token/từ**, đắt hơn lô 14 từ tự soát (**7,3K**) mà chưa chắc tốt hơn: người viết biết chỗ mình lăn tăn, người rà phải dựng lại từ đầu |
 | Cài bộ "spec-driven-claude-code" (hoặc kit SDLC 12 bước tương tự) vào repo | **BÁC** | Đo 31/07/2026: kit thêm **99 file / 21.852 dòng** luật (repo khi đó 4.033 dòng), **28 file nói C#, 36 nói .NET, chỉ 8 nói Python**, và `.claude/CLAUDE.md` 616 dòng của nó đánh nhau với `CLAUDE.md` ở đây. Đã lấy tinh hoa thành 3 lệnh — xem QD-09 |
-| Cho VPS tự động "Download from AnkiWeb" theo lịch cho an toàn | **BÁC — NGUY HIỂM** | Lệnh đó **ghi đè sạch** collection trên VPS (xoá thẻ bot vừa thêm), và không cứu được gì khi quên sync điện thoại vì dữ liệu ôn lúc đó nằm **trong điện thoại** |
+| Cho VPS tự động "Download from AnkiWeb" theo lịch cho an toàn | **BÁC — NGUY HIỂM** | **Đo 31/07.** Lệnh đó **ghi đè sạch** collection trên VPS (xoá thẻ bot vừa thêm), và không cứu được gì khi quên sync điện thoại vì dữ liệu ôn lúc đó nằm **trong điện thoại** |
 | Nâng Anki trong Docker VPS cho khớp laptop (VPS `25.02.7` · laptop `26.5.0`, đo 04/08) | **BÁC — user chốt ≥2 lần** | *"Docker chạy tốt thì để yên"*. Không phải Anki gốc mà là ảnh của một tác giả GitHub ⇒ đổi thứ không ai bảo hành để lấy **0 lợi**: sync vẫn chạy ở hai đời. Hệ quả: **cấm chép thẳng `collection.anki2`** giữa hai máy |
 
 ---
 
 ## 🗂️ SỔ QUYẾT ĐỊNH
 
-> Chỉ còn mục **không có nhà nào khác**; mục đã có nhà đều rời sổ — tra `git log --grep QD-nn`.
-> 🔴 **MỖI DÒNG PHẢI MANG MỘT TRONG HAI DẤU** (cửa **S25**, user chốt 09/08):
-> · 🔨 = **xây được cửa/test cho nó, mà chưa xây** ⇒ đây là VIỆC CHƯA XONG, **S25 kêu ĐỎ và
->   chặn `deploy.ps1`**. Búa chỉ được sống GIỮA phiên — *"không phiên nào hoàn thành xong mà
->   còn icon búa"*. Xây xong thì **chép VÌ SAO vào lời báo lỗi của cửa / docstring của test**
->   rồi cho dòng rời sổ ngay, đừng để nó nằm lại tốn token đọc.
-> · ⚖️ = **đánh đổi người phải tự cân**, không cửa nào thay được. Loại DUY NHẤT đáng ở lại.
-> 
-> Đo 09/08 lúc dựng S25: sổ có **5 dòng 🔨 treo tới 20 ngày mà 0 cái được xây**, cộng **8 dòng
-> đã có cửa/test từ lâu mà vẫn nằm lì**. Nhãn không ai thi hành thì không phải cơ chế, là lời hứa.
-> — = quyết định trước khi có sổ (15/07–29/07), **cố ý không đánh số**: commit hồi đó không nhắc số
-> nên `git log --grep` ra rỗng, đánh số là đẻ ra lời hứa sai.
+> 🔴 **CHỈ GHI VÀO ĐÂY QUYẾT ĐỊNH VỀ THỨ **KHÔNG CÓ TRONG CODE** (cửa **S26** canh thật).**
+> Trích được `QD-nn` ở một file `.py` nghĩa là **có chỗ cắm lý do** ⇒ cắm vào đó rồi cho dòng sổ
+> CHẾT ngay. Số hiệu không mất: `so_hieu_da_biet()` đọc cả `git log`, `git log --grep QD-nn` ra
+> nguyên văn dài gấp 6–16 lần dòng bảng. Thứ sổ này giữ được mà không gì thay được, chỉ có hai
+> loại: **code ĐÃ XOÁ** (không còn file để cắm — nhưng thử viết TEST "file này phải không tồn
+> tại" trước đã) và **thứ nằm ngoài repo** (cấu hình trong Anki, thói quen của user).
+>
+> 📏 **Đo 01/09/2026 lúc dựng S26 — vì sao phải có lằn ranh này.** Sổ từng bị dọn sạch về **0**
+> ngày 09/08, rồi đầy lại **10 dòng trong 23 ngày**, **5 dòng trong một phiên**. Soi ra **8/10
+> dòng đã có nhà đầy đủ trong code** (643–2.089 ký tự, gấp 3–8 lần dòng bảng). Thủ phạm là chính
+> luật cũ: nó bắt chọn 🔨 hay ⚖️, mà 🔨 **chặn deploy** ⇒ mọi phiên chọn ⚖️ — rẻ cho người viết,
+> không đúng cho repo. Kết quả: **10/10 dòng ⚖️, 0 dòng 🔨**. Nhãn không ai thi hành thì không
+> phải cơ chế, chỉ là lời hứa; nên nay có cửa đếm thật.
+>
+> 🔴 **DẤU vẫn giữ** (cửa **S25**): · 🔨 = xây được cửa/test mà CHƯA xây ⇒ việc chưa xong, S25
+> kêu ĐỎ. · ⚖️ = đánh đổi người phải tự cân. — = quyết định trước khi có sổ (15/07–29/07), cố ý
+> không đánh số vì commit hồi đó không nhắc số.
 
 | QD | Ngày | Quyết định | Vì sao (ngắn) |
 |---|---|---|---|
-| QD-45 | 01/09 | ⚖️ ĐÓNG HẲN mảng thẻ CHI PHỐI: xoá 17 thẻ, 5 deck, cả dây chuyền; web luyện huỷ | User chốt: rủi ro ĐỘ CHÍNH XÁC HỌC THUẬT; `slushai` giữ vai tập NGHE. Bản chép 17 thẻ ở `backups/`. Model rỗng để yên — xoá là full sync |
-| QD-44 | 01/09 | ⚖️ Trần dòng file: MỘT sổ (`da_ghi_no` kèm `vi_sao`), CẤM chép sang `SONO.md` | Cửa S13 bảo ghi HAI nơi trong khi chân trang `SONO.md` cấm ⇒ 8/12 dòng sổ nợ là số trần, sổ trông như 12 việc mà chỉ có 4. Hai bản đã lệch thật |
-| QD-43 | 01/09 | ⚖️ Thể động từ: bảng `THE_NGUON_SAI` ở `grammar.py`; vá badge đọc `GrammarJSON` CỦA THẺ trước bộ đệm theo tên | Dặn "chừa `быть`" ở docstring từ 12/08 mà 0 dòng code thi hành ⇒ `--apply` vẫn ghi đè. `нарезать` bỏ dấu trùng 2 thẻ |
-| QD-42 | 01/09 | ⚖️ XOÁ lệnh `/suadeck` (làm lại CẢ deck bằng 1 nút) | Ra đời 15/07 cho deck-theo-ngày, cây deck CHỦ ĐỀ ra đời 18/07 ⇒ chết từ đó. Nguy: ghi đè mọi thẻ, không xem trước, từ nguồn đo được là sai. Sửa hàng loạt ⇒ script có chạy khan |
-| QD-41 | 01/09 | ⚖️ Từ loại: nguồn trước, AI vá chỗ nguồn bỏ trống; bảng KHÔNG có mã "other" | "other" phủ 93/1290 thẻ ⇒ badge không dạy gì. AI khớp 89/93 bảng xếp tay, 4 chỗ lệch là từ HAI loại. Đi nhờ lượt AI sẵn có ⇒ 0 request thêm |
-| QD-39 | 27/08 | ⚖️ Thẻ động từ in CẢ NHÓM cùng gốc, chỉ từ ĐÃ CÓ thẻ | Lật QD-26: ba nhóm 3 thẻ làm `слушать` hiện HAI bạn thể khác nhau ở hai thẻ, cả ba cùng nhãn "hoàn thành" ⇒ ôn thấy mâu thuẫn. Cấm cũ là cấm in từ CHƯA HỌC |
-| QD-40 | 27/08 | ⚖️ Danh tính một từ = `acc` + thể, KHÔNG lưu `id` OpenRussian | Đo 14 871 động từ: tên bỏ dấu nhấn nhập nhằng 156 ca, `acc` còn 5, thêm thể còn 2 (hai ca đó lặp dòng y hệt). `id` bắt cào lại 1253 thẻ mà không tự kiểm được |
-| QD-38 | 23/08 | ⚖️ BỎ `FALLBACK_TOPIC`: không xếp được thì để **TRỐNG tag** | Rọ `concepts::misc` khai thẳng là *"fallback when nothing fits"* ⇒ thẻ đổ vào đó TRÔNG NHƯ đã xong, không ai tìm lại. Giá: thẻ trống tag chỉ `/thongke` thấy |
-| QD-37 | 23/08 | ⚖️ Cây chủ đề theo chuẩn ТРКИ, nhưng **chỉ lấy danh sách từ + trình độ**, nhãn tự xếp | Nhãn từng từ của nguồn sai hệ thống: 6/16 cặp đối nhau bị tách (`папа` ở Семья mà `мама` ở Жизнь человека). Cấu trúc cây thì tốt |
 | QD-36 | 23/08 | ⚖️ Gộp 4 preset deck thành **1**, bỏ trần thẻ mới/ngày | Đo 23/08: 3 preset cai quản **0 thẻ**, 21 tham số FSRS + bước học giống hệt. Giá: hết tinh chỉnh riêng `0-quen` (không gõ) vs `1-go` (gõ từng ký tự) |
 | — | 22/07 | ⚖️ Bỏ deck lọc "phòng tập", cày thẳng trong inbox bằng **undo** | Deck lọc rút thẻ khỏi inbox nên hai bên lệch nhau; undo hoàn nguyên trọn vẹn cả revlog lẫn lịch |
