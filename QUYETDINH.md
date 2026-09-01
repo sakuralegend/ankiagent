@@ -69,6 +69,7 @@
 
 | QD | Ngày | Quyết định | Vì sao (ngắn) |
 |---|---|---|---|
+| QD-45 | 01/09 | ⚖️ ĐÓNG HẲN mảng thẻ CHI PHỐI: xoá 17 thẻ, 5 deck, cả dây chuyền; web luyện huỷ | User chốt: rủi ro ĐỘ CHÍNH XÁC HỌC THUẬT; `slushai` giữ vai tập NGHE. Bản chép 17 thẻ ở `backups/`. Model rỗng để yên — xoá là full sync |
 | QD-44 | 01/09 | ⚖️ Trần dòng file: MỘT sổ (`da_ghi_no` kèm `vi_sao`), CẤM chép sang `SONO.md` | Cửa S13 bảo ghi HAI nơi trong khi chân trang `SONO.md` cấm ⇒ 8/12 dòng sổ nợ là số trần, sổ trông như 12 việc mà chỉ có 4. Hai bản đã lệch thật |
 | QD-43 | 01/09 | ⚖️ Thể động từ: bảng `THE_NGUON_SAI` ở `grammar.py`; vá badge đọc `GrammarJSON` CỦA THẺ trước bộ đệm theo tên | Dặn "chừa `быть`" ở docstring từ 12/08 mà 0 dòng code thi hành ⇒ `--apply` vẫn ghi đè. `нарезать` bỏ dấu trùng 2 thẻ |
 | QD-42 | 01/09 | ⚖️ XOÁ lệnh `/suadeck` (làm lại CẢ deck bằng 1 nút) | Ra đời 15/07 cho deck-theo-ngày, cây deck CHỦ ĐỀ ra đời 18/07 ⇒ chết từ đó. Nguy: ghi đè mọi thẻ, không xem trước, từ nguồn đo được là sai. Sửa hàng loạt ⇒ script có chạy khan |

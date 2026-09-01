@@ -18,6 +18,10 @@
 
 ---
 
+## v2.3.0 — 01/09/2026
+
+- 🗑️ **Bỏ hẳn bộ thẻ "chi phối" (17 thẻ, thư mục `GRAMMAR::chi phối`).** Bác chốt bỏ vì lo độ chính xác học thuật. Thẻ và thư mục đã xoá, đã đồng bộ — **iPhone chỉ cần bấm Sync như thường, không phải làm gì thêm**. Bản chép 17 thẻ vẫn giữ trong `backups/` nếu đổi ý. Trang web luyện chi phối cũng huỷ; `slushai` giữ đúng vai **tập nghe**.
+
 ## v2.2.0 — 01/09/2026
 
 - 🗑️ **Bỏ lệnh `/suadeck` và nút "📚 Cả deck".** Nó làm lại TOÀN BỘ thẻ của một thư mục bằng một nút bấm — không xem trước, không hoàn tác, mà dữ liệu lấy về có chỗ sai. Nó sinh ra hồi thư mục còn chia theo NGÀY, ba ngày sau đã đổi sang CHỦ ĐỀ. **`/sua` (làm lại MỘT thẻ) và nút "✏️ Làm lại thẻ" giữ nguyên.**
@@ -38,21 +42,3 @@
   bịt đường gây lỗi — từ điển có 156 cặp kiểu này, 22 cặp nằm trong danh sách từ bạn sắp học.
 - 🏷️ **Ô "loại từ" trên thẻ hết hiện chữ `other`.** 93 thẻ — toàn từ hay dùng như `там`, `в`, `и`, `не`, `ой` — mặt sau chỉ ghi "other", tức là có một ô mà không dạy gì. Nguyên nhân: từ điển nguồn gom trạng từ, giới từ, liên từ, trợ từ vào chung một rọ tên "other". Giờ mỗi thẻ ghi đúng loại của nó (`adverb`, `preposition`, `conjunction`, `particle`, `pronoun`, `predicative`, `interjection`), và thẻ mới thêm từ nay cũng vậy.
 
-## v2.0.0 — 23/08/2026
-
-- 🔴 **BẠN PHẢI LÀM MỘT VIỆC, nếu không máy chủ sẽ chạy sai:** trên laptop mở Anki, bấm
-  `Tools → Sync` và chọn **Upload**; sau đó trên máy chủ mở `vnc.bat`, bấm Sync và chọn
-  **Download**. Cần bước này vì các thư mục học đã bị sắp xếp lại, Anki không tự trộn được.
-- 📂 **Kho từ được chia lại từ 19 nhóm thành 35 nhóm.** Trước đây có hai nhóm kiểu "linh tinh"
-  và "trừu tượng" — thứ gì không biết xếp đâu thì bị bỏ vào đó, lâu ngày phình lên **335 thẻ
-  nằm sai chỗ**. Hai nhóm đó nay **bỏ hẳn**, và từ nay không nhóm nào được mang nghĩa
-  "phần còn lại" nữa.
-- 🚌 **497 thẻ được xếp lại cho đúng.** Ví dụ: *xe buýt, toa tàu* trước nằm chung với *trường
-  học, cửa hàng*, nay có nhóm **phương tiện đi lại** riêng; *người Mỹ, người nước ngoài* trước
-  nằm trong nhóm **gia đình**, nay ở nhóm **quốc tịch**; các từ chỉ **màu sắc** về đúng nhóm màu.
-- ♾️ **Bỏ giới hạn 20 thẻ mới mỗi ngày.** Trước đây có giới hạn này mà bạn không biết. Nay học
-  bao nhiêu từ mới một ngày là tuỳ bạn.
-- ✅ **Không mất thẻ nào và không mất tiến độ ôn.** Đã đếm lại: đủ 1.212 thẻ từ vựng, 124 thẻ
-  số nhiều, 17 thẻ chi phối. Lịch ôn của từng thẻ giữ nguyên như cũ.
-
----

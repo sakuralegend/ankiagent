@@ -14,8 +14,6 @@
 
 | Nợ | Vì sao chưa trả | Hết hạn |
 |---|---|---|
-| Luồng QUÉT ẢNH chưa thử thật sau khi refactor sang `core.them_loat_tu` (23/08) | Cần một ảnh trang sách để thử; 160 test không phủ được đường đi Telegram. Đọc lại mã thì khớp | 2026-09-15 |
-| Web luyện CHI PHỐI ĐỘNG TỪ (repo `slushai`) — cửa 1 xong 11/08, chưa duyệt kế hoạch | Nhường lượt cho việc thay cây chủ đề + lệnh thêm từ. Toàn văn: `git log --grep "CHI PHOI"` (5 commit) | 2026-10-31 |
 
 🔴 **Trước khi thêm dòng, hỏi: đây có phải NỢ không?** Nợ = việc mình BIẾT phải làm
 mà cố ý hoãn. KHÔNG phải nợ, và cấm ghi vào đây:
