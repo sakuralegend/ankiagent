@@ -529,6 +529,52 @@ class TheHienSaiMatCaHaiChieu(unittest.TestCase):
             self.assertNotIn(f'_ac("{buoc}"', nguon,
                              f"chép bước {buoc} ra đây là dựng bản thứ hai của luật thăng cấp")
 
+    def test_cua_canh_KHONG_tai_ca_kho_bang_cardsInfo(self):
+        """13/09/2026: `cardsInfo` cho 1 295 thẻ = 127 MB/lần (kèm HTML mặt thẻ đã
+        dựng), 613 MB RAM, 48 lần/ngày ⇒ bot chiếm 1 GB + 930 MB swap, VPS 2 GB
+        chung với dự án khác bị kêu. `anki_thongke.py` đã tránh đúng bẫy này từ
+        07/2026 mà cửa canh vẫn dẫm lại — nên canh bằng máy, cả hai file."""
+        goc = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        for ten in ("soat_giaidoan.py", "anki_thongke.py"):
+            with open(os.path.join(goc, "anki_tools", ten), encoding="utf-8") as f:
+                self.assertNotIn('"cardsInfo"', f.read(), f"{ten} lại tải cả kho")
+
+    def test_soat_hai_luot_ra_dung_ket_qua_ma_chi_tra_note_cho_the_nghi(self):
+        """Lượt 1 chỉ có deck + nhãn (nhẹ); lượt 2 tra note_mod/Word cho đúng thẻ
+        nghi. Thẻ 1: GĐ1, nhãn type, đã tốt nghiệp, sửa lâu → thăng cấp. Thẻ 2: deck
+        gõ, mất nhãn nhưng vừa sửa 5 s trước → BỎ QUA. Thẻ 3: đúng → không hỏi note."""
+        from unittest import mock
+        from anki_tools import soat_giaidoan as sg
+        from anki_tools.config import STAGE1_DECK, STAGE2_DECK
+        bay_gio = 1_000_000
+        hoi_note = []
+
+        def ac(action, timeout=60, **p):
+            if action == "findCards":
+                q = p["query"]
+                if "is:review" in q:      return [1]
+                if "Stage:type" in q:     return [1, 3]
+                if "Stage:_*" in q:       return [1, 3]
+                return [1, 2, 3]
+            if action == "getDecks":
+                return {STAGE1_DECK: [1], STAGE2_DECK: [2], "RUSSIAN::nature": [3]}
+            if action == "cardsToNotes":
+                hoi_note.extend(p["cards"]); return [100 + p["cards"][0]]
+            if action == "notesModTime":
+                return [{"noteId": n, "mod": bay_gio - (5 if n == 102 else 3600)}
+                        for n in p["notes"]]
+            if action == "notesInfo":
+                return [{"noteId": n, "fields": {"Word": {"value": f"w{n}"}}}
+                        for n in p["notes"]]
+            raise AssertionError(f"cửa canh không được gọi {action}")
+
+        with mock.patch.object(sg, "_ac", ac),              mock.patch.object(sg.time, "time", lambda: bay_gio),              mock.patch.object(sg, "thang_cap_gd2") as tc:
+            n, bao_cao = sg.soat_va_va(apply=True, da_sync=True)
+        self.assertEqual(n, 1)
+        self.assertIn("w101", bao_cao)
+        tc.assert_called_once_with([1], [101])
+        self.assertEqual(sorted(hoi_note), [1, 2])     # thẻ 3 đúng → không tra note
+
 
 class MocFsrsPhaiSoatDuMOIPRESET(unittest.TestCase):
     """04/08/2026 — `scripts/do_fsrs.py` bản đầu chỉ đọc preset của deck "RUSSIAN",

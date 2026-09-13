@@ -66,27 +66,59 @@ def tim_lech(the, da_tot_nghiep, bay_gio, hoan_giay=HOAN_GIAY):
     return ra
 
 
+def ghep_the(theo_deck, co_nhan, la_type):
+    """PHẦN THUẦN — dựng bảng thẻ từ ba câu trả lời NHẸ của Anki (test offline được).
+
+    `theo_deck`: `getDecks` → {tên deck: [cardId]} · `co_nhan`: set cardId mà ô
+    `Stage` KHÁC rỗng · `la_type`: set cardId mà `Stage` = "type". Nhãn khác rỗng
+    mà không phải "type" ghi "?" — `tim_lech` chỉ hỏi *rỗng hay không* và *có phải
+    "type" không*, nên "?" cho ra cùng phán quyết với giá trị thật.
+
+    `noteId`/`note_mod`/`tu` cố ý để TRỐNG ở bước này: tra ba thứ đó cho cả kho là
+    tải 14 MB, mà chỉ thẻ NGHI lệch mới cần — xem `_bo_sung_note`."""
+    the = []
+    for deck, cids in (theo_deck or {}).items():
+        for cid in cids:
+            stage = "type" if cid in la_type else ("?" if cid in co_nhan else "")
+            the.append({"cardId": cid, "noteId": None, "deck": deck,
+                        "stage": stage, "note_mod": 0, "tu": "?"})
+    return the
+
+
 def _doc_the():
-    """Đọc deck + nhãn của mọi thẻ trong bộ sưu tập. 3 lời gọi, ~4,8s/976 thẻ."""
-    cids = _ac("findCards", query=f'deck:"{TOPIC_DECK_PARENT}::*"')
+    """Đọc deck + nhãn của mọi thẻ trong bộ sưu tập. 5 lời gọi, ~0,4 s / 1 295 thẻ.
+
+    🔴 CẤM `cardsInfo` cho cả kho ở đây (đo 13/09/2026: 127 MB/lần vì nó kèm HTML
+    mặt trước/sau + CSS ĐÃ DỰNG của từng thẻ, Python tốn 613 MB RAM để đọc, cửa
+    canh gọi 48 lần/ngày ⇒ bot chiếm 1 GB + 930 MB swap trên VPS 2 GB, các dự án
+    cùng máy kêu). Ba lệnh dưới trả đúng thứ cần (deck, nhãn) — tổng 0,14 MB.
+    `anki_thongke.py` đã tránh `cardsInfo` cùng lý do; test canh cả hai."""
+    goc = f'deck:"{TOPIC_DECK_PARENT}::*"'
+    cids = _ac("findCards", query=goc)
     if not cids:
         return [], set()
-    cards = _ac("cardsInfo", timeout=300, cards=cids)
-    notes = _ac("notesInfo", timeout=300,
-                notes=sorted({c["note"] for c in cards if c.get("note")}))
-    stage, mod, tu = {}, {}, {}
-    for n in notes:
-        f = n.get("fields", {})
-        stage[n["noteId"]] = f.get("Stage", {}).get("value") or ""
-        mod[n["noteId"]] = n.get("mod", 0)
-        tu[n["noteId"]] = f.get("Word", {}).get("value") or "?"
-    the = [{"cardId": c["cardId"], "noteId": c.get("note"), "deck": c.get("deckName"),
-            "stage": stage.get(c.get("note"), ""), "note_mod": mod.get(c.get("note"), 0),
-            "tu": tu.get(c.get("note"), "?")}
-           for c in cards if isinstance(c, dict)]
+    theo_deck = _ac("getDecks", cards=cids)
+    co_nhan = set(_ac("findCards", query=f"{goc} Stage:_*"))
+    la_type = set(_ac("findCards", query=f"{goc} Stage:type"))
     tot_nghiep = set(_ac("findCards",
                          query=f'deck:"{STAGE1_DECK}" is:review -is:suspended'))
-    return the, tot_nghiep
+    return ghep_the(theo_deck, co_nhan, la_type), tot_nghiep
+
+
+def _bo_sung_note(the):
+    """Tra note id · thời điểm sửa · chữ `Word` — CHỈ cho các thẻ nghi lệch (thường
+    0, đợt to nhất từng đo 36), không phải cả kho. `cardsToNotes` trả danh sách
+    KHÔNG theo thứ tự nên phải hỏi từng thẻ một."""
+    for t in the:
+        t["noteId"] = _ac("cardsToNotes", cards=[t["cardId"]])[0]
+    nids = sorted({t["noteId"] for t in the})
+    mod = {m["noteId"]: m["mod"] for m in _ac("notesModTime", notes=nids)}
+    tu = {n["noteId"]: n.get("fields", {}).get("Word", {}).get("value") or "?"
+          for n in _ac("notesInfo", notes=nids)}
+    for t in the:
+        t["note_mod"] = mod.get(t["noteId"], 0)
+        t["tu"] = tu.get(t["noteId"], "?")
+    return the
 
 
 def soat_va_va(apply=True, da_sync=False):
@@ -101,7 +133,14 @@ def soat_va_va(apply=True, da_sync=False):
     if apply and not da_sync and not sync_truoc_khi_ghi_lo("vá thẻ lệch giai đoạn"):
         return 0, ""
     the, tot_nghiep = _doc_the()
-    lech = tim_lech(the, tot_nghiep, time.time())
+    bay_gio = time.time()
+    # Lượt 1 chưa có `note_mod` (=0, coi như cũ) → ra danh sách NGHI lệch, thường
+    # rỗng. Lượt 2 tra note cho đúng các thẻ đó rồi lọc lại theo HOAN_GIAY —
+    # kết quả y hệt soát một lượt trên đủ dữ liệu, chỉ khác là không tải cả kho.
+    nghi = [t for r in tim_lech(the, tot_nghiep, bay_gio).values() for t in r]
+    if not nghi:
+        return 0, ""
+    lech = tim_lech(_bo_sung_note(nghi), tot_nghiep, bay_gio)
     tong = sum(len(v) for v in lech.values())
     if not tong:
         return 0, ""
