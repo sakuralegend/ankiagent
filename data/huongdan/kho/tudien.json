@@ -10310,5 +10310,61 @@
   "pos": "n",
   "topic": "life::home",
   "cu": false
+ },
+ {
+  "wc": "дельфин",
+  "w": "дельфи́н",
+  "en": "<ol class=\"meaning-list\"><li>dolphin</li></ol>",
+  "pos": "n",
+  "topic": "nature::animals",
+  "cu": false
+ },
+ {
+  "wc": "здоровый",
+  "w": "здоро́вый",
+  "en": "<ol class=\"meaning-list\"><li>healthy</li></ol>",
+  "pos": "adj",
+  "topic": "life::health",
+  "cu": false
+ },
+ {
+  "wc": "молоток",
+  "w": "молото́к",
+  "en": "<ol class=\"meaning-list\"><li>hammer</li></ol>",
+  "pos": "n",
+  "topic": "life::home",
+  "cu": false
+ },
+ {
+  "wc": "пустошь",
+  "w": "пу́стошь",
+  "en": "<ol class=\"meaning-list\"><li>wasteland</li><li>waste plot</li><li>waste ground</li></ol>",
+  "pos": "n",
+  "topic": "places::geo",
+  "cu": false
+ },
+ {
+  "wc": "серый",
+  "w": "се́рый",
+  "en": "<ol class=\"meaning-list\"><li>grey</li><li>gray</li><li>dull</li><li>drab</li><li>dreary</li><li>nondescript</li><li>uneducated</li><li>ignorant</li><li>uncultured</li></ol>",
+  "pos": "adj",
+  "topic": "qualities::colors",
+  "cu": false
+ },
+ {
+  "wc": "съездить",
+  "w": "съе́здить",
+  "en": "<ol class=\"meaning-list\"><li>travel or go by vehicle</li></ol>",
+  "pos": "v",
+  "topic": "places::travel",
+  "cu": false
+ },
+ {
+  "wc": "термометр",
+  "w": "термо́метр",
+  "en": "<ol class=\"meaning-list\"><li>thermometer</li></ol>",
+  "pos": "n",
+  "topic": "life::home",
+  "cu": false
  }
 ]

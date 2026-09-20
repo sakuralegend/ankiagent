@@ -88,4 +88,8 @@ MIEN_TRU = {
                "nouns.csv ghi pl_gen của коро́бка là коро́бок, thẻ k78 dạy đúng cặp này. Máy khớp "
                "phải DÒNG RIÊNG của đồng tự коробо́к = hộp nhỏ, bao diêm (коробо́к спи́чек). "
                "Cùng lớp với ви́лок ở trên",
+    "сера́": "DẠNG NGẮN giống cái của tính từ се́рый (xám) — grammar_cache ghi rõ bộ "
+            "сер · сера́ · се́ро · се́ры; thẻ k82 cố ý nêu cặp сера́ (xám) ↔ се́ра (lưu huỳnh, "
+            "gốc của се́рный) vì hai từ chỉ khác nhau đúng chỗ trọng âm, nouns.csv chỉ có "
+            "danh từ се́ра. Cùng lớp với жарка́, дорога́, до́бро ở trên",
 }
