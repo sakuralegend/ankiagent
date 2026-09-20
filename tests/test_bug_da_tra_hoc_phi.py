@@ -539,6 +539,15 @@ class TheHienSaiMatCaHaiChieu(unittest.TestCase):
             with open(os.path.join(goc, "anki_tools", ten), encoding="utf-8") as f:
                 self.assertNotIn('"cardsInfo"', f.read(), f"{ten} lại tải cả kho")
 
+    def test_thong_ke_the_hoc_lai_KHONG_dem_hai_lan(self):
+        """20/09/2026: thẻ HỌC LẠI (type=3, queue=1) khớp cả `is:learn` lẫn
+        `is:review`. Nhóm Trẻ/Trưởng thành mà không trừ `-is:learn` thì thẻ đó bị
+        đếm hai lần, mục "❓ Khác" của /thongke ra số ÂM (user thấy "18" trên VPS)."""
+        from anki_tools.anki_thongke import CARD_STATES
+        for slug, _, query in CARD_STATES:
+            if "is:review" in query:
+                self.assertIn("-is:learn", query, f"nhóm {slug} đếm trùng thẻ học lại")
+
     def test_soat_hai_luot_ra_dung_ket_qua_ma_chi_tra_note_cho_the_nghi(self):
         """Lượt 1 chỉ có deck + nhãn (nhẹ); lượt 2 tra note_mod/Word cho đúng thẻ
         nghi. Thẻ 1: GĐ1, nhãn type, đã tốt nghiệp, sửa lâu → thăng cấp. Thẻ 2: deck

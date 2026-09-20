@@ -21,10 +21,12 @@ _ACTIVE = "-is:suspended -is:buried"
 CARD_STATES = [
     ("new", "🆕 Mới (chưa học)", f"is:new {_ACTIVE}"),
     ("learning", "📖 Đang học", f"is:learn {_ACTIVE}"),
+    # `-is:learn`: thẻ HỌC LẠI (thuộc rồi quên) khớp cả is:learn lẫn is:review —
+    # thiếu vế này nó bị đếm hai lần và mục "Khác" ra số ÂM (đo VPS 20/09/2026).
     ("young", f"🌱 Trẻ (dưới {MATURE_IVL_DAYS} ngày)",
-     f"is:review prop:ivl<{MATURE_IVL_DAYS} {_ACTIVE}"),
+     f"is:review -is:learn prop:ivl<{MATURE_IVL_DAYS} {_ACTIVE}"),
     ("mature", f"🌳 Trưởng thành (từ {MATURE_IVL_DAYS} ngày)",
-     f"is:review prop:ivl>={MATURE_IVL_DAYS} {_ACTIVE}"),
+     f"is:review -is:learn prop:ivl>={MATURE_IVL_DAYS} {_ACTIVE}"),
     ("suspended", "⏸ Tạm ngưng", "is:suspended"),
     ("buried", "🫥 Tạm ẩn", f"is:buried -is:suspended"),
 ]
@@ -43,9 +45,9 @@ def get_card_state_stats(deck=None):
     kèm theo cả HTML mặt trước/sau ĐÃ DỰNG của từng thẻ — với ~700 thẻ là vài MB
     tải về chỉ để đọc hai con số queue/type.
 
-    Nhóm "Đang học" gộp cả thẻ học lại (lapse). Anki tách riêng Relearning, nhưng đã
-    đo trên chính collection này: `is:learn` và `is:review` KHÔNG giao nhau nên không
-    có cách tách bằng truy vấn — mà bốn nhóm chính mới là thứ cần nhìn hằng ngày."""
+    Nhóm "Đang học" gộp cả thẻ học lại (lapse) — bốn nhóm chính mới là thứ cần nhìn
+    hằng ngày. Thẻ học lại khớp CẢ `is:learn` lẫn `is:review` (type=3, queue=1), nên
+    Trẻ/Trưởng thành phải trừ `-is:learn` đi, không thì tổng các nhóm vượt tổng thẻ."""
     # Thoát dấu " trong tên deck y như get_deck_note_ids() — tên deck do user đặt
     safe_deck = (deck or "").replace('"', '\\"')
     scope = f'deck:"{safe_deck}"' if deck else ""
