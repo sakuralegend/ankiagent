@@ -10366,5 +10366,61 @@
   "pos": "n",
   "topic": "life::home",
   "cu": false
+ },
+ {
+  "wc": "мять",
+  "w": "мять",
+  "en": "<ol class=\"meaning-list\"><li>crumple</li><li>crease</li><li>wrinkle</li><li>knead</li><li>work (dough)</li><li>squeeze</li><li>trample down</li><li>flatten</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "около",
+  "w": "о́коло",
+  "en": "<ol class=\"meaning-list\"><li>near</li><li>close to</li><li>beside</li><li>by</li><li>approximately</li><li>about</li><li>around</li></ol>",
+  "pos": "prep",
+  "topic": "places::position",
+  "cu": false
+ },
+ {
+  "wc": "орден",
+  "w": "о́рден",
+  "en": "<ol class=\"meaning-list\"><li>decoration for achievement (~ медаль)</li></ol>",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "осматривать",
+  "w": "осма́тривать",
+  "en": "<ol class=\"meaning-list\"><li>inspect</li><li>examine</li><li>look over</li><li>check</li><li>view</li><li>see (the sights)</li><li>survey</li><li>look around</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "память",
+  "w": "па́мять",
+  "en": "<ol class=\"meaning-list\"><li>memory</li><li>memory</li><li>recollection</li><li>memory (of the dead)</li><li>remembrance</li><li>memento</li><li>keepsake</li><li>memory</li><li>storage</li></ol>",
+  "pos": "n",
+  "topic": "concepts::mind",
+  "cu": false
+ },
+ {
+  "wc": "помять",
+  "w": "помя́ть",
+  "en": "<ol class=\"meaning-list\"><li>crumple</li><li>wrinkle</li><li>crease</li><li>dent</li><li>bash in</li><li>trample down</li><li>flatten</li><li>knead</li><li>squeeze</li><li>work with the hands</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "сердце",
+  "w": "се́рдце",
+  "en": "<ol class=\"meaning-list\"><li>heart</li><li>heart</li><li>darling</li><li>sweetheart</li><li>my love</li><li>anger</li><li>temper</li></ol>",
+  "pos": "n",
+  "topic": "people::body",
+  "cu": false
  }
 ]
