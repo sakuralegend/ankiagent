@@ -10422,5 +10422,125 @@
   "pos": "n",
   "topic": "people::body",
   "cu": false
+ },
+ {
+  "wc": "администратор",
+  "w": "администра́тор",
+  "en": "<ol class=\"meaning-list\"><li>administrator</li><li>manager</li><li>business manager</li><li>receptionist</li><li>front-desk clerk</li><li>desk manager</li><li>administrator</li><li>sysadmin</li></ol>",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "архитектор",
+  "w": "архите́ктор",
+  "en": "<ol class=\"meaning-list\"><li>architect</li></ol>",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "восток",
+  "w": "восто́к",
+  "en": "<ol class=\"meaning-list\"><li>east</li><li>the East</li><li>the Orient</li></ol>",
+  "pos": "n",
+  "topic": "places::geo",
+  "cu": false
+ },
+ {
+  "wc": "запад",
+  "w": "за́пад",
+  "en": "<ol class=\"meaning-list\"><li>west</li><li>the West</li><li>the Occident</li></ol>",
+  "pos": "n",
+  "topic": "places::geo",
+  "cu": false
+ },
+ {
+  "wc": "колесо",
+  "w": "колесо́",
+  "en": "<ol class=\"meaning-list\"><li>wheel</li></ol>",
+  "pos": "n",
+  "topic": "places::transport",
+  "cu": false
+ },
+ {
+  "wc": "купол",
+  "w": "ку́пол",
+  "en": "<ol class=\"meaning-list\"><li>dome</li><li>big top</li><li>cupola</li></ol>",
+  "pos": "n",
+  "topic": "life::home",
+  "cu": false
+ },
+ {
+  "wc": "лагерь",
+  "w": "ла́герь",
+  "en": "<ol class=\"meaning-list\"><li>camp</li></ol>",
+  "pos": "n",
+  "topic": "life::leisure",
+  "cu": false
+ },
+ {
+  "wc": "лист",
+  "w": "лист",
+  "en": "<ol class=\"meaning-list\"><li>leaf (of a plant)</li></ol>",
+  "pos": "n",
+  "topic": "nature::plants",
+  "cu": false
+ },
+ {
+  "wc": "луг",
+  "w": "луг",
+  "en": "<ol class=\"meaning-list\"><li>meadow</li></ol>",
+  "pos": "n",
+  "topic": "places::geo",
+  "cu": false
+ },
+ {
+  "wc": "медсестра",
+  "w": "медсестра́",
+  "en": "<ol class=\"meaning-list\"><li>nurse</li></ol>",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "полгода",
+  "w": "полго́да",
+  "en": "<ol class=\"meaning-list\"><li>half a year</li><li>six months</li></ol>",
+  "pos": "n",
+  "topic": "time",
+  "cu": false
+ },
+ {
+  "wc": "север",
+  "w": "се́вер",
+  "en": "<ol class=\"meaning-list\"><li>north</li></ol>",
+  "pos": "n",
+  "topic": "places::geo",
+  "cu": false
+ },
+ {
+  "wc": "строитель",
+  "w": "строи́тель",
+  "en": "<ol class=\"meaning-list\"><li>builder</li><li>construction worker</li><li>builder</li><li>creator</li></ol>",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "судно",
+  "w": "су́дно",
+  "en": "<ol class=\"meaning-list\"><li>vessel</li><li>ship</li><li>bedpan</li></ol>",
+  "pos": "n",
+  "topic": "places::transport",
+  "cu": false
+ },
+ {
+  "wc": "ученик",
+  "w": "учени́к",
+  "en": "<ol class=\"meaning-list\"><li>pupil</li><li>schoolboy</li><li>student (at school)</li><li>apprentice</li><li>trainee</li><li>disciple</li><li>follower</li></ol>",
+  "pos": "n",
+  "topic": "language::education",
+  "cu": false
  }
 ]

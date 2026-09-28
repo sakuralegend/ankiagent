@@ -15,7 +15,8 @@ giao cho AGENT**. Nội dung thẻ trông thế nào là việc của `data/huon
 
 🔴 **Luồng chính KHÔNG soạn chữ nào và KHÔNG mở file lô** (~1 000 dòng/file). Gộp nhiều lô vào
 một context làm chất lượng **nhạt dần** mà chính người soạn khó tự thấy — user không kiểm được
-nội dung nên đây là kiểu xuống cấp nguy hiểm nhất. **Mọi lô chạy ở Opus**, đừng hạ model cho rẻ.
+nội dung nên đây là kiểu xuống cấp nguy hiểm nhất. **Mọi lô chạy ở Opus 5.5** (`claude-opus-5-5`, user chốt
+28/09): luồng chính không phải nó ⇒ dừng, bảo user `/model`; agent **bỏ trống `model`** để kế thừa luồng chính.
 
 ---
 
