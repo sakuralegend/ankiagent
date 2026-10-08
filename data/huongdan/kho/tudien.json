@@ -10542,5 +10542,333 @@
   "pos": "n",
   "topic": "language::education",
   "cu": false
+ },
+ {
+  "wc": "важный",
+  "w": "ва́жный",
+  "en": "<ol class=\"meaning-list\"><li>important</li><li>significant</li><li>grand</li><li>pompous</li></ol>",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "вдруг",
+  "w": "вдруг",
+  "en": "<ol class=\"meaning-list\"><li>suddenly</li><li>all of a sudden</li><li>in case</li><li>what if</li></ol>",
+  "pos": "adv",
+  "topic": "time",
+  "cu": false
+ },
+ {
+  "wc": "вспоминать",
+  "w": "вспомина́ть",
+  "en": "<ol class=\"meaning-list\"><li>to recall</li><li>to remember</li><li>to reminisce</li><li>to think back</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "готовый",
+  "w": "гото́вый",
+  "en": "<ol class=\"meaning-list\"><li>ready</li><li>prepared (for)</li><li>willing</li><li>ready</li><li>inclined</li><li>finished</li><li>ready-made</li><li>off-the-peg</li><li>done</li><li>cooked</li></ol>",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "давно",
+  "w": "давно́",
+  "en": "<ol class=\"meaning-list\"><li>long ago</li><li>a long time ago</li><li>for a long time</li><li>long since</li><li>long</li></ol>",
+  "pos": "adv",
+  "topic": "time",
+  "cu": false
+ },
+ {
+  "wc": "даже",
+  "w": "да́же",
+  "en": "<ol class=\"meaning-list\"><li>even</li></ol>",
+  "pos": "part",
+  "topic": "language::grammar",
+  "cu": false
+ },
+ {
+  "wc": "задача",
+  "w": "зада́ча",
+  "en": "<ol class=\"meaning-list\"><li>task</li><li>assignment</li><li>job</li><li>problem</li><li>exercise</li><li>sum</li><li>problem</li><li>challenge</li></ol>",
+  "pos": "n",
+  "topic": "language::education",
+  "cu": false
+ },
+ {
+  "wc": "закрывать",
+  "w": "закрыва́ть",
+  "en": "<ol class=\"meaning-list\"><li>to close</li><li>to shut</li><li>to lock</li><li>to lock up</li><li>to close down</li><li>to cover</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "запоминать",
+  "w": "запомина́ть",
+  "en": "<ol class=\"meaning-list\"><li>to memorize</li><li>to retain</li><li>to commit to memory</li><li>to store</li><li>to save</li></ol>",
+  "pos": "v",
+  "topic": "concepts::mind",
+  "cu": false
+ },
+ {
+  "wc": "зачем",
+  "w": "заче́м",
+  "en": "<ol class=\"meaning-list\"><li>why</li><li>what for</li><li>for what purpose</li></ol>",
+  "pos": "adv",
+  "topic": "language::grammar",
+  "cu": false
+ },
+ {
+  "wc": "известный",
+  "w": "изве́стный",
+  "en": "<ol class=\"meaning-list\"><li>well-known</li><li>known</li><li>famous</li><li>certain</li><li>particular</li><li>notorious</li></ol>",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "искусство",
+  "w": "иску́сство",
+  "en": "<ol class=\"meaning-list\"><li>art</li></ol>",
+  "pos": "n",
+  "topic": "life::art",
+  "cu": false
+ },
+ {
+  "wc": "ключ",
+  "w": "ключ",
+  "en": "<ol class=\"meaning-list\"><li>key</li><li>key</li><li>clue</li><li>solution</li><li>spring</li><li>source</li><li>wrench</li><li>spanner</li><li>clef</li><li>key (on a device)</li><li>switch</li></ol>",
+  "pos": "n",
+  "topic": "life::home",
+  "cu": false
+ },
+ {
+  "wc": "конец",
+  "w": "коне́ц",
+  "en": "<ol class=\"meaning-list\"><li>end</li><li>ending</li></ol>",
+  "pos": "n",
+  "topic": "time",
+  "cu": false
+ },
+ {
+  "wc": "кончать",
+  "w": "конча́ть",
+  "en": "<ol class=\"meaning-list\"><li>to finish</li><li>to end</li><li>to stop (doing)</li><li>to complete</li><li>to come</li><li>to cum</li><li>to ejaculate</li><li>to have an orgasm</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "лицо",
+  "w": "лицо́",
+  "en": "<ol class=\"meaning-list\"><li>face</li><li>person</li><li>individual</li><li>entity</li><li>party</li><li>right side</li><li>front side</li><li>person (grammatical)</li><li>point of view</li><li>face</li><li>image</li><li>public profile</li></ol>",
+  "pos": "n",
+  "topic": "people::body",
+  "cu": false
+ },
+ {
+  "wc": "младший",
+  "w": "мла́дший",
+  "en": "<ol class=\"meaning-list\"><li>younger</li><li>youngest</li><li>junior</li><li>lower-ranking</li></ol>",
+  "pos": "adj",
+  "topic": "people::family",
+  "cu": false
+ },
+ {
+  "wc": "наука",
+  "w": "нау́ка",
+  "en": "<ol class=\"meaning-list\"><li>science</li><li>study</li><li>knowledge</li></ol>",
+  "pos": "n",
+  "topic": "language::education",
+  "cu": false
+ },
+ {
+  "wc": "начинать",
+  "w": "начина́ть",
+  "en": "<ol class=\"meaning-list\"><li>to begin</li><li>to start</li><li>to commence</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "недавно",
+  "w": "неда́вно",
+  "en": "<ol class=\"meaning-list\"><li>recently</li></ol>",
+  "pos": "adv",
+  "topic": "time",
+  "cu": false
+ },
+ {
+  "wc": "никто",
+  "w": "никто́",
+  "en": "<ol class=\"meaning-list\"><li>nobody</li><li>no one</li></ol>",
+  "pos": "pron",
+  "topic": "language::grammar",
+  "cu": false
+ },
+ {
+  "wc": "опаздывать",
+  "w": "опа́здывать",
+  "en": "<ol class=\"meaning-list\"><li>to be late</li><li>to arrive late</li><li>to be delayed</li><li>to be overdue</li><li>to run late</li><li>to miss (a train)</li><li>to be too late for</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "открывать",
+  "w": "открыва́ть",
+  "en": "<ol class=\"meaning-list\"><li>to open</li><li>to open (an event)</li><li>to start</li><li>to reveal</li><li>to disclose</li><li>to discover</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "откуда",
+  "w": "отку́да",
+  "en": "<ol class=\"meaning-list\"><li>from where</li></ol>",
+  "pos": "adv",
+  "topic": "language::grammar",
+  "cu": false
+ },
+ {
+  "wc": "половина",
+  "w": "полови́на",
+  "en": "<ol class=\"meaning-list\"><li>half</li><li>half past</li></ol>",
+  "pos": "n",
+  "topic": "numbers",
+  "cu": false
+ },
+ {
+  "wc": "получать",
+  "w": "получа́ть",
+  "en": "<ol class=\"meaning-list\"><li>to receive</li><li>to get</li><li>to obtain</li><li>to receive (a signal)</li><li>to pick up</li><li>to obtain (by processing)</li><li>to produce</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "помогать",
+  "w": "помога́ть",
+  "en": "<ol class=\"meaning-list\"><li>to help</li><li>to assist</li><li>to aid</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "почти",
+  "w": "почти́",
+  "en": "<ol class=\"meaning-list\"><li>almost</li><li>nearly</li><li>close to</li></ol>",
+  "pos": "adv",
+  "topic": "places::position",
+  "cu": false
+ },
+ {
+  "wc": "природа",
+  "w": "приро́да",
+  "en": "<ol class=\"meaning-list\"><li>nature</li><li>countryside</li><li>the outdoors</li><li>character</li><li>essence</li><li>nature (of something)</li></ol>",
+  "pos": "n",
+  "topic": "nature::weather",
+  "cu": false
+ },
+ {
+  "wc": "продолжать",
+  "w": "продолжа́ть",
+  "en": "<ol class=\"meaning-list\"><li>to continue</li><li>to carry on with</li><li>to go on with</li><li>to keep on (doing)</li><li>to continue (doing)</li><li>to go on (doing)</li><li>to extend</li><li>to prolong</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "просить",
+  "w": "проси́ть",
+  "en": "<ol class=\"meaning-list\"><li>to ask for</li><li>to request</li><li>to invite</li><li>to ask (to come)</li><li>to beg</li><li>to implore</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "река",
+  "w": "река́",
+  "en": "<ol class=\"meaning-list\"><li>river</li><li>stream</li></ol>",
+  "pos": "n",
+  "topic": "places::geo",
+  "cu": false
+ },
+ {
+  "wc": "решать",
+  "w": "реша́ть",
+  "en": "<ol class=\"meaning-list\"><li>to decide</li><li>to determine</li><li>to resolve</li><li>to solve</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "сидеть",
+  "w": "сиде́ть",
+  "en": "<ol class=\"meaning-list\"><li>to sit</li><li>to be sitting</li><li>to be perched</li><li>to sit</li><li>to be (somewhere)</li><li>to stay</li><li>to be stuck</li><li>to fit</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "скоро",
+  "w": "ско́ро",
+  "en": "<ol class=\"meaning-list\"><li>soon</li><li>shortly</li><li>before long</li><li>quickly</li><li>fast</li><li>rapidly</li></ol>",
+  "pos": "adv",
+  "topic": "time",
+  "cu": false
+ },
+ {
+  "wc": "старший",
+  "w": "ста́рший",
+  "en": "<ol class=\"meaning-list\"><li>elder</li><li>oldest</li><li>eldest</li><li>senior</li></ol>",
+  "pos": "adj",
+  "topic": "people::family",
+  "cu": false
+ },
+ {
+  "wc": "строить",
+  "w": "стро́ить",
+  "en": "<ol class=\"meaning-list\"><li>to build</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "сюда",
+  "w": "сюда́",
+  "en": "<ol class=\"meaning-list\"><li>to here</li></ol>",
+  "pos": "adv",
+  "topic": "places::position",
+  "cu": false
+ },
+ {
+  "wc": "тренер",
+  "w": "тре́нер",
+  "en": "<ol class=\"meaning-list\"><li>trainer</li><li>coach</li></ol>",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "цена",
+  "w": "цена́",
+  "en": "<ol class=\"meaning-list\"><li>price</li><li>cost</li><li>value</li><li>worth</li></ol>",
+  "pos": "n",
+  "topic": "numbers::units",
+  "cu": false
+ },
+ {
+  "wc": "чувствовать",
+  "w": "чу́вствовать",
+  "en": "<ol class=\"meaning-list\"><li>to feel</li><li>to have a sensation of</li><li>to sense</li><li>to be aware of</li><li>to feel (well or unwell)</li></ol>",
+  "pos": "v",
+  "topic": "concepts::emotion",
+  "cu": false
  }
 ]
