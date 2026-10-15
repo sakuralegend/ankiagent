@@ -381,7 +381,7 @@ V = {
     # bỏ ngoặc chú thích "(dạng sợi)"
     "спагетти": "mì Ý",
     # bỏ ngoặc "(cho chính mình)" — badge phản thân đã in sẵn trên mặt đề bài
-    "фотографироваться": "chụp ảnh, đi chụp ảnh",
+    "фотографироваться": "được chụp ảnh, chụp ảnh mình",
     # bỏ dấu gạch chéo, viết thành danh sách nghĩa; KHÔNG lấy "dissuade" của từ điển
     # — đó là nghĩa của отговорить, không phải разговорить
     "разговорить": "khiến ai đó chịu nói, gợi cho ai mở lòng",
