@@ -48,6 +48,10 @@ def khoa_note(w):
 # Vì vậy nó được nối vào lúc GHI, không nằm trong file lô.
 BANG_RE = grammar.BANG_RE            # alias public (G4); dùng chung, đừng viết lại regex ở hai nơi
 
+# Mã lô `k01`…`k999`. Trước 16/10 là `k\d\d` ở 4 chỗ: lô `k100` bị BỎ QUA IM LẶNG
+# (`soat k100` soát cả 86 lô, `xong k100` không làm gì) — đợt A1–A2 cần tới ~k109.
+la_id_lo = re.compile(r"k\d{2,3}").fullmatch
+
 
 def gan_bang(html, word):
     """GỠ bảng chia khỏi ô Hướng dẫn — vỏ mỏng quanh `grammar.go_bang()`.

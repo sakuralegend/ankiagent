@@ -78,5 +78,5 @@
 
 | QD | Ngày | Quyết định | Vì sao (ngắn) |
 |---|---|---|---|
-| QD-36 | 23/08 | ⚖️ Gộp 4 preset deck thành **1**, bỏ trần thẻ mới/ngày | Đo 23/08: 3 preset cai quản **0 thẻ**, 21 tham số FSRS + bước học giống hệt. Giá: hết tinh chỉnh riêng `0-quen` (không gõ) vs `1-go` (gõ từng ký tự) |
+| QD-36 | 23/08 | ⚖️ Gộp 4 preset deck thành **1**; trần thẻ mới **20/ngày** (đặt lại 16/10: nạp thô trước 435 từ) | 3 preset cai quản **0 thẻ**, FSRS giống hệt. Giá: hết tinh chỉnh riêng `0-quen` vs `1-go` |
 | — | 22/07 | ⚖️ Bỏ deck lọc "phòng tập", cày thẳng trong inbox bằng **undo** | Deck lọc rút thẻ khỏi inbox nên hai bên lệch nhau; undo hoàn nguyên trọn vẹn cả revlog lẫn lịch |

@@ -13,7 +13,7 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, "..", "..", ".."))
 sys.path.insert(0, os.path.join(HERE, ".."))
-from khochung import ACUTE, ZWSP, NOUNS, bare, nap_lo_da_soan, BANG_RE    # noqa: E402
+from khochung import ACUTE, ZWSP, NOUNS, bare, nap_lo_da_soan, BANG_RE, la_id_lo  # noqa: E402
 from mientru import MIEN_TRU                                              # noqa: E402
 
 _BANG_RE = BANG_RE          # tên nội bộ giữ nguyên để ruột `uoc_cao` không đổi
@@ -58,7 +58,7 @@ def cmd_soat():
     Đây là điểm khác duy nhất so với kiemtra.py: nguồn là file, không phải thẻ.
     Nhờ vậy soát được ngay trong lúc thẻ trong Anki còn nguyên chưa bị đụng.
     """
-    chi = [a for a in sys.argv[2:] if re.fullmatch(r"k\d\d", a)] or None
+    chi = [a for a in sys.argv[2:] if la_id_lo(a)] or None
     nouns = load_nouns()
     gop, nguon = nap_lo_da_soan(chi)
     print(f"tu dien: {len(nouns)} danh tu | dang soat: {len(gop)} tu"
@@ -251,7 +251,7 @@ def cmd_dodai():
     thẻ "đạt" 12 KB vẫn có tới 16 ô đỏ và user đọc xong không nhớ gì — đúng
     thứ mà độ dài định phục vụ thì lại hỏng. Trần byte một mình KHÔNG đủ.
     """
-    chi = [a for a in sys.argv[2:] if re.fullmatch(r"k\d\d", a)] or None
+    chi = [a for a in sys.argv[2:] if la_id_lo(a)] or None
     gop, nguon = nap_lo_da_soan(chi)
     L = sorted(((len(v), k) for k, v in gop.items()), reverse=True)
     if not L:

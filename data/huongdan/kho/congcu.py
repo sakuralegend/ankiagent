@@ -38,7 +38,7 @@ from anki_tools.anki_client import sync_truoc_khi_ghi_lo          # noqa: E402
 # như thư viện (congcu._BANG_RE, congcu.uoc_cao, congcu.TRAN_CAO…).
 from khochung import (ACUTE, ZWSP, TUDIEN, BANG_RE, CHUAN_V, TAG_CHUAN,    # noqa: E402,F401
                       bare, khoa_note, doc_hangdoi, ghi_hangdoi,
-                      nap_lo_da_soan, gan_bang, khoi_nguphap, tag_chuan)
+                      nap_lo_da_soan, gan_bang, khoi_nguphap, tag_chuan, la_id_lo)
 from soatlo import (TRAN_CAO, TRAN_WARN, cmd_soat, cmd_dodai,              # noqa: E402,F401
                     do_va_cham, tach_nghia, uoc_cao)
 
@@ -143,7 +143,7 @@ def cmd_tiep():
     Nhận id cụ thể (`tiep k07`) vì các lô chạy SONG SONG trong nhiều context
     riêng; không có id thì mỗi lô sẽ giành nhau đúng một lô đầu hàng đợi.
     """
-    xin = next((a for a in sys.argv[2:] if re.fullmatch(r"k\d\d", a)), None)
+    xin = next((a for a in sys.argv[2:] if la_id_lo(a)), None)
     q = doc_hangdoi()
     if xin:
         lo = next((l for l in q["lo"] if l["id"] == xin), None)
@@ -206,7 +206,7 @@ def cmd_tiep():
 def cmd_xong():
     """Đánh dấu lô đã soạn xong. CHỈ luồng chính gọi, sau khi đã soát —
     lô tự đánh dấu mình xong thì bộ soát mất hết ý nghĩa."""
-    ids = [a for a in sys.argv[2:] if re.fullmatch(r"k\d\d", a)]
+    ids = [a for a in sys.argv[2:] if la_id_lo(a)]
     q = doc_hangdoi()
     for l in q["lo"]:
         if l["id"] in ids:
@@ -323,7 +323,7 @@ def cmd_moi():
               f"{len(dich['tu']) + len(moi)} tu)")
     else:
         dung = {l["id"] for l in q["lo"]}
-        sid = next(f"k{n:02d}" for n in range(1, 100) if f"k{n:02d}" not in dung)
+        sid = next(f"k{n:02d}" for n in range(1, 1000) if f"k{n:02d}" not in dung)
         print(f"\n-> MO lo moi {sid}, dat o DAU hang doi")
 
     n_sau = (len(dich["tu"]) if dich else 0) + len(moi)

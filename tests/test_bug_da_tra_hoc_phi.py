@@ -1549,5 +1549,17 @@ class MangChiPhoiDaDongKHONGDUNGLAI(unittest.TestCase):
         self.assertEqual(pham, [], f"code còn dựng model đã khai tử: {pham}")
 
 
+
+class TestMaLoBaChuSo(unittest.TestCase):
+    def test_k100_duoc_nhan_k1_va_rac_thi_khong(self):
+        """Mẫu cũ hai chữ số BỎ QUA IM LẶNG lô `k100`: `soat k100` soát cả kho thay vì
+        một lô, `xong k100` không đánh dấu gì. Đợt A1–A2 (16/10) cần tới ~k109."""
+        from data.huongdan.kho import khochung
+        for ma in ("k07", "k86", "k100", "k109"):
+            self.assertTrue(khochung.la_id_lo(ma), ma)
+        for ma in ("k1", "k1000", "kk", "--apply", "k10a"):
+            self.assertFalse(khochung.la_id_lo(ma), ma)
+
+
 if __name__ == "__main__":
     unittest.main()
