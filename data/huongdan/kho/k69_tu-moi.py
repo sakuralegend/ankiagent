@@ -284,3 +284,4 @@ S["турист"] = (
 #   liệt kê đủ thì tự tách khỏi вина́ (trách nhiệm, ai có lỗi).
 V["внук"] = "cháu trai, cháu nội, cháu ngoại"
 V["ошибка"] = "lỗi, sai lầm, sự nhầm lẫn"
+V["писатель"] = "nhà văn"   # 16/10: bỏ "tác giả" — trùng автор (k91), cùng n/MASC

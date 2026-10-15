@@ -83,12 +83,16 @@
     "ученица",
     "факультет",
     "фраза",
-    "экономика"
+    "экономика",
+    "географ",
+    "географический",
+    "математик"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k89_language-education.py",
    "tuMoi": true,
-   "thucong": "TU MOI user vua them. Cac tu co the KHONG cung ho nhau — soan tung the doc lap, dung ep mot truc chung va dung dung khoi he thong. Chuan: README muc 2 (1 man hinh iPhone, toi da 2 o do) + muc 2c (sua field Vietnamese cho chi co 1 dap an dung). DOT A1-A2 TRKI (A1), nap tho 15/10/2026."
+   "thucong": "TU MOI user vua them. Cac tu co the KHONG cung ho nhau — soan tung the doc lap, dung ep mot truc chung va dung dung khoi he thong. Chuan: README muc 2 (1 man hinh iPhone, toi da 2 o do) + muc 2c (sua field Vietnamese cho chi co 1 dap an dung). DOT A1-A2 TRKI (A1), nap tho 15/10/2026. HO TU KEO VE CHUNG LO (16/10, luong chinh): географ (tu k105) + географический (tu k106) cung ho география; математик (tu k92) cung ho математика — soan nhu mot ho.",
+   "daNap": true
   },
   {
    "id": "k90",
@@ -114,10 +118,11 @@
     "фотоаппарат",
     "фотография"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k90_life-home.py",
    "tuMoi": true,
-   "thucong": "TU MOI user vua them. Cac tu co the KHONG cung ho nhau — soan tung the doc lap, dung ep mot truc chung va dung dung khoi he thong. Chuan: README muc 2 (1 man hinh iPhone, toi da 2 o do) + muc 2c (sua field Vietnamese cho chi co 1 dap an dung). DOT A1-A2 TRKI (A1), nap tho 15/10/2026. спеть la BAN THE cua the CU петь (lo k02, da XONG => mo coi: Ho hang tro sang петь duoc, muon sua the петь thi chi BAO LEN). пообедать la BAN THE cua the CU обедать (lo k54, da XONG => mo coi: Ho hang tro sang обедать duoc, muon sua the обедать thi chi BAO LEN). поужинать la BAN THE cua the CU ужинать (lo k54, da XONG => mo coi: Ho hang tro sang ужинать duoc, muon sua the ужинать thi chi BAO LEN). больной: the chon nghia TINH TU 'om'; nghia danh tu 'benh nhan' nhac mot cau trong Huong dan."
+   "thucong": "TU MOI user vua them. Cac tu co the KHONG cung ho nhau — soan tung the doc lap, dung ep mot truc chung va dung dung khoi he thong. Chuan: README muc 2 (1 man hinh iPhone, toi da 2 o do) + muc 2c (sua field Vietnamese cho chi co 1 dap an dung). DOT A1-A2 TRKI (A1), nap tho 15/10/2026. спеть la BAN THE cua the CU петь (lo k02, da XONG => mo coi: Ho hang tro sang петь duoc, muon sua the петь thi chi BAO LEN). пообедать la BAN THE cua the CU обедать (lo k54, da XONG => mo coi: Ho hang tro sang обедать duoc, muon sua the обедать thi chi BAO LEN). поужинать la BAN THE cua the CU ужинать (lo k54, da XONG => mo coi: Ho hang tro sang ужинать duoc, muon sua the ужинать thi chi BAO LEN). больной: the chon nghia TINH TU 'om'; nghia danh tu 'benh nhan' nhac mot cau trong Huong dan.",
+   "daNap": true
   },
   {
    "id": "k91",
@@ -143,10 +148,11 @@
     "чайник",
     "часы"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k91_people-nation.py",
    "tuMoi": true,
-   "thucong": "TU MOI user vua them. Cac tu co the KHONG cung ho nhau — soan tung the doc lap, dung ep mot truc chung va dung dung khoi he thong. Chuan: README muc 2 (1 man hinh iPhone, toi da 2 o do) + muc 2c (sua field Vietnamese cho chi co 1 dap an dung). DOT A1-A2 TRKI (A1), nap tho 15/10/2026."
+   "thucong": "TU MOI user vua them. Cac tu co the KHONG cung ho nhau — soan tung the doc lap, dung ep mot truc chung va dung dung khoi he thong. Chuan: README muc 2 (1 man hinh iPhone, toi da 2 o do) + muc 2c (sua field Vietnamese cho chi co 1 dap an dung). DOT A1-A2 TRKI (A1), nap tho 15/10/2026.",
+   "daNap": true
   },
   {
    "id": "k92",
@@ -157,7 +163,6 @@
     "домохозяйка",
     "историк",
     "кафе",
-    "математик",
     "памятник",
     "поликлиника",
     "полиция",
@@ -530,7 +535,6 @@
     "администрация",
     "биолог",
     "бог",
-    "географ",
     "депутат",
     "космонавт",
     "молодец",
@@ -560,7 +564,6 @@
     "булочная",
     "вверх",
     "встреча",
-    "географический",
     "граница",
     "европейский",
     "западный",
