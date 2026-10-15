@@ -26,9 +26,8 @@ nội dung nên đây là kiểu xuống cấp nguy hiểm nhất. **Mọi lô c
 # 1. ĐẾM. Chạy khan, chưa ghi gì.
 PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py moi
 
-# 2. CHIA (chỉ khi >22 từ — lệnh KHÔNG tự chia, nó gom cả cục vào một lô).
+# 2. CHIA (>22 từ: lệnh KHÔNG tự chia, gom cả cục vào một lô) rồi tách trong `hangdoi.json`.
 PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py moi --apply
-#    rồi sửa `hangdoi.json`: tách lô vừa tạo thành nhiều lô ~19 từ.
 
 # 3. GIAO. Mỗi lô một agent, context trắng. Khuôn lời nhắn ở §4.
 #    Giao HẾT lô trong MỘT tin nhắn rồi đứng im chờ.
@@ -67,6 +66,10 @@ python soatkientruc.py && python -c "import bot, main" && python -m unittest dis
   Đừng hạ trần cỡ lô vì nó. Muốn lật thì **đo ra số khác** từ `dolo.tsv`, đừng lập luận suông.
 - **Chia lô theo TAG CHỦ ĐỀ, giữ họ từ chung một lô.** Tách họ từ ra hai agent là cơ chế đã làm
   **11 tên tháng viết 4 kiểu** mà không lô nào sai cả. Cặp thể (`лечь`↔`ложиться`) cũng vậy.
+- 🔴 **NẠP HÀNG LOẠT ⇒ XẾP LÔ TRƯỚC KHI NẠP** (user chốt 16/10): xếp chủ đề bằng
+  `tag_topics.xep_bang_ai` (25 từ/lượt Google), chia lô, rồi nạp **NGƯỢC thứ tự lô**. Vì thẻ mới
+  nhất ra học trước (QD-36) và AnkiConnect **KHÔNG đổi được** vị trí thẻ mới (đo 16/10) ⇒ nạp
+  sai thứ tự là học lẫn thẻ trống, sửa không được.
 - **Đừng đoán nội dung lô từ tên topic** — đọc `congcu.py tiep kNN` rồi hãy mô tả trục.
 
 ## §3. Bẫy của LUỒNG CHÍNH — thứ không cửa soát nào canh
