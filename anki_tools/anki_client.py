@@ -6,6 +6,7 @@
 # ==============================================================================
 import json
 import sqlite3
+import time
 from datetime import datetime, timedelta
 import requests
 
@@ -552,7 +553,17 @@ def sync_truoc_khi_ghi_lo(ten_viec="ghi lô"):
         log_fail(f"{ten_viec}: KHÔNG kéo được AnkiWeb về ({err}). DỪNG, chưa ghi gì — "
                  f"ghi lúc này là ghi đè lên bản chép cũ, thay đổi từ máy khác "
                  f"(bot trên VPS, điện thoại) sẽ bị nuốt im lặng.")
-    return ok
+        return False
+    # `sync` trả lời sau 0,1 s nhưng collection còn KHOÁ ~2 s (đo 16/10) ⇒ đọc ngay là `nap` chết.
+    for _ in range(60):
+        try:
+            _ac("findNotes", query="nid:1")
+            return True
+        except RuntimeError as e:
+            if "lifecycle" not in str(e): raise
+            time.sleep(1)
+    log_fail(f"{ten_viec}: Anki vẫn khoá collection sau 60 s — có hộp thoại đang chờ bấm? DỪNG.")
+    return False
 
 
 def get_note_fields(note_id):

@@ -1575,6 +1575,15 @@ class TestLoiKhongDuocRaRong(unittest.TestCase):
             self.assertIsNone(audio.google_tts_bytes("привет"))
         self.assertNotIn("KHOA-GIA-123", gia.call_args.args[0])
 
+    def test_sync_truoc_khi_ghi_CHO_Anki_nha_khoa(self):
+        """`sync` trả lời ngay nhưng collection còn khoá ~2 s ⇒ `nap` chết ở findNotes (16/10)."""
+        from anki_tools import anki_client
+        tra = [{"result": None, "error": None}, self.LOI, self.LOI, {"result": [], "error": None}]
+        with unittest.mock.patch.object(anki_client.requests, "post") as gia,                 unittest.mock.patch.object(anki_client.time, "sleep"):
+            gia.return_value.json.side_effect = tra
+            self.assertTrue(anki_client.sync_truoc_khi_ghi_lo("thu"))
+        self.assertEqual(gia.call_count, 4)
+
 
 class TestMaLoBaChuSo(unittest.TestCase):
     def test_k100_duoc_nhan_k1_va_rac_thi_khong(self):
