@@ -61,7 +61,7 @@ python soatkientruc.py && python -c "import bot, main" && python -m unittest dis
   rẻ hơn rõ rệt trên mỗi từ.
 - **Trần 22 từ/lô. Điểm rẻ nhất đã đo là 19 từ/lô** (7,4K token/từ, 11/08). **Đừng chạy lô dưới
   10 từ** — đắt gấp ~3 lần mỗi từ; để đó, lệnh `moi` tự gộp dồn vào lô sau.
-- **Ước lượng hạn mức: 1 từ ≈ 1,4%.** Đừng dựng lại mô hình theo token — đã thử, đọc thấp 15–20%.
+- **Hạn mức: ~10 lô/phiên** (user đo 16/10). Token/lô vẫn ~105–112K ⇒ đổi ở gói, lô không rẻ đi. Đừng dựng mô hình theo token — đọc thấp 15–20%.
 - **Dấu hiệu "lô nhỏ soi kỹ hơn" đã bị số liệu bẻ** (0,29 lỗi/từ ở lô 14 thấp hơn 0,46 ở lô 12).
   Đừng hạ trần cỡ lô vì nó. Muốn lật thì **đo ra số khác** từ `dolo.tsv`, đừng lập luận suông.
 - **Chia lô theo TAG CHỦ ĐỀ, giữ họ từ chung một lô.** Tách họ từ ra hai agent là cơ chế đã làm

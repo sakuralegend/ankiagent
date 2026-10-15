@@ -365,7 +365,7 @@ V = {
     'английский': 'thuộc về nước Anh, tiếng Anh',
     'немецкий': 'thuộc về nước Đức, tiếng Đức',
     'французский': 'thuộc về nước Pháp, tiếng Pháp',
-    'русский': 'thuộc về nước Nga, người Nga, tiếng Nga',
+    'русский': 'người Nga, tiếng Nga',   # 16/10: bỏ 'thuộc về nước Nga' — gần nghĩa российский (k91)
     'по-русски': 'bằng tiếng Nga, theo kiểu Nga',
     'по-французски': 'bằng tiếng Pháp, theo kiểu Pháp',
     'за': 'đằng sau, phía sau, vì, đổi lấy, trong vòng',
