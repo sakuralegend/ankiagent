@@ -50,7 +50,10 @@ def google_tts_bytes(text):
         "audioConfig": {"audioEncoding": "MP3"},
     }
     try:
-        r = requests.post(f"{GOOGLE_TTS_URL}?key={GOOGLE_TTS_API_KEY}", json=body, timeout=20)
+        # Key đi trong HEADER, không trong URL: `requests` nhét nguyên URL vào thông
+        # điệp lỗi mạng ⇒ bản cũ `?key=` in khoá ra log mỗi lần mạng rớt (15/10).
+        r = requests.post(GOOGLE_TTS_URL, headers={"X-Goog-Api-Key": GOOGLE_TTS_API_KEY},
+                          json=body, timeout=20)
     except Exception as e:
         log_fail(f"Google TTS lỗi mạng: {e}")
         return None

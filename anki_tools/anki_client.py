@@ -130,18 +130,12 @@ def doc_grammar_json_tat_ca():
     🔴 KHÔNG tự nuốt lỗi kết nối — NÉM THẲNG lên cho `grammar._lap_dem_tu_the()`
     kêu to rồi dừng. Trước đây hàm này trả `{}` khi Anki đóng/lỗi để dùng đỡ file
     cache trên đĩa; giờ không còn file đó, im lặng ở đây là mất trắng dữ liệu."""
-    res = requests.post(ANKI_CONNECT_URL, json={
-        "action": "findNotes", "version": 6,
-        "params": {"query": f'note:"{MODEL_NAME}"'}
-    }, timeout=15)
-    note_ids = res.json().get("result") or []
+    # Qua `_ac` để lỗi AnkiConnect (Anki đang sync) NÉM, không ra {} im lặng.
+    note_ids = _ac("findNotes", timeout=15, query=f'note:"{MODEL_NAME}"')
     if not note_ids:
         return {}
-    res = requests.post(ANKI_CONNECT_URL, json={
-        "action": "notesInfo", "version": 6, "params": {"notes": note_ids}
-    }, timeout=120)
     ra = {}
-    for n in res.json().get("result") or []:
+    for n in _ac("notesInfo", timeout=120, notes=note_ids) or []:
         f = n.get("fields", {})
         wc = (f.get("WordClean", {}).get("value") or "").strip()
         gj = (f.get("GrammarJSON", {}).get("value") or "").strip()
@@ -202,19 +196,14 @@ def get_known_words():
     dùng để lọc từ đã có thẻ trước khi hỏi user.
     Trả về set[str] (có thể rỗng), hoặc None nếu AnkiConnect lỗi (None ≠ rỗng:
     lỗi thì KHÔNG được coi là 'chưa có từ nào' kẻo đề nghị thêm trùng cả kho)."""
+    # 🔴 Qua `_ac` (NÉM khi AnkiConnect trả `error`). Bản cũ đọc `.get("result") or []`
+    # nên lỗi "Collection lifecycle operation is active" (Anki đang sync, đo 15/10)
+    # ra set() RỖNG — đúng cái hợp đồng ở trên cấm — và script nạp tưởng kho trống.
     try:
-        res = requests.post(ANKI_CONNECT_URL, json={
-            "action": "findNotes", "version": 6,
-            "params": {"query": f'note:"{MODEL_NAME}"'}
-        }, timeout=15)
-        note_ids = res.json().get("result") or []
+        note_ids = _ac("findNotes", timeout=15, query=f'note:"{MODEL_NAME}"')
         if not note_ids:
             return set()
-        res = requests.post(ANKI_CONNECT_URL, json={
-            "action": "notesInfo", "version": 6,
-            "params": {"notes": note_ids}
-        }, timeout=60)
-        notes = res.json().get("result") or []
+        notes = _ac("notesInfo", notes=note_ids) or []
         words = {
             (n.get("fields", {}).get("WordClean", {}).get("value") or "").strip().lower()
             for n in notes

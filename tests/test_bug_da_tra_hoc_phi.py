@@ -1550,6 +1550,32 @@ class MangChiPhoiDaDongKHONGDUNGLAI(unittest.TestCase):
 
 
 
+class TestLoiKhongDuocRaRong(unittest.TestCase):
+    LOI = {"result": None, "error": "Collection lifecycle operation is active."}
+
+    def test_get_known_words_ra_None_khi_Anki_dang_sync(self):
+        """Bản cũ ra set() RỖNG ⇒ script nạp tưởng kho trống, suýt nạp lại 439 từ (15/10)."""
+        from anki_tools import anki_client
+        with unittest.mock.patch.object(anki_client.requests, "post") as gia:
+            gia.return_value.json.return_value = self.LOI
+            self.assertIsNone(anki_client.get_known_words())
+
+    def test_doc_grammar_json_NEM_khi_Anki_dang_sync(self):
+        from anki_tools import anki_client
+        with unittest.mock.patch.object(anki_client.requests, "post") as gia:
+            gia.return_value.json.return_value = self.LOI
+            with self.assertRaises(RuntimeError):
+                anki_client.doc_grammar_json_tat_ca()
+
+    def test_khoa_Google_TTS_khong_nam_trong_URL(self):
+        """Lỗi mạng của `requests` in nguyên URL ⇒ `?key=` từng lộ khoá ra log (15/10)."""
+        from anki_tools import audio
+        with unittest.mock.patch.object(audio, "GOOGLE_TTS_API_KEY", "KHOA-GIA-123"),                 unittest.mock.patch.object(audio.requests, "post",
+                                           side_effect=OSError("mang rot")) as gia:
+            self.assertIsNone(audio.google_tts_bytes("привет"))
+        self.assertNotIn("KHOA-GIA-123", gia.call_args.args[0])
+
+
 class TestMaLoBaChuSo(unittest.TestCase):
     def test_k100_duoc_nhan_k1_va_rac_thi_khong(self):
         """Mẫu cũ hai chữ số BỎ QUA IM LẶNG lô `k100`: `soat k100` soát cả kho thay vì
