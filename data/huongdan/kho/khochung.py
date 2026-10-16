@@ -87,10 +87,13 @@ def nap_lo_da_soan(chi=None, lay_v=False):
       V = {từ: "nghĩa tiếng Việt"}    — tuỳ chọn, CHỈ những từ cần sửa
     """
     gop, nguon, vi = {}, {}, {}
-    for path in sorted(glob.glob(os.path.join(HERE, "k[0-9][0-9]_*.py"))):
-        if chi and os.path.basename(path)[:3] not in chi:
+    for path in sorted(glob.glob(os.path.join(HERE, "k[0-9]*_*.py"))):
+        # Mã lô = phần trước dấu "_" đầu tiên. Cắt cứng 3 ký tự từng đọc
+        # k105 thành "k10" ⇒ mọi lô ≥ k100 bị bỏ qua mà soat vẫn báo xanh.
+        lo_id = os.path.basename(path).split("_", 1)[0]
+        if chi and lo_id not in chi:
             continue
-        spec = importlib.util.spec_from_file_location("lo_" + os.path.basename(path)[:3], path)
+        spec = importlib.util.spec_from_file_location("lo_" + lo_id, path)
         mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(mod)
         for w, html in getattr(mod, "S", {}).items():

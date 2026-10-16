@@ -36,7 +36,9 @@ def lech_trong_am(token, chuan):
         return False          # tên riêng lưu trần -> không so được
     a = token.replace(ZWSP, "").lower()
     c = chuan.lower()
-    return (a != c) if co_yo else (a.replace("ё", "е") != c.replace("ё", "е"))
+    # `ё` thẻ ⇒ `е́` chứ không phải `е` trơn: gộp trơn làm `прилёт` ≠ `приле́т`
+    # (cùng chỗ nhấn) ⇒ kêu oan mọi từ mà từ điển in `е́` thay `ё` (16/10).
+    return (a != c) if co_yo else (a.replace("ё", "е" + ACUTE) != c)
 
 
 # --------------------------------------------------------------- lệnh: soat

@@ -965,6 +965,12 @@ class ChotYoLamBoSoatMuMotVungLon(unittest.TestCase):
         s = self._soatlo()
         self.assertFalse(s.lech_trong_am("силён", "силен"))
 
+    def test_yo_tren_the_khop_e_co_dau_trong_tu_dien(self):
+        """`прилёт` (thẻ k107) bị báo lệch với `приле́т`: ё bị gộp thành е TRƠN (16/10)."""
+        s = self._soatlo()
+        self.assertFalse(s.lech_trong_am("прилёт", "приле́т"))
+        self.assertTrue(s.lech_trong_am("прилёт", "при́лет"))
+
     def test_tu_dong_tu_da_mien_tru_thi_im(self):
         s = self._soatlo()
         self.assertFalse(s.lech_trong_am("лет", "лёт"))
@@ -1594,6 +1600,19 @@ class TestMaLoBaChuSo(unittest.TestCase):
             self.assertTrue(khochung.la_id_lo(ma), ma)
         for ma in ("k1", "k1000", "kk", "--apply", "k10a"):
             self.assertFalse(khochung.la_id_lo(ma), ma)
+
+    def test_doc_file_lo_k105_khong_nham_thanh_k10(self):
+        """Sửa `la_id_lo` mà sót `nap_lo_da_soan`: glob hai chữ số + cắt `[:3]` ⇒
+        `soat k105` báo "0 tu" mà mọi mục XANH, `nap` bỏ sót lô (16/10)."""
+        import tempfile
+        from data.huongdan.kho import khochung
+        with tempfile.TemporaryDirectory() as d:
+            for ten, tu in (("k10_a.py", "десять"), ("k105_b.py", "сто")):
+                with open(os.path.join(d, ten), "w", encoding="utf-8") as f:
+                    f.write(f'S = {{"{tu}": "x"}}\nV = {{"{tu}": "y"}}\n')
+            with unittest.mock.patch.object(khochung, "HERE", d):
+                self.assertEqual(set(khochung.nap_lo_da_soan(chi=["k105"])[0]), {"сто"})
+                self.assertEqual(set(khochung.nap_lo_da_soan(chi=["k10"])[0]), {"десять"})
 
 
 if __name__ == "__main__":
