@@ -14,6 +14,7 @@
 
 | Nợ | Vì sao chưa trả | Hết hạn |
 |---|---|---|
+| `thucong` trong `hangdoi.json`: ~35K chữ của lô đã nạp không ai đọc lại (`tiep` chỉ in lô đang giao) + câu mẫu 284 chữ chép vào mọi lô | Đề xuất 16/10, CHƯA duyệt — trình lại user ở phiên riêng, không trộn vào phiên chạy lô (`lo.md` §3). Cách trả: `nap` xoá `thucong` lô vừa nạp, câu mẫu dời vào `tiep`, dọn lô cũ | 2026-11-15 |
 
 🔴 **Trước khi thêm dòng, hỏi: đây có phải NỢ không?** Nợ = việc mình BIẾT phải làm
 mà cố ý hoãn. KHÔNG phải nợ, và cấm ghi vào đây:
