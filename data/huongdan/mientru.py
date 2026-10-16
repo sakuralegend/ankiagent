@@ -92,4 +92,16 @@ MIEN_TRU = {
             "сер · сера́ · се́ро · се́ры; thẻ k82 cố ý nêu cặp сера́ (xám) ↔ се́ра (lưu huỳnh, "
             "gốc của се́рный) vì hai từ chỉ khác nhau đúng chỗ trọng âm, nouns.csv chỉ có "
             "danh từ се́ра. Cùng lớp với жарка́, дорога́, до́бро ở trên",
+    "волна́": "danh từ волна́ = con sóng (gốc của волнова́ться, thẻ k98) — chính nouns.csv có "
+             "DÒNG RIÊNG волна' (wave, breaker) với đủ bảng biến cách. Máy kêu vì khoá tra mặt "
+             "chữ trần khớp phải dòng ĐỨNG TRƯỚC во'лна (sg_only), tức đồng tự cổ/phương ngữ "
+             "во́лна = len, lông cừu (cùng gốc tiếng Ukraina во́вна) mà csv glossed nhầm là wave. "
+             "Cùng lớp với у́ток, коро́бок ở trên",
+    "я́рок": "DẠNG NGẮN giống đực của tính từ я́ркий (sáng chói), dạng chèn nguyên âm chạy — "
+            "grammar_cache ghi rõ bộ я́рок · ярка́ · я́рко · я́рки, thẻ k109 dạy đúng chỗ chèn о "
+            "này; nouns.csv chỉ có danh từ đồng tự яро́к (chỉ glossed tiếng Đức 'Jarok', không "
+            "có nghĩa tiếng Anh). Cùng lớp với ни́зок ở trên",
+    "ярка́": "DẠNG NGẮN giống cái của tính từ я́ркий — cùng bộ я́рок · ярка́ · я́рко · я́рки "
+            "trong grammar_cache, thẻ k109 dạy đúng chỗ trọng âm nhảy ra đuôi; nouns.csv chỉ có "
+            "danh từ đồng tự я́рка = cừu cái non (young ewe). Cùng lớp với жарка́, сера́ ở trên",
 }

@@ -260,7 +260,7 @@ V['группа'] = 'nhóm, tốp, ban nhạc'
 V['круг'] = 'hình tròn, vòng tròn, một vòng'
 V["алмаз"]    = "kim cương thô, chưa mài giác"
 V['деньги'] = 'tiền, tiền bạc'
-V['край'] = 'mép, rìa, bờ, vùng đất, miền'
+V['край'] = 'mép, rìa, vùng đất, miền'
 V['прыжок'] = 'cú nhảy, bước nhảy'
 # PoS = oth ⇒ badge vô dụng, phải ghi rõ từ loại. Và phải tách khỏi hai thẻ khác
 # trong bộ sưu tập: по-кита́йски ("bằng tiếng Trung") và кита́йский (tính từ).

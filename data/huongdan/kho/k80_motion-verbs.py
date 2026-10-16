@@ -404,7 +404,7 @@ V = {
     "выходить": "đi ra, bước ra, ra ngoài, xuống xe, được xuất bản",
     # найтись là PHẢN THÂN: vật tự lộ ra, không phải mình tìm thấy nó — "tìm thấy"
     # ở thể chủ động là nghĩa của найти
-    "найтись": "được tìm thấy, tự lộ ra, xuất hiện, có sẵn",
+    "найтись": "được tìm thấy, tự lộ ra, có sẵn",
     # gloss có "defeat" — nghĩa thông dụng đang thiếu hẳn
-    "разбить": "làm vỡ, đập vỡ, chia nhỏ, đánh bại",
+    "разбить": "làm vỡ, đập vỡ, chia nhỏ",
 }

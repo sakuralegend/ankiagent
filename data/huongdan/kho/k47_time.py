@@ -316,5 +316,5 @@ V["октябрь"] = "tháng 10"
 V["ноябрь"] = "tháng 11"
 V["декабрь"] = "tháng 12"
 
-V["сейчас"] = "bây giờ, ngay lúc này, ngay lập tức, sắp"
+V["сейчас"] = "bây giờ, ngay lúc này, sắp"
 V["время"] = "thời gian, thời điểm, thời đại"

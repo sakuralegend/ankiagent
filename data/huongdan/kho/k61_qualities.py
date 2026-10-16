@@ -333,7 +333,7 @@ S["центральный"] = (
     '<div class="hd-why">📋 Dạng ngắn giống đực rút <b>-льный</b> thành <b>-лен</b>: '
     '<b>центра́лен</b>; ba dạng kia đều đặn, trọng âm đứng yên.</div>'
 )
-V['центральный'] = 'thuộc về trung tâm, ở trung tâm, chính, chủ chốt'
+V['центральный'] = 'thuộc về trung tâm, ở trung tâm, chủ chốt'
 
 # ------------------------------------------- danh từ chỉ người theo dân tộc
 S["араб"] = (

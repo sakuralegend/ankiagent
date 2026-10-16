@@ -149,7 +149,7 @@ S["дорога"] = (
     '<div class="hd-fam"><b>доро́жка</b> lối nhỏ, đường chạy (г→ж) · <b>доро́жный</b> thuộc '
     'đường sá · желе́зная <b>доро́га</b> đường sắt</div>'
 )
-V['дорога'] = 'con đường, đường đi, chuyến đi'
+V['дорога'] = 'con đường, đường đi'
 
 S["вход"] = (
     '<div class="hd-sec">Chẻ từ</div>'

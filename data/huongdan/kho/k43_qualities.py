@@ -322,4 +322,4 @@ S["всюду"] = (
     '<div class="hd-fam"><b>весь</b> toàn bộ · <b>всегда́</b> luôn luôn · '
     '<b>повсю́ду</b> khắp mọi nơi · <b>все</b> tất cả</div>'
 )
-V["всюду"] = "khắp nơi, mọi nơi"
+V["всюду"] = "khắp nơi"
