@@ -423,7 +423,7 @@ V = {
     "суметь": "xoay sở được, làm nổi",
     # VA CHẠM A (2 chỗ): выполня́ть <-> де́лать "làm, thực hiện" (cùng v + IMPF).
     # Bỏ cả "làm" lẫn "thực hiện", giữ đúng nghĩa lõi "carry out" của gloss Anh.
-    "выполнять": "hoàn thành, thi hành",
+    "выполнять": "thực hiện, thi hành",   # 16/10: nhường "hoàn thành" cho заканчивать (k95)
     # VA CHẠM A: позва́ть <-> пригласи́ть "mời" (cùng v + PERF). Từ điển ghi rõ nghĩa
     # lõi là gọi BẰNG TIẾNG -> bỏ "mời", để пригласи́ть giữ trọn nghĩa đó.
     "позвать": "gọi",

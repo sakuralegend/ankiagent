@@ -176,10 +176,11 @@
     "чемпион",
     "экскурсовод"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k92_people-professions.py",
    "tuMoi": true,
-   "thucong": "TU MOI user vua them. Cac tu co the KHONG cung ho nhau — soan tung the doc lap, dung ep mot truc chung va dung dung khoi he thong. Chuan: README muc 2 (1 man hinh iPhone, toi da 2 o do) + muc 2c (sua field Vietnamese cho chi co 1 dap an dung). DOT A1-A2 TRKI (A1), nap tho 15/10/2026."
+   "thucong": "TU MOI user vua them. Cac tu co the KHONG cung ho nhau — soan tung the doc lap, dung ep mot truc chung va dung dung khoi he thong. Chuan: README muc 2 (1 man hinh iPhone, toi da 2 o do) + muc 2c (sua field Vietnamese cho chi co 1 dap an dung). DOT A1-A2 TRKI (A1), nap tho 15/10/2026.",
+   "daNap": true
   },
   {
    "id": "k93",
@@ -205,10 +206,11 @@
     "правый",
     "экономический"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k93_qualities.py",
    "tuMoi": true,
-   "thucong": "TU MOI user vua them. Cac tu co the KHONG cung ho nhau — soan tung the doc lap, dung ep mot truc chung va dung dung khoi he thong. Chuan: README muc 2 (1 man hinh iPhone, toi da 2 o do) + muc 2c (sua field Vietnamese cho chi co 1 dap an dung). DOT A1-A2 TRKI (A1), nap tho 15/10/2026. закрытый: TRKI day DANG NGAN закрыт — the la dang day du vi OpenRussian xep dang ngan vao day; Huong dan PHAI dua закрыт len dau, day la dang hay dung. открытый: TRKI day DANG NGAN открыт — the la dang day du vi OpenRussian xep dang ngan vao day; Huong dan PHAI dua открыт len dau, day la dang hay dung. должный: TRKI day DANG NGAN должен — the la dang day du vi OpenRussian xep dang ngan vao day; Huong dan PHAI dua должен len dau, day la dang hay dung. правый: TRKI con tinh ca dang ngan прав ('noi dung', Я прав) — phai co trong Huong dan."
+   "thucong": "TU MOI user vua them. Cac tu co the KHONG cung ho nhau — soan tung the doc lap, dung ep mot truc chung va dung dung khoi he thong. Chuan: README muc 2 (1 man hinh iPhone, toi da 2 o do) + muc 2c (sua field Vietnamese cho chi co 1 dap an dung). DOT A1-A2 TRKI (A1), nap tho 15/10/2026. закрытый: TRKI day DANG NGAN закрыт — the la dang day du vi OpenRussian xep dang ngan vao day; Huong dan PHAI dua закрыт len dau, day la dang hay dung. открытый: TRKI day DANG NGAN открыт — the la dang day du vi OpenRussian xep dang ngan vao day; Huong dan PHAI dua открыт len dau, day la dang hay dung. должный: TRKI day DANG NGAN должен — the la dang day du vi OpenRussian xep dang ngan vao day; Huong dan PHAI dua должен len dau, day la dang hay dung. правый: TRKI con tinh ca dang ngan прав ('noi dung', Я прав) — phai co trong Huong dan.",
+   "daNap": true
   },
   {
    "id": "k94",
@@ -235,10 +237,11 @@
     "побывать",
     "повезти"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k94_actions.py",
    "tuMoi": true,
-   "thucong": "TU MOI user vua them. Cac tu co the KHONG cung ho nhau — soan tung the doc lap, dung ep mot truc chung va dung dung khoi he thong. Chuan: README muc 2 (1 man hinh iPhone, toi da 2 o do) + muc 2c (sua field Vietnamese cho chi co 1 dap an dung). DOT A1-A2 TRKI (A2), nap tho 15/10/2026. CAP THE CHUNG LO (soan nhu mot ho, user chot: dong tu phai co du hai the): побежать/бежать, побывать/бывать, повезти/везти, вернуть/возвращать, вернуться/возвращаться, включить/включать, выбрать/выбирать, выключить/выключать, выступить/выступать."
+   "thucong": "TU MOI user vua them. Cac tu co the KHONG cung ho nhau — soan tung the doc lap, dung ep mot truc chung va dung dung khoi he thong. Chuan: README muc 2 (1 man hinh iPhone, toi da 2 o do) + muc 2c (sua field Vietnamese cho chi co 1 dap an dung). DOT A1-A2 TRKI (A2), nap tho 15/10/2026. CAP THE CHUNG LO (soan nhu mot ho, user chot: dong tu phai co du hai the): побежать/бежать, побывать/бывать, повезти/везти, вернуть/возвращать, вернуться/возвращаться, включить/включать, выбрать/выбирать, выключить/выключать, выступить/выступать.",
+   "daNap": true
   },
   {
    "id": "k95",
@@ -264,10 +267,11 @@
     "положить",
     "поменять"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k95_actions.py",
    "tuMoi": true,
-   "thucong": "TU MOI user vua them. Cac tu co the KHONG cung ho nhau — soan tung the doc lap, dung ep mot truc chung va dung dung khoi he thong. Chuan: README muc 2 (1 man hinh iPhone, toi da 2 o do) + muc 2c (sua field Vietnamese cho chi co 1 dap an dung). DOT A1-A2 TRKI (A2), nap tho 15/10/2026. CAP THE CHUNG LO (soan nhu mot ho, user chot: dong tu phai co du hai the): доказать/доказывать, заказать/заказывать, закончить/заканчивать, заметить/замечать, заплатить/платить, изменить/изменять, показаться/казаться, положить/класть, поменять/менять. VA CHAM MO COI: кончить PERF (lo k87, da XONG) Vietnamese = 'xong, ket thuc' (da rut 'hoan thanh' nhuong cho закончить); окончить PERF (k87) = 'tot nghiep, hoan thanh'. закончить PERF hien la 'hoan thanh, ket thuc, lam xong' => trung 'ket thuc' voi кончить, cung the, badge khong tach: GO bang RUT GON phia закончить (bo 'ket thuc'), muon sua кончить thi chi BAO LEN."
+   "thucong": "TU MOI user vua them. Cac tu co the KHONG cung ho nhau — soan tung the doc lap, dung ep mot truc chung va dung dung khoi he thong. Chuan: README muc 2 (1 man hinh iPhone, toi da 2 o do) + muc 2c (sua field Vietnamese cho chi co 1 dap an dung). DOT A1-A2 TRKI (A2), nap tho 15/10/2026. CAP THE CHUNG LO (soan nhu mot ho, user chot: dong tu phai co du hai the): доказать/доказывать, заказать/заказывать, закончить/заканчивать, заметить/замечать, заплатить/платить, изменить/изменять, показаться/казаться, положить/класть, поменять/менять. VA CHAM MO COI: кончить PERF (lo k87, da XONG) Vietnamese = 'xong, ket thuc' (da rut 'hoan thanh' nhuong cho закончить); окончить PERF (k87) = 'tot nghiep, hoan thanh'. закончить PERF hien la 'hoan thanh, ket thuc, lam xong' => trung 'ket thuc' voi кончить, cung the, badge khong tach: GO bang RUT GON phia закончить (bo 'ket thuc'), muon sua кончить thi chi BAO LEN.",
+   "daNap": true
   },
   {
    "id": "k96",
@@ -292,10 +296,11 @@
     "поплыть",
     "сорить"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k96_actions.py",
    "tuMoi": true,
-   "thucong": "TU MOI user vua them. Cac tu co the KHONG cung ho nhau — soan tung the doc lap, dung ep mot truc chung va dung dung khoi he thong. Chuan: README muc 2 (1 man hinh iPhone, toi da 2 o do) + muc 2c (sua field Vietnamese cho chi co 1 dap an dung). DOT A1-A2 TRKI (A2), nap tho 15/10/2026. CAP THE CHUNG LO (soan nhu mot ho, user chot: dong tu phai co du hai the): помешать/мешать, найти/находить, насорить/сорить, пообещать/обещать, объяснить/объяснять, перевести/переводить, перейти/переходить, поплыть/плыть."
+   "thucong": "TU MOI user vua them. Cac tu co the KHONG cung ho nhau — soan tung the doc lap, dung ep mot truc chung va dung dung khoi he thong. Chuan: README muc 2 (1 man hinh iPhone, toi da 2 o do) + muc 2c (sua field Vietnamese cho chi co 1 dap an dung). DOT A1-A2 TRKI (A2), nap tho 15/10/2026. CAP THE CHUNG LO (soan nhu mot ho, user chot: dong tu phai co du hai the): помешать/мешать, найти/находить, насорить/сорить, пообещать/обещать, объяснить/объяснять, перевести/переводить, перейти/переходить, поплыть/плыть.",
+   "daNap": true
   },
   {
    "id": "k97",
@@ -382,7 +387,7 @@
    "trangthai": "cho",
    "file": null,
    "tuMoi": true,
-   "thucong": "TU MOI user vua them. Cac tu co the KHONG cung ho nhau — soan tung the doc lap, dung ep mot truc chung va dung dung khoi he thong. Chuan: README muc 2 (1 man hinh iPhone, toi da 2 o do) + muc 2c (sua field Vietnamese cho chi co 1 dap an dung). DOT A1-A2 TRKI (A2), nap tho 15/10/2026. CAP THE CHUNG LO (soan nhu mot ho, user chot: dong tu phai co du hai the): улыбнуться/улыбаться, поверить/верить."
+   "thucong": "TU MOI user vua them. Cac tu co the KHONG cung ho nhau — soan tung the doc lap, dung ep mot truc chung va dung dung khoi he thong. Chuan: README muc 2 (1 man hinh iPhone, toi da 2 o do) + muc 2c (sua field Vietnamese cho chi co 1 dap an dung). DOT A1-A2 TRKI (A2), nap tho 15/10/2026. CAP THE CHUNG LO (soan nhu mot ho, user chot: dong tu phai co du hai the): улыбнуться/улыбаться, поверить/верить. VA CHAM MO COI (k93 da XONG): активный = 'nang dong' => энергичный phai RUT 'nang dong' phia minh."
   },
   {
    "id": "k100",
@@ -411,7 +416,7 @@
    "trangthai": "cho",
    "file": null,
    "tuMoi": true,
-   "thucong": "TU MOI user vua them. Cac tu co the KHONG cung ho nhau — soan tung the doc lap, dung ep mot truc chung va dung dung khoi he thong. Chuan: README muc 2 (1 man hinh iPhone, toi da 2 o do) + muc 2c (sua field Vietnamese cho chi co 1 dap an dung). DOT A1-A2 TRKI (A2), nap tho 15/10/2026. CAP THE CHUNG LO (soan nhu mot ho, user chot: dong tu phai co du hai the): сообщить/сообщать."
+   "thucong": "TU MOI user vua them. Cac tu co the KHONG cung ho nhau — soan tung the doc lap, dung ep mot truc chung va dung dung khoi he thong. Chuan: README muc 2 (1 man hinh iPhone, toi da 2 o do) + muc 2c (sua field Vietnamese cho chi co 1 dap an dung). DOT A1-A2 TRKI (A2), nap tho 15/10/2026. CAP THE CHUNG LO (soan nhu mot ho, user chot: dong tu phai co du hai the): сообщить/сообщать. VA CHAM MO COI (k95 da XONG): закончить/заканчивать = 'hoan thanh, lam xong'; окончить (k87) da rut con 'tot nghiep' => оканчивать phai RUT 'hoan thanh', giu 'tot nghiep'."
   },
   {
    "id": "k101",
@@ -526,7 +531,7 @@
    "trangthai": "cho",
    "file": null,
    "tuMoi": true,
-   "thucong": "TU MOI user vua them. Cac tu co the KHONG cung ho nhau — soan tung the doc lap, dung ep mot truc chung va dung dung khoi he thong. Chuan: README muc 2 (1 man hinh iPhone, toi da 2 o do) + muc 2c (sua field Vietnamese cho chi co 1 dap an dung). DOT A1-A2 TRKI (A2), nap tho 15/10/2026."
+   "thucong": "TU MOI user vua them. Cac tu co the KHONG cung ho nhau — soan tung the doc lap, dung ep mot truc chung va dung dung khoi he thong. Chuan: README muc 2 (1 man hinh iPhone, toi da 2 o do) + muc 2c (sua field Vietnamese cho chi co 1 dap an dung). DOT A1-A2 TRKI (A2), nap tho 15/10/2026. VA CHAM MO COI (k92 da XONG): домохозяйка = 'noi tro, nguoi noi tro' => хозяйка phai RUT 'nguoi noi tro'."
   },
   {
    "id": "k105",
@@ -611,7 +616,7 @@
    "trangthai": "cho",
    "file": null,
    "tuMoi": true,
-   "thucong": "TU MOI user vua them. Cac tu co the KHONG cung ho nhau — soan tung the doc lap, dung ep mot truc chung va dung dung khoi he thong. Chuan: README muc 2 (1 man hinh iPhone, toi da 2 o do) + muc 2c (sua field Vietnamese cho chi co 1 dap an dung). DOT A1-A2 TRKI (A2), nap tho 15/10/2026. CAP THE CHUNG LO (soan nhu mot ho, user chot: dong tu phai co du hai the): полететь/лететь, уехать/уезжать."
+   "thucong": "TU MOI user vua them. Cac tu co the KHONG cung ho nhau — soan tung the doc lap, dung ep mot truc chung va dung dung khoi he thong. Chuan: README muc 2 (1 man hinh iPhone, toi da 2 o do) + muc 2c (sua field Vietnamese cho chi co 1 dap an dung). DOT A1-A2 TRKI (A2), nap tho 15/10/2026. CAP THE CHUNG LO (soan nhu mot ho, user chot: dong tu phai co du hai the): полететь/лететь, уехать/уезжать. CAP CHUYEN DONG (k94/k95 da XONG): везти = 'cho bang xe, dang cho toi, gap may' (mot chieu) => возить dung kieu nhieu chieu ('cho qua lai'...), dung 'cho' tron. летать = 'bay luon, bay qua lai' => лететь giu 'bay' tron."
   },
   {
    "id": "k108",
