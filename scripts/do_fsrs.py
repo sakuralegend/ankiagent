@@ -210,10 +210,12 @@ def chup(ghi_chu=""):
             "preset": preset,
             "tong_lan_on": cur.execute(
                 "select count(*) from revlog where ease > 0").fetchone()[0]}
+    tu_ms = int((datetime.datetime.now() - datetime.timedelta(days=30)).timestamp() * 1000)
     for d in DECK_GOC:
         snap[d] = _thong_ke_the(cards, decks, hom_nay, d)
         cid_ok = {c[0] for c in cards if decks.get(c[2] or c[1], "").startswith(d)}
         snap[f"nut_bam_{d}"] = _thong_ke_nut(cur, cid_ok)
+        snap[f"nut_bam_{d}_30ngay"] = _thong_ke_nut(cur, cid_ok, tu_ms)
     con.close()
     for hau_to in ("", "-wal", "-shm"):
         tam.with_name(tam.name + hau_to).unlink(missing_ok=True)
@@ -260,13 +262,18 @@ def in_so_sanh(cu, moi):
         x, y = ca.get("D_phan_nhom_pct"), cb.get("D_phan_nhom_pct")
         if x and y:
             print(f"  thẻ D ≥ 90%      {x.get('tren_90')} → {y.get('tren_90')}")
+        # 🔴 Số CỘNG DỒN từ 07/2026 bị giai đoạn học dồn kéo xuống: 18/10 nó báo 81,7%
+        # trong khi 35 ngày gần nhất là 88,3% — AI đọc nhầm, phán user "mãi không xuống
+        # 5 phút/ngày". Số để RA QUYẾT ĐỊNH là dòng 30 ngày; mốc trước 18/10 chưa có nó.
         # Mốc 25/07 (viết tay, trước khi có script này) không có khối nút bấm.
-        x = (cu.get(f"nut_bam_{d}") or {}).get("on_tap")
-        y = (moi.get(f"nut_bam_{d}") or {}).get("on_tap")
-        if x and y:
-            print(f"  nhớ được (ôn tập) {x['nho_duoc_pct']}% → {y['nho_duoc_pct']}%"
-                  f"  | Again {x['pct_nut']['again']}% → {y['pct_nut']['again']}%"
-                  f"  | Hard {x['pct_nut']['hard']}% → {y['pct_nut']['hard']}%")
+        for khoa, nhan in [("_30ngay", "nhớ được 30 ngày gần nhất"), ("", "nhớ được CỘNG DỒN")]:
+            x = (cu.get(f"nut_bam_{d}{khoa}") or {}).get("on_tap")
+            y = (moi.get(f"nut_bam_{d}{khoa}") or {}).get("on_tap")
+            if y:
+                print(f"  {nhan:<26s} " + (f"{x['nho_duoc_pct']}%" if x else "(mốc cũ chưa đo)")
+                      + f" → {y['nho_duoc_pct']}%  | Again "
+                      + (f"{x['pct_nut']['again']}%" if x else "?")
+                      + f" → {y['pct_nut']['again']}%  | {y['tong']} lượt ôn")
 
 
 def main():

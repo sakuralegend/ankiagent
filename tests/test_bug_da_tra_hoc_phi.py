@@ -615,6 +615,21 @@ class MocFsrsPhaiSoatDuMOIPRESET(unittest.TestCase):
                       {"ngay": "B", "preset": {"Default": b}})
         self.assertIn("russian-parent-70", ra)
 
+    def test_so_nho_duoc_phai_tach_30_ngay_khoi_CONG_DON(self):
+        """18/10/2026 — bảng chỉ in số cộng dồn (81,7%), AI đọc như hiện trạng trong khi
+        30 ngày gần nhất là 88,3% ⇒ dự báo sai hẳn kịch bản. Mốc cũ thiếu số 30 ngày
+        thì phải nói "chưa đo", không được im lặng bỏ dòng."""
+        def nut(p):
+            return {"on_tap": {"tong": 100, "nho_duoc_pct": p, "pct_nut": {"again": 100 - p}}}
+        the = {"so_the": 1}
+        ra = self._in({"ngay": "A", "RUSSIAN": the, "nut_bam_RUSSIAN": nut(81.7)},
+                      {"ngay": "B", "RUSSIAN": the, "nut_bam_RUSSIAN": nut(81.8),
+                       "nut_bam_RUSSIAN_30ngay": nut(88.3)})
+        self.assertIn("30 ngày gần nhất", ra)
+        self.assertIn("88.3%", ra)
+        self.assertIn("CỘNG DỒN", ra)
+        self.assertIn("chưa đo", ra)
+
 
 class MotChanLyLaTheAnki(unittest.TestCase):
     """BUG GỐC 04/08/2026 (user báo qua `устать`): user sửa tay nghĩa tiếng Việt

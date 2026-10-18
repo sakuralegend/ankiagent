@@ -3397,7 +3397,7 @@
   },
   {
    "ngay": "2026-10-18",
-   "ghi_chu": "SAU Optimize lan 5 (18/10/2026): 21 tham so Y HET, preset mtime van 15/10 23:23 (lan doi new/day len 20) => Anki giu nguyen bo dang dung hoac user chua bam Save. Giong lan 4 (13/09).",
+   "ghi_chu": "SAU Optimize lan 5 (18/10/2026): 21 tham so Y HET, preset mtime van 15/10 23:23 (lan doi new/day len 20) => Anki giu nguyen bo dang dung hoac user chua bam Save. Giong lan 4 (13/09). | Khoi _30ngay dien bu cung ngay 18/10 sau khi script biet tach 30 ngay.",
    "preset": {
     "Default": {
      "fsrsParams6": [
@@ -3639,6 +3639,60 @@
       "easy": 0.0
      },
      "nho_duoc_pct": 80.6
+    }
+   },
+   "nut_bam_RUSSIAN_30ngay": {
+    "on_tap": {
+     "tong": 2402,
+     "pct_nut": {
+      "again": 11.9,
+      "hard": 1.1,
+      "good": 86.9,
+      "easy": 0.0
+     },
+     "nho_duoc_pct": 88.1
+    },
+    "hoc_moi": {
+     "tong": 970,
+     "pct_nut": {
+      "again": 48.2,
+      "hard": 0.0,
+      "good": 51.8,
+      "easy": 0.0
+     },
+     "nho_duoc_pct": 51.8
+    },
+    "hoc_lai": {
+     "tong": 618,
+     "pct_nut": {
+      "again": 5.5,
+      "hard": 0.2,
+      "good": 94.3,
+      "easy": 0.0
+     },
+     "nho_duoc_pct": 94.5
+    }
+   },
+   "nut_bam_GRAMMAR_30ngay": {
+    "on_tap": {
+     "tong": 170,
+     "pct_nut": {
+      "again": 10.0,
+      "hard": 0.6,
+      "good": 89.4,
+      "easy": 0.0
+     },
+     "nho_duoc_pct": 90.0
+    },
+    "hoc_lai": {
+     "tong": 37,
+     "pct_nut": {
+      "again": 5.4,
+      "hard": 0.0,
+      "good": 94.6,
+      "easy": 0.0
+     },
+     "nho_duoc_pct": 94.6
     }
    }
   }
