@@ -3147,6 +3147,253 @@
      "nho_duoc_pct": 78.8
     }
    }
+  },
+  {
+   "ngay": "2026-10-18",
+   "ghi_chu": "TRUOC Optimize 18/10 - dang them 20 tu/ngay tu 16/10",
+   "preset": {
+    "Default": {
+     "fsrsParams6": [
+      0.104431175,
+      0.48544633,
+      1.4121014,
+      3.5066352,
+      6.601203,
+      0.5378283,
+      3.2680495,
+      0.023190038,
+      1.6211034,
+      0.09734935,
+      0.5530061,
+      1.5764437,
+      0.029677233,
+      0.37077883,
+      1.8149629,
+      0.4272062,
+      1.932217,
+      0.3374533,
+      0.038025472,
+      0.112660296,
+      0.42738974
+     ],
+     "desiredRetention": 0.9,
+     "ignoreRevlogsBeforeDate": "1970-01-01",
+     "deck": [
+      "Mặc định",
+      "RUSSIAN",
+      "RUSSIAN::time",
+      "RUSSIAN::numbers",
+      "RUSSIAN::actions",
+      "RUSSIAN::qualities",
+      "RUSSIAN::concepts",
+      "RUSSIAN::language",
+      "RUSSIAN::language::education",
+      "RUSSIAN::language::grammar",
+      "RUSSIAN::life",
+      "RUSSIAN::life::clothing",
+      "RUSSIAN::life::food",
+      "RUSSIAN::life::home",
+      "RUSSIAN::nature",
+      "RUSSIAN::nature::animals",
+      "RUSSIAN::nature::plants",
+      "RUSSIAN::nature::weather",
+      "RUSSIAN::people",
+      "RUSSIAN::people::body",
+      "RUSSIAN::people::family",
+      "RUSSIAN::people::professions",
+      "RUSSIAN::places",
+      "RUSSIAN::places::city",
+      "RUSSIAN::qualities::colors",
+      "GRAMMAR",
+      "GRAMMAR::plural-irregular",
+      "RUSSIAN::1-go",
+      "RUSSIAN::0-quen",
+      "RUSSIAN::concepts::emotion",
+      "RUSSIAN::concepts::mind",
+      "RUSSIAN::concepts::state",
+      "RUSSIAN::language::communication",
+      "RUSSIAN::language::documents",
+      "RUSSIAN::language::etiquette",
+      "RUSSIAN::life::art",
+      "RUSSIAN::life::health",
+      "RUSSIAN::life::leisure",
+      "RUSSIAN::life::sport",
+      "RUSSIAN::numbers::units",
+      "RUSSIAN::people::life",
+      "RUSSIAN::people::nation",
+      "RUSSIAN::places::geo",
+      "RUSSIAN::places::position",
+      "RUSSIAN::places::transport",
+      "RUSSIAN::places::travel",
+      "RUSSIAN::qualities::eval"
+     ]
+    }
+   },
+   "tong_lan_on": 33196,
+   "RUSSIAN": {
+    "so_the": 1794,
+    "so_the_dang_on": 1410,
+    "D_thang_1_10": {
+     "min": 2.58,
+     "p25": 5.99,
+     "trung_vi": 8.14,
+     "p75": 8.39,
+     "max": 9.58,
+     "trung_binh": 7.22
+    },
+    "D_phan_nhom_pct": {
+     "duoi_50": 331,
+     "50_70": 123,
+     "70_90": 942,
+     "tren_90": 24
+    },
+    "S_ngay": {
+     "min": 0.04,
+     "p25": 17.29,
+     "trung_vi": 31.84,
+     "p75": 49.0,
+     "max": 143.87,
+     "trung_binh": 36.73
+    },
+    "chu_ki_ngay": {
+     "min": 1,
+     "p25": 17,
+     "trung_vi": 33.0,
+     "p75": 50,
+     "max": 143,
+     "trung_binh": 37.57
+    },
+    "den_han_14_ngay_toi": {
+     "1": 102,
+     "2": 67,
+     "3": 65,
+     "4": 56,
+     "5": 55,
+     "6": 47,
+     "7": 48,
+     "8": 46,
+     "9": 39,
+     "10": 36,
+     "11": 32,
+     "12": 25,
+     "13": 28,
+     "14": 30
+    }
+   },
+   "nut_bam_RUSSIAN": {
+    "on_tap": {
+     "tong": 12491,
+     "pct_nut": {
+      "again": 18.3,
+      "hard": 1.1,
+      "good": 80.5,
+      "easy": 0.1
+     },
+     "nho_duoc_pct": 81.7
+    },
+    "hoc_moi": {
+     "tong": 11860,
+     "pct_nut": {
+      "again": 55.2,
+      "hard": 1.7,
+      "good": 43.1,
+      "easy": 0.1
+     },
+     "nho_duoc_pct": 44.8
+    },
+    "hoc_lai": {
+     "tong": 5150,
+     "pct_nut": {
+      "again": 20.8,
+      "hard": 0.4,
+      "good": 78.8,
+      "easy": 0.0
+     },
+     "nho_duoc_pct": 79.2
+    }
+   },
+   "GRAMMAR": {
+    "so_the": 124,
+    "so_the_dang_on": 124,
+    "D_thang_1_10": {
+     "min": 4.44,
+     "p25": 4.48,
+     "trung_vi": 7.71,
+     "p75": 8.23,
+     "max": 9.0,
+     "trung_binh": 6.66
+    },
+    "D_phan_nhom_pct": {
+     "duoi_50": 45,
+     "50_70": 8,
+     "70_90": 71,
+     "tren_90": 0
+    },
+    "S_ngay": {
+     "min": 3.1,
+     "p25": 30.26,
+     "trung_vi": 47.99,
+     "p75": 68.08,
+     "max": 104.91,
+     "trung_binh": 48.9
+    },
+    "chu_ki_ngay": {
+     "min": 4,
+     "p25": 29,
+     "trung_vi": 47.5,
+     "p75": 69,
+     "max": 105,
+     "trung_binh": 49.13
+    },
+    "den_han_14_ngay_toi": {
+     "1": 4,
+     "2": 1,
+     "3": 1,
+     "4": 6,
+     "5": 1,
+     "6": 1,
+     "7": 3,
+     "8": 2,
+     "9": 1,
+     "10": 5,
+     "11": 3,
+     "12": 5,
+     "13": 1,
+     "14": 2
+    }
+   },
+   "nut_bam_GRAMMAR": {
+    "on_tap": {
+     "tong": 1026,
+     "pct_nut": {
+      "again": 15.8,
+      "hard": 0.2,
+      "good": 84.0,
+      "easy": 0.0
+     },
+     "nho_duoc_pct": 84.2
+    },
+    "hoc_moi": {
+     "tong": 414,
+     "pct_nut": {
+      "again": 38.6,
+      "hard": 0.5,
+      "good": 60.9,
+      "easy": 0.0
+     },
+     "nho_duoc_pct": 61.4
+    },
+    "hoc_lai": {
+     "tong": 387,
+     "pct_nut": {
+      "again": 19.4,
+      "hard": 0.5,
+      "good": 80.1,
+      "easy": 0.0
+     },
+     "nho_duoc_pct": 80.6
+    }
+   }
   }
  ]
 }
