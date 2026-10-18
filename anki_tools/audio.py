@@ -9,6 +9,11 @@
 #     Azure chỉ có phiên âm IPA cả từ; Google giới hạn thẻ phát âm ở giọng tốt nhất.
 # KHÔNG có phao dự phòng: phao nào không nhận dấu nhấn là dạy sai trọng âm. Hụt
 # thì thẻ trống tiếng, scripts/fix_audio.py vá sau.
+# 🔴 Yandex hỏng mà định lấy AZURE làm phao ⇒ ĐÃ THỬ 18/10, BÁC: dấu U+0301 làm Azure
+# đọc SAI (замо́к thành "za-mo-ka" thừa âm; до́ма/дома́ ra ngược nhau — user nghe cả
+# Svetlana/Dariya/Dmitry). Đường còn lại là phiên âm IPA cho TỪNG từ, kể cả mọi từ
+# trong câu ví dụ — quá nặng cho một phao. Azure còn đọc cùng một chữ mỗi lần ra
+# một file khác ⇒ không so byte được, mọi phép thử phải bằng tai.
 # Giá v1: 11 USD / 1 triệu ký tự. Cả kho (từ + câu ví dụ) ~300k ký tự.
 # Chỉ TRẢ VỀ BYTES — lưu vào media Anki là việc của anki_the.
 # ==============================================================================
