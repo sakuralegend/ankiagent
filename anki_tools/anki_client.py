@@ -4,6 +4,7 @@
 # mặt tiền cuối file re-export đủ tên: dựng & đẩy thẻ ở anki_the.py · thiết lập
 # model/template ở anki_moitruong.py · đếm thống kê ở anki_thongke.py.
 # ==============================================================================
+import base64
 import json
 import sqlite3
 import time
@@ -566,21 +567,17 @@ def sync_truoc_khi_ghi_lo(ten_viec="ghi lô"):
     return False
 
 
-def get_note_fields(note_id):
-    """Lấy fields hiện tại của 1 note (dùng cho luồng sửa thẻ /sua).
-    Trả về dict {field_name: value} hoặc None."""
-    try:
-        res = requests.post(ANKI_CONNECT_URL, json={
-            "action": "notesInfo", "version": 6,
-            "params": {"notes": [note_id]}
-        }, timeout=5)
-        infos = res.json().get("result", [])
-        if not infos:
-            return None
-        return {k: v.get("value", "") for k, v in infos[0].get("fields", {}).items()}
-    except Exception as e:
-        log_warn(f"Không đọc được note {note_id}: {e}")
-        return None
+def doc_notes_cua_model(model):
+    """notesInfo của MỌI note thuộc `model`, đọc theo lô 200. Lọc `note:"<model>"`
+    nằm SẴN trong hàm — quên lọc là gom lẫn thẻ từ vựng với thẻ ngữ pháp."""
+    ids = _ac("findNotes", query=f'note:"{model}"')
+    return [n for i in range(0, len(ids), 200) for n in _ac("notesInfo", notes=ids[i:i + 200])]
+
+
+def doc_media_file(filename):
+    """Bytes của một file trong media Anki, hoặc None nếu file không còn."""
+    b64 = _ac("retrieveMediaFile", filename=filename)
+    return base64.b64decode(b64) if b64 else None
 
 
 def get_note_full(note_id):

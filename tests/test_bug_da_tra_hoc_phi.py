@@ -1573,14 +1573,6 @@ class TestLoiKhongDuocRaRong(unittest.TestCase):
             with self.assertRaises(RuntimeError):
                 anki_client.doc_grammar_json_tat_ca()
 
-    def test_khoa_Google_TTS_khong_nam_trong_URL(self):
-        """Lỗi mạng của `requests` in nguyên URL ⇒ `?key=` từng lộ khoá ra log (15/10)."""
-        from anki_tools import audio
-        with unittest.mock.patch.object(audio, "GOOGLE_TTS_API_KEY", "KHOA-GIA-123"),                 unittest.mock.patch.object(audio.requests, "post",
-                                           side_effect=OSError("mang rot")) as gia:
-            self.assertIsNone(audio.google_tts_bytes("привет"))
-        self.assertNotIn("KHOA-GIA-123", gia.call_args.args[0])
-
     def test_sync_truoc_khi_ghi_CHO_Anki_nha_khoa(self):
         """`sync` trả lời ngay nhưng collection còn khoá ~2 s ⇒ `nap` chết ở findNotes (16/10)."""
         from anki_tools import anki_client
@@ -1613,6 +1605,48 @@ class TestMaLoBaChuSo(unittest.TestCase):
             with unittest.mock.patch.object(khochung, "HERE", d):
                 self.assertEqual(set(khochung.nap_lo_da_soan(chi=["k105"])[0]), {"сто"})
                 self.assertEqual(set(khochung.nap_lo_da_soan(chi=["k10"])[0]), {"десять"})
+
+
+class AudioPhaiGuiDauNhan(unittest.TestCase):
+    """Bản cũ gửi chữ TRẦN cho OpenRussian ⇒ máy đọc Yandex tự đoán trọng âm; số
+    nhiều còn nhận bản thu người của chữ trùng mặt (дома́ ↔ до́ма). Đo 18/10:
+    171 thẻ từ vựng + 110/124 audio số nhiều dính."""
+
+    @staticmethod
+    def _tra(ban_nguoi_cho_chu_tran):
+        def get(url, timeout):
+            r = unittest.mock.Mock(status_code=200, headers={"Content-Type": "audio/mpeg"})
+            tran = "%27" not in url
+            r.content = (b"ID3 SWAC_TEXT" if tran and ban_nguoi_cho_chu_tran else b"ID3 Lavf") + b"x" * 2000
+            return r
+        return get
+
+    def _goi(self, word, ban_nguoi_truoc, co_ban_nguoi):
+        from anki_tools import audio
+        with unittest.mock.patch.object(audio.requests, "get",
+                                        side_effect=self._tra(co_ban_nguoi)) as gia:
+            data, _ = audio.fetch_audio_bytes(word, ban_nguoi_truoc)
+        return data, [c.args[0] for c in gia.call_args_list]
+
+    def test_khong_co_ban_nguoi_thi_may_doc_KEM_DAU(self):
+        data, urls = self._goi("де" + ACUTE + "душка", True, co_ban_nguoi=False)
+        self.assertIn(b"Lavf", data)
+        self.assertIn("%27", urls[-1])            # nháy đơn = dấu nhấn
+
+    def test_tu_vung_nhan_ban_thu_nguoi(self):
+        data, urls = self._goi("приглаша" + ACUTE + "ть", True, co_ban_nguoi=True)
+        self.assertTrue(data.startswith(b"ID3 SWAC"))
+        self.assertEqual(len(urls), 1)
+
+    def test_so_nhieu_KHONG_nhan_ban_nguoi_cua_chu_trung_mat(self):
+        data, urls = self._goi("дома" + ACUTE, False, co_ban_nguoi=True)
+        self.assertIn(b"Lavf", data)
+        self.assertTrue(all("%27" in u for u in urls))
+
+    def test_ten_file_tach_hai_chu_trung_mat(self):
+        from anki_tools.audio import ten_file_audio
+        self.assertNotEqual(ten_file_audio("ru_audio", "за" + ACUTE + "мок"),
+                            ten_file_audio("ru_audio", "замо" + ACUTE + "к"))
 
 
 if __name__ == "__main__":

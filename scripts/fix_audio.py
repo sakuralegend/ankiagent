@@ -1,94 +1,98 @@
 # ==============================================================================
-# --- VÁ ÂM THANH CHO THẺ ĐANG THIẾU MP3 ---
-# Tìm mọi thẻ model RU_Word có ô Audio TRỐNG (thường do OpenRussian trả 500 lúc
-# tạo thẻ) rồi tải lại: OpenRussian trước, hụt thì Google Cloud TTS (cần
-# GOOGLE_TTS_API_KEY trong .env — xem README). KHÔNG đụng gì tới thẻ đã có tiếng.
+# --- VÁ ÂM THANH: thẻ THIẾU tiếng + thẻ MÁY ĐỌC TỰ ĐOÁN trọng âm ---
+# Soát 3 ô audio: RU_Word.Audio, RU_Plural.Audio, RU_Plural.PluralAudio.
+#   • Ô trống / file mất / file KHÔNG phải bản thu người ⇒ tải lại KÈM DẤU NHẤN
+#     (anki_tools/audio.py giải thích vì sao chữ trần làm máy đoán sai).
+#   • PluralAudio soát CẢ bản thu người: chữ trần số nhiều hay trùng mặt từ khác
+#     (дома́ ↔ до́ма) nên bản người có thể là người đọc nhầm từ.
+# Bản mới GIỐNG HỆT bản đang có ⇒ bỏ qua. OpenRussian hụt ⇒ giữ nguyên bản cũ.
+# Bản mới lưu dưới TÊN MỚI (ten_file_audio) ⇒ file cũ còn trong media, lùi được.
+# Chỉ sửa ô Audio — không đụng model ⇒ KHÔNG kích full sync.
 #
 # Chạy trên máy có Anki + AnkiConnect đang mở:
-#   python fix_audio.py            -> DRY-RUN: chỉ liệt kê thẻ thiếu tiếng
-#   python fix_audio.py --apply    -> tải + lưu audio, sync AnkiWeb
+#   python scripts/fix_audio.py            -> DRY-RUN: chỉ đếm, không ghi gì
+#   python scripts/fix_audio.py --apply    -> backup, tải + ghi, sync AnkiWeb
 # ==============================================================================
 import argparse
+import os
 import re
 import sys
 import time
 
-import requests
-
 # Chay duoc tu bat cu dau: file nay khong con nam o goc repo nen phai tu tro
 # duong dan goc vao sys.path truoc khi import anki_tools (G3, 31/07/2026).
-import os
-import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from anki_tools.config import ANKI_CONNECT_URL, GOOGLE_TTS_API_KEY, MODEL_NAME
-from anki_tools.anki_client import store_word_audio, update_note_fields, trigger_sync
-from anki_tools.utils import strip_accents_perfectly
+from anki_tools.anki_client import (doc_media_file, doc_notes_cua_model,
+                                    store_media_file, trigger_sync, update_note_fields)
+from anki_tools.audio import fetch_audio_bytes, la_ban_nguoi, ten_file_audio
+from anki_tools.backup import run_backup
+from anki_tools.config import MODEL_NAME
+from grammar_forms.config import PLURAL_MODEL
 
-DELAY_SECONDS = 1  # nghỉ nhẹ giữa 2 từ khi phải gọi Google TTS (tránh dồn dập)
+# (model, ô audio, ô chứa chữ CÓ DẤU, prefix tên file, nhận bản thu người?)
+O_AUDIO = [
+    (MODEL_NAME, "Audio", "Word", "ru_audio", True),
+    (PLURAL_MODEL, "Audio", "Word", "ru_audio", True),
+    (PLURAL_MODEL, "PluralAudio", "Plural", "ru_plural", False),
+]
 
 
-def call(action, **params):
-    r = requests.post(ANKI_CONNECT_URL, json={"action": action, "version": 6, "params": params}, timeout=60)
-    j = r.json()
-    if j.get("error"):
-        raise SystemExit(f"AnkiConnect lỗi ({action}): {j['error']}")
-    return j["result"]
+def tim_ung_vien():
+    """[(note_id, model, ô, chữ có dấu, prefix, nhận người, file cũ, bytes cũ)]."""
+    out = []
+    for model, o, o_chu, prefix, nguoi in O_AUDIO:
+        for n in doc_notes_cua_model(model):
+            f = n["fields"]
+            chu = re.sub(r"<[^>]+>", "", f.get(o_chu, {}).get("value", "")).strip()
+            m = re.search(r"\[sound:([^\]]+)\]", f.get(o, {}).get("value", ""))
+            cu = doc_media_file(m.group(1)) if m else None
+            if not chu or (nguoi and la_ban_nguoi(cu)):
+                continue
+            out.append((n["noteId"], model, o, chu, prefix, nguoi, m.group(1) if m else "", cu))
+    return out
 
 
 def main():
     sys.stdout.reconfigure(encoding="utf-8")
-    ap = argparse.ArgumentParser(description="Vá audio cho thẻ thiếu mp3")
+    ap = argparse.ArgumentParser(description="Vá audio thiếu / sai trọng âm")
     ap.add_argument("--apply", action="store_true", help="làm thật (mặc định: dry-run)")
     args = ap.parse_args()
 
-    note_ids = call("findNotes", query=f'note:"{MODEL_NAME}"')
-    notes = call("notesInfo", notes=note_ids)
-
-    # "Thiếu tiếng" = ô Audio KHÔNG có tag [sound:...] hợp lệ. Gồm cả thẻ trống
-    # LẪN thẻ mà AnkiConnect ghi câu lỗi "...download failed with return code 500"
-    # vào ô Audio (bug cũ: tải hụt nhưng vẫn tạo thẻ với ô Audio = text lỗi).
-    missing = []  # (note_id, clean_word)
-    for n in notes:
-        fields = n.get("fields", {})
-        audio = fields.get("Audio", {}).get("value") or ""
-        if re.search(r"\[sound:[^\]]+\]", audio):
-            continue
-        clean = (fields.get("WordClean", {}).get("value") or "").strip()
-        if not clean:
-            clean = strip_accents_perfectly(fields.get("Word", {}).get("value", ""))
-        if clean:
-            missing.append((n["noteId"], clean))
-
-    print(f"Tổng thẻ {MODEL_NAME}: {len(notes)} | thẻ THIẾU audio: {len(missing)}")
-    if missing:
-        print("  " + ", ".join(w for _, w in missing[:40]) + (" ..." if len(missing) > 40 else ""))
-    if not GOOGLE_TTS_API_KEY:
-        print("⚠️ Chưa có GOOGLE_TTS_API_KEY: chỉ vá được từ nào OpenRussian tải LẠI được, "
-              "từ lỗi 500 vẫn trống. Điền key vào .env để vá triệt để.")
-
+    ung_vien = tim_ung_vien()
+    print(f"Cần soát {len(ung_vien)} ô audio (trống, máy đọc, hoặc số nhiều).")
     if not args.apply:
-        print("\n(DRY-RUN — chưa tải gì. Chạy lại với --apply để vá thật.)")
+        print("(DRY-RUN — chưa tải gì. Chạy lại với --apply để vá thật.)")
         return
 
-    fixed, still_missing = [], []
-    for i, (note_id, clean) in enumerate(missing, 1):
-        audio_field, source = store_word_audio(clean)
-        # Luôn ghi đè ô Audio: có tiếng -> tag [sound:]; hụt -> "" để XÓA câu lỗi rác.
-        update_note_fields(note_id, {"Audio": audio_field})
-        if audio_field:
-            fixed.append((clean, source))
-            print(f"  [{i}/{len(missing)}] ✅ {clean} ({source})")
-        else:
-            still_missing.append(clean)
-            print(f"  [{i}/{len(missing)}] ❌ {clean} (cả 2 nguồn hụt — đã xóa text lỗi)")
-        if source == "google_tts" and i < len(missing):
-            time.sleep(DELAY_SECONDS)
+    res, _ = run_backup()
+    if not res["path"]:
+        raise SystemExit("❌ Backup thất bại — dừng, chưa ghi gì.")
+    print(f"💾 Backup: {res['path']}")
 
-    print(f"\n✅ Vá được {len(fixed)} thẻ | ❌ còn thiếu {len(still_missing)}")
-    if still_missing:
-        print("   Còn thiếu: " + ", ".join(still_missing[:40]))
-    if fixed:
+    da_va, giong, hut = [], 0, []
+    for k, (nid, model, o, chu, prefix, nguoi, ten_cu, cu) in enumerate(ung_vien, 1):
+        moi, _ = fetch_audio_bytes(chu, nguoi)
+        if not moi:
+            hut.append(chu)
+        elif moi == cu:
+            giong += 1
+        else:
+            ten = ten_file_audio(prefix, chu)
+            if store_media_file(ten, moi) and update_note_fields(nid, {o: f"[sound:{ten}]"}):
+                da_va.append(f"{chu}({o})")
+            else:
+                hut.append(chu)
+        if k % 25 == 0:
+            print(f"  … {k}/{len(ung_vien)}")
+        time.sleep(0.15)   # đừng dồn dập máy chủ OpenRussian
+
+    print(f"\n✅ Đã thay {len(da_va)} | = giữ nguyên {giong} (đã đúng) | ❌ hụt {len(hut)}")
+    if da_va:
+        print("   Đã thay: " + ", ".join(da_va))
+    if hut:
+        print("   Hụt (giữ bản cũ / để trống): " + ", ".join(hut))
+    if da_va:
         print("⏳ Sync AnkiWeb...")
         print("☁️ Xong." if trigger_sync() else "⚠️ Sync thất bại — thử /sync trong bot.")
 

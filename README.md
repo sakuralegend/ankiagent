@@ -46,7 +46,6 @@ Tạo từ mẫu: copy `.env.example` → `.env` rồi điền. `config.py` ch�
 | `CLAUDE_MODEL` · `CLAUDE_FALLBACK_MODELS` | Model chính + model dự phòng (tự chuyển khi 429) |
 | `ANKI_CONNECT_URL` | Địa chỉ AnkiConnect |
 | `TELEGRAM_BOT_TOKEN` · `TELEGRAM_USER_ID` | Token bot + user ID **duy nhất** được phép dùng |
-| `GOOGLE_TTS_API_KEY` · `GOOGLE_TTS_VOICE` | (tuỳ chọn) Phao audio. ⚠️ Key **Google Cloud** đã bật *Cloud Text-to-Speech API* — KHÁC key Gemini. Chỉ dùng giọng `*-Standard-*` để nằm trong hạn mức miễn phí |
 | `TOPIC_DECK_PARENT` · `BACKUP_DIR` · `BACKUP_KEEP` | (tuỳ chọn) Tên deck kho, chỗ lưu và số bản backup |
 
 ## 🚀 Chạy
@@ -65,7 +64,6 @@ Bảng lệnh Telegram dùng hằng ngày nằm ở [VPS_SETUP.md](VPS_SETUP.md#
 - Secrets chỉ nằm trong `.env` (đã `.gitignore`) — code trên GitHub sạch key.
 - AnkiConnect và VNC chỉ bind `127.0.0.1` trên VPS, **không mở ra internet**. Bot dùng long-polling
   + whitelist đúng 1 user ID nên không cần domain/SSL/mở port.
-- Key Google Cloud TTS nên **Restrict** đúng một API + đặt quota dưới ngưỡng free.
 
 ---
 

@@ -1,86 +1,79 @@
 # ==============================================================================
-# --- LẤY ÂM THANH PHÁT ÂM: OpenRussian trước, hụt thì Google Cloud TTS ---
-# OpenRussian (api.openrussian.org/read) thỉnh thoảng trả 500 -> thẻ mất mp3.
-# fetch_audio_bytes() thử OpenRussian, thất bại thì sinh giọng Standard tiếng
-# Nga bằng Google Cloud TTS. Chỉ TRẢ VỀ BYTES — việc lưu vào Anki media là của
-# anki_client.store_word_audio() để mọi lệnh gọi AnkiConnect gom một chỗ.
+# --- LẤY ÂM THANH PHÁT ÂM: CHỈ OpenRussian, và LUÔN gửi kèm dấu nhấn ---
+# Endpoint api.openrussian.org/read/ru/<chữ> trả HAI loại file:
+#   • bản thu NGƯỜI (dự án Shtooka, ID3 chứa "SWAC_") — chỉ khi gửi chữ TRẦN và
+#     OpenRussian có bản thu cho đúng chữ đó;
+#   • máy đọc Yandex (ID3 "Lavf") — mọi trường hợp còn lại. Gửi chữ TRẦN thì máy
+#     TỰ ĐOÁN trọng âm; gửi `приглаша'ть` (nháy đơn sau nguyên âm nhấn) thì máy
+#     đọc ĐÚNG dấu — chính cách trang OpenRussian đọc bảng chia động từ.
+# 🔴 Bản cũ gửi chữ trần cho mọi từ, hụt thì rơi về Google TTS (cũng không nhận
+# dấu). Đo 18/10/2026: 171/1794 thẻ RU_Word và 110/124 audio số nhiều RU_Plural
+# là máy tự đoán; số nhiều còn dính bản thu người của chữ TRÙNG MẶT (дома́ ↔
+# до́ма "ở nhà"). Google TTS bị BỎ hẳn: thà thẻ trống tiếng (scripts/fix_audio.py
+# vá sau) còn hơn dạy sai trọng âm. Đừng thêm lại phao nào không nhận dấu nhấn.
+# Chỉ TRẢ VỀ BYTES — lưu vào media Anki là việc của anki_the.store_word_audio().
 # ==============================================================================
-import base64
+import re
 import urllib.parse
 
 import requests
 
-from .config import (
-    GOOGLE_TTS_API_KEY,
-    GOOGLE_TTS_LANG,
-    GOOGLE_TTS_URL,
-    GOOGLE_TTS_VOICE,
-    OPENRUSSIAN_AUDIO_TEMPLATE,
-)
-from .utils import log_fail, log_warn
+from .config import OPENRUSSIAN_AUDIO_TEMPLATE
+from .utils import log_warn, strip_accents_perfectly
 
 
-def _openrussian_audio_bytes(clean_word):
-    """Tải mp3 phát âm từ OpenRussian. Trả về bytes hoặc None (kể cả khi 500)."""
-    url = OPENRUSSIAN_AUDIO_TEMPLATE.format(word=urllib.parse.quote(clean_word))
+def la_ban_nguoi(data):
+    """True nếu mp3 là bản thu người Shtooka (thẻ ID3 SWAC_ nằm ở đầu file)."""
+    return bool(data) and b"SWAC_" in data[:8000]
+
+
+def chu_co_dau(word):
+    """`приглаша́ть` -> `приглаша'ть`: dạng dấu nhấn mà endpoint /read hiểu."""
+    return word.strip().replace("́", "'")
+
+
+def ten_file_audio(prefix, word):
+    """Tên file media. Đuôi `_<vị trí nhấn>` tách hai chữ trùng mặt (за́мок /
+    замо́к) khỏi việc ghi đè chung một file, và cho thẻ vá một tên MỚI để máy
+    khác chắc chắn tải lại thay vì giữ bản cũ đã lưu."""
+    clean = strip_accents_perfectly(word.strip())
+    m = re.search("́|'", word.strip())
+    return f"{prefix}_{clean}_{m.start()}.mp3" if m else f"{prefix}_{clean}.mp3"
+
+
+def _openrussian_audio_bytes(text):
+    """Tải mp3 từ OpenRussian. Trả về bytes hoặc None (kể cả khi 500)."""
+    url = OPENRUSSIAN_AUDIO_TEMPLATE.format(word=urllib.parse.quote(text))
     try:
         r = requests.get(url, timeout=15)
     except Exception as e:
-        log_warn(f"OpenRussian audio '{clean_word}' lỗi mạng: {e}")
+        log_warn(f"OpenRussian audio '{text}' lỗi mạng: {e}")
         return None
     if r.status_code != 200:
-        log_warn(f"OpenRussian audio '{clean_word}': HTTP {r.status_code} (sẽ thử Google TTS)")
+        log_warn(f"OpenRussian audio '{text}': HTTP {r.status_code}")
         return None
     ctype = r.headers.get("Content-Type", "").lower()
     # 200 nhưng trả HTML/JSON lỗi thay vì audio -> coi như hụt
     if "audio" not in ctype and len(r.content) < 1024:
-        log_warn(f"OpenRussian audio '{clean_word}': nội dung không phải audio (sẽ thử Google TTS)")
+        log_warn(f"OpenRussian audio '{text}': nội dung không phải audio")
         return None
     return r.content
 
 
-def google_tts_bytes(text):
-    """Sinh mp3 giọng Standard tiếng Nga qua Google Cloud TTS. Trả về bytes hoặc None."""
-    if not GOOGLE_TTS_API_KEY:
-        log_warn("Chưa cấu hình GOOGLE_TTS_API_KEY trong .env — bỏ qua phao TTS dự phòng.")
-        return None
-    body = {
-        "input": {"text": text},
-        "voice": {"languageCode": GOOGLE_TTS_LANG, "name": GOOGLE_TTS_VOICE},
-        "audioConfig": {"audioEncoding": "MP3"},
-    }
-    try:
-        # Key đi trong HEADER, không trong URL: `requests` nhét nguyên URL vào thông
-        # điệp lỗi mạng ⇒ bản cũ `?key=` in khoá ra log mỗi lần mạng rớt (15/10).
-        r = requests.post(GOOGLE_TTS_URL, headers={"X-Goog-Api-Key": GOOGLE_TTS_API_KEY},
-                          json=body, timeout=20)
-    except Exception as e:
-        log_fail(f"Google TTS lỗi mạng: {e}")
-        return None
-    if r.status_code != 200:
-        # 403 hay gặp: chưa bật Cloud Text-to-Speech API trên project của key
-        msg = ""
-        try:
-            msg = r.json().get("error", {}).get("message", "")
-        except ValueError:
-            msg = r.text[:200]
-        log_fail(f"Google TTS lỗi {r.status_code}: {msg}")
-        return None
-    content = r.json().get("audioContent")
-    if not content:
-        log_fail("Google TTS không trả về audioContent.")
-        return None
-    return base64.b64decode(content)
+def fetch_audio_bytes(word, ban_nguoi_truoc=True):
+    """Lấy mp3 cho 1 từ CÓ DẤU NHẤN (`приглаша́ть`). Trả về (bytes, "openrussian")
+    hoặc (None, "").
 
-
-def fetch_audio_bytes(clean_word):
-    """Lấy mp3 phát âm cho 1 từ. Trả về (bytes, nguồn) hoặc (None, "").
-    nguồn ∈ {"openrussian", "google_tts"} — để giao diện báo đã dùng phao dự phòng."""
-    data = _openrussian_audio_bytes(clean_word)
-    if data:
-        return data, "openrussian"
-    data = google_tts_bytes(clean_word)
-    if data:
-        log_warn(f"Đã dùng Google TTS thay OpenRussian cho '{clean_word}'.")
-        return data, "google_tts"
-    return None, ""
+    ban_nguoi_truoc=True: thử chữ trần, nhận NẾU là bản thu người; không thì đọc
+    máy kèm dấu. Truyền False cho dạng biến cách (số nhiều…): chữ trần của chúng
+    hay trùng mặt một từ khác, bản thu người khi đó là người đọc NHẦM TỪ."""
+    co_dau = chu_co_dau(word)
+    tran = strip_accents_perfectly(co_dau)
+    if ban_nguoi_truoc and co_dau.lower() != tran:
+        data = _openrussian_audio_bytes(tran)
+        if la_ban_nguoi(data):
+            return data, "openrussian"
+    # Từ không dấu nhấn (một âm tiết, có ё) thì co_dau == chữ trần: một lượt là đủ,
+    # OpenRussian tự trả bản người nếu có.
+    data = _openrussian_audio_bytes(co_dau)
+    return (data, "openrussian") if data else (None, "")

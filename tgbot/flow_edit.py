@@ -54,8 +54,6 @@ async def _do_redo(status_msg, word, context=None, chon_id=None):
             lines.append(f"     🇬🇧 {en}")
         if vi:
             lines.append(f"     🇻🇳 {vi}")
-    if result.get("audio_source") == "google_tts":
-        lines.append("🔊 OpenRussian lỗi audio nên đã dùng Google TTS (giọng máy).")
     if result.get("ai_degraded"):
         lines.append("⚠️ AI không tạo được ví dụ/nghĩa Việt lần này — thử /sua lại lần nữa.")
     lines.append(f"✅ Tiến trình học giữ nguyên. ⏱ {time.time() - t0:.1f}s")

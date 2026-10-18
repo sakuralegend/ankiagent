@@ -172,7 +172,7 @@ def redo_note_id(note_id, do_sync=False, chon_id=None):
     # ghi đè ô Audio bằng tiếng mới, hoặc "" để ít nhất xóa câu lỗi rác.
     audio_source = ""
     if not re.search(r"\[sound:[^\]]+\]", fields.get("Audio") or ""):
-        audio_field, audio_source = store_word_audio(clean_word)
+        audio_field, audio_source = store_word_audio(built["fields"]["Word"])
         new_fields["Audio"] = audio_field
 
     if not update_note_fields(note_id, new_fields):
@@ -187,7 +187,7 @@ def redo_note_id(note_id, do_sync=False, chon_id=None):
         "examples": built["simplified_examples"],
         "ai_degraded": built["ai_degraded"],
         "topic": built["topic_slug"] or "",
-        "audio_source": audio_source,   # "google_tts" nếu vừa vá bằng TTS dự phòng
+        "audio_source": audio_source,
     }
     if do_sync:
         result["synced"] = trigger_sync()

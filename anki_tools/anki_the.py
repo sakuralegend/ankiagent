@@ -25,7 +25,7 @@ from .html_builder import (
     parse_meaning_html,
     parse_raw_examples,
 )
-from .audio import fetch_audio_bytes
+from .audio import fetch_audio_bytes, ten_file_audio
 
 
 def store_media_file(filename, data_bytes):
@@ -45,14 +45,14 @@ def store_media_file(filename, data_bytes):
         return False
 
 
-def store_word_audio(clean_word):
-    """Tải audio phát âm (OpenRussian -> Google TTS dự phòng khi 500) rồi lưu vào
-    Anki media. Trả về (audio_field, source): '[sound:ru_audio_X.mp3]' + nguồn
-    ('openrussian'/'google_tts'), hoặc ('', '') nếu cả hai nguồn đều hụt."""
-    data, source = fetch_audio_bytes(clean_word)
+def store_word_audio(word, prefix="ru_audio", ban_nguoi_truoc=True):
+    """Tải audio của `word` (CÓ DẤU NHẤN — chữ trần làm máy đọc đoán trọng âm, xem
+    audio.py) rồi lưu vào Anki media. Trả về ('[sound:...]', 'openrussian'), hoặc
+    ('', '') nếu OpenRussian hụt — để trống, scripts/fix_audio.py vá sau."""
+    data, source = fetch_audio_bytes(word, ban_nguoi_truoc)
     if not data:
         return "", ""
-    filename = f"ru_audio_{clean_word}.mp3"
+    filename = ten_file_audio(prefix, word)
     if store_media_file(filename, data):
         return f"[sound:{filename}]", source
     return "", ""
@@ -202,9 +202,9 @@ def push_to_anki(word, data, deck_name, is_forced=False):
     clean_word = built["clean_word"]
     topic_slug = built["topic_slug"]
 
-    # Audio: bot TỰ tải (OpenRussian -> Google TTS nếu 500) rồi lưu media, thay vì
-    # để AnkiConnect tự tải từ URL (không bắt được lỗi 500 để dùng phao dự phòng).
-    audio_field, audio_source = store_word_audio(clean_word)
+    # Audio: bot TỰ tải rồi lưu media, thay vì để AnkiConnect tự tải từ URL
+    # (không chọn được bản thu người, không gửi được dấu nhấn).
+    audio_field, audio_source = store_word_audio(built["fields"]["Word"])
 
     # Thêm trùng (force) dùng option allowDuplicate chính thống của AnkiConnect.
     # topic_tag() trả None khi slug không xếp được (QD-38) -> lọc, đừng để lọt
@@ -253,7 +253,7 @@ def push_to_anki(word, data, deck_name, is_forced=False):
         "simplified_examples": built["simplified_examples"],
         "ai_degraded": built["ai_degraded"],
         "topic": (topic_tag(topic_slug) or "") if topic_slug else "",
-        "audio_source": audio_source,   # "openrussian" / "google_tts" / ""
+        "audio_source": audio_source,   # "openrussian" / ""
     }
 
     try:
@@ -290,12 +290,10 @@ def print_card_summary(card_info, elapsed):
     if card_info.get("topic"):
         print(f"  📂 Chủ đề:     {card_info['topic']}")
     _audio_src = card_info.get("audio_source", "")
-    if _audio_src == "google_tts":
-        print(f"  🔊 Audio:      [Google TTS - OpenRussian lỗi]")
-    elif _audio_src == "openrussian":
+    if _audio_src == "openrussian":
         print(f"  🔊 Audio:      [OpenRussian]")
     else:
-        print(f"  🔊 Audio:      [KHÔNG có - cả 2 nguồn đều hụt]")
+        print(f"  🔊 Audio:      [KHÔNG có - OpenRussian hụt, chạy scripts/fix_audio.py sau]")
 
     if examples:
         print(f"  ─────────────────────────────────────")

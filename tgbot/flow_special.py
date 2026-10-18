@@ -63,7 +63,7 @@ def _format_summary(info):
         lines.append(f"     🇻🇳 {hl_to_bracket(ex['vi'])}")
 
     if info.get("missing_audio"):
-        lines.append("⚠️ Thiếu audio một trong hai dạng (cả OpenRussian lẫn TTS đều hụt).")
+        lines.append("⚠️ Thiếu audio một trong hai dạng (OpenRussian hụt — scripts/fix_audio.py vá sau).")
     lines.append(f"📦 {info.get('deck', PLURAL_DECK)}")
     if info.get("synced") is False:
         lines.append(SYNC_FAIL_TEXT)

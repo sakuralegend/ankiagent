@@ -78,8 +78,7 @@ def process_word(word, deck=PLURAL_DECK, do_sync=False, word_list=None):
 
     fields = cards.build_fields(data, ai_result, kind=_kind_of(clean, word_list))
 
-    # Audio: số ít và số nhiều tải riêng. OpenRussian đọc được cả hai; hụt thì
-    # rơi về Google TTS (fetch_audio_bytes lo sẵn).
+    # Audio: số ít và số nhiều tải riêng, đều kèm dấu nhấn; hụt thì để trống.
     fields["Audio"], audio_src = cards.store_audio(data["word"], "ru_audio")
     fields["PluralAudio"], plural_audio_src = cards.store_audio(data["plural"], "ru_plural")
 
@@ -157,8 +156,8 @@ def redo_note(note_id, do_sync=False, word_list=None):
 
     fields = cards.build_fields(data, ai_result, kind=_kind_of(clean, word_list))
 
-    # Audio: chỉ tải lại ô nào ĐANG THIẾU, để không tốn quota TTS vô ích
-    # (26 thẻ cũ có Audio rồi nhưng PluralAudio rỗng hết).
+    # Audio: chỉ tải lại ô nào ĐANG THIẾU (audio sai trọng âm là việc của
+    # scripts/fix_audio.py, chạy cả deck một lượt).
     for field, text, prefix in (("Audio", data["word"], "ru_audio"),
                                 ("PluralAudio", data["plural"], "ru_plural")):
         if "[sound:" in (old.get(field) or ""):

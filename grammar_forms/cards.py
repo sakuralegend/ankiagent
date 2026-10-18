@@ -1,7 +1,7 @@
 # ==============================================================================
 # --- DỰNG FIELD + ĐẨY THẺ BIẾN CÁCH LÊN ANKI ---
 # Mọi lệnh gọi AnkiConnect của mảng grammar_forms gom hết ở file này.
-# Dùng lại store_media_file()/trigger_sync() của anki_tools (hạ tầng chung),
+# Dùng lại store_word_audio()/trigger_sync() của anki_tools (hạ tầng chung),
 # nhưng model/deck/field đều là của riêng mảng này.
 # ==============================================================================
 import json
@@ -9,8 +9,7 @@ import os
 
 import requests
 
-from anki_tools.anki_client import store_media_file
-from anki_tools.audio import fetch_audio_bytes
+from anki_tools.anki_client import store_word_audio
 from anki_tools.config import ANKI_CONNECT_URL
 from anki_tools.utils import apply_hl, log_fail, log_warn, strip_accents_perfectly
 
@@ -150,21 +149,12 @@ def build_fields(data, ai_result, kind=""):
 
 
 def store_audio(text, prefix):
-    """Tải phát âm rồi lưu vào media Anki. Trả về ('[sound:...]', nguồn) hoặc ('','').
-
-    Dùng chung fetch_audio_bytes() của anki_tools: OpenRussian đọc trước (giọng
-    tự nhiên, đọc được cả dạng số nhiều), hụt thì rơi về Google TTS.
-    """
-    clean = strip_accents_perfectly(text)
-    if not clean:
+    """Tải phát âm `text` (CÓ DẤU NHẤN) rồi lưu media. Trả về ('[sound:...]', nguồn)
+    hoặc ('',''). Dạng số nhiều (`ru_plural`) KHÔNG nhận bản thu người: chữ trần
+    của nó hay trùng mặt từ khác (дома́ ↔ до́ма "ở nhà") — xem anki_tools/audio.py."""
+    if not strip_accents_perfectly(text):
         return "", ""
-    data, source = fetch_audio_bytes(clean)
-    if not data:
-        return "", ""
-    filename = f"{prefix}_{clean}.mp3"
-    if store_media_file(filename, data):
-        return f"[sound:{filename}]", source
-    return "", ""
+    return store_word_audio(text, prefix, ban_nguoi_truoc=(prefix != "ru_plural"))
 
 
 def find_existing(word_clean):
