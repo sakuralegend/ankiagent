@@ -18,10 +18,13 @@
 
 ---
 
-## v2.3.1 — 18/10/2026
+## v2.4.0 — 19/10/2026
 
-- 🔊 **Sửa phát âm sai trọng âm.** Trước đây, từ nào OpenRussian không có bản thu người thật thì máy đọc **tự đoán** trọng âm, nên có lúc đọc sai (vd. о không nhấn không đọc thành а). Giờ máy luôn được báo trước trọng âm nằm ở đâu. Đã thay **292 file** cũ: 171 thẻ từ vựng và 121 file ở deck ngữ pháp (deck này nặng nhất vì дома́ "những ngôi nhà" từng bị đọc thành до́ма "ở nhà"). **Điện thoại chỉ cần bấm Sync như thường.**
-- 🔇 **Bỏ giọng Google dự phòng**, vì nó cũng tự đoán trọng âm. Khi OpenRussian trục trặc, thẻ mới sẽ tạm **chưa có tiếng** thay vì có tiếng sai; lần vá sau sẽ điền vào.
+- 🔊 **Giọng đọc mới cho cả kho: Yandex "alena".** Đọc đúng trọng âm và đủ âm. Giọng cũ (OpenRussian) có từ cụt âm đầu (vd. согла́сный), có từ sai trọng âm.
+- 💬 **Câu ví dụ có tiếng.** Cuối mỗi câu tiếng Nga có một dấu ▶ nhỏ, mờ; bấm vào thì đọc câu đó. Câu **không tự đọc** khi lật thẻ.
+- 🐢 **Nghe chậm khi cần.** Đáy mặt sau thẻ có chữ mờ "· 1× ·"; chạm vào để đổi 1× → 0,75× → 0,5×, rồi bấm ▶ (từ hoặc câu) là nghe chậm. Lật thẻ thì từ vẫn tự đọc ở tốc độ thường; sang thẻ khác tự về 1×.
+- 📲 Lần Sync đầu tiên điện thoại tải khoảng **190 MB** tiếng mới. **Không phải làm gì thêm.**
+- ⚠️ Từ **01/11** Yandex hết miễn phí (khoảng 4 500–22 000 đồng/tháng tuỳ số từ thêm). Nếu thẻ mới bỗng **không có tiếng**, có thể tài khoản Yandex hết tiền: vào Yandex Cloud → **Billing** để nạp.
 
 ## v2.3.0 — 01/09/2026
 
