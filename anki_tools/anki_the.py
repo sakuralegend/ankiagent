@@ -17,15 +17,10 @@ from .chu_nga import nfc
 from .config import ANKI_CONNECT_URL, MODEL_NAME, STAGE1_DECK
 from .topics import TOPIC_TAG_PREFIX, topic_tag, pos_full as ten_pos_day_du
 from .utils import log_warn, log_fail, strip_accents_perfectly, hl_to_bracket
-from .html_builder import (
-    build_examples_html,
-    parse_examples_html,
-    parse_gender_badge,
-    parse_aspect_badge,
-    parse_meaning_html,
-    parse_raw_examples,
-)
-from .audio import fetch_audio_bytes, ten_file_audio
+from .html_builder import (build_examples_html, parse_examples_html, parse_gender_badge,
+                           parse_aspect_badge, parse_meaning_html, parse_raw_examples,
+                           gan_nut_nghe, nut_nghe)
+from .audio import lay_tieng, ten_file_audio, ten_file_cau
 
 
 def store_media_file(filename, data_bytes):
@@ -45,17 +40,24 @@ def store_media_file(filename, data_bytes):
         return False
 
 
-def store_word_audio(word, prefix="ru_audio", ban_nguoi_truoc=True):
-    """Tải audio của `word` (CÓ DẤU NHẤN — chữ trần làm máy đọc đoán trọng âm, xem
-    audio.py) rồi lưu vào Anki media. Trả về ('[sound:...]', 'openrussian'), hoặc
-    ('', '') nếu OpenRussian hụt — để trống, scripts/fix_audio.py vá sau."""
-    data, source = fetch_audio_bytes(word, ban_nguoi_truoc)
-    if not data:
-        return "", ""
-    filename = ten_file_audio(prefix, word)
-    if store_media_file(filename, data):
-        return f"[sound:{filename}]", source
+def store_word_audio(word, prefix="ru_audio"):
+    """Tiếng Yandex của `word` (CÓ DẤU NHẤN, xem audio.py) -> lưu media. Trả về
+    (ô audio, "yandex") hoặc ("", "") khi Yandex hụt — thẻ trống tiếng, fix_audio vá sau.
+    Ô audio = [sound:] (Anki TỰ PHÁT 1× khi lật thẻ) + ▶ tự làm (bấm thì theo tốc độ)."""
+    ten = ten_file_audio(prefix, word)
+    data = lay_tieng(word, ten)
+    if data and store_media_file(ten, data):
+        return f"[sound:{ten}]" + nut_nghe(ten, "nghe-tu"), "yandex"
     return "", ""
+
+
+def gan_tieng_vi_du(examples_html):
+    """Gắn ▶ + tiếng Yandex vào từng câu ví dụ; câu nào hụt tiếng thì không có nút."""
+    def luu(cau):
+        ten = ten_file_cau(cau)
+        data = lay_tieng(cau, ten)
+        return ten if data and store_media_file(ten, data) else None
+    return gan_nut_nghe(examples_html, luu)
 
 
 def build_card_fields(word, data):
@@ -223,6 +225,7 @@ def push_to_anki(word, data, deck_name, is_forced=False):
 
     fields = dict(built["fields"])
     fields["Audio"] = audio_field
+    fields["ExamplesHTML"] = gan_tieng_vi_du(fields["ExamplesHTML"])
     # KHÔNG ghi "Stage": để trống nghĩa là thẻ bắt đầu ở GĐ1 (làm quen).
     # KHÔNG còn "Image": field đã bị xoá khỏi note type 26/07/2026 — ghi vào một
     # field không tồn tại thì AnkiConnect từ chối cả note.
@@ -253,7 +256,7 @@ def push_to_anki(word, data, deck_name, is_forced=False):
         "simplified_examples": built["simplified_examples"],
         "ai_degraded": built["ai_degraded"],
         "topic": (topic_tag(topic_slug) or "") if topic_slug else "",
-        "audio_source": audio_source,   # "openrussian" / ""
+        "audio_source": audio_source,   # "yandex" / ""
     }
 
     try:
@@ -289,11 +292,8 @@ def print_card_summary(card_info, elapsed):
     print(f"  🏷️  Từ loại:    {pos}" + (f" ({', '.join(phu)})" if phu else ""))
     if card_info.get("topic"):
         print(f"  📂 Chủ đề:     {card_info['topic']}")
-    _audio_src = card_info.get("audio_source", "")
-    if _audio_src == "openrussian":
-        print(f"  🔊 Audio:      [OpenRussian]")
-    else:
-        print(f"  🔊 Audio:      [KHÔNG có - OpenRussian hụt, chạy scripts/fix_audio.py sau]")
+    print("  🔊 Audio:      " + ("[Yandex]" if card_info.get("audio_source") else
+                                 "[KHÔNG có - Yandex hụt, chạy scripts/fix_audio.py sau]"))
 
     if examples:
         print(f"  ─────────────────────────────────────")

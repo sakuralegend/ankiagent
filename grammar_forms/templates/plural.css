@@ -54,3 +54,15 @@ input#typeans { background-color: #161b22 !important; color: #ffffff !important;
 .typeGood { background-color: rgba(46, 160, 67, 0.25) !important; color: #3fb950 !important; padding: 2px 6px !important; border-radius: 4px !important; font-weight: bold !important; }
 .typeBad { background-color: rgba(248, 81, 73, 0.25) !important; color: #f85149; text-decoration: line-through !important; padding: 2px 6px !important; border-radius: 4px !important; font-weight: bold !important; }
 .typeMissed { color: #8b949e !important; font-weight: bold !important; }
+
+/* --- Nút nghe Yandex (18/10/2026; vì sao: anki_tools/audio.py + html_builder.nut_nghe) ---
+   Ô audio = [sound:] (Anki TỰ PHÁT 1× khi lật) + .nghe-tu (nút bấm tự làm, theo tốc độ).
+   Ẩn nút của Anki CHỈ khi ô đã có .nghe-tu: thẻ chưa chuyển giọng vẫn giữ nút cũ. */
+.audio-box:has(.nghe-tu) a, .audio-box:has(.nghe-tu) .replay-button, .audio-box:has(.nghe-tu) .anki-audio-button { display: none !important; }
+.nghe-tu { background-color: #1f242c; border: 1px solid #30363d; padding: 8px 18px; border-radius: 20px; color: #58a6ff; display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; cursor: pointer; user-select: none; -webkit-user-select: none; }
+.nghe-tu::after { content: " Phát lại âm thanh"; }
+/* ▶ cuối câu ví dụ + chữ tốc độ ở đáy: user chốt CỐ Ý KHÓ THẤY (ít dùng) */
+.nghe { margin-left: 6px; padding: 2px 4px; font-size: 11px; color: #8b949e; opacity: 0.45; cursor: pointer; user-select: none; -webkit-user-select: none; }
+.toc-dong { text-align: center; margin-top: 22px; }
+#toc { font-size: 11px; color: #8b949e; opacity: 0.4; padding: 6px 12px; cursor: pointer; user-select: none; -webkit-user-select: none; }
+.audio-box audio, .ex-ru audio { display: none; }

@@ -46,7 +46,11 @@ TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
 TELEGRAM_USER_ID = int(os.environ.get("TELEGRAM_USER_ID", "0"))
 # (Không còn deck mặc định: bot hỏi tên deck khi bắt đầu phiên, giống CLI main.py)
 
-OPENRUSSIAN_AUDIO_TEMPLATE = "https://api.openrussian.org/read/ru/{word}"
+# Giọng đọc: Yandex SpeechKit (lý do + giá: đầu anki_tools/audio.py). Khoá là API key
+# của service account có quyền ai.speechkit-tts.user. Trống ⇒ thẻ mới trống tiếng.
+YANDEX_TTS_URL = "https://tts.api.cloud.yandex.net/speech/v1/tts:synthesize"
+YANDEX_TTS_API_KEY = os.environ.get("YANDEX_TTS_API_KEY", "")
+YANDEX_TTS_VOICE = os.environ.get("YANDEX_TTS_VOICE", "alena")
 
 # Đổi tên 19/07/2026 (tên cũ Russian_Premium_OLED_Type_v25) — đổi trong Anki
 # thì phải đổi cả đây, và ngược lại. Model 26 thẻ Irregular tên RU_Plural.

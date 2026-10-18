@@ -17,6 +17,7 @@ from .anki_client import (
     push_to_anki,
     set_topic_tag,
     store_word_audio,
+    gan_tieng_vi_du,
     trigger_sync,
     update_note_fields,
 )
@@ -150,6 +151,7 @@ def redo_note_id(note_id, do_sync=False, chon_id=None):
 
     built = build_card_fields(clean_word, data)
     new_fields = dict(built["fields"])
+    new_fields["ExamplesHTML"] = gan_tieng_vi_du(new_fields["ExamplesHTML"])
 
     # 🔴 GIỮ phần chữ của ô Hướng dẫn. `build_card_fields()` dựng `HuongDan` chỉ
     # gồm BẢNG CHIA (đúng cho thẻ mới tinh), nhưng ở đây thẻ đã tồn tại và có thể

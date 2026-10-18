@@ -149,12 +149,11 @@ def build_fields(data, ai_result, kind=""):
 
 
 def store_audio(text, prefix):
-    """Tải phát âm `text` (CÓ DẤU NHẤN) rồi lưu media. Trả về ('[sound:...]', nguồn)
-    hoặc ('',''). Dạng số nhiều (`ru_plural`) KHÔNG nhận bản thu người: chữ trần
-    của nó hay trùng mặt từ khác (дома́ ↔ до́ма "ở nhà") — xem anki_tools/audio.py."""
+    """Tiếng Yandex của `text` (CÓ DẤU NHẤN — дома́ ≠ до́ма) -> lưu media. Trả về
+    (ô audio, nguồn) hoặc ('','')."""
     if not strip_accents_perfectly(text):
         return "", ""
-    return store_word_audio(text, prefix, ban_nguoi_truoc=(prefix != "ru_plural"))
+    return store_word_audio(text, prefix)
 
 
 def find_existing(word_clean):

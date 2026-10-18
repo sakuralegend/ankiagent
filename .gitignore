@@ -27,6 +27,8 @@ last_deck.json
 
 # Bản sao lưu collection (mỗi bản ~36MB) — dữ liệu, không phải mã nguồn
 backups/
+# Tiếng Yandex đã tải (~150MB) — tải lại được bằng scripts/fix_audio.py --tai
+data/tieng_yandex/
 
 # Dump từ điển gốc (~8MB) — tải lại bằng: python -m grammar_forms.irregular_plurals
 data/nouns.csv

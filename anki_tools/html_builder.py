@@ -30,6 +30,48 @@ def _build_example_block(index, ru_text, en_text, vi_text):
     )
 
 
+# --- NÚT NGHE ▶ (tiếng Yandex, xem anki_tools/audio.py) ---
+# Lệnh phát gắn THẲNG vào nút (onclick), KHÔNG dùng khối <script>: JS khối ở mặt
+# sau thẻ hay chết lặng trên AnkiMobile (ghi chú trong back_template.html). Tốc độ
+# lấy từ chữ "· 1× ·" ở đáy mặt sau (id="toc", mẫu thẻ dựng) — thẻ mới dựng lại
+# chữ đó nên sang thẻ khác tự về 1×; không có chữ đó (mặt trước) thì 1×.
+# Dùng <audio> chứ không [sound:]: [sound:] thì Anki TỰ PHÁT (user chốt 18/10: câu
+# ví dụ BẤM mới phát) và trình phát của Anki không cho đổi tốc độ.
+_PHAT = ("var a=this.nextElementSibling,t=document.getElementById('toc'),"
+         "v=t?+t.dataset.v||1:1;a.defaultPlaybackRate=v;a.playbackRate=v;"
+         "a.currentTime=0;a.play()")
+_NUT_RE = re.compile(r'<span class="nghe[^"]*"[^>]*>.*?</span><audio\b[^>]*></audio>', re.S)
+_EX_RU_RE = re.compile(r'(<div class="ex-ru">)(.*?)(</div>)', re.S)
+
+
+def nut_nghe(ten_file, lop="nghe"):
+    """▶ + trình phát cho một file media. `nghe-tu` = nút của TỪ (card.css vẽ như
+    nút cũ của Anki); `nghe` = ▶ mờ cuối câu ví dụ."""
+    # ︎: ép ▶ hiện dạng CHỮ — iOS mặc định vẽ thành emoji màu, hết "mờ"
+    return (f'<span class="{lop}" onclick="{_PHAT}">▶︎</span>'
+            f'<audio src="{html_lib.escape(ten_file)}" preload="none"></audio>')
+
+
+def bo_nut_nghe(fragment):
+    return _NUT_RE.sub("", fragment or "")
+
+
+def cau_de_doc(ru_html):
+    """Mẩu HTML câu Nga -> chữ đưa cho máy đọc (bỏ nút, bỏ <hl>, giữ dấu nhấn)."""
+    return re.sub(r"</?hl>", "", html_fragment_to_text(bo_nut_nghe(ru_html)))
+
+
+def gan_nut_nghe(examples_html, luu):
+    """Gắn ▶ vào cuối MỖI câu Nga. `luu(câu)` -> tên file đã lưu, hoặc None (câu đó
+    không có nút). Gắn lại bao nhiêu lần cũng chỉ ra một nút: bỏ nút cũ trước."""
+    def thay(m):
+        goc = bo_nut_nghe(m.group(2)).rstrip()
+        cau = cau_de_doc(goc)
+        ten = luu(cau) if cau else None
+        return m.group(1) + goc + (nut_nghe(ten) if ten else "") + m.group(3)
+    return _EX_RU_RE.sub(thay, examples_html or "")
+
+
 def _build_from_ai_result(ai_result):
     """Từ ai_result dict, tạo examples_html và simplified list. Trả về (examples_html, vi_meaning, simplified)."""
     vi_meaning = ai_result.get("vietnamese_meaning", "")
@@ -169,7 +211,7 @@ def parse_examples_html(examples_html):
         # THAM LAM cố ý: </span> đầu tiên có thể là của <span class="hl"> lồng trong
         vi = re.search(r'<span class="vi-text">(.*)</span>', block, re.S)
         ex = {
-            "ru": html_fragment_to_text(ru.group(1) if ru else ""),
+            "ru": html_fragment_to_text(bo_nut_nghe(ru.group(1)) if ru else ""),
             "en": html_fragment_to_text(en.group(1) if en else ""),
             "vi": html_fragment_to_text(vi.group(1) if vi else ""),
         }

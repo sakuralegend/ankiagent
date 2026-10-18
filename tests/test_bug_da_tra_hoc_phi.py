@@ -1623,45 +1623,54 @@ class TestMaLoBaChuSo(unittest.TestCase):
 
 
 class AudioPhaiGuiDauNhan(unittest.TestCase):
-    """Bản cũ gửi chữ TRẦN cho OpenRussian ⇒ máy đọc Yandex tự đoán trọng âm; số
-    nhiều còn nhận bản thu người của chữ trùng mặt (дома́ ↔ до́ма). Đo 18/10:
-    171 thẻ từ vựng + 110/124 audio số nhiều dính."""
+    """OpenRussian gửi chữ TRẦN ⇒ máy tự đoán trọng âm; bản thu người của chữ trùng
+    mặt (дома́ ↔ до́ма); máy đọc kiểu mới cụt âm đầu (27 file, đo 18/10). Đã chuyển
+    sang Yandex với dấu `+` ĐỨNG TRƯỚC nguyên âm nhấn — đặt sai chỗ là đọc sai."""
 
-    @staticmethod
-    def _tra(ban_nguoi_cho_chu_tran):
-        def get(url, timeout):
-            r = unittest.mock.Mock(status_code=200, headers={"Content-Type": "audio/mpeg"})
-            tran = "%27" not in url
-            r.content = (b"ID3 SWAC_TEXT" if tran and ban_nguoi_cho_chu_tran else b"ID3 Lavf") + b"x" * 2000
-            return r
-        return get
+    def test_dau_nhan_doi_sang_kieu_yandex(self):
+        from anki_tools.audio import chu_yandex
+        self.assertEqual(chu_yandex("за" + ACUTE + "мок"), "з+амок")
+        self.assertEqual(chu_yandex("замо" + ACUTE + "к"), "зам+ок")
+        self.assertEqual(chu_yandex("приглаша'ть"), "приглаш+ать")
+        self.assertEqual(chu_yandex("ёлка"), "ёлка")          # ё tự mang nhấn
 
-    def _goi(self, word, ban_nguoi_truoc, co_ban_nguoi):
+    def test_chu_gui_Yandex_MANG_dau_nhan(self):
         from anki_tools import audio
-        with unittest.mock.patch.object(audio.requests, "get",
-                                        side_effect=self._tra(co_ban_nguoi)) as gia:
-            data, _ = audio.fetch_audio_bytes(word, ban_nguoi_truoc)
-        return data, [c.args[0] for c in gia.call_args_list]
-
-    def test_khong_co_ban_nguoi_thi_may_doc_KEM_DAU(self):
-        data, urls = self._goi("де" + ACUTE + "душка", True, co_ban_nguoi=False)
-        self.assertIn(b"Lavf", data)
-        self.assertIn("%27", urls[-1])            # nháy đơn = dấu nhấn
-
-    def test_tu_vung_nhan_ban_thu_nguoi(self):
-        data, urls = self._goi("приглаша" + ACUTE + "ть", True, co_ban_nguoi=True)
-        self.assertTrue(data.startswith(b"ID3 SWAC"))
-        self.assertEqual(len(urls), 1)
-
-    def test_so_nhieu_KHONG_nhan_ban_nguoi_cua_chu_trung_mat(self):
-        data, urls = self._goi("дома" + ACUTE, False, co_ban_nguoi=True)
-        self.assertIn(b"Lavf", data)
-        self.assertTrue(all("%27" in u for u in urls))
+        with unittest.mock.patch.object(audio, "YANDEX_TTS_API_KEY", "KHOA-GIA"),                 unittest.mock.patch.object(audio.requests, "post") as gia:
+            gia.return_value = unittest.mock.Mock(status_code=200, content=b"x" * 2000)
+            data, _ = audio.fetch_audio_bytes("дома" + ACUTE)
+        self.assertTrue(data)
+        self.assertEqual(gia.call_args.kwargs["data"]["text"], "дом+а")
 
     def test_ten_file_tach_hai_chu_trung_mat(self):
         from anki_tools.audio import ten_file_audio
-        self.assertNotEqual(ten_file_audio("ru_audio", "за" + ACUTE + "мок"),
-                            ten_file_audio("ru_audio", "замо" + ACUTE + "к"))
+        a = ten_file_audio("ru_audio", "за" + ACUTE + "мок")
+        self.assertNotEqual(a, ten_file_audio("ru_audio", "замо" + ACUTE + "к"))
+        self.assertTrue(a.startswith("ya_"))      # fix_audio dựa vào tiền tố này
+
+    def test_cau_doi_thi_ten_file_doi(self):
+        from anki_tools.audio import ten_file_cau
+        self.assertNotEqual(ten_file_cau("Это мой дом."), ten_file_cau("Это мой до" + ACUTE + "м."))
+
+
+class NutNgheKhongLamHongCauViDu(unittest.TestCase):
+    """▶ gắn VÀO ô câu Nga: bot đọc ngược thẻ (parse_examples_html) phải ra đúng câu cũ,
+    và gắn lại (chạy fix_audio lần hai) không được đẻ nút thứ hai."""
+
+    HTML = _build_example_block(
+        0, 'Эти старые <span class="hl">дома' + ACUTE + '</span>.', "These old houses.", "Nhà cũ.")
+
+    def test_doc_nguoc_van_ra_dung_cau_va_gan_lai_khong_nhan_doi(self):
+        from anki_tools.html_builder import gan_nut_nghe
+        da_gan = gan_nut_nghe(self.HTML, lambda cau: "ya_cau_x.mp3")
+        self.assertEqual(parse_examples_html(da_gan), parse_examples_html(self.HTML))
+        self.assertEqual(gan_nut_nghe(da_gan, lambda cau: "ya_cau_x.mp3").count("<audio"), 1)
+
+    def test_cau_dua_may_doc_bo_the_giu_dau(self):
+        from anki_tools.html_builder import gan_nut_nghe
+        nhan = []
+        gan_nut_nghe(self.HTML, lambda cau: nhan.append(cau))
+        self.assertEqual(nhan, ["Эти старые дома" + ACUTE + "."])
 
 
 if __name__ == "__main__":

@@ -9,7 +9,7 @@
 import csv
 import os
 
-from anki_tools.anki_client import trigger_sync
+from anki_tools.anki_client import gan_tieng_vi_du, trigger_sync
 from anki_tools.utils import strip_accents_perfectly
 
 from . import cards
@@ -77,8 +77,9 @@ def process_word(word, deck=PLURAL_DECK, do_sync=False, word_list=None):
         )
 
     fields = cards.build_fields(data, ai_result, kind=_kind_of(clean, word_list))
+    fields["ExamplesHTML"] = gan_tieng_vi_du(fields["ExamplesHTML"])
 
-    # Audio: số ít và số nhiều tải riêng, đều kèm dấu nhấn; hụt thì để trống.
+    # Audio: số ít và số nhiều tải riêng (Yandex, kèm dấu nhấn); hụt thì để trống.
     fields["Audio"], audio_src = cards.store_audio(data["word"], "ru_audio")
     fields["PluralAudio"], plural_audio_src = cards.store_audio(data["plural"], "ru_plural")
 
@@ -155,6 +156,7 @@ def redo_note(note_id, do_sync=False, word_list=None):
         )
 
     fields = cards.build_fields(data, ai_result, kind=_kind_of(clean, word_list))
+    fields["ExamplesHTML"] = gan_tieng_vi_du(fields["ExamplesHTML"])
 
     # Audio: chỉ tải lại ô nào ĐANG THIẾU (audio sai trọng âm là việc của
     # scripts/fix_audio.py, chạy cả deck một lượt).

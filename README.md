@@ -46,6 +46,7 @@ Tạo từ mẫu: copy `.env.example` → `.env` rồi điền. `config.py` ch�
 | `CLAUDE_MODEL` · `CLAUDE_FALLBACK_MODELS` | Model chính + model dự phòng (tự chuyển khi 429) |
 | `ANKI_CONNECT_URL` | Địa chỉ AnkiConnect |
 | `TELEGRAM_BOT_TOKEN` · `TELEGRAM_USER_ID` | Token bot + user ID **duy nhất** được phép dùng |
+| `YANDEX_TTS_API_KEY` · `YANDEX_TTS_VOICE` | Giọng đọc từ + câu ví dụ (Yandex SpeechKit, mặc định `alena`). Khoá = API key của service account có quyền `ai.speechkit-tts.user`. Trống ⇒ thẻ mới **trống tiếng** |
 | `TOPIC_DECK_PARENT` · `BACKUP_DIR` · `BACKUP_KEEP` | (tuỳ chọn) Tên deck kho, chỗ lưu và số bản backup |
 
 ## 🚀 Chạy
