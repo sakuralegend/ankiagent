@@ -18,6 +18,10 @@
 
 ---
 
+## v2.5.0 — 30/10/2026
+
+- 🔽 **Ô nghĩa tiếng Anh gọn lại.** Chỉ hiện 3 nghĩa đầu; từ nhiều nghĩa hơn có mũi tên nhỏ màu xanh ngay dưới, chạm để xem hết, chạm lần nữa để gấp. Nhờ vậy ô tiếng Việt và nhãn từ loại không còn bị đẩy khỏi màn hình điện thoại. Áp dụng cả thẻ từ vựng lẫn thẻ số nhiều. Chỉ cần Sync như thường.
+
 ## v2.4.0 — 19/10/2026
 
 - 🔊 **Giọng đọc mới cho cả kho: Yandex "alena".** Đọc đúng trọng âm và đủ âm. Giọng cũ (OpenRussian) có từ cụt âm đầu (vd. согла́сный), có từ sai trọng âm.
@@ -33,20 +37,3 @@
 ## v2.2.0 — 01/09/2026
 
 - 🗑️ **Bỏ lệnh `/suadeck` và nút "📚 Cả deck".** Nó làm lại TOÀN BỘ thẻ của một thư mục bằng một nút bấm — không xem trước, không hoàn tác, mà dữ liệu lấy về có chỗ sai. Nó sinh ra hồi thư mục còn chia theo NGÀY, ba ngày sau đã đổi sang CHỦ ĐỀ. **`/sua` (làm lại MỘT thẻ) và nút "✏️ Làm lại thẻ" giữ nguyên.**
-
-## v2.1.0 — 27/08/2026
-
-- 🔗 **Thẻ động từ nào có 3 từ cùng gốc thì hiện cả ba, kèm nghĩa từng từ.** Trước đây thẻ
-  `слушать` khai bạn thể là `послушать`, còn thẻ `прослушать` lại khai bạn thể là `слушать` —
-  ôn hai thẻ thấy mâu thuẫn, mà cả ba đều dán chung nhãn "hoàn thành". Giờ cả ba nằm cùng một
-  chỗ: `слушать` (nghe) · `послушать` (nghe một lát) · `прослушать` (nghe hết một lượt). Chỉ
-  liệt kê từ bạn ĐÃ CÓ thẻ, không thêm từ lạ. Ba nhóm bị đổi: nghe, nói, nhảy.
-- ➕ **Thêm một động từ bằng cách gõ tay xong, bot hỏi luôn nửa kia của cặp thể.** Ví dụ thêm
-  `готовить` thì bot mời thêm `подготовить`. Bấm ✅ mới thêm. Quét ảnh và `/tumoi` vẫn im lặng như cũ —
-  thêm 30 từ mà hỏi 30 lần thì không ai bấm hết.
-- 🐛 **Sửa lỗi thẻ mang bảng chia của từ khác.** Thẻ `нареза́ть` (đang thái) đang hiện dữ liệu
-  của `наре́зать` (thái xong) — hai từ khác nhau, viết giống hệt, chỉ khác chỗ nhấn giọng. Máy trước
-  đây tìm thẻ bằng cách bỏ dấu nhấn nên coi chúng là một rồi ghi đè lẫn nhau. Đã sửa thẻ đó và
-  bịt đường gây lỗi — từ điển có 156 cặp kiểu này, 22 cặp nằm trong danh sách từ bạn sắp học.
-- 🏷️ **Ô "loại từ" trên thẻ hết hiện chữ `other`.** 93 thẻ — toàn từ hay dùng như `там`, `в`, `и`, `не`, `ой` — mặt sau chỉ ghi "other", tức là có một ô mà không dạy gì. Nguyên nhân: từ điển nguồn gom trạng từ, giới từ, liên từ, trợ từ vào chung một rọ tên "other". Giờ mỗi thẻ ghi đúng loại của nó (`adverb`, `preposition`, `conjunction`, `particle`, `pronoun`, `predicative`, `interjection`), và thẻ mới thêm từ nay cũng vậy.
-

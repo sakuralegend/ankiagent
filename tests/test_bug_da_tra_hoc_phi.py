@@ -1673,5 +1673,29 @@ class NutNgheKhongLamHongCauViDu(unittest.TestCase):
         self.assertEqual(nhan, ["Эти старые дома" + ACUTE + "."])
 
 
+class NghiaGapLaiPhaiMoDuoc(unittest.TestCase):
+    """30/10/2026: ô nghĩa chỉ hiện 3 nghĩa đầu, nghĩa 4+ mở bằng mũi tên (card.css,
+    khối `.mx-`). Hỏng IM LẶNG nguy nhất: còn ô tick ẩn mà mất mũi tên ⇒ nghĩa 4+
+    bị giấu vĩnh viễn, không có chỗ bấm. Ngược lại (mất ô tick) thì chỉ hiện đủ, vô hại."""
+
+    KHUON = {"anki_tools/templates/card.css": ["anki_tools/templates/front_template.html",
+                                                "anki_tools/templates/back_template.html"],
+             "grammar_forms/templates/plural.css": ["grammar_forms/templates/plural_front.html",
+                                                    "grammar_forms/templates/plural_back.html"]}
+
+    def test_moi_o_nghia_deu_co_cong_tac_va_mui_ten(self):
+        goc = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        doc = lambda p: open(os.path.join(goc, p), encoding="utf-8").read()
+        for css, khuon in self.KHUON.items():
+            self.assertIn("li:nth-child(n+4)", doc(css), css)
+            for p in khuon:
+                html = doc(p)
+                self.assertEqual(html.count('class="meaning-box"'), 1, p)
+                # ô tick phải ĐỨNG SÁT trước ô nghĩa (luật CSS dùng `+`), mũi tên NẰM TRONG nó
+                self.assertRegex(html, r'<input type="checkbox" id="mx" class="mx-cb">'
+                                       r'<div class="meaning-box"[^>]*>\{\{Meaning\}\}'
+                                       r'<label for="mx" class="mx-nut"></label></div>', p)
+
+
 if __name__ == "__main__":
     unittest.main()
