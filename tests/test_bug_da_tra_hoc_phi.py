@@ -1675,8 +1675,9 @@ class NutNgheKhongLamHongCauViDu(unittest.TestCase):
 
 class NghiaGapLaiPhaiMoDuoc(unittest.TestCase):
     """30/10/2026: ô nghĩa chỉ hiện 3 nghĩa đầu, nghĩa 4+ mở bằng mũi tên (card.css,
-    khối `.mx-`). Hỏng IM LẶNG nguy nhất: còn ô tick ẩn mà mất mũi tên ⇒ nghĩa 4+
-    bị giấu vĩnh viễn, không có chỗ bấm. Ngược lại (mất ô tick) thì chỉ hiện đủ, vô hại."""
+    khối `.mx`). Bug gốc: bản đầu dùng ô tick ẩn + <label for>, máy tính bấm được còn
+    AnkiMobile KHÔNG nhận chạm ⇒ nghĩa 4+ kẹt ẩn trên iPhone. Phải là <details> (thứ
+    đã chạy trên iPhone ở ô Ví dụ/Bảng chia), và nằm TRONG ô nghĩa vì CSS dò bằng :has."""
 
     KHUON = {"anki_tools/templates/card.css": ["anki_tools/templates/front_template.html",
                                                 "anki_tools/templates/back_template.html"],
@@ -1687,14 +1688,14 @@ class NghiaGapLaiPhaiMoDuoc(unittest.TestCase):
         goc = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         doc = lambda p: open(os.path.join(goc, p), encoding="utf-8").read()
         for css, khuon in self.KHUON.items():
-            self.assertIn("li:nth-child(n+4)", doc(css), css)
+            self.assertIn(".meaning-box:has(.mx:not([open]))", doc(css), css)
             for p in khuon:
                 html = doc(p)
                 self.assertEqual(html.count('class="meaning-box"'), 1, p)
-                # ô tick phải ĐỨNG SÁT trước ô nghĩa (luật CSS dùng `+`), mũi tên NẰM TRONG nó
-                self.assertRegex(html, r'<input type="checkbox" id="mx" class="mx-cb">'
-                                       r'<div class="meaning-box"[^>]*>\{\{Meaning\}\}'
-                                       r'<label for="mx" class="mx-nut"></label></div>', p)
+                self.assertNotIn("<label", html, f"{p}: AnkiMobile không nhận chạm label")
+                self.assertRegex(html, r'<div class="meaning-box"[^>]*>\{\{Meaning\}\}'
+                                       r'<details class="mx"><summary class="mx-nut"></summary>'
+                                       r'</details></div>', p)
 
 
 if __name__ == "__main__":

@@ -36,18 +36,21 @@
 .meaning-list li { margin-bottom: 8px; font-weight: 500; line-height: 1.4; }
 .meaning-list li::marker { color: #58a6ff; font-weight: 800; font-size: 16px; }
 /* GẤP NGHĨA THỨ 4 TRỞ ĐI (user chốt 30/10/2026): nghĩa dài đẩy ô tiếng Việt + badge
-   khỏi màn iPhone. Công tắc là ô tick ẨN `.mx-cb` đặt ngay trước `.meaning-box` trong
-   khuôn thẻ; bấm mũi tên `.mx-nut` (label) là bật/tắt nó — HTML+CSS thuần, KHÔNG JS.
-   Vì sao không dùng <details> như ô Hướng dẫn: nó chỉ gấp được CẢ ô, không chẻ được
-   giữa danh sách nghĩa — muốn thế phải viết lại ô Meaning của ~500 thẻ thật.
-   Ẩn mũi tên khi ≤3 nghĩa viết bằng :not(:has()) có chủ đích: máy cũ không hiểu :has
-   thì bỏ cả dòng ⇒ mũi tên hiện thừa, chứ KHÔNG bao giờ giấu mất nghĩa không mở được. */
-.mx-cb { display: none; }
-.mx-cb:not(:checked) + .meaning-box .meaning-list li:nth-child(n+4) { display: none; }
-.mx-nut { display: block; width: 28px; margin: 2px auto -6px; text-align: center; color: #58a6ff; opacity: .75; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+   khỏi màn iPhone. Mũi tên là <details class="mx"> RỖNG nằm cuối `.meaning-box`; mở/đóng
+   nó thì CSS hiện/ẩn nghĩa 4+ qua :has — HTML+CSS thuần, KHÔNG JS.
+   🔴 Bản đầu dùng ô tick ẩn + <label for>: chạy trên máy tính nhưng AnkiMobile KHÔNG nhận
+   chạm vào label (user bắt 30/10). <details> là thứ đã chứng minh chạy trên iPhone (ô Ví dụ,
+   Bảng chia) ⇒ đừng đổi về label/checkbox.
+   Vì sao không bọc cả ô bằng <details> như ô Hướng dẫn: nó chỉ gấp được CẢ ô, không chẻ
+   được giữa danh sách — muốn thế phải viết lại ô Meaning của ~500 thẻ thật.
+   Mọi luật ẩn đều đi qua :has có chủ đích: máy không hiểu :has thì bỏ cả dòng ⇒ hiện đủ
+   nghĩa + mũi tên thừa, chứ KHÔNG bao giờ giấu mất nghĩa. */
+.mx-nut { display: block; width: 64px; margin: 0 auto -10px; padding: 4px 0 10px; text-align: center; color: #58a6ff; opacity: .75; cursor: pointer; list-style: none; outline: none; -webkit-tap-highlight-color: transparent; }
+.mx-nut::-webkit-details-marker { display: none; }
 .mx-nut::before { content: ""; display: inline-block; width: 8px; height: 8px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg); }
-.mx-cb:checked + .meaning-box .mx-nut::before { transform: rotate(-135deg); margin-top: 6px; }
-.meaning-box:not(:has(.meaning-list li:nth-child(4))) .mx-nut { display: none; }
+.mx[open] .mx-nut::before { transform: rotate(-135deg); margin-top: 6px; }
+.meaning-box:has(.mx:not([open])) .meaning-list li:nth-child(n+4) { display: none; }
+.meaning-box:not(:has(.meaning-list li:nth-child(4))) .mx { display: none; }
 
 .example-toggle { background-color: #161b22; border: 1px solid #21262d; border-radius: 10px; margin-bottom: 12px; overflow: hidden; }
 .example-summary { padding: 12px 15px; font-size: 13px; color: #8b949e; font-weight: 600; cursor: pointer; outline: none; background-color: #1f242c; list-style: none; }
