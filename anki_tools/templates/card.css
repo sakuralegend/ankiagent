@@ -176,10 +176,10 @@
    được giữa danh sách — muốn thế phải viết lại ô Meaning của ~500 thẻ thật.
    Mọi luật ẩn đều đi qua :has có chủ đích: máy không hiểu :has thì bỏ cả dòng ⇒ hiện đủ
    nghĩa + mũi tên thừa, chứ KHÔNG bao giờ giấu mất nghĩa. */
-.mx-nut { display: block; width: 32px; margin: 0 auto -6px; padding: 2px 0 6px; text-align: center; color: #58a6ff; opacity: .75; cursor: pointer; list-style: none; outline: none; -webkit-tap-highlight-color: transparent; }
+.mx-nut { display: block; height: 12px; line-height: 12px; margin: -8px -16px -14px; padding: 6px 0; text-align: center; color: #58a6ff; opacity: .75; cursor: pointer; list-style: none; outline: none; -webkit-tap-highlight-color: transparent; }
 .mx-nut::-webkit-details-marker { display: none; }
-.mx-nut::before { content: ""; display: inline-block; width: 8px; height: 8px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg); }
-.mx[open] .mx-nut::before { transform: rotate(-135deg); margin-top: 6px; }
+.mx-nut::before { content: ""; display: inline-block; width: 7px; height: 7px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; vertical-align: top; transform: translateY(0px) rotate(45deg); }
+.mx[open] .mx-nut::before { transform: translateY(4px) rotate(-135deg); }
 .meaning-box:has(.mx:not([open])) .meaning-list li:nth-child(n+4) { display: none; }
 .meaning-box:not(:has(.meaning-list li:nth-child(4))) .mx { display: none; }
 .example-toggle { background-color: #161b22; border: 1px solid #21262d; border-radius: 10px; margin-bottom: 12px; overflow: hidden; font-family: inherit; }
