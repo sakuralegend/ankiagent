@@ -1739,6 +1739,15 @@ class CauViDuMayChonDangVaCong(unittest.TestCase):
         self.assertIn("<hl>", ra["simplified_examples"][1]["ru"])
         self.assertEqual(ra["simplified_examples"][0]["vi"], "cái <hl>bàn</hl>")
 
+    def test_dang_khac_cua_chinh_tu_van_qua_cap_the_thi_khong(self):
+        """Giao `рыба` mà AI viết `рыбу` (đúng) từng bị loại oan — 72 câu kẹt (03/11)."""
+        khac = {"рыба", "рыбу", "рыбы"}
+        o = ("ры́ба", "số ít, cách 1", "")
+        self.assertIsNone(self.v.kiem_cau("Я буду жарить рыбу с лимоном.", o, (), khac))
+        self.assertEqual(self.v.danh_dau("Я буду жарить рыбу.", o[0], khac), "Я буду жарить <hl>рыбу</hl>.")
+        self.assertIsNotNone(self.v.kiem_cau("Не забудь взять зонт.", ("брать", "nguyên mẫu", "infinitive"),
+                                             ["взять"], {"брать", "беру"}))
+
     def test_khong_cau_nao_qua_thi_tra_None(self):
         goi = unittest.mock.Mock(return_value={"vietnamese_meaning": "x", "examples": [{"ru": "Нет.", "en": "", "vi": ""}] * 3})
         self.assertIsNone(self.v.sinh_vi_du("стол", ["table"], self.STOL, goi=goi))

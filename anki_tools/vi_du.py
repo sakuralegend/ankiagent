@@ -169,31 +169,38 @@ def loi_dan(tu, nghia_anh, rec, o=None):
     return _HE_THONG, "\n".join(dong), o, cap
 
 
-def kiem_cau(ru, o, cap=()):
-    """Cổng một câu. Trả về None nếu qua, hoặc lý do trượt (để log)."""
+def kiem_cau(ru, o, cap=(), dang_khac=frozenset()):
+    """Cổng một câu. Trả về None nếu qua, hoặc lý do trượt (để log).
+
+    `dang_khac` = mọi dạng khác của CHÍNH từ này (`tat_ca_dang`). Không có dạng
+    được giao mà có dạng khác ⇒ VẪN QUA: đo 03/11, giao `рыба` thì Gemini viết
+    `жарить рыбу` — câu đúng, tự nhiên — mà cổng chặt loại oan, đốt lượt gọi lại
+    (72 câu kẹt lại phần lớn vì thế). Cặp thể/từ cùng gốc vẫn KHÔNG có trong
+    `dang_khac` nên vẫn bị chặn; đổi lại thẻ có thể ít đa dạng dạng hơn chút."""
     dang, _nhan, goi_y = o
     if not ru or "<" in ru or ">" in ru:
         return "câu rỗng hoặc còn thẻ HTML"
     chu = [_gap(t) for t in _TU_NGA.findall(ru)]
     dich = _bien_the(dang)
     trung = [i for i, c in enumerate(chu) if c in dich]
-    if not trung:
+    if not trung and not any(c in dang_khac for c in chu):
         return f"thiếu dạng «{bare(_dau(dang))}»"
     if any(_gap(c) in chu for c in cap):
         return "dùng cặp thể"
-    if goi_y.startswith("prepositional"):
+    if trung and goi_y.startswith("prepositional"):
         i = trung[0]
         if not _GIOI_TU_CACH_6.intersection(chu[max(0, i - 3):i]):
             return f"«{bare(_dau(dang))}» (cách 6) không đứng sau giới từ"
     return None
 
 
-def danh_dau(ru, dang):
-    """Bọc <hl> quanh chữ khớp dạng — giữ nguyên chữ như AI viết (hoa/thường, ё)."""
-    dich = _bien_the(dang)
-    for m in _TU_NGA.finditer(ru):
-        if _gap(m.group()) in dich:
-            return f"{ru[:m.start()]}<hl>{m.group()}</hl>{ru[m.end():]}"
+def danh_dau(ru, dang, dang_khac=()):
+    """Bọc <hl> quanh chữ khớp dạng được giao; không có thì chữ khớp một dạng khác
+    của chính từ đó — giữ nguyên chữ như AI viết (hoa/thường, ё)."""
+    for nhom in (_bien_the(dang), dang_khac):
+        for m in _TU_NGA.finditer(ru):
+            if _gap(m.group()) in nhom:
+                return f"{ru[:m.start()]}<hl>{m.group()}</hl>{ru[m.end():]}"
     return ru
 
 
@@ -210,6 +217,7 @@ def sinh_vi_du(tu, nghia_anh, rec, goi=call_claude_vi_du, so_luot=2, o=None):
     sai); không ô nào qua ⇒ None, người gọi lo nhánh dự phòng.
     `goi` cắm được: script làm sạch kho truyền đường gọi Sonnet, bot dùng mặc định."""
     he_thong, dan, o, cap = loi_dan(tu, nghia_anh, rec, o)
+    dang_khac = tat_ca_dang(rec, tu) - {_gap(c) for c in cap}
     giu, nghia = [None] * len(o), ""
     for _ in range(so_luot):
         r = goi(he_thong, dan, _khuon(len(o)))
@@ -220,11 +228,11 @@ def sinh_vi_du(tu, nghia_anh, rec, goi=call_claude_vi_du, so_luot=2, o=None):
             if giu[i] or not isinstance(ex, dict):
                 continue
             ru = (ex.get("ru") or "").strip()
-            ly_do = kiem_cau(ru, o[i], cap)
+            ly_do = kiem_cau(ru, o[i], cap, dang_khac)
             if ly_do:
                 log_warn(f"Câu ví dụ `{tu}` trượt cổng ({ly_do}): {ru}")
                 continue
-            giu[i] = {"ru": danh_dau(ru, o[i][0]), "en": _b_sang_hl(ex.get("en")),
+            giu[i] = {"ru": danh_dau(ru, o[i][0], dang_khac), "en": _b_sang_hl(ex.get("en")),
                       "vi": _b_sang_hl(ex.get("vi"))}
         if all(giu):
             break
