@@ -25,5 +25,10 @@ tự nhiên hơn), rồi tới việc KHÔNG CÓ CỔNG. Ép thể chưa hoàn t
 thể đó" ⇒ câu gượng (`Можно брать эту книжку…`). Lỗi nghĩa (`Сними очки, а то слишком ярко`) cả
 flash cũng mắc ⇒ chỉ Opus/người bắt được. Kho câu người viết (Tatoeba = RawExamples, НКРЯ, OpenSubtitles)
 đều không dán thẳng được: vẫn cần model chọn + dịch Việt + cổng.
+Cùng đề (lời dặn MỚI) giao cho subagent Claude: **Haiku 24/24, Sonnet 24/24** qua cổng. Opus đọc tay:
+Sonnet 0 lỗi; Haiku 1 lỗi nhỏ (`связь то пропадает`) + 1 câu lấn cấn (`Пиши мой номер`); Gemini flash
+2 lỗi nghĩa, lite 1 thẻ méo + 1 câu gượng. Giá API ước/1 000 từ: Haiku 5.5 ~1 USD, Sonnet 5.5 ~10–20 USD;
+chạy subagent trong Claude Code thì không tốn API (ăn vào hạn mức gói). Mẫu nhỏ (8 từ) — đủ để chọn
+hướng, chưa đủ để kết luận Haiku ≈ Sonnet. Kết quả: scratchpad `kq_haiku.json`/`kq_sonnet.json` (tạm).
 Thẻ mẫu user đang xem: https://claude.ai/artifact/RKBTrNUqH7c1rBUfMQgR4Q (dựng từ 3 thẻ thật bằng
 script tạm, không ghi Anki). Duyệt mẫu xong ⇒ `kehoach`.
