@@ -1,4 +1,7 @@
 <div class="card-container">
+    <!-- Câu điền từ lên ĐẦU mặt sau (user chốt): đáp án đã chia tô đậm + nhãn dạng.
+         `.mat-sau` + card.css ẩn phần chỗ trống (QD-48). -->
+    {{#ClozeHTML}}<div class="mat-sau">{{ClozeHTML}}</div>{{/ClozeHTML}}
     <!-- Khối so đáp án CHỈ có ở GĐ2. Thẻ GĐ1 (Stage rỗng) không có ô gõ nên
          không gõ gì -> để nguyên khối này thì Anki sẽ bôi đỏ cả từ thành
          "missed". Ngoài khối này, mặt sau của HAI giai đoạn dùng chung y hệt —

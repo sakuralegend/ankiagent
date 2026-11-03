@@ -92,7 +92,7 @@ def setup_anki_environment():
                     #   nhiều tuần không ai bắt (7 ca đã phải ghi vào SONO.md).
                     #   Tách ra thì mỗi ô một chủ: `HuongDan` = Claude soạn,
                     #   `BangMay` = máy dựng từ `GrammarJSON`, không qua AI.
-                    "inOrderFields": ["Word", "WordClean", "Meaning", "Vietnamese", "PoS", "PoSFull", "GenderBadge", "AspectBadge", "ReflexiveBadge", "ExamplesHTML", "RawExamples", "GrammarJSON", "Audio", "BangMay", "HuongDan", "Stage"],
+                    "inOrderFields": ["Word", "WordClean", "Meaning", "Vietnamese", "PoS", "PoSFull", "GenderBadge", "AspectBadge", "ReflexiveBadge", "ExamplesHTML", "RawExamples", "GrammarJSON", "Audio", "BangMay", "HuongDan", "Stage", "ClozeHTML"],
                     "css": shared_css, "cardTemplates": [{"Name": "Pure Engine Typing Card v25", "Front": front_template, "Back": back_template}]
                 }
             }, timeout=5)
@@ -113,7 +113,8 @@ def setup_anki_environment():
                 "params": {"modelName": MODEL_NAME}}, timeout=5)
             dang_co = res_f.json().get("result") or []
             for ten, vi_tri in (("AspectBadge", 7), ("ReflexiveBadge", 8),
-                                ("GrammarJSON", 11), ("BangMay", 13)):
+                                ("GrammarJSON", 11), ("BangMay", 13),
+                                ("ClozeHTML", 16)):   # câu điền từ, QD-48
                 if ten in dang_co:
                     continue
                 res_add = requests.post(ANKI_CONNECT_URL, json={

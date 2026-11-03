@@ -25,6 +25,9 @@
 {{#Stage}}
 <div class="card-container">
     <div class="section-title" style="text-align: center;">Translate into Russian</div>
+    <!-- Câu điền từ (ô ClozeHTML, QD-48): ô chứa cả hai mặt, `.mat-truoc` + card.css
+         chỉ cho hiện phần chỗ trống. KHÔNG JS — hỏng là lộ đáp án mà không ai biết. -->
+    {{#ClozeHTML}}<div class="mat-truoc">{{ClozeHTML}}</div>{{/ClozeHTML}}
     <div class="meaning-box" style="border-bottom-left-radius: 0; border-bottom-right-radius: 0;">{{Meaning}}<details class="mx"><summary class="mx-nut"></summary></details></div>
     {{#Vietnamese}}
     <div class="vietnamese-box">

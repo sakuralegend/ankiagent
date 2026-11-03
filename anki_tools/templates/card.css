@@ -231,3 +231,13 @@ input#typeans { background-color: #161b22 !important; color: #ffffff !important;
 .toc-dong { text-align: center; margin-top: 22px; }
 #toc { font-size: 11px; color: #8b949e; opacity: 0.4; padding: 6px 12px; cursor: pointer; user-select: none; -webkit-user-select: none; }
 .audio-box audio, .ex-ru audio { display: none; }
+
+/* Câu điền từ (ô ClozeHTML, QD-48): MỘT ô chứa cả hai mặt — ẩn phần không thuộc mặt này */
+.mat-truoc .cz-sau, .mat-sau .cz-truoc { display: none; }
+.cz { background: #161b22; border: 1px solid #30363d; border-left: 3px solid #58a6ff; border-radius: 10px; padding: 12px 14px; margin: 10px 0 14px; text-align: left; }
+.cz-ru { font-size: 20px; line-height: 1.5; color: #e6edf3; }
+.cz-vi { font-size: 14px; color: #8b949e; margin-top: 6px; }
+.cz-trong { display: inline-block; width: 5.5em; border-bottom: 2px solid #58a6ff; margin: 0 2px; }
+.cz-dap { color: #58a6ff; }
+.cz-goi-y { font-size: 11px; color: #8b949e; opacity: 0.6; margin-top: 6px; }
+.cz-nhan { font-size: 13px; color: #8b949e; margin-top: 8px; padding-top: 8px; border-top: 1px dashed #30363d; }

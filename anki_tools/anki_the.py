@@ -20,7 +20,7 @@ from .topics import TOPIC_TAG_PREFIX, topic_tag, pos_full as ten_pos_day_du
 from .utils import log_warn, log_fail, strip_accents_perfectly, hl_to_bracket
 from .html_builder import (build_examples_html, parse_examples_html, parse_gender_badge,
                            parse_aspect_badge, parse_meaning_html, parse_raw_examples,
-                           gan_nut_nghe, nut_nghe)
+                           gan_nut_nghe, nut_nghe, dung_cloze)
 from .audio import lay_tieng, ten_file_audio, ten_file_cau
 
 
@@ -120,11 +120,11 @@ def build_card_fields(word, data):
         # separators gọn: field này thuần máy đọc, không ai mở ra ngắm.
         "GrammarJSON": (json.dumps(grammar_rec, ensure_ascii=False,
                                    separators=(",", ":")) if grammar_rec else ""),
-        # BẢNG CHIA + CẶP THỂ có ngay từ lúc tạo thẻ. Chúng thuần dữ liệu cào
-        # được nên không có lý do gì bắt user đợi tới lượt lô của từ đó.
+        # BẢNG CHIA + CẶP THỂ có ngay lúc tạo thẻ: thuần dữ liệu cào, khỏi đợi tới lượt lô.
         # 🔴 Vào `BangMay`, KHÔNG vào `HuongDan` nữa (QD-26): `HuongDan` từ nay
         # thuần phần người soạn, nên thẻ mới để TRỐNG ô đó cho tới khi lô soạn.
         "BangMay": grammar.khoi_may(grammar_rec),
+        "ClozeHTML": dung_cloze(examples_html, grammar_rec, clean_word),   # câu điền từ, QD-48
     }
 
     # Thẻ "khuyết": AI thất bại -> không ví dụ, hoặc ví dụ thô thiếu tiếng Việt.

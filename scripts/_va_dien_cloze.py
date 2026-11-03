@@ -3,6 +3,8 @@
 
     python scripts/_va_dien_cloze.py            # CHẠY KHAN — đếm + in vài mẫu, không ghi
     python scripts/_va_dien_cloze.py --apply    # ghi thật (ô phải ĐÃ có trong model)
+    python scripts/_va_dien_cloze.py --apply --da-keo-sync   # ngay sau khi THÊM Ô: sync thường
+                                         # lúc này bị AnkiWeb từ chối (đòi full sync), kéo đã làm TRƯỚC khi thêm ô
 
 🔴 Đây là một bước trong chuỗi ĐỔI SCHEMA (QD-48) — chạy ĐÚNG THỨ TỰ ở VIECDANGLAM.md:
 kéo sync → thêm ô trên laptop → script này → user Upload laptop → user Download VPS →
@@ -28,7 +30,7 @@ def chay(apply):
     if apply and O not in goi_anki("modelFieldNames", modelName=MODEL_NAME):
         log_fail(f"Model {MODEL_NAME} chưa có ô {O} — thêm ô trước (bước 4 VIECDANGLAM.md).")
         return
-    if apply and not sync_truoc_khi_ghi_lo("điền ClozeHTML"):
+    if apply and "--da-keo-sync" not in sys.argv and not sync_truoc_khi_ghi_lo("điền ClozeHTML"):
         log_fail("Không kéo được AnkiWeb về — DỪNG, chưa ghi gì.")
         return
     viec, rong = [], []
