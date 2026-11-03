@@ -210,8 +210,22 @@ input#typeans { background-color: #161b22 !important; color: #ffffff !important;
    Ô audio = [sound:] (Anki TỰ PHÁT 1× khi lật) + .nghe-tu (nút bấm tự làm, theo tốc độ).
    Ẩn nút của Anki CHỈ khi ô đã có .nghe-tu: thẻ chưa chuyển giọng vẫn giữ nút cũ. */
 .audio-box:has(.nghe-tu) a, .audio-box:has(.nghe-tu) .replay-button, .audio-box:has(.nghe-tu) .anki-audio-button { display: none !important; }
-.nghe-tu { background-color: #1f242c; border: 1px solid #30363d; padding: 8px 18px; border-radius: 20px; color: #58a6ff; display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; cursor: pointer; user-select: none; -webkit-user-select: none; }
-.nghe-tu::after { content: " Phát lại âm thanh"; }
+/* Hàng ▶︎ 🎤 🎧 (QD-49, user duyệt thẻ mẫu 03/11): CHỈ biểu tượng, cùng cỡ, cùng hàng.
+   --p = % đã phát (▶︎: <img onerror> ở back_template · 🎧: mic.js) -> thanh quét trái→phải.
+   --lv = độ to giọng lúc ghi (mic.js) -> quầng đỏ phồng xẹp như nút ghi âm iPhone. */
+.audio-box { display: flex; justify-content: center; align-items: center; gap: 12px; }
+.nghe-tu, .mic-nut, .mic-nghe { width: 64px; height: 40px; box-sizing: border-box; border: 1px solid #30363d; border-radius: 20px; color: #58a6ff; display: inline-flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; }
+.nghe-tu, .mic-nghe { background: linear-gradient(90deg, rgba(88,166,255,.38) var(--p, 0%), #1f242c var(--p, 0%)); }
+.mic-nut { background: #1f242c; transition: background .15s, border-color .15s; }
+.mic-nut svg, .mic-nghe svg { width: 20px; height: 20px; }
+.mic-nut .i-dung { display: none; }
+.mic-nut.ghi { background: #f85149; border-color: #f85149; box-shadow: 0 0 0 calc(3px + var(--lv, 0) * 18px) rgba(248,81,73,.25); animation: mic-tho 1.4s ease-in-out infinite; }
+.mic-nut.ghi .i-mic { display: none; }
+.mic-nut.ghi .i-dung { display: block; }
+.mic-nut.cho { animation: mic-cho 1s ease-in-out infinite; }
+@keyframes mic-tho { 50% { background: #da3633; } }
+@keyframes mic-cho { 50% { opacity: .3; } }
+.mic-kq { text-align: center; margin: -8px 0 18px; min-height: 8px; }
 /* ▶ cuối câu ví dụ + chữ tốc độ ở đáy: user chốt CỐ Ý KHÓ THẤY (ít dùng) */
 .nghe { margin-left: 6px; padding: 2px 4px; font-size: 11px; color: #8b949e; opacity: 0.45; cursor: pointer; user-select: none; -webkit-user-select: none; }
 .toc-dong { text-align: center; margin-top: 22px; }

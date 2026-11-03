@@ -2,10 +2,12 @@
 # --- THIẾT LẬP MÔI TRƯỜNG ANKI: model, field, CSS, template (chạy lúc khởi động).
 # Tách từ anki_client.py (03/08/2026, QD-18). Caller vẫn import anki_client.
 # ==============================================================================
+import base64
+import hashlib
 import os
 import requests
 
-from .config import ANKI_CONNECT_URL, MODEL_NAME
+from .config import ANKI_CONNECT_URL, AZURE_SPEECH_KEY, AZURE_SPEECH_REGION, MODEL_NAME
 
 _TEMPLATES_DIR = os.path.join(os.path.dirname(__file__), "templates")
 
@@ -15,12 +17,34 @@ def _read_template(filename):
         return f.read()
 
 
+def dung_mat_sau(khoa=AZURE_SPEECH_KEY, vung=AZURE_SPEECH_REGION):
+    """(mặt sau, tên file mic, nội dung mic.js đã chèn khoá) — THUẦN, không gọi Anki.
+    Tên file mang mã nội dung: sửa mic.js hay đổi khoá ⇒ tên đổi ⇒ iPhone tải bản mới
+    (cùng tên thì AnkiMobile giữ bản cũ trong bộ nhớ đệm — thẻ mẫu 03/11 phải đổi tên 7 lần).
+    Laptop và VPS cùng code + cùng khoá ⇒ ra cùng tên, không giẫm nhau."""
+    js = _read_template("mic.js").replace("__KEY__", khoa).replace("__REGION__", vung)
+    ten = "_mic_" + hashlib.md5(js.encode("utf-8")).hexdigest()[:8] + ".js"
+    return _read_template("back_template.html").replace("__MIC_JS__", ten), ten, js
+
+
+def _day_file_mic(ten, js):
+    """Đẩy mic.js vào media rồi xoá các bản `_mic_*.js` cũ (mỗi lần sửa nút để lại một bản)."""
+    from .anki_client import _ac   # trong hàm: anki_client import ngược file này ở cuối file
+    try:
+        _ac("storeMediaFile", filename=ten, data=base64.b64encode(js.encode("utf-8")).decode())
+        for cu in _ac("getMediaFilesNames", pattern="_mic_*.js") or []:
+            if cu != ten:
+                _ac("deleteMediaFile", filename=cu)
+    except Exception as e:
+        print(f"\n❌ Đẩy {ten} thất bại: {e}")
+
+
 def setup_anki_environment():
-    # Từ khi gỡ nút AI Refine khỏi thẻ, back_template.html là HTML tĩnh thuần,
-    # không còn placeholder nào cần tiêm (API key không còn bị nhúng vào thẻ).
     shared_css = _read_template("card.css")
     front_template = _read_template("front_template.html")
-    back_template = _read_template("back_template.html")
+    back_template, ten_mic, mic_js = dung_mat_sau()
+    if not AZURE_SPEECH_KEY:
+        print("\n⚠️ Chưa có AZURE_SPEECH_KEY trong .env — nút 🎤 trên thẻ sẽ báo thiếu khoá.", end=" ")
 
     print("--- ⚙️ Thiết lập môi trường Anki...", end=" ", flush=True)
     try:
@@ -110,6 +134,7 @@ def setup_anki_environment():
         }}, timeout=5)
         if res_tmpl.json().get("error"):
             print(f"\n❌ Templates thất bại: {res_tmpl.json().get('error')}")
+        _day_file_mic(ten_mic, mic_js)
 
         print("Hoàn tất. ---")
     except Exception as e:

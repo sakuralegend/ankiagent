@@ -1816,5 +1816,40 @@ class CauDienTuKhongLoDapAn(unittest.TestCase):
         self.assertEqual(dung_cloze(self._o("Нет.", "Поставь на <hl>столик</hl>."), self.REC, "стол"), "")
 
 
+class MicChiDungOnclick(unittest.TestCase):
+    """BUG GỐC (03/11/2026, thẻ mẫu nút 🎤 trên iPhone) — ba lỗi, cả ba IM LẶNG:
+    1. 🎧 gắn sự kiện bằng addEventListener ⇒ AnkiMobile coi cú chạm là chạm vào thẻ, lật
+       thẻ + dựng lại trang (user: "thẻ trượt xuống dưới cùng và mất"). Mất 3 vòng thử
+       (đổi WebAudio, đổi <audio>, thử 3 cách phát) mới ra: lỗi không ở cách phát.
+    2. Dời 🎤 lên hàng ▶︎ mà code vẫn tìm ô điểm CẠNH nút ⇒ null ⇒ nút "đơ", không báo gì.
+    3. Cùng tên file mic ⇒ AnkiMobile giữ bản cũ trong bộ nhớ đệm."""
+
+    def _js(self):
+        with open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                               "anki_tools", "templates", "mic.js"), encoding="utf-8") as f:
+            return f.read()
+
+    def test_nut_tao_bang_js_phai_co_thuoc_tinh_onclick(self):
+        js = self._js()
+        self.assertIsNone(re.search(r"addEventListener\(\s*['\"](click|touchend|touchstart)", js),
+                          "AnkiMobile không nhường cú chạm cho addEventListener — dùng setAttribute('onclick')")
+        self.assertIn('setAttribute("onclick", "M.ngheLai(this)")', js)
+
+    def test_o_diem_tim_ca_trang_khong_tim_canh_nut(self):
+        self.assertNotIn('parentNode.querySelector(".mic-kq")', self._js())
+
+    def test_mat_sau_co_khoa_ten_file_doi_theo_noi_dung(self):
+        from anki_tools.anki_moitruong import dung_mat_sau
+        mat, ten, js = dung_mat_sau("KHOA-A", "southeastasia")
+        self.assertNotIn("__MIC_JS__", mat)
+        self.assertIn(f"s.src='{ten}'", mat)
+        self.assertIn('data-ref="{{WordClean}}" onclick=', mat)
+        self.assertIn('"KHOA-A"', js)
+        self.assertNotIn("__KEY__", js)
+        self.assertRegex(ten, r"^_mic_[0-9a-f]{8}\.js$")
+        self.assertEqual(ten, dung_mat_sau("KHOA-A", "southeastasia")[1], "cùng đầu vào phải cùng tên (laptop = VPS)")
+        self.assertNotEqual(ten, dung_mat_sau("KHOA-B", "southeastasia")[1])
+
+
 if __name__ == "__main__":
     unittest.main()

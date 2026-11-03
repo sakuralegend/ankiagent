@@ -52,6 +52,11 @@ YANDEX_TTS_URL = "https://tts.api.cloud.yandex.net/speech/v1/tts:synthesize"
 YANDEX_TTS_API_KEY = os.environ.get("YANDEX_TTS_API_KEY", "")
 YANDEX_TTS_VOICE = os.environ.get("YANDEX_TTS_VOICE", "alena")
 
+# Chấm phát âm (nút 🎤 mặt sau thẻ, QD-49 — lý do khoá nằm trong thẻ: đầu templates/mic.js).
+# Gói F0 miễn phí. Trống ⇒ nút báo "chưa có khoá". VPS cũng PHẢI có: bot đẩy mẫu thẻ lúc khởi động.
+AZURE_SPEECH_KEY = os.environ.get("AZURE_SPEECH_KEY", "")
+AZURE_SPEECH_REGION = os.environ.get("AZURE_SPEECH_REGION", "southeastasia")
+
 # Đổi tên 19/07/2026 (tên cũ Russian_Premium_OLED_Type_v25) — đổi trong Anki
 # thì phải đổi cả đây, và ngược lại. Model 26 thẻ Irregular tên RU_Plural.
 MODEL_NAME = "RU_Word"

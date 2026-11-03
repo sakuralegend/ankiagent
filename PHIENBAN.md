@@ -18,6 +18,12 @@
 
 ---
 
+## v2.6.0 — 03/11/2026
+
+- 🎤 **Tự chấm phát âm ngay trên thẻ.** Mặt sau thẻ từ vựng có hàng nút ▶︎ 🎤: bấm 🎤, đọc từ, bấm lại để dừng (tự dừng sau 6 giây). Thẻ hiện điểm to có màu, từ được tô màu từng chữ (xanh tốt · vàng tạm · đỏ đọc yếu), kèm 4 mục điểm và "máy nghe được". Đọc lại thì thấy cả điểm lần trước để so.
+- 🎧 **Nghe lại giọng mình** — nút hiện ra sau lần đọc đầu tiên. Bấm ▶︎ hoặc 🎧 thì có thanh chạy trong nút.
+- ⚠️ Máy **không chấm được trọng âm**: điểm thấp thì đáng tin, nhưng 100 điểm chưa chắc đã nhấn đúng chỗ. Ghi nhỏ hoặc ồn quá thì thẻ nhắc đọc to hơn thay vì chấm. Lần đầu bấm 🎤 iPhone sẽ hỏi quyền micro.
+
 ## v2.5.0 — 30/10/2026
 
 - 🔽 **Ô nghĩa tiếng Anh gọn lại.** Chỉ hiện 3 nghĩa đầu; từ nhiều nghĩa hơn có mũi tên nhỏ màu xanh ngay dưới, chạm để xem hết, chạm lần nữa để gấp. Nhờ vậy ô tiếng Việt và nhãn từ loại không còn bị đẩy khỏi màn hình điện thoại. Áp dụng cả thẻ từ vựng lẫn thẻ số nhiều. Chỉ cần Sync như thường.

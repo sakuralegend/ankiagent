@@ -14,7 +14,14 @@
     <!-- Dòng luyện đọc chữ viết tay: dùng WordClean (KHÔNG dấu trọng âm) vì
          font Marck Script không có ký tự dấu ghép -> Word có dấu sẽ vỡ phông -->
     <div class="cursive-word">{{WordClean}}</div>
-    <div class="audio-box">{{Audio}}</div>
+    <!-- Hàng ▶︎ 🎤 (🎧 tự hiện sau lần ghi đầu) — mic.js, QD-49. Mọi lệnh là THUỘC TÍNH onclick
+         (lý do: đầu mic.js). __MIC_JS__ = tên file do anki_moitruong.dung_mat_sau() điền.
+         <img onerror>: ▶︎ nằm trong DỮ LIỆU từng thẻ (ô Audio) nên không sửa onclick của nó
+         được; ảnh hỏng cố ý này chạy mỗi lần hiện thẻ để gắn thanh chạy vào ▶︎ — chạy được
+         trên AnkiMobile cả khi <script> chết lặng (user thử 03/11), khỏi ghi lại 1 794 ô Audio. -->
+    <div class="audio-box">{{Audio}}<span class="mic-nut" data-ref="{{WordClean}}" onclick="if(!window.MAC){window.MAC=new (window.AudioContext||window.webkitAudioContext)();}window.MAC.resume();var b=this;if(window.M){M.bam(b);}else{var s=document.createElement('script');s.src='__MIC_JS__';s.onload=function(){M.bam(b);};s.onerror=function(){document.querySelector('.mic-kq').textContent='❌ Chưa có file mic trên máy — Sync lại.';};document.head.appendChild(s);}"><svg class="i-mic" viewBox="0 0 24 24" fill="currentColor"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M6 11a6 6 0 0 0 12 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 17v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><svg class="i-dung" viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10" rx="2.5" fill="#fff"/></svg></span></div>
+    <img src="data:,x" style="display:none" onerror="var a=document.querySelector('.audio-box audio'),b=document.querySelector('.audio-box .nghe-tu');if(a&&b&&!a._p){a._p=1;var f=function(){var p=a.duration?a.currentTime/a.duration*100:0;b.style.setProperty('--p',p+'%');if(!a.paused&&!a.ended)requestAnimationFrame(f);else b.style.setProperty('--p','0%');};a.addEventListener('play',function(){requestAnimationFrame(f);});}">
+    <div class="mic-kq"></div>
 
     <div class="badge-container">
         <div class="badge accent">{{PoSFull}}</div>
@@ -75,8 +82,10 @@
   GHI CHÚ: Nút "AI Refine" + toàn bộ JavaScript gọi AI/AnkiConnect đã được GỠ BỎ
   (từ 2026-07-14) vì chuyển sang kiến trúc VPS:
     - Muốn sửa thẻ: dùng lệnh /sua <từ> <yêu cầu> trong bot Telegram.
-    - Lợi ích: API key không còn bị nhúng vào thẻ; prompt/logic chỉ còn 1 nơi
+    - Lợi ích: khoá AI không còn bị nhúng vào thẻ; prompt/logic chỉ còn 1 nơi
       duy nhất phía Python (ai_client.py + pipeline.refine_note).
+    - (03/11/2026) Khoá Azure Speech gói miễn phí THÌ CÓ nằm trong thẻ, qua file
+      mic.js — khác khoá AI vì lộ không mất tiền. Lý do + hạn: đầu mic.js (QD-49).
   Field RawExamples vẫn được lưu trong note (ẩn, không hiển thị) để bot dùng
   làm ngữ liệu khi sửa thẻ.
 ============================================================================= -->
