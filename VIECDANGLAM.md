@@ -8,13 +8,10 @@ User chốt: bot giữ Gemini Lite · làm sạch thẻ cũ bằng Sonnet `claud
 Sau đó: câu điền từ (`ClozeHTML`, full sync). Báo cáo: https://claude.ai/artifact/RJ3QZHRqnYXexXnXnZiskY · Azure: nút 🎤 trong thẻ (`git log --grep Azure`); đang thử thẻ dò micro `_THU_MICRO` — XOÁ nó + media `_thu_micro.js` sau.
 
 ### Kế hoạch (đã duyệt 03/11) — bước 1–2 XONG + deploy (`7391b5e`); bước 3 đang chạy
-1. `anki_tools/vi_du.py` MỚI: máy chọn 3 dạng/loại từ, lời dặn gọn, cổng, máy đánh dấu. Thay hẳn
-   `call_claude_ai`/`_freestyle`/prompt cũ trong `ai_client.py` (xoá, không để song song).
-2. `html_builder.build_examples_html` + `anki_the.build_card_fields`: truyền `GrammarJSON` vào; topic/pos
-   gọi `call_claude_topic`/`call_claude_pos` có sẵn. Test mới cho cổng + bộ chọn dạng. Deploy bot.
+1–2. XONG (`git log --grep QD-47`): `vi_du.py` máy chọn dạng + cổng; bot dùng nó, đã deploy.
 3. Việc ĐỨNG RIÊNG (L4): `scripts/_va_lam_sach_vi_du.py` — máy soát 5 382 câu → Sonnet chấm câu còn lại
    → Sonnet viết lại câu hỏng → cổng → backup + kéo sync → ghi `--apply` + tiếng Yandex câu mới.
-   Sonnet chấm (hết hạn mức 1 lần) ⇒ user chốt: GEMINI VIẾT, Sonnet chỉ chấm + `cham_moi` chấm lại câu mới.
-   **TIẾP TỤC Ở PHIÊN MỚI:** đọc đuôi `backups/lam_sach_vi_du/log_*.txt`; còn câu chưa viết/chấm thì chạy lại
-   `viet`/`cham_moi` → `baocao` → đăng artifact cho user duyệt → `ghi --apply` (Anki laptop mở; user không
-   học trên điện thoại) → script vào `_daxong/`, XOÁ `goi_claude_code`, hạ mốc ai_client 469→438, deploy.
+   **14:40 03/11** (user chốt Gemini viết, Sonnet chỉ chấm): chấm 1794/1794; 538 câu hỏng; 466 có câu mới (428 Sonnet duyệt, 38 chưa chấm);
+   72 câu thiếu = Gemini hết lượt ngày (429) + cổng chặt: giao `рыба` mà Gemini viết `рыбу` (đúng) bị loại, thẻ
+   `многие` bị giao `многий` ⇒ đề xuất cổng nhận MỌI dạng của từ (`tat_ca_dang`). Tiếp: `viet`→`cham_moi`→`baocao`
+   →user duyệt→`ghi --apply`→script vào `_daxong/`, XOÁ `goi_claude_code`, mốc ai_client 469→438, deploy.
