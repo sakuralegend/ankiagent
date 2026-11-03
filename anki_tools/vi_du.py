@@ -54,6 +54,12 @@ def _dau(o):
     return str(o or "").split(",")[0].strip()
 
 
+def khoa_dang(o):
+    """Khoá so khớp của biến thể ĐẦU trong một ô bảng chia (hoặc một chữ) — để biết
+    hai câu có đang dùng cùng một dạng không."""
+    return _gap(_dau(o))
+
+
 def _bien_the(o):
     return {_gap(p) for p in str(o or "").split(",") if p.strip()}
 
@@ -138,22 +144,22 @@ _HE_THONG = (
     "different everyday situation. Translate each sentence naturally into English and Vietnamese, and wrap the "
     "word(s) that translate the target word in <b>...</b> in the en and vi sentences only. Also give a short "
     "Vietnamese meaning of the target word (a few words, no explanation). Return JSON only.")
-KHUON_VI_DU = {
-    "type": "object",
-    "properties": {
+def _khuon(n):
+    """Khuôn JSON đúng `n` câu (n < 3 khi chỉ viết lại câu hỏng của thẻ cũ)."""
+    return {"type": "object", "properties": {
         "vietnamese_meaning": {"type": "string"},
-        "examples": {"type": "array", "minItems": 3, "maxItems": 3, "items": {
+        "examples": {"type": "array", "minItems": n, "maxItems": n, "items": {
             "type": "object",
             "properties": {"ru": {"type": "string"}, "en": {"type": "string"}, "vi": {"type": "string"}},
-            "required": ["ru", "en", "vi"]}},
-    },
-    "required": ["vietnamese_meaning", "examples"],
-}
+            "required": ["ru", "en", "vi"]}}},
+        "required": ["vietnamese_meaning", "examples"]}
 
 
-def loi_dan(tu, nghia_anh, rec):
-    """-> (lời dặn hệ thống, lời dặn từ, 3 ô dạng, cặp thể bị cấm)."""
-    loai, o = chon_dang(rec, tu)
+def loi_dan(tu, nghia_anh, rec, o=None):
+    """-> (lời dặn hệ thống, lời dặn từ, các ô dạng, cặp thể bị cấm).
+    `o` cho trước = chỉ đặt câu cho những ô đó (viết lại câu hỏng của thẻ cũ)."""
+    loai, o_mac_dinh = chon_dang(rec, tu)
+    o = o or o_mac_dinh
     cap = [_dau(p) for p in ((rec or {}).get("partners") or [])]
     dong = [f"Word: {tu} ({'; '.join(nghia_anh[:3]) if nghia_anh else 'N/A'}).",
             _LUAT_LOAI[loai].format(p=", ".join(bare(c) for c in cap) or "-")]
@@ -196,21 +202,21 @@ def _b_sang_hl(text):
     return re.sub(r"<(?!/?hl>)[^>]*>", "", text).strip()
 
 
-def sinh_vi_du(tu, nghia_anh, rec, goi=call_claude_vi_du, so_luot=2):
+def sinh_vi_du(tu, nghia_anh, rec, goi=call_claude_vi_du, so_luot=2, o=None):
     """-> {"vietnamese_meaning", "simplified_examples": [{ru,en,vi} có <hl>]} hoặc None.
 
     Mỗi ô giữ câu ĐẦU TIÊN qua cổng qua các lượt; ô nào chưa có thì lượt sau hỏi
     lại cả bộ. Hết lượt mà còn ô trống thì trả phần đã qua (thẻ ít câu còn hơn câu
     sai); không ô nào qua ⇒ None, người gọi lo nhánh dự phòng.
     `goi` cắm được: script làm sạch kho truyền đường gọi Sonnet, bot dùng mặc định."""
-    he_thong, dan, o, cap = loi_dan(tu, nghia_anh, rec)
-    giu, nghia = [None] * 3, ""
+    he_thong, dan, o, cap = loi_dan(tu, nghia_anh, rec, o)
+    giu, nghia = [None] * len(o), ""
     for _ in range(so_luot):
-        r = goi(he_thong, dan, KHUON_VI_DU)
+        r = goi(he_thong, dan, _khuon(len(o)))
         if not isinstance(r, dict):
             continue
         nghia = nghia or (r.get("vietnamese_meaning") or "").strip()
-        for i, ex in enumerate((r.get("examples") or [])[:3]):
+        for i, ex in enumerate((r.get("examples") or [])[:len(o)]):
             if giu[i] or not isinstance(ex, dict):
                 continue
             ru = (ex.get("ru") or "").strip()
@@ -223,4 +229,45 @@ def sinh_vi_du(tu, nghia_anh, rec, goi=call_claude_vi_du, so_luot=2):
         if all(giu):
             break
     cau = [g for g in giu if g]
-    return {"vietnamese_meaning": nghia, "simplified_examples": cau} if cau else None
+    # `chi_so`: câu nào ứng với ô nào — script làm sạch cần để đặt câu mới đúng chỗ.
+    return ({"vietnamese_meaning": nghia, "simplified_examples": cau,
+             "chi_so": [i for i, g in enumerate(giu) if g]} if cau else None)
+
+
+# --- SOÁT CÂU ĐANG CÓ TRÊN THẺ (script làm sạch kho, 03/11/2026) ---------------
+# Câu cũ do AI tự đánh dấu, nên soát CHỮ ĐƯỢC ĐÁNH DẤU: phải đúng một chữ, và chữ
+# đó phải là một dạng của chính từ này trong bảng chia. Phân từ (`parts`), trạng từ
+# đi kèm tính từ (`adverb`) và cặp thể KHÔNG tính — đó là từ khác, đúng loại lỗi
+# đang dọn (`ярко`→`яркое`, `писать`→`написал`).
+_KHOA_KHONG_PHAI_DANG = {"en", "rank", "v", "pos", "gender", "aspect", "partners", "motion", "parts",
+                         "adverb", "animate", "countable", "declMode", "incomparable", "reflexive"}
+
+
+def tat_ca_dang(rec, tu=""):
+    ra = {_gap(tu)} if tu else set()
+
+    def di(x):
+        if isinstance(x, str):
+            ra.update(_bien_the(x))
+        elif isinstance(x, dict):
+            for k, v in x.items():
+                if k not in _KHOA_KHONG_PHAI_DANG:
+                    di(v)
+        elif isinstance(x, list):
+            for v in x:
+                di(v)
+    di(rec or {})
+    return ra
+
+
+def kiem_cau_cu(ru, dang):
+    """`ru` là câu Nga đã bóc về text có <hl>…</hl> (html_builder.parse_examples_html),
+    `dang` = tat_ca_dang(...). None = qua."""
+    if re.search(r"<(?!/?hl>)|(?<!<)/hl>", ru) or ru.count("<hl>") != ru.count("</hl>"):
+        return "thẻ đánh dấu méo"
+    hl = re.findall(r"<hl>(.*?)</hl>", ru)
+    if len(hl) != 1:
+        return f"có {len(hl)} chữ được đánh dấu"
+    if _gap(hl[0]) not in dang:
+        return f"«{hl[0]}» không phải dạng của từ này"
+    return None

@@ -100,6 +100,23 @@ def _build_fallback_from_raw(raw_examples, english_meanings):
     return examples_html, vi_meaning, simplified
 
 
+def thay_vi_du(examples_html, i, ex, gan_tieng=None):
+    """Thay ĐÚNG khối ví dụ thứ `i` (0-based) bằng câu mới `ex` {ru,en,vi có <hl>};
+    các khối khác giữ NGUYÊN TỪNG BYTE — cùng nút nghe + file tiếng đã có. Dựng lại
+    cả ô qua parse rồi build thì câu tốt cũng bị đi một vòng bóc/dựng, hỏng thì im
+    lặng (QD-47, làm sạch kho 03/11). `gan_tieng(khối)` gắn ▶ cho riêng câu mới.
+    `i` bằng số khối đang có -> nối thêm vào cuối."""
+    khoi = _build_example_block(i, apply_hl(ex["ru"]), apply_hl(ex.get("en", "")),
+                                apply_hl(ex.get("vi", "")))
+    if gan_tieng:
+        khoi = gan_tieng(khoi)
+    html_text = examples_html or ""
+    cac = list(re.finditer(r"<details\b.*?</details>", html_text, re.S))
+    if i < len(cac):
+        return html_text[:cac[i].start()] + khoi + html_text[cac[i].end():]
+    return html_text + khoi
+
+
 def build_html_from_ai_result(ai_result):
     """Public wrapper cho _build_from_ai_result — dùng ở luồng sửa thẻ (/sua của bot).
     Nhận dict {"vietnamese_meaning", "simplified_examples"} từ AI,

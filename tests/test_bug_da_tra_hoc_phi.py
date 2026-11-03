@@ -1744,5 +1744,42 @@ class CauViDuMayChonDangVaCong(unittest.TestCase):
         self.assertIsNone(self.v.sinh_vi_du("стол", ["table"], self.STOL, goi=goi))
 
 
+class LamSachCauViDuCu(unittest.TestCase):
+    """Script làm sạch kho (03/11/2026, QD-47) soát câu CŨ theo chữ AI đã đánh dấu,
+    rồi thay ĐÚNG khối hỏng. Hai cách hỏng im lặng phải chặn: soát lọt từ khác
+    (trạng từ của tính từ, cặp thể), và thay khối làm xê dịch câu tốt / tiếng đọc."""
+
+    def test_dang_cua_tu_khong_gom_tu_khac(self):
+        from anki_tools.vi_du import tat_ca_dang, kiem_cau_cu
+        rec = {"pos": "adjective", "acc": "я́ркий", "adverb": "я́рко", "comp": ["я́рче"],
+               "adjDecl": {"n": {"nom": "я́ркое"}}, "partners": []}
+        d = tat_ca_dang(rec, "яркий")
+        self.assertIsNone(kiem_cau_cu("Какое <hl>яркое</hl> солнце!", d))
+        self.assertIsNone(kiem_cau_cu("Сегодня <hl>ярче</hl>, чем вчера.", d))
+        self.assertIsNotNone(kiem_cau_cu("Солнце светит <hl>ярко</hl>.", d), "trạng từ là TỪ KHÁC")
+        d2 = tat_ca_dang({"pos": "verb", "acc": "брать", "partners": ["взять"], "present": ["беру́"]}, "брать")
+        self.assertIsNotNone(kiem_cau_cu("Я хочу <hl>взять</hl> зонт.", d2))
+
+    def test_the_danh_dau_meo_hoac_thieu(self):
+        from anki_tools.vi_du import kiem_cau_cu
+        d = {"волноваться"}
+        self.assertIsNotNone(kiem_cau_cu("Не надо волноваться</hl перед экзаменом.", d))
+        self.assertIsNotNone(kiem_cau_cu("Я быстро и спущусь.", d))
+        self.assertIsNone(kiem_cau_cu("Не надо <hl>волноваться</hl>.", d))
+
+    def test_thay_dung_mot_khoi_giu_nguyen_khoi_khac(self):
+        from anki_tools.html_builder import thay_vi_du
+        cu = "".join(_build_example_block(i, f"Câu {i} <span class=\"nghe\">▶</span><audio src=\"a{i}.mp3\"></audio>",
+                                          "en", "vi") for i in range(3))
+        moi = thay_vi_du(cu, 1, {"ru": "Новый <hl>стол</hl>.", "en": "a", "vi": "b"})
+        khoi = re.findall(r"<details\b.*?</details>", moi, re.S)
+        goc = re.findall(r"<details\b.*?</details>", cu, re.S)
+        self.assertEqual(len(khoi), 3)
+        self.assertEqual(khoi[0], goc[0])
+        self.assertEqual(khoi[2], goc[2])
+        self.assertIn('<span class="hl">стол</span>', khoi[1])
+        self.assertIn("a2.mp3", moi, "tiếng đọc câu tốt phải còn nguyên")
+
+
 if __name__ == "__main__":
     unittest.main()
