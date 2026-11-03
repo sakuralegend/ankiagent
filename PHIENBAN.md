@@ -18,6 +18,12 @@
 
 ---
 
+## v3.0.0 — 03/11/2026
+
+- ✍️ **Câu điền từ trên thẻ gõ.** Mặt trước có thêm một câu ví dụ bị khoét chỗ trống (kèm dịch Việt) ngay dưới "Translate into Russian" — bạn vẫn gõ **dạng từ điển** như cũ. Mặt sau đưa câu đó lên đầu thẻ, tô đậm chữ đúng trong câu và ghi nó là dạng gì (vd "số ít, cách 5").
+- 🧹 **Câu ví dụ đã được soát lại cả kho**: hơn 500 câu dùng nhầm từ khác, mất chữ hoặc sai nghĩa đã được thay câu mới. Câu ví dụ của thẻ mới thêm sau này cũng dùng đúng từ hơn.
+- 📱 Lần này phải đồng bộ toàn phần một lần (laptop gửi lên, máy chủ và điện thoại tải về) — **đã làm xong 03/11**, không cần làm lại.
+
 ## v2.6.0 — 03/11/2026
 
 - 🎤 **Tự chấm phát âm ngay trên thẻ.** Mặt sau thẻ từ vựng có hàng nút ▶︎ 🎤: bấm 🎤, đọc từ, bấm lại để dừng (tự dừng sau 6 giây). Thẻ hiện điểm to có màu, từ được tô màu từng chữ (xanh tốt · vàng tạm · đỏ đọc yếu), kèm 4 mục điểm và "máy nghe được". Đọc lại thì thấy cả điểm lần trước để so.
@@ -39,7 +45,3 @@
 ## v2.3.0 — 01/09/2026
 
 - 🗑️ **Bỏ hẳn bộ thẻ "chi phối" (17 thẻ, thư mục `GRAMMAR::chi phối`).** Bác chốt bỏ vì lo độ chính xác học thuật. Thẻ và thư mục đã xoá, đã đồng bộ — **iPhone chỉ cần bấm Sync như thường, không phải làm gì thêm**. Bản chép 17 thẻ vẫn giữ trong `backups/` nếu đổi ý. Trang web luyện chi phối cũng huỷ; `slushai` giữ đúng vai **tập nghe**.
-
-## v2.2.0 — 01/09/2026
-
-- 🗑️ **Bỏ lệnh `/suadeck` và nút "📚 Cả deck".** Nó làm lại TOÀN BỘ thẻ của một thư mục bằng một nút bấm — không xem trước, không hoàn tác, mà dữ liệu lấy về có chỗ sai. Nó sinh ra hồi thư mục còn chia theo NGÀY, ba ngày sau đã đổi sang CHỦ ĐỀ. **`/sua` (làm lại MỘT thẻ) và nút "✏️ Làm lại thẻ" giữ nguyên.**
