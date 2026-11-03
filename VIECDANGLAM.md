@@ -1,55 +1,17 @@
 # 🎯 VIỆC ĐANG LÀM
 > Phiếu bị GHI ĐÈ ở việc kế tiếp. Xong việc thì để trống, chừa đúng dòng tiêu đề.
 
-**03/11/2026 — NGHIÊN CỨU XONG, CHỜ USER CHỐT (chưa qua cửa `ycau`, chưa viết code).**
-Báo cáo đầy đủ: https://claude.ai/artifact/RJ3QZHRqnYXexXnXnZiskY
+## Làm sạch câu ví dụ + đổi cách bot đặt câu — CHỜ DUYỆT KẾ HOẠCH (03/11/2026)
+Số đo đủ: `git log -p VIECDANGLAM.md` (03/11). Gốc lỗi = lời dặn bắt AI làm 6 việc + KHÔNG cổng, không
+phải model nhỏ: lời dặn gọn (máy chọn dạng, máy đánh dấu) ⇒ Gemini Lite 39/39 (1,7 s), Sonnet 39/39.
+User chốt: bot giữ Gemini Lite · làm sạch thẻ cũ bằng Sonnet `claude -p` trên laptop (Gemini 500 lượt/ngày).
+Xếp hàng sau: câu điền từ (mẫu đã duyệt: gõ dạng từ điển, field `ClozeHTML`, full sync) → chấm phát âm
+Azure. Báo cáo: https://claude.ai/artifact/RJ3QZHRqnYXexXnXnZiskY
 
-1. **Câu ví dụ điền từ (cloze).** Đo 1 794 thẻ `RU_Word` / 5 382 câu: `span.hl` đánh dấu sẵn chỗ từ ở
-   99,3% câu; 50,5% câu là dạng từ điển, 45,2% là dạng chia CÓ trong `GrammarJSON` của chính thẻ,
-   **3,7% (197 câu) AI dùng từ khác** (`писать→написал`, `стол→столик`) ⇒ phải lọc: chỉ nhận câu có
-   chữ `hl` nằm trong bảng chia. 1 781 thẻ còn ≥1 câu. Đề xuất: gõ DẠNG TỪ ĐIỂN (giữ `{{type:WordClean}}`),
-   field mới `ClozeHTML` do Python dựng (⇒ full sync 1 lần), mặt sau tô dạng thật + nhãn dạng.
-2. **Chấm phát âm.** Azure có `ru-RU` nhưng prosody (trọng âm) CHỈ `en-US`, ru chỉ có điểm từng âm
-   không tên âm. Đề xuất: BƯỚC 0 thử 10–15 từ đọc đúng vs cố ý sai trọng âm bằng script tạm; điểm
-   tụt rõ mới làm lệnh bot Telegram nhận voice (OGG 48 kHz → cần ffmpeg đổi 16 kHz).
-
-**User CHỐT 03/11** (ghi tay trong báo cáo): (1) gõ DẠNG TỪ ĐIỂN · (2) giữ NGUYÊN mọi thứ ở hai mặt,
-mặt trước chỉ THÊM câu trống (đặt dưới "Translate into Russian"), mặt sau thêm câu lên ĐẦU thẻ, tô
-đậm dạng đã chia (+ nhãn dạng) · (3) Azure: thử ngay — chờ user mở tài khoản, khoá để vào `.env`.
-**User duyệt thẻ mẫu, nhưng đòi LÀM SẠCH CÂU VÍ DỤ TRƯỚC (03/11).** Đo: ~300 câu máy bắt được
-(mất từ do thẻ `<hl>` méo bị lột · dùng cặp thể/từ giảm nhẹ/từ cùng gốc · đánh dấu sai chữ) + ước
-~4% câu sai ngữ pháp/nghĩa máy KHÔNG bắt được. Thử 8 từ lỗi × 4 cấu hình (cổng = chữ `hl` có trong
-bảng chia): lite+lời dặn cũ 21/24 · lite+MỚI 23/24 · flash+cũ **20/24** · flash+MỚI 24/24 ⇒ thủ phạm
-chính là LỜI DẶN (không cho danh sách dạng, không cấm cặp thể — model to còn hay dùng cặp thể hơn vì
-tự nhiên hơn), rồi tới việc KHÔNG CÓ CỔNG. Ép thể chưa hoàn thành mà không dặn "chọn tình huống hợp
-thể đó" ⇒ câu gượng (`Можно брать эту книжку…`). Lỗi nghĩa (`Сними очки, а то слишком ярко`) cả
-flash cũng mắc ⇒ chỉ Opus/người bắt được. Kho câu người viết (Tatoeba = RawExamples, НКРЯ, OpenSubtitles)
-đều không dán thẳng được: vẫn cần model chọn + dịch Việt + cổng.
-Cùng đề (lời dặn MỚI) giao cho subagent Claude: **Haiku 24/24, Sonnet 24/24** qua cổng. Opus đọc tay:
-Sonnet 0 lỗi; Haiku 1 lỗi nhỏ (`связь то пропадает`) + 1 câu lấn cấn (`Пиши мой номер`); Gemini flash
-2 lỗi nghĩa, lite 1 thẻ méo + 1 câu gượng. Giá API ước/1 000 từ: Haiku 5.5 ~1 USD, Sonnet 5.5 ~10–20 USD;
-chạy subagent trong Claude Code thì không tốn API (ăn vào hạn mức gói). Mẫu nhỏ (8 từ) — đủ để chọn
-hướng, chưa đủ để kết luận Haiku ≈ Sonnet.
-**User hỏi: bot gọi Claude Code đã cài trên VPS (ăn hạn mức gói, không cần API)?** ĐƯỢC về kỹ thuật:
-`claude -p … --model sonnet --system-prompt-file … --tools "" --no-session-persistence --output-format json
---json-schema <_KHUON_THE>` ⇒ ra thẳng `structured_output` đúng khuôn. Đo trên laptop 1 từ: Sonnet 9,4s
-(~8K token vào, 520 ra), Haiku 13,3s (1 539 ra) — Sonnet NHANH HƠN và gọn hơn. VPS: CLI 2.1.282 có cài
-nhưng **CHƯA ĐĂNG NHẬP** (khởi động không thôi đã 7,5s); máy 1 CPU, RAM trống ~780 MB. Đăng nhập = user
-chạy `claude setup-token` (token dài hạn, cần gói) rồi đưa vào `.env` VPS `CLAUDE_CODE_OAUTH_TOKEN`.
-Rủi ro phải chặn: CLI tự cập nhật đổi cờ / token hết hạn / hết hạn mức ⇒ bot PHẢI rơi về Gemini + báo.
-**Chạy thật 5 từ trên VPS (Sonnet, 03/11):** 10,9–19,3 s/từ, TB ~15 s. Mã user đưa CHƯA lưu vào `.env`
-VPS (bộ phân loại tự động chặn ghi mã lên máy chủ ⇒ lúc thi hành để USER tự dán hoặc user cấp quyền).
-Hai bẫy: (1) danh từ ⇒ Sonnet ghi `"pos": n` thiếu ngoặc kép, `--json-schema` thử 5 lần rồi chết
-(~40 s), enum cũng không cứu ⇒ đường Claude KHÔNG hỏi `pos` (hoặc hỏi chữ đầy đủ "noun" rồi đổi mã);
-(2) `сын` câu đúng nhưng QUÊN `<hl>` ⇒ cổng phải bắt + gọi lại.
-**User đề xuất LỜI DẶN GỌN chia theo loại từ, máy làm trước việc lọc được (03/11) — ĐO ĐÚNG.** Máy:
-chọn sẵn 3 dạng/câu từ GrammarJSON theo loại từ (danh: cách 1/6/5…, động chưa HT: hiện tại он/quá khứ
-số nhiều/nguyên mẫu, động HT: tương lai я/quá khứ/mệnh lệnh, tính: đực/cái/số nhiều), tự đánh dấu
-chữ Nga, bỏ hỏi `pos`/`topic`/`<hl>` tiếng Nga, bỏ 10 câu nguồn. AI chỉ: nghĩa Việt + 3 câu + dịch.
-13 từ: **Gemini Lite 39/39, 1,7 s/từ** · **Sonnet 39/39, 11,1 s/từ**. Opus đọc tay: Lite 1 câu gượng
-(`солнце светит прямо ясно`), văn hơi sách vở, dịch Việt cứng; Sonnet tự nhiên hơn nhưng 1 lỗi DO ÉP
-DẠNG (`Ну что, сыне` — dùng `сыне` cách 6 làm hô cách cổ) + nghĩa Việt bị lây lời dặn về thể (dài dòng).
-⇒ cổng nên thêm: dạng cách 6 phải đứng sau giới từ. Bộ chọn dạng danh từ chưa bao giờ ra số nhiều (sửa).
-Script thử: scratchpad `gon.py` (tạm). Kết quả: scratchpad `kq_haiku.json`/`kq_sonnet.json` (tạm).
-Thẻ mẫu user đang xem: https://claude.ai/artifact/RKBTrNUqH7c1rBUfMQgR4Q (dựng từ 3 thẻ thật bằng
-script tạm, không ghi Anki). Duyệt mẫu xong ⇒ `kehoach`.
+### Kế hoạch (chờ duyệt)
+1. `anki_tools/vi_du.py` MỚI: máy chọn 3 dạng/loại từ, lời dặn gọn, cổng, máy đánh dấu. Thay hẳn
+   `call_claude_ai`/`_freestyle`/prompt cũ trong `ai_client.py` (xoá, không để song song).
+2. `html_builder.build_examples_html` + `anki_the.build_card_fields`: truyền `GrammarJSON` vào; topic/pos
+   gọi `call_claude_topic`/`call_claude_pos` có sẵn. Test mới cho cổng + bộ chọn dạng. Deploy bot.
+3. Việc ĐỨNG RIÊNG (L4): `scripts/_va_lam_sach_vi_du.py` — máy soát 5 382 câu → Sonnet chấm câu còn lại
+   → Sonnet viết lại câu hỏng → cổng → backup + kéo sync → ghi `--apply` + tiếng Yandex câu mới.
