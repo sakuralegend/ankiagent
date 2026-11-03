@@ -4,6 +4,7 @@
 ## Câu điền từ — ĐANG LÀM (phiên làm sạch)
 🎨 THIẾT KẾ đã duyệt: https://claude.ai/artifact/RKBTrNUqH7c1rBUfMQgR4Q · Nút 🎤 Azure XONG 03/11 (`git log --grep QD-49`):
 hàng ▶︎🎤🎧 ĐÃ vào `back_template.html`+`card.css`+`mic.js` và đã ghi vào Anki ⇒ điền từ dựng TRÊN bản này.
+🔴 VPS CHƯA có `AZURE_SPEECH_KEY` trong `.env` ⇒ CHƯA deploy `786aa11` (deploy thiếu khoá = nút 🎤 báo thiếu khoá).
 Báo cáo khả thi: https://claude.ai/artifact/RJ3QZHRqnYXexXnXnZiskY
 Làm sạch câu ví dụ XONG 03/11 (`git log --grep QD-47`): 535/538 câu thay. CHỜ USER: thẻ `варенный` ghi sai
 chữ (chuẩn `варёный`) — sửa chữ thẻ thì 3 câu Sonnet viết sẵn ở scratchpad dùng được; thẻ `весь` mang bảng chia
