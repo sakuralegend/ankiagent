@@ -13,5 +13,8 @@ Báo cáo đầy đủ: https://claude.ai/artifact/RJ3QZHRqnYXexXnXnZiskY
    không tên âm. Đề xuất: BƯỚC 0 thử 10–15 từ đọc đúng vs cố ý sai trọng âm bằng script tạm; điểm
    tụt rõ mới làm lệnh bot Telegram nhận voice (OGG 48 kHz → cần ffmpeg đổi 16 kHz).
 
-Chờ user trả lời 3 câu (mục cuối báo cáo): A/B dạng gõ · mặt trước giữ nghĩa+badge hay không ·
-Azure thử ngay hay để sau.
+**User CHỐT 03/11** (ghi tay trong báo cáo): (1) gõ DẠNG TỪ ĐIỂN · (2) giữ NGUYÊN mọi thứ ở hai mặt,
+mặt trước chỉ THÊM câu trống (đặt dưới "Translate into Russian"), mặt sau thêm câu lên ĐẦU thẻ, tô
+đậm dạng đã chia (+ nhãn dạng) · (3) Azure: thử ngay — chờ user mở tài khoản, khoá để vào `.env`.
+Thẻ mẫu user đang xem: https://claude.ai/artifact/RKBTrNUqH7c1rBUfMQgR4Q (dựng từ 3 thẻ thật bằng
+script tạm, không ghi Anki). Duyệt mẫu xong ⇒ `kehoach`.
