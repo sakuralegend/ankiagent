@@ -41,6 +41,15 @@ Rủi ro phải chặn: CLI tự cập nhật đổi cờ / token hết hạn / 
 VPS (bộ phân loại tự động chặn ghi mã lên máy chủ ⇒ lúc thi hành để USER tự dán hoặc user cấp quyền).
 Hai bẫy: (1) danh từ ⇒ Sonnet ghi `"pos": n` thiếu ngoặc kép, `--json-schema` thử 5 lần rồi chết
 (~40 s), enum cũng không cứu ⇒ đường Claude KHÔNG hỏi `pos` (hoặc hỏi chữ đầy đủ "noun" rồi đổi mã);
-(2) `сын` câu đúng nhưng QUÊN `<hl>` ⇒ cổng phải bắt + gọi lại. Kết quả: scratchpad `kq_haiku.json`/`kq_sonnet.json` (tạm).
+(2) `сын` câu đúng nhưng QUÊN `<hl>` ⇒ cổng phải bắt + gọi lại.
+**User đề xuất LỜI DẶN GỌN chia theo loại từ, máy làm trước việc lọc được (03/11) — ĐO ĐÚNG.** Máy:
+chọn sẵn 3 dạng/câu từ GrammarJSON theo loại từ (danh: cách 1/6/5…, động chưa HT: hiện tại он/quá khứ
+số nhiều/nguyên mẫu, động HT: tương lai я/quá khứ/mệnh lệnh, tính: đực/cái/số nhiều), tự đánh dấu
+chữ Nga, bỏ hỏi `pos`/`topic`/`<hl>` tiếng Nga, bỏ 10 câu nguồn. AI chỉ: nghĩa Việt + 3 câu + dịch.
+13 từ: **Gemini Lite 39/39, 1,7 s/từ** · **Sonnet 39/39, 11,1 s/từ**. Opus đọc tay: Lite 1 câu gượng
+(`солнце светит прямо ясно`), văn hơi sách vở, dịch Việt cứng; Sonnet tự nhiên hơn nhưng 1 lỗi DO ÉP
+DẠNG (`Ну что, сыне` — dùng `сыне` cách 6 làm hô cách cổ) + nghĩa Việt bị lây lời dặn về thể (dài dòng).
+⇒ cổng nên thêm: dạng cách 6 phải đứng sau giới từ. Bộ chọn dạng danh từ chưa bao giờ ra số nhiều (sửa).
+Script thử: scratchpad `gon.py` (tạm). Kết quả: scratchpad `kq_haiku.json`/`kq_sonnet.json` (tạm).
 Thẻ mẫu user đang xem: https://claude.ai/artifact/RKBTrNUqH7c1rBUfMQgR4Q (dựng từ 3 thẻ thật bằng
 script tạm, không ghi Anki). Duyệt mẫu xong ⇒ `kehoach`.
