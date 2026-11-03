@@ -7,7 +7,8 @@ máy KHÔNG bắt được. Gemini Lite chỉ 500 lượt/ngày ⇒ chạy Sonne
 trên laptop (`ai_client.goi_claude_code`, ăn hạn mức gói).
 
     python scripts/_va_lam_sach_vi_du.py quet [--gioi-han N]  # máy soát + Sonnet chấm — KHÔNG ghi Anki
-    python scripts/_va_lam_sach_vi_du.py viet                 # Sonnet viết lại câu hỏng — KHÔNG ghi Anki
+    python scripts/_va_lam_sach_vi_du.py viet                 # Gemini viết lại câu hỏng — KHÔNG ghi Anki
+    python scripts/_va_lam_sach_vi_du.py cham_moi             # Sonnet chấm lại câu mới; câu bị bắt -> `viet` lại
     python scripts/_va_lam_sach_vi_du.py baocao               # HTML trước/sau cho user duyệt
     python scripts/_va_lam_sach_vi_du.py ghi [--apply]        # khan: in số · --apply: sync + backup + ghi
     python scripts/_va_lam_sach_vi_du.py khoiphuc <file>      # trả ô ExamplesHTML về bản đã chụp
@@ -109,22 +110,14 @@ def quet(gioi_han=None):
           f"Sonnet còn phải chấm {len(con)} thẻ ({(len(con) + CO_LO_CHAM - 1) // CO_LO_CHAM} lượt).")
 
     def cham(lo):                                    # 2) Sonnet chấm câu máy để lọt
-        dong = []
-        for nid in lo:
-            t = the[nid]
-            dong.append(f"[{nid}] {t['tu']} ({'; '.join(t['nghia'][:2])} / {t['viet']})")
-            for i, c in enumerate(t["cau"]):
-                if str(i) not in tt[nid]["loi_may"]:
-                    dong.append(f"  {i + 1}. {c['ru']} | {c['vi']}")
-        r = goi_claude_code(CHAM_HE_THONG, "\n".join(dong), CHAM_KHUON)
-        if not isinstance(r, dict):
+        loi = _cham_lo(the, lo, lambda nid: [(i, c) for i, c in enumerate(the[nid]["cau"])
+                                             if str(i) not in tt[nid]["loi_may"]])
+        if loi is None:
             log_warn(f"Lượt chấm hỏng ({lo[0]}…) — chạy lại `quet` sau")
             return
         with _khoa:
-            for m in r.get("loi") or []:
-                nid, i = str(m.get("id", "")).strip("[] "), m.get("cau")
-                if nid in lo and isinstance(i, int) and 1 <= i <= 3:
-                    tt[nid].setdefault("loi_sonnet", {})[str(i - 1)] = m.get("ly_do", "")
+            for nid, i, ly in loi:
+                tt[nid].setdefault("loi_sonnet", {})[str(i)] = ly
             for nid in lo:
                 tt[nid]["da_cham"] = True
             _ghi_tt(tt)
@@ -143,7 +136,7 @@ def _can_viet(v):
 def viet():
     the, tt = _the(), _doc_tt()
     viec = [nid for nid, v in tt.items() if _can_viet(v) and nid in the]
-    print(f"Sonnet viết lại câu cho {len(viec)} thẻ…")
+    print(f"Gemini viết lại câu cho {len(viec)} thẻ…")
 
     def mot(nid):
         t, v = the[nid], tt[nid]
@@ -153,13 +146,16 @@ def viet():
                    if i not in hong and "<hl>" in c["ru"]}
         trong = [x for x in o_tat_ca if khoa_dang(x[0]) not in da_dung]
         o = [trong.pop(0) if trong else o_tat_ca[i % 3] for i in hong]
-        r = sinh_vi_du(t["tu"], t["nghia"], t["rec"], goi=goi_claude_code, o=o)
+        # Gemini Lite viết (user chốt 03/11: Sonnet viết từng thẻ = ~370 lượt, cháy hạn mức gói
+        # nhiều lần), Sonnet chỉ CHẤM LẠI câu mới (`cham_moi`, ~20 lượt). Cùng một cổng máy.
+        r = sinh_vi_du(t["tu"], t["nghia"], t["rec"], o=o)
         if not r:
             log_warn(f"{t['tu']}: chưa viết được câu nào qua cổng — chạy lại `viet` sau")
             return
         with _khoa:
             for k, ex in zip(r["chi_so"], r["simplified_examples"]):
                 v.setdefault("moi", {})[str(hong[k])] = ex
+                v["moi_qua"] = [x for x in v.get("moi_qua", []) if x != str(hong[k])]
             _ghi_tt(tt)
         print(f"  {t['tu']}: {len(r['chi_so'])}/{len(hong)} câu ({time.strftime('%H:%M:%S')})")
     with ThreadPoolExecutor(SO_LUONG) as ex:
@@ -167,6 +163,52 @@ def viet():
     _ghi_tt(tt)
     con = sum(len(_can_viet(v)) for v in tt.values())
     print(f"Còn {con} câu chưa có bản viết lại qua cổng.")
+
+
+def _cham_lo(the, lo, cau_cua):
+    """Một lượt Sonnet chấm. `cau_cua(nid)` -> [(chỉ số 0-based, {ru, vi})]. Trả
+    [(nid, chỉ số, lý do)] cho câu bị bắt, hoặc None nếu lượt hỏng (hết hạn mức…)."""
+    dong = []
+    for nid in lo:
+        t = the[nid]
+        dong.append(f"[{nid}] {t['tu']} ({'; '.join(t['nghia'][:2])} / {t['viet']})")
+        dong += [f"  {i + 1}. {c['ru']} | {c['vi']}" for i, c in cau_cua(nid)]
+    r = goi_claude_code(CHAM_HE_THONG, "\n".join(dong), CHAM_KHUON)
+    if not isinstance(r, dict):
+        return None
+    hop_le = {nid: {i for i, _c in cau_cua(nid)} for nid in lo}
+    return [(nid, m["cau"] - 1, m.get("ly_do", "")) for m in r.get("loi") or []
+            if (nid := str(m.get("id", "")).strip("[] ")) in hop_le
+            and isinstance(m.get("cau"), int) and m["cau"] - 1 in hop_le[nid]]
+
+
+def cham_moi():
+    """Sonnet chấm lại CÂU MỚI do Gemini viết. Câu bị bắt thì bỏ khỏi `moi` (lý do
+    lưu ở `loi_moi`) ⇒ chạy `viet` lần nữa là Gemini viết lại đúng câu đó."""
+    the, tt = _the(), _doc_tt()
+    cho = {nid: [k for k in v.get("moi", {}) if k not in v.get("moi_qua", [])]
+           for nid, v in tt.items() if nid in the and not v.get("da_ghi")}
+    lo_moi = [nid for nid, ks in cho.items() if ks]
+    print(f"Sonnet chấm lại {sum(len(cho[n]) for n in lo_moi)} câu mới trên {len(lo_moi)} thẻ…")
+
+    def cham(lo):
+        loi = _cham_lo(the, lo, lambda nid: [(int(k), tt[nid]["moi"][k]) for k in cho[nid]])
+        if loi is None:
+            log_warn(f"Lượt chấm hỏng ({lo[0]}…) — chạy lại `cham_moi` sau")
+            return
+        with _khoa:
+            bat = {(nid, str(i)) for nid, i, _ly in loi}
+            for nid, i, ly in loi:
+                tt[nid].setdefault("loi_moi", {})[str(i)] = ly
+                tt[nid]["moi"].pop(str(i), None)
+            for nid in lo:
+                tt[nid]["moi_qua"] = sorted(set(tt[nid].get("moi_qua", []))
+                                            | {k for k in cho[nid] if (nid, k) not in bat})
+            _ghi_tt(tt)
+        print(f"  chấm xong {len(lo)} thẻ, bắt {len(loi)} câu ({time.strftime('%H:%M:%S')})")
+    with ThreadPoolExecutor(SO_LUONG) as ex:
+        list(ex.map(cham, [lo_moi[i:i + CO_LO_CHAM] for i in range(0, len(lo_moi), CO_LO_CHAM)]))
+    _ghi_tt(tt)
 
 
 def baocao():
@@ -243,6 +285,8 @@ if __name__ == "__main__":
         quet(int(a[a.index("--gioi-han") + 1]) if "--gioi-han" in a else None)
     elif lenh == "viet":
         viet()
+    elif lenh == "cham_moi":
+        cham_moi()
     elif lenh == "baocao":
         baocao()
     elif lenh == "ghi":
