@@ -5,8 +5,7 @@
 Số đo đủ: `git log -p VIECDANGLAM.md` (03/11). Gốc lỗi = lời dặn bắt AI làm 6 việc + KHÔNG cổng, không
 phải model nhỏ: lời dặn gọn (máy chọn dạng, máy đánh dấu) ⇒ Gemini Lite 39/39 (1,7 s), Sonnet 39/39.
 User chốt: bot giữ Gemini Lite · làm sạch thẻ cũ bằng Sonnet `claude -p` trên laptop (Gemini 500 lượt/ngày).
-Xếp hàng sau: câu điền từ (mẫu đã duyệt: gõ dạng từ điển, field `ClozeHTML`, full sync) → chấm phát âm
-Azure. Báo cáo: https://claude.ai/artifact/RJ3QZHRqnYXexXnXnZiskY
+Sau đó: câu điền từ (`ClozeHTML`, full sync) → Azure. Báo cáo: https://claude.ai/artifact/RJ3QZHRqnYXexXnXnZiskY
 
 ### Kế hoạch (đã duyệt 03/11) — bước 1–2 XONG + deploy (`7391b5e`); bước 3 đang chạy
 1. `anki_tools/vi_du.py` MỚI: máy chọn 3 dạng/loại từ, lời dặn gọn, cổng, máy đánh dấu. Thay hẳn
