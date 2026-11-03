@@ -351,10 +351,10 @@ class MoiLoiGoiAiPhaiEpKHUONJson(unittest.TestCase):
             return FakeRes()
 
         with unittest.mock.patch.object(ai_client.requests, "post", fake_post):
-            ai_client._call_model_once("m", "sys", "user", khuon=ai_client._KHUON_THE)
+            ai_client._call_model_once("m", "sys", "user", khuon=ai_client._KHUON_TOPIC)
         self.assertIn("response_format", bat, "khuôn KHÔNG được gửi lên API")
         self.assertEqual(bat["response_format"]["type"], "json_schema")
-        self.assertEqual(bat["response_format"]["json_schema"]["schema"], ai_client._KHUON_THE)
+        self.assertEqual(bat["response_format"]["json_schema"]["schema"], ai_client._KHUON_TOPIC)
 
     def test_khong_khuon_thi_khong_gui_field(self):
         from anki_tools import ai_client
@@ -391,8 +391,7 @@ class MoiLoiGoiAiPhaiEpKHUONJson(unittest.TestCase):
         kt = ai_client._KHUON_THE_KHONG_TOPIC
         self.assertNotIn("topic", kt["required"])
         self.assertNotIn("topic", kt["properties"])
-        self.assertEqual(kt["properties"]["simplified_examples"],
-                         ai_client._KHUON_THE["properties"]["simplified_examples"])
+        self.assertIn("simplified_examples", kt["required"])
 
 
 class BadgeChiSoNhieuPhaiSongKhiKhongCoNounsCsv(unittest.TestCase):
@@ -1377,47 +1376,30 @@ class TuLoaiKhongCoRoRac(unittest.TestCase):
         for ma in TU_LOAI:
             self.assertEqual(normalize_pos(pos_full(ma)), ma, f"{ma} đi vòng không về chỗ cũ")
 
-    def test_MOI_nhanh_build_examples_html_tra_du_5_o(self):
-        """🔴 Đây là ca IM LẶNG. `build_examples_html` có 4 nhánh thoát; ba nhánh
-        chỉ chạy khi AI hỏng nên chạy tay không bao giờ gặp. Nhánh nào quên `pos`
-        thì `build_card_fields` vỡ lúc gỡ tuple — đúng lúc AI đang hỏng, tức lúc
-        tệ nhất. Bịt bằng cách ép cả bốn nhánh cùng đi qua đây."""
+    def test_MOI_nhanh_build_examples_html_tra_cung_mot_hinh(self):
+        """🔴 Ca IM LẶNG. `build_examples_html` có 3 nhánh thoát; hai nhánh chỉ chạy
+        khi AI hỏng nên chạy tay không bao giờ gặp. Nhánh nào trả lệch hình thì
+        `build_card_fields` vỡ lúc gỡ tuple — đúng lúc AI đang hỏng, tức lúc tệ nhất."""
         goc = "anki_tools.html_builder."
         raw = [{"ru": "Он там.", "en": "He is there."}]
-        du = {"vietnamese_meaning": "ở đó", "topic": "places::position", "pos": "adv",
-              "simplified_examples": [{"ru": "Он там.", "en": "He is there.", "vi": "Anh ấy ở đó."}] * 3}
-
-        # nhanh 1: AI rewrite chay ngon
-        with unittest.mock.patch(goc + "call_claude_ai", return_value=du):
-            ra = build_examples_html("там", raw, ["there"])
-        self.assertEqual(len(ra), 5)
-        self.assertEqual(ra[4], "adv", "nhánh AI rewrite nuốt mất từ loại")
-
-        # nhanh 2: rewrite truot -> freestyle do
-        with unittest.mock.patch(goc + "call_claude_ai", return_value=None), \
-             unittest.mock.patch(goc + "call_claude_ai_freestyle", return_value=du):
-            ra = build_examples_html("там", raw, ["there"])
-        self.assertEqual(len(ra), 5)
-        self.assertEqual(ra[4], "adv", "nhánh freestyle nuốt mất từ loại")
-
-        # nhanh 3: ca hai truot, con vi du tho
-        with unittest.mock.patch(goc + "call_claude_ai", return_value=None), \
-             unittest.mock.patch(goc + "call_claude_ai_freestyle", return_value=None):
-            ra = build_examples_html("там", raw, ["there"])
-        self.assertEqual(len(ra), 5)
-        self.assertIsNone(ra[4], "không có AI thì phải là 'chưa xếp được', đừng bịa")
-
-        # nhanh 4: trang tay
-        with unittest.mock.patch(goc + "call_claude_ai_freestyle", return_value=None):
-            ra = build_examples_html("там", [], ["there"])
-        self.assertEqual(len(ra), 5)
-        self.assertIsNone(ra[4])
+        du = {"vietnamese_meaning": "ở đó",
+              "simplified_examples": [{"ru": "Он <hl>там</hl>.", "en": "He is there.", "vi": "Anh ấy ở đó."}] * 3}
+        with unittest.mock.patch(goc + "sinh_vi_du", return_value=du):
+            ra = build_examples_html("там", raw, ["there"], {})
+        self.assertEqual(len(ra), 3)
+        self.assertEqual(len(ra[2]), 3)
+        with unittest.mock.patch(goc + "sinh_vi_du", return_value=None):
+            ra = build_examples_html("там", raw, ["there"], {})
+        self.assertEqual(len(ra), 3)
+        self.assertEqual(ra[2][0]["vi"], "", "nhánh câu thô phải lộ ra là thiếu tiếng Việt")
+        with unittest.mock.patch(goc + "sinh_vi_du", return_value=None):
+            ra = build_examples_html("там", [], ["there"], {})
+        self.assertEqual(ra, ("", "there", []))
 
     def test_the_ngu_phap_KHONG_bi_hoi_tu_loai(self):
         """Model thẻ số nhiều không có ô từ loại — ép nó trả `pos` là bắt model
         bịa ra một field không ai đọc (cùng lý lẽ đã bỏ `topic` khỏi khuôn đó)."""
         self.assertNotIn("pos", ai_client._KHUON_THE_KHONG_TOPIC["properties"])
-        self.assertIn("pos", ai_client._KHUON_THE["properties"])
 
 
 class NutBamKhongDuocCHET(unittest.TestCase):
@@ -1696,6 +1678,70 @@ class NghiaGapLaiPhaiMoDuoc(unittest.TestCase):
                 self.assertRegex(html, r'<div class="meaning-box"[^>]*>\{\{Meaning\}\}'
                                        r'<details class="mx"><summary class="mx-nut"></summary>'
                                        r'</details></div>', p)
+
+
+class CauViDuMayChonDangVaCong(unittest.TestCase):
+    """BUG GỐC (đo 03/11/2026, QD-47): lời dặn cũ để AI tự làm 6 việc, không cổng
+    nào soát ⇒ ~300/5 382 câu trên thẻ thật dùng CẶP THỂ (`брать`→`взять`), từ
+    giảm nhẹ (`стол`→`столик`), hoặc MẤT CHỮ vì AI viết thẻ méo `<hlиграли>`. Mỗi
+    ca dưới là một kiểu đã gặp thật — cổng phải chặn, câu đúng phải lọt."""
+
+    STOL = {"pos": "noun", "decl": {
+        "sg": {"nom": "стол", "gen": "стола́", "dat": "столу́", "acc": "стол", "inst": "столо́м", "prep": "столе́"},
+        "pl": {"nom": "столы́", "gen": "столо́в", "dat": "стола́м", "acc": "столы́", "inst": "стола́ми", "prep": "стола́х"}}}
+
+    def setUp(self):
+        from anki_tools import vi_du
+        self.v = vi_du
+
+    def test_danh_tu_ra_3_dang_khac_nhau_dau_tien_la_cach_1(self):
+        loai, o = self.v.chon_dang(self.STOL, "стол")
+        self.assertEqual(loai, "noun")
+        self.assertEqual(o[0][0], "стол")
+        self.assertEqual(len({self.v._gap(self.v._dau(x[0])) for x in o}), 3)
+
+    def test_chon_dang_co_dinh_theo_tu(self):
+        """Chạy lại không được đổi đề — script làm sạch chạy lại giữa chừng phải ra cùng đề."""
+        self.assertEqual(self.v.chon_dang(self.STOL, "стол"), self.v.chon_dang(self.STOL, "стол"))
+
+    def test_chan_cap_the_tu_giam_nhe_va_cau_mat_chu(self):
+        o_brat = ("брать", "nguyên mẫu", "infinitive")
+        self.assertIsNotNone(self.v.kiem_cau("Не забудь взять зонт.", o_brat, ["взять"]))
+        self.assertIsNotNone(self.v.kiem_cau("Поставь ноутбук на столик.", ("стол", "số ít, cách 1", "")))
+        self.assertIsNotNone(self.v.kiem_cau("Я быстро  и спущусь к тебе.", ("оде́нусь", "tương lai", "")))
+        self.assertIsNotNone(self.v.kiem_cau("Мы часто <hlиграли>играли в прятки.", ("игра́ли", "quá khứ", "")))
+        self.assertIsNone(self.v.kiem_cau("Не надо брать чужие вещи.", o_brat, ["взять"]))
+
+    def test_cach_6_phai_dung_sau_gioi_tu(self):
+        """Sonnet được giao `сыне` viết `Ну что, сыне, …` (lối gọi cổ) — chữ khớp mà sai cách."""
+        o = ("сы́не", "số ít, cách 6", "prepositional — right after в/на/о/при")
+        self.assertIsNotNone(self.v.kiem_cau("Ну что, сыне, как дела в школе?", o))
+        self.assertIsNone(self.v.kiem_cau("Мы долго говорили о её старшем сыне.", o))
+
+    def test_nhan_moi_bien_the_va_go_e_thay_yo(self):
+        """`дверьми` bị chặn oan khi cổng chỉ so biến thể đầu (đo 03/11)."""
+        o = ("дверя́ми, дверьми́", "số nhiều, cách 5", "instrumental")
+        self.assertIsNone(self.v.kiem_cau("Он хлопнул дверьми и ушёл.", o))
+        self.assertEqual(self.v.danh_dau("Он хлопнул дверьми и ушёл.", o[0]), "Он хлопнул <hl>дверьми</hl> и ушёл.")
+        self.assertEqual(self.v.danh_dau("Он берет зонт.", "берёт"), "Он <hl>берет</hl> зонт.")
+
+    def test_sinh_vi_du_giu_cau_dat_va_hoi_lai_o_truot(self):
+        _l, o = self.v.chon_dang(self.STOL, "стол")
+        d = [self.v.bare(self.v._dau(x[0])) for x in o]
+        cau = lambda x: {"ru": f"Мы были на {x} вчера.", "en": "a <b>table</b>", "vi": "cái <b>bàn</b>"}
+        luot = [{"vietnamese_meaning": "cái bàn", "examples": [cau(d[0]), cau("столик"), cau(d[2])]},
+                {"vietnamese_meaning": "bàn", "examples": [cau("x"), cau(d[1]), cau("x")]}]
+        goi = unittest.mock.Mock(side_effect=luot)
+        ra = self.v.sinh_vi_du("стол", ["table"], self.STOL, goi=goi)
+        self.assertEqual(goi.call_count, 2)
+        self.assertEqual(ra["vietnamese_meaning"], "cái bàn")
+        self.assertEqual(len(ra["simplified_examples"]), 3)
+        self.assertIn("<hl>", ra["simplified_examples"][1]["ru"])
+        self.assertEqual(ra["simplified_examples"][0]["vi"], "cái <hl>bàn</hl>")
+
+    def test_khong_cau_nao_qua_thi_tra_None(self):
+        goi = unittest.mock.Mock(return_value={"vietnamese_meaning": "x", "examples": [{"ru": "Нет.", "en": "", "vi": ""}] * 3})
+        self.assertIsNone(self.v.sinh_vi_du("стол", ["table"], self.STOL, goi=goi))
 
 
 if __name__ == "__main__":

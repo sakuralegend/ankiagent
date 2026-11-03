@@ -1,8 +1,7 @@
 # ==============================================================================
 # --- GIAO TIẾP VỚI AI (Gemini qua endpoint OpenAI-compatible) ---
-# _CORE_SYSTEM_PROMPT là "NGUỒN CHÂN LÝ DUY NHẤT" cho phong cách viết câu ví dụ.
-# Từ khi gỡ nút AI Refine khỏi thẻ Anki (chuyển sang /sua của bot Telegram),
-# prompt CHỈ tồn tại ở file này — muốn đổi văn phong AI, sửa ở đây là đủ.
+# CỬA DUY NHẤT gọi AI (L1). Lời dặn đặt CÂU VÍ DỤ không còn ở đây: nó nằm ở
+# `vi_du.py` cùng bộ chọn dạng + cổng kiểm, vì ba thứ đó phải sửa cùng nhau (QD-47).
 # ==============================================================================
 import json
 import re
@@ -10,73 +9,8 @@ import time
 import requests
 
 from .config import CLAUDE_API_URL, CLAUDE_API_KEY, CLAUDE_MODEL, CLAUDE_FALLBACK_MODELS
-from .topics import (TOPICS, normalize_topic, topics_prompt_block,
-                     normalize_pos, pos_prompt_block)
+from .topics import normalize_topic, topics_prompt_block, normalize_pos, pos_prompt_block
 from .utils import log_fail, log_warn
-
-_FEWSHOT_EXAMPLES = [
-    # (loại từ, target word, JSON mẫu) — mỗi entry chỉ giữ câu nào thể hiện RÕ biến đổi
-    # ngữ pháp (khác dạng từ điển), để prompt ngắn mà vẫn dạy đủ highlight rule.
-    (
-        "adjective",
-        "хороший",
-        '{"vietnamese_meaning": "tốt, ngon, hay", "topic": "qualities", "pos": "adj", "simplified_examples": ['
-        '{"ru": "У нас <hl>хорошая</hl> погода, пойдём гулять?", "en": "The weather\'s <hl>nice</hl>, wanna go for a walk?", "vi": "Trời <hl>đẹp</hl> quá, đi dạo không?"},'
-        '{"ru": "Ты молодец, получилось <hl>лучше</hl>, чем в прошлый раз.", "en": "Nice job, that turned out <hl>better</hl> than last time.", "vi": "Giỏi lắm, lần này làm <hl>tốt hơn</hl> lần trước đó."}'
-        ']}'
-    ),
-    (
-        "verb",
-        "говорить",
-        '{"vietnamese_meaning": "nói, trò chuyện", "topic": "actions", "pos": "v", "simplified_examples": ['
-        '{"ru": "Она <hl>говорит</hl> по-английски свободно.", "en": "She <hl>speaks</hl> English fluently.", "vi": "Cô ấy <hl>nói</hl> tiếng Anh lưu loát lắm."},'
-        '{"ru": "Прости, я не то <hl>сказал</hl>, не обижайся.", "en": "Sorry, I didn\'t mean what I <hl>said</hl>, don\'t be mad.", "vi": "Xin lỗi, tại tớ lỡ lời, đừng giận nha."}'
-        ']}'
-    ),
-]
-
-
-def _build_fewshot_block():
-    """Ghép các few-shot example thành text để nhét vào system prompt."""
-    lines = []
-    for pos, word, json_example in _FEWSHOT_EXAMPLES:
-        lines.append(f"# Example ({pos}: {word})")
-        lines.append(json_example)
-    return "\n".join(lines)
-
-
-_CORE_SYSTEM_PROMPT = (
-    "You are a native Russian speaker and friendly tutor. Write natural, casual, everyday Russian — "
-    "like texting a friend, not a textbook. Avoid stiff, word-by-word translations.\n\n"
-    "TASK: 1) Give a short, natural Vietnamese meaning of the target word. "
-    "2) Write 3 short Russian example sentences, each in a DIFFERENT everyday situation "
-    "(food, weather, work, friends, family, phone calls, etc — don't repeat contexts). "
-    "3) Translate each sentence naturally (meaning-for-meaning, not word-for-word) into English and Vietnamese. "
-    "4) Classify the target word into EXACTLY ONE topic slug from the TOPIC LIST below, "
-    "based on the word's most common meaning. Use ONLY a slug from that list; if the word "
-    "genuinely fits none of them, return null — never force a loose fit. "
-    "5) Give the target word's PART OF SPEECH as one code from the PART OF SPEECH LIST "
-    "below. If the word belongs to two classes (когда = adverb + conjunction), return the "
-    "PRIMARY one only — the one matching the meaning this card teaches. Use ONLY a code "
-    "from that list; if you genuinely cannot tell, return null. Never invent 'other'.\n\n"
-    "TOPIC LIST:\n"
-    f"{topics_prompt_block()}\n\n"
-    "PART OF SPEECH LIST:\n"
-    f"{pos_prompt_block()}\n\n"
-    "HIGHLIGHT RULE: wrap the target word AND any of its grammatical forms (conjugated, declined, plural, "
-    "comparative, short form, etc.) with <hl>...</hl> in the ru, en, AND vi sentence — only the word itself, "
-    "never the whole sentence. Every sentence MUST have a highlighted word in ALL THREE languages: if a fully "
-    "idiomatic translation would drop the word entirely (e.g. \"быстрее\" -> \"Hurry up!\" has nothing to highlight), "
-    "pick a more literal-but-still-natural phrasing instead (e.g. \"Come on, faster!\") so en and vi always keep a "
-    "clear <hl> word too.\n\n"
-    "Examples below show only 2 sentences each for brevity, but your actual output must always contain "
-    "exactly 3 sentences in simplified_examples:\n\n"
-    f"{_build_fewshot_block()}\n\n"
-    "Return ONLY a valid JSON object, no markdown, no commentary, matching this schema:\n"
-    '{"vietnamese_meaning": "...", "topic": "...", "pos": "...", "simplified_examples": '
-    '[{"ru": "...","en": "...","vi": "..."},{"ru": "...","en": "...","vi": "..."},{"ru": "...","en": "...","vi": "..."}]}'
-)
-
 
 # ==============================================================================
 # --- KHUÔN JSON BẮT BUỘC (đo 12/08/2026) ---
@@ -92,20 +26,15 @@ _CORE_SYSTEM_PROMPT = (
 # 1–2 lượt nữa. Đo trước khi vá: 4/16 từ phải gọi AI nhiều lượt. Sau khi ép
 # khuôn: 0/16, và mỗi lượt chỉ chậm thêm ~0,1s.
 #
-# Trần 3 ví dụ đặt luôn trong khuôn: `_validate_ai_result` đằng nào cũng đòi đủ 3,
-# ép sẵn thì khỏi phải quay lại hỏi.
+# Trần 3 ví dụ đặt luôn trong khuôn: ép sẵn thì khỏi phải quay lại hỏi.
 # ==============================================================================
-_KHUON_THE = {
+# Khuôn thẻ NGỮ PHÁP (`grammar_forms/ai.py`): nghĩa Việt + đúng 3 ví dụ. Không hỏi
+# chủ đề/từ loại — model thẻ ngữ pháp không có ô đó, ép hỏi là ép AI bịa field
+# không ai đọc. (Thẻ từ vựng dùng khuôn riêng ở `vi_du.py`, QD-47.)
+_KHUON_THE_KHONG_TOPIC = {
     "type": "object",
     "properties": {
         "vietnamese_meaning": {"type": "string"},
-        # null hợp lệ: "chưa xếp được chủ đề" phải nói ra được, ép string là ép bịa (QD-38)
-        "topic": {"type": ["string", "null"]},
-        # Từ loại: null cũng hợp lệ, cùng lý lẽ. Hỏi Ở ĐÂY chứ không gọi riêng
-        # một lượt — lượt này đằng nào cũng chạy cho mọi thẻ MỚI và mọi lần
-        # /sua, nên từ loại đi nhờ là 0 request thêm. Nhờ vậy /sua không lật
-        # ngược 93 thẻ vừa vá về badge rỗng (QD-41).
-        "pos": {"type": ["string", "null"]},
         "simplified_examples": {
             "type": "array", "minItems": 3, "maxItems": 3,
             "items": {
@@ -116,18 +45,7 @@ _KHUON_THE = {
             },
         },
     },
-    "required": ["vietnamese_meaning", "topic", "pos", "simplified_examples"],
-}
-
-# Mảng thẻ ngữ pháp (`grammar_forms/ai.py`) dùng CÙNG hình dạng nhưng KHÔNG hỏi
-# chủ đề — ép `topic` ở đó chỉ tổ bắt model bịa ra một field không ai đọc.
-# `pos` bỏ theo, y một lý do: model thẻ ngữ pháp không có ô từ loại.
-_BO_O_THE_NGU_PHAP = ("topic", "pos")
-_KHUON_THE_KHONG_TOPIC = {
-    "type": "object",
-    "properties": {k: v for k, v in _KHUON_THE["properties"].items()
-                   if k not in _BO_O_THE_NGU_PHAP},
-    "required": [k for k in _KHUON_THE["required"] if k not in _BO_O_THE_NGU_PHAP],
+    "required": ["vietnamese_meaning", "simplified_examples"],
 }
 
 _KHUON_LEMMA = {
@@ -227,43 +145,6 @@ def _parse_ai_response(raw_response):
     return None
 
 
-def _validate_ai_result(parsed):
-    """Lưới an toàn: kiểm tra dict AI trả về đủ schema thẻ.
-    Trả về dict đã chuẩn hóa {"vietnamese_meaning", "simplified_examples"(=3, đủ ru/en/vi)}
-    hoặc None nếu thiếu bất kỳ thứ gì (KHÔNG được dùng dữ liệu thiếu để ghi đè thẻ)."""
-    if not isinstance(parsed, dict):
-        return None
-    vi_meaning = parsed.get("vietnamese_meaning")
-    if not isinstance(vi_meaning, str) or not vi_meaning.strip():
-        return None
-    examples = parsed.get("simplified_examples")
-    if not isinstance(examples, list) or len(examples) < 3:
-        return None
-    cleaned = []
-    for ex in examples[:3]:
-        if not isinstance(ex, dict):
-            return None
-        ru = (ex.get("ru") or "").strip()
-        en = (ex.get("en") or "").strip()
-        vi = (ex.get("vi") or ex.get("vietnamese") or "").strip()
-        if not ru or not en or not vi:
-            return None
-        cleaned.append({"ru": ru, "en": en, "vi": vi})
-    # topic là trường PHỤ: sai/thiếu chỉ thành **None**, KHÔNG làm hỏng cả kết quả
-    # (luồng refine /sua không dùng topic nên cũng vô hại). None = thẻ ra đời KHÔNG
-    # có tag chủ đề, `/thongke` đếm nó vào "chưa có tag" — cố ý, xem QD-38: trước
-    # đây chỗ này ép về `concepts::misc` nên thẻ hỏng trông như thẻ đã phân loại.
-    # `pos` cũng là trường PHỤ và cũng None-được, cùng lý lẽ với `topic`: thẻ ra
-    # đời KHÔNG có từ loại thì badge TRỐNG, nhìn là thấy thiếu. Ép về "other" là
-    # đúng cái bẫy vừa phải dọn 93 thẻ (QD-41).
-    return {
-        "vietnamese_meaning": vi_meaning.strip(),
-        "simplified_examples": cleaned,
-        "topic": normalize_topic(parsed.get("topic")),
-        "pos": normalize_pos(parsed.get("pos")),
-    }
-
-
 def _model_chain():
     """Danh sách model theo thứ tự ưu tiên: model chính -> các model dự phòng."""
     chain = [CLAUDE_MODEL]
@@ -346,7 +227,7 @@ def _call_model_once(model, system_prompt, user_prompt, use_reasoning=True, rpm_
             # được, nhưng MẤT bảo đảm JSON đúng dạng -> nói ra, đừng im lặng: im
             # lặng đúng là thứ đã làm bot chậm gấp 2-3 lần mà không ai biết vì sao.
             log_warn(f"Model '{model}' không nhận khuôn JSON bắt buộc -> chạy KHÔNG khuôn "
-                     f"(có thể lại gặp JSON hỏng — xem khối `_KHUON_THE`).")
+                     f"(có thể lại gặp JSON hỏng — xem khối `_KHUON_*`).")
             return _call_model_once(model, system_prompt, user_prompt, use_reasoning=False,
                                     max_tokens=max_tokens, timeout=timeout, khuon=None)
 
@@ -385,68 +266,18 @@ def _send_ai_request(system_prompt, user_prompt, max_tokens=900,
     return None
 
 
-def call_claude_ai(word_clean, raw_examples, english_meanings):
-    """Gửi raw examples cho AI, nhờ rewrite + dịch. Trả về dict hoặc None."""
-    raw_text = ""
-    for i, ex in enumerate(raw_examples):
-        raw_text += f"[Example {i + 1}] RU: {ex.get('ru', '')} | EN: {ex.get('en', '')} --- "
-    en_meanings_str = ", ".join(english_meanings) if english_meanings else "N/A"
-
-    system_prompt = _CORE_SYSTEM_PROMPT
-
-    user_prompt = (
-        f"Target word: [{word_clean}]. "
-        f"English meanings (reference only, don't translate literally): [{en_meanings_str}]. "
-        f"Raw dictionary examples (use as inspiration, but REWRITE into natural, casual, everyday sentences — "
-        f"don't keep their stiff textbook phrasing): {raw_text} "
-        "Return ONLY the JSON."
-    )
-
-    raw_response = _send_ai_request(system_prompt, user_prompt, khuon=_KHUON_THE)
+def call_claude_vi_du(system_prompt, user_prompt, khuon):
+    """Một lượt đặt câu ví dụ. Lời dặn + khuôn do `vi_du.py` dựng (QD-47) — hàm này
+    chỉ là CỬA: gửi, bóc JSON, trả dict hoặc None. Kiểm câu đúng/sai là việc của
+    cổng bên `vi_du.py`, KHÔNG làm ở đây, để mọi đường đặt câu đi qua cùng một cổng."""
+    raw_response = _send_ai_request(system_prompt, user_prompt, khuon=khuon)
     if not raw_response:
         return None
-
     parsed = _parse_ai_response(raw_response)
-    if not parsed:
-        log_fail("AI trả về JSON không hợp lệ, thử lại với chế độ tự sinh...")
+    if not isinstance(parsed, dict):
+        log_fail("AI trả về JSON không hợp lệ khi đặt câu ví dụ.")
         return None
-
-    valid = _validate_ai_result(parsed)
-    if not valid:
-        log_fail("AI trả về thiếu dữ liệu (không đủ 3 ví dụ hoặc thiếu ngôn ngữ).")
-        return None
-    return valid
-
-
-def call_claude_ai_freestyle(word_clean, english_meanings):
-    """AI tự sinh ví dụ từ chính trí tuệ của nó (không có raw examples). Dùng khi raw_examples rỗng hoặc parse lỗi."""
-    log_warn("🔄 Chuyển sang chế độ AI TỰ SINH ví dụ (freestyle) - AI dùng kiến thức riêng để tạo câu.")
-    en_meanings_str = ", ".join(english_meanings) if english_meanings else "N/A"
-
-    system_prompt = _CORE_SYSTEM_PROMPT
-
-    user_prompt = (
-        f"Target word: [{word_clean}]. "
-        f"English meanings (reference only): [{en_meanings_str}]. "
-        "There are no raw examples provided — invent 3 fresh, natural, everyday Russian sentences yourself "
-        "using your own knowledge of the word. "
-        "Return ONLY the JSON."
-    )
-
-    raw_response = _send_ai_request(system_prompt, user_prompt, khuon=_KHUON_THE)
-    if not raw_response:
-        return None
-
-    parsed = _parse_ai_response(raw_response)
-    if not parsed:
-        log_fail("AI freestyle cũng trả về JSON không hợp lệ.")
-        return None
-
-    valid = _validate_ai_result(parsed)
-    if not valid:
-        log_fail("AI freestyle trả về thiếu dữ liệu (không đủ 3 ví dụ hoặc thiếu ngôn ngữ).")
-        return None
-    return valid
+    return parsed
 
 
 def call_claude_lemma(word):

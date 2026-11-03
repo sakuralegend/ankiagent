@@ -40,7 +40,7 @@
   ],
   "da_ghi_no": {
    "anki_tools/ai_client.py": {
-    "so": 607,
+    "so": 438,
     "vi_sao": "Lô hoá call_claude_topic (xếp 1212 thẻ bằng ~49 lượt thay vì 1212); +86 hỏi thêm TỪ LOẠI ở lượt AI sẵn có + call_claude_pos() (QD-41). Cùng file vì cùng MỘT cửa gọi AI (L1)."
    },
    "anki_tools/anki_client.py": {

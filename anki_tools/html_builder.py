@@ -11,7 +11,7 @@ import json
 import re
 
 from .utils import log_warn, apply_hl
-from .ai_client import call_claude_ai, call_claude_ai_freestyle
+from .vi_du import sinh_vi_du
 
 
 def _build_example_block(index, ru_text, en_text, vi_text):
@@ -107,43 +107,22 @@ def build_html_from_ai_result(ai_result):
     return _build_from_ai_result(ai_result)
 
 
-def build_examples_html(word_clean, raw_examples, english_meanings):
-    """Trả về (examples_html, vi_meaning, simplified_examples_list, topic_slug, pos).
-    topic_slug: chủ đề AI chọn (slug trong topics.TOPICS) hoặc None ở các nhánh
-    fallback không có AI — khi đó thẻ KHÔNG được gắn tag topic:: (gắn bù sau
-    bằng: python scripts/tag_topics.py --missing).
-    pos: mã từ loại AI chọn (mã trong topics.TU_LOAI) hoặc None. Chỉ được DÙNG khi
-    nguồn OpenRussian bỏ trống ô đó — nguồn trả "other" cho 93/1290 thẻ, xem QD-41.
-    Cùng None-được vì cùng lý lẽ với topic_slug: thà badge trống còn hơn badge sai.
-    Thứ tự ưu tiên:
-    1. Gọi call_claude_ai với raw examples (rewrite + dịch)
-    2. Nếu thất bại hoặc không có raw examples -> call_claude_ai_freestyle (AI tự sinh)
-    3. Nếu cả hai đều thất bại -> fallback raw examples gốc
+def build_examples_html(word_clean, raw_examples, english_meanings, grammar_rec=None):
+    """Trả về (examples_html, vi_meaning, simplified_examples_list).
+
+    1. `vi_du.sinh_vi_du` — máy chọn dạng từ `grammar_rec` (GrammarJSON), AI chỉ đặt
+       câu, máy kiểm + đánh dấu (QD-47). Hàm đó tự hỏi lại AI khi câu trượt cổng.
+    2. Hỏng hẳn -> câu gốc OpenRussian thô (không tiếng Việt ⇒ `ai_degraded`).
+    3. Không còn gì -> rỗng.
+    Chủ đề + từ loại KHÔNG đi nhờ lượt này nữa — `anki_the.build_card_fields` gọi riêng.
     """
-    # Nếu có raw examples, thử gọi AI rewrite trước
+    ai_result = sinh_vi_du(word_clean, english_meanings or [], grammar_rec or {})
+    if ai_result:
+        return _build_from_ai_result(ai_result)
     if raw_examples:
-        ai_result = call_claude_ai(word_clean, raw_examples, english_meanings)
-        if ai_result:
-            return (_build_from_ai_result(ai_result)
-                    + (ai_result.get("topic"), ai_result.get("pos")))
-
-    # Raw examples rỗng hoặc AI rewrite thất bại -> thử AI freestyle (tối đa 2 lần,
-    # vì freestyle là phao cuối cùng có AI - trượt là thẻ mất hẳn ví dụ + nghĩa Việt)
-    for attempt in range(2):
-        if attempt == 1:
-            log_warn("AI freestyle thất bại lần 1 -> thử lại lần 2...")
-        ai_freestyle = call_claude_ai_freestyle(word_clean, english_meanings)
-        if ai_freestyle:
-            return (_build_from_ai_result(ai_freestyle)
-                    + (ai_freestyle.get("topic"), ai_freestyle.get("pos")))
-
-    # Cả hai đều thất bại, nếu còn raw examples thì dùng tạm
-    if raw_examples:
-        return _build_fallback_from_raw(raw_examples, english_meanings) + (None, None)
-
-    # Hoàn toàn không có gì
+        return _build_fallback_from_raw(raw_examples, english_meanings)
     vi_meaning = ", ".join(english_meanings) if english_meanings else "N/A"
-    return "", vi_meaning, [], None, None
+    return "", vi_meaning, []
 
 
 # ==============================================================================

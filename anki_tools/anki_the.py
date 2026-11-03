@@ -13,6 +13,7 @@ import re
 import requests
 
 from . import grammar
+from .ai_client import call_claude_pos, call_claude_topic
 from .chu_nga import nfc
 from .config import ANKI_CONNECT_URL, MODEL_NAME, STAGE1_DECK
 from .topics import TOPIC_TAG_PREFIX, topic_tag, pos_full as ten_pos_day_du
@@ -92,19 +93,20 @@ def build_card_fields(word, data):
     for m in data["english_meanings"]: meaning_html += f"<li>{m}</li>"
     meaning_html += "</ol>"
 
-    examples_html, vi_meaning, simplified_examples, topic_slug, pos_ai = build_examples_html(
+    examples_html, vi_meaning, simplified_examples = build_examples_html(
         clean_word,
         data.get("raw_dictionary_examples", []),
-        data.get("english_meanings", [])
+        data.get("english_meanings", []),
+        grammar_rec,
     )
 
-    # 🔴 TỪ LOẠI: nguồn trước, AI VÁ CHỖ NGUỒN BỎ TRỐNG (QD-41). OpenRussian trả
-    # thẳng "other" cho 93/1290 thẻ (trạng từ, giới từ, liên từ, trợ từ dồn một
-    # rọ) — `scraper` đã đổi rọ đó thành RỖNG, và đây là chỗ lấp.
-    # Vì sao lấp ở ĐÂY chứ không gọi AI riêng: lượt AI ngay trên đằng nào cũng
-    # chạy cho MỌI thẻ mới VÀ mọi lần /sua, nên từ loại đi nhờ là 0 request thêm.
-    # Và vì `/sua` chui qua đúng hàm này, 93 thẻ vá xong KHÔNG bị lật ngược.
-    # Nguồn nói được thì tin nguồn: nó biết chắc `noun`/`verb`, AI chỉ đoán.
+    # Chủ đề + từ loại: lượt AI RIÊNG, thôi đi nhờ lượt đặt câu (QD-47 thay phần đó
+    # của QD-41): lời dặn gánh 6 việc là gốc câu hỏng. Giá: +1 lượt/từ trên 500/ngày.
+    # 🔴 TỪ LOẠI: nguồn trước, AI chỉ VÁ CHỖ NGUỒN TRỐNG (QD-41: 93/1290 thẻ "other").
+    # `/sua` chui qua đúng hàm này nên 93 thẻ vá xong KHÔNG bị lật ngược.
+    nghia_dau = (data.get("english_meanings") or [""])[0]
+    topic_slug = call_claude_topic([(clean_word, nghia_dau)]).get(clean_word)
+    pos_ai = None if pos_clean else call_claude_pos([(clean_word, nghia_dau)]).get(clean_word)
     if not pos_clean and pos_ai:
         pos_clean = pos_ai
         pos_full = ten_pos_day_du(pos_ai) or ""
