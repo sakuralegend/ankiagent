@@ -1790,5 +1790,31 @@ class LamSachCauViDuCu(unittest.TestCase):
         self.assertIn("a2.mp3", moi, "tiếng đọc câu tốt phải còn nguyên")
 
 
+class CauDienTuKhongLoDapAn(unittest.TestCase):
+    """Ô ClozeHTML (QD-48): mặt trước chứa câu có chỗ trống. Hỏng im lặng kiểu đắt
+    nhất ở đây là LỘ ĐÁP ÁN ở phần mặt trước, hoặc chọn đúng câu 1 đang mở sẵn ở
+    mặt sau (nhìn hoài thì nhớ câu chứ không nhớ từ)."""
+    REC = {"pos": "noun", "acc": "стол", "decl": {
+        "sg": {"nom": "стол", "gen": "стола́", "acc": "стол", "inst": "столо́м", "prep": "столе́"},
+        "pl": {"nom": "столы́", "acc": "столы́"}}}
+
+    def _o(self, ru1, ru2):
+        return "".join(_build_example_block(i, apply_hl(r), "en", "cái <hl>bàn</hl>") for i, r in enumerate([ru1, ru2]))
+
+    def test_chon_cau_2_khoet_trong_va_khong_lo_dap_an(self):
+        from anki_tools.html_builder import dung_cloze
+        h = dung_cloze(self._o("Это <hl>стол</hl>.", "Я сидел за <hl>столом</hl> весь день."), self.REC, "стол")
+        truoc = h.split('<div class="cz-sau">')[0]
+        self.assertIn("за <span class=\"cz-trong\"></span> весь день", truoc)
+        self.assertNotIn("столом", truoc, "phần mặt trước LỘ đáp án")
+        self.assertIn("стол → столом · số ít, cách 5", h)
+
+    def test_cau_2_hong_thi_lui_ve_cau_1_khong_cau_nao_thi_rong(self):
+        from anki_tools.html_builder import dung_cloze
+        h = dung_cloze(self._o("Это <hl>стол</hl>.", "Поставь на <hl>столик</hl>."), self.REC, "стол")
+        self.assertIn("dạng từ điển", h)
+        self.assertEqual(dung_cloze(self._o("Нет.", "Поставь на <hl>столик</hl>."), self.REC, "стол"), "")
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -279,3 +279,53 @@ def kiem_cau_cu(ru, dang):
     if _gap(hl[0]) not in dang:
         return f"«{hl[0]}» không phải dạng của từ này"
     return None
+
+
+# --- NHÃN DẠNG cho câu điền từ (QD-48, 03/11/2026) -----------------------------
+# Mặt sau thẻ điền từ in "стол → столом · số ít, cách 5": user GÕ dạng từ điển,
+# còn dạng đã chia thì học thụ động qua nhãn này. Tra ngược trong bảng chia của
+# CHÍNH thẻ; không thấy thì trả "" (không bịa nhãn).
+_NGOI = ["ngôi я", "ngôi ты", "ngôi он/она", "ngôi мы", "ngôi вы", "ngôi они"]
+_GIONG_QK = ["giống đực", "giống cái", "giống trung", "số nhiều"]
+_TEN_GIONG = {"m": "giống đực", "f": "giống cái", "n": "giống trung", "pl": "số nhiều"}
+
+
+def nhan_dang(rec, chu):
+    """Chữ trong câu -> nhãn tiếng Việt của dạng đó ("số ít, cách 5"), hoặc ""."""
+    rec, k = rec or {}, _gap(chu)
+    ra = []
+
+    def xet(o, nhan):
+        if k in _bien_the(o) and nhan not in ra:
+            ra.append(nhan)
+    for so, ten in (("sg", "số ít"), ("pl", "số nhiều")):
+        for c, o in ((rec.get("decl") or {}).get(so) or {}).items():
+            if c in _CACH:
+                xet(o, f"{ten}, {_CACH[c][0]}")
+    for g, bang in (rec.get("adjDecl") or {}).items():
+        for c, o in (bang or {}).items():
+            if c in _CACH:
+                xet(o, f"{_TEN_GIONG.get(g, g)}, {_CACH[c][0]}")
+    hoan_thanh = rec.get("aspect") == "perfective"
+    for i, o in enumerate(rec.get("presfut") if hoan_thanh else (rec.get("present") or [])):
+        if i < 6:
+            xet(o, f"{'tương lai' if hoan_thanh else 'hiện tại'}, {_NGOI[i]}")
+    for i, o in enumerate(rec.get("past") or []):
+        if i < 4:
+            xet(o, f"quá khứ, {_GIONG_QK[i]}")
+    for o in rec.get("imper") or []:
+        xet(o, "mệnh lệnh")
+    for o in rec.get("shorts") or []:
+        xet(o, "dạng ngắn")
+    for o in rec.get("comp") or []:
+        xet(o, "so sánh hơn")
+    if k in _bien_the(rec.get("acc") or ""):
+        return "dạng từ điển"          # đúng chữ user gõ — nói thẳng, khỏi kê cách 1/4
+    gop = {}                           # "số ít, cách 2" + "số ít, cách 6" -> "số ít, cách 2/6"
+    for n in ra:
+        dau, _, cach = n.rpartition(", cách ")
+        if dau and cach:
+            gop.setdefault(dau, []).append(cach)
+        else:
+            gop.setdefault(n, [])
+    return " / ".join(f"{d}, cách {'/'.join(c)}" if c else d for d, c in gop.items())

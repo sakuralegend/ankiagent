@@ -117,6 +117,37 @@ def thay_vi_du(examples_html, i, ex, gan_tieng=None):
     return html_text + khoi
 
 
+# --- CÂU ĐIỀN TỪ (ô ClozeHTML, QD-48, user chọn phương án A 03/11/2026) -------
+# MỘT ô chứa CẢ HAI mặt: `.cz-truoc` (chỗ trống + dịch Việt) và `.cz-sau` (đáp án
+# đậm + nhãn dạng). Mẫu thẻ bọc ô trong `.mat-truoc` / `.mat-sau` và card.css ẩn
+# phần không thuộc mặt đó — KHÔNG JavaScript: JS ở mặt sau hay chết lặng trên
+# AnkiMobile, và thẻ điền từ hỏng im lặng là lộ đáp án hoặc mất câu.
+# Vì sao không đổi câu mỗi lần ôn: cần JS ⇒ đổi lấy độ chắc chắn, user chọn chắc.
+# Chọn câu 2 rồi 3 rồi 1: câu 1 mở sẵn ở mặt sau, nhìn hoài thì nhớ câu chứ không nhớ từ.
+_HL_TACH = re.compile(r"<hl>(.*?)</hl>", re.S)
+
+
+def dung_cloze(examples_html, rec, tu):
+    """Ô ExamplesHTML + GrammarJSON -> HTML ô ClozeHTML, hoặc "" nếu không câu nào
+    đánh dấu đúng một dạng của chính từ này (thẻ đó giữ mặt trước như cũ)."""
+    from .vi_du import kiem_cau_cu, nhan_dang, tat_ca_dang
+    cau = parse_examples_html(examples_html)
+    dang = tat_ca_dang(rec, tu)
+    for i in (1, 2, 0):
+        if i >= len(cau) or kiem_cau_cu(cau[i]["ru"], dang):
+            continue
+        truoc, dap, sau = _HL_TACH.split(cau[i]["ru"], maxsplit=1)
+        vi = apply_hl(html_lib.escape(cau[i]["vi"]).replace("&lt;hl&gt;", "<hl>").replace("&lt;/hl&gt;", "</hl>"))
+        e = html_lib.escape
+        nhan = nhan_dang(rec, dap)
+        return (f'<div class="cz"><div class="cz-truoc"><div class="cz-ru">{e(truoc)}<span class="cz-trong"></span>{e(sau)}</div>'
+                f'<div class="cz-vi">{vi}</div><div class="cz-goi-y">gõ dạng từ điển</div></div>'
+                f'<div class="cz-sau"><div class="cz-ru">{e(truoc)}<b class="cz-dap">{e(dap)}</b>{e(sau)}</div>'
+                f'<div class="cz-vi">{vi}</div><div class="cz-nhan">{e(tu)} → {e(dap)}'
+                + (f" · {e(nhan)}" if nhan else "") + "</div></div></div>")
+    return ""
+
+
 def build_html_from_ai_result(ai_result):
     """Public wrapper cho _build_from_ai_result — dùng ở luồng sửa thẻ (/sua của bot).
     Nhận dict {"vietnamese_meaning", "simplified_examples"} từ AI,
