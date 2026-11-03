@@ -36,6 +36,11 @@ hướng, chưa đủ để kết luận Haiku ≈ Sonnet.
 (~8K token vào, 520 ra), Haiku 13,3s (1 539 ra) — Sonnet NHANH HƠN và gọn hơn. VPS: CLI 2.1.282 có cài
 nhưng **CHƯA ĐĂNG NHẬP** (khởi động không thôi đã 7,5s); máy 1 CPU, RAM trống ~780 MB. Đăng nhập = user
 chạy `claude setup-token` (token dài hạn, cần gói) rồi đưa vào `.env` VPS `CLAUDE_CODE_OAUTH_TOKEN`.
-Rủi ro phải chặn: CLI tự cập nhật đổi cờ / token hết hạn / hết hạn mức ⇒ bot PHẢI rơi về Gemini + báo. Kết quả: scratchpad `kq_haiku.json`/`kq_sonnet.json` (tạm).
+Rủi ro phải chặn: CLI tự cập nhật đổi cờ / token hết hạn / hết hạn mức ⇒ bot PHẢI rơi về Gemini + báo.
+**Chạy thật 5 từ trên VPS (Sonnet, 03/11):** 10,9–19,3 s/từ, TB ~15 s. Mã user đưa CHƯA lưu vào `.env`
+VPS (bộ phân loại tự động chặn ghi mã lên máy chủ ⇒ lúc thi hành để USER tự dán hoặc user cấp quyền).
+Hai bẫy: (1) danh từ ⇒ Sonnet ghi `"pos": n` thiếu ngoặc kép, `--json-schema` thử 5 lần rồi chết
+(~40 s), enum cũng không cứu ⇒ đường Claude KHÔNG hỏi `pos` (hoặc hỏi chữ đầy đủ "noun" rồi đổi mã);
+(2) `сын` câu đúng nhưng QUÊN `<hl>` ⇒ cổng phải bắt + gọi lại. Kết quả: scratchpad `kq_haiku.json`/`kq_sonnet.json` (tạm).
 Thẻ mẫu user đang xem: https://claude.ai/artifact/RKBTrNUqH7c1rBUfMQgR4Q (dựng từ 3 thẻ thật bằng
 script tạm, không ghi Anki). Duyệt mẫu xong ⇒ `kehoach`.
