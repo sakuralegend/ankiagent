@@ -10,7 +10,8 @@ Làm sạch câu ví dụ XONG 03/11 (`git log --grep QD-47`): 535/538 câu thay
 chữ (chuẩn `варёный`) — sửa chữ thẻ thì 3 câu Sonnet viết sẵn ở scratchpad dùng được; thẻ `весь` mang bảng chia
 của danh từ cổ `весь`=làng (`весях`) ⇒ bảng chia trên thẻ SAI, cần cào lại đúng đại từ.
 
-### Kế hoạch câu điền từ — phương án A (duyệt 03/11) — bước 1–2 XONG (`e0c136c`)
+### Kế hoạch câu điền từ — phương án A (duyệt 03/11) — bước 1–3 XONG (`3e3c265`), đang bước 4
+🔴 CẤM `deploy.ps1` tới khi VPS Download xong bản laptop: `3e3c265` THÊM Ô, VPS tự `modelFieldAdd` ⇒ lệch schema.
 1. `vi_du.nhan_dang` (dạng → "cách 5, số ít") + `html_builder.dung_cloze`: chọn câu 2/3 (không câu 1 đang mở sẵn),
    dựng `ClozeHTML` = phần trước (chỗ trống + dịch Việt) + phần sau (đáp án đậm + nhãn); CSS ẩn phần không thuộc mặt.
 2. Test + `scripts/_va_dien_cloze.py` (khan: 1 793/1 794). Nối `build_card_fields`+`anki_moitruong` CỐ Ý để bước 4.
