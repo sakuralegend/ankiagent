@@ -15,5 +15,7 @@ Azure. Báo cáo: https://claude.ai/artifact/RJ3QZHRqnYXexXnXnZiskY
    gọi `call_claude_topic`/`call_claude_pos` có sẵn. Test mới cho cổng + bộ chọn dạng. Deploy bot.
 3. Việc ĐỨNG RIÊNG (L4): `scripts/_va_lam_sach_vi_du.py` — máy soát 5 382 câu → Sonnet chấm câu còn lại
    → Sonnet viết lại câu hỏng → cổng → backup + kéo sync → ghi `--apply` + tiếng Yandex câu mới.
-   Thử 40 thẻ: máy bắt 5, Sonnet bắt 4 (1 oan: `зал`=phòng khách). Đang chạy cả kho; xong ⇒ user duyệt
-   `backups/lam_sach_vi_du/baocao.html` ⇒ `ghi --apply` ⇒ script vào `_daxong/` + XOÁ `goi_claude_code`.
+   Sonnet chấm (hết hạn mức 1 lần) ⇒ user chốt: GEMINI VIẾT, Sonnet chỉ chấm + `cham_moi` chấm lại câu mới.
+   **TIẾP TỤC Ở PHIÊN MỚI:** đọc đuôi `backups/lam_sach_vi_du/log_*.txt`; còn câu chưa viết/chấm thì chạy lại
+   `viet`/`cham_moi` → `baocao` → đăng artifact cho user duyệt → `ghi --apply` (Anki laptop mở; user không
+   học trên điện thoại) → script vào `_daxong/`, XOÁ `goi_claude_code`, hạ mốc ai_client 469→438, deploy.
