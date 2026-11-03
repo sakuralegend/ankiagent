@@ -40,8 +40,8 @@
   ],
   "da_ghi_no": {
    "anki_tools/ai_client.py": {
-    "so": 469,
-    "vi_sao": "Lô hoá call_claude_topic/call_claude_pos (xếp cả kho bằng ~49 lượt thay vì 1212). +31 goi_claude_code (QD-47) = cửa Claude Code CHỈ cho scripts/_va_lam_sach_vi_du.py — HẾT HẠN khi script đó vào _daxong/: xoá hàm, hạ mốc về 438. Cùng file vì cùng MỘT cửa gọi AI (L1)."
+    "so": 438,
+    "vi_sao": "Lô hoá call_claude_topic/call_claude_pos (xếp cả kho bằng ~49 lượt thay vì 1212). Cùng file vì cùng MỘT cửa gọi AI (L1). (Cửa Claude Code tạm QD-47 đã xoá 03/11 khi script làm sạch vào _daxong/.)"
    },
    "anki_tools/anki_client.py": {
     "so": 659,

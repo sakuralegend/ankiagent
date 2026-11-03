@@ -280,37 +280,6 @@ def call_claude_vi_du(system_prompt, user_prompt, khuon):
     return parsed
 
 
-def goi_claude_code(system_prompt, user_prompt, khuon, model="sonnet", timeout=300):
-    """Một lượt qua Claude Code CLI (`claude -p`) — ăn vào hạn mức GÓI Claude của
-    user, không cần khoá API. CHỈ dùng cho việc hàng loạt chạy trên laptop (làm
-    sạch câu ví dụ, 03/11/2026): Gemini Lite cho 500 lượt/ngày, kho cần ~2 000.
-    Bot KHÔNG đi đường này — VPS chưa đăng nhập, và mỗi lượt mất 10–15 s.
-
-    `--tools ""` + `--system-prompt-file`: model chỉ trả lời, không đụng file nào.
-    🔴 Bẫy đã gặp: khuôn có ô một chữ cái (`"pos": "n"`) thì Sonnet ghi `n` thiếu
-    ngoặc kép, `--json-schema` thử 5 lần rồi chết ~40 s ⇒ đừng đưa ô kiểu đó vào khuôn."""
-    import subprocess, tempfile, os
-    with tempfile.NamedTemporaryFile("w", suffix=".txt", delete=False, encoding="utf-8") as f:
-        f.write(system_prompt)
-        tep = f.name
-    try:
-        r = subprocess.run(["claude", "-p", user_prompt, "--model", model, "--system-prompt-file", tep,
-                            "--tools", "", "--no-session-persistence", "--output-format", "json",
-                            "--json-schema", json.dumps(khuon, ensure_ascii=False)],
-                           capture_output=True, text=True, encoding="utf-8", timeout=timeout)
-        o = json.loads(r.stdout or "{}")
-    except (subprocess.TimeoutExpired, ValueError, OSError) as e:
-        log_fail(f"Claude Code hỏng: {e}")
-        return None
-    finally:
-        os.unlink(tep)
-    if o.get("is_error"):
-        log_fail(f"Claude Code lỗi: {o.get('result') or o.get('subtype')}")
-        return None
-    kq = o.get("structured_output")
-    return kq if isinstance(kq, dict) else _parse_ai_response(o.get("result") or "")
-
-
 def call_claude_lemma(word):
     """Từ không có trên OpenRussian (sai chính tả hoặc là dạng biến cách):
     nhờ AI đoán DẠNG TỪ ĐIỂN (lemma) để cào lại. Bot sẽ hỏi user xác nhận
