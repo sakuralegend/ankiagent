@@ -16,5 +16,14 @@ Báo cáo đầy đủ: https://claude.ai/artifact/RJ3QZHRqnYXexXnXnZiskY
 **User CHỐT 03/11** (ghi tay trong báo cáo): (1) gõ DẠNG TỪ ĐIỂN · (2) giữ NGUYÊN mọi thứ ở hai mặt,
 mặt trước chỉ THÊM câu trống (đặt dưới "Translate into Russian"), mặt sau thêm câu lên ĐẦU thẻ, tô
 đậm dạng đã chia (+ nhãn dạng) · (3) Azure: thử ngay — chờ user mở tài khoản, khoá để vào `.env`.
+**User duyệt thẻ mẫu, nhưng đòi LÀM SẠCH CÂU VÍ DỤ TRƯỚC (03/11).** Đo: ~300 câu máy bắt được
+(mất từ do thẻ `<hl>` méo bị lột · dùng cặp thể/từ giảm nhẹ/từ cùng gốc · đánh dấu sai chữ) + ước
+~4% câu sai ngữ pháp/nghĩa máy KHÔNG bắt được. Thử 8 từ lỗi × 4 cấu hình (cổng = chữ `hl` có trong
+bảng chia): lite+lời dặn cũ 21/24 · lite+MỚI 23/24 · flash+cũ **20/24** · flash+MỚI 24/24 ⇒ thủ phạm
+chính là LỜI DẶN (không cho danh sách dạng, không cấm cặp thể — model to còn hay dùng cặp thể hơn vì
+tự nhiên hơn), rồi tới việc KHÔNG CÓ CỔNG. Ép thể chưa hoàn thành mà không dặn "chọn tình huống hợp
+thể đó" ⇒ câu gượng (`Можно брать эту книжку…`). Lỗi nghĩa (`Сними очки, а то слишком ярко`) cả
+flash cũng mắc ⇒ chỉ Opus/người bắt được. Kho câu người viết (Tatoeba = RawExamples, НКРЯ, OpenSubtitles)
+đều không dán thẳng được: vẫn cần model chọn + dịch Việt + cổng.
 Thẻ mẫu user đang xem: https://claude.ai/artifact/RKBTrNUqH7c1rBUfMQgR4Q (dựng từ 3 thẻ thật bằng
 script tạm, không ghi Anki). Duyệt mẫu xong ⇒ `kehoach`.
