@@ -29,6 +29,13 @@ Cùng đề (lời dặn MỚI) giao cho subagent Claude: **Haiku 24/24, Sonnet 
 Sonnet 0 lỗi; Haiku 1 lỗi nhỏ (`связь то пропадает`) + 1 câu lấn cấn (`Пиши мой номер`); Gemini flash
 2 lỗi nghĩa, lite 1 thẻ méo + 1 câu gượng. Giá API ước/1 000 từ: Haiku 5.5 ~1 USD, Sonnet 5.5 ~10–20 USD;
 chạy subagent trong Claude Code thì không tốn API (ăn vào hạn mức gói). Mẫu nhỏ (8 từ) — đủ để chọn
-hướng, chưa đủ để kết luận Haiku ≈ Sonnet. Kết quả: scratchpad `kq_haiku.json`/`kq_sonnet.json` (tạm).
+hướng, chưa đủ để kết luận Haiku ≈ Sonnet.
+**User hỏi: bot gọi Claude Code đã cài trên VPS (ăn hạn mức gói, không cần API)?** ĐƯỢC về kỹ thuật:
+`claude -p … --model sonnet --system-prompt-file … --tools "" --no-session-persistence --output-format json
+--json-schema <_KHUON_THE>` ⇒ ra thẳng `structured_output` đúng khuôn. Đo trên laptop 1 từ: Sonnet 9,4s
+(~8K token vào, 520 ra), Haiku 13,3s (1 539 ra) — Sonnet NHANH HƠN và gọn hơn. VPS: CLI 2.1.282 có cài
+nhưng **CHƯA ĐĂNG NHẬP** (khởi động không thôi đã 7,5s); máy 1 CPU, RAM trống ~780 MB. Đăng nhập = user
+chạy `claude setup-token` (token dài hạn, cần gói) rồi đưa vào `.env` VPS `CLAUDE_CODE_OAUTH_TOKEN`.
+Rủi ro phải chặn: CLI tự cập nhật đổi cờ / token hết hạn / hết hạn mức ⇒ bot PHẢI rơi về Gemini + báo. Kết quả: scratchpad `kq_haiku.json`/`kq_sonnet.json` (tạm).
 Thẻ mẫu user đang xem: https://claude.ai/artifact/RKBTrNUqH7c1rBUfMQgR4Q (dựng từ 3 thẻ thật bằng
 script tạm, không ghi Anki). Duyệt mẫu xong ⇒ `kehoach`.
