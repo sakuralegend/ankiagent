@@ -35,6 +35,8 @@ Write-Host "== [2/3] Day code len GitHub ==" -ForegroundColor Cyan
 git push
 if ($LASTEXITCODE -ne 0) {
     Write-Host "GIT PUSH HONG - dung deploy." -ForegroundColor Red
+    # Claude chu nha tren VPS duoc day thang len main (QD-50) nen laptop co the bi cu.
+    Write-Host "Neu bi tu choi vi GitHub co ban moi hon: git pull --rebase roi chay lai." -ForegroundColor Yellow
     exit 1
 }
 

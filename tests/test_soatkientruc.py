@@ -10,6 +10,7 @@ trong file này là chính S1/S5 quét trúng file test và kêu oan.
 """
 import json
 import shutil
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -108,6 +109,23 @@ class TestSoatKienTruc(unittest.TestCase):
         self.assertIn("KIENTRUC.md|goi:goi_ma", khoa)       # khai mà không có
         self.assertIn("KIENTRUC.md|goi:goi_that", khoa)     # có mà không khai
         self.assertIn("KIENTRUC.md|diem_vao:thieu.py", khoa)
+
+    def test_s8_du_lieu_gitignore_thieu_tren_may_khong_keu(self):
+        """BUG 05/11/2026: `data/nouns.csv` bị gitignore nên trên VPS không có, cửa đỏ oan."""
+        subprocess.run(["git", "init", "-q"], cwd=self.tmp, check=True)
+        self.ghi(".gitignore", "tai_ve.csv\n")
+        self.ghi("KIENTRUC.md",
+                 "# x\n```soat-manifest\n"
+                 '{"goi": [], "diem_vao": [], "du_lieu_chung": ["tai_ve.csv", "thieu.csv"]}\n```\n')
+        khoa = [ph.khoa for ph in cua_code.s8_manifest()]
+        self.assertNotIn("KIENTRUC.md|du_lieu:tai_ve.csv", khoa)
+        self.assertIn("KIENTRUC.md|du_lieu:thieu.csv", khoa)
+
+    def test_khong_quet_addon_trong_anki_data(self):
+        """BUG 05/11/2026: addon AnkiConnect trong dữ liệu VPS bị tính là code repo."""
+        self.ghi("anki-data/addons21/x/__init__.py", "x = 1\n")
+        self.ghi("bot.py", "x = 1\n")
+        self.assertEqual([p.name for p in khung.cac_file_py()], ["bot.py"])
 
     def test_s8_ngu_khi_chua_co_kientruc(self):
         self.assertIsNone(cua_code.s8_manifest())

@@ -10,13 +10,15 @@ liệt kê file. Không chứa cửa nào — cửa nằm ở `cua_*.py`.
 test sẽ âm thầm soi repo THẬT thay vì repo giả (xanh hết mà không kiểm gì).
 """
 import ast
+import subprocess
 from pathlib import Path
 
 GOC = Path(__file__).resolve().parents[1]
 BASELINE = GOC / "soat_baseline.json"
 
 # `_daxong/` là script đã khai tử (chết rồi, soi làm gì), còn lại là rác công cụ.
-BO_QUA_THU_MUC = {".git", "__pycache__", "venv", ".venv", "_daxong", "node_modules"}
+# `anki-data`: dữ liệu container Anki trên VPS (có addon .py của người khác), không phải code repo.
+BO_QUA_THU_MUC = {".git", "__pycache__", "venv", ".venv", "_daxong", "node_modules", "anki-data"}
 
 # Nguồn của CHÍNH bộ soát. Nó chứa các chuỗi mồi (cổng AnkiConnect, tên lớp HTML)
 # nên phải tự loại mình khỏi mục soi NỘI DUNG CHUỖI (S1, S5), kẻo tự tố.
@@ -55,6 +57,11 @@ def cac_file_py(ke_ca_minh=True):
 
 def duong_dan(p):
     return p.relative_to(GOC).as_posix()
+
+
+def bi_gitignore(ten):
+    return subprocess.run(["git", "check-ignore", "-q", ten], cwd=GOC,
+                          capture_output=True).returncode == 0
 
 
 def doc_cay(p):

@@ -389,7 +389,8 @@ def s8_manifest():
             ra.append(PhatHien(f"KIENTRUC.md|diem_vao:{ten}", 0,
                                f"manifest khai diem vao '{ten}' nhung file khong ton tai"))
     for ten in man.get("du_lieu_chung", []):
-        if not (khung.GOC / ten).exists():
+        # File bị gitignore (vd dump tải về) chỉ có trên máy nào đã tải: thiếu trên VPS không phải tài liệu nói dối.
+        if not (khung.GOC / ten).exists() and not khung.bi_gitignore(ten):
             ra.append(PhatHien(f"KIENTRUC.md|du_lieu:{ten}", 0,
                                f"manifest khai du lieu chung '{ten}' nhung khong ton tai"))
     return ra

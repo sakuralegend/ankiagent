@@ -18,6 +18,11 @@
 
 ---
 
+## v3.1.0 — 05/11/2026
+
+- 🔄 **Sửa lỗi bot báo không sync được.** Đồng hồ máy chủ bị chậm hơn 5 phút nên AnkiWeb từ chối; giờ đồng hồ tự chỉnh, lỗi này không tự quay lại.
+- 🏠 **Bot helper thành "chủ nhà" của máy chủ.** Nhắn thường là chat như cũ; gõ `/sua <lỗi>` để nó tự tìm và sửa lỗi ngay từ iPhone, `/tinhtrang` để xem cả máy đang ra sao. Phần tra luật đã bỏ.
+
 ## v3.0.0 — 03/11/2026
 
 - ✍️ **Câu điền từ trên thẻ gõ.** Mặt trước có thêm một câu ví dụ bị khoét chỗ trống (kèm dịch Việt) ngay dưới "Translate into Russian" — bạn vẫn gõ **dạng từ điển** như cũ. Mặt sau đưa câu đó lên đầu thẻ, tô đậm chữ đúng trong câu và ghi nó là dạng gì (vd "số ít, cách 5").
@@ -41,7 +46,3 @@
 - 🐢 **Nghe chậm khi cần.** Đáy mặt sau thẻ có chữ mờ "· 1× ·"; chạm vào để đổi 1× → 0,75× → 0,5×, rồi bấm ▶ (từ hoặc câu) là nghe chậm. Lật thẻ thì từ vẫn tự đọc ở tốc độ thường; sang thẻ khác tự về 1×.
 - 📲 Lần Sync đầu tiên điện thoại tải khoảng **190 MB** tiếng mới. **Không phải làm gì thêm.**
 - ⚠️ Từ **01/11** Yandex hết miễn phí (khoảng 4 500–22 000 đồng/tháng tuỳ số từ thêm). Nếu thẻ mới bỗng **không có tiếng**, có thể tài khoản Yandex hết tiền: vào Yandex Cloud → **Billing** để nạp.
-
-## v2.3.0 — 01/09/2026
-
-- 🗑️ **Bỏ hẳn bộ thẻ "chi phối" (17 thẻ, thư mục `GRAMMAR::chi phối`).** Bác chốt bỏ vì lo độ chính xác học thuật. Thẻ và thư mục đã xoá, đã đồng bộ — **iPhone chỉ cần bấm Sync như thường, không phải làm gì thêm**. Bản chép 17 thẻ vẫn giữ trong `backups/` nếu đổi ý. Trang web luyện chi phối cũng huỷ; `slushai` giữ đúng vai **tập nghe**.
