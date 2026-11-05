@@ -7,12 +7,12 @@
 # ==============================================================================
 set -e
 
-echo "===== [1/5] Cài Docker + Git + Python ====="
+echo "===== [1/6] Cài Docker + Git + Python ====="
 apt-get update
 apt-get install -y docker.io docker-compose-v2 git python3-venv python3-pip
 systemctl enable --now docker
 
-echo "===== [2/5] Tạo swap 2GB (chống hết RAM) ====="
+echo "===== [2/6] Tạo swap 2GB (chống hết RAM) ====="
 if ! swapon --show | grep -q /swapfile; then
     fallocate -l 2G /swapfile
     chmod 600 /swapfile
@@ -24,7 +24,7 @@ else
     echo "-> Swap đã có sẵn, bỏ qua."
 fi
 
-echo "===== [3/5] Khởi động container Anki headless ====="
+echo "===== [3/6] Khởi động container Anki headless ====="
 cd "$(dirname "$0")"
 # Tạo sẵn thư mục dữ liệu với quyền mở, nếu không Anki trong container
 # (chạy bằng user thường) sẽ báo "could not create its data folder"
@@ -52,7 +52,7 @@ PYEOF
 fi
 echo "-> Container anki đang chạy (docker ps để kiểm tra)."
 
-echo "===== [4/5] Tạo môi trường Python cho bot ====="
+echo "===== [4/6] Tạo môi trường Python cho bot ====="
 if [ ! -d venv ]; then
     python3 -m venv venv
 fi
@@ -67,13 +67,13 @@ systemctl enable anki-bot
 echo "-> Service đã cài, sẽ tự chạy mỗi lần VPS khởi động."
 
 # ==============================================================================
-# [6/6] BỐN THỨ THÊM 31/07/2026 — thiếu chúng thì hệ thống VẪN CHẠY nhưng mất
+# [6/6] BA THỨ (đặt từ 31/07/2026, đồng hồ thêm 05/11/2026) — thiếu chúng thì hệ thống VẪN CHẠY nhưng mất
 # hết lưới an toàn, và mất trong IM LẶNG. Chúng từng chỉ được cấu hình bằng tay
 # trên VPS, không ghi ở đâu ⇒ dựng lại máy mới là mất sạch mà không ai biết.
 # Đó đúng là lỗi "sao lưu chưa từng khôi phục thử" ở tầng cao hơn, nên tự động
 # hoá luôn thay vì viết vào tài liệu và trông chờ người đọc nhớ.
 # ==============================================================================
-echo "===== [6/6] Lưới an toàn: chuông báo · cache ngoài repo · trần log ====="
+echo "===== [6/6] Lưới an toàn: chuông báo · trần log · đồng hồ ====="
 
 # (a) Chuông báo khi bot chết — đường Telegram ĐỘC LẬP với bot (QD-04).
 cp anki-bot-alert.service /etc/systemd/system/anki-bot-alert.service
