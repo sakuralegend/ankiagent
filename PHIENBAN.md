@@ -22,6 +22,7 @@
 
 - 🔄 **Sửa lỗi bot báo không sync được.** Đồng hồ máy chủ bị chậm hơn 5 phút nên AnkiWeb từ chối; giờ đồng hồ tự chỉnh, lỗi này không tự quay lại.
 - 🏠 **Bot helper thành "chủ nhà" của máy chủ.** Nhắn thường là chat như cũ; gõ `/sua <lỗi>` để nó tự tìm và sửa lỗi ngay từ iPhone, `/tinhtrang` để xem cả máy đang ra sao. Phần tra luật đã bỏ.
+- 📟 **Luôn biết bot đang làm gì.** Một tin trạng thái đổi tại chỗ theo từng bước rồi tự biến mất khi có trả lời; có lỗi thì bot rung máy báo ngay. Claude hỏi lựa chọn thì gõ số; bị chặn thì `/quyen` để tự duyệt; `/model` chọn model và mức tư duy.
 
 ## v3.0.0 — 03/11/2026
 
