@@ -89,7 +89,7 @@ sẽ báo `bind ... Permission denied` — nếu 15900 cũng bị, đổi số k
 
 ## Bước 5b — [VPS] Lưới an toàn (setup_vps.sh đã tự làm, đây là để KIỂM)
 
-`setup_vps.sh` bước [6/6] tự cài năm thứ dưới đây. Chúng **không cần thiết để bot chạy**, nhưng
+`setup_vps.sh` bước [6/6] tự cài các thứ dưới đây. Chúng **không cần thiết để bot chạy**, nhưng
 thiếu chúng thì hệ thống mất lưới an toàn **trong im lặng** — nên sau khi cài xong hãy kiểm:
 
 ```bash
