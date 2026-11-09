@@ -1,7 +1,23 @@
 {
- "tong_tu": 1793,
- "tong_lo": 109,
+ "tong_tu": 1798,
+ "tong_lo": 110,
  "lo": [
+  {
+   "id": "k110",
+   "topic": "tu-moi",
+   "tu": [
+    "алло",
+    "знакомый",
+    "кто-то",
+    "откуда-то",
+    "флеш-карта"
+   ],
+   "trangthai": "xong",
+   "file": "k110_tu-moi.py",
+   "tuMoi": true,
+   "thucong": "TU MOI user vua them. Cac tu co the KHONG cung ho nhau — soan tung the doc lap, dung ep mot truc chung va dung dung khoi he thong. Chuan: README muc 2 (1 man hinh iPhone, toi da 2 o do) + muc 2c (sua field Vietnamese cho chi co 1 dap an dung). | LUONG CHINH DA DO TREN THE THAT (09/11): (1) VA CHAM V: 'quen thuộc' -> знакомый · обычный (обычный lo cu da xong -> MO COI, chi BAO LEN); знакомый la muc TINH TU (id 434) nhung danh tu 'nguoi quen' cung dang thuong dung. (2) флеш-карта: V hien 'thẻ nhớ' SAI — nghia la USB (khau ngu: флешка, user hoc theo danh sach TRKI co tu флешка). (3) Ho hang may tim duoc (SAN, khong phai het): кто 'ai' · никто · откуда 'từ đâu' · познакомиться 'làm quen' · знакомство · карта 'bản đồ, thẻ'. Kho CHUA co кто-нибудь/что-то/где-то/куда-то.",
+   "daNap": true
+  },
   {
    "id": "k87",
    "topic": "actions",

@@ -14342,5 +14342,45 @@
   "pos": "adj",
   "topic": "qualities",
   "cu": false
+ },
+ {
+  "wc": "алло",
+  "w": "алло́",
+  "en": "<ol class=\"meaning-list\"><li>hello on the phone</li></ol>",
+  "pos": "interj",
+  "topic": "language::communication",
+  "cu": false
+ },
+ {
+  "wc": "знакомый",
+  "w": "знако́мый",
+  "en": "<ol class=\"meaning-list\"><li>familiar</li><li>known</li><li>acquainted (with)</li><li>familiar (with)</li></ol>",
+  "pos": "adj",
+  "topic": "people::life",
+  "cu": false
+ },
+ {
+  "wc": "кто-то",
+  "w": "кто́-то",
+  "en": "<ol class=\"meaning-list\"><li>someone</li><li>somebody</li></ol>",
+  "pos": "pron",
+  "topic": "language::grammar",
+  "cu": false
+ },
+ {
+  "wc": "откуда-то",
+  "w": "отку́да-то",
+  "en": "<ol class=\"meaning-list\"><li>from somewhere</li></ol>",
+  "pos": "adv",
+  "topic": "places::position",
+  "cu": false
+ },
+ {
+  "wc": "флеш-карта",
+  "w": "флеш-ка́рта",
+  "en": "<ol class=\"meaning-list\"><li>flash card</li><li>memory card</li></ol>",
+  "pos": "n",
+  "topic": "life::home",
+  "cu": false
  }
 ]
