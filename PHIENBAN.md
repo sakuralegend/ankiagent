@@ -18,6 +18,10 @@
 
 ---
 
+## v3.1.1 — 18/11/2026
+
+- 🔁 **Sửa 7 thẻ động từ hiện sai dòng "Cặp thể"** (vd `спрягаться` từng hiện cặp với `спрятаться` — "trốn"). Động từ không có cặp thật thì nay không hiện dòng đó nữa; lần lấy lại dữ liệu sau cũng không làm lỗi quay lại.
+
 ## v3.1.0 — 05/11/2026
 
 - 🔄 **Sửa lỗi bot báo không sync được.** Đồng hồ máy chủ bị chậm hơn 5 phút nên AnkiWeb từ chối; giờ đồng hồ tự chỉnh, lỗi này không tự quay lại.
@@ -39,11 +43,3 @@
 ## v2.5.0 — 30/10/2026
 
 - 🔽 **Ô nghĩa tiếng Anh gọn lại.** Chỉ hiện 3 nghĩa đầu; từ nhiều nghĩa hơn có mũi tên nhỏ màu xanh ngay dưới, chạm để xem hết, chạm lần nữa để gấp. Nhờ vậy ô tiếng Việt và nhãn từ loại không còn bị đẩy khỏi màn hình điện thoại. Áp dụng cả thẻ từ vựng lẫn thẻ số nhiều. Chỉ cần Sync như thường.
-
-## v2.4.0 — 19/10/2026
-
-- 🔊 **Giọng đọc mới cho cả kho: Yandex "alena".** Đọc đúng trọng âm và đủ âm. Giọng cũ (OpenRussian) có từ cụt âm đầu (vd. согла́сный), có từ sai trọng âm.
-- 💬 **Câu ví dụ có tiếng.** Cuối mỗi câu tiếng Nga có một dấu ▶ nhỏ, mờ; bấm vào thì đọc câu đó. Câu **không tự đọc** khi lật thẻ.
-- 🐢 **Nghe chậm khi cần.** Đáy mặt sau thẻ có chữ mờ "· 1× ·"; chạm vào để đổi 1× → 0,75× → 0,5×, rồi bấm ▶ (từ hoặc câu) là nghe chậm. Lật thẻ thì từ vẫn tự đọc ở tốc độ thường; sang thẻ khác tự về 1×.
-- 📲 Lần Sync đầu tiên điện thoại tải khoảng **190 MB** tiếng mới. **Không phải làm gì thêm.**
-- ⚠️ Từ **01/11** Yandex hết miễn phí (khoảng 4 500–22 000 đồng/tháng tuỳ số từ thêm). Nếu thẻ mới bỗng **không có tiếng**, có thể tài khoản Yandex hết tiền: vào Yandex Cloud → **Billing** để nạp.
