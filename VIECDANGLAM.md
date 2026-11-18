@@ -8,5 +8,5 @@ GIỮ OpenRussian (bảng chia) + Yandex (tiếng). Bot VPS vẫn Google. **Bị
 `PYTHONIOENCODING=utf-8 python data/huongdan/kho/xephangdoi.py` — nó in bước kế tiếp.**
 - [x] 1. công cụ đợt chạy lại được (`d6e5747`)
 - [x] 2. cửa Opus trong `ai_client` + `xephangdoi` gọi Opus thay Google · test · commit
-- [ ] 3. `chon 100 --apply` · `taothe --apply` · commit
+- [x] 3. 101 thẻ k111–k115 đã có trong Anki (đủ nghĩa, câu, tiếng; Hướng dẫn còn trống)
 - [ ] 4. soạn lô theo `lo.md` §1 bước 3–8, lô ĐẦU trước · commit

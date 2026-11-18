@@ -2889,7 +2889,6 @@
    "trangthai": "cho",
    "file": null,
    "dot": "b2",
-   "chuaThe": true,
    "chuDe": {
     "из-за": "language::grammar",
     "против": "language::grammar",
@@ -2945,7 +2944,6 @@
    "trangthai": "cho",
    "file": null,
    "dot": "b2",
-   "chuaThe": true,
    "chuDe": {
     "ну": "language::grammar",
     "бы": "language::grammar",
@@ -2967,6 +2965,9 @@
     "столько": "numbers",
     "посчитать": "numbers",
     "считать": "numbers"
+   },
+   "chonId": {
+    "пора": 285
    }
   },
   {
@@ -2998,7 +2999,6 @@
    "trangthai": "cho",
    "file": null,
    "dot": "b2",
-   "chuaThe": true,
    "chuDe": {
     "действие": "actions",
     "развитие": "actions",
@@ -3021,6 +3021,10 @@
     "сила": "qualities",
     "условие": "qualities",
     "полный": "qualities"
+   },
+   "chonId": {
+    "стать": 59655,
+    "вести": 305
    }
   },
   {
@@ -3050,7 +3054,6 @@
    "trangthai": "cho",
    "file": null,
    "dot": "b2",
-   "chuaThe": true,
    "chuDe": {
     "взгляд": "people::body",
     "тело": "people::body",
@@ -3101,7 +3104,6 @@
    "trangthai": "cho",
    "file": null,
    "dot": "b2",
-   "chuaThe": true,
    "chuDe": {
     "качество": "qualities",
     "ситуация": "qualities",
@@ -3123,6 +3125,9 @@
     "душа": "concepts::emotion",
     "милый": "concepts::emotion",
     "чувство": "concepts::emotion"
+   },
+   "chonId": {
+    "правило": 749
    }
   }
  ]
