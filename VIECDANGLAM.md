@@ -1,12 +1,14 @@
 # 🎯 VIỆC ĐANG LÀM
 > Phiếu bị GHI ĐÈ ở việc kế tiếp. Xong việc thì để trống, chừa đúng dòng tiêu đề.
 
-## Thêm 100 từ B1 đầu tiên của `data/sach_b2.json` — KHÔNG Google, toàn Opus (user 18/11/2026)
-User chốt 18/11: mọi đợt sách B2 bỏ Google (nghĩa Việt, câu ví dụ, chủ đề, xếp lô) → Opus,
-GỘP CẢ LÔ một lượt `claude -p` (đo: 6,7K token/lượt cố định ⇒ từng từ một lượt đắt ~17×).
-GIỮ OpenRussian (bảng chia) + Yandex (tiếng). Bot VPS vẫn Google. **Bị dừng ở đâu: chạy
-`PYTHONIOENCODING=utf-8 python data/huongdan/kho/xephangdoi.py` — nó in bước kế tiếp.**
-- [x] 1. công cụ đợt chạy lại được (`d6e5747`)
-- [x] 2. cửa Opus trong `ai_client` + `xephangdoi` gọi Opus thay Google · test · commit
-- [x] 3. 101 thẻ k111–k115 đã có trong Anki (đủ nghĩa, câu, tiếng; Hướng dẫn còn trống)
-- [ ] 4. soạn lô theo `lo.md` §1 bước 3–8, lô ĐẦU trước · commit
+## ⏸ Kế hoạch "thêm từ một mạch" — user CHƯA duyệt, đang nghĩ (18/11/2026)
+Đợt B2 #1 (k111–k115, 101 từ, toàn Opus) XONG 18/11. Lần đó dừng nhiều ở luồng chính; đề
+xuất để lần sau user chỉ nói "thêm N từ" là chạy một mạch:
+- lệnh `xephangdoi.py giao`: in bối cảnh từng lô (va chạm lọc đủ 3 badge + lô nào lo gỡ +
+  họ từ đã có thẻ) — đợt #1 phải viết tay 2 đoạn dò này;
+- lệnh `xong` gộp: soát → dodai → xong → nap → chờ mở khoá → kiemtra, dừng đúng lô trượt
+  (`kiemtra.py` cũng vấp "Collection lifecycle" ngay sau `nap` sync — chưa sửa);
+- viết lại `lo.md` §1 theo đường mới, ngắn hơn.
+**Đã chốt 18/11:** từ đồng tự sách B2 ⇒ Opus tự chọn nghĩa đúng trình độ, báo lại cuối đợt;
+bot Telegram vẫn hỏi user như cũ. Trùng trọn dòng còn chờ user: `что-то`↔`что-нибудь` (cũ),
+`от`↔`из`/`с` (cũ).

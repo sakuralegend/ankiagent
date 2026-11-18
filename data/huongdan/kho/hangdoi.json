@@ -2886,8 +2886,8 @@
     "от",
     "поэтому"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k111_language-grammar.py",
    "dot": "b2",
    "chuDe": {
     "из-за": "language::grammar",
@@ -2914,7 +2914,8 @@
    },
    "chonId": {
     "перед": 133
-   }
+   },
+   "daNap": true
   },
   {
    "id": "k112",
@@ -2941,8 +2942,8 @@
     "посчитать",
     "считать"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k112_numbers.py",
    "dot": "b2",
    "chuDe": {
     "ну": "language::grammar",
@@ -2968,7 +2969,8 @@
    },
    "chonId": {
     "пора": 285
-   }
+   },
+   "daNap": true
   },
   {
    "id": "k113",
@@ -2996,8 +2998,8 @@
     "условие",
     "полный"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k113_actions.py",
    "dot": "b2",
    "chuDe": {
     "действие": "actions",
@@ -3025,7 +3027,8 @@
    "chonId": {
     "стать": 59655,
     "вести": 305
-   }
+   },
+   "daNap": true
   },
   {
    "id": "k114",
@@ -3051,8 +3054,8 @@
     "где-то",
     "путь"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k114_places-position.py",
    "dot": "b2",
    "chuDe": {
     "взгляд": "people::body",
@@ -3074,7 +3077,8 @@
     "обратно": "places::position",
     "где-то": "places::position",
     "путь": "places::position"
-   }
+   },
+   "daNap": true
   },
   {
    "id": "k115",
@@ -3101,8 +3105,8 @@
     "милый",
     "чувство"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k115_concepts-state.py",
    "dot": "b2",
    "chuDe": {
     "качество": "qualities",
@@ -3128,7 +3132,8 @@
    },
    "chonId": {
     "правило": 749
-   }
+   },
+   "daNap": true
   }
  ]
 }

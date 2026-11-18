@@ -104,4 +104,9 @@ MIEN_TRU = {
     "ярка́": "DẠNG NGẮN giống cái của tính từ я́ркий — cùng bộ я́рок · ярка́ · я́рко · я́рки "
             "trong grammar_cache, thẻ k109 dạy đúng chỗ trọng âm nhảy ra đuôi; nouns.csv chỉ có "
             "danh từ đồng tự я́рка = cừu cái non (young ewe). Cùng lớp với жарка́, сера́ ở trên",
+    "по́лон": "DẠNG NGẮN giống đực của tính từ по́лный (đầy), dạng chèn nguyên âm chạy — "
+             "grammar_cache ghi rõ bộ по́лон · полна́ · полно́ · полны́, thẻ k113 dạy đúng chỗ "
+             "chèn о này; nouns.csv chỉ có danh từ cổ đồng tự поло́н = cảnh bị bắt làm tù binh "
+             "(glossed tiếng Đức Gefangenschaft, không có nghĩa tiếng Anh). Cùng lớp với ни́зок, "
+             "я́рок ở trên",
 }
