@@ -5,9 +5,7 @@ argument-hint: [để trống = chạy lô kế tiếp trong hàng đợi]
 
 # /lo — chạy một phiên soạn lô kho
 
-**Đây là NƠI DUY NHẤT nói về việc chạy lô.** Đừng đi tìm file nào khác, đừng đọc `git log` để
-tìm cách làm. Lịch sử các phiên cũ **cố ý không có ở đây** — mỗi lô chạy trong một context
-trắng nên lịch sử vô dụng; thứ còn giá trị đã nằm dưới dạng **luật**.
+**Đây là NƠI DUY NHẤT nói về việc chạy lô.** Đừng đi tìm file nào khác, kể cả `git log`.
 
 Hai loại nội dung, đừng trộn: **§1–§3 là việc của LUỒNG CHÍNH** (bạn) · **§4 là luật bất biến
 giao cho AGENT**. Nội dung thẻ trông thế nào là việc của `data/huongdan/README.md`, không phải
@@ -21,6 +19,9 @@ nội dung nên đây là kiểu xuống cấp nguy hiểm nhất. **Mọi lô c
 ---
 
 ## §1. Tám bước — chạy đúng thứ tự, không bỏ bước
+
+**User xin "thêm N từ"** ⇒ lấy N từ đầu CHƯA có thẻ của `data/sach_b2.json` (QD-51, đủ cặp
+thể), tạo thẻ bằng khung `_daxong/_va_nap_a1a2.py` theo luật §2 "NẠP HÀNG LOẠT".
 
 ```bash
 # 1. ĐẾM. Chạy khan, chưa ghi gì.

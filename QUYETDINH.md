@@ -78,6 +78,7 @@
 
 | QD | Ngày | Quyết định | Vì sao (ngắn) |
 |---|---|---|---|
+| QD-51 | 18/11 | ⚖️ Nguồn từ B1→B2 = sách ТРКИ-2 (`data/sach_b2.json`), không phải ros-edu hay thuần tần suất | ros-edu thiếu thể HT (`принять`); sách cộng dồn, chứa B1 trừ 8 từ (đo). Giá: sách 2014 có từ lỗi thời — lọc tay |
 | QD-50 | 05/11 | ⚖️ Claude "chủ nhà" trên VPS (repo `helper`) được đẩy thẳng lên `main`, không qua laptop | Sửa từ iPhone mà đẩy nhánh riêng thì bot vẫn chạy bản hỏng. Đổi lại laptop phải `git pull`. Vẫn qua đủ 3 cửa soát trên VPS |
 | QD-36 | 23/08 | ⚖️ Gộp 4 preset deck thành **1**; trần thẻ mới **20/ngày** (đặt lại 16/10: nạp thô trước 435 từ) | 3 preset cai quản **0 thẻ**, FSRS giống hệt. Giá: hết tinh chỉnh riêng `0-quen` vs `1-go` |
 | — | 22/07 | ⚖️ Bỏ deck lọc "phòng tập", cày thẳng trong inbox bằng **undo** | Deck lọc rút thẻ khỏi inbox nên hai bên lệch nhau; undo hoàn nguyên trọn vẹn cả revlog lẫn lịch |
