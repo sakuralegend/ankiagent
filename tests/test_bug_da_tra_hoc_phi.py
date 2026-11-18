@@ -1930,6 +1930,15 @@ class TestDotThemTuChayLaiDuoc(unittest.TestCase):
         self.assertEqual(built["topic_slug"], "concepts::state")
         self.assertEqual(built["fields"]["Vietnamese"], "sức mạnh")
 
+    def test_openrussian_429_khong_bi_coi_la_khong_co_tu(self):
+        """18/11: cào 100 từ liền tay ⇒ HTTP 429 ⇒ `fetch_page` trả {} ⇒ báo
+        "`лучший` không có trên OpenRussian" và gợi ý BỎ từ thật."""
+        cham = unittest.mock.Mock(status_code=429)
+        with unittest.mock.patch("requests.get", return_value=cham), \
+                unittest.mock.patch.object(grammar.time, "sleep"):
+            with self.assertRaises(RuntimeError):
+                grammar.fetch_page("лучший-thu-429", memo=False)
+
     def test_ghi_json_hong_giua_chung_giu_file_cu(self):
         import tempfile
         x = self._x()

@@ -117,7 +117,16 @@ def fetch_page(word, timeout=25, memo=True):
     import requests
     from bs4 import BeautifulSoup
     url = "https://en.openrussian.org/ru/" + urllib.parse.quote(word.strip(), safe="")
-    res = requests.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=timeout)
+    # 429 = "chậm lại", KHÔNG phải "không có từ": trả {} là mọi chỗ gọi báo "không có trên
+    # OpenRussian" (18/11, đợt 100 từ: 4 từ thật bị báo vậy, suýt bị bỏ khỏi đợt).
+    for cho in (5, 15, 40, 90):
+        res = requests.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=timeout)
+        if res.status_code != 429:
+            break
+        log_warn(f"{word}: OpenRussian 429 — chờ {cho}s")
+        time.sleep(cho)
+    else:
+        raise RuntimeError(f"OpenRussian chặn (429) khi tải '{word}' — thử lại sau")
     if res.status_code != 200:
         log_fail(f"{word}: HTTP {res.status_code}")
         return {}

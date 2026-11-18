@@ -193,17 +193,21 @@ def soan_opus(lo, can):
     for vong in range(3):
         if not can:
             break
-        muc = {}
-        for w in can:
+        muc, loi = {}, []
+        for w in can:      # dò HẾT lô rồi mới báo: dừng ở từ đầu thì mỗi từ đồng tự tốn một lần chạy
             data, dung = cao_mot_tu(w, lo.get("chonId", {}).get(w))
             if dung and dung.get("nhieu_muc"):
-                return kq, (f"ĐỒNG TỰ {w} — chọn mục rồi chạy lại kèm --chon={w}=ID:\n    " + "\n    ".join(
+                loi.append(f"ĐỒNG TỰ {w} — chọn mục rồi chạy lại kèm --chon={w}=ID:\n      " + "\n      ".join(
                     f"id={m['id']} {m['pos']} {m['en']}" for m in dung["nhieu_muc"]))
+            elif dung:
+                loi.append(f"{w}: OpenRussian không có trang. Bỏ từ này: --bo={w}")
             if dung:
-                return kq, f"{w}: OpenRussian không có trang. Bỏ từ này: --bo={w}"
+                continue
             tu, en, rec = strip_accents_perfectly(w), data.get("english_meanings") or [], data.get("grammar") or {}
             _ht, dan, o, _cap = loi_dan(tu, en, rec)
             muc[w] = (tu, en, rec, dan, len(o), data["part_of_speech"].strip())
+        if loi:
+            return kq, "\n    ".join(loi)
         print(f"   {lo['id']} vòng {vong + 1}: Opus soạn {len(muc)} từ...", flush=True)
         r = goi_claude_code(*loi_dan_lo([(w, m[3]) for w, m in muc.items()])) or {}
         tra = {x.get("tu"): x for x in r.get("ket_qua") or [] if isinstance(x, dict)}
@@ -252,11 +256,12 @@ def cmd_taothe(apply, toi_da):
     def dung(loi):                          # đẩy phần đã tạo lên AnkiWeb rồi mới chết
         print("sync:", sync_now())
         sys.exit(loi)
-    opus = {}
+    opus, ket = {}, []
     for l in dot:      # soạn HẾT trước thẻ đầu tiên: nạp lô CUỐI trước, mà lô nào cũng có thể kẹt
         opus[l["id"]], loi = soan_opus(l, [w for ll, w, _n in viec if ll is l])
-        if loi:
-            dung(f"DỪNG ở {l['id']} — chưa tạo thẻ mới nào: {loi}")
+        ket += [f"  {l['id']}: {loi}"] if loi else []   # lô kẹt thì lô khác vẫn soạn + lưu tiếp
+    if ket:
+        dung("DỪNG — chưa tạo thẻ mới nào:\n" + "\n".join(ket))
     for i, (l, w, n) in enumerate(viec[:toi_da], 1):
         chon, ai = l.get("chonId", {}).get(w), opus[l["id"]][w]
         ok, info, err = (redo_note_id(n["noteId"], chon_id=chon, ai_san=ai) if n

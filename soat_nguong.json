@@ -48,8 +48,8 @@
     "vi_sao": "Bẫy ReadTimeout trong _ac(), và cửa TỪ CHỐI ghi khi 2 thẻ trùng WordClean (QD-39). Cả hai nằm ở đường mà MỌI lệnh AnkiConnect đi qua — đặt chỗ khác là đặt chỗ không ai đọc."
    },
    "anki_tools/grammar.py": {
-    "so": 529,
-    "vi_sao": "+4 luồn note_id qua fetch_grammar/remember để ghi thẻ theo id thay vì tìm lại bằng tên (QD-39); +23 bảng THE_NGUON_SAI sửa thể `быть` nguồn ghi sai (QD-43) — đặt đây vì đây là chỗ DUY NHẤT cả thẻ mới lẫn script vá badge đều đi qua."
+    "so": 538,
+    "vi_sao": "+4 luồn note_id qua fetch_grammar/remember để ghi thẻ theo id thay vì tìm lại bằng tên (QD-39); +23 bảng THE_NGUON_SAI sửa thể `быть` nguồn ghi sai (QD-43) — đặt đây vì đây là chỗ DUY NHẤT cả thẻ mới lẫn script vá badge đều đi qua. +9 fetch_page chờ-thử-lại khi HTTP 429 thay vì trả {} (= \"không có từ\", bắt được 18/11) — đây là cửa cào DUY NHẤT (L1)."
    },
    "data/huongdan/kho/congcu.py": {
     "so": 509,
