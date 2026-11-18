@@ -23,6 +23,15 @@ from .chu_nga import CASES, acc, bare
 # và cào lại — không phải khôi phục hàm cũ. Xem [[ho-tu-openrussian-da-bac]].
 
 
+# 🔴 OpenRussian ghép SAI bạn thể — thẻ in "Cặp thể X ↔ Y" sai (đo trên thẻ thật 18/11).
+# Rỗng = động từ KHÔNG có cặp thật: chuyển động đa hướng (`носить`, `водить`), `по-` chỉ
+# là "một lúc" (`подержать`), hay từ khác nghĩa hẳn (`уважить` = chiều lòng,
+# `спрятаться` = trốn — chẳng dính gì `спрягаться` chia động từ). Sửa ở ĐÂY chứ không
+# sửa thẳng thẻ: cào lại (`cao_nguphap.py --nangcap`) sẽ đè lại đúng lỗi cũ.
+BAN_THE_SUA = {"спрягаться": [], "держать": [], "держаться": [], "уважать": [],
+               "носить": [], "водить": [], "петь": ["спе́ть"]}
+
+
 def _adj_declension(adj):
     """Tính từ: OpenRussian trả `declensionBase` + `declensionExt` (chỉ đuôi).
     Ghép lại thành dạng đầy đủ. `declension` có sẵn dạng đầy đủ nhưng KHÔNG phải
@@ -227,7 +236,8 @@ def normalize(word_obj):
     if isinstance(v, dict) and v:
         rec["aspect"] = v.get("aspect")
         rec["reflexive"] = bool(v.get("isReflexive"))
-        rec["partners"] = [acc(x) for x in (v.get("partners") or []) if x]
+        rec["partners"] = BAN_THE_SUA.get(rec["wc"],
+                                          [acc(x) for x in (v.get("partners") or []) if x])
         rec["presfut"] = [acc(x) for x in (v.get("presfut") or [])]
         rec["past"] = [acc(x) for x in (v.get("pasts") or [])]
         rec["imper"] = [acc(x) for x in (v.get("imperatives") or [])]

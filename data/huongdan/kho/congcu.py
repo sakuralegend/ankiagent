@@ -349,10 +349,8 @@ def cmd_moi():
         q["lo"].insert(0, {
             "id": sid, "topic": "tu-moi", "tu": sorted(moi), "trangthai": "cho",
             "file": None, "tuMoi": True,
-            "thucong": "TU MOI user vua them. Cac tu co the KHONG cung ho nhau — "
-                       "soan tung the doc lap, dung ep mot truc chung va dung dung "
-                       "khoi he thong. Chuan: README muc 2 (1 man hinh iPhone, toi da "
-                       "2 o do) + muc 2c (sua field Vietnamese cho chi co 1 dap an dung)."})
+            "thucong": "TU MOI user vua them. Cac tu co the KHONG cung ho nhau — soan tung "
+                       "the doc lap, dung ep mot truc chung va dung dung khoi he thong."})
     q["tong_tu"] = sum(len(l["tu"]) for l in q["lo"])
     q["tong_lo"] = len(q["lo"])
     ghi_hangdoi(q)
@@ -497,6 +495,7 @@ def cmd_nap():
     for l in q["lo"]:
         if l["id"] in ids_lo:
             l["daNap"] = True
+            l.pop("thucong", None)  # trục chỉ dùng lúc soạn; để lại thành ~41K chữ chết (18/11)
     ghi_hangdoi(q)
     print(f"da ghi + danh dau daNap: {' '.join(ids_lo)}")
     print("sync: " + str(ac("sync")))

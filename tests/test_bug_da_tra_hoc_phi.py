@@ -1851,5 +1851,19 @@ class MicChiDungOnclick(unittest.TestCase):
         self.assertNotEqual(ten, dung_mat_sau("KHOA-B", "southeastasia")[1])
 
 
+class TestBanTheSaiCuaOpenRussian(unittest.TestCase):
+    """18/11: thẻ `спрягаться` in "Cặp thể … ↔ спря́таться" (trốn) vì OpenRussian ghép
+    sai, và lỗi sẽ QUAY LẠI mỗi lần cào lại nếu chỉ sửa thẳng trên thẻ."""
+
+    def test_ban_the_sai_bi_thay_khi_boc(self):
+        from anki_tools.boc_tudien import normalize
+        rec = normalize({"type": "verb", "bare": "спрягаться", "accented": "спряга'ться",
+                         "verb": {"aspect": "imperfective", "partners": ["спря'таться"]}})
+        self.assertEqual(rec["partners"], [])
+        rec = normalize({"type": "verb", "bare": "читать", "accented": "чита'ть",
+                         "verb": {"aspect": "imperfective", "partners": ["прочита'ть"]}})
+        self.assertEqual(len(rec["partners"]), 1, "động từ khác phải giữ nguyên bạn thể")
+
+
 if __name__ == "__main__":
     unittest.main()
