@@ -61,10 +61,12 @@ def gan_tieng_vi_du(examples_html):
     return gan_nut_nghe(examples_html, luu)
 
 
-def build_card_fields(word, data):
+def build_card_fields(word, data, ai_san=None):
     """Dựng field thẻ (TRỪ Audio/Image) + metadata từ dữ liệu cào được. Dùng CHUNG
     cho thêm thẻ mới (push_to_anki) và làm lại thẻ (pipeline.redo_note_id) để hai
-    luồng luôn tạo ra thẻ giống hệt nhau. KHÔNG đụng AnkiConnect."""
+    luồng luôn tạo ra thẻ giống hệt nhau. KHÔNG đụng AnkiConnect.
+    `ai_san` = {"vi_du": dict khuôn `vi_du._khuon`, "topic": slug, "pos": mã|None} do
+    Opus soạn TRƯỚC (đợt sách B2, user chốt 18/11) ⇒ không gọi Google lượt nào."""
     clean_word = strip_accents_perfectly(word)
     pos_clean = data["part_of_speech"].lower().strip()
     pos_full = data["pos_full"]
@@ -98,6 +100,7 @@ def build_card_fields(word, data):
         data.get("raw_dictionary_examples", []),
         data.get("english_meanings", []),
         grammar_rec,
+        goi=(lambda *_a: ai_san["vi_du"]) if ai_san else None,
     )
 
     # Chủ đề + từ loại: lượt AI RIÊNG, thôi đi nhờ lượt đặt câu (QD-47 thay phần đó
@@ -105,8 +108,11 @@ def build_card_fields(word, data):
     # 🔴 TỪ LOẠI: nguồn trước, AI chỉ VÁ CHỖ NGUỒN TRỐNG (QD-41: 93/1290 thẻ "other").
     # `/sua` chui qua đúng hàm này nên 93 thẻ vá xong KHÔNG bị lật ngược.
     nghia_dau = (data.get("english_meanings") or [""])[0]
-    topic_slug = call_claude_topic([(clean_word, nghia_dau)]).get(clean_word)
-    pos_ai = None if pos_clean else call_claude_pos([(clean_word, nghia_dau)]).get(clean_word)
+    if ai_san:
+        topic_slug, pos_ai = ai_san.get("topic"), (None if pos_clean else ai_san.get("pos"))
+    else:
+        topic_slug = call_claude_topic([(clean_word, nghia_dau)]).get(clean_word)
+        pos_ai = None if pos_clean else call_claude_pos([(clean_word, nghia_dau)]).get(clean_word)
     if not pos_clean and pos_ai:
         pos_clean = pos_ai
         pos_full = ten_pos_day_du(pos_ai) or ""
@@ -194,7 +200,7 @@ def note_to_card_info(dup):
     }
 
 
-def push_to_anki(word, data, deck_name, is_forced=False):
+def push_to_anki(word, data, deck_name, is_forced=False, ai_san=None):
     """Đẩy note lên Anki. Trả về (success, card_info_dict) để hiển thị tóm tắt.
 
     deck_name=None -> chế độ TỰ ĐỘNG: thẻ vào STAGE1_DECK (giai đoạn LÀM QUEN);
@@ -202,7 +208,7 @@ def push_to_anki(word, data, deck_name, is_forced=False):
     hai giai đoạn do run_don() điều khiển: 0-quen -> 1-go -> <kho>::<topic>.
     Field Stage để TRỐNG (không ghi) nên thẻ mới luôn bắt đầu ở GĐ1.
     """
-    built = build_card_fields(word, data)
+    built = build_card_fields(word, data, ai_san)
     clean_word = built["clean_word"]
     topic_slug = built["topic_slug"]
 

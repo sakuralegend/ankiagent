@@ -2,10 +2,16 @@
 """ĐỢT "THÊM N TỪ" từ `data/sach_b2.json` — chạy lại GIỮA CHỪNG là tự làm tiếp.
 
     python data/huongdan/kho/xephangdoi.py                  # đang ở bước nào, bước kế là gì
-    python data/huongdan/kho/xephangdoi.py chon 200         # khan: in 200 từ sẽ lấy
-    python data/huongdan/kho/xephangdoi.py chon 200 --apply # xếp chủ đề + chia lô + GHI hangdoi.json
+    python data/huongdan/kho/xephangdoi.py chon 100         # khan: in 100 từ sẽ lấy
+    python data/huongdan/kho/xephangdoi.py chon 100 --apply # Opus xếp chủ đề + chia lô + GHI hangdoi.json
     python data/huongdan/kho/xephangdoi.py taothe [--apply] [--toi-da N]
-                     [--chon=TU=ID] [--bo=TU]               # tạo thẻ, NGƯỢC thứ tự lô
+                     [--chon=TU=ID] [--bo=TU]               # Opus soạn câu, rồi tạo thẻ NGƯỢC thứ tự lô
+
+🔴 KHÔNG GOOGLE (user chốt 18/11 cho mọi đợt sách B2): nghĩa Việt, câu ví dụ, chủ đề, từ
+loại do Opus làm qua `ai_client.goi_claude_code`, GỘP CẢ LÔ một lượt. Câu Opus vẫn qua
+đúng cổng máy của `vi_du` (trượt thì hỏi lại riêng từ đó, tối đa 3 vòng) và được lưu
+`_opus_<lô>.json` TRƯỚC khi tạo thẻ ⇒ phiên chết không mất lượt nào đã trả. GIỮ
+OpenRussian (bảng chia, trọng âm) + Yandex (tiếng) — không phải AI.
 
 Viết lại 18/11/2026 (user duyệt) trên nền bản cũ — bản cũ chạy một lần rồi chết,
 còn ghi ĐÈ cả hàng đợi nếu ai chạy nhầm. Đợt A2 (16/10, `_daxong/_va_nap_a1a2.py`)
@@ -16,12 +22,11 @@ trả học phí ba chỗ mà file này chặn bằng THIẾT KẾ, không bằn
    (AI xếp chủ đề mỗi lần ra khác nhau — phiên chết rồi xếp lại là lệch thứ tự).
 ② từ lỗi bị BỎ QUA rồi nạp tiếp ⇒ nạp lại sau thì nó thành thẻ mới nhất, ra học lệch
    lô. Nên gặp lỗi đầu tiên là DỪNG; `--chon`/`--bo` chốt cách xử lý vào hàng đợi.
-③ hết lượt Google ⇒ `process_word` vẫn tạo thẻ, chỉ thiếu nghĩa Việt (đã gặp: `лоб`);
+③ hụt AI ⇒ `process_word` vẫn tạo thẻ, chỉ thiếu nghĩa Việt (đã gặp: `лоб`);
    chạy lại thì "đã có thẻ" nên bị bỏ qua im lặng. Nên mỗi lần chạy, thẻ KHUYẾT của
    đợt được LÀM LẠI trước (`redo_note_id` giữ note ⇒ giữ vị trí).
 Lô đợt mang cờ `chuaThe` tới khi đủ thẻ + bản ghi tudien.json; `congcu.py tiep` từ
 chối lô còn cờ (thiếu tudien thì agent soạn mò trên cột `?`).
-🔴 HẠN MỨC GOOGLE 500 lượt/NGÀY chung với bot: mỗi thẻ 1 lượt, `chon` 1 lượt/25 từ.
 """
 import io
 import json
@@ -137,12 +142,15 @@ def cmd_chon(n, apply):
     if not lay or not apply:
         print("" if apply else "(CHẠY KHAN — thêm --apply để xếp chủ đề + ghi hàng đợi)")
         return
-    sys.path.insert(0, os.path.join(GOC, "scripts"))
-    from tag_topics import xep_bang_ai                   # cùng cửa AI với lệnh gắn tag
+    from anki_tools.ai_client import call_claude_topic, goi_claude_code
     from anki_tools.topics import TOPICS
-    ket = xep_bang_ai([(r[0], r[0], "") for r in lay])
-    if sum(v is None for v in ket.values()) > len(lay) // 2:
-        sys.exit("AI không xếp được quá nửa (hết lượt Google?) — DỪNG, CHƯA GHI GÌ.")
+    ket = {}
+    for _ in range(2):                      # một lượt Opus cho cả đợt; lượt 2 vá chỗ thiếu
+        ket.update(call_claude_topic([(w, "") for w in [r[0] for r in lay] if not ket.get(w)],
+                                     goi=goi_claude_code))
+    hut = [w for w in ket if not ket[w]]
+    if len(hut) > len(lay) // 10:
+        sys.exit(f"Opus không xếp được {len(hut)} từ — DỪNG, CHƯA GHI GÌ.")
     cd = {r[0]: ket.get(r[0]) or "khac" for r in lay}
     dau_cap = {}
     for r in lay:                    # cặp thể theo chủ đề của từ đứng trước trong cặp
@@ -156,11 +164,56 @@ def cmd_chon(n, apply):
         cds = [cd[r[0]] for r in g]
         q["lo"].append({"id": f"k{i}", "topic": max(set(cds), key=cds.count),
                         "tu": [r[0] for r in g], "trangthai": "cho", "file": None,
-                        "dot": "b2", "chuaThe": True})
+                        "dot": "b2", "chuaThe": True, "chuDe": {r[0]: cd[r[0]] for r in g}})
         print(f"  k{i}  {len(g):2d} từ  {q['lo'][-1]['topic']:22s} {' '.join(r[0] for r in g)}")
     q["tong_tu"], q["tong_lo"] = sum(len(l["tu"]) for l in q["lo"]), len(q["lo"])
     ghi_hangdoi(q)
     print(f"ĐÃ CHỐT {len(cac_lo)} lô vào hangdoi.json. Bước kế: `taothe --apply`.")
+
+
+def duong_opus(lo):
+    return os.path.join(HERE, f"_opus_{lo['id']}.json")
+
+
+def soan_opus(lo, can):
+    """Opus soạn nghĩa Việt + câu ví dụ cho các từ `can` của lô trong MỘT lượt, máy kiểm
+    bằng cổng `vi_du`, lưu đĩa sau MỖI vòng (đã lưu thì không hỏi lại).
+    -> (kết quả {từ: ai_san}, lỗi dừng hoặc None)."""
+    from anki_tools.ai_client import call_claude_pos, goi_claude_code
+    from anki_tools.pipeline import cao_mot_tu
+    from anki_tools.utils import strip_accents_perfectly
+    from anki_tools.vi_du import loi_dan, loi_dan_lo, sinh_vi_du
+    p = duong_opus(lo)
+    kq = json.load(io.open(p, encoding="utf-8")) if os.path.exists(p) else {}
+    can =[w for w in can if w not in kq]
+    for vong in range(3):
+        if not can:
+            break
+        muc = {}
+        for w in can:
+            data, dung = cao_mot_tu(w, lo.get("chonId", {}).get(w))
+            if dung and dung.get("nhieu_muc"):
+                return kq, (f"ĐỒNG TỰ {w} — chọn mục rồi chạy lại kèm --chon={w}=ID:\n    " + "\n    ".join(
+                    f"id={m['id']} {m['pos']} {m['en']}" for m in dung["nhieu_muc"]))
+            if dung:
+                return kq, f"{w}: OpenRussian không có trang. Bỏ từ này: --bo={w}"
+            tu, en, rec = strip_accents_perfectly(w), data.get("english_meanings") or [], data.get("grammar") or {}
+            _ht, dan, o, _cap = loi_dan(tu, en, rec)
+            muc[w] = (tu, en, rec, dan, len(o), data["part_of_speech"].strip())
+        print(f"   {lo['id']} vòng {vong + 1}: Opus soạn {len(muc)} từ...", flush=True)
+        r = goi_claude_code(*loi_dan_lo([(w, m[3]) for w, m in muc.items()])) or {}
+        tra = {x.get("tu"): x for x in r.get("ket_qua") or [] if isinstance(x, dict)}
+        thieu_pos = [(m[0], (m[1] or [""])[0]) for m in muc.values() if not m[5]]
+        pos = call_claude_pos(thieu_pos, goi=goi_claude_code) if thieu_pos else {}
+        for w, (tu, en, rec, _dan, n, _pos) in muc.items():
+            bo = {k: tra.get(w, {}).get(k) for k in ("vietnamese_meaning", "examples")}
+            ra = sinh_vi_du(tu, en, rec, goi=lambda *_a, bo=bo: bo, so_luot=1)
+            # câu trượt cổng ⇒ hỏi lại cả từ; vòng cuối nhận bản thiếu câu (ít câu còn hơn câu sai)
+            if ra and (len(ra["simplified_examples"]) == n or vong == 2):
+                kq[w] = {"vi_du": bo, "topic": lo.get("chuDe", {}).get(w), "pos": pos.get(tu)}
+        ghi_json(p, kq)
+        can = [w for w in can if w not in kq]
+    return kq, (f"Opus không soạn qua cổng được: {' '.join(can)}. Bỏ: --bo=TU" if can else None)
 
 
 def cmd_taothe(apply, toi_da):
@@ -195,12 +248,20 @@ def cmd_taothe(apply, toi_da):
     def dung(loi):                          # đẩy phần đã tạo lên AnkiWeb rồi mới chết
         print("sync:", sync_now())
         sys.exit(loi)
+    opus = {}
+    for l in dot:      # soạn HẾT trước thẻ đầu tiên: nạp lô CUỐI trước, mà lô nào cũng có thể kẹt
+        opus[l["id"]], loi = soan_opus(l, [w for ll, w, _n in viec if ll is l])
+        if loi:
+            dung(f"DỪNG ở {l['id']} — chưa tạo thẻ mới nào: {loi}")
     for i, (l, w, n) in enumerate(viec[:toi_da], 1):
-        chon = l.get("chonId", {}).get(w)
-        ok, info, err = (redo_note_id(n["noteId"], chon_id=chon) if n
-                         else process_word(w, None, chon_id=chon))
+        chon, ai = l.get("chonId", {}).get(w), opus[l["id"]][w]
+        ok, info, err = (redo_note_id(n["noteId"], chon_id=chon, ai_san=ai) if n
+                         else process_word(w, None, chon_id=chon, ai_san=ai))
         if ok and info.get("ai_degraded"):
-            dung(f"[{i}] KHUYẾT {w} — AI hụt (hết lượt Google?). DỪNG; mai chạy lại là nó tự làm lại thẻ này.")
+            kq = opus[l["id"]]
+            del kq[w]                       # bản Opus này hỏng lúc dựng ⇒ lần sau soạn lại
+            ghi_json(duong_opus(l), kq)
+            dung(f"[{i}] KHUYẾT {w} — câu Opus hỏng lúc dựng thẻ. Chạy lại: nó soạn lại rồi làm lại thẻ.")
         if not ok:
             if info and info.get("nhieu_muc"):
                 err = "ĐỒNG TỰ — chọn mục rồi chạy lại kèm --chon=" + w + "=ID:\n    " + \

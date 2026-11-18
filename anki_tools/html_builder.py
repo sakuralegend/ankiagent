@@ -155,7 +155,7 @@ def build_html_from_ai_result(ai_result):
     return _build_from_ai_result(ai_result)
 
 
-def build_examples_html(word_clean, raw_examples, english_meanings, grammar_rec=None):
+def build_examples_html(word_clean, raw_examples, english_meanings, grammar_rec=None, goi=None):
     """Trả về (examples_html, vi_meaning, simplified_examples_list).
 
     1. `vi_du.sinh_vi_du` — máy chọn dạng từ `grammar_rec` (GrammarJSON), AI chỉ đặt
@@ -163,8 +163,10 @@ def build_examples_html(word_clean, raw_examples, english_meanings, grammar_rec=
     2. Hỏng hẳn -> câu gốc OpenRussian thô (không tiếng Việt ⇒ `ai_degraded`).
     3. Không còn gì -> rỗng.
     Chủ đề + từ loại KHÔNG đi nhờ lượt này nữa — `anki_the.build_card_fields` gọi riêng.
+    `goi` = đường AI khác Google (đợt sách B2 trả câu Opus soạn sẵn) — cùng cổng kiểm.
     """
-    ai_result = sinh_vi_du(word_clean, english_meanings or [], grammar_rec or {})
+    ai_result = (sinh_vi_du(word_clean, english_meanings or [], grammar_rec or {}, goi=goi)
+                 if goi else sinh_vi_du(word_clean, english_meanings or [], grammar_rec or {}))
     if ai_result:
         return _build_from_ai_result(ai_result)
     if raw_examples:

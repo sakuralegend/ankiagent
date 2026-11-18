@@ -65,7 +65,7 @@ def cao_mot_tu(word, chon_id=None):
     return data, None
 
 
-def process_word(word, deck_name, is_forced=False, do_sync=False, chon_id=None):
+def process_word(word, deck_name, is_forced=False, do_sync=False, chon_id=None, ai_san=None):
     """Xử lý trọn vẹn 1 từ: cào OpenRussian -> AI dịch/tạo ví dụ -> đẩy lên Anki.
 
     deck_name=None -> chế độ TỰ ĐỘNG: thẻ vào deck con theo chủ đề AI chọn
@@ -93,7 +93,8 @@ def process_word(word, deck_name, is_forced=False, do_sync=False, chon_id=None):
             "Không tìm thấy từ trên OpenRussian (sai chính tả, hoặc là dạng biến cách?)."
         )
 
-    success, card_info = push_to_anki(word, extracted_data, deck_name, is_forced=is_forced)
+    success, card_info = push_to_anki(word, extracted_data, deck_name, is_forced=is_forced,
+                                      ai_san=ai_san)
     if not success:
         err = (card_info or {}).get("error", "")
         if "duplicate" in err.lower():
@@ -112,7 +113,7 @@ def process_word(word, deck_name, is_forced=False, do_sync=False, chon_id=None):
     return True, card_info, None
 
 
-def redo_note_id(note_id, do_sync=False, chon_id=None):
+def redo_note_id(note_id, do_sync=False, chon_id=None, ai_san=None):
     """LÀM LẠI 1 thẻ đã có — CÙNG LÕI với luồng thêm thẻ mới (xem khối comment
     "LÕI CHUNG" ở trên để biết ba chỗ cố ý khác nhau).
 
@@ -149,7 +150,7 @@ def redo_note_id(note_id, do_sync=False, chon_id=None):
             "Thẻ giữ nguyên, không thay đổi gì."
         )
 
-    built = build_card_fields(clean_word, data)
+    built = build_card_fields(clean_word, data, ai_san)
     new_fields = dict(built["fields"])
     new_fields["ExamplesHTML"] = gan_tieng_vi_du(new_fields["ExamplesHTML"])
 

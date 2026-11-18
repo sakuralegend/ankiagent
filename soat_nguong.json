@@ -40,8 +40,8 @@
   ],
   "da_ghi_no": {
    "anki_tools/ai_client.py": {
-    "so": 438,
-    "vi_sao": "Lô hoá call_claude_topic/call_claude_pos (xếp cả kho bằng ~49 lượt thay vì 1212). Cùng file vì cùng MỘT cửa gọi AI (L1). (Cửa Claude Code tạm QD-47 đã xoá 03/11 khi script làm sạch vào _daxong/.)"
+    "so": 475,
+    "vi_sao": "Lô hoá call_claude_topic/call_claude_pos (xếp cả kho bằng ~49 lượt thay vì 1212). +37 cửa Claude Code goi_claude_code (claude -p) + chỗ cắm goi= ở topic/pos: đợt sách B2 bỏ Google, toàn Opus (user chốt 18/11). Cùng file vì cùng MỘT cửa gọi AI (L1)."
    },
    "anki_tools/anki_client.py": {
     "so": 659,
@@ -68,8 +68,8 @@
     "vi_sao": "Nhận 2 hàm dùng chung từ flow_scan (màn duyệt + thêm loạt từ); flow_scan giảm 249->174 nên code DỜI chứ không đẻ. Tách lúc này là trộn việc."
    },
    "anki_tools/anki_the.py": {
-    "so": 404,
-    "vi_sao": "+96 nhom_dong_tu() nối động từ cùng gốc (QD-39); +11 lấy từ loại AI vá khi nguồn bỏ trống (QD-41). Ở đây vì cả bot lẫn dây chuyền kho đều gọi, và nó đọc note y như phần còn lại của file."
+    "so": 410,
+    "vi_sao": "+96 nhom_dong_tu() nối động từ cùng gốc (QD-39); +11 lấy từ loại AI vá khi nguồn bỏ trống (QD-41). Ở đây vì cả bot lẫn dây chuyền kho đều gọi, và nó đọc note y như phần còn lại của file. +6 nhận ai_san (câu/chủ đề/từ loại Opus soạn sẵn cho đợt sách B2) — cùng hàm dựng thẻ để thẻ Opus và thẻ Google giống hệt khuôn."
    },
    "tgbot/flow_add.py": {
     "so": 403,

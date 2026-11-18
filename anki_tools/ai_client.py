@@ -280,6 +280,37 @@ def call_claude_vi_du(system_prompt, user_prompt, khuon):
     return parsed
 
 
+def goi_claude_code(system_prompt, user_prompt, khuon, model="opus", timeout=900):
+    """Một lượt qua Claude Code CLI (`claude -p`) — ăn hạn mức GÓI Claude của user,
+    không cần khoá API. Cắm vào chỗ nhận `goi=` (`vi_du.sinh_vi_du`, `call_claude_topic`,
+    `call_claude_pos`) để thay Google. CHỈ laptop: VPS chưa đăng nhập Claude.
+    Dùng cho đợt sách B2 (user chốt 18/11: bỏ Google, toàn Opus) — người gọi GỘP cả lô
+    vào một lượt: đo 18/11 mỗi lượt tốn ~6,7K token cố định, gọi từng từ đắt ~17×.
+    `--tools ""` + `--system-prompt-file`: model chỉ trả lời, không đụng file nào.
+    Lời dặn đi qua STDIN: Windows cắt dòng lệnh ở ~32K ký tự."""
+    import os, subprocess, tempfile
+    with tempfile.NamedTemporaryFile("w", suffix=".txt", delete=False, encoding="utf-8") as f:
+        f.write(system_prompt)
+        tep = f.name
+    try:
+        r = subprocess.run(["claude", "-p", "--model", model, "--system-prompt-file", tep,
+                            "--tools", "", "--no-session-persistence", "--output-format", "json",
+                            "--json-schema", json.dumps(khuon, ensure_ascii=False)],
+                           input=user_prompt, capture_output=True, text=True,
+                           encoding="utf-8", timeout=timeout)
+        o = json.loads(r.stdout or "{}")
+    except (subprocess.TimeoutExpired, ValueError, OSError) as e:
+        log_fail(f"Claude Code hỏng: {e}")
+        return None
+    finally:
+        os.unlink(tep)
+    if o.get("is_error"):
+        log_fail(f"Claude Code lỗi: {o.get('result') or o.get('subtype')}")
+        return None
+    kq = o.get("structured_output")
+    return kq if isinstance(kq, dict) else _parse_ai_response(o.get("result") or "")
+
+
 def call_claude_lemma(word):
     """Từ không có trên OpenRussian (sai chính tả hoặc là dạng biến cách):
     nhờ AI đoán DẠNG TỪ ĐIỂN (lemma) để cào lại. Bot sẽ hỏi user xác nhận
@@ -322,7 +353,7 @@ def call_claude_lemma(word):
     }
 
 
-def call_claude_topic(cac_tu):
+def call_claude_topic(cac_tu, goi=None):
     """Phân loại CHỦ ĐỀ cho MỘT LÔ từ — dùng bởi scripts/tag_topics.py.
 
     `cac_tu`: list các cặp (từ Nga, nghĩa tiếng Anh). Trả về dict {từ: slug},
@@ -351,11 +382,14 @@ def call_claude_topic(cac_tu):
     dong = [f'{i + 1}. [{w}] = {en or "N/A"}' for i, (w, en) in enumerate(cac_tu)]
     user_prompt = "Classify these words:\n" + "\n".join(dong) + "\n\nReturn ONLY the JSON."
 
-    raw_response = _send_ai_request(system_prompt, user_prompt, khuon=_KHUON_TOPIC)
     ra = {w: None for w, _en in cac_tu}
-    if not raw_response:
-        return ra
-    parsed = _parse_ai_response(raw_response)
+    if goi:                   # `goi_claude_code`: trả dict sẵn, không qua Google
+        parsed = goi(system_prompt, user_prompt, _KHUON_TOPIC)
+    else:
+        raw_response = _send_ai_request(system_prompt, user_prompt, khuon=_KHUON_TOPIC)
+        if not raw_response:
+            return ra
+        parsed = _parse_ai_response(raw_response)
     if not isinstance(parsed, dict):
         return ra
     for muc in parsed.get("ket_qua") or []:
@@ -364,7 +398,7 @@ def call_claude_topic(cac_tu):
     return ra
 
 
-def call_claude_pos(cac_tu, co_lo=25):
+def call_claude_pos(cac_tu, co_lo=25, goi=None):
     """Xếp TỪ LOẠI cho một danh sách từ — dùng bởi `scripts/backfill_badge.py`.
 
     `cac_tu`: list các cặp (từ Nga, nghĩa tiếng Anh). Trả về dict {từ: mã ngắn};
@@ -399,11 +433,14 @@ def call_claude_pos(cac_tu, co_lo=25):
         dong = [f'{j + 1}. [{w}] = {en or "N/A"}' for j, (w, en) in enumerate(lo)]
         user_prompt = ("Classify these words:\n" + "\n".join(dong)
                        + "\n\nReturn ONLY the JSON.")
-        raw_response = _send_ai_request(system_prompt, user_prompt, khuon=_KHUON_POS)
-        if not raw_response:
-            log_warn(f"AI khong tra loi lo tu loai {i}-{i + len(lo)} — de trong, chay lai sau")
-            continue
-        parsed = _parse_ai_response(raw_response)
+        if goi:
+            parsed = goi(system_prompt, user_prompt, _KHUON_POS)
+        else:
+            raw_response = _send_ai_request(system_prompt, user_prompt, khuon=_KHUON_POS)
+            if not raw_response:
+                log_warn(f"AI khong tra loi lo tu loai {i}-{i + len(lo)} — de trong, chay lai sau")
+                continue
+            parsed = _parse_ai_response(raw_response)
         if not isinstance(parsed, dict):
             log_warn(f"AI tra JSON hong o lo tu loai {i}-{i + len(lo)} — de trong")
             continue

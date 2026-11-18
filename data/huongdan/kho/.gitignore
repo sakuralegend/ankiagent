@@ -3,3 +3,5 @@ _input_*.txt
 _phaidocbangmat.txt
 _backup_huongdan.json
 _backup_the_trung.json
+_opus_*.json
+*.tmp

@@ -1912,6 +1912,21 @@ class TestDotThemTuChayLaiDuoc(unittest.TestCase):
         self.assertTrue(x.la_khuyet({"Vietnamese": {"value": " "}, "ExamplesHTML": {"value": "x"}}))
         self.assertFalse(x.la_khuyet({"Vietnamese": {"value": "y"}, "ExamplesHTML": {"value": "x"}}))
 
+    def test_the_co_ban_opus_khong_goi_google(self):
+        """18/11: Google 503 làm hỏng 3/8 lượt xếp chủ đề ⇒ user chốt đợt sách B2 toàn Opus.
+        Sót MỘT chỗ còn gọi Google thì thẻ vẫn ra, chỉ là lẳng lặng không phải Opus."""
+        from anki_tools import anki_the
+        data = {"word": "си́ла", "part_of_speech": "n", "pos_full": "noun", "gender": "f",
+                "english_meanings": ["strength"], "grammar": {}, "raw_dictionary_examples": []}
+        ai = {"vi_du": {"vietnamese_meaning": "sức mạnh", "examples": [
+            {"ru": "У него большая сила.", "en": "He has great <b>strength</b>.",
+             "vi": "Anh ấy có <b>sức mạnh</b> lớn."}]}, "topic": "concepts::state", "pos": None}
+        with unittest.mock.patch.object(ai_client, "_send_ai_request",
+                                        side_effect=AssertionError("gọi Google")):
+            built = anki_the.build_card_fields("си́ла", data, ai)
+        self.assertEqual(built["topic_slug"], "concepts::state")
+        self.assertEqual(built["fields"]["Vietnamese"], "sức mạnh")
+
     def test_ghi_json_hong_giua_chung_giu_file_cu(self):
         import tempfile
         x = self._x()

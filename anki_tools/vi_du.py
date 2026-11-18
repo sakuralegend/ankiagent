@@ -155,6 +155,22 @@ def _khuon(n):
         "required": ["vietnamese_meaning", "examples"]}
 
 
+def loi_dan_lo(cac_dan):
+    """[(từ, lời dặn từ của `loi_dan`)] -> (hệ thống, lời dặn gộp, khuôn) cho MỘT lượt cả lô.
+    Đợt sách B2 đi Opus (`ai_client.goi_claude_code`): mỗi lượt ~6,7K token CỐ ĐỊNH (đo
+    18/11) ⇒ gộp 20 từ rẻ ~17× so với từng từ. Cổng kiểm vẫn là `sinh_vi_du` từng từ."""
+    k = _khuon(3)["properties"]
+    muc = {"type": "object", "required": ["tu", "vietnamese_meaning", "examples"],
+           "properties": {"tu": {"type": "string"}, "vietnamese_meaning": k["vietnamese_meaning"],
+                          "examples": {"type": "array", "items": k["examples"]["items"]}}}
+    return (_HE_THONG + " You receive SEVERAL target words, each under its own '### <word>' header "
+            "with its own instructions. Answer every word separately: one item per word in `ket_qua`, "
+            "`tu` copied exactly from the header, and exactly the sentences ITS instructions ask for.",
+            "\n\n".join(f"### {tu}\n{dan}" for tu, dan in cac_dan),
+            {"type": "object", "required": ["ket_qua"],
+             "properties": {"ket_qua": {"type": "array", "items": muc}}})
+
+
 def loi_dan(tu, nghia_anh, rec, o=None):
     """-> (lời dặn hệ thống, lời dặn từ, các ô dạng, cặp thể bị cấm).
     `o` cho trước = chỉ đặt câu cho những ô đó (viết lại câu hỏng của thẻ cũ)."""
