@@ -20,8 +20,10 @@ nội dung nên đây là kiểu xuống cấp nguy hiểm nhất. **Mọi lô c
 
 ## §1. Tám bước — chạy đúng thứ tự, không bỏ bước
 
-**User xin "thêm N từ"** ⇒ lấy N từ đầu CHƯA có thẻ của `data/sach_b2.json` (QD-51, đủ cặp
-thể), tạo thẻ bằng khung `_daxong/_va_nap_a1a2.py` theo luật §2 "NẠP HÀNG LOẠT".
+**User xin "thêm N từ"** (nguồn `data/sach_b2.json`, QD-51) ⇒ **bước 1–2 thay bằng**
+`kho/xephangdoi.py chon N --apply` rồi `taothe --apply`: chốt lô TRƯỚC, nạp NGƯỢC thứ tự lô,
+dừng ở lỗi đầu — vì sao ở đầu file. 🔴 **Phiên chết ở đâu cũng chạy `xephangdoi.py` khan
+trước**: nó in bước kế. Lô đầu soạn trước (ra học trước).
 
 ```bash
 # 1. ĐẾM. Chạy khan, chưa ghi gì.
@@ -67,10 +69,6 @@ python soatkientruc.py && python -c "import bot, main" && python -m unittest dis
   Đừng hạ trần cỡ lô vì nó. Muốn lật thì **đo ra số khác** từ `dolo.tsv`, đừng lập luận suông.
 - **Chia lô theo TAG CHỦ ĐỀ, giữ họ từ chung một lô.** Tách họ từ ra hai agent là cơ chế đã làm
   **11 tên tháng viết 4 kiểu** mà không lô nào sai cả. Cặp thể (`лечь`↔`ложиться`) cũng vậy.
-- 🔴 **NẠP HÀNG LOẠT ⇒ XẾP LÔ TRƯỚC KHI NẠP** (user chốt 16/10): xếp chủ đề bằng
-  `tag_topics.xep_bang_ai` (25 từ/lượt Google), chia lô, rồi nạp **NGƯỢC thứ tự lô**. Vì thẻ mới
-  nhất ra học trước (QD-36) và AnkiConnect **KHÔNG đổi được** vị trí thẻ mới (đo 16/10) ⇒ nạp
-  sai thứ tự là học lẫn thẻ trống, sửa không được.
 - **Đừng đoán nội dung lô từ tên topic** — đọc `congcu.py tiep kNN` rồi hãy mô tả trục.
 
 ## §3. Bẫy của LUỒNG CHÍNH — thứ không cửa soát nào canh

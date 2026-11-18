@@ -37,7 +37,7 @@ from anki_tools.anki_client import sync_truoc_khi_ghi_lo          # noqa: E402
 # Tên lấy lại từ hai file ruột — GIỮ NGUYÊN cả bộ vì `dochuan.py` import congcu
 # như thư viện (congcu._BANG_RE, congcu.uoc_cao, congcu.TRAN_CAO…).
 from khochung import (ACUTE, ZWSP, TUDIEN, BANG_RE, CHUAN_V, TAG_CHUAN,    # noqa: E402,F401
-                      bare, khoa_note, doc_hangdoi, ghi_hangdoi,
+                      bare, khoa_note, doc_hangdoi, ghi_hangdoi, ghi_json, ban_ghi_tudien,
                       nap_lo_da_soan, gan_bang, khoi_nguphap, tag_chuan, la_id_lo)
 from soatlo import (TRAN_CAO, TRAN_WARN, cmd_soat, cmd_dodai,              # noqa: E402,F401
                     do_va_cham, tach_nghia, uoc_cao)
@@ -155,6 +155,8 @@ def cmd_tiep():
     if not lo:
         print("HET HANG DOI — 56/56 lo xong.")
         return
+    if lo.get("chuaThe"):     # chưa có thẻ ⇒ chưa có tudien ⇒ mọi cột in `?`, agent soạn mò
+        return print(f"{lo['id']} CHUA DU THE — chay `xephangdoi.py taothe --apply` truoc.")
     words = {w["wc"]: w for w in json.load(io.open(TUDIEN, encoding="utf-8"))}
     # 🔴 NGHĨA TIẾNG VIỆT LẤY TỪ THẺ, KHÔNG từ `tudien.json` (QD-27). Đo 04/08:
     # **353/1039 từ** lệch — user sửa tay trong Anki, bước đồng bộ ngược là việc
@@ -300,13 +302,8 @@ def cmd_moi():
         wc = f.get("WordClean", {}).get("value", "").strip()
         if not wc or khoa_note(wc) in da_co:
             continue
-        tags = [t.replace("topic::", "") for t in n.get("tags", []) if t.startswith("topic::")]
         # `_vi_in` KHÔNG vào `tudien.json` (QD-27) — chỉ để in ra trong lần chạy này.
-        moi[wc] = {"wc": wc, "w": f.get("Word", {}).get("value", "").strip(),
-                   "en": f.get("Meaning", {}).get("value", ""),
-                   "pos": f.get("PoS", {}).get("value", ""),
-                   "topic": tags[0] if tags else "other", "cu": False,
-                   "_vi_in": f.get("Vietnamese", {}).get("value", "")}
+        moi[wc] = {**ban_ghi_tudien(n), "_vi_in": f.get("Vietnamese", {}).get("value", "")}
 
     if not moi:
         print(f"khong co tu moi ({len(notes)} the, tat ca da nam trong hang doi)")
@@ -341,7 +338,7 @@ def cmd_moi():
     co = {x["wc"] for x in td}
     td.extend({k: v for k, v in rec.items() if not k.startswith("_")}
               for _, rec in sorted(moi.items()) if rec["wc"] not in co)
-    io.open(TUDIEN, "w", encoding="utf-8").write(json.dumps(td, ensure_ascii=False, indent=1))
+    ghi_json(TUDIEN, td)
 
     if dich:
         dich["tu"] += sorted(moi)

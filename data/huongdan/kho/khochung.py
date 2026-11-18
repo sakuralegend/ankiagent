@@ -72,8 +72,27 @@ def doc_hangdoi():
     return json.load(io.open(HANGDOI, encoding="utf-8"))
 
 
+def ghi_json(duong, obj):
+    """Ghi ra file tạm rồi THAY — phiên chết giữa lúc ghi thì file cũ còn nguyên.
+    Ghi thẳng mà đứt giữa chừng là hangdoi.json (nguồn sự thật duy nhất) cụt nửa."""
+    chu = json.dumps(obj, ensure_ascii=False, indent=1)
+    with io.open(duong + ".tmp", "w", encoding="utf-8") as f:
+        f.write(chu)
+    os.replace(duong + ".tmp", duong)
+
+
 def ghi_hangdoi(q):
-    io.open(HANGDOI, "w", encoding="utf-8").write(json.dumps(q, ensure_ascii=False, indent=1))
+    ghi_json(HANGDOI, q)
+
+
+def ban_ghi_tudien(note):
+    """notesInfo -> bản ghi tudien.json. KHÔNG có nghĩa Việt (QD-27: lấy thẳng từ thẻ)."""
+    f = note["fields"]
+    tags = [t.replace("topic::", "") for t in note.get("tags", []) if t.startswith("topic::")]
+    return {"wc": f.get("WordClean", {}).get("value", "").strip(),
+            "w": f.get("Word", {}).get("value", "").strip(),
+            "en": f.get("Meaning", {}).get("value", ""), "pos": f.get("PoS", {}).get("value", ""),
+            "topic": tags[0] if tags else "other", "cu": False}
 
 
 def nap_lo_da_soan(chi=None, lay_v=False):

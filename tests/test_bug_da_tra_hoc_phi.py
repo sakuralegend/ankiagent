@@ -1865,5 +1865,63 @@ class TestBanTheSaiCuaOpenRussian(unittest.TestCase):
         self.assertEqual(len(rec["partners"]), 1, "động từ khác phải giữ nguyên bạn thể")
 
 
+class TestDotThemTuChayLaiDuoc(unittest.TestCase):
+    """`xephangdoi.py` — đợt "thêm N từ" phải chịu được phiên chết giữa chừng. Ba bug
+    gốc ở đợt A2 16/10: nạp trước chia sau (học lẫn thẻ trống), từ lỗi bị bỏ qua rồi
+    nạp lệch lô, thẻ hụt Google bị coi là "đã có" khi chạy lại (`лоб`)."""
+
+    @staticmethod
+    def _x():
+        sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(
+            os.path.abspath(__file__))), "data", "huongdan", "kho"))
+        import xephangdoi
+        return xephangdoi
+
+    def test_chon_khong_cat_doi_cap_the_va_bo_tu_da_len_ke(self):
+        x = self._x()
+        ds = [["а", "B1", 1, "", ""], ["б", "B1", 2, "", "khong-OR"], ["в", "B1", 3, "", ""],
+              ["делать", "B1", 4, "делать", ""], ["сделать", "B1", 4, "делать", ""],
+              ["е", "B1", 5, "", ""], ["черт", "B1", 6, "", ""]]
+        lay, gac = x.chon_tu(ds, {"чёрт"}, {"а"}, 2)
+        self.assertEqual([r[0] for r in lay], ["в", "делать", "сделать"], "bạn thể phải kéo theo")
+        self.assertEqual(gac, ["б"])
+        lay, _ = x.chon_tu(ds, {"чёрт"}, set(), 99)
+        self.assertNotIn("черт", [r[0] for r in lay], "sách in е, thẻ có ё ⇒ là đã có")
+
+    def test_chia_lo_giu_cap_va_co_lo(self):
+        x = self._x()
+        tu, cd = [], {}
+        for i in range(200):
+            cap = f"c{i // 2}" if i % 10 < 4 else ""
+            tu.append([f"t{i:03d}", "B1", i, cap, ""])
+            cd[f"t{i:03d}"] = f"cd{(i // 2) % 7}"
+        lo = x.chia_lo(tu, cd, {})
+        self.assertEqual(sorted(r[0] for g in lo for r in g), sorted(r[0] for r in tu))
+        for g in lo:
+            self.assertTrue(x.SAN <= len(g) <= x.TRAN, len(g))
+        o = {r[0]: i for i, g in enumerate(lo) for r in g}
+        for r in tu:
+            if r[3]:
+                self.assertEqual({o[q[0]] for q in tu if q[3] == r[3]}, {o[r[0]]}, r[3])
+
+    def test_thu_tu_nap_dao_nguoc_va_the_khuyet(self):
+        x = self._x()
+        thu_tu = x.thu_tu_nap([{"tu": ["a", "b"]}, {"tu": ["c", "d"]}])
+        self.assertEqual([w for _l, w in thu_tu], ["d", "c", "b", "a"],
+                         "từ đầu lô đầu phải nạp CUỐI = thẻ mới nhất = ra học trước")
+        self.assertTrue(x.la_khuyet({"Vietnamese": {"value": " "}, "ExamplesHTML": {"value": "x"}}))
+        self.assertFalse(x.la_khuyet({"Vietnamese": {"value": "y"}, "ExamplesHTML": {"value": "x"}}))
+
+    def test_ghi_json_hong_giua_chung_giu_file_cu(self):
+        import tempfile
+        x = self._x()
+        p = os.path.join(tempfile.mkdtemp(), "hangdoi.json")
+        x.ghi_json(p, {"lo": [1]})
+        with self.assertRaises(TypeError):
+            x.ghi_json(p, {"lo": [object()]})
+        with open(p, encoding="utf-8") as f:
+            self.assertIn('"lo"', f.read(), "ghi hỏng không được làm cụt file cũ")
+
+
 if __name__ == "__main__":
     unittest.main()
