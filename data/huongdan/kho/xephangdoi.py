@@ -77,14 +77,18 @@ def chia_lo(tu, chu_de, thu_tu_cd):
         return (thu_tu_cd.get(chu_de[r[0]], 999), chu_de[r[0]],
                 bare(r[3] or r[0])[::-1], r[0])
     x = sorted(tu, key=k)
-    so_lo = max(1, round(len(x) / CO))
+    so_lo = max(1, round(len(x) / CO), -(-len(x) // (TRAN - 1)))   # chừa ≥1 chỗ/lô để né cặp thể
     lo, dau = [], 0
     for i in range(1, so_lo):
-        dich = round(len(x) * i / so_lo)
-        hop = [p for p in range(max(dau + SAN, dich - 4), min(len(x) - SAN, dich + 4) + 1)
-               if p - dau <= TRAN and not (x[p][3] and x[p][3] == x[p - 1][3])]
+        dich, con = round(len(x) * i / so_lo), so_lo - i
+        # cận tính cả phần CÒN LẠI: chỉ chặn lô đang cắt thì lô cuối phình quá trần
+        # (đo 18/11: 101 từ ra lô cuối 23)
+        hop = [p for p in range(max(dau + SAN, len(x) - TRAN * con),
+                                min(dau + TRAN, len(x) - SAN * con) + 1)
+               if not (x[p][3] and x[p][3] == x[p - 1][3])]
         if not hop:
             continue
+        hop = [p for p in hop if abs(p - dich) <= 4] or hop
         ranh = [p for p in hop if chu_de[x[p][0]] != chu_de[x[p - 1][0]]]
         cat = min(ranh or hop, key=lambda p: abs(p - dich))
         lo.append(x[dau:cat])

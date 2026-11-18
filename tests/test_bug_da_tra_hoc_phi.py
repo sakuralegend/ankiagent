@@ -1895,6 +1895,9 @@ class TestDotThemTuChayLaiDuoc(unittest.TestCase):
             cap = f"c{i // 2}" if i % 10 < 4 else ""
             tu.append([f"t{i:03d}", "B1", i, cap, ""])
             cd[f"t{i:03d}"] = f"cd{(i // 2) % 7}"
+        for n in range(95, 112):           # 18/11: 101 từ ra lô CUỐI 23 từ, quá trần
+            for g in x.chia_lo(tu[:n], cd, {}):
+                self.assertTrue(x.SAN <= len(g) <= x.TRAN, (n, len(g)))
         lo = x.chia_lo(tu, cd, {})
         self.assertEqual(sorted(r[0] for g in lo for r in g), sorted(r[0] for r in tu))
         for g in lo:
