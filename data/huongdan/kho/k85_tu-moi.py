@@ -394,7 +394,7 @@ S["важный"] = (
 
 V = {
     # Trùng "mời" với звать (k01) và приглашать (k71) — bỏ "mời", giữ nghĩa xin/nhờ.
-    "просить": "xin, nhờ, yêu cầu, cầu xin",
+    "просить": "xin, nhờ, cầu xin",  # bỏ «yêu cầu» 19/11 (user duyệt) — trả cho требовать (k124)
     # Trùng trọn "nhớ, ghi nhớ" với помнить (k48) — bỏ "nhớ" trơn.
     "запоминать": "ghi nhớ, học thuộc",
     "готовый": "sẵn sàng, đã chuẩn bị xong, làm sẵn",

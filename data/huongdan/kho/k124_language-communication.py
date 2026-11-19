@@ -17,8 +17,8 @@ S = {}
 V = {
     "теория": "lý thuyết, thuyết",                # bỏ «giả thuyết» — đó là гипо́теза, gloss chỉ có «theory»
     "знак": "dấu hiệu, biển báo, ký hiệu",        # «ký tự» trùng буква, gloss là sign/symbol/mark
-    "потребовать": "đòi, đòi hỏi",                # RÚT «yêu cầu» — trùng попроси́ть (k87, xong)
-    "требовать": "đòi, đòi hỏi",                  # RÚT «yêu cầu» — trùng проси́ть (k85, xong)
+    "потребовать": "đòi, đòi hỏi, yêu cầu",       # «yêu cầu» lấy lại 19/11: user duyệt bỏ nó khỏi попроси́ть (k87)
+    "требовать": "đòi, đòi hỏi, yêu cầu",         # «yêu cầu» lấy lại 19/11: user duyệt bỏ nó khỏi проси́ть (k85)
     "предлагать": "đề nghị, đề xuất",             # RÚT «mời» — trùng звать, приглаша́ть
     "предложить": "đề nghị, đề xuất",
     "убедить": "thuyết phục",                     # bỏ «được» — nhãn thể trá hình, badge đã có
