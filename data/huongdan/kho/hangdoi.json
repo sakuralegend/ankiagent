@@ -3160,8 +3160,8 @@
     "создавать",
     "создать"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k116_numbers.py",
    "dot": "b2",
    "chuDe": {
     "успевать": "time",
@@ -3184,7 +3184,8 @@
     "нести": "actions",
     "создавать": "actions",
     "создать": "actions"
-   }
+   },
+   "daNap": true
   },
   {
    "id": "k117",
@@ -3211,8 +3212,8 @@
     "надеяться",
     "бояться"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k117_concepts-mind.py",
    "dot": "b2",
    "chuDe": {
     "тайна": "concepts::mind",
@@ -3235,7 +3236,8 @@
     "беспокоиться": "concepts::emotion",
     "надеяться": "concepts::emotion",
     "бояться": "concepts::emotion"
-   }
+   },
+   "daNap": true
   },
   {
    "id": "k118",
@@ -3258,8 +3260,8 @@
     "мост",
     "церковь"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k118_places-geo.py",
    "dot": "b2",
    "chuDe": {
     "крыша": "life::home",
@@ -3282,7 +3284,8 @@
    },
    "bo": [
     "стихи"
-   ]
+   ],
+   "daNap": true
   },
   {
    "id": "k119",
@@ -3309,8 +3312,8 @@
     "пицца",
     "голодный"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k119_people-professions.py",
    "dot": "b2",
    "chuDe": {
     "спина": "people::body",
@@ -3333,7 +3336,8 @@
     "родственник": "people::family",
     "пицца": "life::food",
     "голодный": "life::food"
-   }
+   },
+   "daNap": true
   },
   {
    "id": "k120",
@@ -3362,8 +3366,8 @@
     "пример",
     "опыт"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k120_places-position.py",
    "dot": "b2",
    "chuDe": {
     "направление": "places::position",
@@ -3388,7 +3392,8 @@
     "анализ": "language::education",
     "пример": "language::education",
     "опыт": "language::education"
-   }
+   },
+   "daNap": true
   },
   {
    "id": "k121",
@@ -3415,8 +3420,8 @@
     "армия",
     "партия"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k121_concepts-state.py",
    "dot": "b2",
    "chuDe": {
     "награда": "qualities::eval",
@@ -3439,7 +3444,8 @@
     "министр": "concepts::state",
     "армия": "concepts::state",
     "партия": "concepts::state"
-   }
+   },
+   "daNap": true
   },
   {
    "id": "k122",
@@ -3465,8 +3471,8 @@
     "бросать",
     "бросить"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k122_actions.py",
    "dot": "b2",
    "chuDe": {
     "отдавать": "actions",
@@ -3488,7 +3494,8 @@
     "убрать": "actions",
     "бросать": "actions",
     "бросить": "actions"
-   }
+   },
+   "daNap": true
   },
   {
    "id": "k123",
@@ -3516,8 +3523,8 @@
     "скорость",
     "состоять"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k123_actions.py",
    "dot": "b2",
    "chuDe": {
     "удаваться": "actions",
@@ -3544,7 +3551,8 @@
    },
    "chonId": {
     "чужой": 608
-   }
+   },
+   "daNap": true
   },
   {
    "id": "k124",
@@ -3572,8 +3580,8 @@
     "когда-то",
     "по-прежнему"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k124_language-communication.py",
    "dot": "b2",
    "chuDe": {
     "теория": "language::education",
@@ -3597,7 +3605,8 @@
     "бывший": "time",
     "когда-то": "time",
     "по-прежнему": "time"
-   }
+   },
+   "daNap": true
   },
   {
    "id": "k125",
@@ -3624,8 +3633,8 @@
     "потерять",
     "терять"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k125_actions.py",
    "dot": "b2",
    "chuDe": {
     "защитить": "actions",
@@ -3648,7 +3657,8 @@
     "исправлять": "actions",
     "потерять": "actions",
     "терять": "actions"
-   }
+   },
+   "daNap": true
   }
  ]
 }
