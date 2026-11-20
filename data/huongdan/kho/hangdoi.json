@@ -3685,7 +3685,6 @@
    "trangthai": "cho",
    "file": null,
    "dot": "b2",
-   "chuaThe": true,
    "chuDe": {
     "произнести": "language::communication",
     "произносить": "language::communication",
@@ -3733,7 +3732,6 @@
    "trangthai": "cho",
    "file": null,
    "dot": "b2",
-   "chuaThe": true,
    "chuDe": {
     "борода": "people::body",
     "желудок": "people::body",
@@ -3754,6 +3752,9 @@
     "торговля": "people::professions",
     "дочка": "people::family",
     "семейный": "people::family"
+   },
+   "chonId": {
+    "взрослый": 1475
    }
   },
   {
@@ -3784,7 +3785,6 @@
    "trangthai": "cho",
    "file": null,
    "dot": "b2",
-   "chuaThe": true,
    "chuDe": {
     "мокрый": "qualities",
     "велик": "qualities",
@@ -3837,7 +3837,6 @@
    "trangthai": "cho",
    "file": null,
    "dot": "b2",
-   "chuaThe": true,
    "chuDe": {
     "напоминать": "concepts::mind",
     "напомнить": "concepts::mind",
@@ -3860,6 +3859,9 @@
     "засмеяться": "concepts::emotion",
     "удивиться": "concepts::emotion",
     "удивляться": "concepts::emotion"
+   },
+   "chonId": {
+    "просыпаться": 3250
    }
   },
   {
@@ -3888,7 +3890,6 @@
    "trangthai": "cho",
    "file": null,
    "dot": "b2",
-   "chuaThe": true,
    "chuDe": {
     "середина": "places::position",
     "нижний": "places::position",
@@ -3939,7 +3940,6 @@
    "trangthai": "cho",
    "file": null,
    "dot": "b2",
-   "chuaThe": true,
    "chuDe": {
     "достижение": "actions",
     "обмен": "actions",
@@ -3994,7 +3994,6 @@
    "trangthai": "cho",
    "file": null,
    "dot": "b2",
-   "chuaThe": true,
    "chuDe": {
     "соус": "life::food",
     "рецепт": "life::food",
@@ -4050,7 +4049,6 @@
    "trangthai": "cho",
    "file": null,
    "dot": "b2",
-   "chuaThe": true,
    "chuDe": {
     "навестить": "actions",
     "навещать": "actions",
@@ -4074,6 +4072,9 @@
     "практический": "qualities",
     "сухой": "qualities",
     "железный": "qualities"
+   },
+   "chonId": {
+    "спешить": 58523
    }
   },
   {
@@ -4103,7 +4104,6 @@
    "trangthai": "cho",
    "file": null,
    "dot": "b2",
-   "chuaThe": true,
    "chuDe": {
     "загадка": "life::leisure",
     "прогулка": "life::leisure",
@@ -4155,7 +4155,6 @@
    "trangthai": "cho",
    "file": null,
    "dot": "b2",
-   "chuaThe": true,
    "chuDe": {
     "записка": "language::documents",
     "карточка": "language::documents",
@@ -4178,6 +4177,9 @@
     "выражать": "language::communication",
     "выразить": "language::communication",
     "закричать": "language::communication"
+   },
+   "chonId": {
+    "описать": 2487
    }
   }
  ]
