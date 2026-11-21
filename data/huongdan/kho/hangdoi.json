@@ -3682,8 +3682,8 @@
     "чуть-чуть",
     "монета"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k126_numbers.py",
    "dot": "b2",
    "chuDe": {
     "произнести": "language::communication",
@@ -3703,7 +3703,8 @@
     "четверо": "numbers",
     "чуть-чуть": "numbers",
     "монета": "numbers::units"
-   }
+   },
+   "daNap": true
   },
   {
    "id": "k127",
@@ -3729,8 +3730,8 @@
     "дочка",
     "семейный"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k127_people-professions.py",
    "dot": "b2",
    "chuDe": {
     "борода": "people::body",
@@ -3755,7 +3756,8 @@
    },
    "chonId": {
     "взрослый": 1475
-   }
+   },
+   "daNap": true
   },
   {
    "id": "k128",
@@ -3782,8 +3784,8 @@
     "привыкать",
     "привыкнуть"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k128_qualities-eval.py",
    "dot": "b2",
    "chuDe": {
     "мокрый": "qualities",
@@ -3806,7 +3808,8 @@
     "наблюдать": "concepts::mind",
     "привыкать": "concepts::mind",
     "привыкнуть": "concepts::mind"
-   }
+   },
+   "daNap": true
   },
   {
    "id": "k129",
@@ -3834,8 +3837,8 @@
     "удивиться",
     "удивляться"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k129_concepts-emotion.py",
    "dot": "b2",
    "chuDe": {
     "напоминать": "concepts::mind",
@@ -3862,7 +3865,8 @@
    },
    "chonId": {
     "просыпаться": 3250
-   }
+   },
+   "daNap": true
   },
   {
    "id": "k130",
@@ -3887,8 +3891,8 @@
     "куда-нибудь",
     "где-нибудь"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k130_language-grammar.py",
    "dot": "b2",
    "chuDe": {
     "середина": "places::position",
@@ -3909,7 +3913,8 @@
     "во-вторых": "language::grammar",
     "куда-нибудь": "language::grammar",
     "где-нибудь": "language::grammar"
-   }
+   },
+   "daNap": true
   },
   {
    "id": "k131",
@@ -3937,8 +3942,8 @@
     "разрешать",
     "разрешить"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k131_actions.py",
    "dot": "b2",
    "chuDe": {
     "достижение": "actions",
@@ -3962,7 +3967,8 @@
     "повесить": "actions",
     "разрешать": "actions",
     "разрешить": "actions"
-   }
+   },
+   "daNap": true
   },
   {
    "id": "k132",
@@ -3991,8 +3997,8 @@
     "надевать",
     "надеть"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k132_life-art.py",
    "dot": "b2",
    "chuDe": {
     "соус": "life::food",
@@ -4017,7 +4023,8 @@
     "брюки": "life::clothing",
     "надевать": "life::clothing",
     "надеть": "life::clothing"
-   }
+   },
+   "daNap": true
   },
   {
    "id": "k133",
@@ -4046,8 +4053,8 @@
     "сухой",
     "железный"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k133_actions.py",
    "dot": "b2",
    "chuDe": {
     "навестить": "actions",
@@ -4075,7 +4082,8 @@
    },
    "chonId": {
     "спешить": 58523
-   }
+   },
+   "daNap": true
   },
   {
    "id": "k134",
@@ -4101,8 +4109,8 @@
     "кремль",
     "башня"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k134_places-city.py",
    "dot": "b2",
    "chuDe": {
     "загадка": "life::leisure",
@@ -4124,7 +4132,8 @@
     "порт": "places::city",
     "кремль": "places::city",
     "башня": "places::city"
-   }
+   },
+   "daNap": true
   },
   {
    "id": "k135",
@@ -4152,8 +4161,8 @@
     "выразить",
     "закричать"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k135_language-communication.py",
    "dot": "b2",
    "chuDe": {
     "записка": "language::documents",
@@ -4180,7 +4189,8 @@
    },
    "chonId": {
     "описать": 2487
-   }
+   },
+   "daNap": true
   }
  ]
 }
