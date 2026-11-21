@@ -1,5 +1,5 @@
 ---
-description: Chạy lô soạn kho — đường thẳng 8 bước, từ đếm từ mới tới commit
+description: Chạy lô soạn kho — đường thẳng 5 bước, từ chốt lô tới commit
 argument-hint: [để trống = chạy lô kế tiếp trong hàng đợi]
 ---
 
@@ -18,47 +18,28 @@ nội dung nên đây là kiểu xuống cấp nguy hiểm nhất. **Mọi lô c
 
 ---
 
-## §1. Tám bước — chạy đúng thứ tự, không bỏ bước
+## §1. Năm bước — chạy đúng thứ tự, không bỏ bước
 
-**User xin "thêm N từ"** (nguồn `data/sach_b2.json`, QD-51) ⇒ **bước 1–2 thay bằng**
-`kho/xephangdoi.py chon N --apply` rồi `taothe --apply`: chốt lô TRƯỚC, nạp NGƯỢC thứ tự lô,
-dừng ở lỗi đầu — vì sao ở đầu file. 🔴 **Phiên chết ở đâu cũng chạy `xephangdoi.py` khan
-trước**: nó in bước kế. Lô đầu soạn trước (ra học trước).
+🔴 **Phiên chết ở đâu cũng chạy `xephangdoi.py` khan trước**: nó in bước kế. Lô đầu soạn trước
+(ra học trước). Nguồn từ: `data/sach_b2.json` (QD-51). Từ user tự thêm qua bot thì bước 1–2 thay
+bằng `congcu.py moi --apply` (>22 từ: tách tay trong `hangdoi.json`), các bước sau **ghi rõ id lô**.
 
 ```bash
-# 1. ĐẾM. Chạy khan, chưa ghi gì.
-PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py moi
-
-# 2. CHIA (>22 từ: lệnh KHÔNG tự chia, gom cả cục vào một lô) rồi tách trong `hangdoi.json`.
-PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py moi --apply
-
-# 3. GIAO. Mỗi lô một agent, context trắng. Khuôn lời nhắn ở §4.
-#    Giao HẾT lô trong MỘT tin nhắn rồi đứng im chờ.
-
-# 4. TỰ SOÁT LẠI khi agent báo xong — ĐỪNG tin báo cáo suông.
-PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py soat  kNN   # 3 mục đầu phải `(khong co)`
-PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py dodai kNN   # `QUA 1 MAN HINH: 0` và `QUA 2 O DO: 0`
-
-# 5. GHI SỔ ĐO — một dòng mỗi lô vào data/huongdan/kho/dolo.tsv
-#    cột: lo · tu · docbangmat · loitubat · loimaybat · nguonsai · caotb · odotb · ngay
-#    Ba số giữa đọc từ `B` CUỐI FILE LÔ (agent tự ghi, §4). Bỏ trống = không rõ.
-#    🔴 CẤM `SendMessage` đánh thức agent ĐÃ XONG để hỏi lại: mỗi lần ~120K token
-#    (20/11 đốt ~1,1M, user hết limit). Lô nào xanh bước 4 ⇒ commit file lô đó NGAY.
-
-# 6. NẠP. `nap` chỉ đọc lô `trangthai == "xong"`, nên phải đánh dấu trước.
-PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py xong k73 k74 k75
-PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py nap  k73 k74 k75            # khan
-PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py nap  k73 k74 k75 --apply
-
-# 7. SOÁT TRÊN THẺ THẬT (đọc field từ Anki, không đọc file lô).
-PYTHONIOENCODING=utf-8 python data/huongdan/kiemtra.py
-
-# 8. BA CỬA REPO + COMMIT (L3, QD-10 — xong là commit ngay, không hỏi user).
+K=data/huongdan/kho; export PYTHONIOENCODING=utf-8
+# 1. CHỐT LÔ — khan rồi ghi. Có dòng "⚠️ HỌ TỪ BỊ XÉ" ⇒ gom tay trong hangdoi.json NGAY, trước bước 2.
+python $K/xephangdoi.py chon N && python $K/xephangdoi.py chon N --apply
+# 2. TẠO THẺ — ngược thứ tự lô, dừng ở lỗi đầu (vì sao: đầu file xephangdoi.py).
+python $K/xephangdoi.py taothe --apply
+# 3. GIAO — `giao` in va chạm + ỨNG VIÊN họ từ mọi lô chờ: đọc, lọc, khai khuôn vào lời nhắn §4.
+#    Mỗi lô một agent, context trắng; giao HẾT trong MỘT tin nhắn rồi đứng im.
+python $K/xephangdoi.py giao
+# 4. CHỐT — agent báo xong ⇒ khan (chỉ soát) rồi --apply: soát → xong → nạp → kiemtra → dolo.tsv.
+#    Lô ĐỎ ở lại `cho` kèm lý do. 🔴 CẤM `SendMessage` đánh thức agent ĐÃ XONG để hỏi số: ~120K
+#    token/lần (20/11 đốt ~1,1M) — số đã nằm ở `B` cuối file lô, `chot` tự đọc.
+python $K/xephangdoi.py chot && python $K/xephangdoi.py chot --apply
+# 5. BA CỬA + COMMIT theo đường dẫn: file lô + hangdoi.json + dolo.tsv (L3, QD-10).
 python soatkientruc.py && python -c "import bot, main" && python -m unittest discover -s tests
 ```
-
-⚠️ **Sau bước 6, đối chiếu "ghi vào N note" với số từ của lô.** Lệch là có chuyện — chính con số
-33-note-cho-32-từ đã tố giác bug khoá `ё` (`всё`/`все` chung một khoá, ghi đè lẫn nhau).
 
 ## §2. Quyết định cỡ lô — đã đo, đừng nghĩ lại
 
@@ -80,15 +61,10 @@ python soatkientruc.py && python -c "import bot, main" && python -m unittest dis
   làm khai sai hai lần liên tiếp. Grep gốc từ phải tính cả tiền tố (`startswith('ход')` sót `выход`).
 - 🔴 **Quét "chứa chuỗi" MÙ với từ cùng gốc không mang mặt chữ** (`животное` ↔ `жить`/`жизнь`).
   ⇒ Khai với agent là **"máy tìm được X"**, đừng khai **"không có"**. Danh sách giao là **SÀN**.
-- 🔴 **Đo va chạm phải đọc ĐỦ BA badge**: `PoS` · `GenderBadge` · `AspectBadge`. Trùng cả ba mới
-  là va chạm thật. **Gõ `Gender` thì AnkiConnect trả RỖNG và bộ lọc im lặng nhận nhầm** — đúng
-  lỗi đó đã làm luồng chính khai sai. `congcu.py vacham` chỉ khớp chuỗi ⇒ là SÀN, lọc lại bằng
-  field thật rồi hãy giao.
+- 🔴 **Đừng tự viết đoạn đo va chạm** — `giao`/`vacham` đã lọc đủ 4 badge và ghi trạng thái lô
+  bên kia; tự viết là dẫm lại bẫy `Gender` (field không có, trả RỖNG im lặng).
 - 🔴 **Gỡ va chạm bằng RÚT GỌN, đừng thêm chữ** (xác nhận 4 lần): bỏ nghĩa nới rộng / bỏ lời giải
   thích lẫn trong đề bài làm cụm trùng biến mất mà không thêm chữ nào.
-- 🔴 **Giao kèm TRẠNG THÁI lô đối phương** khi hai lô đụng nghĩa nhau: còn `cho` ⇒ *"lô kia tự lo,
-  muốn nó đổi thì BÁO LÊN"*; đã `xong` ⇒ **mồ côi**, chỉ được BÁO LÊN. Thiếu vế này agent hoặc
-  tự sửa từ ngoài lô (sai) hoặc dừng lại hỏi (đắt).
 - 🔴 **CÓ LÔ CHẠY SONG SONG THÌ ĐỪNG `git add -A`** — nó quét cả file đang soạn dở vào commit,
   HEAD giữ ảnh chụp còn lỗi. Commit theo đường dẫn cụ thể.
 - 🔴 **Đuôi phiên là chỗ đắt nhất** (mỗi lượt chat gửi lại cả hội thoại). Trước khi sửa tài liệu,
