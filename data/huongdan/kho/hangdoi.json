@@ -4587,8 +4587,8 @@
     "ничей",
     "чей-нибудь"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k143_places-transport.py",
    "dot": "b2",
    "chuDe": {
     "стройка": "places::city",
@@ -4610,7 +4610,8 @@
     "увозить": "places::transport",
     "ничей": "language::grammar",
     "чей-нибудь": "language::grammar"
-   }
+   },
+   "daNap": true
   },
   {
    "id": "k144",
@@ -4634,8 +4635,8 @@
     "сибирский",
     "азиатский"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k144_life-leisure.py",
    "dot": "b2",
    "chuDe": {
     "кроссовка": "life::clothing",
@@ -4655,7 +4656,8 @@
     "климат": "nature::weather",
     "сибирский": "places::geo",
     "азиатский": "places::geo"
-   }
+   },
+   "daNap": true
   },
   {
    "id": "k145",
@@ -4681,8 +4683,8 @@
     "радовать",
     "заплакать"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k145_concepts-state.py",
    "dot": "b2",
    "chuDe": {
     "митинг": "concepts::state",
@@ -4704,7 +4706,8 @@
     "обрадовать": "concepts::emotion",
     "радовать": "concepts::emotion",
     "заплакать": "concepts::emotion"
-   }
+   },
+   "daNap": true
   },
   {
    "id": "k146",
@@ -4729,8 +4732,8 @@
     "курсы",
     "конспектировать"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k146_language-education.py",
    "dot": "b2",
    "chuDe": {
     "русско-английский": "language::documents",
@@ -4751,7 +4754,8 @@
     "ректор": "language::education",
     "курсы": "language::education",
     "конспектировать": "language::education"
-   }
+   },
+   "daNap": true
   },
   {
    "id": "k147",
@@ -4779,8 +4783,8 @@
     "оканчиваться",
     "окончиться"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k147_language-communication.py",
    "dot": "b2",
    "chuDe": {
     "воспитать": "language::education",
@@ -4804,7 +4808,8 @@
     "окончиться": "time",
     "геологический": "language::education",
     "геолог": "people::professions"
-   }
+   },
+   "daNap": true
   },
   {
    "id": "k148",
@@ -4829,8 +4834,8 @@
     "постирать",
     "стирать"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k148_life-food.py",
    "dot": "b2",
    "chuDe": {
     "обычай": "people::nation",
@@ -4851,7 +4856,8 @@
     "самовар": "life::home",
     "постирать": "life::home",
     "стирать": "life::home"
-   }
+   },
+   "daNap": true
   },
   {
    "id": "k149",
@@ -4878,8 +4884,8 @@
     "улучшаться",
     "улучшиться"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k149_actions.py",
    "dot": "b2",
    "chuDe": {
     "меньшинство": "numbers",
@@ -4902,7 +4908,8 @@
     "ценить": "qualities::eval",
     "улучшаться": "qualities::eval",
     "улучшиться": "qualities::eval"
-   }
+   },
+   "daNap": true
   },
   {
    "id": "k150",
@@ -4930,8 +4937,8 @@
     "рояль",
     "сфотографироваться"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k150_life-health.py",
    "dot": "b2",
    "chuDe": {
     "ангина": "life::health",
@@ -4955,7 +4962,8 @@
     "ансамбль": "life::art",
     "рояль": "life::art",
     "сфотографироваться": "life::art"
-   }
+   },
+   "daNap": true
   }
  ]
 }
