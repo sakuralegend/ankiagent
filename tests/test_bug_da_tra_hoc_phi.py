@@ -1967,6 +1967,16 @@ class TestDotThemTuChayLaiDuoc(unittest.TestCase):
             with self.assertRaises(RuntimeError):
                 grammar.fetch_page("лучший-thu-429", memo=False)
 
+    def test_openrussian_timeout_mot_lan_thi_thu_lai(self):
+        """21/11: một lần ReadTimeout giết `taothe --apply` ở thẻ 51/153."""
+        import requests
+        tot = unittest.mock.Mock(status_code=200, text='<script id="__NEXT_DATA__">'
+                                 '{"props":{"pageProps":{"info":{"ok":1}}}}</script>')
+        with unittest.mock.patch("requests.get",
+                                 side_effect=[requests.ReadTimeout("chop"), tot]), \
+                unittest.mock.patch.object(grammar.time, "sleep"):
+            self.assertEqual(grammar.fetch_page("котлета-thu-timeout", memo=False), {"ok": 1})
+
     def test_ghi_json_hong_giua_chung_giu_file_cu(self):
         import tempfile
         x = self._x()

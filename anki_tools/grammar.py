@@ -100,11 +100,8 @@ def _pick_word_object(info, want_bare):
 # định giữ gì.
 # ==============================================================================
 
-# Bộ nhớ tạm TRONG MỘT LẦN CHẠY. Trong cùng một luồng tạo thẻ, `scraper.py` và
-# `grammar.py` cùng cần một từ -> không tải hai lần. CÓ CHẶN SỐ LƯỢNG: mỗi trang
-# vài chục KB, cào cả kho 950 từ mà giữ hết là ngốn vô ích. Không ghi ra đĩa —
-# bộ nhớ đệm lâu dài giờ là ô `GrammarJSON` trong chính thẻ Anki (QD-11), không
-# phải trang thô này.
+# Nhớ tạm MỘT LẦN CHẠY (`scraper.py` + `grammar.py` cùng cần một từ), có trần vì mỗi trang
+# vài chục KB. Không ghi đĩa: bộ đệm lâu dài là ô `GrammarJSON` trong thẻ (QD-11).
 _PAGE_MEMO = {}
 _PAGE_MEMO_TRAN = 16
 
@@ -118,15 +115,18 @@ def fetch_page(word, timeout=25, memo=True):
     from bs4 import BeautifulSoup
     url = "https://en.openrussian.org/ru/" + urllib.parse.quote(word.strip(), safe="")
     # 429 = "chậm lại", KHÔNG phải "không có từ": trả {} là mọi chỗ gọi báo "không có trên
-    # OpenRussian" (18/11, đợt 100 từ: 4 từ thật bị báo vậy, suýt bị bỏ khỏi đợt).
+    # OpenRussian" (18/11: 4 từ thật suýt bị bỏ). Chớp mạng cũng chờ (21/11 chết ở thẻ 51/153).
     for cho in (5, 15, 40, 90):
-        res = requests.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=timeout)
-        if res.status_code != 429:
+        try:
+            res = requests.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=timeout)
+        except (requests.Timeout, requests.ConnectionError) as e:
+            res = e
+        if getattr(res, "status_code", 429) != 429:
             break
-        log_warn(f"{word}: OpenRussian 429 — chờ {cho}s")
+        log_warn(f"{word}: OpenRussian {getattr(res, 'status_code', type(res).__name__)} — chờ {cho}s")
         time.sleep(cho)
     else:
-        raise RuntimeError(f"OpenRussian chặn (429) khi tải '{word}' — thử lại sau")
+        raise RuntimeError(f"OpenRussian chặn (429) hoặc rớt mạng khi tải '{word}' — thử lại sau")
     if res.status_code != 200:
         log_fail(f"{word}: HTTP {res.status_code}")
         return {}
