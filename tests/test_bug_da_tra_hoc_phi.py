@@ -1972,6 +1972,21 @@ class TestDotThemTuChayLaiDuoc(unittest.TestCase):
         import xephangdoi
         return xephangdoi
 
+    def test_kho_B2_chuyen_theo_thu_tu_lo_va_chi_tu_con_trong_kho(self):
+        """🧹 code tạm `khob2.py` (user chốt 21/11): chuyển N từ phải lấy LÔ ĐẦU trước — lô
+        đầu là lô lẽ ra học trước; lô không thuộc kho (B1 đã học) thì không bao giờ đụng."""
+        self._x()
+        import khob2
+        q = {"lo": [{"id": "k152", "tu": ["в", "г"], "deck": khob2.DECK},
+                    {"id": "k151", "tu": ["а", "б"], "deck": khob2.DECK},
+                    {"id": "k150", "tu": ["я"]}]}
+        trong = {"а", "б", "в", "г", "я"}
+        self.assertEqual(khob2.chon_chuyen(q, trong, 3), ["а", "б", "в"])
+        self.assertEqual(khob2.chon_chuyen(q, trong - {"а"}, 2), ["б", "в"], "đã chuyển thì bỏ qua")
+        self.assertEqual(khob2.chon_chuyen(q, trong, ids=["k152"]), ["в", "г"])
+        self.assertNotIn("я", khob2.chon_chuyen(q, trong))
+        self.assertIsNone(khob2.nhac({"lo": [{"id": "k150", "tu": []}]}), "chưa dùng kho thì im")
+
     def test_chon_khong_cat_doi_cap_the_va_bo_tu_da_len_ke(self):
         x = self._x()
         ds = [["а", "B1", 1, "", ""], ["б", "B1", 2, "", "khong-OR"], ["в", "B1", 3, "", ""],

@@ -46,6 +46,7 @@ from khochung import (TUDIEN, khoa_note, bare, doc_hangdoi, ghi_hangdoi,   # noq
                       ghi_json, ban_ghi_tudien, la_id_lo, ghi_dolo)
 from anki_tools.anki_client import doc_notes_cua_model                    # noqa: E402
 from anki_tools.config import MODEL_NAME                                  # noqa: E402
+import khob2                                                              # noqa: E402  🧹 tạm
 
 SACH = os.path.join(GOC, "data", "sach_b2.json")
 CO, TRAN, SAN = 20, 22, 10          # cỡ nhắm / trần / sàn mỗi lô — lo.md §2
@@ -171,7 +172,8 @@ def cmd_chon(n, apply):
         cds = [cd[r[0]] for r in g]
         q["lo"].append({"id": f"k{i}", "topic": max(set(cds), key=cds.count),
                         "tu": [r[0] for r in g], "trangthai": "cho", "file": None,
-                        "dot": "b2", "chuaThe": True, "chuDe": {r[0]: cd[r[0]] for r in g}})
+                        "dot": "b2", "chuaThe": True, "chuDe": {r[0]: cd[r[0]] for r in g},
+                        "deck": khob2.DECK})                       # 🧹 tạm: kho chờ B2
         print(f"  k{i}  {len(g):2d} từ  {q['lo'][-1]['topic']:22s} {' '.join(r[0] for r in g)}")
     q["tong_tu"], q["tong_lo"] = sum(len(l["tu"]) for l in q["lo"]), len(q["lo"])
     ghi_hangdoi(q)
@@ -262,6 +264,7 @@ def cmd_taothe(apply, toi_da):
     if viec and not sync_truoc_khi_ghi_lo("tạo thẻ đợt"):
         sys.exit(1)
     viec.sort(key=lambda v: v[2] is None)   # khuyết trước: nó đã nằm ĐÚNG vị trí
+    khob2.tao_deck(dot)
 
     def dung(loi):                          # đẩy phần đã tạo lên AnkiWeb rồi mới chết
         print("sync:", sync_now())
@@ -275,7 +278,7 @@ def cmd_taothe(apply, toi_da):
     for i, (l, w, n) in enumerate(viec[:toi_da], 1):
         chon, ai = l.get("chonId", {}).get(w), opus[l["id"]][w]
         ok, info, err = (redo_note_id(n["noteId"], chon_id=chon, ai_san=ai) if n
-                         else process_word(w, None, chon_id=chon, ai_san=ai))
+                         else process_word(w, l.get("deck"), chon_id=chon, ai_san=ai))
         if ok and info.get("ai_degraded"):
             kq = opus[l["id"]]
             del kq[w]                       # bản Opus này hỏng lúc dựng ⇒ lần sau soạn lại
@@ -294,6 +297,7 @@ def cmd_taothe(apply, toi_da):
     # KHÔNG `sync_now()` trơn: sync xong Anki còn khoá collection ~2 s ⇒ đọc ngay là chết
     # "Collection lifecycle operation is active" (gặp 18/11). Hàm này sync rồi CHỜ mở khoá.
     sync_truoc_khi_ghi_lo("dọn cuối đợt")
+    khob2.gan_mat_go()
     hoan_tat(q, doc_the())
 
 
@@ -377,6 +381,7 @@ def cmd_trangthai():
               f"{' '.join(i for i in cho if i not in co) or '—'}")
     else:
         print("Không có đợt dở. Thêm từ: `chon N` (khan) rồi `chon N --apply`.")
+    print(khob2.nhac(doc_hangdoi()) or "", end="")
 
 
 if __name__ == "__main__":
@@ -386,6 +391,9 @@ if __name__ == "__main__":
     elif a[:1] in (["giao"], ["chot"]):
         ids = [x for x in a[1:] if la_id_lo(x)]
         cmd_giao(ids) if a[0] == "giao" else cmd_chot(ids, "--apply" in a)
+    elif a[:1] == ["chuyen"]:                # 🧹 tạm: "chuyển N từ B2 sang học"
+        khob2.cmd_chuyen(doc_hangdoi(), next((int(x) for x in a[1:] if x.isdigit()), None),
+                         [x for x in a[1:] if la_id_lo(x)], "--apply" in a)
     elif a[:1] == ["taothe"]:
         cmd_taothe("--apply" in a, int(a[a.index("--toi-da") + 1]) if "--toi-da" in a else 10 ** 6)
     else:

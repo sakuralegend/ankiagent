@@ -41,6 +41,11 @@ python $K/xephangdoi.py chot && python $K/xephangdoi.py chot --apply
 python soatkientruc.py && python -c "import bot, main" && python -m unittest discover -s tests
 ```
 
+🧹 **Kho chờ B2 (code tạm `khob2.py`, user chốt 21/11):** lô từ `chon` hôm nay trở đi tạo thẻ vào
+deck `B2-pending` (ngoài RUSSIAN, mặt 1-go) — chưa học, nhưng vẫn soạn đủ 5 bước trên. User nói
+**"chuyển N từ B2 sang học"** ⇒ `python $K/xephangdoi.py chuyen N` khan rồi `--apply`: N từ LÔ ĐẦU về
+`0-quen`, reset trạng thái. Vì sao + khi nào XOÁ: đầu file `khob2.py`.
+
 ## §2. Quyết định cỡ lô — đã đo, đừng nghĩ lại
 
 - **Giá tính theo SỐ LÔ, không theo số từ**: mỗi lô ~110–140K token bất kể 12 hay 20 từ. Lô to

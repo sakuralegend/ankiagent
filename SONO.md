@@ -14,6 +14,7 @@
 
 | Nợ | Vì sao chưa trả | Hết hạn |
 |---|---|---|
+| 🧹 Xoá code tạm kho `B2-pending`: `khob2.py` + mọi dòng `grep -rn khob2` (xephangdoi.py, lo.md, test) | Còn dùng tới khi sách B2 hết từ VÀ deck rỗng — `xephangdoi.py` khan tự nhắc lúc đó | 2027-02-28 |
 
 🔴 **Trước khi thêm dòng, hỏi: đây có phải NỢ không?** Nợ = việc mình BIẾT phải làm
 mà cố ý hoãn. KHÔNG phải nợ, và cấm ghi vào đây:

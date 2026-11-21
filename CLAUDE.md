@@ -40,8 +40,8 @@ Sổ tay đầy đủ: `CACHLAM.md` (luật `L1`–`L5`, có số hiệu để v
 ✂️ **CHỐNG LOÃNG (QD-12, đã cắm vào hook nên nhắc lại mỗi lượt).** Thêm dòng vào repo phải **trả giá bằng cắt chỗ khác**; file có sẵn chứa được thì **cấm đẻ file mới**. Đổi lại: **quyết định ĐỔI CODE phải khai VÌ SAO ngay** — vào thân commit, và chỉ vào `QUYETDINH.md` khi nó là thứ người sau còn phải tự cân. `CHANGELOG.md` chết vì 2 809 dòng, không phải vì thiếu.
 
 🧭 **NGHE XONG THÌ RẼ NGAY, user KHÔNG gõ lệnh gì** — nhớ hộ quy trình là việc của bạn (QD-09).
-· **"chạy lô / soạn lô / thêm từ mới"** ⇒ `.claude/commands/lo.md` — **đi THẲNG**, không ba cửa,
-không lục chỗ khác: đó là nơi DUY NHẤT nói về chạy lô.
+· **"chạy lô / soạn lô / thêm từ mới / chuyển từ B2 sang học"** ⇒ `.claude/commands/lo.md` —
+**đi THẲNG**, không ba cửa: đó là nơi DUY NHẤT nói về chạy lô.
 · **Xin thêm/sửa chức năng** ⇒ ba cửa: `ycau.md` (đo trước, **hỏi bằng AskUserQuestion trắc
 nghiệm**, ghi `VIECDANGLAM.md`) → `kehoach.md` chờ duyệt → viết code → `nghiemthu.md`.
 **Cấm viết code trước khi qua cửa 1–2.** · Hỏi đáp / sửa lỗi vặt ⇒ đi thẳng.
