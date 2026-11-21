@@ -708,6 +708,22 @@ class OMayDungRiengKhoiOHuongDan(unittest.TestCase):
                       "cmd_bang phai duyet `doi` de IN TEN tung the no sua")
         self.assertIn("{wc}", nguon, "vong lap do phai in ra chinh tu, khong phai dem lai")
 
+    def test_nap_KHONG_tu_dung_o_may_ma_giao_cho_bang(self):
+        """🔴 21/11: `nap` tự dựng `BangMay` bằng `get_cached(word)` không nhóm ⇒ 49 thẻ
+        sai, `нареза́ть` mang bảng chia của `наре́зать` (QD-40), nhóm 3 thẻ của thẻ cũ
+        không dựng lại khi lô thêm thành viên. `BangMay` chỉ được có MỘT chủ."""
+        import inspect
+        import importlib.util
+        goc = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        kho = os.path.join(goc, "data", "huongdan", "kho")
+        sys.path.insert(0, kho)
+        spec = importlib.util.spec_from_file_location("congcu", os.path.join(kho, "congcu.py"))
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        nguon = inspect.getsource(mod.cmd_nap)
+        self.assertNotIn("khoi_may", nguon, "cmd_nap lai tu dung o may — de cho cmd_bang")
+        self.assertIn("cmd_bang(True)", nguon, "cmd_nap phai goi cmd_bang sau khi ghi")
+
     def test_go_bang_goi_hai_lan_van_ra_mot_ket_qua(self):
         """Chạy `bang --apply` hai lần không được đội bảng / cụt chữ."""
         html = 'CHỮ<details class="gt-bang">B</details>'

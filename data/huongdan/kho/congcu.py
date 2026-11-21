@@ -74,7 +74,7 @@ def doc_the_bat_buoc():
             "nghia tieng Viet (QD-27) — `tudien.json` khong con cot `vi` de quay ve.")
 
 
-def cmd_bang():
+def cmd_bang(apply=None):
     """Dựng lại ô MÁY (`BangMay`) cho MỌI thẻ RU_Word + gỡ bảng cũ khỏi `HuongDan`.
 
     User chốt 29/07: *"toàn bộ từ sẽ có bảng toàn bộ cách chia"* ⇒ chạy trên cả
@@ -83,7 +83,8 @@ def cmd_bang():
     kết quả (gỡ rồi mới dựng, so nội dung trước khi ghi). Bảng dựng TỪ
     `GrammarJSON` của chính thẻ, không cào mạng (QD-11).
     """
-    apply = "--apply" in sys.argv
+    if apply is None:
+        apply = "--apply" in sys.argv
     if apply and not sync_truoc_khi_ghi_lo("di tru BangMay"):
         return
     notes = ac("notesInfo", notes=ac("findNotes", query="note:RU_Word"))
@@ -417,7 +418,7 @@ def cmd_nap():
     if apply and not sync_truoc_khi_ghi_lo("nap lo"):
         return
     ids = ac("findNotes", query="note:RU_Word")
-    ban_do, hien_co, vi_co, may_co = {}, {}, {}, {}
+    ban_do, hien_co, vi_co = {}, {}, {}
     for n in ac("notesInfo", notes=ids):
         # `noteId`, KHÔNG phải `id` — notesInfo trả về noteId, còn updateNoteFields
         # lại nhận khoá `id`. Hai đầu đặt tên khác nhau, dễ dính.
@@ -425,7 +426,6 @@ def cmd_nap():
         ban_do.setdefault(khoa_note(n["fields"]["WordClean"]["value"]), []).append(nid)
         hien_co[nid] = n["fields"].get("HuongDan", {}).get("value", "")
         vi_co[nid] = n["fields"].get("Vietnamese", {}).get("value", "")
-        may_co[nid] = n["fields"].get("BangMay", {}).get("value", "")
 
     # Field `Vietnamese` là ĐỀ BÀI của deck 1-go (user gõ từ Nga từ dòng này),
     # nên sửa nó là sửa cái user phải trả lời — đổi thì phải in ra để soát mắt.
@@ -452,26 +452,24 @@ def cmd_nap():
             doi += 1
         can_tag += nids
         # 🔴 HAI Ô, HAI CHỦ (QD-26): `HuongDan` = agent soạn (gỡ bảng nếu lỡ chép
-        # vào), `BangMay` = máy dựng thẳng từ từ điển. Chung một ô là gốc 7 ca rác.
+        # vào), `BangMay` = CHỈ `cmd_bang` dựng, gọi ở cuối lệnh này. Bản cũ tự dựng
+        # ở đây bằng `get_cached(word)` không nhóm ⇒ 21/11 đo ra 49 thẻ sai: `нареза́ть`
+        # mang bảng của `наре́зать` (bộ đệm tra theo tên bỏ dấu, QD-40), và nhóm 3 thẻ
+        # (`знать`/`узнать` + `узнавать` mới) không dựng lại cho thẻ CŨ.
         html = gan_bang(html, word)
-        may = grammar.khoi_may(grammar.get_cached(word))
         for nid in nids:
-            doi_o = {}
-            if hien_co.get(nid) != html:
-                doi_o["HuongDan"] = html
-            if may_co.get(nid) != may:
-                doi_o["BangMay"] = may
-            if not doi_o:
+            if hien_co.get(nid) == html:
                 bo_qua += 1
                 continue
             if apply:
-                ac("updateNoteFields", note={"id": nid, "fields": doi_o})
+                ac("updateNoteFields", note={"id": nid, "fields": {"HuongDan": html}})
             ok += 1
     print(f"ghi vao {ok} note, bo qua {bo_qua} (da trung noi dung), "
           f"{doi} tu co the trung -> ghi ca hai")
     for w in miss:
         print(f"  !! khong tim thay note cho: {w}")
     if not apply:
+        cmd_bang(False)
         print("(chua ghi gi — them --apply de ghi that)")
         return
     if miss:
@@ -495,6 +493,7 @@ def cmd_nap():
             l.pop("thucong", None)  # trục chỉ dùng lúc soạn; để lại thành ~41K chữ chết (18/11)
     ghi_hangdoi(q)
     print(f"da ghi + danh dau daNap: {' '.join(ids_lo)}")
+    cmd_bang(True)        # ô máy: nhóm động từ đổi khi lô thêm thành viên ⇒ dựng lại CẢ thẻ cũ
     print("sync: " + str(ac("sync")))
 
 
