@@ -6,6 +6,7 @@ Cả hai đều CHẠY tiến trình ngoài (`git`, lệnh hook) — chỗ duy n
 làm việc đó, nên gom chung một file để biết ngay phải nghi ngờ ở đâu khi chậm.
 """
 import json
+import shlex
 import subprocess
 
 from . import khung
@@ -98,7 +99,13 @@ def s11_hook_con_song():
 
     ra = []
     for cau in lenh:
-        phan = cau.split()
+        # Claude Code tự thay $CLAUDE_PROJECT_DIR; thiếu nó thì đường dẫn tương đối gãy ngay khi
+        # phiên `cd` sang thư mục con — hook chặn MỌI tin nhắn của user (gặp 2 lần, 22/11).
+        if ".py" in cau and "$CLAUDE_PROJECT_DIR" not in cau:
+            ra.append(PhatHien(f"hook|{cau[:40]}", 0, 'duong dan .py TUONG DOI -> phien cd la hook '
+                               'chet, chan moi tin nhan; viet "$CLAUDE_PROJECT_DIR/.claude/hooks/..."'))
+            continue
+        phan = shlex.split(cau.replace("$CLAUDE_PROJECT_DIR", khung.GOC.as_posix()))
         # Đối số nào trông như đường dẫn trong repo thì phải tồn tại thật.
         for doi_so in phan[1:]:
             if doi_so.endswith(".py") and not (khung.GOC / doi_so).exists():

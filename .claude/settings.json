@@ -11,7 +11,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python .claude/hooks/nhac_ba_cua.py",
+            "command": "python \"$CLAUDE_PROJECT_DIR/.claude/hooks/nhac_ba_cua.py\"",
             "timeout": 5
           }
         ]
