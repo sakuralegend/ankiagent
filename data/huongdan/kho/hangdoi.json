@@ -4217,8 +4217,8 @@
     "обидеться",
     "обижаться"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k136_concepts-emotion.py",
    "dot": "b2",
    "chuDe": {
     "сравнивать": "concepts::mind",
@@ -4244,7 +4244,8 @@
    },
    "chonId": {
     "доброта": 5575
-   }
+   },
+   "daNap": true
   },
   {
    "id": "k137",
@@ -4270,8 +4271,8 @@
     "переносить",
     "сохранять"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k137_actions.py",
    "dot": "b2",
    "chuDe": {
     "ломать": "actions",
@@ -4293,7 +4294,8 @@
     "перенести": "actions",
     "переносить": "actions",
     "сохранять": "actions"
-   }
+   },
+   "daNap": true
   },
   {
    "id": "k138",
@@ -4321,8 +4323,8 @@
     "демонстрация",
     "конституция"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k138_qualities.py",
    "dot": "b2",
    "chuDe": {
     "развиваться": "actions",
@@ -4346,7 +4348,8 @@
     "независимость": "concepts::state",
     "демонстрация": "concepts::state",
     "конституция": "concepts::state"
-   }
+   },
+   "daNap": true
   },
   {
    "id": "k139",
@@ -4372,8 +4375,8 @@
     "накормить",
     "балкон"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k139_people-professions.py",
    "dot": "b2",
    "chuDe": {
     "седой": "people::body",
@@ -4395,7 +4398,8 @@
     "кормить": "life::food",
     "накормить": "life::food",
     "балкон": "life::home"
-   }
+   },
+   "daNap": true
   },
   {
    "id": "k140",
@@ -4423,8 +4427,8 @@
     "училище",
     "переулок"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k140_life-health.py",
    "dot": "b2",
    "chuDe": {
     "укол": "life::health",
@@ -4448,7 +4452,8 @@
     "туман": "nature::weather",
     "училище": "places::city",
     "переулок": "places::city"
-   }
+   },
+   "daNap": true
   },
   {
    "id": "k141",
@@ -4474,8 +4479,8 @@
     "стипендия",
     "консультация"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k141_language-education.py",
    "dot": "b2",
    "chuDe": {
     "негде": "places::position",
@@ -4497,7 +4502,8 @@
     "исследовать": "language::education",
     "стипендия": "language::education",
     "консультация": "language::education"
-   }
+   },
+   "daNap": true
   },
   {
    "id": "k142",
@@ -4526,8 +4532,8 @@
     "отнимать",
     "отнять"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k142_language-communication.py",
    "dot": "b2",
    "chuDe": {
     "беседовать": "language::communication",
@@ -4552,7 +4558,8 @@
     "резать": "actions",
     "отнимать": "actions",
     "отнять": "actions"
-   }
+   },
+   "daNap": true
   }
  ]
 }
