@@ -31,7 +31,7 @@ sys.path.insert(0, str(GOC))
 sys.path.insert(0, str(GOC / "data" / "huongdan" / "kho"))
 
 from anki_tools import goi_anki                                     # noqa: E402
-from mientru import MIEN_TRU                                         # noqa: E402
+from mientru import MIEN_TRU, SUA_NGUON                                        # noqa: E402
 from soatlo import lech_trong_am                                     # noqa: E402
 
 NOUNS = Path(__file__).resolve().parent.parent / "nouns.csv"
@@ -60,6 +60,7 @@ def load_nouns():
             acc = (row.get("accented") or "").strip()
             if b and acc and b not in d:
                 d[b] = acc.replace("'", ACUTE)
+    d.update(SUA_NGUON)
     return d
 
 

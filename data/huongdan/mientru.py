@@ -110,3 +110,12 @@ MIEN_TRU = {
              "(glossed tiếng Đức Gefangenschaft, không có nghĩa tiếng Anh). Cùng lớp với ни́зок, "
              "я́рок ở trên",
 }
+
+# VÁ NGUỒN — dòng `nouns.csv` mà cột `accented` trái với CHÍNH cột `pl_nom` của nó.
+# Khác MIEN_TRU (thẻ đúng, máy kêu oan vì đồng tự): ở đây TỪ ĐIỂN sai, nên sửa từ
+# điển chứ không miễn trừ thẻ. Không vá vào file: csv là dump tải về, bị gitignore,
+# tải lại là mất. Đo 21/11: 206 dòng chỉ-số-nhiều, đúng 2 dòng lệch trọng âm thật.
+SUA_NGUON = {
+    "усы": "усы́",          # csv `у'сы`, pl_nom `усы'` — agent k139 bắt; số ít là у́с
+    "стринги": "стри́нги",  # csv `стринги'`, pl_nom `стри'нги`
+}

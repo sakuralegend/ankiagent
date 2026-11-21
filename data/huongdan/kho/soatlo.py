@@ -14,7 +14,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, "..", "..", ".."))
 sys.path.insert(0, os.path.join(HERE, ".."))
 from khochung import ACUTE, ZWSP, NOUNS, bare, nap_lo_da_soan, BANG_RE, la_id_lo  # noqa: E402
-from mientru import MIEN_TRU                                              # noqa: E402
+from mientru import MIEN_TRU, SUA_NGUON                                             # noqa: E402
 
 _BANG_RE = BANG_RE          # tên nội bộ giữ nguyên để ruột `uoc_cao` không đổi
 
@@ -51,6 +51,7 @@ def load_nouns():
             acc = (row.get("accented") or "").strip()
             if b and acc and b not in d:
                 d[b] = acc.replace("'", ACUTE)
+    d.update(SUA_NGUON)
     return d
 
 

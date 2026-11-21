@@ -93,7 +93,7 @@ python soatkientruc.py && python -c "import bot, main" && python -m unittest dis
   HEAD giữ ảnh chụp còn lỗi. Commit theo đường dẫn cụ thể.
 - 🔴 **Đuôi phiên là chỗ đắt nhất** (mỗi lượt chat gửi lại cả hội thoại). Trước khi sửa tài liệu,
   **đo trần trước** (`len()` file so `soat_nguong.json`) rồi sửa **một lượt**, đừng để cửa soát
-  dạy mình từng cái một. Và **đừng trộn việc sửa công cụ vào phiên chạy lô** — đã đốt trọn cửa sổ 5h.
+  dạy mình từng cái một. Gặp lỗi ⇒ sửa NGAY (CLAUDE.md mục 4), nhưng **giao lô xong đã** (từng đốt 5h).
 - 🔧 **Mạng chớp làm cả hai agent chết cùng lúc** lúc sắp `Write` file to. Gặp thì **`SendMessage`
   cho chạy tiếp**, đừng spawn agent mới — ngữ cảnh còn nguyên.
 - 🔧 **Console Windows là cp1252** ⇒ luôn `PYTHONIOENCODING=utf-8`. **Bash tool là Git Bash**:

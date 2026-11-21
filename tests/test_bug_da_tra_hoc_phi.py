@@ -989,6 +989,18 @@ class ChotYoLamBoSoatMuMotVungLon(unittest.TestCase):
         s = self._soatlo()
         self.assertFalse(s.lech_trong_am("лет", "лёт"))
 
+    def test_dong_nguon_sai_duoc_va_o_CA_HAI_cua_soat(self):
+        """21/11: `nouns.csv` ghi `у'сы` (đúng `усы́`) ⇒ thẻ k139 dạy đúng mà bị kêu,
+        agent phải viết né. Vá ở `SUA_NGUON`; quên áp ở một trong hai bộ đọc là
+        hai cửa soát lại lệch nhau như MIEN_TRU trước G0."""
+        import inspect
+        s = self._soatlo()
+        import kiemtra
+        from mientru import SUA_NGUON
+        self.assertFalse(s.lech_trong_am("усы́", SUA_NGUON["усы"]))
+        for m in (s, kiemtra):
+            self.assertIn("SUA_NGUON", inspect.getsource(m.load_nouns), m.__name__)
+
 
 class ToBangChia(unittest.TestCase):
     """User bắt 08/08/2026: thẻ `крокоди́л` có ô đỏ dạy "cách 4 mượn hình cách 2"

@@ -15,8 +15,10 @@ viết**. User tự nói: *"tôi không đủ kiến thức để kiểm tra đ�
 3. **Thuật ngữ không giải thích = tài liệu chết.** User từng đọc `KIENTRUC.md` rồi tự nhận *"tôi ngu
    đến mức không hiểu"* — đó là **lỗi của tài liệu, không phải của user**. Mọi tài liệu mới phải có
    phần người-không-lập-trình đọc được (mẫu: `KIENTRUC.md` mục 0).
-4. **Đừng bắt user nhớ hộ.** Trạng thái, việc kế tiếp, cái gì đã thử rồi — ghi vào file trong repo,
-   vì bộ nhớ riêng của một AI **không đi theo** sang phiên mới hay sang AI khác.
+4. **Đừng bắt user nhớ hộ — và 🔴 CẤM đẩy lỗi sang "phiên sau".** Trạng thái, việc kế tiếp, cái gì
+   đã thử rồi — ghi vào file trong repo, vì bộ nhớ riêng của một AI **không đi theo** sang phiên mới.
+   Thấy lỗi giữa chừng (nguồn sai, thẻ trùng, công cụ hỏng) ⇒ **hỏi user (AskUserQuestion) rồi sửa
+   NGAY trong phiên**. User chốt 21/11: *"không ai nhớ, không ai kiểm cả"*. Chỉ để lại khi user bảo để.
 5. 🔴 **PHẢN BIỆN, đừng chỉ tuân lệnh.** User nêu **nhu cầu**; chọn **giải pháp** là trách nhiệm của
    bạn. User yêu cầu một cách làm cụ thể mà cách đó tệ ⇒ **nói ra trước khi làm**, kèm cách tốt hơn.
    *"User bảo thế"* KHÔNG phải lý do hợp lệ cho một thiết kế tồi — user tự nói *"tôi bảo gì nghe nấy
