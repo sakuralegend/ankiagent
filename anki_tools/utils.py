@@ -9,7 +9,7 @@
 # tay, đổi lấy đúng hai thứ trên. Bốn hàm dưới đây làm đủ, và giữ nguyên tên cũ
 # nên không phải sửa một lời gọi nào đang có.
 #
-#     ANKI_LOG=debug|info|warn|fail   (mặc định `info`)
+#     ANKI_LOG=debug|info|warn|fail|off   (mặc định `info`; `off` = bộ test tự đặt)
 #
 # Lọc theo mức chứ không theo module: bot này một tiến trình, cái người đọc
 # `journalctl` cần là "chỉ xem cái hỏng", không phải "chỉ xem gói X".
@@ -17,7 +17,7 @@
 import os
 import re
 
-_MUC = {"debug": 10, "info": 20, "warn": 30, "fail": 40}
+_MUC = {"debug": 10, "info": 20, "warn": 30, "fail": 40, "off": 99}
 _NGUONG = _MUC.get((os.getenv("ANKI_LOG") or "info").strip().lower(), 20)
 
 

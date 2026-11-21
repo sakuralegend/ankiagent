@@ -24,8 +24,13 @@ import unittest
 import unittest.mock
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# Tắt nhật ký TRƯỚC khi import anki_tools (ngưỡng đọc một lần lúc import). Test giả
+# lập Anki đóng / mạng hỏng thì code thật in [WARN]/[FAIL] — đúng việc của nó, nhưng
+# 20 dòng đỏ giữa "OK" làm người đọc tưởng test hỏng (user hỏi 21/11). Truy lỗi
+# test thì chạy `ANKI_LOG=debug python -m unittest ...` để xem lại.
+os.environ.setdefault("ANKI_LOG", "off")
 
-from anki_tools import grammar, soat_nguphap                         # noqa: E402
+from anki_tools import grammar, soat_nguphap                        # noqa: E402
 from anki_tools import ai_client                                     # noqa: E402
 from anki_tools.html_builder import build_examples_html              # noqa: E402
 from anki_tools.topics import (TU_LOAI, normalize_pos,               # noqa: E402
@@ -1696,7 +1701,9 @@ class NghiaGapLaiPhaiMoDuoc(unittest.TestCase):
 
     def test_moi_o_nghia_deu_co_cong_tac_va_mui_ten(self):
         goc = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        doc = lambda p: open(os.path.join(goc, p), encoding="utf-8").read()
+        def doc(p):
+            with open(os.path.join(goc, p), encoding="utf-8") as f:
+                return f.read()
         for css, khuon in self.KHUON.items():
             self.assertIn(".meaning-box:has(.mx:not([open]))", doc(css), css)
             for p in khuon:
