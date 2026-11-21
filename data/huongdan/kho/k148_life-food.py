@@ -19,7 +19,8 @@ V = {
     "котлета": "chả thịt băm, miếng cốt lết",     # «chả thịt viên» lệch sang фрикаде́лька; gloss «patty / cutlet»
     "виноград": "nho, cây nho",                   # dấu «;» → dấu phẩy
     "жареный": "chiên, rán, nướng",               # bỏ ngoặc «(tính từ)» — badge từ loại tách khỏi жа́рить
-    "покормить": "cho ăn, cho bú",                # bỏ ngoặc «(một lần)»; «cho bú» từ gloss «breast-feed / nurse» — tách khỏi накорми́ть «cho ăn, cho ăn no»
+    "покормить": "cho ăn",                        # user duyệt 21/11: tách theo sắc thái với накорми́ть
+    "накормить": "cho ăn no",                     # THẺ CŨ (k139) — на- = no nê; sửa ở đây vì nap áp V theo tên từ
     "пожарить": "chiên, rán",                     # bỏ ngoặc «(xong)» — badge thể tách khỏi жа́рить
     "самовар": "ấm samovar",                      # bỏ ngoặc giải thích
     "постирать": "giặt",                          # bỏ «xong (một lần)» — badge thể tách khỏi стира́ть

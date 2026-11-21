@@ -17,7 +17,8 @@ S = {}
 V = {
     "воспитать": "nuôi dạy, giáo dục",            # «nuôi dạy thành» cụt ý; gloss raise / bring up
     "воспитывать": "nuôi dạy, giáo dục",          # bỏ «(con)»; badge thể tách khỏi воспита́ть
-    "обучить": "dạy, huấn luyện",                 # bỏ «(xong)»; badge thể tách khỏi обуча́ть
+    "обучать": "đào tạo",                         # user duyệt 21/11: «dạy» thuộc учи́ть, «huấn luyện» thuộc подгото́вить
+    "обучить": "đào tạo",                         # như trên; badge thể tách khỏi обуча́ть
     "сессия": "kỳ thi, mùa thi, phiên họp",       # bỏ ngoặc; gloss exam period / session / sitting
     "устный": "bằng miệng, bằng lời, vấn đáp",    # ngoặc → nghĩa rời: у́стный экза́мен = thi vấn đáp
     "похвалить": "khen, khen ngợi",               # bỏ «(một lần)»
