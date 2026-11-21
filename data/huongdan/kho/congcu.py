@@ -490,7 +490,9 @@ def cmd_nap():
     ghi_hangdoi(q)
     print(f"da ghi + danh dau daNap: {' '.join(ids_lo)}")
     cmd_bang(True)        # ô máy: nhóm động từ đổi khi lô thêm thành viên ⇒ dựng lại CẢ thẻ cũ
-    print("sync: " + str(ac("sync")))
+    # Sync rồi CHỜ mở khoá: `ac("sync")` trơn trả lời ngay mà collection còn khoá ~2 s
+    # ⇒ `kiemtra.py` chạy liền sau chết "Collection lifecycle" (18/11).
+    print("sync: " + ("OK" if sync_truoc_khi_ghi_lo("cuoi nap") else "HONG — xem dong FAIL"))
 
 
 if __name__ == "__main__":
