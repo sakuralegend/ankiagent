@@ -4220,7 +4220,6 @@
    "trangthai": "cho",
    "file": null,
    "dot": "b2",
-   "chuaThe": true,
    "chuDe": {
     "сравнивать": "concepts::mind",
     "сравнить": "concepts::mind",
@@ -4242,6 +4241,9 @@
     "целоваться": "concepts::emotion",
     "обидеться": "concepts::emotion",
     "обижаться": "concepts::emotion"
+   },
+   "chonId": {
+    "доброта": 5575
    }
   },
   {
@@ -4271,7 +4273,6 @@
    "trangthai": "cho",
    "file": null,
    "dot": "b2",
-   "chuaThe": true,
    "chuDe": {
     "ломать": "actions",
     "сломать": "actions",
@@ -4323,7 +4324,6 @@
    "trangthai": "cho",
    "file": null,
    "dot": "b2",
-   "chuaThe": true,
    "chuDe": {
     "развиваться": "actions",
     "развиться": "actions",
@@ -4375,7 +4375,6 @@
    "trangthai": "cho",
    "file": null,
    "dot": "b2",
-   "chuaThe": true,
    "chuDe": {
     "седой": "people::body",
     "худой": "people::body",
@@ -4427,7 +4426,6 @@
    "trangthai": "cho",
    "file": null,
    "dot": "b2",
-   "chuaThe": true,
    "chuDe": {
     "укол": "life::health",
     "кашель": "life::health",
@@ -4479,7 +4477,6 @@
    "trangthai": "cho",
    "file": null,
    "dot": "b2",
-   "chuaThe": true,
    "chuDe": {
     "негде": "places::position",
     "навстречу": "places::position",
@@ -4532,7 +4529,6 @@
    "trangthai": "cho",
    "file": null,
    "dot": "b2",
-   "chuaThe": true,
    "chuDe": {
     "беседовать": "language::communication",
     "побеседовать": "language::communication",
