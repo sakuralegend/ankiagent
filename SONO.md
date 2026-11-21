@@ -14,6 +14,7 @@
 
 | Nợ | Vì sao chưa trả | Hết hạn |
 |---|---|---|
+| Kế hoạch "thêm từ một mạch": lệnh `giao` (in bối cảnh va chạm/họ từ từng lô) + `xong` gộp soat→nap→kiemtra; `kiemtra.py` vấp "Collection lifecycle" ngay sau `nap` (`git log --grep 'mot mach'`) | User chưa duyệt (18/11), đang nghĩ | 2026-12-20 |
 
 🔴 **Trước khi thêm dòng, hỏi: đây có phải NỢ không?** Nợ = việc mình BIẾT phải làm
 mà cố ý hoãn. KHÔNG phải nợ, và cấm ghi vào đây:

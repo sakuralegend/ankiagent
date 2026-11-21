@@ -41,7 +41,9 @@ PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py dodai kNN   # `QUA 1 M
 
 # 5. GHI SỔ ĐO — một dòng mỗi lô vào data/huongdan/kho/dolo.tsv
 #    cột: lo · tu · docbangmat · loitubat · loimaybat · nguonsai · caotb · odotb · ngay
-#    Ba số giữa lấy từ BÁO CÁO agent (máy không đếm được). Bỏ trống = không rõ, KHÁC 0.
+#    Ba số giữa đọc từ `B` CUỐI FILE LÔ (agent tự ghi, §4). Bỏ trống = không rõ.
+#    🔴 CẤM `SendMessage` đánh thức agent ĐÃ XONG để hỏi lại: mỗi lần ~120K token
+#    (20/11 đốt ~1,1M, user hết limit). Lô nào xanh bước 4 ⇒ commit file lô đó NGAY.
 
 # 6. NẠP. `nap` chỉ đọc lô `trangthai == "xong"`, nên phải đánh dấu trước.
 PYTHONIOENCODING=utf-8 python data/huongdan/kho/congcu.py xong k73 k74 k75
@@ -64,7 +66,7 @@ python soatkientruc.py && python -c "import bot, main" && python -m unittest dis
   rẻ hơn rõ rệt trên mỗi từ.
 - **Trần 22 từ/lô. Điểm rẻ nhất đã đo là 19 từ/lô** (7,4K token/từ, 11/08). **Đừng chạy lô dưới
   10 từ** — đắt gấp ~3 lần mỗi từ; để đó, lệnh `moi` tự gộp dồn vào lô sau.
-- **Hạn mức: ~10 lô/phiên** (user đo 16/10). Token/lô vẫn ~105–112K ⇒ đổi ở gói, lô không rẻ đi. Đừng dựng mô hình theo token — đọc thấp 15–20%.
+- **Hạn mức: ~10 lô/phiên** (user đo 16/10). Token/lô ~105–112K: đổi ở gói, lô không rẻ đi.
 - **Dấu hiệu "lô nhỏ soi kỹ hơn" đã bị số liệu bẻ** (0,29 lỗi/từ ở lô 14 thấp hơn 0,46 ở lô 12).
   Đừng hạ trần cỡ lô vì nó. Muốn lật thì **đo ra số khác** từ `dolo.tsv`, đừng lập luận suông.
 - **Chia lô theo TAG CHỦ ĐỀ, giữ họ từ chung một lô.** Tách họ từ ra hai agent là cơ chế đã làm
@@ -117,7 +119,7 @@ python soatkientruc.py && python -c "import bot, main" && python -m unittest dis
 > Mục **"Họ hàng" cố ý không có dữ liệu máy**, tự nghĩ. Từ thật sự không có họ (gốc trơn, hư từ,
 > từ mượn đứng một mình) thì **bỏ hẳn mục đó** — nhưng vắng phải là lựa chọn có ý thức.
 >
-> **3. Soạn** `data/huongdan/kho/kNN_<topic>.py` — CHỈ chứa `S = {...}` và `V = {...}`, không
+> **3. Soạn** `data/huongdan/kho/kNN_<topic>.py` — CHỈ chứa `S = {...}`, `V = {...}`, `B = {...}`, không
 > import, không `main()`, không gọi Anki.
 > **Việc thứ hai bắt buộc — field `Vietnamese` (§2c):** dòng tiếng Việt là **đề bài của deck
 > `1-go`, user GÕ từ Nga từ nó**. 🔴 **THUẦN DANH SÁCH NGHĨA, ngăn bằng dấu phẩy, KHÔNG GÌ KHÁC.**
@@ -134,12 +136,13 @@ python soatkientruc.py && python -c "import bot, main" && python -m unittest dis
 >
 > **5. DỪNG** — không sửa `hangdoi.json`, không commit, không `nap`, không đụng Anki.
 >
-> **Báo cáo — bắt buộc có BA CON SỐ** để ghi `dolo.tsv`: ① số mục trong "PHẢI ĐỌC BẰNG MẮT" ·
-> ② số **lỗi nội dung bạn tự đọc lại rồi tự sửa** (giải thích sai, từ nguyên sai, dạng chia sai) ·
-> ③ số lần bạn **bác dữ liệu từ điển sai** thay vì chép theo. 🔴 **Đếm thật, kể cả khi bằng 0** —
-> 0 vì đã rà kỹ là thông tin có ích; 0 vì ngại nói thì làm hỏng phép đo.
-> Kèm: kết quả 3 mục soát · kết quả `dodai` · **những chỗ KHÔNG chắc đã hạ mức tin** · từ nào sửa
-> `V` và vì sao.
+> **Báo cáo — GHI VÀO FILE TRƯỚC.** Cuối file lô thêm
+> `B = {"docbangmat": n, "loitubat": n, "nguonsai": n, "baolen": ["một dòng mỗi điều"]}` —
+> lời nói trôi mất, file thì không.
+> Ba con số: ① số mục "PHẢI ĐỌC BẰNG MẮT" · ② số **lỗi nội dung bạn tự đọc lại rồi tự sửa**
+> (giải thích sai, từ nguyên sai, dạng chia sai) · ③ số lần **bác dữ liệu từ điển sai** thay vì
+> chép theo. 🔴 **Đếm thật, kể cả khi bằng 0** — 0 vì ngại nói thì làm hỏng phép đo.
+> `baolen`: trùng nghĩa không gỡ được · chỗ KHÔNG chắc · `V` cần duyệt.
 
 ## §5. Trạng thái nằm ở đâu
 

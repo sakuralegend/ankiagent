@@ -197,7 +197,7 @@ def soan_opus(lo, can):
         for w in can:      # dò HẾT lô rồi mới báo: dừng ở từ đầu thì mỗi từ đồng tự tốn một lần chạy
             data, dung = cao_mot_tu(w, lo.get("chonId", {}).get(w))
             if dung and dung.get("nhieu_muc"):
-                loi.append(f"ĐỒNG TỰ {w} — chọn mục rồi chạy lại kèm --chon={w}=ID:\n      " + "\n      ".join(
+                loi.append(f"ĐỒNG TỰ {w} — luồng chính TỰ chọn nghĩa đúng trình độ (user chốt 18/11, báo lại cuối đợt), chạy lại kèm --chon={w}=ID:\n      " + "\n      ".join(
                     f"id={m['id']} {m['pos']} {m['en']}" for m in dung["nhieu_muc"]))
             elif dung:
                 loi.append(f"{w}: OpenRussian không có trang. Bỏ từ này: --bo={w}")
@@ -273,7 +273,7 @@ def cmd_taothe(apply, toi_da):
             dung(f"[{i}] KHUYẾT {w} — câu Opus hỏng lúc dựng thẻ. Chạy lại: nó soạn lại rồi làm lại thẻ.")
         if not ok:
             if info and info.get("nhieu_muc"):
-                err = "ĐỒNG TỰ — chọn mục rồi chạy lại kèm --chon=" + w + "=ID:\n    " + \
+                err = "ĐỒNG TỰ — luồng chính TỰ chọn nghĩa đúng trình độ (user chốt 18/11, báo lại cuối đợt), chạy lại kèm --chon=" + w + "=ID:\n    " + \
                       "\n    ".join(f"id={m['id']} {m['pos']} {m['en']}" for m in info["nhieu_muc"])
             dung(f"[{i}] DỪNG ở {w} ({l['id']}): {err}\n  Bỏ từ này: --bo={w}")
         moi = khoa_note(info.get("clean_word") or w)
