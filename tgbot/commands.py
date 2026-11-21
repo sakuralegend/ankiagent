@@ -79,10 +79,12 @@ async def cmd_deck(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("❌ Không tạo/kiểm tra được deck (AnkiConnect lỗi?).")
 
 
-# Ngưỡng "đèn báo" cần tách chủ đề (xem git log quanh 18/07/2026: quy tắc 100 thẻ).
-# Ngưỡng "15% other" đi cùng nó đã chết 23/08/2026 vì rọ `other` bị xoá (QD-38);
-# thay bằng: có thẻ nào chưa xếp được là báo, không cần ngưỡng.
-TOPIC_DECK_WARN = 100     # deck con vượt mức này -> nên tách chủ đề con
+# 🔴 CỐ Ý KHÔNG còn đèn "chủ đề ≥100 thẻ thì tách" (user duyệt 21/11/2026). Số 100
+# đặt 18/07 không kèm lý do, từ 23/08 lại đá với bảng chủ đề chép theo ТРКИ (QD-37):
+# riêng "Действия" của ТРКИ đã 930 từ, chẻ là phải TỰ NGHĨ nhánh con — đúng bệnh
+# rọ-do-AI-đặt (độ tinh khiết 19–33%) — và xé họ từ `-ходить` sang nhiều lô. Học hằng
+# ngày chạy trên cả kho chung MỘT preset nên deck chủ đề chỉ là ngăn tủ: to cũng
+# không hại. Đèn kêu mãi không ai làm thì chỉ dạy người ta lờ đèn đi.
 
 
 async def _card_state_section():
@@ -136,14 +138,9 @@ async def thongke_report():
     for slug, n in sorted(stats.items(), key=lambda x: -x[1]):
         if n == 0:
             continue
-        mark = " ⚠️" if n >= TOPIC_DECK_WARN else ""
-        lines.append(f"{n:>4} │ {slug}{mark}")
+        lines.append(f"{n:>4} │ {slug}")
 
     warns = []
-    for slug, n in stats.items():
-        if n >= TOPIC_DECK_WARN:
-            warns.append(f"⚠️ '{slug}' đã {n} thẻ (≥{TOPIC_DECK_WARN}) — nên tách chủ đề con "
-                         f"(thêm slug dạng '{slug}::nhanh-con' vào topics.py).")
     # 23/08/2026 (QD-38): trước đây chỗ này canh tỉ lệ của rọ `concepts::misc`.
     # Rọ đó bị xoá, nên thứ cần canh nay là số thẻ CHƯA XẾP ĐƯỢC — cùng một bệnh,
     # nhưng đếm ở chỗ nhìn thấy được thay vì nấp trong một chủ đề trông như thật.
@@ -156,7 +153,7 @@ async def thongke_report():
     if warns:
         lines.extend(warns)
     else:
-        lines.append(f"✅ Chưa chạm ngưỡng tách deck ({TOPIC_DECK_WARN} thẻ/chủ đề) và 0 thẻ chưa có chủ đề.")
+        lines.append("✅ 0 thẻ chưa có chủ đề.")
     # Bản mã đang chạy — đối chiếu với `git rev-parse --short HEAD` trên laptop là
     # biết ngay VPS có đang chạy code cũ không (đã có lần cũ 3 ngày mà không gì báo).
     lines.append(f"🔖 Bản mã đang chạy: {ban_ma_dang_chay()}")

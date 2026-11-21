@@ -14,6 +14,8 @@
 # - TẦNG GỐC CỐ ĐỊNH 10 MIỀN, KHÔNG BAO GIỜ THÊM: people, life, nature, places,
 #   language, time, numbers, actions, qualities, concepts.
 # - Mỗi tầng tối đa 10 mục (gốc dày nhất hiện nay là `life`, 7 nhánh).
+# - KHÔNG tách chủ đề vì đông thẻ (bỏ luật 100 thẻ 21/11/2026, lý do ở `tgbot/commands.py`
+#   chỗ `thongke_report`): ТРКИ không có nhánh con thì đừng tự đặt.
 # - Slug có thể là gốc trực tiếp ("time") hoặc nhánh ("life::food"). Tag Anki =
 #   "topic::" + slug; deck Anki = TOPIC_DECK_PARENT + "::" + slug.
 # - Đổi tên/tách slug: thêm dòng vào LEGACY_ALIASES rồi chạy
