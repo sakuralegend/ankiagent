@@ -11,7 +11,6 @@ Không khối hệ thống. Chỗ phải khớp với thẻ đã xong / lô song
 """
 
 V = {
-    "велик": "xe đạp",
     "обладать": "sở hữu, được phú cho",
     "символ": "biểu tượng, ký tự",
     "оценить": "đánh giá, định giá",
@@ -38,21 +37,8 @@ S["мокрый"] = (
     '<b>намочи́ть</b> làm ướt (<i>к → ч</i>)</div>'
 )
 
-S["велик"] = (
-    '<div class="hd-sec">Chẻ từ</div>'
-    '<div class="hd-row"><span class="hd-piece">ве́л-</span>'
-    '<span class="hd-gloss">mẩu đầu của <b>велосипе́д</b></span></div>'
-    '<div class="hd-row"><span class="hd-piece">-ик</span>'
-    '<span class="hd-gloss">đuôi giống đực kiểu thân mật</span></div>'
-    '<div class="hd-sec">Cách nhớ</div>'
-    '<div class="hd-why">Cắt cụt <b>велосипе́д</b> rồi gắn <i>-ик</i> ⇒ «xe đạp» lúc nói chuyện '
-    'bạn bè. Viết, nói trang trọng thì dùng <b>велосипе́д</b>.</div>'
-    '<div class="hd-warn">Trọng âm là thứ duy nhất tách hai từ: <b>ве́лик</b> xe đạp ≠ '
-    '<b>вели́к</b> = «quá to» (dạng ngắn của <b>вели́кий</b>): <b>Костю́м мне вели́к</b> = bộ '
-    'vest rộng so với tôi.</div>'
-    '<div class="hd-sec">Họ hàng</div>'
-    '<div class="hd-fam"><b>велосипе́д</b> xe đạp · <b>велосипеди́ст</b> người đi xe đạp</div>'
-)
+# `велик` (ве́лик = xe đạp, từ lóng) ĐÃ XOÁ 21/11: user chọn bỏ — trùng trọn với велосипе́д,
+# còn sách TRKI nhiều khả năng ý là dạng ngắn вели́к. Nằm ở `bo` của k128 trong hangdoi.json.
 
 S["обладать"] = (
     '<div class="hd-sec">Chẻ từ</div>'
