@@ -251,7 +251,7 @@ def cmd_taothe(apply, toi_da):
     dot = [l for l in lo_dot(q) if l.get("chuaThe")]
     if not dot:
         print("Không có lô nào thiếu thẻ.")
-        return
+        return apply and khob2.gan_mat_go()     # vá mặt 1-go sót lại khi sync lần trước hỏng
     the = doc_the()
     viec = [(l, w, tim_the(w, the)) for l, w in thu_tu_nap(dot)]
     viec = [(l, w, n) for l, w, n in viec if n is None or la_khuyet(n["fields"])]

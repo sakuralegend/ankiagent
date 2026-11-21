@@ -2012,6 +2012,18 @@ class TestDotThemTuChayLaiDuoc(unittest.TestCase):
         self.assertNotIn("я", khob2.chon_chuyen(q, trong))
         self.assertIsNone(khob2.nhac({"lo": [{"id": "k150", "tu": []}]}), "chưa dùng kho thì im")
 
+    def test_kho_B2_gan_mat_go_sync_hong_thi_KHONG_ghi(self):
+        """BUG 22/11: `taothe` gọi sync "dọn cuối đợt", sync timeout, nơi gọi BỎ QUA kết quả
+        rồi `gan_mat_go` vẫn ghi Stage lên 160 note — đúng kiểu ghi-đè-bản-cũ của bẫy 31/07."""
+        self._x()
+        import khob2
+        goi = []
+        with unittest.mock.patch.object(khob2, "goi_anki",
+                                        side_effect=lambda a, **k: goi.append(a) or [1, 2]), \
+             unittest.mock.patch.object(khob2, "sync_truoc_khi_ghi_lo", return_value=False):
+            khob2.gan_mat_go()
+        self.assertNotIn("updateNoteFields", goi)
+
     def test_chon_khong_cat_doi_cap_the_va_bo_tu_da_len_ke(self):
         x = self._x()
         ds = [["а", "B1", 1, "", ""], ["б", "B1", 2, "", "khong-OR"], ["в", "B1", 3, "", ""],

@@ -28,13 +28,19 @@ def tao_deck(dot):
 
 
 def gan_mat_go():
-    """Thẻ trong kho chưa mang Stage="type" ⇒ gắn (mặt 1-go). Idempotent, tự vá lần sau."""
+    """Thẻ trong kho chưa mang Stage="type" ⇒ gắn (mặt 1-go). Idempotent: sync hỏng thì
+    KHÔNG ghi, `taothe --apply` lần sau tự vá. Tự kéo về TRƯỚC khi ghi vì nơi gọi từng bỏ
+    qua kết quả sync hỏng mà vẫn ghi tiếp (22/11) — cửa chặn phải nằm cạnh lệnh ghi."""
     nids = goi_anki("findNotes", query=f"{_THE} -Stage:_*")
+    if not nids:
+        return
+    if not sync_truoc_khi_ghi_lo("gắn mặt gõ B2"):
+        return print(f"⚠️  CHƯA gắn mặt 1-go cho {len(nids)} thẻ {DECK} — "
+                     f"chạy lại `taothe --apply` khi Anki sync được.")
     for nid in nids:
         goi_anki("updateNoteFields", note={"id": nid, "fields": {"Stage": "type"}})
-    if nids:
-        print(f"gắn mặt 1-go cho {len(nids)} thẻ {DECK}")
-        sync_truoc_khi_ghi_lo("gắn mặt gõ B2")
+    print(f"gắn mặt 1-go cho {len(nids)} thẻ {DECK}")
+    sync_truoc_khi_ghi_lo("đẩy mặt gõ B2")
 
 
 def chon_chuyen(q, trong_kho, n=None, ids=()):
