@@ -317,10 +317,27 @@ def tach_nghia(vi):
     return ra
 
 
-def do_va_cham(notes):
-    """{nghĩa Việt: [các từ Nga cùng mang nghĩa đó]} — chỉ giữ nghĩa >= 2 từ."""
+# Bốn badge in sẵn trên mặt đề bài (README §2c): trùng nghĩa mà khác một badge thì
+# user vẫn phân biệt được ⇒ KHÔNG phải va chạm. 🔴 Tên field là `GenderBadge`, không
+# phải `Gender`: gõ nhầm thì AnkiConnect trả RỖNG, mọi thẻ "cùng giống", bộ lọc im lặng.
+BADGE = ("PoS", "GenderBadge", "AspectBadge", "ReflexiveBadge")
+
+
+def _o(fields, k):
+    return re.sub(r"<[^>]+>", "", (fields.get(k) or {}).get("value", "") or "").strip()
+
+
+def do_va_cham(notes, loc_badge=True):
+    """notes: list `notesInfo` -> {nghĩa Việt: [Word có trọng âm…]}, chỉ nghĩa >= 2 THẺ.
+
+    Khoá theo NOTE, không theo WordClean: `нарезать` IMPF/PERF cùng mặt chữ ⇒ khoá
+    chữ gộp làm một, luồng chính đo sót đúng cặp đó (đợt B2 #4, 21/11).
+    `loc_badge`: chỉ giữ thẻ trùng nghĩa VÀ trùng đủ bốn badge — va chạm thật; khoá ra
+    thành `"cắt [v IMPF]"` để thấy ĐÚNG cặp nào đụng cặp nào."""
     theo = {}
-    for wc, vi in notes.items():
-        for ng in tach_nghia(vi):
-            theo.setdefault(ng, set()).add(wc)
-    return {k: sorted(v) for k, v in theo.items() if len(v) > 1}
+    for n in notes:
+        b = " ".join(x for x in (_o(n["fields"], k) for k in BADGE) if x) if loc_badge else ""
+        for ng in tach_nghia(_o(n["fields"], "Vietnamese")):
+            theo.setdefault(f"{ng} [{b}]" if b else ng, []).append(n)
+    return {k: sorted(_o(n["fields"], "Word") or _o(n["fields"], "WordClean") for n in ds)
+            for k, ds in theo.items() if len(ds) > 1}

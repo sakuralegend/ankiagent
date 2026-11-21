@@ -1023,6 +1023,32 @@ class ChotYoLamBoSoatMuMotVungLon(unittest.TestCase):
             self.assertIn("SUA_NGUON", inspect.getsource(m.load_nouns), m.__name__)
 
 
+class DoVaChamKhoaTheoNote(unittest.TestCase):
+    """BUG GỐC (đợt B2 #4, 21/11/2026): đo trùng nghĩa khoá theo WordClean ⇒ cặp
+    `нареза́ть` IMPF / `наре́зать` PERF cùng mặt chữ bị gộp làm MỘT, luồng chính bỏ sót
+    `ре́зать` nằm gọn trong нарезать IMPF — agent k142 bắt hộ. Và trùng nghĩa mà khác
+    badge (thể, giống, từ loại) thì đề bài tự phân biệt được, không phải va chạm."""
+
+    @staticmethod
+    def _n(word, vi, pos="v", gender="", aspect=""):
+        f = {"Word": word, "WordClean": word.replace(ACUTE, ""), "Vietnamese": vi,
+             "PoS": pos, "GenderBadge": gender, "AspectBadge": f'<div class="b">{aspect}</div>'}
+        return {"fields": {k: {"value": v} for k, v in f.items()}}
+
+    def test_cung_mat_chu_khac_the_khong_bi_gop_va_tach_dung_cap(self):
+        s = ChotYoLamBoSoatMuMotVungLon._soatlo()
+        notes = [self._n("нареза́ть", "cắt", aspect="IMPF"), self._n("наре́зать", "cắt", aspect="PERF"),
+                 self._n("ре́зать", "cắt", aspect="IMPF")]
+        self.assertEqual(s.do_va_cham(notes), {"cắt [v IMPF]": ["нареза́ть", "ре́зать"]})
+        tho = s.do_va_cham(notes, loc_badge=False)["cắt"]
+        self.assertEqual(len(tho), 3, "chưa lọc badge thì phải thấy ĐỦ cả ba thẻ, kể cả cặp cùng chữ")
+
+    def test_khac_giong_thi_khong_phai_va_cham(self):
+        s = ChotYoLamBoSoatMuMotVungLon._soatlo()
+        notes = [self._n("сосе́д", "hàng xóm", "n", "MASC"), self._n("сосе́дка", "hàng xóm", "n", "FEM")]
+        self.assertEqual(s.do_va_cham(notes), {})
+
+
 class ToBangChia(unittest.TestCase):
     """User bắt 08/08/2026: thẻ `крокоди́л` có ô đỏ dạy "cách 4 mượn hình cách 2"
     mà bảng ngay dưới **không tô ô nào**, trong khi `президе́нт` cùng hiện tượng

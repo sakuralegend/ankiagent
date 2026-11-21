@@ -264,12 +264,8 @@ def cmd_vacham():
     đáp án**. Agent soạn một lô KHÔNG nhìn thấy 907 thẻ còn lại, nên nó không
     thể tự phát hiện va chạm — bắt buộc phải có cửa này ở luồng chính.
     """
-    notes = {}
-    for n in ac("notesInfo", notes=ac("findNotes", query="note:RU_Word")):
-        f = n["fields"]
-        notes[f.get("WordClean", {}).get("value", "")] = \
-            f.get("Vietnamese", {}).get("value", "")
-    vc = do_va_cham(notes)
+    notes = ac("notesInfo", notes=ac("findNotes", query="note:RU_Word"))
+    vc = do_va_cham(notes, loc_badge="--tho" not in sys.argv)   # --tho: chưa lọc badge
     tong = sum(len(v) for v in vc.values())
     print(f"{len(notes)} the | {len(vc)} nghia Viet bi TRUNG, dinh {tong} luot tu\n")
     for ng, tu in sorted(vc.items(), key=lambda x: (-len(x[1]), x[0]))[:40]:
