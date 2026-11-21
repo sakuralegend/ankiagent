@@ -1043,6 +1043,23 @@ class DoVaChamKhoaTheoNote(unittest.TestCase):
         tho = s.do_va_cham(notes, loc_badge=False)["cắt"]
         self.assertEqual(len(tho), 3, "chưa lọc badge thì phải thấy ĐỦ cả ba thẻ, kể cả cặp cùng chữ")
 
+    def test_chung_mot_nghia_ma_ca_dong_khac_thi_khong_phai_va_cham(self):
+        """22/11: so TỪNG CỤM làm 7 lô cắt nghĩa chính (необходимый mất «cần thiết» vì нужный).
+        User chốt: chỉ va chạm khi đề A NẰM GỌN trong đề B — `большой`/`крупный` cùng «lớn» là ổn."""
+        s = ChotYoLamBoSoatMuMotVungLon._soatlo()
+        notes = [self._n("большо́й", "to, lớn, trưởng thành", "adj"), self._n("кру́пный", "lớn, thô", "adj")]
+        self.assertEqual(s.do_va_cham(notes), {})
+        notes.append(self._n("огро́мный", "lớn", "adj"))      # đề «lớn» nằm gọn trong cả hai
+        self.assertEqual(s.do_va_cham(notes), {"lớn [adj]": ["большо́й", "кру́пный", "огро́мный"]})
+
+    def test_hoac_hay_la_la_nghia_thi_khong_bi_nuot(self):
+        """22/11: tách trơn theo «hoặc»/«hay là» biến либо = «hoặc, hay là» thành RỖNG ⇒ mù với или."""
+        s = ChotYoLamBoSoatMuMotVungLon._soatlo()
+        self.assertEqual(s.tach_nghia("hoặc, hay là"), {"hoặc", "hay là"})
+        self.assertEqual(s.tach_nghia("nói hoặc bảo"), {"nói", "bảo"})
+        notes = [self._n("ли́бо", "hoặc, hay là", "conj"), self._n("и́ли", "hoặc, hay là", "conj")]
+        self.assertEqual(len(s.do_va_cham(notes)), 1)
+
     def test_khac_giong_thi_khong_phai_va_cham(self):
         s = ChotYoLamBoSoatMuMotVungLon._soatlo()
         notes = [self._n("сосе́д", "hàng xóm", "n", "MASC"), self._n("сосе́дка", "hàng xóm", "n", "FEM")]

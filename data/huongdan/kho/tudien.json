@@ -20734,5 +20734,1125 @@
   "pos": "v",
   "topic": "life::art",
   "cu": false
+ },
+ {
+  "wc": "правильный",
+  "w": "пра́вильный",
+  "en": "<ol class=\"meaning-list\"><li>correct</li><li>right</li><li>true</li><li>regular</li><li>proper</li><li>well-proportioned</li><li>straight</li><li>level</li><li>even</li></ol>",
+  "pos": "adj",
+  "topic": "qualities::eval",
+  "cu": false
+ },
+ {
+  "wc": "шанс",
+  "w": "шанс",
+  "en": "<ol class=\"meaning-list\"><li>chance</li></ol>",
+  "pos": "n",
+  "topic": "qualities::eval",
+  "cu": false
+ },
+ {
+  "wc": "бомба",
+  "w": "бо́мба",
+  "en": "<ol class=\"meaning-list\"><li>bomb</li></ol>",
+  "pos": "n",
+  "topic": "concepts::state",
+  "cu": false
+ },
+ {
+  "wc": "жертва",
+  "w": "же́ртва",
+  "en": "<ol class=\"meaning-list\"><li>victim</li><li>sacrifice</li><li>offering</li><li>casualty</li><li>fatality</li></ol>",
+  "pos": "n",
+  "topic": "concepts::state",
+  "cu": false
+ },
+ {
+  "wc": "охрана",
+  "w": "охра́на",
+  "en": "<ol class=\"meaning-list\"><li>protection</li><li>safeguarding</li><li>guarding</li><li>conservation</li><li>guards</li><li>security</li><li>bodyguards</li><li>escort</li></ol>",
+  "pos": "n",
+  "topic": "concepts::state",
+  "cu": false
+ },
+ {
+  "wc": "убийца",
+  "w": "уби́йца",
+  "en": "<ol class=\"meaning-list\"><li>killer</li><li>assassin</li><li>murderer</li><li>murderess</li></ol>",
+  "pos": "n",
+  "topic": "concepts::state",
+  "cu": false
+ },
+ {
+  "wc": "суд",
+  "w": "суд",
+  "en": "<ol class=\"meaning-list\"><li>court</li><li>court of law</li><li>hearing</li><li>trial</li><li>judgement</li></ol>",
+  "pos": "n",
+  "topic": "concepts::state",
+  "cu": false
+ },
+ {
+  "wc": "управление",
+  "w": "управле́ние",
+  "en": "<ol class=\"meaning-list\"><li>administration</li><li>management</li><li>control</li><li>operation</li><li>directorate</li><li>department</li><li>bureau</li><li>governance</li><li>rule</li><li>government</li><li>government (of a verb)</li></ol>",
+  "pos": "n",
+  "topic": "concepts::state",
+  "cu": false
+ },
+ {
+  "wc": "преступление",
+  "w": "преступле́ние",
+  "en": "<ol class=\"meaning-list\"><li>crime</li><li>offence</li><li>misdeed</li><li>wrongdoing</li></ol>",
+  "pos": "n",
+  "topic": "concepts::state",
+  "cu": false
+ },
+ {
+  "wc": "обвинение",
+  "w": "обвине́ние",
+  "en": "<ol class=\"meaning-list\"><li>accusations charges allegations</li></ol>",
+  "pos": "n",
+  "topic": "concepts::state",
+  "cu": false
+ },
+ {
+  "wc": "приказ",
+  "w": "прика́з",
+  "en": "<ol class=\"meaning-list\"><li>order</li><li>command</li><li>order</li><li>directive</li><li>instruction</li></ol>",
+  "pos": "n",
+  "topic": "concepts::state",
+  "cu": false
+ },
+ {
+  "wc": "федеральный",
+  "w": "федера́льный",
+  "en": "<ol class=\"meaning-list\"><li>federal</li></ol>",
+  "pos": "adj",
+  "topic": "concepts::state",
+  "cu": false
+ },
+ {
+  "wc": "преступник",
+  "w": "престу́пник",
+  "en": "<ol class=\"meaning-list\"><li>criminal</li><li>felon</li><li>offender</li><li>perpetrator</li></ol>",
+  "pos": "n",
+  "topic": "concepts::state",
+  "cu": false
+ },
+ {
+  "wc": "право",
+  "w": "пра́во",
+  "en": "<ol class=\"meaning-list\"><li>right</li><li>entitlement</li><li>permission</li><li>law</li><li>jurisprudence</li><li>driving licence</li></ol>",
+  "pos": "n",
+  "topic": "concepts::state",
+  "cu": false
+ },
+ {
+  "wc": "убийство",
+  "w": "уби́йство",
+  "en": "<ol class=\"meaning-list\"><li>murder</li><li>assassination</li></ol>",
+  "pos": "n",
+  "topic": "concepts::state",
+  "cu": false
+ },
+ {
+  "wc": "доказательство",
+  "w": "доказа́тельство",
+  "en": "<ol class=\"meaning-list\"><li>proof</li><li>evidence</li><li>proof</li><li>demonstration</li></ol>",
+  "pos": "n",
+  "topic": "concepts::state",
+  "cu": false
+ },
+ {
+  "wc": "свидетель",
+  "w": "свиде́тель",
+  "en": "<ol class=\"meaning-list\"><li>witness</li><li>eyewitness</li><li>witness at a wedding</li><li>best man</li></ol>",
+  "pos": "n",
+  "topic": "concepts::state",
+  "cu": false
+ },
+ {
+  "wc": "судья",
+  "w": "судья́",
+  "en": "<ol class=\"meaning-list\"><li>judge</li><li>referee</li><li>umpire</li><li>judge (in sport)</li></ol>",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "мозг",
+  "w": "мозг",
+  "en": "<ol class=\"meaning-list\"><li>brain</li><li>marrow</li><li>bone marrow</li><li>brains</li><li>mind</li><li>intellect</li></ol>",
+  "pos": "n",
+  "topic": "people::body",
+  "cu": false
+ },
+ {
+  "wc": "орган",
+  "w": "о́рган",
+  "en": "<ol class=\"meaning-list\"><li>organ</li><li>body</li><li>agency</li><li>authority</li><li>publication</li><li>mouthpiece</li></ol>",
+  "pos": "n",
+  "topic": "people::body",
+  "cu": false
+ },
+ {
+  "wc": "рост",
+  "w": "рост",
+  "en": "<ol class=\"meaning-list\"><li>growth (in quantity)</li><li>increase</li><li>rise</li><li>height</li><li>stature</li><li>growth (of a living organism)</li></ol>",
+  "pos": "n",
+  "topic": "people::body",
+  "cu": false
+ },
+ {
+  "wc": "свадьба",
+  "w": "сва́дьба",
+  "en": "<ol class=\"meaning-list\"><li>wedding</li></ol>",
+  "pos": "n",
+  "topic": "people::life",
+  "cu": false
+ },
+ {
+  "wc": "дама",
+  "w": "да́ма",
+  "en": "<ol class=\"meaning-list\"><li>lady</li><li>woman</li><li>queen (playing card)</li></ol>",
+  "pos": "n",
+  "topic": "people::life",
+  "cu": false
+ },
+ {
+  "wc": "секс",
+  "w": "секс",
+  "en": "<ol class=\"meaning-list\"><li>sex</li></ol>",
+  "pos": "n",
+  "topic": "people::life",
+  "cu": false
+ },
+ {
+  "wc": "ад",
+  "w": "ад",
+  "en": "<ol class=\"meaning-list\"><li>hell</li><li>Hades</li><li>the Underworld</li></ol>",
+  "pos": "n",
+  "topic": "people::nation",
+  "cu": false
+ },
+ {
+  "wc": "святой",
+  "w": "свято́й",
+  "en": "<ol class=\"meaning-list\"><li>holy</li><li>Saint</li><li>sacred</li><li>saint</li></ol>",
+  "pos": "adj",
+  "topic": "people::nation",
+  "cu": false
+ },
+ {
+  "wc": "приятель",
+  "w": "прия́тель",
+  "en": "<ol class=\"meaning-list\"><li>friend</li><li>pal</li><li>buddy</li><li>chum</li></ol>",
+  "pos": "n",
+  "topic": "people::nation",
+  "cu": false
+ },
+ {
+  "wc": "предприятие",
+  "w": "предприя́тие",
+  "en": "<ol class=\"meaning-list\"><li>enterprise</li><li>company</li><li>business</li><li>venture</li><li>undertaking</li><li>enterprise</li></ol>",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "начальник",
+  "w": "нача́льник",
+  "en": "<ol class=\"meaning-list\"><li>boss</li><li>chief</li><li>head</li><li>superior</li></ol>",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "капитан",
+  "w": "капита́н",
+  "en": "<ol class=\"meaning-list\"><li>captain</li><li>master</li></ol>",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "адвокат",
+  "w": "адвока́т",
+  "en": "<ol class=\"meaning-list\"><li>lawyer</li><li>attorney</li><li>barrister</li><li>solicitor</li><li>advocate</li><li>champion</li><li>defender</li></ol>",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "проект",
+  "w": "прое́кт",
+  "en": "<ol class=\"meaning-list\"><li>project</li><li>scheme</li><li>undertaking</li><li>design</li><li>plans</li><li>blueprint</li><li>draft</li></ol>",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "лейтенант",
+  "w": "лейтена́нт",
+  "en": "<ol class=\"meaning-list\"><li>lieutenant</li></ol>",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "агент",
+  "w": "аге́нт",
+  "en": "<ol class=\"meaning-list\"><li>agent</li><li>secret agent</li><li>spy</li><li>agent</li><li>representative</li><li>broker</li><li>agent</li><li>active substance</li></ol>",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "вкус",
+  "w": "вкус",
+  "en": "<ol class=\"meaning-list\"><li>taste</li><li>manner</li><li>style</li></ol>",
+  "pos": "n",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "немой",
+  "w": "немо́й",
+  "en": "<ol class=\"meaning-list\"><li>dumb/mute</li></ol>",
+  "pos": "adj",
+  "topic": "life::health",
+  "cu": false
+ },
+ {
+  "wc": "боль",
+  "w": "боль",
+  "en": "<ol class=\"meaning-list\"><li>pain</li></ol>",
+  "pos": "n",
+  "topic": "life::health",
+  "cu": false
+ },
+ {
+  "wc": "король",
+  "w": "коро́ль",
+  "en": "<ol class=\"meaning-list\"><li>king</li></ol>",
+  "pos": "n",
+  "topic": "concepts::state",
+  "cu": false
+ },
+ {
+  "wc": "контроль",
+  "w": "контро́ль",
+  "en": "<ol class=\"meaning-list\"><li>control</li></ol>",
+  "pos": "n",
+  "topic": "concepts::state",
+  "cu": false
+ },
+ {
+  "wc": "безопасность",
+  "w": "безопа́сность",
+  "en": "<ol class=\"meaning-list\"><li>safety</li><li>security</li></ol>",
+  "pos": "n",
+  "topic": "concepts::state",
+  "cu": false
+ },
+ {
+  "wc": "федерация",
+  "w": "федера́ция",
+  "en": "<ol class=\"meaning-list\"><li>federation</li></ol>",
+  "pos": "n",
+  "topic": "concepts::state",
+  "cu": false
+ },
+ {
+  "wc": "способ",
+  "w": "спо́соб",
+  "en": "<ol class=\"meaning-list\"><li>way</li><li>method</li><li>means</li><li>manner</li></ol>",
+  "pos": "n",
+  "topic": "concepts::mind",
+  "cu": false
+ },
+ {
+  "wc": "метод",
+  "w": "ме́тод",
+  "en": "<ol class=\"meaning-list\"><li>method</li></ol>",
+  "pos": "n",
+  "topic": "concepts::mind",
+  "cu": false
+ },
+ {
+  "wc": "решение",
+  "w": "реше́ние",
+  "en": "<ol class=\"meaning-list\"><li>decision</li><li>resolve</li><li>resolution</li><li>ruling</li><li>judgment</li><li>solution</li><li>answer</li><li>solving</li></ol>",
+  "pos": "n",
+  "topic": "concepts::mind",
+  "cu": false
+ },
+ {
+  "wc": "понятие",
+  "w": "поня́тие",
+  "en": "<ol class=\"meaning-list\"><li>concept</li><li>notion</li><li>conception</li><li>idea</li><li>notion</li></ol>",
+  "pos": "n",
+  "topic": "concepts::mind",
+  "cu": false
+ },
+ {
+  "wc": "ум",
+  "w": "ум",
+  "en": "<ol class=\"meaning-list\"><li>the mind</li></ol>",
+  "pos": "n",
+  "topic": "concepts::mind",
+  "cu": false
+ },
+ {
+  "wc": "средство",
+  "w": "сре́дство",
+  "en": "<ol class=\"meaning-list\"><li>means</li><li>way</li><li>funds</li><li>resources</li><li>wherewithal</li><li>remedy</li><li>agent</li><li>drug</li><li>tool</li><li>instrument</li><li>equipment</li><li>medium</li></ol>",
+  "pos": "n",
+  "topic": "concepts::mind",
+  "cu": false
+ },
+ {
+  "wc": "принцип",
+  "w": "при́нцип",
+  "en": "<ol class=\"meaning-list\"><li>principle</li></ol>",
+  "pos": "n",
+  "topic": "concepts::mind",
+  "cu": false
+ },
+ {
+  "wc": "выбор",
+  "w": "вы́бор",
+  "en": "<ol class=\"meaning-list\"><li>choice</li><li>selection</li><li>option</li><li>alternative</li></ol>",
+  "pos": "n",
+  "topic": "concepts::mind",
+  "cu": false
+ },
+ {
+  "wc": "вариант",
+  "w": "вариа́нт",
+  "en": "<ol class=\"meaning-list\"><li>option</li><li>alternative</li><li>possibility</li><li>version</li><li>draft</li><li>edition</li><li>variant</li><li>variation</li><li>idea</li><li>take</li><li>proposal</li></ol>",
+  "pos": "n",
+  "topic": "concepts::mind",
+  "cu": false
+ },
+ {
+  "wc": "представить",
+  "w": "предста́вить",
+  "en": "<ol class=\"meaning-list\"><li>to present</li><li>to show</li><li>to submit</li><li>to imagine</li><li>to picture</li><li>to introduce</li><li>to represent</li><li>to stand for</li></ol>",
+  "pos": "v",
+  "topic": "concepts::mind",
+  "cu": false
+ },
+ {
+  "wc": "представлять",
+  "w": "представля́ть",
+  "en": "<ol class=\"meaning-list\"><li>to introduce</li><li>to present</li><li>to show</li><li>to imagine</li><li>to picture</li><li>to represent</li><li>to stand for</li></ol>",
+  "pos": "v",
+  "topic": "concepts::mind",
+  "cu": false
+ },
+ {
+  "wc": "состояние",
+  "w": "состоя́ние",
+  "en": "<ol class=\"meaning-list\"><li>state</li><li>condition</li><li>fortune</li><li>wealth</li><li>ability (in 'быть в состоянии')</li><li>capacity to do something</li><li>state of mind</li><li>mood</li></ol>",
+  "pos": "n",
+  "topic": "concepts::emotion",
+  "cu": false
+ },
+ {
+  "wc": "осторожный",
+  "w": "осторо́жный",
+  "en": "<ol class=\"meaning-list\"><li>careful</li><li>cautious</li><li>wary</li><li>prudent</li></ol>",
+  "pos": "adj",
+  "topic": "concepts::emotion",
+  "cu": false
+ },
+ {
+  "wc": "довольный",
+  "w": "дово́льный",
+  "en": "<ol class=\"meaning-list\"><li>satisfied</li><li>content</li><li>pleased</li></ol>",
+  "pos": "adj",
+  "topic": "concepts::emotion",
+  "cu": false
+ },
+ {
+  "wc": "виноватый",
+  "w": "винова́тый",
+  "en": "<ol class=\"meaning-list\"><li>guilty</li><li>at fault</li><li>to blame</li><li>sorry</li><li>my fault</li><li>excuse me</li><li>guilty-looking</li><li>sheepish</li><li>apologetic</li></ol>",
+  "pos": "adj",
+  "topic": "concepts::emotion",
+  "cu": false
+ },
+ {
+  "wc": "страх",
+  "w": "страх",
+  "en": "<ol class=\"meaning-list\"><li>fear</li><li>dread</li><li>fright</li><li>terror</li><li>awe</li><li>reverence</li></ol>",
+  "pos": "n",
+  "topic": "concepts::emotion",
+  "cu": false
+ },
+ {
+  "wc": "понятный",
+  "w": "поня́тный",
+  "en": "<ol class=\"meaning-list\"><li>understandable</li><li>intelligible</li><li>clear</li><li>understandable</li></ol>",
+  "pos": "adj",
+  "topic": "qualities::eval",
+  "cu": false
+ },
+ {
+  "wc": "как-то",
+  "w": "ка́к-то",
+  "en": "<ol class=\"meaning-list\"><li>somehow</li><li>in some way</li><li>once</li><li>one day</li><li>the other day</li><li>namely</li><li>that is</li><li>such as</li></ol>",
+  "pos": "adv",
+  "topic": "language::grammar",
+  "cu": false
+ },
+ {
+  "wc": "будто",
+  "w": "бу́дто",
+  "en": "<ol class=\"meaning-list\"><li>as if</li><li>as though</li></ol>",
+  "pos": "conj",
+  "topic": "language::grammar",
+  "cu": false
+ },
+ {
+  "wc": "кое-что",
+  "w": "кое-что́",
+  "en": "<ol class=\"meaning-list\"><li>something (the speaker knows what, but doesn’t specify)</li></ol>",
+  "pos": "pron",
+  "topic": "language::grammar",
+  "cu": false
+ },
+ {
+  "wc": "ничто",
+  "w": "ничто́",
+  "en": "<ol class=\"meaning-list\"><li>nothing</li><li>nought</li></ol>",
+  "pos": "pron",
+  "topic": "language::grammar",
+  "cu": false
+ },
+ {
+  "wc": "поскольку",
+  "w": "поско́льку",
+  "en": "<ol class=\"meaning-list\"><li>since</li><li>because</li><li>as</li><li>insofar as</li><li>to the extent that</li><li>as far as</li></ol>",
+  "pos": "conj",
+  "topic": "language::grammar",
+  "cu": false
+ },
+ {
+  "wc": "лишь",
+  "w": "лишь",
+  "en": "<ol class=\"meaning-list\"><li>only</li><li>just</li><li>merely</li><li>only</li><li>not until</li><li>as soon as</li><li>the moment (that)</li><li>hardly had</li></ol>",
+  "pos": "part",
+  "topic": "language::grammar",
+  "cu": false
+ },
+ {
+  "wc": "данные",
+  "w": "да́нные",
+  "en": "<ol class=\"meaning-list\"><li>data</li><li>facts</li><li>information</li><li>qualities</li><li>makings</li><li>potentialities</li><li>natural gifts</li><li>grounds</li><li>evidence</li><li>reason</li></ol>",
+  "pos": "n",
+  "topic": "language::documents",
+  "cu": false
+ },
+ {
+  "wc": "список",
+  "w": "спи́сок",
+  "en": "<ol class=\"meaning-list\"><li>list</li><li>register</li><li>roll</li><li>copy (handwritten)</li><li>transcript</li></ol>",
+  "pos": "n",
+  "topic": "language::documents",
+  "cu": false
+ },
+ {
+  "wc": "отчёт",
+  "w": "отчёт",
+  "en": "<ol class=\"meaning-list\"><li>report</li><li>account</li><li>account (for one's actions)</li></ol>",
+  "pos": "n",
+  "topic": "language::documents",
+  "cu": false
+ },
+ {
+  "wc": "сигнал",
+  "w": "сигна́л",
+  "en": "<ol class=\"meaning-list\"><li>signal</li><li>call</li><li>notification</li><li>warning</li></ol>",
+  "pos": "n",
+  "topic": "language::communication",
+  "cu": false
+ },
+ {
+  "wc": "секрет",
+  "w": "секре́т",
+  "en": "<ol class=\"meaning-list\"><li>secret</li><li>secretion</li><li>listening post</li></ol>",
+  "pos": "n",
+  "topic": "language::communication",
+  "cu": false
+ },
+ {
+  "wc": "ложь",
+  "w": "ложь",
+  "en": "<ol class=\"meaning-list\"><li>lie</li><li>falsehood</li></ol>",
+  "pos": "n",
+  "topic": "language::communication",
+  "cu": false
+ },
+ {
+  "wc": "период",
+  "w": "пери́од",
+  "en": "<ol class=\"meaning-list\"><li>period</li></ol>",
+  "pos": "n",
+  "topic": "time",
+  "cu": false
+ },
+ {
+  "wc": "постоянный",
+  "w": "постоя́нный",
+  "en": "<ol class=\"meaning-list\"><li>constant</li><li>continual</li><li>incessant</li><li>permanent</li><li>standing</li><li>steady</li><li>regular</li></ol>",
+  "pos": "adj",
+  "topic": "time",
+  "cu": false
+ },
+ {
+  "wc": "вечный",
+  "w": "ве́чный",
+  "en": "<ol class=\"meaning-list\"><li>eternal</li></ol>",
+  "pos": "adj",
+  "topic": "time",
+  "cu": false
+ },
+ {
+  "wc": "скорый",
+  "w": "ско́рый",
+  "en": "<ol class=\"meaning-list\"><li>quick</li><li>fast</li><li>swift</li><li>near</li><li>forthcoming</li><li>imminent</li><li>express (train)</li></ol>",
+  "pos": "adj",
+  "topic": "time",
+  "cu": false
+ },
+ {
+  "wc": "срок",
+  "w": "срок",
+  "en": "<ol class=\"meaning-list\"><li>deadline</li><li>due date</li><li>appointed time</li><li>term</li><li>period of time</li><li>duration</li></ol>",
+  "pos": "n",
+  "topic": "time",
+  "cu": false
+ },
+ {
+  "wc": "оба",
+  "w": "о́ба",
+  "en": "<ol class=\"meaning-list\"><li>both</li></ol>",
+  "pos": "num",
+  "topic": "numbers",
+  "cu": false
+ },
+ {
+  "wc": "пара",
+  "w": "па́ра",
+  "en": "<ol class=\"meaning-list\"><li>pair</li><li>couple</li><li>match</li><li>a couple of</li><li>a few</li><li>two or so</li><li>class (at university)</li></ol>",
+  "pos": "n",
+  "topic": "numbers",
+  "cu": false
+ },
+ {
+  "wc": "гораздо",
+  "w": "гора́здо",
+  "en": "<ol class=\"meaning-list\"><li>much</li><li>far</li><li>by far</li><li>way</li></ol>",
+  "pos": "adv",
+  "topic": "numbers",
+  "cu": false
+ },
+ {
+  "wc": "данный",
+  "w": "да́нный",
+  "en": "<ol class=\"meaning-list\"><li>given</li><li>present</li></ol>",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "серия",
+  "w": "се́рия",
+  "en": "<ol class=\"meaning-list\"><li>series</li><li>set</li><li>episode</li><li>installment</li><li>part</li></ol>",
+  "pos": "n",
+  "topic": "life::art",
+  "cu": false
+ },
+ {
+  "wc": "вечеринка",
+  "w": "вечери́нка",
+  "en": "<ol class=\"meaning-list\"><li>party</li></ol>",
+  "pos": "n",
+  "topic": "life::leisure",
+  "cu": false
+ },
+ {
+  "wc": "планета",
+  "w": "плане́та",
+  "en": "<ol class=\"meaning-list\"><li>planet</li></ol>",
+  "pos": "n",
+  "topic": "places::geo",
+  "cu": false
+ },
+ {
+  "wc": "замок",
+  "w": "за́мок",
+  "en": "<ol class=\"meaning-list\"><li>castle</li></ol>",
+  "pos": "n",
+  "topic": "places::city",
+  "cu": false
+ },
+ {
+  "wc": "далее",
+  "w": "да́лее",
+  "en": "<ol class=\"meaning-list\"><li>further</li><li>farther</li><li>then</li><li>next</li><li>later on</li></ol>",
+  "pos": "adv",
+  "topic": "places::position",
+  "cu": false
+ },
+ {
+  "wc": "положение",
+  "w": "положе́ние",
+  "en": "<ol class=\"meaning-list\"><li>position</li><li>location</li><li>posture</li><li>situation</li><li>state of affairs</li><li>condition</li><li>standing</li><li>status</li><li>position in society</li><li>regulations</li><li>statute</li><li>provision</li><li>rules</li></ol>",
+  "pos": "n",
+  "topic": "places::position",
+  "cu": false
+ },
+ {
+  "wc": "внутренний",
+  "w": "вну́тренний",
+  "en": "<ol class=\"meaning-list\"><li>inner</li><li>internal</li><li>inside</li><li>domestic</li><li>internal</li><li>home</li><li>internal</li><li>in-house</li><li>inner</li><li>inward</li></ol>",
+  "pos": "adj",
+  "topic": "places::position",
+  "cu": false
+ },
+ {
+  "wc": "местный",
+  "w": "ме́стный",
+  "en": "<ol class=\"meaning-list\"><li>local</li><li>of a place</li></ol>",
+  "pos": "adj",
+  "topic": "places::position",
+  "cu": false
+ },
+ {
+  "wc": "вполне",
+  "w": "вполне́",
+  "en": "<ol class=\"meaning-list\"><li>fully</li><li>completely</li><li>entirely</li><li>quite</li><li>perfectly</li></ol>",
+  "pos": "adv",
+  "topic": "language::grammar",
+  "cu": false
+ },
+ {
+  "wc": "иначе",
+  "w": "ина́че",
+  "en": "<ol class=\"meaning-list\"><li>otherwise</li><li>or else</li><li>in a different way</li><li>differently</li></ol>",
+  "pos": "adv",
+  "topic": "language::grammar",
+  "cu": false
+ },
+ {
+  "wc": "вообще",
+  "w": "вообще́",
+  "en": "<ol class=\"meaning-list\"><li>in general</li><li>generally</li><li>on the whole</li><li>altogether</li><li>at all</li><li>actually</li><li>in fact</li><li>honestly</li></ol>",
+  "pos": "adv",
+  "topic": "language::grammar",
+  "cu": false
+ },
+ {
+  "wc": "ради",
+  "w": "ра́ди",
+  "en": "<ol class=\"meaning-list\"><li>for the sake of</li><li>for</li><li>for</li><li>for the sake of</li></ol>",
+  "pos": "prep",
+  "topic": "language::grammar",
+  "cu": false
+ },
+ {
+  "wc": "всё-таки",
+  "w": "всё-таки",
+  "en": "<ol class=\"meaning-list\"><li>still</li><li>all the same</li><li>nevertheless</li><li>for all that</li><li>after all</li><li>in the end</li></ol>",
+  "pos": "part",
+  "topic": "language::grammar",
+  "cu": false
+ },
+ {
+  "wc": "при",
+  "w": "при",
+  "en": "<ol class=\"meaning-list\"><li>at</li><li>by</li><li>attached to</li><li>at</li><li>in case of</li><li>upon</li><li>given</li><li>in the time of</li><li>under</li><li>during</li><li>in the presence of</li><li>in front of</li><li>with (on one's person)</li></ol>",
+  "pos": "prep",
+  "topic": "language::grammar",
+  "cu": false
+ },
+ {
+  "wc": "кстати",
+  "w": "кста́ти",
+  "en": "<ol class=\"meaning-list\"><li>by the way</li><li>incidentally</li><li>as a matter of fact</li><li>handy</li><li>welcome</li><li>useful</li><li>convenient</li></ol>",
+  "pos": "adv",
+  "topic": "language::grammar",
+  "cu": false
+ },
+ {
+  "wc": "всякий",
+  "w": "вся́кий",
+  "en": "<ol class=\"meaning-list\"><li>every type of</li><li>every sort of</li><li>any type of</li><li>any sort of</li><li>all sorts of</li><li>all kinds of</li></ol>",
+  "pos": "pron",
+  "topic": "language::grammar",
+  "cu": false
+ },
+ {
+  "wc": "никак",
+  "w": "ника́к",
+  "en": "<ol class=\"meaning-list\"><li>in no way</li><li>not at all</li></ol>",
+  "pos": "adv",
+  "topic": "language::grammar",
+  "cu": false
+ },
+ {
+  "wc": "либо",
+  "w": "ли́бо",
+  "en": "<ol class=\"meaning-list\"><li>or</li><li>either ... or</li><li>any-</li><li>some-</li></ol>",
+  "pos": "conj",
+  "topic": "language::grammar",
+  "cu": false
+ },
+ {
+  "wc": "настолько",
+  "w": "насто́лько",
+  "en": "<ol class=\"meaning-list\"><li>so</li><li>so much</li><li>to such a degree</li><li>to such an extent</li><li>as much as</li><li>as far as</li><li>as ... as</li></ol>",
+  "pos": "adv",
+  "topic": "language::grammar",
+  "cu": false
+ },
+ {
+  "wc": "именно",
+  "w": "и́менно",
+  "en": "<ol class=\"meaning-list\"><li>exactly</li><li>precisely</li><li>just</li></ol>",
+  "pos": "part",
+  "topic": "language::grammar",
+  "cu": false
+ },
+ {
+  "wc": "полностью",
+  "w": "по́лностью",
+  "en": "<ol class=\"meaning-list\"><li>completely</li><li>utterly</li><li>totally</li><li>in full</li><li>fully</li></ol>",
+  "pos": "adv",
+  "topic": "numbers",
+  "cu": false
+ },
+ {
+  "wc": "равный",
+  "w": "ра́вный",
+  "en": "<ol class=\"meaning-list\"><li>equal</li></ol>",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "случайный",
+  "w": "случа́йный",
+  "en": "<ol class=\"meaning-list\"><li>accidental</li><li>by chance</li><li>unintentional</li><li>inadvertent</li><li>random (person)</li><li>chance (acquaintance)</li><li>stray</li><li>occasional</li><li>casual (work)</li><li>odd (job)</li><li>random</li></ol>",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "собственный",
+  "w": "со́бственный",
+  "en": "<ol class=\"meaning-list\"><li>one's own</li><li>own</li><li>proper (of a name)</li><li>literal</li><li>actual</li><li>strict</li></ol>",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "абсолютный",
+  "w": "абсолю́тный",
+  "en": "<ol class=\"meaning-list\"><li>absolute</li><li>perfect</li><li>utter</li></ol>",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "личный",
+  "w": "ли́чный",
+  "en": "<ol class=\"meaning-list\"><li>personal</li><li>private</li><li>one's own</li><li>personal</li></ol>",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "различный",
+  "w": "разли́чный",
+  "en": "<ol class=\"meaning-list\"><li>various</li><li>diverse</li><li>all sorts of</li><li>different</li><li>differing</li><li>unlike</li></ol>",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "материал",
+  "w": "материа́л",
+  "en": "<ol class=\"meaning-list\"><li>material</li><li>stuff</li><li>material</li><li>data</li><li>evidence</li><li>fabric</li><li>cloth</li></ol>",
+  "pos": "n",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "объект",
+  "w": "объе́кт",
+  "en": "<ol class=\"meaning-list\"><li>object</li><li>target</li><li>facility</li><li>installation</li><li>site</li><li>works</li><li>objective</li><li>target</li></ol>",
+  "pos": "n",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "линия",
+  "w": "ли́ния",
+  "en": "<ol class=\"meaning-list\"><li>line</li></ol>",
+  "pos": "n",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "слава",
+  "w": "сла́ва",
+  "en": "<ol class=\"meaning-list\"><li>glory</li><li>fame</li><li>renown</li></ol>",
+  "pos": "n",
+  "topic": "qualities::eval",
+  "cu": false
+ },
+ {
+  "wc": "основа",
+  "w": "осно́ва",
+  "en": "<ol class=\"meaning-list\"><li>basis</li><li>base</li><li>foundation</li><li>fundamentals</li><li>basics</li><li>principles</li><li>stem</li><li>warp</li></ol>",
+  "pos": "n",
+  "topic": "qualities::eval",
+  "cu": false
+ },
+ {
+  "wc": "база",
+  "w": "ба́за",
+  "en": "<ol class=\"meaning-list\"><li>base</li><li>basis</li><li>foundation</li><li>base</li><li>military base</li><li>depot</li><li>warehouse</li><li>station</li><li>camp</li></ol>",
+  "pos": "n",
+  "topic": "qualities::eval",
+  "cu": false
+ },
+ {
+  "wc": "повод",
+  "w": "по́вод",
+  "en": "<ol class=\"meaning-list\"><li>reason</li><li>cause</li><li>occasion</li><li>grounds</li><li>pretext</li><li>excuse</li></ol>",
+  "pos": "n",
+  "topic": "qualities::eval",
+  "cu": false
+ },
+ {
+  "wc": "необходимый",
+  "w": "необходи́мый",
+  "en": "<ol class=\"meaning-list\"><li>necessary</li><li>indispensable</li><li>essential</li><li>unavoidable</li><li>inescapable</li></ol>",
+  "pos": "adj",
+  "topic": "qualities::eval",
+  "cu": false
+ },
+ {
+  "wc": "возможный",
+  "w": "возмо́жный",
+  "en": "<ol class=\"meaning-list\"><li>possible</li><li>feasible</li></ol>",
+  "pos": "adj",
+  "topic": "qualities::eval",
+  "cu": false
+ },
+ {
+  "wc": "обязанный",
+  "w": "обя́занный",
+  "en": "<ol class=\"meaning-list\"><li>obliged</li><li>obligated</li><li>required</li><li>indebted (to someone)</li><li>owing (something to someone)</li></ol>",
+  "pos": "adj",
+  "topic": "qualities::eval",
+  "cu": false
+ },
+ {
+  "wc": "особенный",
+  "w": "осо́бенный",
+  "en": "<ol class=\"meaning-list\"><li>special</li><li>particular</li><li>peculiar</li><li>unusual</li></ol>",
+  "pos": "adj",
+  "topic": "qualities::eval",
+  "cu": false
+ },
+ {
+  "wc": "великолепный",
+  "w": "великоле́пный",
+  "en": "<ol class=\"meaning-list\"><li>magnificent</li><li>splendid</li><li>gorgeous</li><li>excellent</li><li>superb</li><li>fine</li></ol>",
+  "pos": "adj",
+  "topic": "qualities::eval",
+  "cu": false
+ },
+ {
+  "wc": "возможность",
+  "w": "возмо́жность",
+  "en": "<ol class=\"meaning-list\"><li>possibility</li><li>chance (of something happening)</li><li>opportunity</li><li>chance</li><li>occasion</li><li>means</li><li>resources</li><li>capabilities</li><li>potential</li><li>feature</li><li>function</li></ol>",
+  "pos": "n",
+  "topic": "qualities::eval",
+  "cu": false
+ },
+ {
+  "wc": "отличный",
+  "w": "отли́чный",
+  "en": "<ol class=\"meaning-list\"><li>excellent</li><li>great</li><li>first-class</li><li>awesome</li><li>different (from)</li><li>unlike</li></ol>",
+  "pos": "adj",
+  "topic": "qualities::eval",
+  "cu": false
+ },
+ {
+  "wc": "доллар",
+  "w": "до́ллар",
+  "en": "<ol class=\"meaning-list\"><li>dollar</li></ol>",
+  "pos": "n",
+  "topic": "numbers::units",
+  "cu": false
+ },
+ {
+  "wc": "попытка",
+  "w": "попы́тка",
+  "en": "<ol class=\"meaning-list\"><li>attempt</li></ol>",
+  "pos": "n",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "шаг",
+  "w": "шаг",
+  "en": "<ol class=\"meaning-list\"><li>step</li><li>pace</li><li>stride</li><li>footsteps</li><li>tread</li><li>step</li></ol>",
+  "pos": "n",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "участие",
+  "w": "уча́стие",
+  "en": "<ol class=\"meaning-list\"><li>participation</li><li>taking part</li><li>involvement</li><li>sympathy</li><li>compassion</li><li>concern</li></ol>",
+  "pos": "n",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "удар",
+  "w": "уда́р",
+  "en": "<ol class=\"meaning-list\"><li>blow</li><li>hit</li><li>punch</li><li>kick</li><li>stroke</li><li>shot</li><li>impact</li><li>shock</li><li>stab</li><li>slash</li><li>lash</li></ol>",
+  "pos": "n",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "плевать",
+  "w": "плева́ть",
+  "en": "<ol class=\"meaning-list\"><li>to spit</li><li>to expectorate</li><li>not to care</li><li>to not give a damn</li><li>to shrug off</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "плюнуть",
+  "w": "плю́нуть",
+  "en": "<ol class=\"meaning-list\"><li>to spit</li><li>to expectorate</li><li>to not care (about)</li><li>to shrug off</li><li>to give up on</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "попадать",
+  "w": "попада́ть",
+  "en": "<ol class=\"meaning-list\"><li>to hit (a target)</li><li>to strike</li><li>to get to (a place)</li><li>to reach</li><li>to end up in</li><li>to find oneself in</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "попасть",
+  "w": "попа́сть",
+  "en": "<ol class=\"meaning-list\"><li>to get (to a place)</li><li>to reach</li><li>to arrive (somewhere)</li><li>to end up in</li><li>to find oneself in</li><li>to get into (a situation)</li><li>to hit (a target)</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "глядеть",
+  "w": "гляде́ть",
+  "en": "<ol class=\"meaning-list\"><li>to look</li><li>to gaze</li><li>to peer</li><li>to glance</li><li>to look after</li><li>to keep an eye on</li><li>to watch over</li><li>to face</li><li>to look out onto</li><li>to give onto</li><li>to look like</li><li>to look</li><li>to appear</li><li>to show</li><li>to peep out</li><li>to be visible</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "поглядеть",
+  "w": "погляде́ть",
+  "en": "<ol class=\"meaning-list\"><li>to have a look</li><li>to look for a while</li><li>to glance</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "деятельность",
+  "w": "де́ятельность",
+  "en": "<ol class=\"meaning-list\"><li>activity</li><li>work</li><li>occupation</li><li>activity</li><li>functioning</li></ol>",
+  "pos": "n",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "позволить",
+  "w": "позво́лить",
+  "en": "<ol class=\"meaning-list\"><li>to allow</li><li>to permit</li><li>to let</li><li>to enable</li><li>to make possible</li><li>to afford</li><li>to treat oneself to</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "позволять",
+  "w": "позволя́ть",
+  "en": "<ol class=\"meaning-list\"><li>to let</li><li>to allow</li><li>to permit</li><li>to make possible</li><li>to enable</li><li>to afford</li><li>to treat oneself to</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "структура",
+  "w": "структу́ра",
+  "en": "<ol class=\"meaning-list\"><li>structure</li><li>organization</li></ol>",
+  "pos": "n",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "черта",
+  "w": "черта́",
+  "en": "<ol class=\"meaning-list\"><li>line</li><li>stroke</li><li>dash</li><li>boundary</li><li>limits</li><li>trait</li><li>feature</li><li>characteristic</li></ol>",
+  "pos": "n",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "вид",
+  "w": "вид",
+  "en": "<ol class=\"meaning-list\"><li>appearance</li><li>look</li><li>view</li><li>sight</li><li>kind</li><li>sort</li><li>type</li><li>species</li><li>form</li><li>state</li><li>aspect</li></ol>",
+  "pos": "n",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "похожий",
+  "w": "похо́жий",
+  "en": "<ol class=\"meaning-list\"><li>similar</li><li>resembling</li><li>alike</li></ol>",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "прямой",
+  "w": "прямо́й",
+  "en": "<ol class=\"meaning-list\"><li>straight</li><li>straight-line</li><li>direct</li><li>immediate</li><li>through (of a train)</li><li>frank</li><li>straightforward</li><li>sincere</li><li>candid</li><li>upright</li><li>erect</li><li>real</li><li>downright</li><li>outright</li></ol>",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "видный",
+  "w": "ви́дный",
+  "en": "<ol class=\"meaning-list\"><li>visible</li><li>conspicuous</li><li>prominent</li><li>eminent</li><li>distinguished</li><li>notable</li><li>handsome</li><li>stately</li></ol>",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
  }
 ]

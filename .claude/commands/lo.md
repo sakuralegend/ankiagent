@@ -68,8 +68,8 @@ deck `B2-pending` (ngoài RUSSIAN, mặt 1-go) — chưa học, nhưng vẫn so�
   ⇒ Khai với agent là **"máy tìm được X"**, đừng khai **"không có"**. Danh sách giao là **SÀN**.
 - 🔴 **Đừng tự viết đoạn đo va chạm** — `giao`/`vacham` đã lọc đủ 4 badge và ghi trạng thái lô
   bên kia; tự viết là dẫm lại bẫy `Gender` (field không có, trả RỖNG im lặng).
-- 🔴 **Gỡ va chạm bằng RÚT GỌN, đừng thêm chữ** (xác nhận 4 lần): bỏ nghĩa nới rộng / bỏ lời giải
-  thích lẫn trong đề bài làm cụm trùng biến mất mà không thêm chữ nào.
+- 🔴 **Va chạm = đề A NẰM GỌN trong đề B** (máy đo đúng thế từ 22/11). Chung MỘT nghĩa là ổn —
+  22/11 cả 7 lô cắt nghĩa chính để né (необходимый mất «cần thiết»), user bác. Gỡ bằng RÚT GỌN nghĩa nới rộng.
 - 🔴 **CÓ LÔ CHẠY SONG SONG THÌ ĐỪNG `git add -A`** — nó quét cả file đang soạn dở vào commit,
   HEAD giữ ảnh chụp còn lỗi. Commit theo đường dẫn cụ thể.
 - 🔴 **Đuôi phiên là chỗ đắt nhất** (mỗi lượt chat gửi lại cả hội thoại). Trước khi sửa tài liệu,
@@ -107,7 +107,8 @@ deck `B2-pending` (ngoài RUSSIAN, mặt 1-go) — chưa học, nhưng vẫn so�
 > **CẤM bốn thứ:** ① nhãn từ loại/giống/thể/phản thân (bốn badge đã in sẵn trên mặt đề bài) ·
 > ② cách chi phối (`+ C4`) · ③ lưu ý cách dùng, ví dụ, **mọi ghi chú trong ngoặc** · ④ mệnh đề
 > phủ định `(không phải «X»)`. Chỉ nghĩa thông dụng mà gloss tiếng Anh xác nhận được; **đừng nới
-> rộng**. Trùng hết nghĩa mà badge cũng không tách ⇒ **BÁO LÊN, cấm tự thêm ngoặc**.
+> rộng**. Chung MỘT nghĩa với thẻ khác là bình thường — **CẤM cắt nghĩa chính để né**. Trùng HẾT
+> nghĩa mà badge cũng không tách ⇒ **BÁO LÊN, cấm tự thêm ngoặc**.
 >
 > **4. Tự soát:** `congcu.py soat kNN` — sửa tới khi **cả ba** mục đầu `(khong co)`, rồi **đọc
 > bằng mắt** danh sách "PHAI DOC BANG MAT". Và `congcu.py dodai kNN` phải báo

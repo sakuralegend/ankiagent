@@ -109,6 +109,9 @@ MIEN_TRU = {
              "chèn о này; nouns.csv chỉ có danh từ cổ đồng tự поло́н = cảnh bị bắt làm tù binh "
              "(glossed tiếng Đức Gefangenschaft, không có nghĩa tiếng Anh). Cùng lớp với ни́зок, "
              "я́рок ở trên",
+    "орга́н": "орга́н = CÂY ĐÀN ORGAN, đồng tự với о́рган = cơ quan (cơ thể, nhà nước) — thẻ k152 "
+             "cố ý nêu cặp này để user khỏi lẫn vì hai từ chỉ khác nhau đúng chỗ trọng âm; "
+             "nouns.csv chỉ có о́рган. Cùng lớp với замо́к, ду́хи ở trên",
 }
 
 # VÁ NGUỒN — dòng `nouns.csv` mà cột `accented` trái với CHÍNH cột `pl_nom` của nó.

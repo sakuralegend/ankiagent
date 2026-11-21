@@ -302,21 +302,16 @@ def cmd_dodai(chi=None):
 
 # ------------------------------------------------- va chạm nghĩa tiếng Việt
 def tach_nghia(vi):
-    """Tách một dòng tiếng Việt thành các nghĩa rời để so trùng.
-
-    `Vietnamese` viết kiểu "nói, bảo, cho biết" — mỗi cụm là MỘT đáp án mà
-    user có thể nhìn vào rồi gõ. Nên so trùng phải so từng cụm, không so cả
-    dòng: "nói, bảo" và "nói, trò chuyện" khác nhau nguyên dòng nhưng cùng
-    chứa "nói", tức vẫn là đề bài hai đáp án.
-    """
-    vi = re.sub(r"<[^>]+>", " ", vi or "").lower()
-    vi = re.sub(r"\([^)]*\)", " ", vi)          # bỏ phần chú trong ngoặc
+    """Dòng `Vietnamese` -> tập nghĩa rời. «hoặc»/«hay là» chỉ là dấu ngăn khi CÓ chữ hai
+    bên: tách trơn thì либо = «hoặc, hay là» thành RỖNG, máy mù với либо↔или (k155, 22/11)."""
+    vi = re.sub(r"\([^)]*\)", " ", re.sub(r"<[^>]+>", " ", vi or "").lower())
     ra = set()
-    for cum in re.split(r"[,;/·|]|\bhoặc\b|\bhay là\b", vi):
-        cum = re.sub(r"\s+", " ", cum).strip(" .…")
-        # cụm quá ngắn hoặc chỉ là hư từ thì bỏ, kẻo báo trùng tràn lan
-        if len(cum) >= 2 and cum not in ("và", "là", "của", "cho", "một"):
-            ra.add(cum)
+    for manh in re.split(r"[,;/·|]", vi):
+        con = [c for c in re.split(r"\bhoặc\b|\bhay là\b", manh) if c.strip(" .…")]
+        for cum in con or [manh]:
+            cum = re.sub(r"\s+", " ", cum).strip(" .…")
+            if len(cum) >= 2 and cum not in ("và", "là", "của", "cho", "một"):   # hư từ: báo tràn
+                ra.add(cum)
     return ra
 
 
@@ -331,19 +326,26 @@ def _o(fields, k):
 
 
 def do_va_cham(notes, loc_badge=True):
-    """notes: list `notesInfo` -> {nghĩa Việt: [Word có trọng âm…]}, chỉ nghĩa >= 2 THẺ.
-
-    Khoá theo NOTE, không theo WordClean: `нарезать` IMPF/PERF cùng mặt chữ ⇒ khoá
-    chữ gộp làm một, luồng chính đo sót đúng cặp đó (đợt B2 #4, 21/11).
-    `loc_badge`: chỉ giữ thẻ trùng nghĩa VÀ trùng đủ bốn badge — va chạm thật; khoá ra
-    thành `"cắt [v IMPF]"` để thấy ĐÚNG cặp nào đụng cặp nào."""
-    theo = {}
+    """notes `notesInfo` -> {"đề A [badge]": [A, mọi B]}: VA CHẠM = MỌI nghĩa của A đều có ở
+    B cùng badge (A ⊆ B) — nhìn đề A không biết gõ từ nào. Chung MỘT nghĩa mà cả dòng vẫn
+    khác thì KHÔNG phải (user chốt 22/11, README §2c): so từng cụm đã khiến 7 lô cắt cả
+    nghĩa chính (необходимый mất «cần thiết»). Khoá theo NOTE (нарезать IMPF/PERF cùng chữ)."""
+    nhom, ra = {}, {}
     for n in notes:
         b = " ".join(x for x in (_o(n["fields"], k) for k in BADGE) if x) if loc_badge else ""
-        for ng in tach_nghia(_o(n["fields"], "Vietnamese")):
-            theo.setdefault(f"{ng} [{b}]" if b else ng, []).append(n)
-    return {k: sorted(_o(n["fields"], "Word") or _o(n["fields"], "WordClean") for n in ds)
-            for k, ds in theo.items() if len(ds) > 1}
+        nhom.setdefault(b, []).append((n, tach_nghia(_o(n["fields"], "Vietnamese"))))
+    for b, ds in nhom.items():
+        idx = {}
+        for i, (_n, s) in enumerate(ds):
+            for ng in s:
+                idx.setdefault(ng, set()).add(i)
+        for i, (n, s) in enumerate(ds):
+            cung = set.intersection(*(idx[ng] for ng in s)) - {i} if s else set()
+            if cung:
+                ra[", ".join(sorted(s)) + (f" [{b}]" if b else "")] = sorted(
+                    _o(x["fields"], "Word") or _o(x["fields"], "WordClean")
+                    for x in [n] + [ds[j][0] for j in cung])
+    return ra
 
 
 # ------------------------------------------------- bối cảnh lô (`giao`, `tiep`)
@@ -380,7 +382,7 @@ def boi_canh(lo, q, notes, ho=True):
         x = cua.get(bare(w))
         return w if not x or x["id"] == lo["id"] else \
             f"{w}[{x['id']} {'da nap' if x.get('daNap') else x['trangthai']}]"
-    out = [f"### VA CHAM NGHIA cua {lo['id']} (trung ca 4 badge) — [kNN cho]: lo kia tu lo, "
+    out = [f"### VA CHAM NGHIA cua {lo['id']} (de nam GON trong de khac, cung 4 badge) — [kNN cho]: lo kia tu lo, "
            "muon no doi thi BAO LEN · [da nap]: MO COI, chi BAO LEN, cam sua tu ngoai lo"]
     out += [f"  '{ng}' -> " + " · ".join(map(nhan, tu))
             for ng, tu in sorted(do_va_cham(notes).items()) if any(bare(t) in cua_lo for t in tu)]
