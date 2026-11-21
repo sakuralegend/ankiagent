@@ -201,15 +201,17 @@ def cmd_tiep():
             hd = cu_hd.get(khoa_note(wc), "")
             out.append(f"### NOI DUNG HIEN TAI cua {wc} ({len(hd)} byte) — GIU LAI phan dang "
                        f"tot, chi va cho thieu:\n{hd or '(TRONG)'}\n")
+    from soatlo import boi_canh     # va chạm nghĩa in sẵn cho agent — họ từ thì KHÔNG (khochung.py)
+    out += [""] + boi_canh(lo, q, ac("notesInfo", notes=ac("findNotes", query="note:RU_Word")), ho=False)
     io.open(os.path.join(HERE, f"_input_{lo['id']}.txt"), "w", encoding="utf-8").write(
         "\n".join(out))
     print("\n".join(out))
 
 
-def cmd_xong():
-    """Đánh dấu lô đã soạn xong. CHỈ luồng chính gọi, sau khi đã soát —
-    lô tự đánh dấu mình xong thì bộ soát mất hết ý nghĩa."""
-    ids = [a for a in sys.argv[2:] if la_id_lo(a)]
+def cmd_xong(ids=None):
+    """Đánh dấu lô đã soạn xong. CHỈ luồng chính gọi (hoặc `xephangdoi.py chot`), sau
+    khi đã soát — lô tự đánh dấu mình xong thì bộ soát mất hết ý nghĩa."""
+    ids = ids or [a for a in sys.argv[2:] if la_id_lo(a)]
     q = doc_hangdoi()
     for l in q["lo"]:
         if l["id"] in ids:
@@ -383,7 +385,7 @@ def cmd_nap():
     can = [l for l in xong if tatca or not l.get("daNap")]
     if not can:
         print(f"khong co lo moi de nap ({len(xong)} lo da duyet, tat ca da nap)")
-        return
+        return {"doi": 0}           # không việc ≠ hỏng: `chot` chạy lại sau khi đã nạp
     ids_lo = [l["id"] for l in can]
     print(f"nap {len(can)} lo: {' '.join(ids_lo)}")
     gop, _ = nap_lo_da_soan(ids_lo)
@@ -493,6 +495,7 @@ def cmd_nap():
     # Sync rồi CHỜ mở khoá: `ac("sync")` trơn trả lời ngay mà collection còn khoá ~2 s
     # ⇒ `kiemtra.py` chạy liền sau chết "Collection lifecycle" (18/11).
     print("sync: " + ("OK" if sync_truoc_khi_ghi_lo("cuoi nap") else "HONG — xem dong FAIL"))
+    return {"doi": doi}             # `chot` đọc: None = dừng giữa chừng
 
 
 if __name__ == "__main__":

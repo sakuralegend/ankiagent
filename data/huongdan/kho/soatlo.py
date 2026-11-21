@@ -55,13 +55,13 @@ def load_nouns():
     return d
 
 
-def cmd_soat():
+def cmd_soat(chi=None):
     """Soát nội dung ĐÃ SOẠN NHƯNG CHƯA ĐẨY — không cần AnkiConnect.
 
     Đây là điểm khác duy nhất so với kiemtra.py: nguồn là file, không phải thẻ.
     Nhờ vậy soát được ngay trong lúc thẻ trong Anki còn nguyên chưa bị đụng.
     """
-    chi = [a for a in sys.argv[2:] if la_id_lo(a)] or None
+    chi = chi or [a for a in sys.argv[2:] if la_id_lo(a)] or None
     nouns = load_nouns()
     gop, nguon = nap_lo_da_soan(chi)
     print(f"tu dien: {len(nouns)} danh tu | dang soat: {len(gop)} tu"
@@ -188,6 +188,7 @@ def cmd_soat():
         print("  " + ", ".join(dai[:60]))
         print(f"  ... {len(dai) - 60} tu nua -> {os.path.basename(fn)}")
     print("\n⚠️ 'Chua tra duoc' KHONG phai 'dung' — nouns.csv chi co DANH TU.")
+    return not (hong or khong_dau or sai)     # ba mục phải sạch — `chot` đọc cái này
 
 
 # ---------------------------------------------------------- lệnh: dodai
@@ -247,14 +248,14 @@ def uoc_cao(html):
     return int(cao)
 
 
-def cmd_dodai():
+def cmd_dodai(chi=None):
     """Đo độ dài VÀ đếm ô đỏ từng thẻ — xem README §2b.
 
     🔴 Đếm ô đỏ mới là cửa quan trọng. Suốt 16 lô đầu chỉ có trần byte, nên
     thẻ "đạt" 12 KB vẫn có tới 16 ô đỏ và user đọc xong không nhớ gì — đúng
     thứ mà độ dài định phục vụ thì lại hỏng. Trần byte một mình KHÔNG đủ.
     """
-    chi = [a for a in sys.argv[2:] if la_id_lo(a)] or None
+    chi = chi or [a for a in sys.argv[2:] if la_id_lo(a)] or None
     gop, nguon = nap_lo_da_soan(chi)
     L = sorted(((len(v), k) for k, v in gop.items()), reverse=True)
     if not L:
@@ -295,6 +296,8 @@ def cmd_dodai():
         print(f"  cao   {n:6d}px  {w}   [{nguon[w]}]  = {n / TRAN_CAO:.1f} man hinh")
     for n, w in do[:15]:
         print(f"  o do  {n:6d}    {w}   [{nguon[w]}]")
+    return {"ok": not cao and not do, "caotb": sum(C.values()) // len(C),
+            "odotb": round(sum(W.values()) / len(W), 1)}
 
 
 # ------------------------------------------------- va chạm nghĩa tiếng Việt
@@ -341,3 +344,54 @@ def do_va_cham(notes, loc_badge=True):
             theo.setdefault(f"{ng} [{b}]" if b else ng, []).append(n)
     return {k: sorted(_o(n["fields"], "Word") or _o(n["fields"], "WordClean") for n in ds)
             for k, ds in theo.items() if len(ds) > 1}
+
+
+# ------------------------------------------------- bối cảnh lô (`giao`, `tiep`)
+_DUOI = sorted("ться тись ть ти чь ение ание ость ник ница ный ний ной ский ая ое ие ия ый ий ой "
+               "ка а я о е ь и ы".split(), key=len, reverse=True)
+
+
+def goc_ho(w):
+    """Gốc thô để dò họ từ: bỏ dấu + tối đa HAI đuôi (`работать`→`работ`). Dưới 4 chữ
+    ⇒ None, khớp chuỗi ngắn thế là báo tràn lan. Chỉ là SÀN và CÓ báo oan
+    (`стол`→`столица`): mù với gốc đổi mặt chữ (`животное`↔`жить`, `вход`↔`выход`)."""
+    b = bare(w)
+    for _ in range(2):
+        d = next((d for d in _DUOI if b.endswith(d) and len(b) - len(d) >= 4), None)
+        if not d:
+            break
+        b = b[:-len(d)]
+    return b if len(b) >= 4 else None
+
+
+def cung_ho(a, b):
+    ga, gb = goc_ho(a), goc_ho(b)
+    return bare(a) != bare(b) and bool((ga and ga in bare(b)) or (gb and gb in bare(a)))
+
+
+def boi_canh(lo, q, notes, ho=True):
+    """Dòng in: va chạm nghĩa (trùng đủ 4 badge) dính từ của `lo`, kèm lô của bên kia.
+    `ho=True` in thêm ỨNG VIÊN họ từ đã có thẻ — CHỈ cho luồng chính: user chốt 29/07
+    không đưa họ từ do máy dò cho agent (khochung.py, khối "KHÔNG in HỌ TỪ")."""
+    cua = {bare(w): x for x in q["lo"] for w in x["tu"]}
+    cua_lo = {bare(w) for w in lo["tu"]}
+
+    def nhan(w):
+        x = cua.get(bare(w))
+        return w if not x or x["id"] == lo["id"] else \
+            f"{w}[{x['id']} {'da nap' if x.get('daNap') else x['trangthai']}]"
+    out = [f"### VA CHAM NGHIA cua {lo['id']} (trung ca 4 badge) — [kNN cho]: lo kia tu lo, "
+           "muon no doi thi BAO LEN · [da nap]: MO COI, chi BAO LEN, cam sua tu ngoai lo"]
+    out += [f"  '{ng}' -> " + " · ".join(map(nhan, tu))
+            for ng, tu in sorted(do_va_cham(notes).items()) if any(bare(t) in cua_lo for t in tu)]
+    if len(out) == 1:
+        out.append("  (khong co)")
+    if ho:
+        out.append(f"### UNG VIEN HO TU da co the (khop chuoi, CO bao oan — loc roi moi khai agent)")
+        for w in lo["tu"]:
+            co = sorted({_o(n["fields"], "Word") for n in notes
+                         if bare(_o(n["fields"], "WordClean")) not in cua_lo
+                         and cung_ho(w, _o(n["fields"], "WordClean"))})
+            if co:
+                out.append(f"  {w}: {' · '.join(co[:10])}{' ...' if len(co) > 10 else ''}")
+    return out

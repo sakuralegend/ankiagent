@@ -262,3 +262,21 @@ TAG_CHUAN = "chuan"
 
 def tag_chuan(v=None):
     return f"{TAG_CHUAN}::{CHUAN_V if v is None else v}"
+
+
+def ghi_dolo(lo):
+    """lo: {id: (số từ, đường file lô, kết quả `cmd_dodai`)} -> nối dòng vào `dolo.tsv`,
+    bỏ qua lô đã có dòng. Ba số tay đọc từ `B` cuối file lô (agent tự ghi, lo.md §4) —
+    ghi bằng máy vì bước chép tay này từng làm luồng chính đánh thức 9 agent hỏi lại."""
+    import datetime
+    dolo = os.path.join(HERE, "dolo.tsv")
+    co = {x.split("\t")[0] for x in io.open(dolo, encoding="utf-8")}
+    with io.open(dolo, "a", encoding="utf-8") as f:
+        for i, (n, duong, d) in sorted(lo.items()):
+            if i in co:
+                continue
+            spec = importlib.util.spec_from_file_location("b_" + i, duong)
+            spec.loader.exec_module(m := importlib.util.module_from_spec(spec))
+            B = getattr(m, "B", {})
+            f.write("\t".join(map(str, [i, n, B.get("docbangmat", ""), B.get("loitubat", ""), "",
+                    B.get("nguonsai", ""), d["caotb"], d["odotb"], datetime.date.today()])) + "\n")

@@ -1048,6 +1048,40 @@ class DoVaChamKhoaTheoNote(unittest.TestCase):
         notes = [self._n("сосе́д", "hàng xóm", "n", "MASC"), self._n("сосе́дка", "hàng xóm", "n", "FEM")]
         self.assertEqual(s.do_va_cham(notes), {})
 
+    def test_ho_geolog_bi_xe_ba_lo_thi_may_nhan_ra(self):
+        """21/11: Opus xếp chủ đề rải геолог/геология/геологический ra k146/k147/k148,
+        luồng chính gom tay. `chon` giờ báo — nhưng từ quá ngắn thì im (báo tràn lan)."""
+        s = ChotYoLamBoSoatMuMotVungLon._soatlo()
+        self.assertTrue(s.cung_ho("геолог", "геология"))
+        self.assertTrue(s.cung_ho("геология", "геологический"))
+        self.assertTrue(s.cung_ho("работать", "работник"))
+        self.assertIsNone(s.goc_ho("суп"))
+        self.assertFalse(s.cung_ho("геолог", "геолог"), "chính nó không phải họ hàng")
+
+    def test_agent_KHONG_nhan_ho_tu_may_do(self):
+        """User chốt 29/07 (khochung.py, khối "KHÔNG in HỌ TỪ"): họ từ máy dò có báo oan
+        nên chỉ luồng chính thấy; đề bài agent (`tiep`) chỉ mang va chạm nghĩa."""
+        s = ChotYoLamBoSoatMuMotVungLon._soatlo()
+        q = {"lo": [{"id": "k01", "tu": ["геология"], "trangthai": "cho"},
+                    {"id": "k02", "tu": ["геолог"], "trangthai": "xong", "daNap": True}]}
+        notes = [self._n("геоло́гия", "địa chất học", "n", "FEM"), self._n("гео́лог", "nhà địa chất", "n", "MASC")]
+        self.assertTrue(any("гео́лог" in x for x in s.boi_canh(q["lo"][0], q, notes)))
+        self.assertFalse(any("гео́лог" in x for x in s.boi_canh(q["lo"][0], q, notes, ho=False)))
+        goc = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        with open(os.path.join(goc, "data", "huongdan", "kho", "congcu.py"), encoding="utf-8") as f:
+            self.assertIn("ho=False)", f.read(), "`tiep` phải gọi boi_canh(..., ho=False)")
+
+    def test_va_cham_ghi_kem_trang_thai_lo_ben_kia(self):
+        """lo.md §3: thiếu trạng thái lô đối phương thì agent tự sửa từ ngoài lô (sai)
+        hoặc dừng lại hỏi (đắt)."""
+        s = ChotYoLamBoSoatMuMotVungLon._soatlo()
+        q = {"lo": [{"id": "k01", "tu": ["врач"], "trangthai": "cho"},
+                    {"id": "k02", "tu": ["доктор"], "trangthai": "xong", "daNap": True}]}
+        notes = [self._n("врач", "bác sĩ", "n", "MASC"), self._n("до́ктор", "bác sĩ", "n", "MASC")]
+        dong = [x for x in s.boi_canh(q["lo"][0], q, notes, ho=False) if "bác sĩ" in x]
+        self.assertEqual(len(dong), 1)
+        self.assertIn("до́ктор[k02 da nap]", dong[0])
+
 
 class ToBangChia(unittest.TestCase):
     """User bắt 08/08/2026: thẻ `крокоди́л` có ô đỏ dạy "cách 4 mượn hình cách 2"

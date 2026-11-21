@@ -114,7 +114,7 @@ def main():
     print("⚠️ 'Khong tra duoc' KHONG co nghia la sai — chi la nouns.csv chi chua DANH TU.")
     print("   Nhung tinh tu/dong tu trong la trong danh sach nay thi PHAI kiem tay.")
 
-    soat_du_lieu_lac_the()
+    return len(sai_trong_am), soat_du_lieu_lac_the()     # `xephangdoi.py chot` đọc
 
 
 def soat_du_lieu_lac_the():
@@ -152,6 +152,7 @@ def soat_du_lieu_lac_the():
         print(f"  🔴 mat the '{w}' nhung ban ghi la cua '{a}'")
     if not lac:
         print("  (khong co)")
+    return len(lac)
 
 
 if __name__ == "__main__":

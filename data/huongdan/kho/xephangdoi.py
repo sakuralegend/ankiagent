@@ -6,6 +6,8 @@
     python data/huongdan/kho/xephangdoi.py chon 100 --apply # Opus xếp chủ đề + chia lô + GHI hangdoi.json
     python data/huongdan/kho/xephangdoi.py taothe [--apply] [--toi-da N]
                      [--chon=TU=ID] [--bo=TU]               # Opus soạn câu, rồi tạo thẻ NGƯỢC thứ tự lô
+    python data/huongdan/kho/xephangdoi.py giao [kNN…]      # bối cảnh lô cho luồng chính trước khi giao agent
+    python data/huongdan/kho/xephangdoi.py chot [kNN…] [--apply]  # soát→nạp→kiemtra→dolo.tsv một lệnh
 
 🔴 KHÔNG GOOGLE (user chốt 18/11 cho mọi đợt sách B2): nghĩa Việt, câu ví dụ, chủ đề, từ
 loại do Opus làm qua `ai_client.goi_claude_code`, GỘP CẢ LÔ một lượt. Câu Opus vẫn qua
@@ -28,6 +30,7 @@ trả học phí ba chỗ mà file này chặn bằng THIẾT KẾ, không bằn
 Lô đợt mang cờ `chuaThe` tới khi đủ thẻ + bản ghi tudien.json; `congcu.py tiep` từ
 chối lô còn cờ (thiếu tudien thì agent soạn mò trên cột `?`).
 """
+import glob
 import io
 import json
 import os
@@ -40,7 +43,9 @@ GOC = os.path.join(HERE, "..", "..", "..")
 sys.path.insert(0, GOC)
 sys.path.insert(0, HERE)
 from khochung import (TUDIEN, khoa_note, bare, doc_hangdoi, ghi_hangdoi,   # noqa: E402
-                      ghi_json, ban_ghi_tudien)
+                      ghi_json, ban_ghi_tudien, la_id_lo, ghi_dolo)
+from anki_tools.anki_client import doc_notes_cua_model                    # noqa: E402
+from anki_tools.config import MODEL_NAME                                  # noqa: E402
 
 SACH = os.path.join(GOC, "data", "sach_b2.json")
 CO, TRAN, SAN = 20, 22, 10          # cỡ nhắm / trần / sàn mỗi lô — lo.md §2
@@ -111,8 +116,6 @@ def thu_tu_nap(lo_dot):
 
 # ------------------------------------------------------------ phần đụng Anki/AI
 def doc_the():
-    from anki_tools.anki_client import doc_notes_cua_model
-    from anki_tools.config import MODEL_NAME
     the = {khoa_note(n["fields"]["WordClean"]["value"].strip()): n
            for n in doc_notes_cua_model(MODEL_NAME)
            if n["fields"].get("WordClean", {}).get("value", "").strip()}
@@ -172,6 +175,13 @@ def cmd_chon(n, apply):
         print(f"  k{i}  {len(g):2d} từ  {q['lo'][-1]['topic']:22s} {' '.join(r[0] for r in g)}")
     q["tong_tu"], q["tong_lo"] = sum(len(l["tu"]) for l in q["lo"]), len(q["lo"])
     ghi_hangdoi(q)
+    # Họ từ rải nhiều lô = nhiều agent = "11 tên tháng viết 4 kiểu" (lo.md §2). Opus xếp
+    # chủ đề theo NGHĨA nên hay xé (геолог/геология/геологический ra 3 lô, 21/11). Chỉ
+    # BÁO, không tự dời: khớp chuỗi có báo oan, và dời là việc phải nhìn bằng mắt.
+    from soatlo import cung_ho
+    o = {r[0]: f"k{i}" for i, g in enumerate(cac_lo, so + 1) for r in g}
+    for a, b in sorted({tuple(sorted((a, b))) for a in o for b in o if o[a] < o[b] and cung_ho(a, b)}):
+        print(f"  ⚠️ HỌ TỪ BỊ XÉ (ứng viên): {a}[{o[a]}] · {b}[{o[b]}] — gom tay trong hangdoi.json TRƯỚC taothe")
     print(f"ĐÃ CHỐT {len(cac_lo)} lô vào hangdoi.json. Bước kế: `taothe --apply`.")
 
 
@@ -303,6 +313,57 @@ def hoan_tat(q, the):
     ghi_hangdoi(q)
 
 
+def _file(l):
+    return next(iter(glob.glob(os.path.join(HERE, f"{l['id']}_*.py"))), None)
+
+
+def cmd_giao(ids):
+    """Bối cảnh từng lô cho LUỒNG CHÍNH trước khi giao agent: va chạm nghĩa + ứng viên họ
+    từ đã có thẻ. Thay đoạn dò luồng chính từng viết tay mỗi đợt (một lần sót `нарезать`).
+    Agent tự thấy phần va chạm qua `congcu.py tiep`; họ từ thì KHÔNG (khochung.py)."""
+    from soatlo import boi_canh
+    q, notes = doc_hangdoi(), doc_notes_cua_model(MODEL_NAME)
+    for l in [l for l in q["lo"] if l["id"] in ids] or \
+            [l for l in lo_dot(q) if l["trangthai"] == "cho" and not _file(l)]:
+        print("\n".join(boi_canh(l, q, notes)) + "\n")
+
+
+def cmd_chot(ids, apply):
+    """Năm bước cuối của đợt trong MỘT lệnh: soát → đo dài → đánh dấu xong → nạp → soát
+    thẻ thật → ghi dolo.tsv. Commit vẫn là việc luồng chính (công cụ không đụng git).
+    🔴 Lô ĐỎ để lại `cho` kèm lý do, lô XANH vẫn nạp: thứ tự học đã chốt lúc `taothe`,
+    ô Hướng dẫn không đổi nó ⇒ dừng cả đợt vì một lô chỉ làm lô xanh chờ oan.
+    🔴 `nap` ghi một từ vào >1 note ⇒ KÊU TO: chính "33 note cho 32 từ" từng tố bug
+    khoá `ё` (`всё`/`все` ghi đè nhau)."""
+    import contextlib, congcu, kiemtra, soatlo                             # noqa: E401
+    q = doc_hangdoi()
+    ids = ids or [l["id"] for l in lo_dot(q) if l["trangthai"] == "cho" and _file(l)]
+    xanh = {}
+    for i in ids:
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            ok, d = soatlo.cmd_soat([i]), soatlo.cmd_dodai([i])
+        if ok and d and d["ok"]:
+            xanh[i] = d
+            print(f"  XANH {i}  cao tb {d['caotb']}px · ô đỏ tb {d['odotb']}")
+        else:
+            print(f"  ĐỎ   {i} — để lại `cho`, sửa rồi chạy lại:\n{buf.getvalue()}")
+    if not xanh or not apply:
+        return print("" if apply else f"(KHAN — thêm --apply để nạp {len(xanh)} lô xanh)")
+    congcu.cmd_xong(list(xanh))
+    r = congcu.cmd_nap()
+    if r is None:
+        return print("❌ `nap` DỪNG giữa chừng (xem dòng trên) — chưa soát thẻ, chưa ghi dolo.")
+    if r["doi"]:
+        print(f"⚠️ {r['doi']} từ ghi vào >1 note — soi bằng mắt (bug `всё`/`все`), đừng bỏ qua")
+    with contextlib.redirect_stdout(buf := io.StringIO()):   # ~4 400 từ "đọc bằng mắt" CẢ KHO:
+        sai, lac = kiemtra.main()                              # đổ vào hội thoại là đốt token
+    print(buf.getvalue() if sai or lac else "")
+    ghi_dolo({l["id"]: (len(l["tu"]), _file(l), xanh[l["id"]]) for l in q["lo"] if l["id"] in xanh})
+    print(f"\n{'✅' if not (sai or lac) else '❌'} kiemtra: {sai} trọng âm lệch · {lac} thẻ mang "
+          f"dữ liệu từ khác. BƯỚC KẾ: commit file lô + hangdoi.json + dolo.tsv, rồi 3 cửa.")
+
+
 def cmd_trangthai():
     dot = lo_dot(doc_hangdoi())
     thieu = [l["id"] for l in dot if l.get("chuaThe")]
@@ -310,7 +371,10 @@ def cmd_trangthai():
     if thieu:
         print(f"BƯỚC KẾ: `taothe --apply` — lô chưa đủ thẻ: {' '.join(thieu)}")
     elif cho:
-        print(f"BƯỚC KẾ: soạn lô theo lo.md §1 bước 3–8, lô ĐẦU trước: {' '.join(cho)}")
+        co = [i for i in cho if _file({"id": i})]
+        print(f"BƯỚC KẾ: lô CÓ file ⇒ `chot --apply`: {' '.join(co) or '—'} · "
+              f"lô CHƯA file ⇒ `giao` rồi giao agent (lo.md §4), lô ĐẦU trước: "
+              f"{' '.join(i for i in cho if i not in co) or '—'}")
     else:
         print("Không có đợt dở. Thêm từ: `chon N` (khan) rồi `chon N --apply`.")
 
@@ -319,6 +383,9 @@ if __name__ == "__main__":
     a = sys.argv[1:]
     if a[:1] == ["chon"]:
         cmd_chon(int(a[1]), "--apply" in a)
+    elif a[:1] in (["giao"], ["chot"]):
+        ids = [x for x in a[1:] if la_id_lo(x)]
+        cmd_giao(ids) if a[0] == "giao" else cmd_chot(ids, "--apply" in a)
     elif a[:1] == ["taothe"]:
         cmd_taothe("--apply" in a, int(a[a.index("--toi-da") + 1]) if "--toi-da" in a else 10 ** 6)
     else:
