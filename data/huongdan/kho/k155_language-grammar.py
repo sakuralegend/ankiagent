@@ -71,7 +71,7 @@ S["планета"] = (
 )
 
 # ----------------------------------------------------------------- замок (ЗА́МОК — lâu đài)
-S["замок"] = (
+S["за́мок"] = (
     '<div class="hd-sec">Chẻ từ</div>'
     '<div class="hd-row"><span class="hd-piece">за-</span>'
     '<span class="hd-gloss">tiền tố «khép lại» (như <b>закры́ть</b> đóng)</span></div>'

@@ -304,7 +304,7 @@ def cmd_dodai(chi=None):
 def tach_nghia(vi):
     """Dòng `Vietnamese` -> tập nghĩa rời. «hoặc»/«hay là» chỉ là dấu ngăn khi CÓ chữ hai
     bên: tách trơn thì либо = «hoặc, hay là» thành RỖNG, máy mù với либо↔или (k155, 22/11)."""
-    vi = re.sub(r"\([^)]*\)", " ", re.sub(r"<[^>]+>", " ", vi or "").lower())
+    vi = re.sub(r"<[^>]+>", " ", vi or "").lower()   # GIỮ ngoặc: user tự tách «đặt (nằm ngang)»
     ra = set()
     for manh in re.split(r"[,;/·|]", vi):
         con = [c for c in re.split(r"\bhoặc\b|\bhay là\b", manh) if c.strip(" .…")]

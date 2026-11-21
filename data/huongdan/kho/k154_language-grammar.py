@@ -20,7 +20,7 @@ V = {
     "кое-что": "một điều gì đó",                # bỏ ngoặc «(đó)»
     "ничто": "không cái gì, hư vô",             # «không gì cả» trùng ничего́ (k17); «hư vô» = gloss «nought»
     "пара": "đôi, cặp đôi, vài, tiết học",      # «cặp» trùng су́мка (k20); gloss «couple / a few / class (at university)»
-    "гораздо": "hơn nhiều, hơn hẳn",            # bỏ «...» (ghi chú cách dùng) — VẪN trùng намно́го, xem B
+    "гораздо": "vượt xa, hơn hẳn",            # bỏ «...» (ghi chú cách dùng) — VẪN trùng намно́го, xem B
     "данный": "này, đã cho",                    # bỏ «hiện tại» (trùng настоя́щий k40); «;» → «,»
     "постоянный": "liên tục, thường xuyên, lâu dài",   # «;» → «,»
     "вечный": "vĩnh cửu, triền miên",           # «;» → «,»

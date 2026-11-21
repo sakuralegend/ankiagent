@@ -1060,6 +1060,14 @@ class DoVaChamKhoaTheoNote(unittest.TestCase):
         notes = [self._n("ли́бо", "hoặc, hay là", "conj"), self._n("и́ли", "hoặc, hay là", "conj")]
         self.assertEqual(len(s.do_va_cham(notes)), 1)
 
+    def test_chu_trong_ngoac_la_cach_user_tu_tach(self):
+        """22/11: bỏ ngoặc thì класть «đặt (nằm ngang)» ↔ ставить «đặt (đứng thẳng)» thành
+        «đặt»↔«đặt» — 9/19 cặp báo OAN, đều là chỗ user tự sửa tay để phân biệt."""
+        s = ChotYoLamBoSoatMuMotVungLon._soatlo()
+        notes = [self._n("класть", "đặt (nằm ngang)", aspect="IMPF"),
+                 self._n("ста́вить", "đặt (đứng thẳng)", aspect="IMPF")]
+        self.assertEqual(s.do_va_cham(notes), {})
+
     def test_khac_giong_thi_khong_phai_va_cham(self):
         s = ChotYoLamBoSoatMuMotVungLon._soatlo()
         notes = [self._n("сосе́д", "hàng xóm", "n", "MASC"), self._n("сосе́дка", "hàng xóm", "n", "FEM")]
@@ -2085,6 +2093,39 @@ class TestDotThemTuChayLaiDuoc(unittest.TestCase):
             x.ghi_json(p, {"lo": [object()]})
         with open(p, encoding="utf-8") as f:
             self.assertIn('"lo"', f.read(), "ghi hỏng không được làm cụt file cũ")
+
+
+
+class HaiTuChiKhacTrongAm(unittest.TestCase):
+    """22/11: за́мок (lâu đài) / замо́к (ổ khoá) — user chốt HAI thẻ, mỗi thẻ ô riêng. Mọi
+    lệnh kho khoá theo chữ bỏ dấu ⇒ `nap` ghi ô lâu đài vào CẢ thẻ ổ khoá, `moi` tưởng ổ
+    khoá "đã có", `tiep` đưa agent bảng chia của từ kia. Luật: mục CÓ dấu = đúng 1 thẻ."""
+
+    @staticmethod
+    def _n(word, nid):
+        wc = word.replace(ACUTE, "")
+        return {"noteId": nid, "fields": {"Word": {"value": f"<b>{word}</b>"},
+                                          "WordClean": {"value": wc}}}
+
+    def setUp(self):
+        ChotYoLamBoSoatMuMotVungLon._soatlo()
+        import khochung
+        self.k = khochung
+        self.notes = [self._n("за́мок", 1), self._n("замо́к", 2), self._n("стол", 3)]
+
+    def test_muc_co_dau_chi_trung_dung_mot_the(self):
+        bd = {k: [n["noteId"] for n in ds] for k, ds in self.k.ban_do_note(self.notes).items()}
+        self.assertEqual(bd[self.k.khoa("замо́к")], [2])
+        self.assertEqual(bd[self.k.khoa("за'мок")], [1], "dấu ' cũng là dấu nhấn")
+        self.assertEqual(sorted(bd[self.k.khoa("замок")]), [1, 2], "mục trơn vẫn trùm như cũ")
+        self.assertEqual(bd[self.k.khoa("стол")], [3])
+
+    def test_moi_khong_bo_sot_the_trung_chu(self):
+        q = {"lo": [{"tu": ["за́мок", "стол"]}]}
+        self.assertEqual([m for m, _ in self.k.chua_len_lo(q, self.notes)], ["замо́к"])
+        q = {"lo": [{"tu": ["стол"]}]}
+        self.assertEqual(sorted(m for m, _ in self.k.chua_len_lo(q, self.notes)),
+                         ["за́мок", "замо́к"], "chữ có 2 thẻ ⇒ mục mới PHẢI mang dấu")
 
 
 if __name__ == "__main__":

@@ -100,26 +100,8 @@ S["суши"] = (
     'mọi thực đơn đều viết <b>су́ши</b>. Cứ dùng <b>су́ши</b>.</div>'
 )
 
-# ----------------------------------------------------------------- нарезать
-S["нарезать"] = (
-    '<div class="hd-sec">Chẻ từ</div>'
-    '<div class="hd-row"><span class="hd-piece">на-</span>'
-    '<span class="hd-gloss">tiền tố: làm ra MỘT LƯỢNG</span></div>'
-    '<div class="hd-row"><span class="hd-piece">-рез-</span>'
-    '<span class="hd-gloss">gốc CẮT — như <b>ре́зать</b> cắt</span></div>'
-    '<div class="hd-row"><span class="hd-piece">-ать</span>'
-    '<span class="hd-gloss">đuôi nguyên thể</span></div>'
-    '<div class="hd-sec">Cách nhớ</div>'
-    '<div class="hd-why">Cắt (<b>-рез-</b>) ra thành một lượng (<b>на-</b>) miếng '
-    'nhỏ — đúng việc thái thịt, thái rau xếp lên đĩa.</div>'
-    '<div class="hd-warn">Cặp thể này khác nhau CHỈ ở trọng âm, mặt chữ y hệt: '
-    '<b>наре́зать</b> thái xong một lượt · <b>нареза́ть</b> đang, thường thái.</div>'
-    '<div class="hd-warn">Thân tương lai đổi <b>з → ж</b>: <b>наре́жу, '
-    'наре́жешь</b> — không suy thẳng từ nguyên thể được, phải nhớ riêng.</div>'
-    '<div class="hd-sec">Họ hàng</div>'
-    '<div class="hd-fam"><b>ре́зать</b> cắt · <b>отре́зать</b> cắt rời · '
-    '<b>разре́зать</b> cắt đôi</div>'
-)
+# нарезать: GỠ 22/11 — user chốt наре́зать / нареза́ть là HAI từ riêng, soạn lại ở lô
+# sau với mục CÓ dấu (`khochung.khoa`). Để S trơn ở đây thì `nap --tatca` trùm cả hai.
 
 # -------------------------------------------------------------------- кусок
 S["кусок"] = (
@@ -409,9 +391,6 @@ S["голос"] = (
 # ============================================================ field Vietnamese
 # Chỉ sửa dòng thật sự hỏng: có ngoặc chú thích (README §2c cấm ③), va chạm nghĩa
 # với thẻ ĐÃ CÓ trong kho, hoặc nghĩa sai mà chính từ điển của thẻ bác lại.
-# 🔴 KHÔNG có V["нарезать"]: bộ sưu tập có HAI note cùng WordClean `нарезать`
-# (наре́зать PERF và нареза́ть IMPF), mà `nap` ghi vào MỌI note khớp khoá — đặt V
-# ở đây là san phẳng đúng cái badge đang tách hai thẻ đó. Đã báo lên luồng chính.
 V = {
     # va chạm với болеть (v/IMPF) = "bị ốm, đau nhức, cổ vũ" — thẻ CÓ SẴN, mồ côi.
     # Gỡ bằng RÚT GỌN phía mình: bỏ "bị ốm", giữ đúng sắc thái BẮT ĐẦU của за-.

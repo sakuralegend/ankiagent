@@ -37,8 +37,8 @@ from anki_tools.anki_client import sync_truoc_khi_ghi_lo          # noqa: E402
 # Tên lấy lại từ hai file ruột — GIỮ NGUYÊN cả bộ vì `dochuan.py` import congcu
 # như thư viện (congcu._BANG_RE, congcu.uoc_cao, congcu.TRAN_CAO…).
 from khochung import (ACUTE, ZWSP, TUDIEN, BANG_RE, CHUAN_V, TAG_CHUAN,    # noqa: E402,F401
-                      bare, khoa_note, doc_hangdoi, ghi_hangdoi, ghi_json, ban_ghi_tudien,
-                      nap_lo_da_soan, gan_bang, khoi_nguphap, tag_chuan, la_id_lo)
+                      bare, khoa_note, khoa, ban_do_note, chua_len_lo, doc_hangdoi, ghi_hangdoi,
+                      ghi_json, ban_ghi_tudien, nap_lo_da_soan, gan_bang, khoi_nguphap, tag_chuan, la_id_lo)
 from soatlo import (TRAN_CAO, TRAN_WARN, cmd_soat, cmd_dodai,              # noqa: E402,F401
                     do_va_cham, tach_nghia, uoc_cao)
 
@@ -63,11 +63,11 @@ def doc_the_bat_buoc():
     🔴 Anki đóng ⇒ KÊU TO rồi DỪNG, cấm âm thầm quay về `tudien.json`: đó đúng là
     cơ chế đã hỏng — bản chép im lặng thế chỗ nguồn thật, sai chỉ lộ nhiều tuần
     sau. Cùng luật với `grammar._lap_dem_tu_the()`.
-    Khoá qua `khoa_note()` (bỏ U+200B): `петь` và `петь​` là hai note với Anki.
+    Khoá trơn (bỏ U+200B: `петь`≠`петь​` với Anki) VÀ khoá có dấu — `ban_do_note`.
     """
     try:
-        return {khoa_note(n["fields"].get("WordClean", {}).get("value", "")): n["fields"]
-                for n in ac("notesInfo", notes=ac("findNotes", query="note:RU_Word"))}
+        return {k: ds[-1]["fields"] for k, ds in
+                ban_do_note(ac("notesInfo", notes=ac("findNotes", query="note:RU_Word"))).items()}
     except Exception as e:
         raise SystemExit(
             f"[congcu] KHONG DOC DUOC the ANKI ({e}). The la nguon DUY NHAT cua "
@@ -189,16 +189,18 @@ def cmd_tiep():
     if lo.get("sua"):
         cu_hd = {k: f.get("HuongDan", {}).get("value", "") for k, f in the.items()}
     for wc in lo["tu"]:
-        w = words.get(wc, {})
-        cu = "   [DE GHI DE noi dung mnemonic cu]" if w.get("cu") else ""
+        f_the, dau = the.get(khoa(wc), {}), khoa(wc) != khoa_note(wc)   # dau: tudien gộp 2 từ ⇒ đọc thẻ
+        w = ban_ghi_tudien({"fields": f_the}) if dau else words.get(wc, {})
+        cu ="   [DE GHI DE noi dung mnemonic cu]" if w.get("cu") else ""
         # Meaning là HTML <ol><li>…  -> gộp thành một dòng, bỏ thẻ
         en = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", "",
                                         re.sub(r"</li>\s*<li>", " / ", w.get("en", "")))).strip()
         out.append(f'S["{wc}"]   {w.get("w","?")}   ({w.get("pos","?")})   '
-                   f'{en}   |   {vi_the.get(khoa_note(wc), "")}{cu}')
-        out += khoi_nguphap(wc)
+                   f'{en}   |   {vi_the.get(khoa(wc), "")}{cu}')
+        out += khoi_nguphap(wc, json.loads(f_the.get("GrammarJSON", {}).get("value") or "{}")
+                            if dau else None)
         if lo.get("sua"):
-            hd = cu_hd.get(khoa_note(wc), "")
+            hd = cu_hd.get(khoa(wc), "")
             out.append(f"### NOI DUNG HIEN TAI cua {wc} ({len(hd)} byte) — GIU LAI phan dang "
                        f"tot, chi va cho thieu:\n{hd or '(TRONG)'}\n")
     from soatlo import boi_canh     # va chạm nghĩa in sẵn cho agent — họ từ thì KHÔNG (khochung.py)
@@ -247,11 +249,7 @@ def cmd_trangthai():
     # Tự nhắc: từ mới thêm vào Anki KHÔNG tự vào hàng đợi, và `nap` bỏ qua
     # chúng vĩnh viễn cho tới khi được nối. Không nhắc thì chúng nằm im.
     try:
-        da_co = {khoa_note(t) for l in q["lo"] for t in l["tu"]}
-        moi = [w for w in (n["fields"].get("WordClean", {}).get("value", "").strip()
-                           for n in ac("notesInfo",
-                                       notes=ac("findNotes", query="note:RU_Word")))
-               if w and khoa_note(w) not in da_co]
+        moi = chua_len_lo(q, ac("notesInfo", notes=ac("findNotes", query="note:RU_Word")))
         if moi:
             print(f"\n🆕 {len(moi)} TU MOI chua vao hang doi "
                   f"-> chay: congcu.py moi --apply")
@@ -292,17 +290,10 @@ def cmd_moi():
     """
     apply = "--apply" in sys.argv
     q = doc_hangdoi()
-    da_co = {khoa_note(t) for l in q["lo"] for t in l["tu"]}
-
     notes = ac("notesInfo", notes=ac("findNotes", query="note:RU_Word"))
-    moi = {}
-    for n in notes:
-        f = n["fields"]
-        wc = f.get("WordClean", {}).get("value", "").strip()
-        if not wc or khoa_note(wc) in da_co:
-            continue
-        # `_vi_in` KHÔNG vào `tudien.json` (QD-27) — chỉ để in ra trong lần chạy này.
-        moi[wc] = {**ban_ghi_tudien(n), "_vi_in": f.get("Vietnamese", {}).get("value", "")}
+    # `_vi_in` KHÔNG vào `tudien.json` (QD-27) — chỉ để in ra trong lần chạy này.
+    moi = {muc: {**ban_ghi_tudien(n), "_vi_in": n["fields"].get("Vietnamese", {}).get("value", "")}
+           for muc, n in chua_len_lo(q, notes)}
 
     if not moi:
         print(f"khong co tu moi ({len(notes)} the, tat ca da nam trong hang doi)")
@@ -416,12 +407,12 @@ def cmd_nap():
     if apply and not sync_truoc_khi_ghi_lo("nap lo"):
         return
     ids = ac("findNotes", query="note:RU_Word")
-    ban_do, hien_co, vi_co = {}, {}, {}
-    for n in ac("notesInfo", notes=ids):
-        # `noteId`, KHÔNG phải `id` — notesInfo trả về noteId, còn updateNoteFields
-        # lại nhận khoá `id`. Hai đầu đặt tên khác nhau, dễ dính.
+    notes, hien_co, vi_co = ac("notesInfo", notes=ids), {}, {}
+    # `noteId`, KHÔNG phải `id` — notesInfo trả về noteId, còn updateNoteFields
+    # lại nhận khoá `id`. Hai đầu đặt tên khác nhau, dễ dính. Mục có dấu = đúng 1 thẻ (`khoa`).
+    ban_do = {k: [n["noteId"] for n in ds] for k, ds in ban_do_note(notes).items()}
+    for n in notes:
         nid = n["noteId"]
-        ban_do.setdefault(khoa_note(n["fields"]["WordClean"]["value"]), []).append(nid)
         hien_co[nid] = n["fields"].get("HuongDan", {}).get("value", "")
         vi_co[nid] = n["fields"].get("Vietnamese", {}).get("value", "")
 
@@ -429,7 +420,7 @@ def cmd_nap():
     # nên sửa nó là sửa cái user phải trả lời — đổi thì phải in ra để soát mắt.
     n_vi = 0
     for word, moi in vi_moi.items():
-        for nid in ban_do.get(khoa_note(word), []):
+        for nid in ban_do.get(khoa(word), []):
             if vi_co.get(nid) == moi:
                 continue
             print(f"  vi: {word:16s} '{vi_co.get(nid,'')}'  ->  '{moi}'")
@@ -442,7 +433,7 @@ def cmd_nap():
     ok, bo_qua, miss, doi = 0, 0, [], 0
     can_tag = []          # note vừa nhận nội dung của lô -> gắn dấu đạt chuẩn
     for word, html in gop.items():
-        nids = ban_do.get(khoa_note(word), [])
+        nids = ban_do.get(khoa(word), [])
         if not nids:
             miss.append(word)
             continue

@@ -42,6 +42,41 @@ def khoa_note(w):
     return w.replace(ACUTE, "").replace(ZWSP, "").replace("'", "").lower()
 
 
+def khoa(w):
+    """Khoá một MỤC (file lô, hàng đợi) -> note. CÓ dấu nhấn (`замо́к`) = ĐÚNG MỘT thẻ, khớp ô
+    `Word`; KHÔNG dấu = MỌI thẻ cùng chữ, như cũ. Hai từ chỉ khác trọng âm (за́мок/замо́к,
+    наре́зать/нареза́ть — user 22/11: hai từ riêng) ⇒ mục CÓ dấu ở CẢ HAI, kẻo mục trơn trùm."""
+    w = re.sub(r"<[^>]+>", "", w or "").strip()
+    return w.replace(ZWSP, "").replace("'", ACUTE).lower() if ACUTE in w or "'" in w else khoa_note(w)
+
+
+def ban_do_note(notes):
+    """notesInfo -> {khoá: [note]}: mỗi note vào CẢ khoá trơn lẫn khoá có dấu ⇒ tra `khoa(mục)`."""
+    bd = {}
+    for n in notes:
+        f = n["fields"]
+        for k in {khoa_note(f.get("WordClean", {}).get("value", "").strip()),
+                  khoa(f.get("Word", {}).get("value", ""))}:
+            bd.setdefault(k, []).append(n)
+    return bd
+
+
+def chua_len_lo(q, notes):
+    """Note chưa có MỤC nào trong hàng đợi -> [(mục, note)]. Chữ có ≥2 thẻ thì mục mới mang
+    dấu (`khoa`) — mục trơn sẽ trùm luôn thẻ kia. Dùng chung cho `trangthai` và `moi`."""
+    da_co = {khoa(t) for l in q["lo"] for t in l["tu"]}
+    wc = [n["fields"].get("WordClean", {}).get("value", "").strip() for n in notes]
+    dem = {}
+    for w in wc:
+        dem[khoa_note(w)] = dem.get(khoa_note(w), 0) + 1
+    ra = []
+    for w, n in zip(wc, notes):
+        kd = khoa(n["fields"].get("Word", {}).get("value", ""))
+        if w and khoa_note(w) not in da_co and kd not in da_co:
+            ra.append((kd if dem[khoa_note(w)] > 1 else w, n))
+    return ra
+
+
 # --------------------------------------------------- nối BẢNG CHIA vào ô Hướng dẫn
 # Bảng do MÁY dựng từ từ điển, KHÔNG do agent soạn (240 dạng có trọng âm mỗi lô
 # đi qua model là 240 cơ hội sai mà user không tự kiểm được — README §1).
@@ -222,9 +257,10 @@ def _dong_them(rec):
     return ra
 
 
-def khoi_nguphap(wc):
-    """Toàn bộ phần từ điển in kèm một từ. Rỗng nếu chưa cào được từ đó."""
-    rec = grammar.get_cached(wc)
+def khoi_nguphap(wc, rec=None):
+    """Phần từ điển in kèm một từ. `rec` = GrammarJSON của CHÍNH thẻ (mục có dấu: bộ đệm
+    tra theo chữ bỏ dấu sẽ đưa bảng của từ kia — за́мка ≠ замка́, QD-40)."""
+    rec = rec or grammar.get_cached(wc)
     if not rec:
         return ["###   (KHONG CO du lieu ngu phap — chay cao_nguphap.py cho tu nay)"]
     return _dong_bat_thuong(rec) + _dong_them(rec)

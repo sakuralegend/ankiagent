@@ -1,7 +1,20 @@
 {
- "tong_tu": 2731,
- "tong_lo": 157,
+ "tong_tu": 2733,
+ "tong_lo": 158,
  "lo": [
+  {
+   "id": "k158",
+   "topic": "tu-moi",
+   "tu": [
+    "замо́к",
+    "наре́зать",
+    "нареза́ть"
+   ],
+   "trangthai": "cho",
+   "file": null,
+   "tuMoi": true,
+   "thucong": "TU MOI user vua them. Cac tu co the KHONG cung ho nhau — soan tung the doc lap, dung ep mot truc chung va dung dung khoi he thong."
+  },
   {
    "id": "k110",
    "topic": "tu-moi",
@@ -839,7 +852,6 @@
     "мороженое",
     "овощи",
     "суши",
-    "нарезать",
     "кусок",
     "новость",
     "паспорт",
@@ -5189,7 +5201,7 @@
     "серия",
     "вечеринка",
     "планета",
-    "замок",
+    "за́мок",
     "далее",
     "положение",
     "внутренний",
