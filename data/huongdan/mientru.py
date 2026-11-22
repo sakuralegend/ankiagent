@@ -116,6 +116,9 @@ MIEN_TRU = {
              "виски'; thẻ k168 cố ý nêu cặp виски́ ↔ ви́ски (rượu whisky) vì hai từ chỉ khác "
              "nhau đúng chỗ trọng âm. Máy kêu vì khoá tra mặt chữ trần khớp dòng ви́ски. "
              "Cùng lớp với орга́н ở trên",
+    "пропа́сть": "ĐỘNG TỪ пропа́сть = biến mất (thể hoàn thành của пропада́ть, thẻ k175) — từ điển "
+                "chỉ có danh từ đồng tự про́пасть = vực thẳm; thẻ k175 cố ý nêu cặp này. "
+                "Cùng lớp với помо́чь ở trên",
 }
 
 # VÁ NGUỒN — dòng `nouns.csv` mà cột `accented` trái với CHÍNH cột `pl_nom` của nó.
