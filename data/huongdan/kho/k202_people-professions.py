@@ -20,7 +20,6 @@ V = {
     "курьер": "người giao hàng, người chuyển phát",          # bỏ «người đưa thư» = почтальо́н; gloss courier/delivery person
     "потребитель": "người tiêu dùng, người sử dụng",           # bỏ «khách hàng» = клие́нт; gloss consumer/user
     "похоронить": "chôn, mai táng, chôn vùi, che giấu",        # «dập tắt» không có trong gloss; thiếu hide/conceal
-    "пра": "cụ, cố, nguyên thủy, nguyên sơ",                  # «tằng tổ» là danh từ = пра́дед, không phải tiền tố great-
     "править": "cai trị, trị vì, thống trị, cầm quyền, lái, điều khiển, sửa, biên tập",  # THIẾU steer/drive, edit/correct
     "дежурный": "trực, đang trực, thường trực, người trực, trực nhật, chiếu lệ",          # THIẾU person on duty, monitor, perfunctory
     "банкир": "chủ ngân hàng, nhà ngân hàng",                 # «nhà tài phiệt» nới rộng; gloss chỉ banker
@@ -302,22 +301,6 @@ S["сирота"] = (
     'tròn»).</div>'
     '<div class="hd-sec">Họ hàng</div>'
     '<div class="hd-fam"><b>сиро́тский</b> của trẻ mồ côi · <b>осироте́ть</b> thành mồ côi</div>'
-)
-
-# --------------------------------------------------------------------- пра
-S["пра"] = (
-    '<div class="hd-sec">Chẻ từ</div>'
-    '<div class="hd-row"><span class="hd-piece">пра-</span>'
-    '<span class="hd-gloss">TIỀN TỐ: lùi thêm một đời; hoặc «gốc, đầu tiên» — không đứng một mình</span></div>'
-    '<div class="hd-sec">Cách nhớ</div>'
-    '<div class="hd-why">Gắn trước từ họ hàng ⇒ lùi thêm một thế hệ: <b>ба́бушка</b> bà → '
-    '<b>праба́бушка</b> cụ bà; <b>внук</b> cháu → <b>пра́внук</b> chắt. Gắn trước từ khác ⇒ '
-    'nguyên thủy: <b>праязы́к</b> ngôn ngữ gốc.</div>'
-    '<div class="hd-warn"><b>пра́внук</b> = <b>пра-</b> + <b>внук</b>, KHÔNG phải <i>прав-</i> '
-    '(đúng, phải) + <i>-нук</i>. <i>прав-</i> của <b>пра́вда</b> là gốc khác hẳn.</div>'
-    '<div class="hd-sec">Họ hàng</div>'
-    '<div class="hd-fam"><b>пра́дед</b> cụ ông · <b>пра́внучка</b> chắt gái · '
-    '<b>пра́родина</b> quê tổ</div>'
 )
 
 # --------------------------------------------------------------------- править

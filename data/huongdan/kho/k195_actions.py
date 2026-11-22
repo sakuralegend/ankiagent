@@ -26,6 +26,8 @@ V = {
     "отложить": "hoãn, dời lại, để sau, để dành",                 # thiếu save / set aside (money)
     "отказать": "từ chối, không cho, khước từ, ngừng hoạt động",  # thiếu fail / give out
     "отказывать": "từ chối, không cho, khước từ, ngừng hoạt động",  # như trên
+    "жертвовать": "quyên góp, hiến tặng, cúng, hy sinh",          # gloss thiếu sacrifice; user duyệt 22/11
+    "пожертвовать": "quyên góp, hiến tặng, cúng, hy sinh",        # như trên
 }
 
 # --------------------------------------------------------------------- повести
