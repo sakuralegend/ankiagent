@@ -2020,7 +2020,8 @@ class TestDotThemTuChayLaiDuoc(unittest.TestCase):
         goi = []
         with unittest.mock.patch.object(khob2, "goi_anki",
                                         side_effect=lambda a, **k: goi.append(a) or [1, 2]), \
-             unittest.mock.patch.object(khob2, "sync_truoc_khi_ghi_lo", return_value=False):
+             unittest.mock.patch.object(khob2, "sync_truoc_khi_ghi_lo", return_value=False), \
+             unittest.mock.patch("builtins.print"):     # lời báo thẻ GIẢ, đừng để lẫn vào log thật
             khob2.gan_mat_go()
         self.assertNotIn("updateNoteFields", goi)
 
