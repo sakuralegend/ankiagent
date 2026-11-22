@@ -151,6 +151,14 @@ def _soi_danh_tu(rec):
             flags.append((ma, f"{mo_ta}: " + " · ".join(
                 f"{'ít' if s == 'sg' else 'nhiều'}/{c} {f}" for s, c, f in nhom[:4])))
 
+    # GIỐNG TRUNG ra số nhiều -и/-ы (`коле́но → коле́ни`, `я́блоко → я́блоки`): `-и` có trong
+    # DUOI_DANH_TU (đúng ở giống cái) nên vòng trên MÙ. Agent k162 bắt 22/11; đo: 4/188 thẻ.
+    sg1, pl1 = (_yo(bare(o.get(k, "").split(",")[0].strip())) for k in (("sg", "nom"), ("pl", "nom")))
+    if sg1[-1:] in ("о", "е") and pl1[-1:] in ("и", "ы") and ("pl", "nom") not in nong:
+        co.add("pl")
+        nong.add(("pl", "nom"))
+        flags.append(("duoi", f"GIỐNG TRUNG mà số nhiều ra -и/-ы (lẽ ra -а/-я): nhiều/nom {o[('pl', 'nom')]}"))
+
     # Trọng âm dịch — thứ user KHÔNG đoán được và cũng không field nào ghi.
     goc = stress_pos(o.get(("sg", "nom")) or o.get(("pl", "nom")) or "")
     for so in ("sg", "pl"):

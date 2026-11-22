@@ -1130,6 +1130,20 @@ class ToBangChia(unittest.TestCase):
             "pl": {"nom": "крокоди́лы", "gen": "крокоди́лов", "dat": "крокоди́лам",
                    "acc": "крокоди́лов", "inst": "крокоди́лами", "prep": "крокоди́лах"}}
 
+    def test_giong_trung_so_nhieu_ra_i_thi_PHAI_co(self):
+        """BUG 22/11: `коле́ни` lọt mọi cờ vì `-и` là đuôi chuẩn của giống cái."""
+        kol = {"sg": {"nom": "коле́но", "gen": "коле́на", "dat": "коле́ну", "acc": "коле́но",
+                      "inst": "коле́ном", "prep": "коле́не"},
+               "pl": {"nom": "коле́ни", "gen": "коле́ней", "dat": "коле́ням", "acc": "коле́ни",
+                      "inst": "коле́нями", "prep": "коле́нях"}}
+        a = self._soi(kol, "коле́но")
+        self.assertIn(("pl", "nom"), a["nong"])
+        self.assertIn("duoi", [m for m, _ in a["flags"]])
+        okno = {"sg": dict(kol["sg"], **{k: v.replace("коле́н", "окн") for k, v in kol["sg"].items()}),
+                "pl": {"nom": "о́кна", "gen": "о́кон", "dat": "о́кнам", "acc": "о́кна",
+                       "inst": "о́кнами", "prep": "о́кнах"}}
+        self.assertNotIn(("pl", "nom"), self._soi(okno, "окно́")["nong"], "-а là chuẩn, đừng tô")
+
     def test_cach4_giong_cach2_thi_PHAI_to(self):
         a = self._soi(self.KROK, "крокоди́л")
         self.assertIn(("sg", "acc"), a["nong"])
