@@ -1081,6 +1081,12 @@ class DoVaChamKhoaTheoNote(unittest.TestCase):
         notes = [self._n("ли́бо", "hoặc, hay là", "conj"), self._n("и́ли", "hoặc, hay là", "conj")]
         self.assertEqual(len(s.do_va_cham(notes)), 1)
 
+    def test_hu_tu_dung_rieng_la_nghia_that(self):
+        """22/11 k176: bỏ «cho» khỏi давать «đưa, cho, trao» ⇒ máy báo OAN давать ⊂ подавать."""
+        s = ChotYoLamBoSoatMuMotVungLon._soatlo()
+        self.assertEqual(s.tach_nghia("đưa, cho, trao"), {"đưa", "cho", "trao"})
+        self.assertEqual(s.tach_nghia("hoặc là, hoặc… hoặc…"), {"hoặc… hoặc"})   # mảnh sót «là» vẫn bỏ
+
     def test_chu_trong_ngoac_la_cach_user_tu_tach(self):
         """22/11: bỏ ngoặc thì класть «đặt (nằm ngang)» ↔ ставить «đặt (đứng thẳng)» thành
         «đặt»↔«đặt» — 9/19 cặp báo OAN, đều là chỗ user tự sửa tay để phân biệt."""

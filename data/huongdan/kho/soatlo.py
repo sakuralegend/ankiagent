@@ -303,14 +303,15 @@ def cmd_dodai(chi=None):
 # ------------------------------------------------- va chạm nghĩa tiếng Việt
 def tach_nghia(vi):
     """Dòng `Vietnamese` -> tập nghĩa rời. «hoặc»/«hay là» chỉ là dấu ngăn khi CÓ chữ hai
-    bên: tách trơn thì либо = «hoặc, hay là» thành RỖNG, máy mù với либо↔или (k155, 22/11)."""
-    vi = re.sub(r"<[^>]+>", " ", vi or "").lower()   # GIỮ ngoặc: user tự tách «đặt (nằm ngang)»
+    bên: tách trơn thì либо = «hoặc, hay là» thành RỖNG, máy mù với либо↔или (k155, 22/11).
+    Hư từ chỉ bỏ khi là MẢNH SÓT của tách «hoặc»; đứng riêng là nghĩa thật (давать «cho»)."""
+    vi = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", vi or "")).lower()   # GIỮ ngoặc: user tự tách «đặt (nằm ngang)»
     ra = set()
     for manh in re.split(r"[,;/·|]", vi):
         con = [c for c in re.split(r"\bhoặc\b|\bhay là\b", manh) if c.strip(" .…")]
         for cum in con or [manh]:
             cum = re.sub(r"\s+", " ", cum).strip(" .…")
-            if len(cum) >= 2 and cum not in ("và", "là", "của", "cho", "một"):   # hư từ: báo tràn
+            if len(cum) >= 2 and (cum == manh.strip(" .…") or cum not in ("và", "là", "của", "cho", "một")):
                 ra.add(cum)
     return ra
 
