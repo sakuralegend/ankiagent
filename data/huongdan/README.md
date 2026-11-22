@@ -167,6 +167,8 @@ ngược: *"tham quá khiến thẻ dài tôi đọc xong không nhớ gì"*. C�
 | `налево` → `sang trái, về bên trái` | **lưu ý cách dùng**, sắc thái, ví dụ, ghi chú trong ngoặc |
 | `лук` → `củ hành, cây cung` | **mệnh đề phủ định** `(không phải «X»)` |
 
+🔴 **Ngoặc ĐANG CÓ trên thẻ là chú thích của USER** (user chốt 22/11) — **CẤM xoá, CẤM viết `V` cho thẻ đó**. Máy tự giữ: `soat` chặn `V` có ngoặc, `nap` bỏ qua thẻ có ngoặc, `vacham` không liệt kê nó.
+
 🔴 **Phân biệt với từ khác KHÔNG phải một việc riêng — nó là HỆ QUẢ của việc liệt kê đủ.**
 User: *"2 từ có thể chung một nghĩa, nhưng nếu liệt kê toàn bộ nghĩa của từ đó ra, chắc chắn
 sẽ có sự khác biệt"*. `большо́й` và `кру́пный` cùng có "lớn" — **không sao cả**: thấy *trưởng

@@ -38,7 +38,8 @@ from anki_tools.anki_client import sync_truoc_khi_ghi_lo          # noqa: E402
 # như thư viện (congcu._BANG_RE, congcu.uoc_cao, congcu.TRAN_CAO…).
 from khochung import (ACUTE, ZWSP, TUDIEN, BANG_RE, CHUAN_V, TAG_CHUAN,    # noqa: E402,F401
                       bare, khoa_note, khoa, ban_do_note, chua_len_lo, doc_hangdoi, ghi_hangdoi,
-                      ghi_json, ban_ghi_tudien, nap_lo_da_soan, gan_bang, khoi_nguphap, tag_chuan, la_id_lo)
+                      ghi_json, ban_ghi_tudien, nap_lo_da_soan, gan_bang, khoi_nguphap, tag_chuan, la_id_lo,
+                      cua_user)
 from soatlo import (TRAN_CAO, TRAN_WARN, cmd_soat, cmd_dodai,              # noqa: E402,F401
                     do_va_cham, tach_nghia, uoc_cao)
 
@@ -422,6 +423,9 @@ def cmd_nap():
     for word, moi in vi_moi.items():
         for nid in ban_do.get(khoa(word), []):
             if vi_co.get(nid) == moi:
+                continue
+            if cua_user(vi_co.get(nid)):        # ngoặc = chú thích USER (22/11): báo, KHÔNG ghi
+                print(f"  GIU chu thich user: {word:16s} '{vi_co[nid]}'  (AI de xuat: '{moi}')")
                 continue
             print(f"  vi: {word:16s} '{vi_co.get(nid,'')}'  ->  '{moi}'")
             if apply:

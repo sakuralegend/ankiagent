@@ -13,7 +13,8 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, "..", "..", ".."))
 sys.path.insert(0, os.path.join(HERE, ".."))
-from khochung import ACUTE, ZWSP, NOUNS, bare, nap_lo_da_soan, BANG_RE, la_id_lo  # noqa: E402
+from khochung import (ACUTE, ZWSP, NOUNS, bare, nap_lo_da_soan, BANG_RE, la_id_lo,  # noqa: E402
+                      cua_user, loi_v_ngoac)
 from mientru import MIEN_TRU, SUA_NGUON                                             # noqa: E402
 
 _BANG_RE = BANG_RE          # tên nội bộ giữ nguyên để ruột `uoc_cao` không đổi
@@ -63,11 +64,10 @@ def cmd_soat(chi=None):
     """
     chi = chi or [a for a in sys.argv[2:] if la_id_lo(a)] or None
     nouns = load_nouns()
-    gop, nguon = nap_lo_da_soan(chi)
+    gop, nguon, vmoi = nap_lo_da_soan(chi, lay_v=True)
     print(f"tu dien: {len(nouns)} danh tu | dang soat: {len(gop)} tu"
           f"{' (lo ' + ' '.join(chi) + ')' if chi else ''}\n")
-
-    sai, chua_tra, khong_dau, hong, khong_ho = [], set(), [], [], []
+    sai, chua_tra, khong_dau, hong, khong_ho = [], set(), [], loi_v_ngoac(vmoi, nguon) if chi else [], []
     for word, html in gop.items():
         # (a) CẤU TRÚC: thẻ mở/đóng phải cân, và phải có đủ mục
         # Đếm theo CẶP là chưa đủ: <b>…<b>…</b>…</b> vẫn cân bằng nhưng thẻ đóng
@@ -331,7 +331,7 @@ def do_va_cham(notes, loc_badge=True):
     khác thì KHÔNG phải (user chốt 22/11, README §2c): so từng cụm đã khiến 7 lô cắt cả
     nghĩa chính (необходимый mất «cần thiết»). Khoá theo NOTE (нарезать IMPF/PERF cùng chữ)."""
     nhom, ra = {}, {}
-    for n in notes:
+    for n in (n for n in notes if not cua_user(_o(n["fields"], "Vietnamese"))):   # user tự chú thích
         b = " ".join(x for x in (_o(n["fields"], k) for k in BADGE) if x) if loc_badge else ""
         nhom.setdefault(b, []).append((n, tach_nghia(_o(n["fields"], "Vietnamese"))))
     for b, ds in nhom.items():

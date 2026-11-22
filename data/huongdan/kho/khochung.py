@@ -130,6 +130,22 @@ def ban_ghi_tudien(note):
             "topic": tags[0] if tags else "other", "cu": False}
 
 
+def cua_user(vi):
+    """Dòng `Vietnamese` có ngoặc = chú thích USER tự viết lúc học (user chốt 22/11: *"AI làm
+    thì cấm mở ngoặc, còn tôi tuỳ biến thẻ thế nào thì không được sửa lại"*). AI bị `soat`
+    cấm viết ngoặc ⇒ ngoặc nào trên thẻ cũng là của user ⇒ `nap` không ghi đè, `vacham` bỏ qua.
+    Đo 22/11: 65 thẻ mang ngoặc, toàn văn phong user (`мать` «mẹ (trang trọng)»)."""
+    return bool(re.search(r"[()]", vi or ""))
+
+
+def loi_v_ngoac(vmoi, nguon):
+    """`V` agent soạn mà có ngoặc ⇒ lỗi CHẶN ở `soat` (mục CAU TRUC) — xem `cua_user`.
+    `soat` chỉ gọi khi có lô CHỈ ĐỊNH (agent + `chot` luôn chỉ định): lô cũ đã nạp thì `V`
+    đông lạnh, không phát lại (QD-27), mà k48/k66 còn 4 dòng có ngoặc từ trước luật 05/08."""
+    return [(w, nguon.get(w, "V"), f"V co NGOAC «{v}» — AI CAM viet ngoac: ngoac la chu thich "
+             f"cua USER (README §2c)") for w, v in vmoi.items() if cua_user(v)]
+
+
 def nap_lo_da_soan(chi=None, lay_v=False):
     """Đọc mọi file kNN_*.py trong kho, trả {word: html} gộp.
 

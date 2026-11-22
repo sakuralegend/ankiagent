@@ -1052,6 +1052,27 @@ class DoVaChamKhoaTheoNote(unittest.TestCase):
         notes.append(self._n("огро́мный", "lớn", "adj"))      # đề «lớn» nằm gọn trong cả hai
         self.assertEqual(s.do_va_cham(notes), {"lớn [adj]": ["большо́й", "кру́пный", "огро́мный"]})
 
+    def test_ngoac_la_cua_user_vacham_bo_qua(self):
+        """User chốt 22/11: thẻ có ngoặc = user tự chú thích lúc học ⇒ máy KHÔNG thúc AI sửa nó."""
+        s = ChotYoLamBoSoatMuMotVungLon._soatlo()
+        notes = [self._n("всю́ду", "mọi nơi, khắp nơi (trang trọng)", "adv"),
+                 self._n("везде́", "mọi nơi, khắp nơi", "adv")]
+        self.assertEqual(s.do_va_cham(notes), {})
+
+    def test_ngoac_trong_V_cua_AI_bi_chan_o_soat(self):
+        ChotYoLamBoSoatMuMotVungLon._soatlo()
+        import khochung
+        loi = khochung.loi_v_ngoac({"мать": "mẹ (trang trọng)", "дно": "đáy, lòng sông"}, {})
+        self.assertEqual([w for w, *_ in loi], ["мать"], "V sạch thì đừng kêu oan")
+
+    def test_nap_KHONG_ghi_de_the_co_ngoac(self):
+        """Đường ghi `Vietnamese` duy nhất của `nap` phải hỏi `cua_user` TRƯỚC `updateNoteFields`."""
+        goc = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        with open(os.path.join(goc, "data", "huongdan", "kho", "congcu.py"), encoding="utf-8") as f:
+            nguon = f.read()
+        doan = nguon[nguon.index("for word, moi in vi_moi.items()"):]
+        self.assertLess(doan.index("cua_user(vi_co.get(nid))"), doan.index('"Vietnamese": moi'))
+
     def test_hoac_hay_la_la_nghia_thi_khong_bi_nuot(self):
         """22/11: tách trơn theo «hoặc»/«hay là» biến либо = «hoặc, hay là» thành RỖNG ⇒ mù với или."""
         s = ChotYoLamBoSoatMuMotVungLon._soatlo()
