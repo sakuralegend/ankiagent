@@ -1894,6 +1894,20 @@ class CauViDuMayChonDangVaCong(unittest.TestCase):
         self.assertIn("<hl>", ra["simplified_examples"][1]["ru"])
         self.assertEqual(ra["simplified_examples"][0]["vi"], "cái <hl>bàn</hl>")
 
+    def test_nghia_AI_khong_duoc_mang_ngoac(self):
+        """BUG 22/11: Opus viết «gật đầu (một cái)» ở 15/161 thẻ B2 — ngoặc là chữ ký USER
+        (README §2c) nên `nap`/`V` không gỡ được nữa. Máy phải gỡ ngay lúc nhận nghĩa."""
+        self.assertEqual(self.v.bo_ngoac("gật đầu (một cái)"), "gật đầu")
+        self.assertEqual(self.v.bo_ngoac("sự hình thành; đơn vị (quân)"), "sự hình thành, đơn vị")
+        self.assertEqual(self.v.bo_ngoac("nhớ (ai), buồn tẻ"), "nhớ, buồn tẻ")
+        self.assertEqual(self.v.bo_ngoac(None), "")
+        _l, o = self.v.chon_dang(self.STOL, "стол")
+        d = [self.v.bare(self.v._dau(x[0])) for x in o]
+        ex = [{"ru": f"Мы были на {x} вчера.", "en": "a <b>table</b>", "vi": "<b>bàn</b>"} for x in d]
+        goi = unittest.mock.Mock(return_value={"vietnamese_meaning": "cái bàn (đồ gỗ)", "examples": ex})
+        self.assertEqual(self.v.sinh_vi_du("стол", ["table"], self.STOL, goi=goi)["vietnamese_meaning"],
+                         "cái bàn")
+
     def test_dang_khac_cua_chinh_tu_van_qua_cap_the_thi_khong(self):
         """Giao `рыба` mà AI viết `рыбу` (đúng) từng bị loại oan — 72 câu kẹt (03/11)."""
         khac = {"рыба", "рыбу", "рыбы"}

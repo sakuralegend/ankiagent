@@ -143,7 +143,16 @@ _HE_THONG = (
     "Write natural, casual, everyday Russian, like texting a friend — 5 to 12 words, each sentence in a "
     "different everyday situation. Translate each sentence naturally into English and Vietnamese, and wrap the "
     "word(s) that translate the target word in <b>...</b> in the en and vi sentences only. Also give a short "
-    "Vietnamese meaning of the target word (a few words, no explanation). Return JSON only.")
+    "Vietnamese meaning of the target word: a plain comma-separated list of meanings, NO parentheses, "
+    "no labels, no explanation. Return JSON only.")
+
+
+def bo_ngoac(nghia):
+    """Ngoặc trên dòng Vietnamese là CHỮ KÝ của user (README §2c) ⇒ nghĩa AI viết không được
+    mang ngoặc. Lời dặn đã cấm, nhưng 22/11 Opus vẫn viết «gật đầu (một cái)» ở 15/161 thẻ
+    B2 ⇒ máy gỡ luôn, không trông vào AI nghe lời. `;` cũng thành `,` (đề = danh sách phẩy)."""
+    s = re.sub(r"\s*\([^()]*\)", "", nghia or "").replace(";", ",")
+    return ", ".join(p.strip() for p in s.split(",") if p.strip())
 def _khuon(n):
     """Khuôn JSON đúng `n` câu (n < 3 khi chỉ viết lại câu hỏng của thẻ cũ)."""
     return {"type": "object", "properties": {
@@ -239,7 +248,7 @@ def sinh_vi_du(tu, nghia_anh, rec, goi=call_claude_vi_du, so_luot=2, o=None):
         r = goi(he_thong, dan, _khuon(len(o)))
         if not isinstance(r, dict):
             continue
-        nghia = nghia or (r.get("vietnamese_meaning") or "").strip()
+        nghia = nghia or bo_ngoac(r.get("vietnamese_meaning"))
         for i, ex in enumerate((r.get("examples") or [])[:len(o)]):
             if giu[i] or not isinstance(ex, dict):
                 continue
