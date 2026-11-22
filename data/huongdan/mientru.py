@@ -119,6 +119,14 @@ MIEN_TRU = {
     "пропа́сть": "ĐỘNG TỪ пропа́сть = biến mất (thể hoàn thành của пропада́ть, thẻ k175) — từ điển "
                 "chỉ có danh từ đồng tự про́пасть = vực thẳm; thẻ k175 cố ý nêu cặp này. "
                 "Cùng lớp với помо́чь ở trên",
+    "мука́": "мука́ = BỘT, BỘT MÌ (chính từ đầu thẻ k192, mục id 58505) — đồng tự với му́ка = "
+            "nỗi đau khổ; nouns.csv chỉ có му́ка nên máy kêu oan ngay cả từ đầu thẻ. Thẻ k192 cố "
+            "ý nêu cặp này vì hai từ chỉ khác nhau đúng chỗ trọng âm. Cùng lớp với орга́н ở trên",
+    "тупи́к": "тупи́к = NGÕ CỤT, BẾ TẮC (chính từ đầu thẻ k191, mục id 58607) — đồng tự với ту́пик "
+             "= chim hải âu cổ rụt (puffin). nouns.csv có ĐỦ CẢ HAI dòng (ту'пик animate=1 là con "
+             "chim nhưng glossed nhầm dead end · тупи'к) mà khoá tra gộp mặt chữ nên dòng chim "
+             "thắng, máy kêu oan ngay cả từ đầu thẻ. Agent k172 đã gặp đúng chỗ này. Cùng lớp "
+             "với замо́к, мука́ ở trên",
 }
 
 # VÁ NGUỒN — dòng `nouns.csv` mà cột `accented` trái với CHÍNH cột `pl_nom` của nó.
