@@ -127,6 +127,10 @@ MIEN_TRU = {
              "chim nhưng glossed nhầm dead end · тупи'к) mà khoá tra gộp mặt chữ nên dòng chim "
              "thắng, máy kêu oan ngay cả từ đầu thẻ. Agent k172 đã gặp đúng chỗ này. Cùng lớp "
              "với замо́к, мука́ ở trên",
+    "белка́": "cách 2 số ít của бело́к (lòng trắng, chất đạm), dạng nguyên âm chạy — bảng chia "
+             "ghi бело́к · белка́ · белку́ · белко́м, thẻ k205 cố ý nêu cặp белка́ ↔ бе́лка (con "
+             "sóc) vì hai từ chỉ khác chỗ trọng âm; nouns.csv chỉ có бе́лка. Mặt gương của mục "
+             "бе́лок ở trên, cùng lớp với курка́",
 }
 
 # VÁ NGUỒN — dòng `nouns.csv` mà cột `accented` trái với CHÍNH cột `pl_nom` của nó.
