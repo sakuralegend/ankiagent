@@ -19,7 +19,7 @@ V = {
     "крепость": "pháo đài, thành lũy, thành trì, độ bền, độ đậm",     # thiếu nghĩa strength (độ bền; trà/rượu đậm)
     "рюкзак": "ba lô",                                              # «túi đeo vai» = сумка через плечо, gloss chỉ có backpack
     "прибывать": "đến, tới, dâng lên, tăng lên",                    # gloss: to increase / to wax
-    "печать": "con dấu, dấu đóng, hình dấu, báo chí, sự in ấn",     # thiếu the press / printing
+    "печать": "con dấu, dấu đóng, hình dấu, sự in ấn",     # «báo chí» rút: đề пресса nằm gọn trong nó (luồng chính 22/11)
 }
 
 # --------------------------------------------------------------------- крепость
