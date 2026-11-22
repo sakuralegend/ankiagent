@@ -294,9 +294,9 @@ def cmd_taothe(apply, toi_da):
             l["tu"][l["tu"].index(w)] = moi
             ghi_hangdoi(q)
         print(f"[{i}/{len(viec)}] OK  {l['id']} {moi}", flush=True)
-    # KHÔNG `sync_now()` trơn: sync xong Anki còn khoá collection ~2 s ⇒ đọc ngay là chết
-    # "Collection lifecycle operation is active" (gặp 18/11). Hàm này sync rồi CHỜ mở khoá.
-    sync_truoc_khi_ghi_lo("dọn cuối đợt")
+    # Hàm này sync rồi CHỜ mở khoá ~2 s (18/11); sync HỎNG ⇒ DỪNG: 22/11 bỏ qua kết quả, đọc lúc Anki còn khoá ⇒ chết "lifecycle"
+    if not sync_truoc_khi_ghi_lo("dọn cuối đợt"):
+        sys.exit("Thẻ đã tạo đủ — chạy lại `taothe --apply` khi Anki sync xong, nó tự dọn nốt.")
     khob2.gan_mat_go()
     hoan_tat(q, doc_the())
 

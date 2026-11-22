@@ -466,6 +466,14 @@ class GhiLoPhaiSyncTruoc(unittest.TestCase):
             self.assertIn("sync_truoc_khi_ghi_lo(", nguon,
                           f"{ten} ghi hàng loạt lên note mà KHÔNG kéo sync về trước")
 
+    def test_taothe_sync_hong_thi_DUNG_khong_doc_tiep(self):
+        """22/11: `taothe` gọi sync cuối đợt rồi BỎ QUA kết quả; sync quá 60 s ⇒ khob2 đọc
+        lúc Anki còn khoá ⇒ chết "Collection lifecycle operation is active" giữa chừng."""
+        goc = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        with open(os.path.join(goc, "data", "huongdan", "kho", "xephangdoi.py"), encoding="utf-8") as f:
+            nguon = f.read()
+        self.assertIn('if not sync_truoc_khi_ghi_lo("dọn cuối đợt"):', nguon)
+
 
 class TheHienSaiMatCaHaiChieu(unittest.TestCase):
     """BUG GỐC (03/08/2026): 21 thẻ nằm ở deck LÀM QUEN mà hiện mặt GÕ — chiều
