@@ -112,6 +112,10 @@ MIEN_TRU = {
     "орга́н": "орга́н = CÂY ĐÀN ORGAN, đồng tự với о́рган = cơ quan (cơ thể, nhà nước) — thẻ k152 "
              "cố ý nêu cặp này để user khỏi lẫn vì hai từ chỉ khác nhau đúng chỗ trọng âm; "
              "nouns.csv chỉ có о́рган. Cùng lớp với замо́к, ду́хи ở trên",
+    "виски́": "số nhiều cách 1/4 của висо́к (thái dương) — chính nouns.csv dòng висо́к ghi pl_nom "
+             "виски'; thẻ k168 cố ý nêu cặp виски́ ↔ ви́ски (rượu whisky) vì hai từ chỉ khác "
+             "nhau đúng chỗ trọng âm. Máy kêu vì khoá tra mặt chữ trần khớp dòng ви́ски. "
+             "Cùng lớp với орга́н ở trên",
 }
 
 # VÁ NGUỒN — dòng `nouns.csv` mà cột `accented` trái với CHÍNH cột `pl_nom` của nó.
