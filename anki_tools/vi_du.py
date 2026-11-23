@@ -47,11 +47,17 @@ def _gap(chu):
     return bare(chu).replace("ё", "е")
 
 
+def _bo_gt(o):
+    """Ô cách 6 có khi kèm giới từ ("о бы́те, в быту́") mà cổng so TỪNG CHỮ ⇒ câu
+    đúng bị chặn oan cả ba vòng (`быт`, 24/11)."""
+    return re.sub(r"^(?:об?|в|на) ", "", o.strip())
+
+
 def _dau(o):
     """Ô bảng chia có thể ghi hai biến thể ("дверя́ми, дверьми́") — biến thể ĐẦU là
     thứ đưa cho AI; cổng thì nhận MỌI biến thể (`_bien_the`), vì AI viết biến thể
     sau là viết đúng (đo 03/11: `дверьми` bị cổng chặn oan)."""
-    return str(o or "").split(",")[0].strip()
+    return _bo_gt(str(o or "").split(",")[0])
 
 
 def khoa_dang(o):
@@ -61,7 +67,7 @@ def khoa_dang(o):
 
 
 def _bien_the(o):
-    return {_gap(p) for p in str(o or "").split(",") if p.strip()}
+    return {_gap(_bo_gt(p)) for p in str(o or "").split(",") if p.strip()}
 
 
 def _xoay(tu, o_so, ds):

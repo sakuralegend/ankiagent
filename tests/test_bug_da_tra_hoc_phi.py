@@ -1893,6 +1893,10 @@ class CauViDuMayChonDangVaCong(unittest.TestCase):
         self.assertIsNone(self.v.kiem_cau("Он хлопнул дверьми и ушёл.", o))
         self.assertEqual(self.v.danh_dau("Он хлопнул дверьми и ушёл.", o[0]), "Он хлопнул <hl>дверьми</hl> и ушёл.")
         self.assertEqual(self.v.danh_dau("Он берет зонт.", "берёт"), "Он <hl>берет</hl> зонт.")
+        # 24/11: ô cách 6 kèm giới từ chặn oan `быт` cả ba vòng.
+        o = ("о бы́те, в быту́", "số ít, cách 6", "prepositional — right after в/на/о/при")
+        self.assertIsNone(self.v.kiem_cau("Расскажи мне о быте в общежитии.", o))
+        self.assertIsNone(self.v.kiem_cau("Он нужен в быту.", o))
 
     def test_sinh_vi_du_giu_cau_dat_va_hoi_lai_o_truot(self):
         _l, o = self.v.chon_dang(self.STOL, "стол")
