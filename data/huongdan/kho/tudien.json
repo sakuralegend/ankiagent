@@ -29550,5 +29550,1605 @@
   "pos": "v",
   "topic": "actions",
   "cu": false
+ },
+ {
+  "wc": "собеседник",
+  "w": "собесе́дник",
+  "en": "<ol class=\"meaning-list\"><li>conversation partner</li><li>interlocutor</li></ol>",
+  "pos": "n",
+  "topic": "language::communication",
+  "cu": false
+ },
+ {
+  "wc": "автоответчик",
+  "w": "автоотве́тчик",
+  "en": "<ol class=\"meaning-list\"><li>answering machine</li></ol>",
+  "pos": "n",
+  "topic": "language::communication",
+  "cu": false
+ },
+ {
+  "wc": "умолять",
+  "w": "умоля́ть",
+  "en": "<ol class=\"meaning-list\"><li>to beg</li></ol>",
+  "pos": "v",
+  "topic": "language::communication",
+  "cu": false
+ },
+ {
+  "wc": "уточнить",
+  "w": "уточни́ть",
+  "en": "<ol class=\"meaning-list\"><li>to clarify</li></ol>",
+  "pos": "v",
+  "topic": "language::communication",
+  "cu": false
+ },
+ {
+  "wc": "уточнять",
+  "w": "уточня́ть",
+  "en": "<ol class=\"meaning-list\"><li>to clarify</li></ol>",
+  "pos": "v",
+  "topic": "language::communication",
+  "cu": false
+ },
+ {
+  "wc": "регулярный",
+  "w": "регуля́рный",
+  "en": "<ol class=\"meaning-list\"><li>regular</li><li>recurring</li><li>periodic</li><li>orderly</li><li>systematic</li><li>well-ordered</li></ol>",
+  "pos": "adj",
+  "topic": "time",
+  "cu": false
+ },
+ {
+  "wc": "ночевать",
+  "w": "ночева́ть",
+  "en": "<ol class=\"meaning-list\"><li>to spend the night</li></ol>",
+  "pos": "v",
+  "topic": "time",
+  "cu": false
+ },
+ {
+  "wc": "соотношение",
+  "w": "соотноше́ние",
+  "en": "<ol class=\"meaning-list\"><li>ratio</li><li>proportion</li><li>relationship</li><li>correlation</li><li>interrelation</li></ol>",
+  "pos": "n",
+  "topic": "numbers",
+  "cu": false
+ },
+ {
+  "wc": "пятеро",
+  "w": "пя́теро",
+  "en": "<ol class=\"meaning-list\"><li>five (collective)</li><li>five of them</li></ol>",
+  "pos": "num",
+  "topic": "numbers",
+  "cu": false
+ },
+ {
+  "wc": "литр",
+  "w": "литр",
+  "en": "<ol class=\"meaning-list\"><li>litre</li></ol>",
+  "pos": "n",
+  "topic": "numbers::units",
+  "cu": false
+ },
+ {
+  "wc": "разойтись",
+  "w": "разойти́сь",
+  "en": "<ol class=\"meaning-list\"><li>to disperse</li><li>to break up (of a crowd)</li><li>to go one's separate ways</li><li>to split up</li><li>to separate</li><li>to get divorced</li><li>to diverge</li><li>to differ</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "развивать",
+  "w": "развива́ть",
+  "en": "<ol class=\"meaning-list\"><li>to develop</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "развить",
+  "w": "разви́ть",
+  "en": "<ol class=\"meaning-list\"><li>to develop</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "ухаживать",
+  "w": "уха́живать",
+  "en": "<ol class=\"meaning-list\"><li>to take care of</li><li>to look after</li><li>to tend</li><li>to nurse</li><li>to court</li><li>to woo</li><li>to pay court to</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "демонстрировать",
+  "w": "демонстри́ровать",
+  "en": "<ol class=\"meaning-list\"><li>to demonstrate</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "гарантировать",
+  "w": "гаранти́ровать",
+  "en": "<ol class=\"meaning-list\"><li>to guarantee</li><li>to vouch</li><li>to secure</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "воровать",
+  "w": "ворова́ть",
+  "en": "<ol class=\"meaning-list\"><li>to steal</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "образовать",
+  "w": "образова́ть",
+  "en": "<ol class=\"meaning-list\"><li>to form</li><li>to make up</li><li>to generate</li><li>to constitute</li><li>to found</li><li>to establish</li><li>to set up</li><li>to organise</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "образовывать",
+  "w": "образо́вывать",
+  "en": "<ol class=\"meaning-list\"><li>to form</li><li>to make up</li><li>to constitute</li><li>to generate</li><li>to found</li><li>to establish</li><li>to set up</li><li>to organize</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "унижение",
+  "w": "униже́ние",
+  "en": "<ol class=\"meaning-list\"><li>humiliation</li></ol>",
+  "pos": "n",
+  "topic": "concepts::emotion",
+  "cu": false
+ },
+ {
+  "wc": "трагический",
+  "w": "траги́ческий",
+  "en": "<ol class=\"meaning-list\"><li>tragic adj</li></ol>",
+  "pos": "adj",
+  "topic": "concepts::emotion",
+  "cu": false
+ },
+ {
+  "wc": "нравственный",
+  "w": "нра́вственный",
+  "en": "<ol class=\"meaning-list\"><li>moral (adj)</li></ol>",
+  "pos": "adj",
+  "topic": "concepts::emotion",
+  "cu": false
+ },
+ {
+  "wc": "страстный",
+  "w": "стра́стный",
+  "en": "<ol class=\"meaning-list\"><li>passionate</li><li>intense</li></ol>",
+  "pos": "adj",
+  "topic": "concepts::emotion",
+  "cu": false
+ },
+ {
+  "wc": "мрачный",
+  "w": "мра́чный",
+  "en": "<ol class=\"meaning-list\"><li>dark</li><li>gloomy</li><li>murky</li><li>gloomy</li><li>morose</li><li>grim</li><li>dismal</li></ol>",
+  "pos": "adj",
+  "topic": "concepts::emotion",
+  "cu": false
+ },
+ {
+  "wc": "хулиган",
+  "w": "хулига́н",
+  "en": "<ol class=\"meaning-list\"><li>hooligan</li></ol>",
+  "pos": "n",
+  "topic": "concepts::emotion",
+  "cu": false
+ },
+ {
+  "wc": "ревновать",
+  "w": "ревнова́ть",
+  "en": "<ol class=\"meaning-list\"><li>to be jealous</li></ol>",
+  "pos": "v",
+  "topic": "concepts::emotion",
+  "cu": false
+ },
+ {
+  "wc": "взволновать",
+  "w": "взволнова́ть",
+  "en": "<ol class=\"meaning-list\"><li>to worry</li><li>to alarm</li><li>to upset</li><li>to disturb</li><li>to move (emotionally)</li><li>to stir</li><li>to excite</li><li>to touch</li></ol>",
+  "pos": "v",
+  "topic": "concepts::emotion",
+  "cu": false
+ },
+ {
+  "wc": "волновать",
+  "w": "волнова́ть",
+  "en": "<ol class=\"meaning-list\"><li>to worry</li><li>to make anxious</li><li>to trouble</li><li>to disturb</li><li>to excite</li><li>to stir</li><li>to move (emotionally)</li><li>to agitate</li></ol>",
+  "pos": "v",
+  "topic": "concepts::emotion",
+  "cu": false
+ },
+ {
+  "wc": "зависть",
+  "w": "за́висть",
+  "en": "<ol class=\"meaning-list\"><li>envy</li></ol>",
+  "pos": "n",
+  "topic": "concepts::emotion",
+  "cu": false
+ },
+ {
+  "wc": "жадность",
+  "w": "жа́дность",
+  "en": "<ol class=\"meaning-list\"><li>greed</li><li>avarice</li><li>covetousness</li><li>stinginess</li><li>miserliness</li><li>eagerness</li><li>avidity</li></ol>",
+  "pos": "n",
+  "topic": "concepts::emotion",
+  "cu": false
+ },
+ {
+  "wc": "грусть",
+  "w": "грусть",
+  "en": "<ol class=\"meaning-list\"><li>melancholy / sadness</li><li>sorrow</li></ol>",
+  "pos": "n",
+  "topic": "concepts::emotion",
+  "cu": false
+ },
+ {
+  "wc": "поругаться",
+  "w": "поруга́ться",
+  "en": "<ol class=\"meaning-list\"><li>to quarrel</li><li>to have a row</li><li>to argue</li><li>to fall out</li><li>to scold</li><li>to tell off</li><li>to rail at</li><li>to swear</li><li>to curse</li></ol>",
+  "pos": "v",
+  "topic": "concepts::emotion",
+  "cu": false
+ },
+ {
+  "wc": "ругаться",
+  "w": "руга́ться",
+  "en": "<ol class=\"meaning-list\"><li>to swear</li><li>to curse</li><li>to use bad language</li><li>to swear at (someone)</li><li>to curse (someone)</li><li>to quarrel</li><li>to argue</li><li>to fight</li><li>to call each other names</li></ol>",
+  "pos": "v",
+  "topic": "concepts::emotion",
+  "cu": false
+ },
+ {
+  "wc": "поссориться",
+  "w": "поссо́риться",
+  "en": "<ol class=\"meaning-list\"><li>to argue or quarrel</li></ol>",
+  "pos": "v",
+  "topic": "concepts::emotion",
+  "cu": false
+ },
+ {
+  "wc": "ссориться",
+  "w": "ссо́риться",
+  "en": "<ol class=\"meaning-list\"><li>to argue</li><li>to quarrel</li></ol>",
+  "pos": "v",
+  "topic": "concepts::emotion",
+  "cu": false
+ },
+ {
+  "wc": "влюбиться",
+  "w": "влюби́ться",
+  "en": "<ol class=\"meaning-list\"><li>to fall in love</li></ol>",
+  "pos": "v",
+  "topic": "concepts::emotion",
+  "cu": false
+ },
+ {
+  "wc": "влюбляться",
+  "w": "влюбля́ться",
+  "en": "<ol class=\"meaning-list\"><li>to fall in love</li></ol>",
+  "pos": "v",
+  "topic": "concepts::emotion",
+  "cu": false
+ },
+ {
+  "wc": "проза",
+  "w": "про́за",
+  "en": "<ol class=\"meaning-list\"><li>prose</li></ol>",
+  "pos": "n",
+  "topic": "life::art",
+  "cu": false
+ },
+ {
+  "wc": "икона",
+  "w": "ико́на",
+  "en": "<ol class=\"meaning-list\"><li>icon</li></ol>",
+  "pos": "n",
+  "topic": "life::art",
+  "cu": false
+ },
+ {
+  "wc": "премьера",
+  "w": "премье́ра",
+  "en": "<ol class=\"meaning-list\"><li>premiere</li><li>new production</li></ol>",
+  "pos": "n",
+  "topic": "life::art",
+  "cu": false
+ },
+ {
+  "wc": "джаз",
+  "w": "джаз",
+  "en": "<ol class=\"meaning-list\"><li>jazz</li><li>jazz band</li></ol>",
+  "pos": "n",
+  "topic": "life::art",
+  "cu": false
+ },
+ {
+  "wc": "боевик",
+  "w": "боеви́к",
+  "en": "<ol class=\"meaning-list\"><li>militant</li><li>gunman</li><li>armed fighter</li><li>guerrilla</li><li>action movie</li><li>action film</li><li>hit</li><li>smash hit</li><li>box-office hit</li></ol>",
+  "pos": "n",
+  "topic": "life::art",
+  "cu": false
+ },
+ {
+  "wc": "пуговица",
+  "w": "пу́говица",
+  "en": "<ol class=\"meaning-list\"><li>button</li></ol>",
+  "pos": "n",
+  "topic": "life::clothing",
+  "cu": false
+ },
+ {
+  "wc": "шерсть",
+  "w": "шерсть",
+  "en": "<ol class=\"meaning-list\"><li>wool</li><li>fur</li><li>coat (of an animal)</li><li>hair (of an animal)</li></ol>",
+  "pos": "n",
+  "topic": "life::clothing",
+  "cu": false
+ },
+ {
+  "wc": "банкет",
+  "w": "банке́т",
+  "en": "<ol class=\"meaning-list\"><li>banquet</li></ol>",
+  "pos": "n",
+  "topic": "life::leisure",
+  "cu": false
+ },
+ {
+  "wc": "анекдот",
+  "w": "анекдо́т",
+  "en": "<ol class=\"meaning-list\"><li>joke</li><li>funny story</li><li>anecdote</li></ol>",
+  "pos": "n",
+  "topic": "life::leisure",
+  "cu": false
+ },
+ {
+  "wc": "таракан",
+  "w": "тарака́н",
+  "en": "<ol class=\"meaning-list\"><li>cockroach</li><li>caprice</li></ol>",
+  "pos": "n",
+  "topic": "nature::animals",
+  "cu": false
+ },
+ {
+  "wc": "стадо",
+  "w": "ста́до",
+  "en": "<ol class=\"meaning-list\"><li>herd</li><li>flock (of sheep)</li></ol>",
+  "pos": "n",
+  "topic": "nature::animals",
+  "cu": false
+ },
+ {
+  "wc": "гусь",
+  "w": "гусь",
+  "en": "<ol class=\"meaning-list\"><li>goose</li></ol>",
+  "pos": "n",
+  "topic": "nature::animals",
+  "cu": false
+ },
+ {
+  "wc": "пруд",
+  "w": "пруд",
+  "en": "<ol class=\"meaning-list\"><li>pond</li></ol>",
+  "pos": "n",
+  "topic": "places::geo",
+  "cu": false
+ },
+ {
+  "wc": "вулкан",
+  "w": "вулка́н",
+  "en": "<ol class=\"meaning-list\"><li>volcano</li></ol>",
+  "pos": "n",
+  "topic": "places::geo",
+  "cu": false
+ },
+ {
+  "wc": "провинция",
+  "w": "прови́нция",
+  "en": "<ol class=\"meaning-list\"><li>province</li><li>the provinces</li></ol>",
+  "pos": "n",
+  "topic": "places::geo",
+  "cu": false
+ },
+ {
+  "wc": "столб",
+  "w": "столб",
+  "en": "<ol class=\"meaning-list\"><li>post</li><li>pole</li><li>pillar</li><li>column</li><li>column (of smoke or dust)</li><li>plume</li></ol>",
+  "pos": "n",
+  "topic": "places::city",
+  "cu": false
+ },
+ {
+  "wc": "кирпич",
+  "w": "кирпи́ч",
+  "en": "<ol class=\"meaning-list\"><li>brick</li></ol>",
+  "pos": "n",
+  "topic": "life::home",
+  "cu": false
+ },
+ {
+  "wc": "коммунистический",
+  "w": "коммунисти́ческий",
+  "en": "<ol class=\"meaning-list\"><li>communist</li></ol>",
+  "pos": "adj",
+  "topic": "concepts::state",
+  "cu": false
+ },
+ {
+  "wc": "избирательный",
+  "w": "избира́тельный",
+  "en": "<ol class=\"meaning-list\"><li>electoral</li><li>election</li><li>selective</li><li>discriminating</li></ol>",
+  "pos": "adj",
+  "topic": "concepts::state",
+  "cu": false
+ },
+ {
+  "wc": "ветеран",
+  "w": "ветера́н",
+  "en": "<ol class=\"meaning-list\"><li>veteran</li><li>old stager</li></ol>",
+  "pos": "n",
+  "topic": "concepts::state",
+  "cu": false
+ },
+ {
+  "wc": "беженец",
+  "w": "бе́женец",
+  "en": "<ol class=\"meaning-list\"><li>refugee</li></ol>",
+  "pos": "n",
+  "topic": "concepts::state",
+  "cu": false
+ },
+ {
+  "wc": "избиратель",
+  "w": "избира́тель",
+  "en": "<ol class=\"meaning-list\"><li>elector</li><li>voter</li><li>the electorate</li><li>constituency</li></ol>",
+  "pos": "n",
+  "topic": "concepts::state",
+  "cu": false
+ },
+ {
+  "wc": "разобрать",
+  "w": "разобра́ть",
+  "en": "<ol class=\"meaning-list\"><li>to take apart</li><li>to take to pieces</li><li>to disassemble</li><li>to dismantle</li><li>to make out</li><li>to decipher</li><li>to figure out</li><li>to understand</li><li>to sort out</li><li>to sort</li><li>to put in order</li><li>to tidy up</li><li>to analyse</li><li>to examine in detail</li><li>to go through</li><li>to review critically</li><li>to buy up</li><li>to snap up</li><li>to take all of</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "расследовать",
+  "w": "рассле́довать",
+  "en": "<ol class=\"meaning-list\"><li>to investigate</li><li>to look into</li></ol>",
+  "pos": "v",
+  "topic": "concepts::state",
+  "cu": false
+ },
+ {
+  "wc": "завоевать",
+  "w": "завоева́ть",
+  "en": "<ol class=\"meaning-list\"><li>to conquer</li><li>to subjugate</li><li>to take by force</li><li>to win</li><li>to gain</li><li>to earn</li><li>to win through struggle</li><li>to fight for and gain</li></ol>",
+  "pos": "v",
+  "topic": "concepts::state",
+  "cu": false
+ },
+ {
+  "wc": "завоёвывать",
+  "w": "завоёвывать",
+  "en": "<ol class=\"meaning-list\"><li>to conquer</li><li>to win</li><li>to earn</li></ol>",
+  "pos": "v",
+  "topic": "concepts::state",
+  "cu": false
+ },
+ {
+  "wc": "осудить",
+  "w": "осуди́ть",
+  "en": "<ol class=\"meaning-list\"><li>to convict (of)</li><li>to sentence</li><li>to find guilty</li><li>to condemn</li><li>to denounce</li><li>to disapprove of</li><li>to doom (to)</li><li>to condemn (to)</li></ol>",
+  "pos": "v",
+  "topic": "concepts::state",
+  "cu": false
+ },
+ {
+  "wc": "осуждать",
+  "w": "осужда́ть",
+  "en": "<ol class=\"meaning-list\"><li>to condemn</li><li>to censure</li><li>to disapprove of</li><li>to judge</li><li>to convict</li><li>to sentence</li><li>to condemn</li></ol>",
+  "pos": "v",
+  "topic": "concepts::state",
+  "cu": false
+ },
+ {
+  "wc": "абсурд",
+  "w": "абсу́рд",
+  "en": "<ol class=\"meaning-list\"><li>absurdity</li><li>nonsense</li></ol>",
+  "pos": "n",
+  "topic": "concepts::mind",
+  "cu": false
+ },
+ {
+  "wc": "противоречие",
+  "w": "противоре́чие",
+  "en": "<ol class=\"meaning-list\"><li>contradiction</li></ol>",
+  "pos": "n",
+  "topic": "concepts::mind",
+  "cu": false
+ },
+ {
+  "wc": "намерен",
+  "w": "наме́рен",
+  "en": "<ol class=\"meaning-list\"><li>intend (to do something)</li><li>be going to</li><li>mean to</li><li>measured out</li></ol>",
+  "pos": "adj",
+  "topic": "concepts::mind",
+  "cu": false
+ },
+ {
+  "wc": "компромисс",
+  "w": "компроми́сс",
+  "en": "<ol class=\"meaning-list\"><li>a compromise</li></ol>",
+  "pos": "n",
+  "topic": "concepts::mind",
+  "cu": false
+ },
+ {
+  "wc": "планировать",
+  "w": "плани́ровать",
+  "en": "<ol class=\"meaning-list\"><li>to plan</li><li>to lay out</li><li>to design</li><li>to have in mind</li><li>to schedule</li><li>to arrange</li><li>to set up</li><li>to glide</li><li>to glide down</li><li>to soar</li><li>to level</li><li>to grade</li><li>to even out</li></ol>",
+  "pos": "v",
+  "topic": "concepts::mind",
+  "cu": false
+ },
+ {
+  "wc": "заинтересовать",
+  "w": "заинтересова́ть",
+  "en": "<ol class=\"meaning-list\"><li>to interest</li></ol>",
+  "pos": "v",
+  "topic": "concepts::mind",
+  "cu": false
+ },
+ {
+  "wc": "угадать",
+  "w": "угада́ть",
+  "en": "<ol class=\"meaning-list\"><li>to guess</li><li>to guess right</li><li>to figure out</li></ol>",
+  "pos": "v",
+  "topic": "concepts::mind",
+  "cu": false
+ },
+ {
+  "wc": "угадывать",
+  "w": "уга́дывать",
+  "en": "<ol class=\"meaning-list\"><li>to guess</li><li>to guess right</li><li>to divine</li><li>to sense</li><li>to make out</li></ol>",
+  "pos": "v",
+  "topic": "concepts::mind",
+  "cu": false
+ },
+ {
+  "wc": "рассуждать",
+  "w": "рассужда́ть",
+  "en": "<ol class=\"meaning-list\"><li>to reason</li><li>to think</li><li>to argue (a point)</li><li>to discuss</li><li>to talk (about)</li><li>to hold forth (on)</li><li>to judge</li><li>to form an opinion</li><li>to weigh up</li><li>to argue</li><li>to talk back</li><li>to question orders</li></ol>",
+  "pos": "v",
+  "topic": "concepts::mind",
+  "cu": false
+ },
+ {
+  "wc": "передумать",
+  "w": "переду́мать",
+  "en": "<ol class=\"meaning-list\"><li>to change one's mind</li><li>to reconsider</li><li>to think better of it</li></ol>",
+  "pos": "v",
+  "topic": "concepts::mind",
+  "cu": false
+ },
+ {
+  "wc": "посередине",
+  "w": "посереди́не",
+  "en": "<ol class=\"meaning-list\"><li>in the middle</li><li>half way along</li></ol>",
+  "pos": "adv",
+  "topic": "places::position",
+  "cu": false
+ },
+ {
+  "wc": "вправо",
+  "w": "впра́во",
+  "en": "<ol class=\"meaning-list\"><li>to the right</li></ol>",
+  "pos": "adv",
+  "topic": "places::position",
+  "cu": false
+ },
+ {
+  "wc": "влево",
+  "w": "вле́во",
+  "en": "<ol class=\"meaning-list\"><li>to the left</li></ol>",
+  "pos": "adv",
+  "topic": "places::position",
+  "cu": false
+ },
+ {
+  "wc": "окружать",
+  "w": "окружа́ть",
+  "en": "<ol class=\"meaning-list\"><li>to surround</li><li>to surround</li><li>to encircle</li></ol>",
+  "pos": "v",
+  "topic": "places::position",
+  "cu": false
+ },
+ {
+  "wc": "окружить",
+  "w": "окружи́ть",
+  "en": "<ol class=\"meaning-list\"><li>to surround</li></ol>",
+  "pos": "v",
+  "topic": "places::position",
+  "cu": false
+ },
+ {
+  "wc": "проезд",
+  "w": "прое́зд",
+  "en": "<ol class=\"meaning-list\"><li>journey</li><li>ride</li><li>trip</li><li>passage</li><li>passing through</li><li>driving through</li><li>thoroughfare</li><li>passageway</li><li>lane</li></ol>",
+  "pos": "n",
+  "topic": "places::transport",
+  "cu": false
+ },
+ {
+  "wc": "железнодорожный",
+  "w": "железнодоро́жный",
+  "en": "<ol class=\"meaning-list\"><li>railway</li><li>railroad</li></ol>",
+  "pos": "adj",
+  "topic": "places::transport",
+  "cu": false
+ },
+ {
+  "wc": "вопреки",
+  "w": "вопреки́",
+  "en": "<ol class=\"meaning-list\"><li>contrary to</li><li>against</li><li>despite</li><li>in spite of</li></ol>",
+  "pos": "prep",
+  "topic": "language::grammar",
+  "cu": false
+ },
+ {
+  "wc": "ничуть",
+  "w": "ничу́ть",
+  "en": "<ol class=\"meaning-list\"><li>not at all</li></ol>",
+  "pos": "adv",
+  "topic": "language::grammar",
+  "cu": false
+ },
+ {
+  "wc": "заголовок",
+  "w": "заголо́вок",
+  "en": "<ol class=\"meaning-list\"><li>heading</li><li>title</li><li>headline</li><li>header</li><li>subject line</li></ol>",
+  "pos": "n",
+  "topic": "language::documents",
+  "cu": false
+ },
+ {
+  "wc": "обзор",
+  "w": "обзо́р",
+  "en": "<ol class=\"meaning-list\"><li>overview</li><li>survey</li><li>review</li><li>review</li><li>round-up</li><li>view</li><li>visibility</li><li>field of vision</li></ol>",
+  "pos": "n",
+  "topic": "language::documents",
+  "cu": false
+ },
+ {
+  "wc": "блокнот",
+  "w": "блокно́т",
+  "en": "<ol class=\"meaning-list\"><li>notebook</li><li>note-book</li><li>note pad</li><li>writing-pad</li></ol>",
+  "pos": "n",
+  "topic": "language::documents",
+  "cu": false
+ },
+ {
+  "wc": "издавать",
+  "w": "издава́ть",
+  "en": "<ol class=\"meaning-list\"><li>to publish</li><li>to print</li><li>to bring out</li><li>to issue</li><li>to promulgate</li><li>to enact</li><li>to emit (a sound)</li><li>to utter</li><li>to let out</li><li>to give off</li><li>to exude</li><li>to emit (a smell)</li></ol>",
+  "pos": "v",
+  "topic": "language::documents",
+  "cu": false
+ },
+ {
+  "wc": "издать",
+  "w": "изда́ть",
+  "en": "<ol class=\"meaning-list\"><li>to publish</li><li>to issue</li><li>to bring out</li><li>to let out</li><li>to emit</li><li>to give off</li></ol>",
+  "pos": "v",
+  "topic": "language::documents",
+  "cu": false
+ },
+ {
+  "wc": "предавать",
+  "w": "предава́ть",
+  "en": "<ol class=\"meaning-list\"><li>to betray</li><li>to hand over</li><li>to consign</li><li>to commit</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "предать",
+  "w": "преда́ть",
+  "en": "<ol class=\"meaning-list\"><li>to betray</li><li>to be disloyal to</li><li>to hand over</li><li>to consign</li><li>to commit</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "предъявить",
+  "w": "предъяви́ть",
+  "en": "<ol class=\"meaning-list\"><li>to show</li><li>to present</li><li>to produce</li><li>to bring (charges)</li><li>to present (a claim)</li><li>to lodge (a demand)</li></ol>",
+  "pos": "v",
+  "topic": "language::documents",
+  "cu": false
+ },
+ {
+  "wc": "предъявлять",
+  "w": "предъявля́ть",
+  "en": "<ol class=\"meaning-list\"><li>to show</li><li>to present</li><li>to produce</li><li>to make (a claim)</li><li>to put forward (demands)</li><li>to bring (charges)</li><li>to assert</li></ol>",
+  "pos": "v",
+  "topic": "language::documents",
+  "cu": false
+ },
+ {
+  "wc": "квитанция",
+  "w": "квита́нция",
+  "en": "<ol class=\"meaning-list\"><li>receipt</li></ol>",
+  "pos": "n",
+  "topic": "language::documents",
+  "cu": false
+ },
+ {
+  "wc": "изобретение",
+  "w": "изобрете́ние",
+  "en": "<ol class=\"meaning-list\"><li>invention</li></ol>",
+  "pos": "n",
+  "topic": "language::education",
+  "cu": false
+ },
+ {
+  "wc": "вуз",
+  "w": "вуз",
+  "en": "<ol class=\"meaning-list\"><li>institute of higher education</li><li>college</li></ol>",
+  "pos": "n",
+  "topic": "language::education",
+  "cu": false
+ },
+ {
+  "wc": "портфель",
+  "w": "портфе́ль",
+  "en": "<ol class=\"meaning-list\"><li>briefcase</li><li>satchel</li><li>school bag</li><li>portfolio</li></ol>",
+  "pos": "n",
+  "topic": "language::education",
+  "cu": false
+ },
+ {
+  "wc": "оправдать",
+  "w": "оправда́ть",
+  "en": "<ol class=\"meaning-list\"><li>to justify</li><li>to warrant</li><li>to excuse</li><li>to acquit</li><li>to discharge</li><li>to live up to (expectations)</li><li>to fulfil (hopes)</li><li>to account for (expenses)</li><li>to document</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "оправдывать",
+  "w": "опра́вдывать",
+  "en": "<ol class=\"meaning-list\"><li>to justify</li><li>to warrant</li><li>to excuse</li><li>to live up to</li><li>to fulfil</li><li>to acquit</li><li>to clear</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "разглядеть",
+  "w": "разгляде́ть",
+  "en": "<ol class=\"meaning-list\"><li>to make out</li><li>to discern</li><li>to see clearly</li><li>to detect</li><li>to spot</li><li>to figure out</li><li>to examine closely</li><li>to scrutinize</li><li>to look over</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "разглядывать",
+  "w": "разгля́дывать",
+  "en": "<ol class=\"meaning-list\"><li>to gaze intently and carefully at someone or something/to examine</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "призвать",
+  "w": "призва́ть",
+  "en": "<ol class=\"meaning-list\"><li>to call on</li><li>to urge</li><li>to appeal to</li><li>to call for</li><li>to summon</li><li>to call</li><li>to call up</li><li>to conscript</li><li>to draft</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "призывать",
+  "w": "призыва́ть",
+  "en": "<ol class=\"meaning-list\"><li>to call upon</li><li>to urge</li><li>to appeal to</li><li>to call for</li><li>to conscript</li><li>to draft</li><li>to call up</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "завязать",
+  "w": "завяза́ть",
+  "en": "<ol class=\"meaning-list\"><li>to tie</li><li>to tie up</li><li>to knot</li><li>to do up</li><li>to strike up</li><li>to establish</li><li>to start</li><li>to begin</li><li>to quit</li><li>to give up</li><li>to stop</li><li>to break with</li><li>to get stuck</li><li>to sink in</li><li>to get bogged down</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "завязывать",
+  "w": "завя́зывать",
+  "en": "<ol class=\"meaning-list\"><li>to tie</li><li>to tie up</li><li>to knot</li><li>to bind together</li><li>to start</li><li>to strike up</li><li>to enter into</li><li>to quit</li><li>to give up</li><li>to stop</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "разорвать",
+  "w": "разорва́ть",
+  "en": "<ol class=\"meaning-list\"><li>to tear apart</li><li>to rip up</li><li>to tear to pieces</li><li>to break off (relations)</li><li>to sever (ties)</li><li>to terminate (a contract)</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "разрывать",
+  "w": "разрыва́ть",
+  "en": "<ol class=\"meaning-list\"><li>to tear</li><li>to tear apart</li><li>to rip up</li><li>to break off</li><li>to sever</li><li>to terminate</li><li>to dig up</li><li>to dig open</li><li>to turn over (soil)</li><li>to rummage through</li><li>to ransack</li><li>to turn upside-down</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "сорвать",
+  "w": "сорва́ть",
+  "en": "<ol class=\"meaning-list\"><li>to tear off</li><li>to rip off</li><li>to take off (forcibly)</li><li>to pick</li><li>to pluck</li><li>to thwart</li><li>to disrupt</li><li>to ruin</li><li>to spoil</li><li>to vent (on somebody)</li><li>to take out (on somebody)</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "срывать",
+  "w": "срыва́ть",
+  "en": "<ol class=\"meaning-list\"><li>to tear off</li><li>to pull off</li><li>to rip off</li><li>to disrupt</li><li>to thwart</li><li>to foil</li><li>to sabotage</li><li>to pick</li><li>to pluck</li><li>to take out on</li><li>to vent on</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "приступать",
+  "w": "приступа́ть",
+  "en": "<ol class=\"meaning-list\"><li>to set about</li><li>to begin</li><li>to start</li><li>to get down to</li><li>to approach</li><li>to step up to</li><li>to press (with questions)</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "приступить",
+  "w": "приступи́ть",
+  "en": "<ol class=\"meaning-list\"><li>to begin</li><li>to start</li><li>to set about</li><li>to embark on</li><li>to approach (somebody)</li><li>to come up to</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "качать",
+  "w": "кача́ть",
+  "en": "<ol class=\"meaning-list\"><li>to rock</li><li>to swing</li><li>to sway</li><li>to shake (one's head)</li><li>to move back and forth</li><li>to pump</li><li>to pump out</li><li>to download</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "покачать",
+  "w": "покача́ть",
+  "en": "<ol class=\"meaning-list\"><li>to shake (one's head)</li><li>to give a shake</li><li>to rock (for a while)</li><li>to swing (for a while)</li><li>to dandle</li><li>to pump (for a while)</li><li>to download</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "облегчать",
+  "w": "облегча́ть",
+  "en": "<ol class=\"meaning-list\"><li>to make easier</li><li>to facilitate</li><li>to simplify</li><li>to relieve</li><li>to alleviate</li><li>to ease</li><li>to soothe</li><li>to lighten</li><li>to unburden</li><li>to take a load off</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "облегчить",
+  "w": "облегчи́ть",
+  "en": "<ol class=\"meaning-list\"><li>to make easier</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "постучать",
+  "w": "постуча́ть",
+  "en": "<ol class=\"meaning-list\"><li>to knock</li><li>to rap</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "стучать",
+  "w": "стуча́ть",
+  "en": "<ol class=\"meaning-list\"><li>to knock</li><li>to tap</li><li>to bang</li><li>to snitch on</li><li>to inform on</li><li>to denounce</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "уберечь",
+  "w": "убере́чь",
+  "en": "<ol class=\"meaning-list\"><li>to protect (from harm)</li><li>to keep safe</li><li>to shield</li><li>to guard</li><li>to preserve</li><li>to keep intact</li><li>to save</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "кукуруза",
+  "w": "кукуру́за",
+  "en": "<ol class=\"meaning-list\"><li>corn</li><li>maize</li></ol>",
+  "pos": "n",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "жирный",
+  "w": "жи́рный",
+  "en": "<ol class=\"meaning-list\"><li>fat plump greasy (adj)</li></ol>",
+  "pos": "adj",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "пирожок",
+  "w": "пирожо́к",
+  "en": "<ol class=\"meaning-list\"><li>pastry</li><li>buns</li></ol>",
+  "pos": "n",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "омлет",
+  "w": "омле́т",
+  "en": "<ol class=\"meaning-list\"><li>omelette</li></ol>",
+  "pos": "n",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "наливать",
+  "w": "налива́ть",
+  "en": "<ol class=\"meaning-list\"><li>to pour</li></ol>",
+  "pos": "v",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "налить",
+  "w": "нали́ть",
+  "en": "<ol class=\"meaning-list\"><li>to pour</li><li>to pour out</li><li>to fill (with liquid)</li><li>to spill</li><li>to slop</li></ol>",
+  "pos": "v",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "кушать",
+  "w": "ку́шать",
+  "en": "<ol class=\"meaning-list\"><li>to eat</li></ol>",
+  "pos": "v",
+  "topic": "life::food",
+  "cu": false
+ },
+ {
+  "wc": "изба",
+  "w": "изба́",
+  "en": "<ol class=\"meaning-list\"><li>hut</li></ol>",
+  "pos": "n",
+  "topic": "life::home",
+  "cu": false
+ },
+ {
+  "wc": "бритва",
+  "w": "бри́тва",
+  "en": "<ol class=\"meaning-list\"><li>razor</li><li>shaver</li><li>razor blade</li><li>blade</li></ol>",
+  "pos": "n",
+  "topic": "life::home",
+  "cu": false
+ },
+ {
+  "wc": "зажигалка",
+  "w": "зажига́лка",
+  "en": "<ol class=\"meaning-list\"><li>lighter</li><li>cigarette lighter</li><li>incendiary bomb</li><li>firebomb</li></ol>",
+  "pos": "n",
+  "topic": "life::home",
+  "cu": false
+ },
+ {
+  "wc": "бытовой",
+  "w": "бытово́й",
+  "en": "<ol class=\"meaning-list\"><li>everyday</li><li>of daily life</li><li>ordinary</li><li>household</li><li>domestic</li><li>for home use</li></ol>",
+  "pos": "adj",
+  "topic": "life::home",
+  "cu": false
+ },
+ {
+  "wc": "уютный",
+  "w": "ую́тный",
+  "en": "<ol class=\"meaning-list\"><li>cozy</li><li>snug</li></ol>",
+  "pos": "adj",
+  "topic": "life::home",
+  "cu": false
+ },
+ {
+  "wc": "лак",
+  "w": "лак",
+  "en": "<ol class=\"meaning-list\"><li>varnish</li><li>lacquer</li><li>nail polish</li><li>nail varnish</li></ol>",
+  "pos": "n",
+  "topic": "life::home",
+  "cu": false
+ },
+ {
+  "wc": "кран",
+  "w": "кран",
+  "en": "<ol class=\"meaning-list\"><li>tap</li><li>faucet</li><li>stopcock</li><li>crane</li></ol>",
+  "pos": "n",
+  "topic": "life::home",
+  "cu": false
+ },
+ {
+  "wc": "кондиционер",
+  "w": "кондиционе́р",
+  "en": "<ol class=\"meaning-list\"><li>air conditioner</li><li>conditioner</li><li>hair conditioner</li></ol>",
+  "pos": "n",
+  "topic": "life::home",
+  "cu": false
+ },
+ {
+  "wc": "быт",
+  "w": "быт",
+  "en": "<ol class=\"meaning-list\"><li>daily life</li></ol>",
+  "pos": "n",
+  "topic": "life::home",
+  "cu": false
+ },
+ {
+  "wc": "почистить",
+  "w": "почи́стить",
+  "en": "<ol class=\"meaning-list\"><li>to clean</li><li>to brush</li><li>to polish</li><li>to peel</li></ol>",
+  "pos": "v",
+  "topic": "life::home",
+  "cu": false
+ },
+ {
+  "wc": "чистить",
+  "w": "чи́стить",
+  "en": "<ol class=\"meaning-list\"><li>to clean</li><li>to brush</li><li>to polish</li><li>to peel</li></ol>",
+  "pos": "v",
+  "topic": "life::home",
+  "cu": false
+ },
+ {
+  "wc": "химчистка",
+  "w": "химчи́стка",
+  "en": "<ol class=\"meaning-list\"><li>dry-cleaning</li></ol>",
+  "pos": "n",
+  "topic": "places::city",
+  "cu": false
+ },
+ {
+  "wc": "осложнение",
+  "w": "осложне́ние",
+  "en": "<ol class=\"meaning-list\"><li>complication</li><li>difficulty</li><li>aggravation</li><li>worsening</li><li>complication</li></ol>",
+  "pos": "n",
+  "topic": "life::health",
+  "cu": false
+ },
+ {
+  "wc": "инфаркт",
+  "w": "инфа́ркт",
+  "en": "<ol class=\"meaning-list\"><li>heart attack</li><li>myocardial infarction</li><li>infarction</li><li>infarct</li></ol>",
+  "pos": "n",
+  "topic": "life::health",
+  "cu": false
+ },
+ {
+  "wc": "витамин",
+  "w": "витами́н",
+  "en": "<ol class=\"meaning-list\"><li>vitamin</li></ol>",
+  "pos": "n",
+  "topic": "life::health",
+  "cu": false
+ },
+ {
+  "wc": "пена",
+  "w": "пе́на",
+  "en": "<ol class=\"meaning-list\"><li>foam</li><li>spume</li><li>scum</li><li>froth</li></ol>",
+  "pos": "n",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "укрепление",
+  "w": "укрепле́ние",
+  "en": "<ol class=\"meaning-list\"><li>strengthening</li></ol>",
+  "pos": "n",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "гигантский",
+  "w": "гига́нтский",
+  "en": "<ol class=\"meaning-list\"><li>gigantic</li><li>huge</li><li>titanic</li><li>enormous</li></ol>",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "кожаный",
+  "w": "ко́жаный",
+  "en": "<ol class=\"meaning-list\"><li>leather</li><li>made of leather</li></ol>",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "коллективный",
+  "w": "коллекти́вный",
+  "en": "<ol class=\"meaning-list\"><li>collective adj</li></ol>",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "качественный",
+  "w": "ка́чественный",
+  "en": "<ol class=\"meaning-list\"><li>quality</li></ol>",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "искусственный",
+  "w": "иску́сственный",
+  "en": "<ol class=\"meaning-list\"><li>artificial</li><li>man-made</li><li>synthetic</li><li>feigned</li><li>affected</li><li>forced</li><li>insincere</li></ol>",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "стеклянный",
+  "w": "стекля́нный",
+  "en": "<ol class=\"meaning-list\"><li>glass</li></ol>",
+  "pos": "adj",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "оригинал",
+  "w": "оригина́л",
+  "en": "<ol class=\"meaning-list\"><li>original</li><li>an eccentric</li></ol>",
+  "pos": "n",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "сходство",
+  "w": "схо́дство",
+  "en": "<ol class=\"meaning-list\"><li>similarity</li><li>likeness</li><li>affinity</li><li>resemblance</li><li>likeness</li></ol>",
+  "pos": "n",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "сорт",
+  "w": "сорт",
+  "en": "<ol class=\"meaning-list\"><li>sort</li><li>kind</li><li>variety</li><li>brand</li><li>grade</li><li>quality class</li></ol>",
+  "pos": "n",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "по-разному",
+  "w": "по-ра́зному",
+  "en": "<ol class=\"meaning-list\"><li>differently</li><li>in different ways</li></ol>",
+  "pos": "adv",
+  "topic": "qualities",
+  "cu": false
+ },
+ {
+  "wc": "перспективный",
+  "w": "перспекти́вный",
+  "en": "<ol class=\"meaning-list\"><li>perspective</li><li>prospective</li><li>envisaging further development</li><li>having prospects</li></ol>",
+  "pos": "adj",
+  "topic": "qualities::eval",
+  "cu": false
+ },
+ {
+  "wc": "выгодный",
+  "w": "вы́годный",
+  "en": "<ol class=\"meaning-list\"><li>advantageous</li><li>beneficial</li><li>favourable</li><li>profitable</li><li>lucrative</li></ol>",
+  "pos": "adj",
+  "topic": "qualities::eval",
+  "cu": false
+ },
+ {
+  "wc": "почётный",
+  "w": "почётный",
+  "en": "<ol class=\"meaning-list\"><li>honourable</li><li>honorary</li></ol>",
+  "pos": "adj",
+  "topic": "qualities::eval",
+  "cu": false
+ },
+ {
+  "wc": "принципиальный",
+  "w": "принципиа́льный",
+  "en": "<ol class=\"meaning-list\"><li>fundamental</li><li>of principle</li><li>basic</li><li>principled</li><li>of high principles</li></ol>",
+  "pos": "adj",
+  "topic": "qualities::eval",
+  "cu": false
+ },
+ {
+  "wc": "потенциальный",
+  "w": "потенциа́льный",
+  "en": "<ol class=\"meaning-list\"><li>potential</li></ol>",
+  "pos": "adj",
+  "topic": "qualities::eval",
+  "cu": false
+ },
+ {
+  "wc": "актуальный",
+  "w": "актуа́льный",
+  "en": "<ol class=\"meaning-list\"><li>relevant</li><li>topical</li><li>pressing</li><li>current</li><li>up-to-date</li></ol>",
+  "pos": "adj",
+  "topic": "qualities::eval",
+  "cu": false
+ },
+ {
+  "wc": "идеал",
+  "w": "идеа́л",
+  "en": "<ol class=\"meaning-list\"><li>ideal</li></ol>",
+  "pos": "n",
+  "topic": "qualities::eval",
+  "cu": false
+ },
+ {
+  "wc": "нарушать",
+  "w": "наруша́ть",
+  "en": "<ol class=\"meaning-list\"><li>to violate</li><li>to break (a rule)</li><li>to infringe</li><li>to breach</li><li>to disrupt</li><li>to disturb</li><li>to break (silence)</li><li>to interrupt</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "нарушить",
+  "w": "нару́шить",
+  "en": "<ol class=\"meaning-list\"><li>to violate</li><li>to break</li><li>to infringe</li><li>to transgress</li><li>to disturb</li><li>to break (silence)</li><li>to disrupt</li><li>to upset</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "повысить",
+  "w": "повы́сить",
+  "en": "<ol class=\"meaning-list\"><li>to raise</li><li>to increase</li><li>to put up</li><li>to promote</li><li>to improve</li><li>to enhance</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "повышать",
+  "w": "повыша́ть",
+  "en": "<ol class=\"meaning-list\"><li>to increase</li><li>to raise</li><li>to improve</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "сократить",
+  "w": "сократи́ть",
+  "en": "<ol class=\"meaning-list\"><li>to shorten</li><li>to curtail</li><li>to cut short</li><li>to reduce</li><li>to cut</li><li>to cut down</li><li>to abbreviate</li><li>to lay off</li><li>to dismiss</li><li>to make redundant</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "сокращать",
+  "w": "сокраща́ть",
+  "en": "<ol class=\"meaning-list\"><li>to reduce</li><li>to cut</li><li>to cut down</li><li>to shorten</li><li>to curtail</li><li>to abbreviate</li><li>to lay off</li><li>to dismiss</li><li>to make redundant</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "бродить",
+  "w": "броди́ть",
+  "en": "<ol class=\"meaning-list\"><li>to wander</li><li>to roam</li><li>to stroll about</li><li>to stray</li><li>to roam loose</li><li>to ferment</li><li>to work</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "тащить",
+  "w": "тащи́ть",
+  "en": "<ol class=\"meaning-list\"><li>to drag</li><li>to pull</li><li>to carry (something heavy)</li><li>to lug</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "гнать",
+  "w": "гнать",
+  "en": "<ol class=\"meaning-list\"><li>to drive</li><li>to urge on</li><li>to chase</li><li>to drive away</li><li>to chase out</li><li>to expel</li><li>to lie</li><li>to talk nonsense</li><li>to bullshit</li><li>to distil</li><li>to persecute</li><li>to hound</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "возглавить",
+  "w": "возгла́вить",
+  "en": "<ol class=\"meaning-list\"><li>to head</li><li>to lead</li><li>to take charge of</li><li>to top (a list)</li><li>to come first in</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "возглавлять",
+  "w": "возглавля́ть",
+  "en": "<ol class=\"meaning-list\"><li>to head</li><li>to lead</li><li>to be in charge of</li><li>to preside over</li><li>to top</li><li>to lead</li><li>to be at the top of</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "догнать",
+  "w": "догна́ть",
+  "en": "<ol class=\"meaning-list\"><li>to catch up (with)</li><li>to overtake</li><li>to run down (in pursuit)</li><li>to get it</li><li>to catch on</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "догонять",
+  "w": "догоня́ть",
+  "en": "<ol class=\"meaning-list\"><li>to catch up with</li><li>to catch up to</li><li>to overtake</li><li>to get it</li><li>to catch on</li><li>to twig</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "выгнать",
+  "w": "вы́гнать",
+  "en": "<ol class=\"meaning-list\"><li>to kick out</li><li>to drive out</li><li>to chase away</li><li>to expel</li><li>to distil</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "выгонять",
+  "w": "выгоня́ть",
+  "en": "<ol class=\"meaning-list\"><li>to drive out</li><li>to kick out</li><li>to throw out</li><li>to expel</li><li>to drive out (livestock)</li><li>to turn out to pasture</li><li>to distil</li><li>to brew (moonshine)</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "течь",
+  "w": "течь",
+  "en": "<ol class=\"meaning-list\"><li>to flow</li><li>to stream</li><li>to run</li><li>to leak</li><li>to be leaky</li><li>to pass</li><li>to go by</li><li>to elapse</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "освободиться",
+  "w": "освободи́ться",
+  "en": "<ol class=\"meaning-list\"><li>to free oneself (from)</li><li>to get free</li><li>to break free</li><li>to become free</li><li>to get free time</li><li>to become available</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "освобождаться",
+  "w": "освобожда́ться",
+  "en": "<ol class=\"meaning-list\"><li>to free oneself (from)</li><li>to break free</li><li>to get free</li><li>to get rid of (something)</li><li>to get free time</li><li>to become free</li><li>to be available</li><li>to become vacant</li><li>to become free (of a place)</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "подчиниться",
+  "w": "подчини́ться",
+  "en": "<ol class=\"meaning-list\"><li>to obey</li><li>to comply</li><li>to submit to</li><li>to submit</li><li>to yield</li><li>to surrender</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "подчиняться",
+  "w": "подчиня́ться",
+  "en": "<ol class=\"meaning-list\"><li>to obey</li><li>to submit</li><li>to submit (to force)</li><li>to yield</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "подбородок",
+  "w": "подборо́док",
+  "en": "<ol class=\"meaning-list\"><li>chin</li></ol>",
+  "pos": "n",
+  "topic": "people::body",
+  "cu": false
+ },
+ {
+  "wc": "развестись",
+  "w": "развести́сь",
+  "en": "<ol class=\"meaning-list\"><li>to divorce</li><li>to get divorced</li><li>to breed in large numbers</li><li>to multiply</li><li>to become numerous</li></ol>",
+  "pos": "v",
+  "topic": "people::life",
+  "cu": false
+ },
+ {
+  "wc": "разводиться",
+  "w": "разводи́ться",
+  "en": "<ol class=\"meaning-list\"><li>to get divorced</li><li>to divorce</li><li>to multiply</li><li>to breed</li><li>to be bred</li></ol>",
+  "pos": "v",
+  "topic": "people::life",
+  "cu": false
+ },
+ {
+  "wc": "подвести",
+  "w": "подвести́",
+  "en": "<ol class=\"meaning-list\"><li>to lead (up to)</li><li>to bring (up to)</li><li>to run (a line up to)</li><li>to let down</li><li>to disappoint</li><li>to fail (someone)</li><li>to lead to (a conclusion)</li><li>to point to (a result)</li><li>to classify (under)</li><li>to group together</li><li>to subsume (under)</li><li>to back up (with evidence)</li><li>to support (with arguments)</li><li>to lay (a foundation under)</li><li>to place underneath</li><li>to pencil (the eyes)</li><li>to line (the eyes)</li><li>to apply eyeliner</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "подводить",
+  "w": "подводи́ть",
+  "en": "<ol class=\"meaning-list\"><li>to lead up to</li><li>to bring up to</li><li>to bring closer</li><li>to let down</li><li>to fail (someone)</li><li>to disappoint</li><li>to sum up</li><li>to draw (a conclusion)</li><li>to take stock of</li><li>to place under</li><li>to underpin</li><li>to provide a base for</li></ol>",
+  "pos": "v",
+  "topic": "actions",
+  "cu": false
+ },
+ {
+  "wc": "католик",
+  "w": "като́лик",
+  "en": "<ol class=\"meaning-list\"><li>Catholic</li></ol>",
+  "pos": "n",
+  "topic": "people::nation",
+  "cu": false
+ },
+ {
+  "wc": "мусульманин",
+  "w": "мусульма́нин",
+  "en": "<ol class=\"meaning-list\"><li>Muslim</li></ol>",
+  "pos": "n",
+  "topic": "people::nation",
+  "cu": false
+ },
+ {
+  "wc": "россиянин",
+  "w": "россия́нин",
+  "en": "<ol class=\"meaning-list\"><li>Russian</li></ol>",
+  "pos": "n",
+  "topic": "people::nation",
+  "cu": false
+ },
+ {
+  "wc": "забастовка",
+  "w": "забасто́вка",
+  "en": "<ol class=\"meaning-list\"><li>strike (workplace)</li></ol>",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "нищий",
+  "w": "ни́щий",
+  "en": "<ol class=\"meaning-list\"><li>beggarly/extremely poor (adj)</li></ol>",
+  "pos": "adj",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "критик",
+  "w": "кри́тик",
+  "en": "<ol class=\"meaning-list\"><li>critic</li></ol>",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "критический",
+  "w": "крити́ческий",
+  "en": "<ol class=\"meaning-list\"><li>critical</li></ol>",
+  "pos": "adj",
+  "topic": "qualities::eval",
+  "cu": false
+ },
+ {
+  "wc": "организатор",
+  "w": "организа́тор",
+  "en": "<ol class=\"meaning-list\"><li>organizer</li></ol>",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "терапевт",
+  "w": "терапе́вт",
+  "en": "<ol class=\"meaning-list\"><li>therapist</li><li>therapeutist</li><li>physician</li><li>general practitioner</li></ol>",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "инвалид",
+  "w": "инвали́д",
+  "en": "<ol class=\"meaning-list\"><li>invalid</li><li>disabled person</li></ol>",
+  "pos": "n",
+  "topic": "life::health",
+  "cu": false
+ },
+ {
+  "wc": "спасатель",
+  "w": "спаса́тель",
+  "en": "<ol class=\"meaning-list\"><li>rescuer</li><li>rescue worker</li><li>lifesaver</li><li>lifeguard</li><li>rescue boat</li><li>rescue ship</li><li>salvage vessel</li></ol>",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "бедность",
+  "w": "бе́дность",
+  "en": "<ol class=\"meaning-list\"><li>poverty</li><li>poorness</li><li>indigence</li><li>penury</li></ol>",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "бедствие",
+  "w": "бе́дствие",
+  "en": "<ol class=\"meaning-list\"><li>disaster</li><li>catastrophe</li><li>calamity</li><li>distress</li><li>plight</li><li>hardship</li><li>scourge</li><li>plague</li><li>affliction</li></ol>",
+  "pos": "n",
+  "topic": "nature::weather",
+  "cu": false
+ },
+ {
+  "wc": "интеллигенция",
+  "w": "интеллиге́нция",
+  "en": "<ol class=\"meaning-list\"><li>intelligentsia</li></ol>",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "конкуренция",
+  "w": "конкуре́нция",
+  "en": "<ol class=\"meaning-list\"><li>competition</li></ol>",
+  "pos": "n",
+  "topic": "people::professions",
+  "cu": false
+ },
+ {
+  "wc": "зять",
+  "w": "зять",
+  "en": "<ol class=\"meaning-list\"><li>son-in-law</li><li>brother-in-law</li></ol>",
+  "pos": "n",
+  "topic": "people::family",
+  "cu": false
  }
 ]
