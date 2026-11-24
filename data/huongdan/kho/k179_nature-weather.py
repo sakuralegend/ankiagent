@@ -16,6 +16,7 @@ S = {}
 
 # 🔴 Dòng tiếng Việt = đề bài deck 1-go (README §2c): thuần danh sách nghĩa.
 V = {
+    "ель": "cây vân sam, cây linh sam",
     "репетиция": "buổi diễn tập, sự tập dượt",   # rehearsal; «buổi tập» là трениро́вка [k134]; bỏ «tổng duyệt» (= dress rehearsal, hẹp hơn)
     "сеанс": "suất chiếu, buổi chiếu, buổi diễn, phiên",  # session/sitting; «ca» dễ lẫn ca làm việc (сме́на)
     "мода": "mốt, thời trang",                   # fashion/vogue; «xu hướng» là nới rộng (= тенде́нция)

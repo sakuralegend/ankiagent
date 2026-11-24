@@ -23,7 +23,7 @@ V = {
     "перевезти": "chở sang, chở qua",                        # khớp перевозить k143 (hai thể cùng gloss)
     "вывозить": "chở ra, chở đi, đưa ra khỏi",               # khớp вывезти (hai thể cùng gloss)
     "кое-куда": "đến một chỗ nào đó, tới vài chỗ",           # «đâu đó» trơn không nói HƯỚNG — nhoè sang где-то
-    "вследствие": "vì, bởi, do hậu quả của",                 # bỏ «do» trơn — nuốt trọn đề из-за
+    "вследствие": "do, do hậu quả của",                 # giữ «do» (nghĩa chính); из-за nới «vì, tại…» để hết lọt
     "оформление": "cách trang trí, cách trình bày, thiết kế, việc làm thủ tục giấy tờ",  # «trình bày» trơn là động từ
     "вступление": "sự gia nhập, phần mở đầu, đoạn dạo đầu",  # «sự tham gia» = участие, gloss không có
 }

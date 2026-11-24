@@ -28,7 +28,7 @@ V = {
     "впустить": "cho vào, cho phép vào, để cho vào",
     "уступать": "nhường, nhượng bộ, nhường chỗ, thua kém, bớt giá",     # + be inferior; come down in price
     "уступить": "nhường, nhượng bộ, nhường chỗ, thua kém, bớt giá",
-    "набирать": "bấm số, gõ, gom, thu được, tích luỹ, tuyển",           # y hệt набрать k206
+    "набирать": "bấm số, gõ, gom, thu được, tích luỹ, tăng, tuyển",           # y hệt набрать k206
     "вручать": "trao, trao tận tay, giao, giao phó",                    # + entrust
     "вручить": "trao, trao tận tay, giao, giao phó",
     "осветить": "chiếu sáng, thắp sáng, soi sáng, làm sáng tỏ, đưa tin",   # + shed light on; cover

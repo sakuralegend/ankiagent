@@ -25,7 +25,7 @@ V = {
     "отразить": "phản chiếu, dội lại, phản ánh, thể hiện, đẩy lui",        # + convey, repel
     "нажать": "ấn, bấm, nhấn, gây áp lực",                                  # hai thể cùng gloss
     "нажимать": "ấn, bấm, nhấn, gây áp lực",                                # + put pressure on
-    "набрать": "bấm số, gõ, gom, thu được, tích luỹ, tuyển",               # gather, accumulate, recruit
+    "набрать": "bấm số, gõ, gom, thu được, tích luỹ, tăng, tuyển",               # gather, accumulate, recruit
     "махать": "vẫy, vung, đập cánh, khoát",                                 # + to swing
     "исключать": "loại trừ, loại ra, trừ ra, khai trừ",                     # «bỏ ra» không phải nghĩa; + expel
     "исключить": "loại trừ, loại bỏ, loại ra, khai trừ",

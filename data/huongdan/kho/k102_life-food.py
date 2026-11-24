@@ -5,6 +5,7 @@
 
 S = {}
 V = {}
+V["сигарета"] = "điếu thuốc lá, thuốc lá"
 
 S["аппетит"] = (
     '<div class="hd-sec">Chẻ từ</div>'

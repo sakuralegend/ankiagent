@@ -19,6 +19,7 @@ S = {}
 # Thẻ đang có ngoặc (информационный, предупредить, наврать, формирование) là chú thích
 # của USER — không viết V cho chúng.
 V = {
+    "наврать": "nói dối, bịa chuyện, nói sai",
     "предупреждение": "lời cảnh báo, sự báo trước, sự phòng ngừa",   # thiếu prevention
     "предупреждать": "cảnh báo, báo trước, ngăn ngừa",              # thiếu prevent/avert
     "утверждать": "khẳng định, quả quyết, phê duyệt",               # thiếu approve/ratify

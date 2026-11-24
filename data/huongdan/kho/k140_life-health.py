@@ -20,7 +20,7 @@ V = {
     "одеть": "mặc quần áo cho ai",                    # bỏ «(xong)» — nhãn thể trá hình
     "проиграть": "thua",                              # bỏ «(một lần, xong việc)»
     "проигрывать": "thua",                            # bỏ «(thường xuyên, liên tục)»
-    "тренироваться": "tập dượt, rèn luyện",          # «tập luyện» trùng занима́ться (đã nạp); gloss practise/be in training
+    "тренироваться": "tập luyện, rèn luyện",          # «tập dượt» là репети́ровать; chung «tập luyện» với занима́ться là ổn (user duyệt 24/11)
     "платок": "khăn trùm đầu, khăn vuông, khăn tay",  # thiếu nghĩa handkerchief (носово́й плато́к)
 }
 
