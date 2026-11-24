@@ -15,7 +15,7 @@ S = {}
 
 # 🔴 Dòng tiếng Việt = đề bài deck 1-go (README §2c): thuần danh sách nghĩa.
 V = {
-    "проанализировать": "phân tích",                                    # «mổ xẻ» là nới rộng; khớp анализировать
+    "проанализировать": "phân tích, mổ xẻ",                             # «phân tích» trơ nằm gọn trong разобрать
     "продумать": "nghĩ kỹ, tính toán kỹ, cân nhắc",                     # «cân nhắc xong» là chú thể, badge lo
     "продумывать": "nghĩ kỹ, tính toán kỹ, cân nhắc",                   # giữ nguyên, khai để cặp thể cùng dãy
     "перепутать": "nhầm, lẫn lộn, làm rối",                             # cặp thể cùng dãy
@@ -245,7 +245,7 @@ S["воспитанный"] = (
     '<span class="hd-gloss">đuôi phân từ «đã được…»</span></div>'
     '<div class="hd-sec">Cách nhớ</div>'
     '<div class="hd-why">«Đã được NUÔI DẠY cho lớn lên» tử tế ⇒ lễ phép, có giáo dục. Là phân từ của <b>воспита́ть</b>, trọng âm lùi về <b>пи́</b>. Trái nghĩa: <b>невоспи́танный</b> vô lễ.</div>'
-    '<div class="hd-warn">Dạng ngắn: khen nết thì giữ HAI <b>н</b> — <b>она́ воспи́танна</b>. Bản một <b>н</b> trong bảng là phân từ «được ai nuôi dạy»: <b>она́ воспи́тана ба́бушкой</b>. Giống đực chung một dạng <b>воспи́тан</b>.</div>'
+    '<div class="hd-warn">Dạng ngắn: khen nết thì giữ HAI <b>н</b> — <b>она́ воспи́танна</b>. Bản một <b>н</b> là phân từ «được ai nuôi dạy»: <b>она́ воспи́тана ба́бушкой</b>. Giống đực chung một dạng <b>воспи́тан</b>.</div>'
     '<div class="hd-warn"><b>ве́жливый</b> là lịch sự trong cách nói năng; <b>воспи́танный</b> là NẾT được dạy từ nhà.</div>'
     '<div class="hd-sec">Họ hàng</div>'
     '<div class="hd-fam"><b>воспита́ть</b> nuôi dạy · <b>воспита́ние</b> sự nuôi dạy · <b>воспита́тель</b> cô giáo mầm non · <b>пита́ние</b> dinh dưỡng</div>'
@@ -262,7 +262,7 @@ S["рассеянный"] = (
     '<span class="hd-gloss">đuôi phân từ «đã bị…»</span></div>'
     '<div class="hd-sec">Cách nhớ</div>'
     '<div class="hd-why">Phân từ của <b>рассе́ять</b> gieo tản ra. Ánh sáng bị tản ⇒ khuếch tán: <b>рассе́янный свет</b>. Đầu óc bị tản ⇒ lơ đãng, đãng trí — đúng hình ảnh của <i>scatterbrained</i>.</div>'
-    '<div class="hd-warn">Dạng ngắn: nói người lơ đãng thì giữ HAI <b>н</b> — <b>она́ рассе́янна</b>. Bản một <b>н</b> trong bảng (<b>рассе́яна</b>) là phân từ «đã bị tản ra». Giống đực chung một dạng <b>рассе́ян</b>.</div>'
+    '<div class="hd-warn">Dạng ngắn: nói người lơ đãng thì giữ HAI <b>н</b> — <b>она́ рассе́янна</b>. Bản một <b>н</b> (<b>рассе́яна</b>) là phân từ «đã bị tản ra». Giống đực chung một dạng <b>рассе́ян</b>.</div>'
     '<div class="hd-sec">Họ hàng</div>'
     '<div class="hd-fam"><b>рассе́янность</b> tính lơ đãng · <b>рассе́ять</b> làm tản ra · <b>се́ять</b> gieo · <b>се́мя</b> hạt giống</div>'
 )

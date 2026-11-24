@@ -4,7 +4,7 @@
 Chỗ cần nhất quán trong lô:
 (1) gốc -я-/-ят- = LẤY, NHẬN — прия́тель, предприя́тие; khớp прия́тный, приня́ть (thẻ cũ).
 (2) gốc -чал- = BẮT ĐẦU — нача́льник; khớp нача́ло/нача́ть («на- không mang nghĩa riêng»).
-(3) gốc -кус- = CẮN, NẾM — вкус; khớp вку́сный, кусо́к.
+(3) gốc -кус- = NẾM — вкус; khớp вку́сный; KHÁC gốc кусо́к/куса́ть.
 (4) gốc бол- = ĐAU — боль; khớp больно́й, больни́ца, боле́ть. бо́льше/большо́й KHÁC gốc.
 (5) gốc рос-/раст- = LỚN, MỌC — рост; khớp расти́, вы́расти, взро́слый.
 (6) о́рган khớp организа́ция/организова́ть (thẻ cũ: «орган-из- = organ-iz-e»).
@@ -265,13 +265,13 @@ S["вкус"] = (
     '<div class="hd-row"><span class="hd-piece">в-</span>'
     '<span class="hd-gloss">vào (miệng)</span></div>'
     '<div class="hd-row"><span class="hd-piece">-кус-</span>'
-    '<span class="hd-gloss">CẮN, NẾM — như <b>кусо́к</b> miếng</span></div>'
+    '<span class="hd-gloss">NẾM — trùng mặt chữ <b>кусо́к</b> miếng nhưng khác gốc</span></div>'
     '<div class="hd-sec">Cách nhớ</div>'
-    '<div class="hd-why">Cắn vào miệng thì biết VỊ; mở rộng ra «vị» trong cách chọn đồ ⇒ gu: '
+    '<div class="hd-why">Nếm vào miệng thì biết VỊ; mở rộng ra «vị» trong cách chọn đồ ⇒ gu: '
     '<b>одева́ться со вку́сом</b> ăn mặc có gu.</div>'
     '<div class="hd-sec">Họ hàng</div>'
-    '<div class="hd-fam"><b>вку́сный</b> ngon · <b>вку́сно</b> ngon · <b>кусо́к</b> miếng · '
-    '<b>куса́ть</b> cắn · <b>безвку́сный</b> nhạt, kém gu</div>'
+    '<div class="hd-fam"><b>вку́сный</b> ngon · <b>вку́сно</b> ngon · '
+    '<b>безвку́сный</b> nhạt, kém gu</div>'
 )
 
 # ----------------------------------------------------------------- немой

@@ -285,4 +285,4 @@ S["диктор"] = (
     '<div class="hd-fam"><b>диктова́ть</b> đọc cho người khác chép · '
     '<b>дикта́нт</b> bài chính tả</div>'
 )
-V["диктор"] = "phát thanh viên, người đọc bản tin trên đài/TV"
+V["диктор"] = "phát thanh viên, người đọc bản tin"

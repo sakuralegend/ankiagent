@@ -355,19 +355,19 @@ S["вкусный"] = (
     '<div class="hd-row"><span class="hd-piece">в-</span>'
     '<span class="hd-gloss">vào (trong miệng)</span></div>'
     '<div class="hd-row"><span class="hd-piece">-кус-</span>'
-    '<span class="hd-gloss">CẮN, NẾM</span></div>'
+    '<span class="hd-gloss">NẾM</span></div>'
     '<div class="hd-row"><span class="hd-piece">-н-ый</span>'
     '<span class="hd-gloss">hậu tố tính từ</span></div>'
     '<div class="hd-sec">Cách nhớ</div>'
-    '<div class="hd-why">Nghĩa đen: "thuộc về cái đưa vào miệng mà cắn". Nhận ra '
-    'gốc кус- là đọc được cả <b>кусо́к</b> lẫn <b>заку́ска</b>.</div>'
+    '<div class="hd-why">Nghĩa đen: "thuộc về cái đưa vào miệng mà nếm". Mượn '
+    '<b>куса́ть</b> cắn làm móc nhớ cũng được, nhưng gốc thì khác.</div>'
     '<div class="hd-warn">Khen món ăn, người Nga nói dạng trung tính dùng như '
     'trạng từ: <b>Вку́сно!</b> — chứ không nói <b>вку́сный</b> trống không.</div>'
     '<div class="hd-warn">Dạng ngắn: giống đực chen thêm е (<b>вку́сен</b>), '
     'giống cái đẩy trọng âm ra đuôi (<b>вкусна́</b>).</div>'
     '<div class="hd-sec">Họ hàng</div>'
     '<div class="hd-fam"><b>вкус</b> vị; gu thẩm mỹ · <b>вку́сно</b> ngon (trạng '
-    'từ) · <b>заку́ска</b> món khai vị · <b>кусо́к</b> miếng</div>'
+    'từ)</div>'
 )
 
 

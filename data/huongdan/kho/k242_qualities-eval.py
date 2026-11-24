@@ -15,6 +15,7 @@ S = {}
 
 # 🔴 Dòng tiếng Việt = đề bài deck 1-go (README §2c): thuần danh sách nghĩa.
 V = {
+    "примитивный": "nguyên thuỷ, sơ khai, thô sơ",              # «thô sơ» là nghĩa đời thường hay gặp nhất
     "параллельный": "song song, diễn ra cùng lúc",              # «cùng lúc» trơ là trạng từ; «lớp song song» là cụm riêng, không phải nghĩa
     "дефект": "khuyết tật, lỗi, vết lỗi",                       # «khuyết điểm» là недоста́ток (shortcoming); gloss defect / blemish
     "краснеть": "đỏ lên, ửng đỏ, đỏ mặt",                       # giữ nguyên, khai để cặp thể cùng dãy

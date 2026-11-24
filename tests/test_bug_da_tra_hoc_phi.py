@@ -1648,7 +1648,8 @@ class TheDongTuNguonGhiSai(unittest.TestCase):
 
     def test_byt_la_CHUA_hoan_thanh_du_nguon_noi_both(self):
         self.assertEqual(self._chu(grammar.aspect_badge_html("both", "быть")), "IMPF")
-        self.assertEqual(self._chu(grammar.aspect_badge_html("both", "завяза́ть")), "PERF")
+        for tu in ("завяза́ть", "вы́тереть"):
+            self.assertEqual(self._chu(grammar.aspect_badge_html("both", tu)), "PERF")
         # có dấu nhấn cũng phải ra như vậy — thẻ lưu dạng có dấu
         self.assertEqual(self._chu(grammar.aspect_badge_html("both", "бы́ть")), "IMPF")
 

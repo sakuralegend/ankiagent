@@ -319,9 +319,9 @@ NHAN_PHAN_THAN = "REF"
 # từ HAI THỂ thật (двувидовой). Đừng thấy giống mà "sửa" nốt cho sạch bảng.
 # Đo 01/09: cả kho chỉ có đúng hai từ mang `both`, và chúng khác nhau về bản chất.
 THE_NGUON_SAI = {
-    # Nguồn ghi "both" cho cả hai. `быть` không có cặp hoàn thành để mà "hai thể".
-    "быть": "imperfective",
+    "быть": "imperfective",     # nguồn ghi "both" cho cả bảng; `быть` không có cặp HT để mà "hai thể"
     "завязать": "perfective",   # nguồn gộp với завяза́ть (завяза́ю, CHT «sa lầy»); thẻ dạy «buộc»
+    "вытереть": "perfective",   # HT thuần (nguồn in «бу́ду вы́тереть»); cặp CHT là вытирать
 }
 
 
