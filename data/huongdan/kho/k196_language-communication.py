@@ -2,7 +2,7 @@
 """k196 — language::communication (lô trộn): gọi lại, thuyết phục, giấy tờ, vài từ mượn.
 
 Chỗ cần nhất quán trong lô:
-(1) о → а khi thêm -ива- chạy qua BA thẻ: насто́ять → наста́ивать, звон- → перезва́нивать,
+(1) о → а khi thêm -ива- chạy qua BA thẻ: настоя́ть → наста́ивать, звон- → перезва́нивать,
     уговори́ть → угова́ривать (giống разгово́р → разгова́ривать). Mỗi thẻ nói một câu, không bảng.
 (2) перезвони́ть khớp звони́ть [k54]: trọng âm ở đuôi suốt bảng, gọi CHO AI = cách 3.
 (3) угова́ривать / уговори́ть ↔ убежда́ть / убеди́ть [k124]: уговори́ть ai LÀM (+ nguyên thể),
@@ -254,11 +254,11 @@ S["настаивать"] = (
     '<span class="hd-gloss">đuôi chưa hoàn thành, chia đều: <b>наста́иваю</b></span></div>'
     '<div class="hd-sec">Cách nhớ</div>'
     '<div class="hd-why">«Đứng lì trên» một ý ⇒ khăng khăng, nhất quyết đòi. Để lá, thuốc «đứng» '
-    'lâu trong nước ⇒ ngâm, hãm. Cặp HT: <b>насто́ять</b> (<b>насто́ю</b>).</div>'
+    'lâu trong nước ⇒ ngâm, hãm. Cặp HT: <b>настоя́ть</b> (<b>настою́</b>).</div>'
     '<div class="hd-warn">Khăng khăng VỀ cái gì: <b>на</b> + cách 6 — <b>наста́ивать на своём</b> = '
     'khăng khăng giữ ý mình.</div>'
     '<div class="hd-sec">Họ hàng</div>'
-    '<div class="hd-fam"><b>насто́ять</b> (HT) · <b>стоя́ть</b> đứng · <b>насто́йчивый</b> kiên trì · '
+    '<div class="hd-fam"><b>настоя́ть</b> (HT) · <b>стоя́ть</b> đứng · <b>насто́йчивый</b> kiên trì · '
     '<b>насто́йка</b> rượu ngâm</div>'
 )
 

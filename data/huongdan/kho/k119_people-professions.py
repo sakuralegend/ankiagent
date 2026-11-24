@@ -167,7 +167,7 @@ S["служить"] = (
     '<div class="hd-why">«Làm đầy tớ» ⇒ phục vụ, đi lính, làm việc ở cơ quan. Trọng âm lùi từ ngôi 2: <b>служу́</b>, nhưng <b>слу́жишь</b>, <b>слу́жит</b>.</div>'
     '<div class="hd-warn">Phục vụ AI → cách 3: <b>служи́ть Ро́дине</b>. Đi lính: <b>служи́ть в а́рмии</b>.</div>'
     '<div class="hd-sec">Họ hàng</div>'
-    '<div class="hd-fam"><b>слу́жба</b> công việc, sự phục vụ · <b>слуга́</b> đầy tớ · <b>служа́щий</b> nhân viên văn phòng</div>'
+    '<div class="hd-fam"><b>слу́жба</b> công việc, sự phục vụ · <b>слуга́</b> đầy tớ · <b>слу́жащий</b> nhân viên văn phòng</div>'
 )
 
 S["невеста"] = (

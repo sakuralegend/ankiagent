@@ -14,7 +14,7 @@ S = {}
 
 # 🔴 Dòng tiếng Việt = đề bài deck 1-go (README §2c): thuần danh sách nghĩa.
 V = {
-    "стройный": "thon thả, mảnh mai, dong dỏng, cân đối, hài hoà, mạch lạc",  # THIẾU harmonious / coherent / logical; «mảnh khảnh» thiên về gầy yếu
+    "стройный": "thanh mảnh, mảnh mai, cân đối, hài hoà, mạch lạc",  # THIẾU harmonious / coherent / logical; «mảnh khảnh» thiên về gầy yếu
     "верующий": "có tín ngưỡng, sùng đạo, tin đạo, tín đồ",   # THIẾU believer / the faithful
     "христианство": "Kitô giáo, Cơ đốc giáo",                 # «đạo Thiên Chúa» ở VN thường hiểu là riêng Công giáo
     "претендент": "ứng viên, người dự tuyển, người xin việc, người tranh chức, người thách đấu",  # THIẾU contender / challenger
