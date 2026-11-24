@@ -8533,8 +8533,8 @@
     "благотворительный",
     "железо"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k217_qualities.py",
    "dot": "b2",
    "chuDe": {
     "ускорить": "actions",
@@ -8559,7 +8559,8 @@
     "благотворительный": "qualities",
     "железо": "qualities"
    },
-   "deck": "B2-pending"
+   "deck": "B2-pending",
+   "daNap": true
   },
   {
    "id": "k218",
@@ -8582,8 +8583,8 @@
     "понемногу",
     "валюта"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k218_language-communication.py",
    "dot": "b2",
    "chuDe": {
     "генетический": "language::education",
@@ -8603,7 +8604,8 @@
     "понемногу": "numbers",
     "валюта": "numbers::units"
    },
-   "deck": "B2-pending"
+   "deck": "B2-pending",
+   "daNap": true
   },
   {
    "id": "k219",
@@ -8632,8 +8634,8 @@
     "формироваться",
     "отрывок"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k219_actions.py",
    "dot": "b2",
    "chuDe": {
     "раздавать": "actions",
@@ -8659,7 +8661,8 @@
     "формироваться": "actions",
     "отрывок": "language::documents"
    },
-   "deck": "B2-pending"
+   "deck": "B2-pending",
+   "daNap": true
   },
   {
    "id": "k220",
@@ -8687,8 +8690,8 @@
     "увольняться",
     "командовать"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k220_people-professions.py",
    "dot": "b2",
    "chuDe": {
     "косметика": "people::body",
@@ -8713,7 +8716,8 @@
     "увольняться": "people::professions",
     "командовать": "actions"
    },
-   "deck": "B2-pending"
+   "deck": "B2-pending",
+   "daNap": true
   },
   {
    "id": "k221",
@@ -8742,8 +8746,8 @@
     "присниться",
     "сниться"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k221_concepts-state.py",
    "dot": "b2",
    "chuDe": {
     "квадрат": "qualities",
@@ -8769,7 +8773,8 @@
     "присниться": "concepts::mind",
     "сниться": "concepts::mind"
    },
-   "deck": "B2-pending"
+   "deck": "B2-pending",
+   "daNap": true
   },
   {
    "id": "k222",
@@ -8798,8 +8803,8 @@
     "вырастить",
     "выращивать"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k222_nature-plants.py",
    "dot": "b2",
    "chuDe": {
     "поэма": "life::art",
@@ -8829,7 +8834,8 @@
    "chonId": {
     "хлопок": 10196,
     "Пасха": 60331
-   }
+   },
+   "daNap": true
   },
   {
    "id": "k223",
@@ -8853,8 +8859,8 @@
     "выспаться",
     "высыпаться"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k223_life-food.py",
    "dot": "b2",
    "chuDe": {
     "двоюродный": "people::family",
@@ -8878,7 +8884,8 @@
    "deck": "B2-pending",
    "chonId": {
     "высыпаться": 58779
-   }
+   },
+   "daNap": true
   },
   {
    "id": "k224",
@@ -8905,8 +8912,8 @@
     "оформление",
     "вступление"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k224_places-city.py",
    "dot": "b2",
    "chuDe": {
     "лужа": "nature::weather",
@@ -8934,7 +8941,8 @@
    "chonId": {
     "вывозить": 8882,
     "прохожий": 59690
-   }
+   },
+   "daNap": true
   },
   {
    "id": "k225",
@@ -8963,8 +8971,8 @@
     "расширить",
     "расширять"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k225_actions.py",
    "dot": "b2",
    "chuDe": {
     "зажечь": "actions",
@@ -8990,7 +8998,8 @@
     "расширить": "actions",
     "расширять": "actions"
    },
-   "deck": "B2-pending"
+   "deck": "B2-pending",
+   "daNap": true
   },
   {
    "id": "k226",
@@ -9015,8 +9024,8 @@
     "сердиться",
     "стесняться"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k226_concepts-emotion.py",
    "dot": "b2",
    "chuDe": {
     "терпеливый": "concepts::emotion",
@@ -9038,7 +9047,8 @@
     "сердиться": "concepts::emotion",
     "стесняться": "concepts::emotion"
    },
-   "deck": "B2-pending"
+   "deck": "B2-pending",
+   "daNap": true
   }
  ]
 }

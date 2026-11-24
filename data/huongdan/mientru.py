@@ -131,6 +131,9 @@ MIEN_TRU = {
              "ghi бело́к · белка́ · белку́ · белко́м, thẻ k205 cố ý nêu cặp белка́ ↔ бе́лка (con "
              "sóc) vì hai từ chỉ khác chỗ trọng âm; nouns.csv chỉ có бе́лка. Mặt gương của mục "
              "бе́лок ở trên, cùng lớp với курка́",
+    "хло́пок": "хло́пок = BÔNG, COTTON (chính từ đầu thẻ k222) — đồng tự với хлопо́к = tiếng vỗ, tiếng nổ bộp. "
+             "nouns.csv có ĐỦ CẢ HAI dòng mà khoá tra gộp mặt chữ nên dòng хлопо́к (đứng trước) thắng, "
+             "máy kêu oan ngay cả từ đầu thẻ. Thẻ k222 cố ý nêu cặp này. Cùng lớp với тупи́к ở trên",
 }
 
 # VÁ NGUỒN — dòng `nouns.csv` mà cột `accented` trái với CHÍNH cột `pl_nom` của nó.
