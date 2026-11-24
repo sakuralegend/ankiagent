@@ -9608,8 +9608,8 @@
     "дворянин",
     "интеллигент"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k237_people-professions.py",
    "dot": "b2",
    "chuDe": {
     "походка": "people::body",
@@ -9633,7 +9633,8 @@
     "дворянин": "people::professions",
     "интеллигент": "people::professions"
    },
-   "deck": "B2-pending"
+   "deck": "B2-pending",
+   "daNap": true
   },
   {
    "id": "k238",
@@ -9658,8 +9659,8 @@
     "дискотека",
     "коллекционер"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k238_life-health.py",
    "dot": "b2",
    "chuDe": {
     "вата": "life::health",
@@ -9681,7 +9682,8 @@
     "дискотека": "life::leisure",
     "коллекционер": "life::leisure"
    },
-   "deck": "B2-pending"
+   "deck": "B2-pending",
+   "daNap": true
   },
   {
    "id": "k239",
@@ -9710,8 +9712,8 @@
     "прибежать",
     "пробежать"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k239_actions.py",
    "dot": "b2",
    "chuDe": {
     "повседневный": "time",
@@ -9737,7 +9739,8 @@
     "прибежать": "actions",
     "пробежать": "actions"
    },
-   "deck": "B2-pending"
+   "deck": "B2-pending",
+   "daNap": true
   },
   {
    "id": "k240",
@@ -9765,8 +9768,8 @@
     "вертикальный",
     "минеральный"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k240_qualities.py",
    "dot": "b2",
    "chuDe": {
     "вглядеться": "actions",
@@ -9791,7 +9794,8 @@
     "минеральный": "qualities",
     "неповторимый": "qualities::eval"
    },
-   "deck": "B2-pending"
+   "deck": "B2-pending",
+   "daNap": true
   },
   {
    "id": "k241",
@@ -9818,8 +9822,8 @@
     "кое-какой",
     "кое-как"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k241_nature-weather.py",
    "dot": "b2",
    "chuDe": {
     "бильярд": "life::sport",
@@ -9843,7 +9847,8 @@
     "кое-какой": "language::grammar",
     "кое-как": "language::grammar"
    },
-   "deck": "B2-pending"
+   "deck": "B2-pending",
+   "daNap": true
   },
   {
    "id": "k242",
@@ -9869,8 +9874,8 @@
     "диктатор",
     "протестовать"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k242_qualities-eval.py",
    "dot": "b2",
    "chuDe": {
     "параллельный": "qualities",
@@ -9893,7 +9898,8 @@
     "диктатор": "concepts::state",
     "протестовать": "concepts::state"
    },
-   "deck": "B2-pending"
+   "deck": "B2-pending",
+   "daNap": true
   },
   {
    "id": "k243",
@@ -9922,8 +9928,8 @@
     "ограничиваться",
     "ограничиться"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k243_actions.py",
    "dot": "b2",
    "chuDe": {
     "ползать": "actions",
@@ -9949,7 +9955,8 @@
     "ограничиваться": "actions",
     "ограничиться": "actions"
    },
-   "deck": "B2-pending"
+   "deck": "B2-pending",
+   "daNap": true
   },
   {
    "id": "k244",
@@ -9976,8 +9983,8 @@
     "восхититься",
     "восхищаться"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k244_concepts-emotion.py",
    "dot": "b2",
    "chuDe": {
     "проанализировать": "concepts::mind",
@@ -10001,7 +10008,8 @@
     "восхититься": "concepts::emotion",
     "восхищаться": "concepts::emotion"
    },
-   "deck": "B2-pending"
+   "deck": "B2-pending",
+   "daNap": true
   },
   {
    "id": "k245",
@@ -10024,8 +10032,8 @@
     "пожаловаться",
     "проститься"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k245_language-communication.py",
    "dot": "b2",
    "chuDe": {
     "мемуары": "language::documents",
@@ -10045,7 +10053,8 @@
     "пожаловаться": "language::communication",
     "проститься": "language::etiquette"
    },
-   "deck": "B2-pending"
+   "deck": "B2-pending",
+   "daNap": true
   },
   {
    "id": "k246",
@@ -10074,8 +10083,8 @@
     "фарфор",
     "весы"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k246_life-food.py",
    "dot": "b2",
    "chuDe": {
     "пианист": "people::professions",
@@ -10101,7 +10110,8 @@
     "фарфор": "life::home",
     "весы": "life::home"
    },
-   "deck": "B2-pending"
+   "deck": "B2-pending",
+   "daNap": true
   }
  ]
 }
