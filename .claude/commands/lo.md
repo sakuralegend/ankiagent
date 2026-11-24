@@ -26,9 +26,9 @@ bằng `congcu.py moi --apply` (>22 từ: tách tay trong `hangdoi.json`), các 
 
 ```bash
 K=data/huongdan/kho; export PYTHONIOENCODING=utf-8
-# 1. CHỐT LÔ — khan rồi ghi. Có dòng "⚠️ HỌ TỪ BỊ XÉ" ⇒ gom tay trong hangdoi.json NGAY, trước bước 2.
+# 1. CHỐT LÔ — N = số TỪ (10 lô ≈ 200). Khan rồi ghi. Có dòng "⚠️ HỌ TỪ BỊ XÉ" ⇒ gom tay trong hangdoi.json NGAY, trước bước 2.
 python $K/xephangdoi.py chon N && python $K/xephangdoi.py chon N --apply
-# 2. TẠO THẺ — ngược thứ tự lô, dừng ở lỗi đầu (vì sao: đầu file xephangdoi.py).
+# 2. TẠO THẺ — chạy NỀN (200 từ > 30 phút; phiên khác export/đọc Anki lúc này là đứt), dừng ở lỗi đầu, chạy lại là tiếp.
 python $K/xephangdoi.py taothe --apply
 # 3. GIAO — `giao` in va chạm + ỨNG VIÊN họ từ mọi lô chờ: đọc, lọc, khai khuôn vào lời nhắn §4.
 #    Mỗi lô một agent, context trắng; giao HẾT trong MỘT tin nhắn rồi đứng im.
