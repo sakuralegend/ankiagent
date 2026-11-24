@@ -10138,8 +10138,8 @@
     "зарегистрироваться",
     "регистрироваться"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k247_language-documents.py",
    "dot": "b2",
    "chuDe": {
     "туристический": "places::travel",
@@ -10166,7 +10166,8 @@
    "deck": "B2-pending",
    "chonId": {
     "забронировать": 31896
-   }
+   },
+   "daNap": true
   },
   {
    "id": "k248",
@@ -10194,8 +10195,8 @@
     "заповедник",
     "указатель"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k248_life-clothing.py",
    "dot": "b2",
    "chuDe": {
     "застегнуть": "life::clothing",
@@ -10220,7 +10221,8 @@
     "указатель": "places::position",
     "безграничный": "qualities"
    },
-   "deck": "B2-pending"
+   "deck": "B2-pending",
+   "daNap": true
   },
   {
    "id": "k249",
@@ -10249,8 +10251,8 @@
     "изобретатель",
     "специализироваться"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k249_people-professions.py",
    "dot": "b2",
    "chuDe": {
     "пятка": "people::body",
@@ -10276,7 +10278,8 @@
     "изобретатель": "people::professions",
     "специализироваться": "people::professions"
    },
-   "deck": "B2-pending"
+   "deck": "B2-pending",
+   "daNap": true
   },
   {
    "id": "k250",
@@ -10302,8 +10305,8 @@
     "преобладать",
     "подвинуть"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k250_qualities.py",
    "dot": "b2",
    "chuDe": {
     "качаться": "actions",
@@ -10326,7 +10329,8 @@
     "преобладать": "qualities::eval",
     "подвинуть": "actions"
    },
-   "deck": "B2-pending"
+   "deck": "B2-pending",
+   "daNap": true
   },
   {
    "id": "k251",
@@ -10355,8 +10359,8 @@
     "возвратить",
     "бегун"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k251_actions.py",
    "dot": "b2",
    "chuDe": {
     "ремонтировать": "actions",
@@ -10382,7 +10386,8 @@
     "вылить": "actions",
     "бегун": "life::sport"
    },
-   "deck": "B2-pending"
+   "deck": "B2-pending",
+   "daNap": true
   },
   {
    "id": "k252",
@@ -10411,8 +10416,8 @@
     "бусы",
     "вязать"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k252_life-home.py",
    "dot": "b2",
    "chuDe": {
     "розетка": "life::home",
@@ -10438,7 +10443,8 @@
     "бусы": "life::clothing",
     "вязать": "life::leisure"
    },
-   "deck": "B2-pending"
+   "deck": "B2-pending",
+   "daNap": true
   },
   {
    "id": "k253",
@@ -10464,8 +10470,8 @@
     "рассыпаться",
     "кусаться"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k253_actions.py",
    "dot": "b2",
    "chuDe": {
     "высушить": "actions",
@@ -10491,7 +10497,8 @@
    "deck": "B2-pending",
    "chonId": {
     "рассыпаться": 4802
-   }
+   },
+   "daNap": true
   },
   {
    "id": "k254",
@@ -10519,8 +10526,8 @@
     "сочувствовать",
     "ворчать"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k254_concepts-emotion.py",
    "dot": "b2",
    "chuDe": {
     "геноцид": "concepts::state",
@@ -10545,7 +10552,8 @@
     "сочувствовать": "concepts::emotion",
     "ворчать": "concepts::emotion"
    },
-   "deck": "B2-pending"
+   "deck": "B2-pending",
+   "daNap": true
   },
   {
    "id": "k255",
@@ -10568,8 +10576,8 @@
     "дыня",
     "греть"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k255_life-food.py",
    "dot": "b2",
    "chuDe": {
     "слива": "life::food",
@@ -10589,7 +10597,8 @@
     "дыня": "life::food",
     "греть": "actions"
    },
-   "deck": "B2-pending"
+   "deck": "B2-pending",
+   "daNap": true
   },
   {
    "id": "k256",
@@ -10614,8 +10623,8 @@
     "бездействовать",
     "аплодировать"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k256_actions.py",
    "dot": "b2",
    "chuDe": {
     "социология": "language::education",
@@ -10637,7 +10646,8 @@
     "бездействовать": "actions",
     "аплодировать": "actions"
    },
-   "deck": "B2-pending"
+   "deck": "B2-pending",
+   "daNap": true
   }
  ]
 }
