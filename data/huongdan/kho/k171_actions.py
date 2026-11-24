@@ -20,6 +20,7 @@ S = {}
 
 # 🔴 Dòng tiếng Việt = đề bài deck 1-go (README §2c): thuần danh sách nghĩa.
 V = {
+    "красть": "ăn cắp, trộm, đánh cắp",                                    # đề cũ nằm gọn trong воровать (k207)
     "рискнуть": "liều, mạo hiểm",                                          # bỏ «một lần» — nhãn thể trá hình
     "отпускать": "thả, buông, cho đi, cho nghỉ, để râu",                   # thiếu let go / time off / grow a beard
     "отпустить": "thả ra, buông, cho đi, cho nghỉ, để râu",                # cùng bộ với cặp thể; badge tách
