@@ -184,7 +184,7 @@ S["прошлогодний"] = (
     '<span class="hd-gloss">đuôi tính từ MỀM, như <b>нового́дний</b></span></div>'
     '<div class="hd-sec">Cách nhớ</div>'
     '<div class="hd-why"><b>про́шлый год</b> (năm ngoái) dính lại thành một tính từ ⇒ của năm ngoái. Đuôi mềm: '
-    '<b>прошлого́дняя, прошлого́днее</b>. Bảng có dạng ngắn nhưng không ai dùng — bỏ qua.</div>'
+    '<b>прошлого́дняя, прошлого́днее</b>. Không có dạng ngắn.</div>'
     '<div class="hd-warn"><b>ну́жен как прошлого́дний снег</b> «cần như tuyết năm ngoái» = chẳng cần tí nào.</div>'
     '<div class="hd-sec">Họ hàng</div>'
     '<div class="hd-fam"><b>про́шлый</b> trước, vừa rồi · <b>год</b> năm · '

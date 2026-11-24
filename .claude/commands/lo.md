@@ -46,9 +46,6 @@ deck `B2-pending` (ngoài RUSSIAN, mặt 1-go) — chưa học, nhưng vẫn so�
 **"chuyển N từ B2 sang học"** ⇒ `python $K/xephangdoi.py chuyen N` khan rồi `--apply`: N từ LÔ ĐẦU về
 `0-quen`, reset trạng thái. Vì sao + khi nào XOÁ: đầu file `khob2.py`.
 
-⏳ **Đợt kế có `выбежать`/`выбегать`:** chot xong, ghi đề cả hai «chạy ra (ra ngoài, lúc xuất phát), `<i>nghĩa riêng</i>`» (user duyệt
-bảng вы-/у- 24/11, xem `_daxong/_va_tiento_vy_u.py`) và dịch ví dụ cho khớp, rồi **XOÁ đoạn này**.
-
 ## §2. Quyết định cỡ lô — đã đo, đừng nghĩ lại
 
 - **Giá tính theo SỐ LÔ, không theo số từ**: mỗi lô ~110–140K token bất kể 12 hay 20 từ. Lô to
