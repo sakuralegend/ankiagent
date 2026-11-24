@@ -122,3 +122,4 @@ if not sync_truoc_khi_ghi_lo("chú thích вы-/у-"):
 for nid, o in ghi.items():
     assert update_note_fields(nid, o), nid
 print("sync:", sync_now())
+# Đợt 2 (cùng ngày, user dặn): 20 thẻ, phần nghĩa riêng SAU ngoặc bọc <i>…</i> như bảng đã duyệt.
