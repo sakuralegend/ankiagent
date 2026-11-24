@@ -9077,8 +9077,8 @@
     "вылетать",
     "вылететь"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k227_nature-weather.py",
    "dot": "b2",
    "chuDe": {
     "ворона": "nature::animals",
@@ -9104,7 +9104,8 @@
     "вылетать": "places::transport",
     "вылететь": "places::transport"
    },
-   "deck": "B2-pending"
+   "deck": "B2-pending",
+   "daNap": true
   },
   {
    "id": "k228",
@@ -9133,8 +9134,8 @@
     "обгонять",
     "обогнать"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k228_actions.py",
    "dot": "b2",
    "chuDe": {
     "хлопать": "actions",
@@ -9160,7 +9161,8 @@
     "покрасить": "qualities::colors",
     "красить": "qualities::colors"
    },
-   "deck": "B2-pending"
+   "deck": "B2-pending",
+   "daNap": true
   },
   {
    "id": "k229",
@@ -9187,8 +9189,8 @@
     "теряться",
     "сообща"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k229_concepts-emotion.py",
    "dot": "b2",
    "chuDe": {
     "деликатный": "concepts::emotion",
@@ -9212,7 +9214,8 @@
     "теряться": "concepts::emotion",
     "сообща": "khac"
    },
-   "deck": "B2-pending"
+   "deck": "B2-pending",
+   "daNap": true
   },
   {
    "id": "k230",
@@ -9238,8 +9241,8 @@
     "просторный",
     "изящный"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k230_qualities.py",
    "dot": "b2",
    "chuDe": {
     "измерить": "actions",
@@ -9262,7 +9265,8 @@
     "просторный": "qualities",
     "изящный": "qualities"
    },
-   "deck": "B2-pending"
+   "deck": "B2-pending",
+   "daNap": true
   },
   {
    "id": "k231",
@@ -9288,8 +9292,8 @@
     "настойчивый",
     "тревожный"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k231_concepts-mind.py",
    "dot": "b2",
    "chuDe": {
     "разноцветный": "qualities::colors",
@@ -9312,7 +9316,8 @@
     "настойчивый": "concepts::emotion",
     "тревожный": "concepts::emotion"
    },
-   "deck": "B2-pending"
+   "deck": "B2-pending",
+   "daNap": true
   },
   {
    "id": "k232",
@@ -9339,8 +9344,8 @@
     "награждать",
     "разрезать"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k232_actions.py",
    "dot": "b2",
    "chuDe": {
     "ползти": "actions",
@@ -9367,7 +9372,8 @@
    "deck": "B2-pending",
    "chonId": {
     "разрезать": 58622
-   }
+   },
+   "daNap": true
   },
   {
    "id": "k233",
@@ -9395,8 +9401,8 @@
     "голодать",
     "кипеть"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k233_people-professions.py",
    "dot": "b2",
    "chuDe": {
     "стройный": "people::body",
@@ -9421,7 +9427,8 @@
     "голодать": "life::food",
     "кипеть": "life::food"
    },
-   "deck": "B2-pending"
+   "deck": "B2-pending",
+   "daNap": true
   },
   {
    "id": "k234",
@@ -9444,8 +9451,8 @@
     "скатерть",
     "кастрюля"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k234_life-home.py",
    "dot": "b2",
    "chuDe": {
     "нитка": "life::home",
@@ -9465,7 +9472,8 @@
     "скатерть": "life::home",
     "кастрюля": "life::home"
    },
-   "deck": "B2-pending"
+   "deck": "B2-pending",
+   "daNap": true
   },
   {
    "id": "k235",
@@ -9492,8 +9500,8 @@
     "олимпийский",
     "финиш"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k235_life-health.py",
    "dot": "b2",
    "chuDe": {
     "пластырь": "life::health",
@@ -9517,7 +9525,8 @@
     "олимпийский": "life::sport",
     "финиш": "life::sport"
    },
-   "deck": "B2-pending"
+   "deck": "B2-pending",
+   "daNap": true
   },
   {
    "id": "k236",
@@ -9545,8 +9554,8 @@
     "прибавить",
     "прибавлять"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k236_language-communication.py",
    "dot": "b2",
    "chuDe": {
     "парковаться": "places::transport",
@@ -9571,7 +9580,8 @@
     "прибавить": "numbers",
     "прибавлять": "numbers"
    },
-   "deck": "B2-pending"
+   "deck": "B2-pending",
+   "daNap": true
   }
  ]
 }
