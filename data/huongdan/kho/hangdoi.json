@@ -10674,8 +10674,8 @@
     "индустриальный",
     "таможенник"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k257_people-nation.py",
    "dot": "b2",
    "chuDe": {
     "седина": "people::body",
@@ -10699,7 +10699,8 @@
     "индустриальный": "people::professions",
     "таможенник": "people::professions"
    },
-   "deck": "B2-pending"
+   "deck": "B2-pending",
+   "daNap": true
   },
   {
    "id": "k258",
@@ -10728,8 +10729,8 @@
     "оккупировать",
     "волевой"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k258_concepts-state.py",
    "dot": "b2",
    "chuDe": {
     "ухудшение": "qualities::eval",
@@ -10758,7 +10759,8 @@
    "deck": "B2-pending",
    "chonId": {
     "безобразный": 8689
-   }
+   },
+   "daNap": true
   },
   {
    "id": "k259",
@@ -10782,8 +10784,8 @@
     "желтеть",
     "пожелтеть"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k259_qualities-colors.py",
    "dot": "b2",
    "chuDe": {
     "промокать": "qualities",
@@ -10808,7 +10810,8 @@
    "chonId": {
     "чернеть": 58617,
     "промокнуть": 58636
-   }
+   },
+   "daNap": true
   },
   {
    "id": "k260",
@@ -10837,8 +10840,8 @@
     "разочаровываться",
     "соскучиться"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k260_concepts-emotion.py",
    "dot": "b2",
    "chuDe": {
     "инициативный": "concepts::mind",
@@ -10864,7 +10867,8 @@
     "разочаровываться": "concepts::emotion",
     "соскучиться": "concepts::emotion"
    },
-   "deck": "B2-pending"
+   "deck": "B2-pending",
+   "daNap": true
   },
   {
    "id": "k261",
@@ -10891,8 +10895,8 @@
     "кратковременный",
     "ежемесячный"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k261_language-communication.py",
    "dot": "b2",
    "chuDe": {
     "газопровод": "places::city",
@@ -10916,7 +10920,8 @@
     "кратковременный": "time",
     "ежемесячный": "time"
    },
-   "deck": "B2-pending"
+   "deck": "B2-pending",
+   "daNap": true
   },
   {
    "id": "k262",
@@ -10945,8 +10950,8 @@
     "присоединить",
     "присоединять"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k262_actions.py",
    "dot": "b2",
    "chuDe": {
     "повыситься": "numbers",
@@ -10975,7 +10980,8 @@
    "deck": "B2-pending",
    "chonId": {
     "рассыпать": 9525
-   }
+   },
+   "daNap": true
   },
   {
    "id": "k263",
@@ -10999,8 +11005,8 @@
     "обостриться",
     "обостряться"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k263_life-health.py",
    "dot": "b2",
    "chuDe": {
     "блюдце": "life::home",
@@ -11021,7 +11027,8 @@
     "обостриться": "life::health",
     "обостряться": "life::health"
    },
-   "deck": "B2-pending"
+   "deck": "B2-pending",
+   "daNap": true
   },
   {
    "id": "k264",
@@ -11049,8 +11056,8 @@
     "мрамор",
     "гранит"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k264_actions.py",
    "dot": "b2",
    "chuDe": {
     "переполнить": "actions",
@@ -11075,7 +11082,8 @@
     "гранит": "qualities",
     "единичный": "numbers"
    },
-   "deck": "B2-pending"
+   "deck": "B2-pending",
+   "daNap": true
   },
   {
    "id": "k265",
@@ -11103,8 +11111,8 @@
     "видеокамера",
     "люстра"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k265_life-food.py",
    "dot": "b2",
    "chuDe": {
     "пограничник": "people::professions",
@@ -11129,7 +11137,8 @@
     "люстра": "life::home",
     "граничить": "places::geo"
    },
-   "deck": "B2-pending"
+   "deck": "B2-pending",
+   "daNap": true
   },
   {
    "id": "k266",
@@ -11154,8 +11163,8 @@
     "одуванчик",
     "душно"
    ],
-   "trangthai": "cho",
-   "file": null,
+   "trangthai": "xong",
+   "file": "k266_nature-plants.py",
    "dot": "b2",
    "chuDe": {
     "керамика": "life::art",
@@ -11177,7 +11186,8 @@
     "одуванчик": "nature::plants",
     "душно": "nature::weather"
    },
-   "deck": "B2-pending"
+   "deck": "B2-pending",
+   "daNap": true
   }
  ]
 }
