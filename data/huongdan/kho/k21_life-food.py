@@ -392,7 +392,7 @@ V['сметана'] = 'kem chua, váng sữa chua'
 
 # "đã luộc" một mình dẫn thẳng tới варёный (một н). Phải chỉ ra đây là dạng
 # kéo theo bổ ngữ — thứ không badge nào chứa.
-V['варенный'] = 'luộc, nấu chín'
+V['варенный'] = 'được luộc, được nấu'
 
 # "đậm đà" không đúng nghĩa вку́сный; thêm nét "hợp vị" cho khỏi đụng хоро́ший.
 V["вкусный"] = "ngon, ngon miệng"

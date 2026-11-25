@@ -14,6 +14,7 @@ S = {}
 
 # 🔴 Dòng tiếng Việt = đề bài deck 1-go (README §2c): thuần danh sách nghĩa.
 V = {
+    "отчего-то": "chẳng rõ vì sao, chẳng hiểu sao",
     "пешеход": "người đi bộ, khách bộ hành",                    # «khách đi bộ» không phải tiếng Việt tự nhiên
     "затормозить": "phanh, giảm tốc, cản trở, kìm hãm",         # dãy chung với тормозить (đã nạp)
     "вполголоса": "bằng giọng nhỏ, hạ giọng, khe khẽ",          # «thì thào» sai: đó là шёпотом

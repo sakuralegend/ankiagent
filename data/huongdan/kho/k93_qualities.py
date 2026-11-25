@@ -341,9 +341,8 @@ S["экономический"] = (
 )
 
 V = {
-    # Bỏ "tích cực" (trùng положительный k53, cùng adj); gloss chỉ "active".
-    # Giữ "năng động" — lô k99 tự rút phía энергичный.
-    "активный": "năng động",
+    # «tích cực» user duyệt 25/11: «năng động» trơ nằm gọn trong динамичный (k264).
+    "активный": "tích cực, năng động",
     # Bỏ ngoặc "(dùng với phủ định)" (cấm) và bỏ "ở đâu cả" — đó là нигде́, không phải
     # никуда́ (gloss "nowhere" theo hướng chuyển động).
     "никуда": "không đi đâu cả, không tới đâu cả",

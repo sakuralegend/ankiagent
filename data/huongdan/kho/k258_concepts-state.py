@@ -23,7 +23,7 @@ V = {
     "вывоз": "xuất khẩu, việc chở ra, việc chở đi",
     "демографический": "thuộc nhân khẩu học, thuộc dân số",     # «nhân khẩu, dân số» đọc ra danh từ
     "консервативный": "bảo thủ",                                # «cổ hủ» nới rộng
-    "демократичный": "dân chủ, bình dân, giản dị, gần gũi, phải chăng",  # + affordable / moderate (price)
+    "демократичный": "bình dân, giản dị, gần gũi, phải chăng",  # + affordable / moderate (price)
     "бюрократ": "kẻ quan liêu, người câu nệ thủ tục, người câu nệ hình thức",  # «quan liêu» trơ là tính từ
     "оккупировать": "chiếm đóng, chiếm giữ",                    # «chiếm dụng» nới rộng; «chiếm» trơ là заня́ть k131
     "волевой": "có ý chí, cương nghị, thuộc về ý chí",          # rút «quyết đoán» (của реши́тельный k136); + volitional
