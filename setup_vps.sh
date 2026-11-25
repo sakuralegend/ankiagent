@@ -90,15 +90,20 @@ sed -i 's/^#\?SystemMaxUse=.*/SystemMaxUse=500M/; s/^#\?MaxRetentionSec=.*/MaxRe
 systemctl restart systemd-journald
 echo "-> Log: giữ tối đa 500M / 3 tháng."
 
-# (c) Đồng hồ chỉnh qua HTTPS: nhà cung cấp VPS chặn cổng NTP (đo 05/11/2026: 8/8 máy chủ giờ
+# (c) Đồng hồ chỉnh qua HTTPS, CHỈ khi NTP không chạy (VPS hiện tại hết chặn NTP từ 25/11/2026, đã gỡ
+# htpdate vì hai bên cùng chỉnh giờ làm giờ nhảy ~1 giây). IP cũ chặn NTP (đo 05/11/2026: 8/8 máy chủ giờ
 # im lặng) nên systemd-timesyncd không bao giờ chạy được, đồng hồ trôi ~5,5 giây/ngày. Lệch quá
 # 5 phút là AnkiWeb từ chối sync ("your clock is not set to the correct time"). Không dùng
 # github.com/cloudflare.com làm nguồn: đo được lệch 6 giây / không trả giờ.
+if [ "$(timedatectl show -p NTPSynchronized --value)" != "yes" ]; then
 apt-get install -y htpdate
 sed -i 's|^HTP_SERVERS=.*|HTP_SERVERS="https://ankiweb.net https://www.google.com https://www.microsoft.com"|' \
     /etc/default/htpdate
 systemctl restart htpdate
 echo "-> Đồng hồ: chỉnh qua HTTPS bằng htpdate."
+else
+echo "-> Đồng hồ: NTP chạy, không cần htpdate."
+fi
 
 echo ""
 echo "=========================================================="

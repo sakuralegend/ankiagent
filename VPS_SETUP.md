@@ -97,7 +97,7 @@ systemctl list-unit-files | grep anki-bot-alert   # chuông báo khi bot chết
 crontab -l | grep canhbao                          # vòng kiểm 15 phút
 ls /root/anki-cache/                               # cache bot, NGOÀI repo (QD-05)
 grep SystemMaxUse /etc/systemd/journald.conf       # trần dung lượng log
-systemctl is-active htpdate                        # đồng hồ (lệch > 5 phút là AnkiWeb từ chối sync)
+timedatectl show -p NTPSynchronized                # phải "yes"; đồng hồ (lệch > 5 phút là AnkiWeb từ chối sync)
 ```
 
 Thử chuông báo có thật sự tới điện thoại không (nên làm một lần):
