@@ -4,7 +4,7 @@
 # Luồng: đẩy code lên GitHub -> VPS kéo về -> cài dep mới (nếu có) -> restart bot.
 # Container Anki KHÔNG bị đụng tới (không downtime).
 # ==============================================================================
-$VPS = "root@161.248.146.56"
+$VPS = "root@45.117.166.231"
 
 # --- CUA CHAN TRUOC KHI DAY DI (G1, QD-02) --------------------------------
 # Vi sao dat o day: day la DUONG DUY NHAT code roi khoi PC. Khong dua vao tu

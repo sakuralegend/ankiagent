@@ -15,7 +15,7 @@
 Mở PowerShell, gõ (thay IP nếu khác):
 
 ```powershell
-ssh root@161.248.146.56
+ssh root@45.117.166.231
 ```
 
 - Lần đầu nó hỏi `Are you sure...?` → gõ `yes` → Enter.
@@ -58,7 +58,7 @@ Chờ 3–5 phút. Script tự làm: cài Docker, tạo swap 2GB, kéo container
 Mở **PowerShell MỚI trên PC** (đứng ở thư mục project `d:\Desktop\ANKI`):
 
 ```powershell
-scp .env root@161.248.146.56:/root/ankiagent/.env
+scp .env root@45.117.166.231:/root/ankiagent/.env
 ```
 
 ## Bước 5 — Đăng nhập AnkiWeb (1 lần duy nhất, qua VNC)
@@ -71,7 +71,7 @@ Anki trong container cần đăng nhập AnkiWeb để sync. Làm như sau:
 **5b.** [PC] Mở PowerShell, tạo "đường hầm" tới VPS (cửa sổ này phải để mở suốt lúc dùng VNC):
 
 ```powershell
-ssh -L 15900:127.0.0.1:5900 root@161.248.146.56
+ssh -L 15900:127.0.0.1:5900 root@45.117.166.231
 ```
 
 (dùng cổng 15900 phía PC vì cổng 5900 trên Windows thường bị hệ thống giữ,
